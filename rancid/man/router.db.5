@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "router.db" "5" "6 Jan 2004"
+.TH "router.db" "5" "7 Jan 2004"
 .SH NAME
 router.db \- rancid group configuration file
 .SH DESCRIPTION
@@ -65,6 +65,12 @@ IOS-like) OS.
 .B css
 A Cisco content services switch.
 .TP
+.ID 15n
+.B enterasys
+An enterasys NAS.  This is currently an alias for the
+.B riverstone
+device type.
+.TP
 .B erx
 A Juniper E-series edge router.
 .TP
@@ -110,7 +116,7 @@ A Redback router, NAS, etc.
 .TP
 .ID 15n
 .B riverstone
-A riverstone NAS or Cabletron (starting with version ~9.0.3) router.
+A Riverstone NAS or Cabletron (starting with version ~9.0.3) router.
 .TP
 .ID 15n
 .B tnt
@@ -148,7 +154,7 @@ Freeform string to describe the current state of the router.
 A ``#'' at the begining of a line is a comment; the entire line is
 ignored.
 .PP
-If you delete a device from the 
+If a device is deleted from the 
 .B router.db
 file, then
 .B rancid

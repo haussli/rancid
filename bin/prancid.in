@@ -196,6 +196,27 @@ sub ShowHardware {
     return(0);
 }
 
+# This routine parses "show inventory"
+sub ShowInventory {
+    print STDERR "    In ShowInventory: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	study;
+	last if(/^$prompt/);
+	next if(/^(\s*|\s*$cmd\s*)$/);
+	return(0) if (/^\s+\^/);
+	return(-1) if (/command authorization failed/i);
+
+	/Procket/ && ProcessHistory("COMMENTS","keysort","E0", "! $_") && next;
+	/System Uptime:/ && next;
+	/Protocol Uptime:/ && next;
+	ProcessHistory("COMMENTS","keysort","E0", "!$_") && next;
+
+    }
+    return(0);
+}
+
 # This routine processes a "write term"
 sub WriteTerm {
     print STDERR "    In WriteTerm: $_" if ($debug);
@@ -446,7 +467,7 @@ sub DoNothing {print STDOUT;}
 	'show version all'	=> "ShowVersion",
 	'show package'		=> "ShowPackage",
 	'show hardware'		=> "ShowHardware",
-	'show inventory'	=> "ShowVersion",
+	'show inventory'	=> "ShowInventory",
 	'write term'		=> "WriteTerm"
 );
 # keys() doesnt return things in the order entered and the order of the
@@ -494,6 +515,7 @@ ProcessHistory("","","","!RANCID-CONTENT-TYPE: procket\n!\n");
 ProcessHistory("COMMENTS","keysort","B0","!\n");	# show version
 ProcessHistory("COMMENTS","keysort","C0","!\n");	# show package
 ProcessHistory("COMMENTS","keysort","D0","!\n");	# show hardware
+ProcessHistory("COMMENTS","keysort","E0","!\n");	# show inventory
 ProcessHistory("COMMENTS","keysort","Z0","!\n");
 TOP: while(<INPUT>) {
     tr/\015//d;

@@ -1,10 +1,7 @@
-- configure should look for xterm for the sake of par?
 - should par's -c override an input files' : cmd?
 - *login should emmit "clogin error:" or "*login error:" to make matches for
   login failures definitive?
 - would like hpfilter to be more friendly to interactive logins
-- would like a FILTER_PWDS=(NO|YES|PARANOID) to "not filter", "filter
-  reversables only", and "filter all" passwords.
 - need to deal with this openssh prompt
 	user@jnx's password: foo
 

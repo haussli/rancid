@@ -1,4 +1,6 @@
 2.2b9
+	add FILTER_PWDS switch to env(5)
+
 	add merit MRTd support
 
 	add -r <device> option to do-diffs and control_rancid

@@ -22,7 +22,7 @@ install-exec-local:
 	$(mkinstalldirs) $(prefix)/util $(prefix)/util/lg
 
 install:
-	for file in CHANGES README cloginrc.sample ; do \
+	for file in CHANGES FAQ README cloginrc.sample ; do \
 	    $(INSTALL_DATA) $$file $(prefix); \
 	done
 

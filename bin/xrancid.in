@@ -30,6 +30,8 @@ $clean_run = 0;
 $found_end = 0;
 $timeo = 90;			# clogin timeout in seconds
 
+my(%filter_pwds);		# password filtering mode
+
 # This routine is used to print out the router configuration
 sub ProcessHistory {
     my($new_hist_tag,$new_command,$command_string,@string)=(@_);
@@ -298,7 +300,11 @@ sub WriteTerm {
 	/# system name/i && next;
 	/# software version/i && next;
 
-	if (/configure ssh2 key/) {
+	if (/((create|configure) account \S+ \S+) / && $filter_pwds >= 2) {
+	    ProcessHistory("","","","# $1 <key removed>\n");
+	    next;
+	}
+	if (/configure ssh2 key/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","# $_# <key removed>\n");
 	    while (<INPUT>) {
 		if (/^(#|enable|conf|disable|unconf)/) {
@@ -310,9 +316,10 @@ sub WriteTerm {
 
 	# filter out any RCS/CVS tags to avoid confusing local CVS storage
 	s/\$(Revision|Id):/ $1:/;
-	/^((config|configure) bgp (neighbor|peer-group) \S+ password encrypted)/i &&
-	    ProcessHistory("","","","# $1 <removed>\n") &&
+	if (/^((config|configure) bgp (neighbor|peer-group) \S+ password encrypted)/i && $filter_pwds >= 1) {
+	    ProcessHistory("","","","# $1 <removed>\n");
 	    next;
+	}
 
 	# order logging statements
 	/^configure syslog add logging (\d+\.\d+\.\d+\.\d+)/ &&
@@ -338,8 +345,10 @@ sub WriteTerm {
 	    }
 	}
 	# order/prune tacacs/radius server statements
-	/^(configure radius (primary|secondary) (tacacs-server|radius-server) shared-secret encrypted)/ &&
-	    ProcessHistory("","","","# $1 <removed>\n") && next;
+	if (/^(configure radius (primary|secondary) (tacacs-server|radius-server) shared-secret encrypted)/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","# $1 <removed>\n");
+	    next;
+	}
 
 	# catch anything that wasnt match above.
 	ProcessHistory("","","","$_");
@@ -396,6 +405,15 @@ if ($file) {
     } else {
 	open(INPUT,"clogin -t $timeo -autoenable -c \"$cisco_cmds\" $host </dev/null |") || die "clogin failed for $host: $!\n";
     }
+}
+
+# determine password filtering mode
+if ($ENV{"FILTER_PWDS"} =~ /no/i) {
+	$filter_pwds = 0;  
+} elsif ($ENV{"FILTER_PWDS"} =~ /all/i) {
+	$filter_pwds = 2;
+} else {
+	$filter_pwds = 1;
 }
 
 ProcessHistory("","","","#RANCID-CONTENT-TYPE: extreme\n#\n");

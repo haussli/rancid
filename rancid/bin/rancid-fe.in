@@ -24,10 +24,8 @@
 ($router, $vendor) = split('\:', $ARGV[0]);
 
 if ($vendor =~ /^cisco$/i) {
-print "running Crancid\n";
     exec('rancid', $router);
 } else {
-print "running Jrancid\n";
     exec('jrancid', $router);
 }
 

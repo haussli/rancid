@@ -109,6 +109,7 @@ hpfilter_SOURCES = hpfilter.c
 #INCLUDES += -I$(top_srcdir)/include
 
 #CFLAGS += -g
+CFLAGS = -g -O0
 
 YFLAGS = -d
 #LFLAGS = -i
@@ -135,15 +136,14 @@ hpfilter_OBJECTS =  hpfilter.o
 hpfilter_LDADD = $(LDADD)
 hpfilter_DEPENDENCIES = 
 hpfilter_LDFLAGS = 
-CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 DIST_COMMON =  Makefile.am Makefile.in alogin.in arancid.in blogin.in \
-brancid.in cat5rancid.in clogin.in configure configure.in \
-control_rancid.in create_cvs.in do-diffs.in elogin.in env.in erancid.in \
-flogin.in francid.in hlogin.in hrancid.in jlogin.in jrancid.in par.in \
-rancid-fe.in rancid.in rename.in rrancid.in xrancid.in
+brancid.in cat5rancid.in clogin.in control_rancid.in create_cvs.in \
+do-diffs.in elogin.in env.in erancid.in flogin.in francid.in hlogin.in \
+hrancid.in jlogin.in jrancid.in par.in rancid-fe.in rancid.in rename.in \
+rrancid.in xrancid.in
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)

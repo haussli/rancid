@@ -27,6 +27,7 @@ hpfilter_SOURCES = hpfilter.c
 #INCLUDES += -I$(top_srcdir)/include
 
 #CFLAGS += -g
+CFLAGS = -g -O0
 
 YFLAGS = -d
 #LFLAGS = -i

@@ -480,7 +480,8 @@ foreach firewall [lrange $argv $i end] {
     expect {
 	-re "\[\r\n]+"		{ exp_continue; }
 	-re "^.+$prompt"	{ set junk $expect_out(0,string);
-				  regsub -all "\[\]\[]" $junk {\\&} prompt; }
+				  regsub -all "\[\]\(\)\[]" $junk {\\&} prompt;
+				}
     }
 
     if { $do_command } {

@@ -235,8 +235,8 @@ sub ShowVersion {
 	}
 	if(/^WARNING/) {
 	    if (!defined($I0)) {
-	        $I0=1;
-	        ProcessHistory("COMMENTS","keysort","I0","!\n");
+		$I0=1;
+		ProcessHistory("COMMENTS","keysort","I0","!\n");
 	    }
 	    ProcessHistory("COMMENTS","keysort","I1","! $_");
 	    # The line after the WARNING is what to do about it.
@@ -731,6 +731,11 @@ sub WriteTerm {
 	    ProcessHistory("","","","! neighbor $1 password <removed>\n") &&
 	    next;
 	/fair-queue individual-limit/ && next;
+	# delete ospf auth password
+	/^( ip ospf authentication-key) / &&
+	    ProcessHistory("","","","!$1 <removed>\n") && next;
+	/^( ip ospf message-digest-key \d+ md5) / &&
+	    ProcessHistory("","","","!$1 <removed>\n") && next;
 	# sort ip explicit-paths.
 	if (/^ip explicit-path name (\S+)/) {
 	    my($key) = $1;

@@ -1,4 +1,7 @@
 2.2b9
+	display platform specific command in lookingglass results - patch
+	from Janos Mohacsi
+
 	add support for HP procurve switches, in particular 2524M and 4108gl.
 	thanks to hp for the loaners.
 

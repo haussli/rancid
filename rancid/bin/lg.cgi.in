@@ -168,6 +168,8 @@ sub mask2len {
 }
 # create the page and log the transaction...
 sub print_results {
+    my($mfg) = @_;
+    my($cmd);
 
     my($timestr) = strftime("%a %b %e %H:%M:%S %Y %Z", gmtime);
     dolog(LOG_INFO, sprintf("%s %s %s %s\n",
@@ -181,6 +183,14 @@ sub print_results {
     # add the company image, LG_IMAGE
     print $LG_IMAGE;
 
+    if ($mfg =~ /foundry/i) {
+	$cmd = $foundryCmd{$type};
+    } elsif ($mfg =~ /juniper/i) {
+	$cmd = $juniperCmd{$type};
+    } else {
+	$cmd = $ciscoCmd{$type};
+    }
+
     print <<HEAD ;
 	</b></font>
 	<font size=+3><b><h1>Looking Glass Results - $router
@@ -190,7 +200,7 @@ sub print_results {
 	<center>
 	<b>Date:</b> $timestr
 	<p>
-	<b>Query:</b> $cmdDisp{$type}
+	<b>Query:</b> $cmd
 	<br>
 HEAD
 
@@ -267,7 +277,7 @@ $arg = ($query->param('args'))[0];
 ($router, $mfg) = split(':', $router_param);
 if (!defined($type) || !defined($router)) {
     $results[0] = "You must at least choose a Query and a router.  Try buying a clue.\n";
-    &print_results;
+    &print_results($mfg);
 }
 
 # conversion of command "type" passed from lgform.cgi to the vendor's syntax.
@@ -361,13 +371,13 @@ if (!defined($type) || !defined($router)) {
 if ($mfg =~ /juniper/) {
     if (! defined($juniperCmd{$type})) {
 	$results[0] = "$cmdDisp{$type} not implemented for junipers.  sorry.\n";
-	&print_results;
+	&print_results($mfg);
     }
     $cmd = $juniperCmd{$type};
 } elsif ($mfg =~ /foundry/) {
     if(! defined($foundryCmd{$type})) {
 	$results[0] = "$cmdDisp{$type} not implemented for foundrys.  sorry.\n";
-	&print_results;
+	&print_results($mfg);
     }
     $cmd = $foundryCmd{$type};
 } else {
@@ -378,10 +388,10 @@ if ($mfg =~ /juniper/) {
 if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
     if ($arg[0] !~ /^\d+\.\d+\.\d+\.\d+$/) {
 	$results[0] = "The IP address \"$arg[0]\" is not valid and lacking an address would over-burden our router.\n";
-	&print_results;
+	&print_results($mfg);
     } elsif (defined($arg[1]) && $arg[1] !~ /^\d+\.\d+\.\d+\.\d+$/) {
 	$results[0] = "The IP netmask \"$arg[1]\" is not valid.\n";
-	&print_results;
+	&print_results($mfg);
     }
     if ($mfg =~ /juniper/i && defined($arg[1])) {
 	$arg = $arg[0] . "/" . mask2len($arg[1]);
@@ -390,7 +400,7 @@ if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
     if ($mfg =~ /juniper/) {
 	$results[0] = "Juniper does not have a show frame-relay pvc command.  ".
 		"Use show interface.\n";
-	&print_results;
+	&print_results($mfg);
     }
     if ($arg[0] > 15 && $arg[0] < 1024) {
 	$arg = $arg[0];
@@ -428,29 +438,29 @@ if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
     if ($arg[0] !~ /^\d+\.\d+\.\d+\.\d+$/) {
 	if ($arg[0] !~ /([A-Za-z0-9-]*.)*[A-Za-z0-9-]*.(com|edu|net|org)/) {
 	    $results[0] = "That argument ($arg[0]) is not valid.\n";
-	    &print_results;
+	    &print_results($mfg);
 	}
     }
     $arg = $arg[0];
 } elsif ($type eq "aspath" || $type eq "communitylist") {
     if ($arg[0] !~ /^\d+$/ || ($arg[0] < 1 && $arg[0] > 199)) {
 	$results[0] = "That argument ($arg[0]) is not valid.\n";
-	&print_results;
+	&print_results($mfg);
     }
     $arg = $arg[0];
 } elsif ($type eq "acl") {
     if ($arg[0] !~ /^\d+$/ || ($arg[0] < 100 && $arg[0] > 199) ||
 					($arg[0] < 1300 && $arg[0] > 2699)) {
 	$results[0] = "That argument ($arg[0]) is not valid.\n";
-	&print_results;
+	&print_results($mfg);
     }
     $arg = $arg[0];
     # don't show the jewels
-    &print_results if ($arg == 98 || $arg == 99);
+    &print_results($mfg) if ($arg == 98 || $arg == 99);
 } elsif ($type eq "prefixlist" || $type eq "routemap") {
     if ($arg[0] !~ /^[0-9A-Za-z][^\s\"]*$/) {
 	$results[0] = "That argument ($arg[0]) is not valid.\n";
-	&print_results;
+	&print_results($mfg);
     }
     $arg = $arg[0];
 } elsif ($type eq "regex") {
@@ -462,13 +472,13 @@ if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
     $arg =~ s/^\s*//; $arg =~ s/\s*$//;
     if ($arg !~ /^[0-9_ ^.*+?[\])\(-]*\$?$/ || $arg =~ /^\s*$/) {
 	$results[0] = "That argument ($arg[0]) is not valid.\n";
-	&print_results;
+	&print_results($mfg);
     }
     # pathetic excuses for lookups
     if ($arg =~ /^[_.* ^]*(\*|1|701|1239|1280|1740|3561|5462|10303)+[_\$]*$/ ||
 	$arg =~ /^[_.* ^]*(1|701|1239|1280|1740|3561|5462|10303)+[_ .]*[\[*.]/) {
 	$results[0] = "Get real.  Such a query has potential to over-burden our router.\nLook that up on your own router.\n";
-	&print_results;
+	&print_results($mfg);
     }
     if ($mfg =~ /juniper/) {
 	$arg =~ s/_/ /g;
@@ -486,7 +496,7 @@ if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
     if ($arg[0] !~ /^\d+\.\d+\.\d+\.\d+$/) {
 	if ($arg[0] !~ /([A-Za-z0-9-]*.)*[A-Za-z0-9-]*.(com|edu|net|org)/) {
 	    $results[0] = "That argument ($arg[0]) is not valid.\n";
-	    &print_results;
+	    &print_results($mfg);
 	}
     }
     $arg = $arg[0];
@@ -523,7 +533,7 @@ if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
     if ($arg[0] !~ /^\d+\.\d+\.\d+\.\d+$/) {
 	if ($arg[0] !~ /([A-Za-z0-9-]*.)*[A-Za-z0-9-]*.(com|edu|net|org)/) {
 	    $results[0] = "That argument ($arg[0]) is not valid.\n";
-	    &print_results;
+	    &print_results($mfg);
 	}
     }
     $arg = $arg[0];
@@ -576,7 +586,7 @@ if ($type eq "summary" || $type eq "mbgpsu" || $type eq "damp" || $type eq "log"
 		while (<CACHE>) { push(@results, $_); }
 		close CACHE ;
 		$seconds = $dtime;
-		&print_results ; 
+		&print_results($mfg); 
 	    }
 	}
 
@@ -590,10 +600,10 @@ if ($type eq "summary" || $type eq "mbgpsu" || $type eq "damp" || $type eq "log"
     } else {
 	@results = &DoRsh($router, $mfg, $cmd, $arg);
     }
-    &print_results ; 
+    &print_results($mfg); 
 } # end dampened-paths/flap-statistics
 
 @results = &DoRsh($router, $mfg, $cmd, $arg);
-&print_results ;
+&print_results($mfg);
 
-exit ; 
+exit; 

@@ -1,3 +1,4 @@
 config.*
 Makefile
-rtrfilter
+lg.cgi
+lgform.cgi

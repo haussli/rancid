@@ -1,4 +1,6 @@
 2.0
+	Add bits for Cisco PIX.  thanks to joe rizzo@EA for access to a pix.
+
 	Make sure we continue to sort tacacs-server host.
 	Sort usernames on ciscos.
 	Get more info out of "show diag" on the GSR.

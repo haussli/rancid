@@ -370,6 +370,8 @@ clean: clean-am
 
 clean-am: clean-generic mostlyclean-am
 
+distclean: distclean-am
+	-rm -f Makefile
 distclean-am: clean-am distclean-generic
 
 dvi: dvi-am
@@ -425,19 +427,15 @@ uninstall-man: uninstall-man1 uninstall-man5
 
 @SET_MAKE@
 
-all:
-
-distclean: clean
-
 lg.conf.5: Makefile $(srcdir)/lg.conf.5.in
 	rm -f lg.conf.5 lg.conf.5.tmp; \
 	$(auto_edit) $(srcdir)/lg.conf.5.in >lg.conf.5.tmp; \
 	mv lg.conf.5.tmp lg.conf.5
 
-lg_intro.5: Makefile $(srcdir)/lg_intro.5.in
-	rm -f lg_intro.5 lg_intro.5.tmp; \
-	$(auto_edit) $(srcdir)/lg_intro.5.in >lg_intro.5.tmp; \
-	mv lg_intro.5.tmp lg_intro.5
+lg_intro.1: Makefile $(srcdir)/lg_intro.1.in
+	rm -f lg_intro.1 lg_intro.1.tmp; \
+	$(auto_edit) $(srcdir)/lg_intro.1.in >lg_intro.1.tmp; \
+	mv lg_intro.1.tmp lg_intro.1
 
 rancid.conf.5: Makefile $(srcdir)/rancid.conf.5.in
 	rm -f rancid.conf.5 rancid.conf.5.tmp; \

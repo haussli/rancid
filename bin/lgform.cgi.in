@@ -25,7 +25,30 @@ my($BASEDIR) = "@prefix@";
 # it is just easier to be self-contained.
 # SO, ANY CHANGES HERE SHOULD BE REFLECTED IN THE OTHER .cgi.
 
-# 
+# logging
+sub dolog
+{
+    my($level, $msg) = @_;
+
+    if (defined($LG_LOG) && $LG_LOG !~ /\//) {
+	openlog($me, "pid", $LG_LOG);
+	syslog($level, "%s", $msg);
+	closelog;
+    } else {
+	local(*LOG);
+	my($file);
+	if (defined($LG_LOG)) {
+	    $file = $LG_LOG;
+	} else {
+	    $file = "$cache_dir/lg.log";
+	}
+	#  log date, hostname, query, addr
+	open(LOG,">>$file") ; 
+	printf(LOG "$msg");
+	close(LOG); 
+    }
+    return;
+}
 # read LG configuration file
 sub readconf
 {
@@ -125,6 +148,7 @@ sub readrouters
     return;
 }
 
+# Main()
 # read the configuration file if it exists.
 readconf();
 

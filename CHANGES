@@ -1,4 +1,6 @@
 1.5
+	see README for info on web interface to rancid CVS repository.
+
 	Try to detect hung rancid jobs & send email.
 
 	Add (partial) support for the cat5s.  Still need more work

@@ -38,6 +38,12 @@ perl5	- perl version 5 or greater available from www.cpan.org
 expect	- http://expect.nist.gov/
 tcl	- required by expect.
 
+Bill Fenner has a cgi script for interacting with CVS repositories.
+This provides a great interface to viewing rancid diffs and full
+configs.  The package is not included here, but can be found here:
+
+	http://www.freebsd.org/~fenner/cvsweb/cvsweb-1.0.tar.gz
+
 Quick Installation Guide (an example):
 
 1) mkdir <basedir>

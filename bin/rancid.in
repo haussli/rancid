@@ -869,26 +869,27 @@ sub ShowDiag {
 		ProcessHistory("SLOT","keysort","B","!Slot $slot$WIC: type $1$2\n");
 	    /\s+(FT1)$/ &&
 		ProcessHistory("SLOT","keysort","B","!Slot $slot$WIC: type $1\n");
-	    # oh boy, yet another format.  2600s
-	    if (/Mainboard Port adapter/i) {
-		my($hw, $pn, $rev, $sn);
-		while (<INPUT>) {
-		    tr/\015//d;
-
-		    if (/0x00: /) {
-			# no effing idea why break does not work there
-			goto PerlSucks;
-		    }
-		    if (/hardware revision\s+:\s+(\S+)/i) { $hw = $1; }
-		    if (/part number\s+:\s+(\S+)/i) { $pn = $1; }
-		    if (/board revision\s+:\s+(\S+)/i) { $rev = $1; }
-		    if (/pcb serial number\s+:\s+(\S+)/i) { $sn = $1; }
-		}
-PerlSucks:
-		ProcessHistory("SLOT","keysort","B","!Slot $slot$WIC: hvers $hw rev $rev\n");
-		ProcessHistory("SLOT","keysort","C","!Slot $slot$WIC: part $pn, serial $sn\n");
-	    }
 	    next;
+	}
+	# yet another format.  seen on 2600s w/ 12.1, but appears to be all
+	# 12.1, including 7200s.
+	if (/hardware revision\s+:\s+(\S+)$/i) {
+	    my($hw, $pn, $rev, $sn);
+	    $hw = $1;
+	    while (<INPUT>) {
+		tr/\015//d;
+
+		if (/0x..: /) {
+		    # no effing idea why break does not work there
+		    goto PerlSucks;
+		}
+		if (/part number\s+:\s+(\S+)/i) { $pn = $1; }
+		if (/board revision\s+:\s+(\S+)/i) { $rev = $1; }
+		if (/pcb serial number\s+:\s+(\S+)/i) { $sn = $1; }
+	    }
+PerlSucks:
+	    ProcessHistory("SLOT","keysort","B","!Slot $slot$WIC: hvers $hw rev $rev\n");
+	    ProcessHistory("SLOT","keysort","C","!Slot $slot$WIC: part $pn, serial $sn\n");
 	}
 	/revision\s+(\S+).*revision\s+(\S+)/ &&
 	    ProcessHistory("SLOT","keysort","C","!Slot $slot$WIC: hvers $1 rev $2\n") &&

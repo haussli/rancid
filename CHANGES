@@ -1,5 +1,8 @@
-2.2b
-	bin/alogin and changes of beta quality for Alteon WebOS switch
+2.2b2
+	convert usage of Mail to sendmail for portability.  local .mailrc
+	aliases can not be used.
+
+	bin/alogin and changes (of beta quality) for Alteon WebOS switch
 	from andrew fort.
 
 	Check for more types of cisco 12000s.  Also check for 2600s.
@@ -12,6 +15,8 @@
 	make *login automatically add host keys with openssh's prompting
 
 	All routers not listed as 'up' in router.db are considered down.
+	This allows values other than down to mean 'not up'.  for use
+	by util/downreport.
 
 2.1
 	Change default umask to 027 (it was 007) mainly as an

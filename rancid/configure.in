@@ -78,7 +78,7 @@ fi],
 rd_cv_MAILPLUS=$MAILPLUS
 
 AC_PATH_PROG(DIRNAME,dirname,no)
-# locate GNU diff (-u option)
+# locate GNU diff (one supporting the -u option)
 AC_PATH_PROG(DIFF,diff,no, /usr/local/bin:/usr/gnu/bin:/usr/bin:/usr/contrib/bin)
 if test $DIFF = no; then
     unset ac_cv_path_DIFF

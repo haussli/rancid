@@ -21,6 +21,7 @@
 #define DFLT_TO	60				/* default timeout */
 
 #include <config.h>
+#include <version.h>
 
 #include <stdio.h>
 #include <limits.h>
@@ -36,6 +37,7 @@ int		debug = 0;
 
 int		filter __P((char *, int));
 void		usage __P((void));
+void		vers __P((void));
 RETSIGTYPE	reapchild __P((void));
 
 int
@@ -68,11 +70,14 @@ main(int argc, char **argv)
     if (strrchr(progname, '.') != NULL)
 	*(strrchr(progname, '.')) = '\0';
 
-    while ((ch = getopt(argc, argv, "dh")) != -1 )
+    while ((ch = getopt(argc, argv, "dhv")) != -1 )
 	switch (ch) {
 	case 'd':
 	    debug++;
 	    break;
+	case 'v':
+	    vers();
+	    return(EX_OK);
 	case 'h':
 	default:
 	    usage();
@@ -379,5 +384,14 @@ usage(void)
     fprintf(stderr,
 "usage: %s [-h] <telnet|ssh> <hostname>
 ", progname);
+    return;
+}
+
+void
+vers(void)
+{
+    fprintf(stderr,
+"%s: %s version %s
+", progname, package, version);
     return;
 }

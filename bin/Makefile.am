@@ -42,12 +42,12 @@ install: all
 	for prog in $(BIN_PROGS) ; do \
 	    $(INSTALL) $$prog $(bindir); \
 	done; \
-	if test -f $(bindir)/bin/env ; then \
+	if test -f $(bindir)/env ; then \
 	    echo "WARNING: *** $(bindir)/env exists: installing as env.new."; \
 	    echo "         *** review env.new for new/deprecated switches"; \
 	    $(INSTALL_DATA) env $(bindir)/env.new; \
 	else \
-	    $(INSTALL_DATA) env $(bindir)/bin; \
+	    $(INSTALL_DATA) env $(bindir); \
 	fi
 # BIN_DATAS are empty at the moment.
 #       for prog in $(BIN_DATAS) ; do \

@@ -8,12 +8,15 @@ env    -    Enviromental settings needed.
 run-me -    Script designed to be run from cron calling control_rancid.
 control_rancid -    Builds router list, calls rancid on each router and
                     handles cvs routines.
-rancid-fe - chooses between rancid an jrancid
+rancid-fe - chooses between rancid/francid/jrancid/rrancid
 rancid -    Runs commands on router and processes the output - the meat.
+francid -   Runs commands on foundry switches and processes the output
 jrancid -   Runs commands on juniper routers and processes the output
 rrancid -   Runs commands on redback routers and processes the output
 clogin -    Expect script that logs into routers either interactively,
             runs a set of commands or runs another expect script.
+flogin -    Expect script that logs into foundry switches.  once foundry
+	    cleans up their bloody UI, clogin should do the job.
 jlogin -    Expect script that logs into juniper routers similarly to
 	    clogin.  it is not terribly robust, but mainly used for it's
 	    -c and -s options.
@@ -72,9 +75,9 @@ Quick Installation Guide (an example):
 
 9) For each "group", modify the router.db file in the group directory.
    The file is of the form "router:mfg:state" where "router" is the name
-   (we user fqdn) of the router, mfg is the manufacturer (cisco|juniper),
-   and "state" is either up or down.  Each router listed as "up" will have
-   the configuration grabbed.
+   (we user fqdn) of the router, mfg is the manufacturer
+   (cisco|foundry|juniper|redback), and "state" is either up or down.
+   Each router listed as "up" will have the configuration grabbed.
 
 10) Put run-me/do-diffs in cron to be called however often you want it to run
     for each group (run-me [<GROUP>] - OR - do-diffs [<GROUP>]).  eg:
@@ -84,6 +87,6 @@ Quick Installation Guide (an example):
 	# clean out hourly differ logs
 	50 23 * * * /usr/bin/find <BASEDIR>/logs -mtime +2 -exec rm {} \;
 
-11) Send me any bugs, suggestions or updates (rancid@shrubbery.net).
+11) Send any bugs, suggestions or updates (rancid@shrubbery.net).
 
 -Hank

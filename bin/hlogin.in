@@ -508,12 +508,16 @@ proc run_commands { prompt command } {
     log_user 1
     send "exit\r"
     expect {
-	"Do you want to log out" {
-						  send "y\r"
+	"Do you want to save current configuration"	{
+						  send "n\r"
 						  exp_continue
 						}
 	"Do you wish to save " {
 						  send "n\r"
+						  exp_continue
+						}
+	"Do you want to log out" 		{
+						  send "y\r"
 						  exp_continue
 						}
 	-re "\[\r\n]+"				{ exp_continue }

@@ -1,7 +1,7 @@
 #!@PERLV_PATH@
 ##
 ## Amazingly hacked version of Hank's rancid - this one tries to
-## deal with HPs.
+## deal with HP procurves.
 ##
 ## Copyright (C) 1997-2001 by Henry Kilmer.
 ## All rights reserved.
@@ -141,142 +141,11 @@ sub ShowVersion {
 	last if(/^$prompt/);
 	next if(/^(\s*|\s*$cmd\s*)$/);
 	return(-1) if (/command authorization failed/i);
-	if (/^Slave in slot (\d+) is running/) {
-	    $slave = " Slave:";
-	    next;
-	}
-	/^Cisco Secure PIX /i &&
-	    ProcessHistory("COMMENTS","keysort","F1", "!Image: $_") && next;
-	/^IOS .* Software \(([A-Za-z-0-9]*)\), .*Version\s+(.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","F1",
-		"!Image:$slave Software: $1, $2\n") && next;
-	/^([A-Za-z-0-9_]*) Synced to mainline version: (.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","F2",
-		"!Image:$slave $1 Synced to mainline version: $2\n") && next;
-	/^Compiled (.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","F3",
-		"!Image:$slave Compiled: $1\n") && next;
-	/^ROM: (System )?Bootstrap.*(Version.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","G1",
-		"!ROM Bootstrap: $2\n") && next;
-	if (/^Hardware:\s+(.*), (.* RAM), CPU (.*)$/) {
-	    ProcessHistory("COMMENTS","keysort","A1",
-		"!Chassis type: $1 - a PIX\n");
-	    ProcessHistory("COMMENTS","keysort","A2",
-		"!CPU: $3\n");
-	    ProcessHistory("COMMENTS","keysort","B1", "!Memory: $2\n");
-	}
-	/^Serial Number:\s+(.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","C1", "!$_") && next;
-	/^Activation Key:\s+(.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","C2", "!$_") && next;
-	/^ROM: \d+ Bootstrap .*(Version.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","G2",
-		"!ROM Image: Bootstrap $1\n!\n") && next;
-	/^ROM: .*(Version.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","G3","!ROM Image: $1\n") && next;
-	/^BOOTFLASH: .*(Version.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","G4","!BOOTFLASH: $1\n") && next;
-	/^System image file is "([^\"]*)", booted via (\S*)/ &&
-# removed the booted source due to
-# CSCdk28131: cycling info in 'sh ver'
-#	ProcessHistory("COMMENTS","keysort","F4","!Image: booted via $2, $1\n") &&
-	    ProcessHistory("COMMENTS","keysort","F4","!Image: booted $1\n") &&
-	    next;
-	/^System image file is "([^\"]*)"$/ &&
-	    ProcessHistory("COMMENTS","keysort","F5","!Image: $1\n") && next;
-	if (/(\S+)\s+\((\S+)\)\s+processor.*with (\S+K) bytes/) {
-	    my($proc) = $1;
-	    my($cpu) = $2;
-	    my($mem) = $3;
-	    my($device) = "router";
-	    if ( $1 eq "CSC") {
-		$type = "AGS";
-	    } elsif ( $1 eq "CSC4") {
-		$type = "AGS+";
-	    } elsif ( $1 eq "2511" || $1 eq "2524" || $1 eq "AS2511-RJ") {
-		$type = "2500";
-	    } elsif ( $1 =~ /261[01]/ || $1 =~ /262[01]/ ) {
-		$type = "2600";
-	    } elsif ( $1 eq "3620" || $1 eq "3640") {
-		$type = "3600";
-	    } elsif ( $1 eq "RSP7000") {
-		$type = "7500";
-	    } elsif ( $1 =~ /RSP\d/) {
-		$type = "7500";
-	    } elsif ( $1 eq "RP1") {
-		$type = "7000";
-	    } elsif ( $1 eq "RP") {
-		$type = "7000";
-	    } elsif ( $1 =~ /720[246]/) {
-		$type = "7200";
-	    } elsif ( $1 =~ /1200[48]\/GRP/ || $1 =~ /1201[26]\/GRP/) {
-		$type = "12000";
-	    } elsif ( $1 =~ /1201[26]-8R\/GRP/) {
-		$type = "12000";
-	    } elsif ( $1 =~ /WS-C29/) {
-		$type = "2900XL";
-		$device = "switch";
-	    } elsif ( $1 =~ /WS-C35/) {
-		$type = "3500XL";
-		$device = "switch";
-	    } elsif ( $1 =~ /6000/) {
-		$type = "6000";
-		$device = "switch";
-	    } else {
-		$type = $1;
-	    }
-	    print STDERR "TYPE = $type\n" if ($debug);
-	    ProcessHistory("COMMENTS","keysort","A1",
-		"!Chassis type:$slave $proc - a $type $device\n");
-	    ProcessHistory("COMMENTS","keysort","B1",
-		"!Memory:$slave main $mem\n");
-	    ProcessHistory("COMMENTS","keysort","A3","!CPU:$slave $cpu\n");
-	    next;
-	}
-	if (/(\S+) Silicon\s*Switch Processor/) {
-	    if (!defined($C0)) {
-		$C0=1; ProcessHistory("COMMENTS","keysort","C0","!\n");
-	    }
-	    ProcessHistory("COMMENTS","keysort","C2","!SSP: $1\n");
-	    $ssp = 1;
-	    $sspmem = $1;
-	    next;
-	}
-	/^(\d+K) bytes of multibus/ &&
-	    ProcessHistory("COMMENTS","keysort","B2",
-		"!Memory: multibus $1\n") && next;
-	/^(\d+K) bytes of non-volatile/ &&
-	    ProcessHistory("COMMENTS","keysort","B3",
-		"!Memory: nvram $1\n") && next;
-	/^(\d+K) bytes of flash memory/ &&
-	    ProcessHistory("COMMENTS","keysort","B5","!Memory: flash $1\n") &&
-	    next;
-	/^(\d+K) bytes of .*flash partition/ &&
-	    ProcessHistory("COMMENTS","keysort","B6",
-		"!Memory: flash partition $1\n") && next;
-	/^(\d+K) bytes of Flash internal/ &&
-	    ProcessHistory("COMMENTS","keysort","B4",
-		"!Memory: bootflash $1\n") && next;
-	if(/^(\d+K) bytes of (Flash|ATA)?.*PCMCIA .*slot ?(\d)/i) {
-	    ProcessHistory("COMMENTS","keysort","B7",
-		"!Memory: pcmcia $2 slot$3 $1\n");
-	    next;
-	}
-	if(/^WARNING/) {
-	    if (!defined($I0)) {
-		$I0=1;
-		ProcessHistory("COMMENTS","keysort","I0","!\n");
-	    }
-	    ProcessHistory("COMMENTS","keysort","I1","! $_");
-	    # The line after the WARNING is what to do about it.
-	    $_ = <INPUT>; tr/\015//d;
-	    ProcessHistory("COMMENTS","keysort","I1","!          $_");
-	}
-	if (/^Configuration register is (.*)$/) {
-	    $config_register=$1;
-	    next;
-	}
+
+	s/^image//i;
+	s/^\s*//g;
+
+	ProcessHistory("COMMENTS","keysort","C1", ";Image: $_") && next;
     }
     return(0);
 }
@@ -291,13 +160,13 @@ sub ShowFlash {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if ($type =~ /^(12[40]|7)/);
 	return(-1) if (/command authorization failed/i);
 	return(1) if /^\s*\^\s*$/;
-	return(1) if /(Invalid input detected|Type help or )/;
-	ProcessHistory("FLASH","","","!Flash: $_");
+	return(1) if /^(Invalid input:|Type help or )/;
+
+	ProcessHistory("COMMENTS","keysort","D0",";Flash: $_");
     }
-    ProcessHistory("","","","!\n");
+
     return;
 }
 
@@ -309,50 +178,19 @@ sub ShowSystem {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
-	# return(1) if ($type =~ /^(12[40]|7[05])/);
 	return(-1) if (/command authorization failed/i);
-	if (/^Interface ([^ \n(]*)/) { $INT = "$1, "; next; }
-	/^(BRI unit \d)/ &&
-	    ProcessHistory("INT","","","!Interface: $1\n") && next;
-	/^LANCE unit \d, NIM/ &&
-	    ProcessHistory("INT","","","!Interface: $_") && next;
-	/^(LANCE unit \d)/ &&
-	    ProcessHistory("INT","","","!Interface: $1\n") && next;
-	/(Media Type is \S+),/ &&
-	    ProcessHistory("INT","","","!\t$1\n");
-	    if (/(M\dT[^ :]*:) show controller:$/) {
-		my($ctlr) = $1;
-		$_ = <INPUT>; tr/\015//d; s/ subunit \d,//;
-		ProcessHistory("INT","","","!Interface: $ctlr $_");
-	    }
-	if (/^(\S+) : show controller:$/) {
-	    my($ctlr) = $1;
-	    $_ = <INPUT>; tr/\015//d; s/ subunit \d,//;
-	    ProcessHistory("INT","","","!Interface: $ctlr: $_");
-	}
-	/^(HD unit \d), idb/ &&
-	    ProcessHistory("INT","","","!Interface: $1\n") && next;
-	/^HD unit \d, NIM/ &&
-	    ProcessHistory("INT","","","!Interface: $_") && next;
-	/^buffer size \d+  HD unit \d, (.*)/ &&
-	    ProcessHistory("INT","","","!\t$1\n") && next;
-	/^AM79970 / && ProcessHistory("INT","","","!Interface: $_") && next;
-	/^buffer size \d+  (Universal Serial: .*)/ &&
-	    ProcessHistory("INT","","","!\t$1\n") && next;
-	/^Hardware is (.*)/ &&
-	    ProcessHistory("INT","","","!Interface: $INT$1\n") && next;
-	/^(QUICC Serial unit \d),/ &&
-	    ProcessHistory("INT","","","!$1\n") && next;
-	/^QUICC Ethernet .*/ &&
-	    ProcessHistory("INT","","","!$_") && next;
-	/^DTE .*\.$/ &&
-	    ProcessHistory("INT","","","!\t$_") && next;
-	/^(cable type :.*),/ &&
-	    ProcessHistory("INT","","","!\t$1\n") && next;
-	/^(.* cable.*), received clockrate \d+$/ &&
-	    ProcessHistory("INT","","","!\t$1\n") && next;
-	/^.* cable.*$/ &&
-	    ProcessHistory("INT","","","!\t$_") && next;
+	return(1) if /^(Invalid input:|Type help or )/;
+
+	/memory\s+-\s+total\s+:\s+(\S+)/i &&
+	    ProcessHistory("COMMENTS","keysort","B0",";Memory: $1\n");
+	/serial\s+number\s+:\s+(\S+)/i &&
+	    ProcessHistory("COMMENTS","keysort","A1",";Serial Number: $1\n");
+	/firmware\s+revision\s+:\s+(\S+)/i &&
+	    ProcessHistory("COMMENTS","keysort","C0",";Image: Firmware $1\n");
+	/rom\s+version\s+:\s+(\S+)/i &&
+	    ProcessHistory("COMMENTS","keysort","C1",";Image: ROM $1\n");
+
+#	ProcessHistory("COMMENTS","keysort","F0",";Memory: $_");
     }
     return(0);
 }
@@ -370,23 +208,26 @@ sub ShowModule {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(-1) if (/command authorization failed/i);
+	return(1) if /^(Invalid input:|Type help or )/;
 
-	# match slot/card info line
-	if (/^ *(\d+)\s+(\d+)\s+(.*)\s+(\S+)\s+(\S+)\s*$/) {
-	    $lines[$1] .= "!Slot $1: type $3, $2 ports\n!Slot $1: part $4, serial $5\n";
-	    $lines[$1] =~ s/\s+,/,/g;
-	}
-	# now match the Revs in the second paragraph of o/p and stick it in
-	# the array with the previous bits...grumble.
-	if (/^ *(\d+)\s+\S+\s+to\s+\S+\s+(\S+)\s+(.*)\s+(\S+)\s*$/) {
-	    $lines[$1] .= "!Slot $1: hvers $2, firmware $3, sw $4\n";
-	    $lines[$1] =~ s/\s+,/,/g;
-	}
+	ProcessHistory("COMMENTS","keysort","E0","; $_") && next;
+
+#	# match slot/card info line
+#	if (/^ *(\d+)\s+(\d+)\s+(.*)\s+(\S+)\s+(\S+)\s*$/) {
+#	    $lines[$1] .= "!Slot $1: type $3, $2 ports\n!Slot $1: part $4, serial $5\n";
+#	    $lines[$1] =~ s/\s+,/,/g;
+#	}
+#	# now match the Revs in the second paragraph of o/p and stick it in
+#	# the array with the previous bits...grumble.
+#	if (/^ *(\d+)\s+\S+\s+to\s+\S+\s+(\S+)\s+(.*)\s+(\S+)\s*$/) {
+#	    $lines[$1] .= "!Slot $1: hvers $2, firmware $3, sw $4\n";
+#	    $lines[$1] =~ s/\s+,/,/g;
+#	}
     }
-    foreach $slot (@lines) {
-	next if ($slot =~ /^\s*$/);
-	ProcessHistory("Module","","","$slot!\n");
-    }
+#    foreach $slot (@lines) {
+#	next if ($slot =~ /^\s*$/);
+#	ProcessHistory("Module","","","$slot!\n");
+#    }
 
     return(0);
 }
@@ -400,25 +241,8 @@ sub ShowStack {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(-1) if (/command authorization failed/i);
-	/^$/ && next;
-	if (/C7200 Midplane EEPROM:/) {
-	    $_ = <INPUT>;
-	    /revision\s+(\S+).*revision\s+(\S+)/;
-	    ProcessHistory("SLOT","","","!Slot Midplane: hvers $1 rev $2\n");
-	    $_ = <INPUT>;
-	    /number\s+(\S+)\s+Part number\s+(\S+)/;
-	    ProcessHistory("SLOT","","","!Slot Midplane: part $2, serial $1\n!\n");
-	    next;
-	}
-	if (/C720\d(VXR)? CPU EEPROM:/) {
-	    $_ = <INPUT>;
-	    /revision\s+(\S+).*revision\s+(\S+)/ &&
-		ProcessHistory("SLOT","","","!Slot CPU: hvers $1 rev $2\n");
-	    $_ = <INPUT>;
-	    /number\s+(\S+)\s+Part number\s+(\S+)/ &&
-		ProcessHistory("SLOT","","","!Slot CPU: part $2, serial $1\n!\n");
-	    next;
-	}
+
+	ProcessHistory("COMMENTS","keysort","F0",";$_");
     }
     return(0);
 }
@@ -433,6 +257,14 @@ sub WriteTerm {
 	return(-1) if (/command authorization failed/i);
 	# the pager can not be disabled per-session on the PIX
 	s/^<-+ More -+>\s*//;
+	s/^$/;/;
+
+	# filter out any RCS/CVS tags to avoid confusing local CVS storage
+	s/\$(Revision|Id):/ $1:/;
+	/^; (\S+) configuration editor;/i &&
+	    ProcessHistory("COMMENTS","keysort","A0",";Chassis type: $1\n") &&
+	    next;
+
 	/Non-Volatile memory is in use/  && return(-1); # NvRAM is locked
 	# skip the crap
 	if (/^(##+$|Building configuration...)/i) {
@@ -510,8 +342,6 @@ sub WriteTerm {
 	    }
 	    ProcessHistory("ROUTEMAP","keysort","$key","$routemap");
 	}
-	# filter out any RCS/CVS tags to avoid confusing local CVS storage
-	s/\$(Revision|Id):/ $1:/;
 	# order access-lists
 	/^access-list\s+(\d\d?)\s+(\S+)\s+(\S+)/ &&
 	    ProcessHistory("ACL $1 $2","ipsort","$3","$_") && next;
@@ -563,9 +393,15 @@ sub WriteTerm {
 		ProcessHistory("SNMPSERVERCOMM","keysort","$_","$_") && next;
 	    }
 	}
+
+
+
 	# order/prune tacacs/radius server statements
 	/^(tacacs-server|radius-server) key / &&
-	    ProcessHistory("","","","!$1 key <removed>\n") && next;
+	    ProcessHistory("","","",";$1 key <removed>\n") && next;
+
+
+
 	# order clns host statements
 	/^clns host \S+ (\S+)/ &&
 	    ProcessHistory("CLNS","keysort","$1","$_") && next;
@@ -603,7 +439,6 @@ sub WriteTerm {
 	# catch anything that wasnt match above.
 	ProcessHistory("","","","$_");
 	# end of config
-	#if (/^end(\n\[OK])?$/) {
 	if (/^(: )?end$/) {
 	    $found_end = 1;
 	    return(1);
@@ -657,13 +492,16 @@ if ($file) {
     }
 }
 
-ProcessHistory("","","","!RANCID-CONTENT-TYPE: hp\n!\n");
-ProcessHistory("COMMENTS","keysort","B0","!\n");
-ProcessHistory("COMMENTS","keysort","F0","!\n");
-ProcessHistory("COMMENTS","keysort","G0","!\n");
+ProcessHistory("","","",";RANCID-CONTENT-TYPE: hp\n;\n");
+ProcessHistory("COMMENTS","keysort","B0",";\n");	# memory info
+ProcessHistory("COMMENTS","keysort","C0",";\n");	# showversion
+ProcessHistory("COMMENTS","keysort","D0",";\n");	# showflash
+ProcessHistory("COMMENTS","keysort","E0",";\n");	# showmodule
+ProcessHistory("COMMENTS","keysort","F0",";\n");	# showstack
+ProcessHistory("COMMENTS","keysort","G0",";\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
-    if (/\#\s?exit$/) {
+    if (/\#\s?exit\s*$/) {
 	$clean_run=1;
 	last;
     }

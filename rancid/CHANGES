@@ -1,4 +1,7 @@
 2.2
+	make *login print \n before errors, so rancid can use an anchored
+	match to find login errors and avoid such matches in router o/p.
+
 	make *login automatically add host keys with openssh's prompting
 
 	All routers not listed as 'up' in router.db are considered down.

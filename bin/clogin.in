@@ -332,7 +332,7 @@ proc login { router user userpswd passwd enapasswd prompt cyphertype } {
 	"\[Pp]assword:"	{ send "$passwd\r"
 	    expect {
 		eof		{ send_user "Error: Couldn't login\n"; wait; return 1 }
-		"Password:"     { send "$enapasswd\r" }
+		"\[Pp]assword:" { send "$enapasswd\r" }
 		"$prompt"	{ set in_proc 0; return 0 }
 	    }
 	    exp_continue
@@ -361,7 +361,7 @@ proc do_enable { enauser enapasswd } {
     send "enable\r"
     expect {
 	"Username:"	{ send "$enauser\r"; exp_continue}
-	"Password:"	{ send "$enapasswd\r"; exp_continue}
+	"\[Pp]assword:"	{ send "$enapasswd\r"; exp_continue}
 	"#"		{ }
 	denied		{ send_user "Error: Check your Enable passwd\n"; return 1}
 	"% Bad passwords" { send_user "Error: Check your Enable passwd\n"

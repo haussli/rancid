@@ -230,7 +230,7 @@ sub ShowStack {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(-1) if (/command authorization failed/i);
-	return(-1) if /^(Invalid|Ambiguous) input:/i;
+	return(1) if /^(Invalid|Ambiguous) input:/i;
 
 	s/stacking - (Stacking Status).*/$1/i;
 	s/\s*members unreachable .*$//i;

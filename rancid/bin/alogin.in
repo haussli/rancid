@@ -353,13 +353,7 @@ proc login { router user userpswd passwd prompt cmethod cyphertype } {
 				  catch {close}; wait; return 1 }
 	-re "$prompt"	{ break; }
 	denied		{ send_user "Error: Check your passwd for $router\n"
-			    if { $do_command || $do_script } {
-			      send "exit\r"
-			      wait
-			      return 1
-			  } else {
-			      return 1
-			  }
+			  catch {close}; wait; return 1
 			}
 	"\r\n"		{ exp_continue; }
     }

@@ -375,13 +375,7 @@ proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype } {
             send_user "\nError: The host key for $router has changed.  Update the SSH known_hosts file accordingly.\n"
             return 1 }
 	denied		{ send_user "\nError: Check your passwd for $router\n" 
-	                  if { $do_command || $do_script } {	
-			      send "quit"
-			      wait
-			      return 1
-			  } else {
-			      return 1
-			  }
+	                  catch {close}; wait; return 1
 	                }
 	"% Bad passwords" {send_user "\nError: Check your passwd for $router\n"; return 1 }
 	-re "(Username:|login:|Name  :)"	{

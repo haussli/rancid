@@ -23,10 +23,13 @@ with perl5 and/or are converted with h2ph(1).
 basic installation instructions:
 
 The configure and make install process will make variable substitutions
-and install bits in /usr/local/rancid/etc/lg.conf and
-/usr/local/rancid/util/lg (or <prefix>/etc/lg.conf <prefix>/util/lg).  
+and install the looking glass bits.  Assuming configure was run without
+directory options, such as --prefix, the default install prefix is
+/usr/local/rancid.  So, the bits will be installed in
+/usr/local/rancid/etc/lg.conf, /usr/local/rancid/bin, and
+/usr/local/rancid/share/rancid (i.e.: <prefix>/etc/lg.conf, etc.).
 
-1) Make the scripts/html available to your server (httpd) by
+1) Make the scripts and html files available to your server (httpd) by
    creating a directory in your server's document root directory
    (apache's httpd.conf "DocumentRoot" variable).  For example:
 
@@ -54,16 +57,17 @@ and install bits in /usr/local/rancid/etc/lg.conf and
 	DirectoryIndex lgform.cgi
 
 2) The looking glass scripts need to be able to find and read lg.conf.  By
-   default it is installed as <PREFIX>/etc/lg.conf and the scripts will first
-   look in their CWD (Current Working Directory) and then <PREFIX>/etc/lg.conf,
-   if it does not exist in the CWD.  However, the LG_CONF environment variable
-   can be used to move it elsewhere.
+   default it is installed as <SYSCONFDIR>/lg.conf (<PREFIX>/etc/lg.conf)
+   and the scripts will first look in their CWD (Current Working Directory)
+   and then <SYSCONFDIR>/lg.conf, if it does not exist in the CWD.  However,
+   the LG_CONF environment variable can be used to move it elsewhere.
 
    To get LG_CONF into the CGI enviroment, you can use SetEnvIf in apache's
    httpd.conf.  For example:
 	SetEnvIf Request_URI "\/lg/.*.cgi" LG_CONF=/usr/local/htdocs/lg/lg.conf
 
-3) Edit <sysconfigdir>/lg.conf (usually <PREFIX>/etc/lg.conf).
+3) Edit <SYSCONFIGDIR>/lg.conf (usually <PREFIX>/etc/lg.conf).  See lg.conf(5)
+   for additional information.
 
 4) Set-up cron jobs to rotate the log file and clean out old cache files.
    See LG_CACHE_DIR & LG_LOG in lg.conf.  Something like (YMMV):
@@ -73,4 +77,3 @@ and install bits in /usr/local/rancid/etc/lg.conf and
 	0 0 * * * cd /usr/local/htdocs/lg/tmp; /bin/mv lg.log lg.log.0
 	# clean out the lookingglass cache
 	0 0 * * * cd /usr/local/htdocs/lg/tmp; /usr/local/bin/find . -type f -maxdepth 1 \( \! -name lg.log\* \) -mtime +1 -exec rm -f {} \;
-

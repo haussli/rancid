@@ -172,9 +172,10 @@ do
 	IFS=$OFS
 	router=$1; mfg=$2
 
-	if [ ! -f $router.new ]
+	if [ ! -s $router.new ]
 	then
 	    echo "$router:$mfg" >> $DIR/routers.up.missed
+	    rm -f $router.new
 	fi
     done
 
@@ -190,6 +191,15 @@ do
     fi
 done
 echo
+
+# Make sure that all of the new configs are not empty.
+for config in *.new
+do
+    if [ ! -s $config ]
+    then
+	rm -f $config
+    fi
+done
 
 # Now that we have the new configs, rename them to their proper
 # name.

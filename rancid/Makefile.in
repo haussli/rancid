@@ -72,6 +72,7 @@ PACKAGE = @PACKAGE@
 PERLV_PATH = @PERLV_PATH@
 RD_BIN_DATAS = @RD_BIN_DATAS@
 RD_BIN_PROGS = @RD_BIN_PROGS@
+RD_UTIL_LG_PROGS = @RD_UTIL_LG_PROGS@
 RD_UTIL_PROGS = @RD_UTIL_PROGS@
 SENDMAIL = @SENDMAIL@
 SORT = @SORT@
@@ -340,7 +341,7 @@ mostlyclean distclean maintainer-clean
 all:
 
 install-exec-local:
-	$(mkinstalldirs) $(prefix) $(prefix)/bin $(prefix)/util
+	$(mkinstalldirs) $(prefix) $(prefix)/bin $(prefix)/util $(prefix)/util/lg
 
 install:
 	for file in CHANGES README cloginrc.sample ; do \

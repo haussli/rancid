@@ -317,14 +317,14 @@ proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype } {
 		send_user "\nError: Connection Refused ($prog)\n"; return 1
 	    }
 	} eof { send_user "Error: Couldn't login\n"; wait; return 1
-	} "Unknown host\r\n" {
-	    expect eof
+	} -nocase "unknown host\r" {
+	    catch {close};
 	    send_user "Error: Unknown host\n"; wait; return 1
 	} "Host is unreachable" {
-	    expect eof
+	    catch {close};
 	    send_user "Error: Host Unreachable!\n"; wait; return 1
 	} "No address associated with name" {
-	    expect eof
+	    catch {close};
 	    send_user "Error: Unknown host\n"; wait; return 1
 	}
 	-re "Host key not found .* \(yes\/no\)\?" {

@@ -1,4 +1,6 @@
 2.0
+	Better support the cisco 3500 switches.
+
 	Get some info out of "show version" for the cat5ks.
 	cat5k "show boot" does variables, not bootflash.
 	Skip more goo from 'write term' on some cat5ks.

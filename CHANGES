@@ -1,5 +1,8 @@
 	bin/par changes - add -p, -f, and -e options
 2.3
+	rancid: GSR LC PCA h/w revision now called "design release" on
+	some platforms
+
 	add util/getipacctg example script - contrib from steve neighorn
 
 2.2.1

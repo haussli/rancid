@@ -671,9 +671,9 @@ sub ShowDiag {
 	if (/^\s+PCA:\s+(.*)/) {
 	    local($part) = $1;
 	    $_ = <INPUT>;
-	    /^\s+HW version (\S+)\s+S\/N (\S+)/ &&
-		ProcessHistory("SLOT","keysort","C1","!Slot $slot/PCA: part $part, serial $2\n") &&
-		ProcessHistory("SLOT","keysort","C2","!Slot $slot/PCA: hvers $1\n");
+	    /^\s+(HW version|design release) (\S+)\s+S\/N (\S+)/i &&
+		ProcessHistory("SLOT","keysort","C1","!Slot $slot/PCA: part $part, serial $3\n") &&
+		ProcessHistory("SLOT","keysort","C2","!Slot $slot/PCA: hvers $2\n");
 	    next;
 	}
 	if (/^\s+MBUS: .*\)\s+(.*)/) {

@@ -8,7 +8,7 @@ A. A catalyst running IOS is type "cisco".  see the router.db(5) manual page.
 
 Q. I have a Cisco ??? on which collection stopped working, but clogin works
    as expected.
-A. Check if 'write term' produces output.  Some IOS combinated with large
+A. Check if 'write term' produces output.  Some IOS combined with large
    configs and low free memory produce zero 'write term' output.  The device
    will have to be rebooted.
 

@@ -1,4 +1,6 @@
 2.1
+	collect 'sh vlan' on cat 6000 - afort@staff.webcentral.com.au
+
 	Add 'show vtp status' for the 3500XLs as well.
 
 	Escape regex meta-chars found in device prompts in *rancid

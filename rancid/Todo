@@ -1,3 +1,4 @@
+- configure should look for xterm for the sake of par?
 - should par's -c override an input files' : cmd?
 - *login should emmit "clogin error:" or "*login error:" to make matches for
   login failures definitive?

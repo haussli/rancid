@@ -4,9 +4,12 @@
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS=foreign
 
+@SET_MAKE@
+
 noinst_HEADERS= config.h version.h
 
-@SET_MAKE@
+# no idea why automake doesnt clean these targets
+CLEANFILES= stamp-h stamp-h1
 
 all:
 

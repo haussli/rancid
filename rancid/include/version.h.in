@@ -1,0 +1,8 @@
+#ifndef VERSION_H
+
+#define VERSION_H
+
+/* pkg version */
+char version[] = "2.2b9";
+
+#endif

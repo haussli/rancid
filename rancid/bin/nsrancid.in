@@ -143,7 +143,7 @@ sub sortbyipaddr {
 sub ShowConfig {
     print STDERR "    In ShowConfig: $_" if ($debug);
 
-    LOOP:while (<INPUT>) {
+    while (<INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -159,12 +159,28 @@ sub ShowConfig {
 	return(1) if /(invalid command name)/;
 	ProcessHistory("","","","$_");
     }
-    # ProcessHistory("","","","!$_");
-    if (/exit$/) {
 
+    if (/exit$/) {
         $found_end = 1;
         $clean_run = 1;
         return(1);
+    }
+    return(0);
+}
+
+# This routine parses "get log setting"
+sub GetLogSet {
+    print STDERR "    In GetLogSet: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^Reading configuration information/);
+	next if (/^Can\'t find object or class named \"\-all\"\s*$/);
+	return(1) if /(invalid command name)/;
+
+	ProcessHistory("","","","$_");
     }
     return(0);
 }
@@ -188,12 +204,13 @@ sub DoNothing {print STDOUT;}
 #--------------------------------------------------
 %commands=(
 	'cat /etc/ns.conf'	=> "ShowConfig",
-
+	'get log setting'	=> "GetLogSet"
 );
 # keys() doesnt return things in the order entered and the order of the
 # cmds is important (show version first and write term last). pita
 @commands=(
 	"cat /etc/ns.conf",
+	"get log setting"
 );
 $cisco_cmds=join(";",@commands);
 $cmds_regexp=join("|",@commands);

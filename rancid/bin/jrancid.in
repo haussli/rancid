@@ -147,6 +147,7 @@ sub ShowChassisClocks {
     while (<INPUT>) {
 	tr/\015//d;
 	last if(/^$prompt/);
+	next if(/^\{(master|backup)}/);
 
 	/error: the chassis subsystem is not running/ && return;
 	/Couldn\'t initiate connection/ && return;
@@ -171,6 +172,7 @@ sub ShowChassisEnvironment {
     while (<INPUT>) {
 	tr/\015//d;
 	last if(/^$prompt/);
+	next if(/^\{(master|backup)}/);
 
 	/error: the chassis subsystem is not running/ && return;
 	/Couldn\'t initiate connection/ && return;
@@ -199,6 +201,7 @@ sub ShowChassisFirmware {
     while (<INPUT>) {
 	tr/\015//d;
 	last if(/^$prompt/);
+	next if(/^\{(master|backup)}/);
 
 	/error: the chassis subsystem is not running/ && return;
 	/Couldn\'t initiate connection/ && return;
@@ -220,6 +223,7 @@ sub ShowChassisFpcDetail {
     while (<INPUT>) {
 	tr/\015//d;
 	last if(/^$prompt/);
+	next if(/^\{(master|backup)}/);
 
 	/error: the chassis subsystem is not running/ && return;
 	/Couldn\'t initiate connection/ && return;
@@ -244,6 +248,7 @@ sub ShowChassisHardware {
     while (<INPUT>) {
 	tr/\015//d;
 	last if(/^$prompt/);
+	next if(/^\{(master|backup)}/);
 
 	/error: the chassis subsystem is not running/ && return;
 	/Couldn\'t initiate connection/ && return;
@@ -266,6 +271,7 @@ sub ShowChassisRoutingEngine {
     while (<INPUT>) {
 	tr/\015//d;
 	last if(/^$prompt/);
+	next if(/^\{(master|backup)}/);
 
 	/error: the chassis subsystem is not running/ && return;
 	/Couldn\'t initiate connection/ && return;
@@ -295,6 +301,7 @@ sub ShowChassisSCB {
     while (<INPUT>) {
 	tr/\015//d;
 	last if(/^$prompt/);
+	next if(/^\{(master|backup)}/);
 
 	return if ($ShowChassisSCB);
 	/error: the chassis subsystem is not running/ && return;
@@ -324,6 +331,7 @@ sub ShowSystemBootMessages {
     while (<INPUT>) {
 	tr/\015//d;
 	last if(/^$prompt/);
+	next if(/^\{(master|backup)}/);
 
 	/Unrecognized command/ && return;
 	/^\s+\^/ && return;
@@ -347,6 +355,7 @@ sub ShowVersion {
     while (<INPUT>) {
 	tr/\015//d;
 	last if(/^$prompt/);
+	next if(/^\{(master|backup)}/);
 
 	/^Juniper Networks is:/ && ProcessHistory("","","","# \n# $_") && next;
 	ProcessHistory("","","","# $_");
@@ -371,6 +380,7 @@ sub ShowConfiguration {
 	    $found_end++;
 	    last;
 	}
+	next if(/^\{(master|backup)}/);
 	$lines++;
 
 	/^database header mismatch: / && return(-1);

@@ -1,4 +1,6 @@
 2.3.eft
+	jrancid: skip master/backup re msgs
+
 	*rancid: escape regex chars found in prompt
 
 	xrancid: also collect 'show configuration detail'

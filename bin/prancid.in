@@ -262,6 +262,8 @@ sub WriteTerm {
 #	if (/^(ip ftp password) / && $filter_pwds >= 1) {
 #	    ProcessHistory("","","","!$1 <removed>\n"); next;
 #	}
+
+	# prune ospf keys
 	if (/^( ip ospf authentication-key) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
@@ -269,14 +271,10 @@ sub WriteTerm {
 	if (/^( ip ospf message-digest-key \d+ md5) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
+
 #	if (/^((crypto )?isakmp key) \S+ / && $filter_pwds >= 1) {
 #	    ProcessHistory("","","","!$1 <removed> $'"); next;
 #	}
-#	# i am told these are plain-text on the PIX
-#	if (/^(vpdn username \S+ password)/ && $filter_pwds >= 1) {
-#	    ProcessHistory("","","","!$1 <removed>\n"); next;
-#	}
-#	/fair-queue individual-limit/ && next;
 
 	# sort ip explicit-paths.
 	if (/^ip explicit-path name (\S+)/) {

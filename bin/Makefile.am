@@ -17,9 +17,15 @@
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS=foreign
 
-PREFIX = @prefix@
+# PREFIX = @prefix@
 
 bin_PROGRAMS = hpfilter
+bin_SCRIPTS = cat5rancid control_rancid \
+	alogin arancid clogin create_cvs blogin brancid do-diffs elogin \
+	erancid f10rancid flogin francid jlogin jrancid hlogin hrancid \
+	mrancid nlogin nrancid nslogin nsrancid par rancid-fe rancid rename \
+	rrancid tntlogin tntrancid xrancid
+
 hpfilter_SOURCES = hpfilter.c
 
 #CPPFLAGS += @PG_CPPFLAGS@
@@ -35,35 +41,19 @@ YFLAGS = -d
 # no idea why automake doesnt clean these targets
 #CLEANFILES= y.tab.c y.tab.h lex.yy.c conf.h conf.c conflex.c
 
-BIN_PROGS=@RD_BIN_PROGS@
-BIN_DATAS=@RD_BIN_DATAS@
-
-install: all
-	for prog in $(BIN_PROGS) ; do \
-	    $(INSTALL) $$prog $(bindir); \
-	done; \
+install-data-local: all
 	if test -f $(bindir)/env ; then \
+	    echo ""; \
 	    echo "WARNING: *** $(bindir)/env exists: installing as env.new."; \
 	    echo "         *** review env.new for new/deprecated switches"; \
+	    echo ""; \
 	    $(INSTALL_DATA) env $(bindir)/env.new; \
 	else \
 	    $(INSTALL_DATA) env $(bindir); \
 	fi
-# BIN_DATAS are empty at the moment.
-#       for prog in $(BIN_DATAS) ; do \
-#           $(INSTALL_DATA) $$prog $(PREFIX)/bin; \
-#       done;
 
 #clean:
 #	rm -f Makefile env $(BIN_DATAS) $(BIN_PROGS)
 
 #distclean: clean
 #	rm -f config.log config.status
-
-#distdir:
-#	for file in Makefile.in configure.in env.in $(BIN_DATAS:=.in) ; do \
-#	    $(INSTALL_DATA) $$file $(distdir); \
-#	done
-#	for file in configure $(BIN_PROGS:=.in) ; do \
-#	    $(INSTALL) $$file $(distdir); \
-#	done

@@ -96,8 +96,6 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 PERLV = @PERLV@
 PERLV_PATH = @PERLV_PATH@
 PING_PATH = @PING_PATH@
-RD_BIN_DATAS = @RD_BIN_DATAS@
-RD_BIN_PROGS = @RD_BIN_PROGS@
 RD_UTIL_LG_PROGS = @RD_UTIL_LG_PROGS@
 RD_UTIL_PROGS = @RD_UTIL_PROGS@
 RSH = @RSH@
@@ -142,19 +140,19 @@ target_alias = @target_alias@
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS = foreign
 
-PREFIX = @prefix@
 
+# PREFIX = @prefix@
 bin_PROGRAMS = hpfilter
+bin_SCRIPTS = cat5rancid control_rancid \
+	alogin arancid clogin create_cvs blogin brancid do-diffs elogin \
+	erancid f10rancid flogin francid jlogin jrancid hlogin hrancid \
+	mrancid nlogin nrancid nslogin nsrancid par rancid-fe rancid rename \
+	rrancid tntlogin tntrancid xrancid
+
+
 hpfilter_SOURCES = hpfilter.c
 
 YFLAGS = -d
-
-#LFLAGS = -i
-
-# no idea why automake doesnt clean these targets
-#CLEANFILES= y.tab.c y.tab.h lex.yy.c conf.h conf.c conflex.c
-BIN_PROGS = @RD_BIN_PROGS@
-BIN_DATAS = @RD_BIN_DATAS@
 subdir = bin
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
@@ -171,6 +169,8 @@ hpfilter_OBJECTS = $(am_hpfilter_OBJECTS)
 hpfilter_LDADD = $(LDADD)
 hpfilter_DEPENDENCIES =
 hpfilter_LDFLAGS =
+SCRIPTS = $(bin_SCRIPTS)
+
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/include
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -290,6 +290,26 @@ clean-binPROGRAMS:
 hpfilter$(EXEEXT): $(hpfilter_OBJECTS) $(hpfilter_DEPENDENCIES) 
 	@rm -f hpfilter$(EXEEXT)
 	$(LINK) $(hpfilter_LDFLAGS) $(hpfilter_OBJECTS) $(hpfilter_LDADD) $(LIBS)
+binSCRIPT_INSTALL = $(INSTALL_SCRIPT)
+install-binSCRIPTS: $(bin_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@list='$(bin_SCRIPTS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f $$d$$p; then \
+	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	    echo " $(binSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(bindir)/$$f"; \
+	    $(binSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(bindir)/$$f; \
+	  else :; fi; \
+	done
+
+uninstall-binSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(bin_SCRIPTS)'; for p in $$list; do \
+	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
+	  rm -f $(DESTDIR)$(bindir)/$$f; \
+	done
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -412,10 +432,12 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS)
+all-am: Makefile $(PROGRAMS) $(SCRIPTS)
 
 installdirs:
-	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(bindir)
+
+install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
 uninstall: uninstall-am
@@ -456,9 +478,9 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-data-local
 
-install-exec-am: install-binPROGRAMS
+install-exec-am: install-binPROGRAMS install-binSCRIPTS
 
 install-info: install-info-am
 
@@ -482,49 +504,43 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS uninstall-info-am
+uninstall-am: uninstall-binPROGRAMS uninstall-binSCRIPTS \
+	uninstall-info-am
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-binPROGRAMS \
 	clean-generic ctags distclean distclean-compile \
 	distclean-depend distclean-generic distclean-tags distdir dvi \
 	dvi-am info info-am install install-am install-binPROGRAMS \
-	install-data install-data-am install-exec install-exec-am \
-	install-info install-info-am install-man install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
+	install-binSCRIPTS install-data install-data-am \
+	install-data-local install-exec install-exec-am install-info \
+	install-info-am install-man install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
-	uninstall-am uninstall-binPROGRAMS uninstall-info-am
+	uninstall-am uninstall-binPROGRAMS uninstall-binSCRIPTS \
+	uninstall-info-am
 
+#LFLAGS = -i
 
-install: all
-	for prog in $(BIN_PROGS) ; do \
-	    $(INSTALL) $$prog $(bindir); \
-	done; \
+# no idea why automake doesnt clean these targets
+#CLEANFILES= y.tab.c y.tab.h lex.yy.c conf.h conf.c conflex.c
+
+install-data-local: all
 	if test -f $(bindir)/env ; then \
+	    echo ""; \
 	    echo "WARNING: *** $(bindir)/env exists: installing as env.new."; \
 	    echo "         *** review env.new for new/deprecated switches"; \
+	    echo ""; \
 	    $(INSTALL_DATA) env $(bindir)/env.new; \
 	else \
 	    $(INSTALL_DATA) env $(bindir); \
 	fi
-# BIN_DATAS are empty at the moment.
-#       for prog in $(BIN_DATAS) ; do \
-#           $(INSTALL_DATA) $$prog $(PREFIX)/bin; \
-#       done;
 
 #clean:
 #	rm -f Makefile env $(BIN_DATAS) $(BIN_PROGS)
 
 #distclean: clean
 #	rm -f config.log config.status
-
-#distdir:
-#	for file in Makefile.in configure.in env.in $(BIN_DATAS:=.in) ; do \
-#	    $(INSTALL_DATA) $$file $(distdir); \
-#	done
-#	for file in configure $(BIN_PROGS:=.in) ; do \
-#	    $(INSTALL) $$file $(distdir); \
-#	done
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

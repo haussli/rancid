@@ -42,9 +42,10 @@ include {<file>}
 .PP
 As
 .B .cloginrc
-is searched for a directive for a hostname, it is always the first instance
-of a directive, whose hostname glob expression matches the hostname, that
-is used.  For example; looking up the password for hostname foo in a
+is searched for a directive matching a hostname, it is always the first
+matching instance of a directive, one whose hostname glob expression matches
+the hostname, which is used.  For example; looking up the "password"
+directive for hostname foo in a
 .B .cloginrc
 file containing
 .sp

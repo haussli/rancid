@@ -36,8 +36,13 @@ if [ $# -ge 1 ] ; then
 	--)
 	    shift; break;
 	    ;;
+	-h)
+	    echo "usage: $0 [-r device_name] [group [group ...]]" >&2
+	    exit
+	    ;;
 	-*)
 	    echo "unknown option: $1" >&2
+	    echo "usage: $0 [-r device_name] [group [group ...]]" >&2
 	    exit 1
 	    ;;
 	*)

@@ -625,6 +625,7 @@ sub WriteTerm {
     /^\s*neighbor (\S*) password / &&
 	ProcessHistory("","","","! neighbor $1 password <removed>\n") &&
 	    return;
+    /fair-queue individual-limit/ && return;
     # filter out any RCS/CVS tags to avoid confusing local CVS storage
     s/\$(Revision|Id):/ $1:/;
     # order access-lists

@@ -206,6 +206,16 @@ sub ShowActive {
 	# filter out any RCS/CVS tags to avoid confusing local CVS storage
 	s/\$(Revision|Id):/ $1:/;
 
+	if (/^(.*hashed-password \S+)/ && $filter_pwds == 2) {
+	    ProcessHistory("","","","! $1 <removed>\n");
+	    next;
+	}
+
+	if (/^(snmp set community )\S+/ && defined($ENV{'NOCOMMSTR'})) {
+	    ProcessHistory("","","","! $1<removed>$'");
+	    next;
+	}
+
 	ProcessHistory("","","","$_");
     }
     return;

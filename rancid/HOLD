@@ -21,3 +21,5 @@ track.
 - README.lg needs cleansing
 - this doesnt make sense: lg.conf.5.in:Default: @prefix@/.cloginrc
 - man/rancid.db.5 needs BASEDIR fixing
+
+- share/downreport.in needs full expansion

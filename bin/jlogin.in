@@ -23,9 +23,9 @@
 #
 
 # Usage line
-set usage "Usage: $argv0 \[-e encryption_type\] \[-u username\] \[-p user-password\]\
-\[-f cloginrc-file\] \[-c command\] \[-s script-file\] \[-x passphrase\]\
-router \[router...\]\n"
+set usage "Usage: $argv0 \[-c command\] \[-e encryption_type\] \
+\[-f cloginrc-file\] \[-p user-password\] \[-s script-file\] \
+\[-u username\] \[-t timeout\] \[-x passphrase\] router \[router...\]\n"
 
 # env(CLOGIN) may contain the following chars:
 #	x == do not set xterm banner or name
@@ -103,6 +103,13 @@ for {set i 0} {$i < $argc} {incr i} {
 		exit 1
 	    }
 	    set do_script 1
+	# Timeout
+	} -t* -
+	-T* {
+	    if {! [ regexp .\[tT\](.+) $arg ignore timeout]} {
+		incr i
+		set timeout [ lindex $argv $i ]
+	    }
 	# encryption type
 	} -e* -
 	-E* {
@@ -185,18 +192,23 @@ proc find {var router} {
 # that a "bad guy" could just as easy put such code in the clogin
 # script, so I will leave .cloginrc as just an extention of that script
 proc source_password_file { } {
-  global env password_file read_password_file
-  if { [info exists read_password_file] } { return }
-  if { [info exists password_file] == 0 } {
+    global env password_file read_password_file
+    if { [info exists read_password_file] } { return }
+    if { [info exists password_file] == 0 } {
 	set password_file $env(HOME)/.cloginrc
-  }
-  set read_password_file 1
-  file stat $password_file fileinfo
-  if { [expr ($fileinfo(mode) & 007)] != 0000 } {
-      send_user "Error: $password_file must not be world readable/writable\n"
-      exit 1
-  }
-  source $password_file
+    }
+    if { ! [file exists $password_file] } {
+	send_user "Error: password file ($password_file) does not exist\n"
+	exit 1
+    }
+
+    set read_password_file 1
+    file stat $password_file fileinfo
+    if { [expr ($fileinfo(mode) & 007)] != 0000 } {
+	send_user "Error: $password_file must not be world readable/writable\n"
+	exit 1
+    }
+    source $password_file
 }
 
 # Log into the router.

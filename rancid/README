@@ -99,8 +99,10 @@ Quick Installation Guide (an example):
 	./configure --prefix=/home/rancid
 
    Rancid uses autoconf's "localstatedir" as the location of it's logs,
-   CVS respository, and directories where it's groups are placed.  By default,
-   this is <prefix>/var, or /home/rancid/var following the example above.
+   CVS respository, and directories where it's groups are placed.  The user
+   who will run rancid (from cron, etc) will need write access to these
+   directories.  By default, this is <prefix>/var, or /home/rancid/var
+   following the example above.
 
    We realize that this is not optimal, but it follows the standards.  We
    suggest that this be altered to include the package name, like so:

@@ -42,7 +42,8 @@ File and directory movement:
 
 For those upgrading, there is one basic choice to make; to move your CVS
 repository and logs or not.  Prior to rancid 2.3, these were placed in
-<PREFIX>.  They are now in "localstatedir".
+<PREFIX>.  They are now in "localstatedir".  The user who runs rancid will
+need write access to this directory.
 
 To maintain the same location as was used prior to rancid 2.3, provide
 the --localstatedir option to configure.  e.g.:

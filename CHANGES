@@ -7,6 +7,7 @@
 	that non-fqdn hosts are allowed.  ie: just check that arg chars are
 	valid dns chars and leave the resolve errors to the router.
 
+	Add initial support for Force10.
 
 2.2
 	rancid: filter vpdn passwords on PIX - from eric greenwood

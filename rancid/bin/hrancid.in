@@ -226,7 +226,12 @@ sub ShowStack {
 	return(-1) if (/command authorization failed/i);
 	return(-1) if /^(Invalid|Ambiguous) input:/i;
 
+	s/stacking - (Stacking Status).*/$1/i;
+	s/\s*members unreachable .*$//i;
+
 	ProcessHistory("COMMENTS","keysort","F0",";$_");
+
+	/auto grab/i && last;
     }
     return(0);
 }
@@ -258,8 +263,8 @@ sub WriteTerm {
 
 	# no so sure this match is correct.  show running doesnt seem to
 	# actually o/p anything after "password (manager|operator)"
-	/^\s*password (manager |operator )?/ &&
-	    ProcessHistory("LINE-PASS","","","; password $1<removed>\n") &&
+	/^\s*password (manager|operator)?/ &&
+	    ProcessHistory("LINE-PASS","","",";password $1 <removed>\n") &&
 	    next;
 
 	if (/^(snmp-server community) (\S+)/) {

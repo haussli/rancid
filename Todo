@@ -1,3 +1,5 @@
+- would like to have a "pre-login-sequence" cloginrc directive, see
+  rancid-disuss message from mike ethridge 16/may
 - would like to have a "timeout" cloginrc directive
 - would like to have a ssh "passphrase" cloginrc directive
 - would like to have a "login_option" cloginrc directive to specify arbitrary

@@ -7,7 +7,6 @@ brancid
 cat5rancid
 clogin
 cloginrc
-config.*
 control_rancid
 create_cvs
 do-diffs

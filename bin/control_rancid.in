@@ -125,7 +125,7 @@ mv $DIR/routers.up.new $DIR/routers.up
 
 # cvs delete configs for routers not listed in routers.up.
 cd $DIR/configs
-for router in `find \( -name \*.new -prune -o -name CVS -prune \) -o -type f -print | sed -e 's/^.\///'` ; do
+for router in `find . \( -name \*.new -prune -o -name CVS -prune \) -o -type f -print | sed -e 's/^.\///'` ; do
     grep "$router:" ../router.db > /dev/null 2>&1
     if [ $? -eq 1 ]; then
 	rm -f $router

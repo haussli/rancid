@@ -734,7 +734,7 @@ sub WriteTerm {
 	    ProcessHistory("SNMPSERVERCOMM","keysort","$_","$_") && next;
 	# order tacacs server statements
 	/^(tacacs-server key )/ &&
-	    ProcessHistory("","","","! $1<removed>\n") && next;
+	    ProcessHistory("","","","!$1<removed>\n") && next;
 	/^tacacs-server host (\d+\.\d+\.\d+\.\d+)/ &&
 	    ProcessHistory("TAC","ipsort","$1","$_") && next;
 	# order clns host statements

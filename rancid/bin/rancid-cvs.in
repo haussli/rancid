@@ -23,13 +23,14 @@
 #
 
 # Read in the environment
-ENVFILE="`dirname $0`/../etc/rancid.conf"
+ENVFILE="@sysconfdir@/rancid.conf"
 
 . $ENVFILE
 
 # Base dir
 if [ ! -d $BASEDIR ]; then
-    mkdir -p $BASEDIR
+    mkdir -p $BASEDIR ||
+	(echo "Could not create local state directory: $BASEDIR"; exit 1)
 fi
 
 cd $BASEDIR

@@ -1,4 +1,8 @@
 1.5
+	Skip the kernel version and fsck output of "show system
+	boot-messages" - fsck output changes every time you boot
+	and the version is found elsewhere.
+
 	Delete the cisco ospf authentication and ftp passwords.
 
 	Get both (juniper) show chassis ssb and scb but only process

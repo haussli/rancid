@@ -1,4 +1,7 @@
 2.1
+	Tag each config file with its 'type'.  E.g.:
+		!RANCID-CONTENT-TYPE: cisco
+
 	fix from afort@staff.webcentral.com.au to lg.cgi to allow prefix-list
 	with numerals.
 

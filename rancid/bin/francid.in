@@ -325,6 +325,7 @@ if ($file) {
     }
 }
 
+ProcessHistory("","","","!RANCID-CONTENT-TYPE: foundry\n!\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
     if (/\#exit$/) {

@@ -34,6 +34,7 @@ use Sys::Syslog;
 use LockFile::Simple qw(lock trylock unlock);
 
 my($BASEDIR) = "@prefix@";
+my($SYSCONFDIR) = "@sysconfdir@";
 my($pingcmd) = "@LG_PING_CMD@";
 
 my($query, $max_time_diff, $cache_dir, $cloginrc, @results);
@@ -90,7 +91,7 @@ sub readconf
     } elsif (-e "lg.conf") {
 	$conffile = "lg.conf";
     } else {
-	$conffile = "$BASEDIR/etc/lg.conf";
+	$conffile = "$SYSCONFDIR/lg.conf";
     }
 
     if (! -f $conffile) {
@@ -122,7 +123,7 @@ sub readrouters
     if (defined($LG_ROUTERDB)) {
 	$rtrdb = $LG_ROUTERDB;
     } else {
-	$rtrdb = "$BASEDIR/etc/router.db";
+	$rtrdb = "$SYSCONFDIR/router.db";
     }
 
     if (! -f $rtrdb) {
@@ -134,7 +135,7 @@ sub readrouters
 	    dolog(LOG_ERR, "ERROR: couldn\'t read $BASEDIR: $!\n");
 	} else {
 	    while ($dir = readdir(DIR)) {
-		next if ($dir =~ /^(\.|\.\.|CVS|bin|logs|util)$/);
+		next if ($dir =~ /^(\.|\.\.|CVS|bin|etc|logs|util)$/);
 		push(@dirs, $dir) if (-d "$BASEDIR/$dir");
 	    }
 	    closedir(DIR);

@@ -24,6 +24,7 @@ use CGI qw/:standard/;
 
 my(@rtrlist, %rtrlabels);
 my($BASEDIR) = "@prefix@";
+my($SYSCONFDIR) = "@sysconfdir@";
 
 # note: the following functions are duplicated between lgform.cgi and lg.cgi
 # to avoid the need for module inclusion headaches from within a httpd context.
@@ -71,7 +72,7 @@ sub readconf
     } elsif (-e "lg.conf") {
 	$conffile = "lg.conf";
     } else {
-	$conffile = "$BASEDIR/etc/lg.conf";
+	$conffile = "$SYSCONFDIR/lg.conf";
     }
 
     if (! -f $conffile) {
@@ -103,7 +104,7 @@ sub readrouters
     if (defined($LG_ROUTERDB)) {
 	$rtrdb = $LG_ROUTERDB;
     } else {
-	$rtrdb = "$BASEDIR/etc/router.db";
+	$rtrdb = "$SYSCONFDIR/router.db";
     }
 
     if (! -f $rtrdb) {

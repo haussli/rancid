@@ -1,4 +1,8 @@
 2.3.1.eft
+	jrancid: filter some more secrets
+
+	rancid: filter some more secrets
+
 	francid: bits for Mucho Grande - from Niels Bakker
 
 	add -- before (telnet|ssh) in call to hpuifilter so that any options

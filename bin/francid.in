@@ -154,7 +154,7 @@ sub ShowVersion {
 	s/^\s*(HW|SW)/$1/;
 	s/^\s*(Compiled on)/SW: $1/;
 	#s/^(HW.*)/$1\n/;
-	if (/^SL (\d)/) {
+	if (/^SL (\d+)/) {
 	    $slot = "Slot $1";
 	    s/^SL \d+/$slot/;
 	}

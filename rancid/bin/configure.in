@@ -20,6 +20,9 @@ AC_SUBST(EXPECT_PATH)
 ENV_PATH=$ac_cv_env_path
 AC_SUBST(ENV_PATH)
 
+MAILPLUS=$rd_cv_MAILPLUS
+AC_SUBST(MAILPLUS)
+
 AC_OUTPUT(Makefile env $RD_BIN_DATAS $RD_BIN_PROGS)
 
 # fix permissions on scripts.

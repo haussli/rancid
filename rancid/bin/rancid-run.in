@@ -45,7 +45,7 @@ do
 rancid $GROUP hung on `hostname`?  Old lockfile still exists:
 `/bin/ls -l $LOCKFILE`
 END
-				) | Mail -s "rancid hung - $GROUP" rancid-admin-$GROUP
+				) | Mail -s "rancid hung - $GROUP" @MAILPLUS@admin-$GROUP
 			fi
 			rm -f $TMPDIR/.$GROUP.old
 

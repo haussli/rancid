@@ -39,14 +39,14 @@ then
     (
 	echo "$DIR does not exist."
 	echo "Run bin/create_cvs $GROUP to make all of the needed directories."
-    ) | Mail -s "no $GROUP directory" rancid-admin-$GROUP
+    ) | Mail -s "no $GROUP directory" @MAILPLUS@admin-$GROUP
     exit 1
 fi
 if [ ! -f $DIR/router.db ]
 then
     (
 	echo "$DIR/router.db does not exist."
-    ) | Mail -s "no $GROUP/router.db file" rancid-admin-$GROUP
+    ) | Mail -s "no $GROUP/router.db file" @MAILPLUS@admin-$GROUP
     exit 1;
 elif [ ! -s $DIR/router.db ]
 then
@@ -99,7 +99,7 @@ then
     ) > routers.mail
 
     if [ -s routers.mail ] ; then
-        Mail -s "changes in $GROUP routers" rancid-admin-$GROUP < routers.mail
+        Mail -s "changes in $GROUP routers" @MAILPLUS@admin-$GROUP < routers.mail
     fi
     rm -f routers.mail
 
@@ -229,7 +229,7 @@ cvs commit -m updates
 # Mail out the diffs (if there are any).
 if [ -s $TMP.diff ]; then
     sendmail -t <<EMAIL
-To: rancid-$GROUP
+To: @MAILPLUS@GROUP
 Subject: $GROUP router config diffs
 Precedence: bulk
 
@@ -255,7 +255,7 @@ than $OLDTIME hours.
 
 END
 		cat $DIR/routers.failed
-	) | Mail -s "config fetcher problems - $GROUP" rancid-admin-$GROUP
+	) | Mail -s "config fetcher problems - $GROUP" @MAILPLUS@admin-$GROUP
 fi
 
 # Cleanup

@@ -30,7 +30,9 @@
 - should par's -c override an input files' : cmd?
 - should *login emmit "clogin error:" or "*login error:" to make matches for
   login failures definitive?
-- would like hpfilter to be more friendly to interactive logins
+- would like hpuifilter to be more friendly to interactive logins
+- hpuifilter needs to allocate a pseudo terminal to work with ssh
+	Pseudo-terminal will not be allocated because stdin is not a terminal.
 - rancid with zebra via vtysh?
 - rancid for unix?
 - would be nice if it were possible to add additional commands to be run

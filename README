@@ -43,6 +43,7 @@ jlogin.in	Expect script that logs into juniper routers similarly to
 par.in		Parallel processing of commands - any commands.
 rename.in	Perl script to rename files.
 create_cvs.in	Creates all of the CVS and config directories.
+hpfilter.c	HP procurve login filter - see end of hlogin(1).
 man/		man pages
 util/		utilities / contribs
 util/lg		looking glass

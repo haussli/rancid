@@ -1,7 +1,4 @@
-	xrancid: do 'show diag' instead of 'show diagnostics' as the
-	longer version has sometimes timed out.
-
-2.3.rc1
+2.3
 	The following files have been moved to make rancid more
 	install/pkg/port/rpm friendly.
 		*** bin/env has been moved to etc/rancid.conf ***
@@ -13,6 +10,12 @@
 	Note: existing configuration files are *NOT* copied/moved for you
 
 	bin/rename is no longer shipped with rancid
+
+	jlogin: add cloginrc passphrase directive and order of precedence is
+	cmd-line -r value -> passphrase -> password
+
+	xrancid: do 'show diag' instead of 'show diagnostics' as the
+	longer version has sometimes timed out.
 
 	rancid: filter file vlan.dat from show flash on IOS switches
 

@@ -6,6 +6,8 @@ implemented.
 
 packing list:
 README          This file.
+index.html	often the default document the server will load, contains
+		an html redirect to load lgform.cgi
 lg.conf		looking glass configuration file
 lg.cgi          work horse of the looking glass
 lgform.cgi      front-end form for the looking glass engine

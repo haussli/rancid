@@ -214,6 +214,8 @@ sub WriteTerm {
 	s/^<-+ More -+>\s*//;
 
 	# Dog gone Cool matches to process the rest of the config
+	/^(# \S+ Configuration) generated/i &&
+	    ProcessHistory("","","","$1\n") && next;
 	/^(config bgp (neighbor|peer-group) \S+ password encrypted)/i &&
 	    ProcessHistory("","","","# $1 <removed>\n") &&
 	    next;

@@ -272,8 +272,6 @@ sub ShowGSR {
 
 # This routine parses "show boot"
 sub ShowBoot {
-    # Pick up boot variables if 7000/7200/7500/12000;
-    # otherwise pick up bootflash.
     print STDERR "    In ShowBoot: $_" if ($debug);
 
     while (<INPUT>) {
@@ -289,10 +287,12 @@ sub ShowBoot {
 	if (!defined($H0)) {
 	    $H0=1; ProcessHistory("COMMENTS","keysort","H0","!\n");
 	}
-	if ($type !~ /^(120|7)/) {
-	    ProcessHistory("COMMENTS","keysort","H2","!BootFlash: $_");
-	} elsif (/variable/) {
-	    ProcessHistory("COMMENTS","keysort","H1","!Variable: $_");
+	/^(\S+) variable (.*)$/ &&
+	    ProcessHistory("COMMENTS","keysort","H1","!Variable: $1 $2\n") &&
+	    next;
+	if (/^Configuration register is (.*)$/) {
+	    $config_register=$1;
+	    next;
 	}
     }
     ProcessHistory("COMMENTS","","","!\n");
@@ -700,6 +700,9 @@ sub WriteTerm {
 		last;
 	    }
 	    ProcessHistory("","","","!\n");
+	    if (defined($config_register)) {
+		ProcessHistory("","","","!\nconfig-register $config_register\n");
+	    }
 	    tr/\015//d;
 	}
 	# some versions have other crap mixed in with the bits in the

@@ -774,6 +774,8 @@ sub ShowVTP {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /^\s*\^\s*$/;
+	return(1) if /(Invalid input detected|Type help or )/;
 	return(1) if ($type !~ /^2900XL$/);
 	ProcessHistory("COMMENTS","keysort","I0","!VTP: $_");
     }

@@ -113,7 +113,7 @@ A. Our usual diagnostic procedure for this is:
      Should login to cisco_router, run show version and show diag, then
      disconnect and exit.  The output will be displayed on your terminal.
 
-   - The see if the correct rancid commands work against the router.  For
+   - Then see if the correct rancid commands work against the router.  For
      example:
 
         rancid cisco_router

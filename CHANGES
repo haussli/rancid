@@ -216,7 +216,7 @@
 
 	- adds a "-x" switch that takes lines from a file and does the same
 	thing as if you'd specified ;-separated commands with -c (newline
-	separates commands)
+	separates commands).  thanks to stephen stuart.
 
 	- does a subst on commands in run_commands so that expansion of
 	escapes is performed; e.g. you can say "copy rcp://blah slot0:\r" to

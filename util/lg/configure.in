@@ -18,6 +18,9 @@ AC_SUBST(PERLV_PATH)
 LG_PING_CMD=$rd_cv_lg_ping_cmd
 AC_SUBST(LG_PING_CMD)
 
+ENV_PATH=$ac_cv_env_path
+AC_SUBST(ENV_PATH)
+
 AC_OUTPUT(Makefile lg.conf $RD_UTIL_LG_PROGS)
 
 # fix permissions on scripts.

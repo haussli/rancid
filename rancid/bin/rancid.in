@@ -841,21 +841,21 @@ sub WriteTerm {
 	# snmp-server host a.b.c.d <community>
 	if (/^snmp-server host (\d+\.\d+\.\d+\.\d+) /) {
 	    if (defined($ENV{'NOCOMMSTR'})) {
-	    my($ip) = $1;
-	    my($line) = "snmp-server host $ip";
-	    my(@tokens) = split(' ', $');
-	    my($token);
-	    while ($token = shift(@tokens)) {
-		if ($token eq 'version') {
-		    $line .= " " . join(' ', ($token, shift(@tokens)));
-		} elsif ($token =~ /^(informs?|traps?|(no)?auth)$/) {
-		    $line .= " " . $token;
-		} else {
-		    $line .= " " . join(' ', ("<removed>", join(' ',@tokens)));
-		    last;
+		my($ip) = $1;
+		my($line) = "snmp-server host $ip";
+		my(@tokens) = split(' ', $');
+		my($token);
+		while ($token = shift(@tokens)) {
+		    if ($token eq 'version') {
+			$line .= " " . join(' ', ($token, shift(@tokens)));
+		    } elsif ($token =~ /^(informs?|traps?|(no)?auth)$/) {
+			$line .= " " . $token;
+		    } else {
+			$line = "! $line " . join(' ', ("<removed>", join(' ',@tokens)));
+			last;
+		    }
 		}
-	    }
-	    ProcessHistory("SNMPSERVERHOST","ipsort","$ip","$line\n");
+		ProcessHistory("SNMPSERVERHOST","ipsort","$ip","$line\n");
 	    } else {
 		ProcessHistory("SNMPSERVERHOST","ipsort","$1","$_");
 	    }
@@ -863,7 +863,7 @@ sub WriteTerm {
 	}
 	if (/^(snmp-server community) (\S+)/) {
 	    if (defined($ENV{'NOCOMMSTR'})) {
-		ProcessHistory("SNMPSERVERCOMM","keysort","$_","$1 <removed>$'") && next;
+		ProcessHistory("SNMPSERVERCOMM","keysort","$_","! $1 <removed>$'") && next;
 	    } else {
 		ProcessHistory("SNMPSERVERCOMM","keysort","$_","$_") && next;
 	    }

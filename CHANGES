@@ -1,4 +1,6 @@
 2.1
+	control_rancid cvs update's before starting group's collection
+
 	--enable-mail-plus opt patch from davidw@certaintysolutions.com
 
 	configure should figure out diff options on it's own

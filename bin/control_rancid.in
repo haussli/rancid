@@ -43,6 +43,20 @@ then
     ) | Mail -s "no $GROUP directory" @MAILPLUS@admin-$GROUP
     exit 1
 fi
+
+# do cvs update in case anyone has fiddled
+cd $DIR
+cvs update router.db configs > $TMP 2>&1
+grep ^C $TMP > /dev/null
+if [ $? -eq 0 ] ; then
+    echo "There were CVS conflicts during update."
+    echo ""
+    cat $TMP
+    rm -f $TMP
+    exit 1
+fi
+rm -f $TMP
+
 if [ ! -f $DIR/router.db ]
 then
     (

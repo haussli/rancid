@@ -286,6 +286,7 @@ if ($file) {
     }
 }
 
+ProcessHistory("","","","!RANCID-CONTENT-TYPE: redback\n!\n");
 ProcessHistory("COMMENTS","keysort","B0","!\n");
 ProcessHistory("COMMENTS","keysort","C0","!\n");
 ProcessHistory("COMMENTS","keysort","E0","!\n");

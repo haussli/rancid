@@ -443,6 +443,7 @@ if ($file) {
 
 }
 
+ProcessHistory("","","","# RANCID-CONTENT-TYPE: juniper\n#\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
     if (/^Error:/) {

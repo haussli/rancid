@@ -21,7 +21,7 @@ do
 
 		if [ -f $LOCKFILE ]
 		then
-			echo hourly cisco diffs failed: $LOCKFILE exists
+			echo hourly router diffs failed: $LOCKFILE exists
 			/bin/ls -l $LOCKFILE
 		else
 			/usr/bin/touch $LOCKFILE

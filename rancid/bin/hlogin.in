@@ -287,8 +287,8 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
     # try each of the connection methods in $cmethod until one is successful
     set progs [llength $cmethod]
     foreach prog [lrange $cmethod 0 end] {
+	regexp {(telnet|ssh)(:([^[:space:]]+))*} $prog command suffix junk port
 	if [string match "telnet*" $prog] {
-	    regexp {telnet(:([^[:space:]]+))*} $prog command suffix port
 	    if {"$port" == ""} {
 		set retval [ catch {spawn hpfilter telnet $router} reason ]
 	    } else {
@@ -298,8 +298,13 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 		send_user "\nError: telnet failed: $reason\n"
 		exit 1
 	    }
-	} elseif ![string compare $prog "ssh"] {
-	    if [ catch {spawn hpfilter ssh -c $cyphertype -x -l $user $router} reason ] {
+	} elseif [string match "ssh*" $prog] {
+	    if {"$port" == ""} {
+		set retval [ catch {spawn hpfilter ssh -c $cyphertype -x -l $user $router} reason ]
+	    } else {
+		set retval [ catch {spawn hpfilter ssh -c $cyphertype -p $port -x -l $user $router} reason ]
+	    }
+	    if { $retval } {
 		send_user "\nError: ssh failed: $reason\n"
 		exit 1
 	    }
@@ -353,14 +358,17 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	    if !$progs {
 		send_user "\nError: Connection Refused ($prog)\n"; return 1
 	    }
-	} eof { send_user "\nError: Couldn't login\n"; wait; return 1
-	} -nocase "unknown host\r" {
+	}
+	eof { send_user "\nError: Couldn't login\n"; wait; return 1 }
+	-nocase "unknown host\r" {
 	    catch {close};
 	    send_user "\nError: Unknown host\n"; wait; return 1
-	} "Host is unreachable" {
+	}
+	"Host is unreachable" {
 	    catch {close};
 	    send_user "\nError: Host Unreachable!\n"; wait; return 1
-	} "No address associated with name" {
+	}
+	"No address associated with name" {
 	    catch {close};
 	    send_user "\nError: Unknown host\n"; wait; return 1
 	}
@@ -635,6 +643,12 @@ foreach router [lrange $argv $i end] {
     # Figure out connection method
     set cmethod [find method $router]
     if { "$cmethod" == "" } { set cmethod {{telnet} {ssh}} }
+
+    # Adjust our path to find hpfilter
+    regexp {(.*)/[^/]+} $argv0 junk hpf_path
+    if { "$hpf_path" != "" && "$hpf_path" != "." } {
+	append env(PATH) ":$hpf_path"
+    }
 
     # Login to the router
     if {[login $router $ruser $userpswd $passwd $enapasswd $cmethod $cyphertype]} {

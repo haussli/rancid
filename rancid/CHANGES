@@ -1,4 +1,6 @@
 1.5
+	Try to detect hung rancid jobs & send email.
+
 	Add (partial) support for the cat5s.  Still need more work
 	on the show output, but it does grab the config.
 

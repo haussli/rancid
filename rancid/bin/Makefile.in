@@ -15,7 +15,7 @@
 @SET_MAKE@
 
 
-SOURCES = $(hpfilter_SOURCES)
+SOURCES = $(hpuifilter_SOURCES)
 
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
@@ -37,7 +37,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = hpfilter$(EXEEXT)
+bin_PROGRAMS = hpuifilter$(EXEEXT)
 subdir = bin
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/alogin.in $(srcdir)/arancid.in $(srcdir)/blogin.in \
@@ -72,21 +72,21 @@ CONFIG_CLEAN_FILES = control_rancid create_cvs do-diffs par rancid-fe \
 am__installdirs = $(DESTDIR)$(bindir) $(DESTDIR)$(bindir)
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
-am_hpfilter_OBJECTS = hpfilter.$(OBJEXT)
-hpfilter_OBJECTS = $(am_hpfilter_OBJECTS)
-hpfilter_LDADD = $(LDADD)
+am_hpuifilter_OBJECTS = hpuifilter.$(OBJEXT)
+hpuifilter_OBJECTS = $(am_hpuifilter_OBJECTS)
+hpuifilter_LDADD = $(LDADD)
 binSCRIPT_INSTALL = $(INSTALL_SCRIPT)
 SCRIPTS = $(bin_SCRIPTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/include
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/hpfilter.Po
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/hpuifilter.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(hpfilter_SOURCES)
-DIST_SOURCES = $(hpfilter_SOURCES)
+SOURCES = $(hpuifilter_SOURCES)
+DIST_SOURCES = $(hpuifilter_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -201,7 +201,7 @@ bin_SCRIPTS = cat5rancid control_rancid \
 	rancid-fe rancid rename rivlogin rivrancid rrancid tntlogin \
 	tntrancid xrancid zrancid
 
-hpfilter_SOURCES = hpfilter.c
+hpuifilter_SOURCES = hpuifilter.c
 YFLAGS = -d
 all: all-am
 
@@ -335,9 +335,9 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
-hpfilter$(EXEEXT): $(hpfilter_OBJECTS) $(hpfilter_DEPENDENCIES) 
-	@rm -f hpfilter$(EXEEXT)
-	$(LINK) $(hpfilter_LDFLAGS) $(hpfilter_OBJECTS) $(hpfilter_LDADD) $(LIBS)
+hpuifilter$(EXEEXT): $(hpuifilter_OBJECTS) $(hpuifilter_DEPENDENCIES) 
+	@rm -f hpuifilter$(EXEEXT)
+	$(LINK) $(hpuifilter_LDFLAGS) $(hpuifilter_OBJECTS) $(hpuifilter_LDADD) $(LIBS)
 install-binSCRIPTS: $(bin_SCRIPTS)
 	@$(NORMAL_INSTALL)
 	$(mkdir_p) $(DESTDIR)$(bindir)
@@ -364,7 +364,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hpfilter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hpuifilter.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \

@@ -295,9 +295,9 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	regexp {(telnet|ssh)(:([^[:space:]]+))*} $prog command suffix junk port
 	if [string match "telnet*" $prog] {
 	    if {"$port" == ""} {
-		set retval [ catch {spawn hpfilter telnet $router} reason ]
+		set retval [ catch {spawn hpuifilter telnet $router} reason ]
 	    } else {
-		set retval [ catch {spawn hpfilter telnet $router $port} reason ]
+		set retval [ catch {spawn hpuifilter telnet $router $port} reason ]
 	    }
 	    if { $retval } {
 		send_user "\nError: telnet failed: $reason\n"
@@ -305,16 +305,16 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	    }
 	} elseif [string match "ssh*" $prog] {
 	    if {"$port" == ""} {
-		set retval [ catch {spawn hpfilter ssh -c $cyphertype -x -l $user $router} reason ]
+		set retval [ catch {spawn hpuifilter ssh -c $cyphertype -x -l $user $router} reason ]
 	    } else {
-		set retval [ catch {spawn hpfilter ssh -c $cyphertype -p $port -x -l $user $router} reason ]
+		set retval [ catch {spawn hpuifilter ssh -c $cyphertype -p $port -x -l $user $router} reason ]
 	    }
 	    if { $retval } {
 		send_user "\nError: ssh failed: $reason\n"
 		exit 1
 	    }
 	} elseif ![string compare $prog "rsh"] {
-	    if [ catch {spawn hpfilter rsh -l $user $router} reason ] {
+	    if [ catch {spawn hpuifilter rsh -l $user $router} reason ] {
 		send_user "\nError: rsh failed: $reason\n"
 		exit 1
 	    }
@@ -649,7 +649,7 @@ foreach router [lrange $argv $i end] {
     set cmethod [find method $router]
     if { "$cmethod" == "" } { set cmethod {{telnet} {ssh}} }
 
-    # Adjust our path to find hpfilter
+    # Adjust our path to find hpuifilter
     regexp {(.*)/[^/]+} $argv0 junk hpf_path
     if { "$hpf_path" != "" && "$hpf_path" != "." } {
 	append env(PATH) ":$hpf_path"

@@ -241,7 +241,7 @@ The HP Procurve switch CLI relies heavily upon curses for cursor/screen
 manipulation and assumes a vt100 terminal type.  They do not provide a way
 to set a different terminal type or adjust this behavior.  The resulting
 escape codes make automating interaction with these devices very difficult
-or impossible.  Thus bin/hpfilter, which must be found in the PATH, is used
+or impossible.  Thus bin/hpuifilter, which must be found in the PATH, is used
 by hlogin to filter these.  While this works for rancid's collection,
 there are side effects for interactive logins via hlogin; most of which are
 formatting annoyances that may be remedied by typing CTRL-R to reprint the

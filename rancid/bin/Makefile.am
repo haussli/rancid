@@ -20,7 +20,7 @@
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS=foreign
 
-bin_PROGRAMS = hpfilter
+bin_PROGRAMS = hpuifilter
 bin_SCRIPTS = cat5rancid control_rancid \
 	alogin arancid clogin create_cvs blogin brancid do-diffs \
 	elogin erancid f10rancid flogin francid jlogin jrancid jerancid \
@@ -29,7 +29,7 @@ bin_SCRIPTS = cat5rancid control_rancid \
 	rancid-fe rancid rename rivlogin rivrancid rrancid tntlogin \
 	tntrancid xrancid zrancid
 
-hpfilter_SOURCES = hpfilter.c
+hpuifilter_SOURCES = hpuifilter.c
 
 #CPPFLAGS += @PG_CPPFLAGS@
 #INCLUDES += -I$(top_srcdir)/include @PG_CPPFLAGS@

@@ -64,6 +64,8 @@
 	logging file messages facility kernel level debugging
 	logging file log facility any level debugging
 	logging file log archive files 10 size 10m
+- should we add CVS ID header to saved configs?  configurable option? - idea
+  from andrew fort
 	logging file messages archive files 10 size 10m
   then, sort by facility,  eg:
 	logging file messages facility kernel level debugging

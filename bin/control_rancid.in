@@ -138,6 +138,7 @@ rename 's/.new$//' *.new
 
 # This has been different for different machines...
 # Diff the directory and then checkin.
+cd $DIR
 #cvs diff -c3 >$TMP.diff
 cvs diff -C 3 >$TMP.diff
 cvs commit -m updates
@@ -155,6 +156,7 @@ fi
 
 # If any machines have not been reached within 24 hours, mail
 # out a list of them.
+cd $DIR/configs
 ls -t `cat $DIR/allrouters` >$TMP.lst
 find `cat $TMP.lst` -mtime +1 -ls > $DIR/routers.failed
 if [ -s $DIR/routers.failed ]

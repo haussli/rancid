@@ -1,4 +1,8 @@
 2.3.eft
+	lg: set query/command list in lg.conf, thus allowing individual cmds
+	to {dis,en}abled, and add some multicast and ipv6 queries all of which
+	are disabled by default (for lack of testing) - from Janos Mohacsi
+
 	cat5rancid: collect 'write term all' for cats that support it - tested
 	by terry kennedy
 

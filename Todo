@@ -2,6 +2,8 @@
   state, probably due to the prompt changing or rather the regex clogin
   formulates for the prompt.
 - cat4 support?
+- investigate option to keep passwords in the saved config and filter them
+  from diff mail
 - would be nice if it were possible to add additional commands to be run
   per-platform as a user desires.  how could the user also provide a
   filtering routine?

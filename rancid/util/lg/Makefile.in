@@ -5,6 +5,8 @@ INSTALL_DATA = @INSTALL_DATA@
 
 UTIL_LG_PROGS = @RD_UTIL_LG_PROGS@
 
+DISTDIR=../$(distdir)/lg
+
 all:
 
 install: all
@@ -29,9 +31,13 @@ distclean: clean
 	rm -f config.log config.status
 
 distdir:
+	test -d $(DISTDIR) \
+            || mkdir $(DISTDIR) \
+            || exit 1; \
+        chmod 777 $(DISTDIR); \
 	for file in Makefile.in configure.in *README* lg.conf.in ; do \
-	    $(INSTALL_DATA) $$file $(distdir); \
+	    $(INSTALL_DATA) $$file $(DISTDIR); \
 	done; \
 	for file in configure $(UTIL_LG_PROGS:=.in) ; do \
-	    $(INSTALL) $$file $(distdir); \
+	    $(INSTALL) $$file $(DISTDIR); \
 	done

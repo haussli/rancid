@@ -345,6 +345,10 @@ proc login { router user passwd cmethod cyphertype identfile} {
 		catch {close};
 		send_user "\nError: Unknown host\n"; wait; return 1
 	    }
+	    "Login incorrect" {
+			  send_user "\nError: Check your password for $router\n"
+			  catch {close}; wait; return 1
+			}
 	    -re "Enter passphrase.*: " {
 		# sleep briefly to allow time for stty -echo
 		sleep 1
@@ -465,7 +469,7 @@ foreach router [lrange $argv $i end] {
       }
     }
 
-    # figure out identity file to use
+    # Figure out identity file to use
     set identfile ""
     if {[info exists identity]} {
 	set identfile [join [lindex [find identity $router] 0] ""]

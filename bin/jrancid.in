@@ -370,6 +370,8 @@ sub ShowVersion {
 	/^Juniper Networks is:/ && ProcessHistory("","","","# \n# $_") && next;
 	ProcessHistory("","","","# $_");
     }
+    ProcessHistory("","","","\n");
+
     return;
 }
 

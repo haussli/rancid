@@ -1,4 +1,6 @@
 1.5
+	catch juniper config mismatch between versions of JUNOS
+
 	catch close on EOF in clogin/jlogin/flogin.
 
 	Don't expand RCS keywords in config files.

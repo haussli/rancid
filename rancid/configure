@@ -781,7 +781,7 @@ fi
 
 
 
-subdirs="bin util"
+subdirs="bin man util"
 
 
 
@@ -792,7 +792,7 @@ PACKAGE=rancid
 # VERSION needs to be updated such that 'make dist' uses the correct
 # filename for the directory name and tarball.
 
-VERSION=2.1b
+VERSION=2.1
 
 echo $ac_n "checking whether to enable maintainer-specific portions of Makefiles""... $ac_c" 1>&6
 echo "configure:799: checking whether to enable maintainer-specific portions of Makefiles" >&5
@@ -2119,7 +2119,7 @@ done
 ac_given_srcdir=$srcdir
 ac_given_INSTALL="$INSTALL"
 
-trap 'rm -fr `echo "Makefile" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
+trap 'rm -fr `echo "Makefile man/Makefile" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
 EOF
 cat >> $CONFIG_STATUS <<EOF
 
@@ -2228,7 +2228,7 @@ EOF
 
 cat >> $CONFIG_STATUS <<EOF
 
-CONFIG_FILES=\${CONFIG_FILES-"Makefile"}
+CONFIG_FILES=\${CONFIG_FILES-"Makefile man/Makefile"}
 EOF
 cat >> $CONFIG_STATUS <<\EOF
 for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then
@@ -2324,7 +2324,7 @@ if test "$no_recursion" != yes; then
     esac
   done
 
-  for ac_config_dir in bin util; do
+  for ac_config_dir in bin man util; do
 
     # Do not complain, so a configure script can configure whichever
     # parts of a large source tree are present.

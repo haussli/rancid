@@ -4,3 +4,5 @@
 - rancid needs to treat the 3600s like the 7Ks and 12Ks...
 - Also, need to allow 12012s, and force 700s to not be treated like 7Ks.
 - change rancid to work on a file
+- flogin (for foundry) needs more testing and should be integrated with
+  clogin when foundry fixes their UI.

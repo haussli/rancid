@@ -70,11 +70,16 @@ specify your own and move the existing directories.  e.g.:
 	done
 
 Note that the first rancid-run will send messages about routers being added,
-marked up or down, etc.  Afterward, it will be back to normal.
+marked up or down, etc., because the routers.{all,down,up} will have been
+lost.  Afterward, it will be back to normal.
+
+Note also that any non-rancid files that may have been placed in these CVS
+trees will be lost.  You have been warned.
 
 *** We strongly suggest that if a DIR used as the install prefix, as in
     --prefix=DIR, is not dedicated to rancid that "/rancid" should be
     appended to the --localstatedir, as in the example above.
 
 Note that not all operating systems have a mv command that will move
-directories across file systems.
+directories across file systems.  It may be necessary to use 'cp -r' or
+'tar cf - <GROUPS> | (cd <SYSCONFDIR>; tar xpf -)'.

@@ -112,7 +112,7 @@ then
 	router=$1
 
 	touch $router
-	cvs add $router
+	cvs add -ko $router
 	cvs commit -m 'new router' $router
 	echo "Added $router"
     done

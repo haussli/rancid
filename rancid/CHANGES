@@ -1,4 +1,6 @@
 2.2b9
+	brancid: handle []'s in bay prompts - from mark cooper
+
 	extreme: strip password if config|configure.  Strip ^M
 	right after ssh key.
 
@@ -8,7 +10,7 @@
 
 	bin/par changes - add -p, -f, and -e options
 
-	allow a TCP port suffix to telnet in .cloginrc - Alex Bochannek
+	allow a TCP port suffix to telnet in .cloginrc - from Alex Bochannek
 
 	Fixed RANCID-CONTENT-TYPE to be more consistant.  Changes are
 		brancid		bay

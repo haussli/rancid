@@ -2,8 +2,11 @@
 # currently clogin supports a number of add directives:
 #	password
 #	user
+#	userprompt
 #	userpassword
+#	passprompt
 #	enauser
+#	enableprompt
 #	autoenable
 #	cyphertype
 #	identity
@@ -15,9 +18,21 @@
 # add user <router name regexp> <username>
 #	The default user is $USER (i.e.: the user running clogin).
 #
+# add userprompt <router name regexp> <username prompt>
+#	What the router prints to prompt for the username.
+#	Default: "(Username|login):"
+#
 # add userpassword <router name regexp> <user password>
 #	The password for user if different than the password set
 #	using 'add password'.
+#
+# add passprompt <router name regexp> <password prompt>
+#	What the router prints to prompt for the password.
+#	Default: "\[Pp]assword:"
+#
+# add enableprompt <router name regexp> <enable prompt>
+#	What the router prints to prompt for the enable password.
+#	Default: "\[Pp]assword:"
 #
 # add enauser <router name regexp> <username>
 #	This is only needed if enable asks for a username and this
@@ -68,6 +83,9 @@ add password *			{clearance}	{clarence}
 
 # set ssh encryption type, dflt: 3des
 add cyphertype *		{3des}
+
+# set the username prompt to "router login:"
+#add userprompt *		router login:
 
 # ssh identity for a juniper; used with jlogin
 add identity	my.juniper	$env(HOME)/.ssh/juniper

@@ -233,7 +233,7 @@ ENV_PATH=`echo $ENV_PATH | $PERLV_PATH -e 'foreach $x(split(":",<>)){next unless
 ac_cv_env_path=$ENV_PATH
 AC_SUBST(ENV_PATH)
 
-AC_OUTPUT(Makefile include/Makefile bin/Makefile util/Makefile \
+AC_OUTPUT([ Makefile include/Makefile bin/Makefile util/Makefile \
 	bin/alogin bin/arancid bin/blogin bin/brancid bin/cat5rancid \
 	bin/clogin bin/control_rancid bin/create_cvs bin/do-diffs bin/elogin \
 	bin/env bin/erancid bin/flogin bin/francid bin/jlogin bin/jrancid \
@@ -242,7 +242,8 @@ AC_OUTPUT(Makefile include/Makefile bin/Makefile util/Makefile \
 	bin/xrancid \
 	man/Makefile man/env.5 man/lg.conf.5 man/lg_intro.1 \
 	include/version.h \
-	util/rtrfilter util/downreport \
+	util/rtrfilter util/downreport ], \
+	[ chmod a+x bin/*login bin/*rancid ]
 	)
 
 # fix permissions on scripts.

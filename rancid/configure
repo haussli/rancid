@@ -3102,7 +3102,7 @@ done
 ac_given_srcdir=$srcdir
 ac_given_INSTALL="$INSTALL"
 
-trap 'rm -fr `echo "Makefile include/Makefile bin/Makefile util/Makefile \
+trap 'rm -fr `echo " Makefile include/Makefile bin/Makefile util/Makefile \
 	bin/alogin bin/arancid bin/blogin bin/brancid bin/cat5rancid \
 	bin/clogin bin/control_rancid bin/create_cvs bin/do-diffs bin/elogin \
 	bin/env bin/erancid bin/flogin bin/francid bin/jlogin bin/jrancid \
@@ -3111,8 +3111,7 @@ trap 'rm -fr `echo "Makefile include/Makefile bin/Makefile util/Makefile \
 	bin/xrancid \
 	man/Makefile man/env.5 man/lg.conf.5 man/lg_intro.1 \
 	include/version.h \
-	util/rtrfilter util/downreport \
-	 include/config.h" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
+	util/rtrfilter util/downreport  include/config.h" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
 EOF
 cat >> $CONFIG_STATUS <<EOF
 
@@ -3242,8 +3241,7 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile include/Makefile bin/Makefile util/Makefi
 	bin/xrancid \
 	man/Makefile man/env.5 man/lg.conf.5 man/lg_intro.1 \
 	include/version.h \
-	util/rtrfilter util/downreport \
-	"}
+	util/rtrfilter util/downreport "}
 EOF
 cat >> $CONFIG_STATUS <<\EOF
 for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then
@@ -3416,7 +3414,9 @@ cat >> $CONFIG_STATUS <<EOF
 EOF
 cat >> $CONFIG_STATUS <<\EOF
 test -z "$CONFIG_HEADERS" || echo timestamp > include/stamp-h
-
+\
+	 chmod a+x bin/*login bin/*rancid 
+	
 exit 0
 EOF
 chmod +x $CONFIG_STATUS

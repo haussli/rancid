@@ -160,7 +160,10 @@ sub ShowVersion {
     /^BOOTFLASH: .*(Version.*)$/ &&
 	ProcessHistory("COMMENTS","keysort","G4","!BOOTFLASH: $1\n") && return;
     /^System image file is "([^\"]*)", booted via (\S*)/ &&
-	ProcessHistory("COMMENTS","keysort","F4","!Image: booted via $2, $1\n") &&
+# removed the booted source due to
+# CSCdk28131: cycling info in 'sh ver'
+#	ProcessHistory("COMMENTS","keysort","F4","!Image: booted via $2, $1\n") &&
+	ProcessHistory("COMMENTS","keysort","F4","!Image: booted $1\n") &&
 	    return;
     /^System image file is "([^\"]*)"$/ &&
 	ProcessHistory("COMMENTS","keysort","F5","!Image: $1\n") &&

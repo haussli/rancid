@@ -533,17 +533,6 @@ sub WriteTerm {
 	# order atm map-list statements
 	/^\s+ip\s+(\d+\.\d+\.\d+\.\d+)\s+atm-vc/ &&
 	    ProcessHistory("ATM map-list","ipsort","$1","$_") && next;
-	# order ip rcmd lines
-	/^ip rcmd/ && ProcessHistory("RCMD","keysort","$_","$_") && next;
-
-	# system controller
-	/^syscon address (\S*) (\S*)/ &&
-	    ProcessHistory("","","","!syscon address $1 <removed>\n") &&
-	    next;
-	if (/^syscon password (\S*)/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!syscon password <removed>\n");
-	    next;
-	}
 
 	# catch anything that wasnt matched above.
 	ProcessHistory("","","","$_");

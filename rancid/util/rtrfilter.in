@@ -80,7 +80,7 @@ if (defined($opt_u)) { $from = $opt_u;}
 
 # filter the remainder of the mail.  save mail in memory to avoid empty msgs
 my(@mail);
-my($skip) = 0;
+my($skip) = 1;
 while (<STDIN>) {
     # look for /^Index: ", the filtering key
     if (/^Index: (.*)$/) {
@@ -98,6 +98,8 @@ while (<STDIN>) {
 if ($#mail < 0) { exit; }
 $mailer = new Mail::Mailer 'sendmail', ('-t');
 $headers{From} = $from;
+$headers{"Reply-To"} = $from;
+$headers{"Errors-To"} = $from;
 $headers{Subject} = $subject;
 $headers{To} = $rcpts;
 $headers{Precedence} = "bulk";

@@ -6,7 +6,7 @@
 	are disabled by default (for lack of testing) - from Janos Mohacsi
 
 	cat5rancid: collect 'write term all' for cats that support it - tested
-	by terry kennedy
+	by terry kennedy and joe rizzo
 
 	cat5rancid: regularize escaping of regex operators in switch prompt
 

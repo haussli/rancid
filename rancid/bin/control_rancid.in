@@ -31,10 +31,6 @@ fi
 TMP=/var/tmp/rancid.$GROUP.$$
 DIR=$BASEDIR/$GROUP
 
-# Read in the environment
-ENVFILE="`dirname $0`/env"
-. $ENVFILE
-
 # Bail if we do not have the necessary info to run
 if [ ! -d $DIR ]
 then

@@ -554,7 +554,11 @@ proc run_commands { prompt command } {
 	send "quit\r"
     }
     expect {
-	-re "^\[^\n\r *]*$reprompt"		{ send "exit\r"
+	-re "^\[^\n\r *]*$reprompt"		{
+						  # the Cisco CE and Jnx ERX
+						  # return to non-enabled mode
+						  # on exit in enabled mode.
+						  send "exit\r"
 						  exp_continue;
 						}
 	"Do you wish to save your configuration changes" {

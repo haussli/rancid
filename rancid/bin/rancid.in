@@ -294,8 +294,13 @@ sub ShowVersion {
 		ProcessHistory("COMMENTS","keysort","I0","!\n");
 	    }
 	    ProcessHistory("COMMENTS","keysort","I1","! $_");
-	    # The line after the WARNING is what to do about it.
-	    $_ = <INPUT>; tr/\015//d;
+	    if (/Recommend RP/i) {
+		# RP Slot Warning is only single line
+		$_ = "\n";
+	    } else {
+		# The line after the WARNING is what to do about it.
+		$_ = <INPUT>; tr/\015//d;
+	    }
 	    ProcessHistory("COMMENTS","keysort","I1","!          $_");
 	}
 	if (/^Configuration register is (.*)$/) {

@@ -84,7 +84,7 @@ sub DoRsh
     if ($pingcmd =~ /\d$/) {
 	`$pingcmd $router`;
     } else {
-	`$pingcmd $router 1`;
+	`$pingcmd $router 56 1`;
     }
     if ($?) {
 	return ("$router is unreachable.  Try again later.\n");

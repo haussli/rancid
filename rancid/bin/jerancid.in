@@ -310,9 +310,13 @@ sub WriteTerm {
 	    ProcessHistory("ENABLE","","","!$1 <removed>\n");
 	    next;
 	}
+
+	# XXX: ERX appears to not have local usernames, but leaving these in
+	#      case I am wrong.
 	if (/^username (\S+)(\s.*)? secret /) {
 	    if ($filter_pwds >= 2) {
-		ProcessHistory("USER","keysort","$1","!username $1$2 secret <removed>\n");
+		ProcessHistory("USER","keysort","$1",
+					"!username $1$2 secret <removed>\n");
 	    } else {
 		ProcessHistory("USER","keysort","$1","$_");
 	    }
@@ -320,9 +324,11 @@ sub WriteTerm {
 	}
 	if (/^username (\S+)(\s.*)? password ((\d) \S+|\S+)/) {
 	    if ($filter_pwds == 2) {
-		ProcessHistory("USER","keysort","$1","!username $1$2 password <removed>\n");
+		ProcessHistory("USER","keysort","$1",
+					"!username $1$2 password <removed>\n");
 	    } elsif ($filter_pwds == 1 && $4 ne "5"){
-		ProcessHistory("USER","keysort","$1","!username $1$2 password <removed>\n");
+		ProcessHistory("USER","keysort","$1",
+					"!username $1$2 password <removed>\n");
 	    } else {
 		ProcessHistory("USER","keysort","$1","$_");
 	    }

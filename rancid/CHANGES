@@ -1,4 +1,6 @@
 2.2
+	cisco changed the o/p fmt of h/w info on the 65xx in 12.1.8e
+
 	PIX520 supplies different more(1) prompt than others.  from William R
 	Thomas.
 

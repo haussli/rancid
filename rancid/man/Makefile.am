@@ -21,7 +21,7 @@ AUTOMAKE_OPTIONS=foreign no-dependencies
 
 man_gen_MANS = rancid.conf.5 lg.conf.5 lg_intro.1
 man_nogen_MANS = do-diffs.1 alogin.1 blogin.1 clogin.1 control_rancid.1 \
-		create_cvs.1 rancid.1 \
+		create_cvs.1 cssrancid.1 rancid.1 \
 		rancid_intro.1 cloginrc.5 router.db.5 \
 		drancid.1 elogin.1 \
 		f10rancid.1 flogin.1 hlogin.1 hrancid.1 htlogin.1 htrancid.1 \

@@ -1,5 +1,11 @@
 2.2b8
-	jlogin: add 1s sleeps to avoid passwords being echo before tty noecho
+	add PAR_COUNT variable to bin/env for adjusting the number of
+	simultaneous collections.  see bin/env (or bin/env.new for those with
+	previous installation) and the env(5) manpage.
+
+	more work on extreme switch bits + fixes from Alex Bochannek.
+
+	jlogin: add 1s sleeps to avoid passwords being echo'd before tty noecho
 	is set.  richard doty
 
 	few looking glass fixes

@@ -1,4 +1,11 @@
 2.3.eft
+	Juniper ERX (jerancid) support, based on 5.0 - thanks to Dan Pfleger,
+	Richard Russman, Zaid, Mike Baker, and Mark Nguyen
+
+	rancid: drop the "suggested action" portion of GSR LC/RP ROM upgrade
+	warnings.  Cisco keeps changing the format; it just is not worth the
+	aggrevation.
+
 	study causes missed command somehow in redhat9 - from David King
 
 	filter port security mac entries, from Arnold Nipper

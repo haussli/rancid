@@ -64,12 +64,12 @@
 	logging file messages facility kernel level debugging
 	logging file log facility any level debugging
 	logging file log archive files 10 size 10m
-- should we add CVS ID header to saved configs?  configurable option? - idea
-  from andrew fort
 	logging file messages archive files 10 size 10m
   then, sort by facility,  e.g.:
 	logging file messages facility kernel level debugging
 	logging file messages facility authorization level debugging
+- should we add CVS ID header to saved configs?  configurable option? - idea
+  from andrew fort
 - cat 2900 extra info
 	<hostname> uptime is 3 weeks, 3 days, 14 hours, 17 minutes
 	System returned to ROM by power-on

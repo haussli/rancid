@@ -445,10 +445,16 @@ proc do_enable { enauser enapasswd } {
 	-re "$e_prompt"	{ send "$enapasswd\r"; exp_continue}
 	"#"		{ set prompt "#" }
 	"(enable)"	{ set prompt "> (enable) " }
-	denied		{ send_user "\nError: Check your Enable passwd\n";
+	"denied"	{
+			  send_user "\nError: Check your Enable passwd\n";
 			  return 1
 			}
-	"% Bad passwords" { send_user "\nError: Check your Enable passwd\n"
+	"% Error in authentication" {
+			  send_user "\nError: Check your Enable passwd\n"
+			  return 1
+			}
+	"% Bad passwords" {
+			  send_user "\nError: Check your Enable passwd\n"
 			  return 1
 			}
     }

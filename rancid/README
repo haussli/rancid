@@ -12,11 +12,14 @@ control_rancid -    Builds router list, calls rancid on each router and
 		    handles cvs routines.
 rancid-fe - chooses between rancid/francid/jrancid/rrancid/cat5rancid.
 rancid -    Runs commands on cisco routers and processes the output - the meat.
+erancid -   Runs commands on ADC EZ-T3 muxes and processes the output.
 francid -   Runs commands on foundry switches and processes the output.
 jrancid -   Runs commands on juniper routers and processes the output.
 rrancid -   Runs commands on redback routers and processes the output.
 cat5rancid -Runs commands on cisco cat5 switches and processes the output.
 clogin -    Expect script that logs into routers either interactively,
+	    runs a set of commands or runs another expect script.
+elogin -    Expect script that logs into ADC EZ-T3 muxes either interactively,
 	    runs a set of commands or runs another expect script.
 flogin -    Expect script that logs into foundry switches.  once foundry
 	    cleans up their bloody UI, clogin should do the job.
@@ -42,7 +45,7 @@ tcl	- required by expect.
 Bill Fenner has a cgi script for interacting with CVS repositories via
 a web interface.  This provides a great way to view rancid diffs and
 full configs, especially for those unfamiliar with cvs.  The package is
-not included here, but can be found here:
+not included, but can be found here:
 
 	http://www.freebsd.org/~fenner/cvsweb/cvsweb-1.0.tar.gz
 

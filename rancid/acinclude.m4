@@ -1,1 +1,0 @@
-AUTOMAKE_OPTIONS=no-dependencies foreign

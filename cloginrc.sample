@@ -5,6 +5,7 @@
 #	userprompt
 #	userpassword
 #	passprompt
+#	method
 #	noenable
 #	enauser
 #	enableprompt
@@ -30,6 +31,14 @@
 # add passprompt <router name regexp> <password prompt>
 #	What the router prints to prompt for the password.
 #	Default: "\[Pp]assword:"
+#
+# add method <router name regexp> {ssh} [...]
+#	Defines, in order, which connection method(s) to use for a device
+#	from the set {ssh,telnet,rsh}.  eg: add method * {ssh} {telnet} {rsh}
+#	will attempt ssh connection first.  if ssh fails with connection
+#	refused (ie: not due to authentication failure), then try telnet,
+#	then rsh.
+#	Default: {telnet} {ssh}
 #
 # add noenable <router name regexp>
 #	equivalent of -noenable on the cmd line to not enable at login.

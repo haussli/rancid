@@ -741,6 +741,7 @@ sub WriteTerm {
 	/^ntp clock-period /    && next; # kill ntp clock-period
 	/^ length /		&& next; # kill length on serial lines
 	/^ width /		&& next; # kill width on serial lines
+	/^ clockrate /		&& next; # kill clockrate on serial interfaces
 	/^enable password / &&
 	    ProcessHistory("ENABLE","","","!enable password <removed>\n") &&
 	    next;

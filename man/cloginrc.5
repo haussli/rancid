@@ -69,11 +69,6 @@ of the same unix group.  See
 and
 .BR chmod (1)
 for more information on ownership and file modes.
-.PP
-A sample
-.B .cloginrc
-file can be found in the share/rancid directory by the name
-.IR "cloginrc.sample" .
 .SH DIRECTIVES
 The accepted directives are (alphabetically):
 .PP
@@ -242,7 +237,7 @@ If <file> is not a full pathname, $HOME/ will be prepended.
 Example: include {.cloginrc.group}
 .\"
 .TP
-.B sshcmd {<ssh>}
+.B add sshcmd {<ssh>}
 <ssh> is the name of the ssh executable.  OpenSSH uses a command-line
 option to specify the protocol version, but other implementations use
 a separate binary such as "ssh1".
@@ -256,7 +251,9 @@ Default: ssh
 .nf
 .\" set tabstop to longest possible filename, plus a wee bit
 .ta \w'xHOME/xcloginrc  'u
-\fI$HOME/.cloginrc\fR Configuration file described here.
+\fI$HOME/.cloginrc\fR               Configuration file described here.
+.\"
+\fIshare/rancid/cloginrc.sample\fR  A sample \fB.cloginrc\fR.
 .\"
 .SH ERRORS
 .B .cloginrc

@@ -183,8 +183,8 @@ sub WriteTerm {
 	    }
 	    next;
 	}
-	if (/^\s*password / && $filter_pwds >= 1) {
-	    ProcessHistory("LINE-PASS","","","! password <removed>\n"); next;
+	if (/^(\s*)password / && $filter_pwds >= 1) {
+	    ProcessHistory("LINE-PASS","","","!$1password <removed>\n"); next;
 	}
 	if (/^\s*neighbor (\S*) password / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","! neighbor $1 password <removed>\n");

@@ -265,8 +265,8 @@ sub WriteTerm {
 
 	# no so sure this match is correct.  show running doesnt seem to
 	# actually o/p anything after "password (manager|operator)"
-	if (/^\s*password (manager|operator)?/ && $filter_pwds >= 1) {
-	    ProcessHistory("LINE-PASS","","",";password $1 <removed>\n");
+	if (/^(\s*)password (manager|operator)?/ && $filter_pwds >= 1) {
+	    ProcessHistory("LINE-PASS","","",";$1password $2 <removed>\n");
 	    next;
 	}
 

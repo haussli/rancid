@@ -796,7 +796,7 @@ sub WriteTerm {
 	# skip the crap
 	next if (/^This command shows non-default configurations only./i);
 	next if (/^Use 'write terminal all' to show both default and non/i);
-	if (/^(\.\.+$|##+$|Building configuration...)/i) {
+	if (/^(\.\.+$|##+$|(Building|Current) configuration)/i) {
 	    while (<INPUT>) {
 		tr/\015//d;
 		next if (/^Current configuration:/i);
@@ -841,8 +841,8 @@ sub WriteTerm {
 	    ProcessHistory("","","","! set password <removed>\n");
 	    next;
 	}
-	if (/^\s*password / && $filter_pwds >= 1) {
-	    ProcessHistory("LINE-PASS","","","! password <removed>\n");
+	if (/^(\s*)password / && $filter_pwds >= 1) {
+	    ProcessHistory("LINE-PASS","","","!$1password <removed>\n");
 	    next;
 	}
 	if (/^\s*neighbor (\S*) password / && $filter_pwds >= 1) {

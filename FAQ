@@ -175,3 +175,8 @@ A. A discussion list is available, rancid-discuss@shrubbery.net.  You must
    be a subscriber to post.  Subscribe like this:
 
    shell% echo "subscribe" | mail rancid-discuss-request@shrubbery.net
+
+Q. What else can I do with rancid?
+A. The possibilities are endless... see Joe Abley and Stephen Stuart's
+   NANOG presentation:
+	http://www.nanog.org/mtg-0210/abley.html

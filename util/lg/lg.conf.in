@@ -3,9 +3,11 @@
 # note: these are perl statements!  mind the syntax
 #
 # LG_IMAGE	is the filename of an image you wish to appear at the top
-#		of the LG pages.
+#		of the LG pages.  it can also be other html goo, like
+#		the first example.  this is just handed to print, \n and
+#		the like will work.
 #
-#$LG_IMAGE="<img src=/icons/rancid.gif hspace=0>\n";
+#$LG_IMAGE="<img src=/icons/rancid.gif hspace=0>\n <font size=+2>FOO</font>";
 #$LG_IMAGE="<img src=rancid.gif hspace=0>\n";
 #
 #

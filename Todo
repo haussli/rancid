@@ -44,3 +44,5 @@
         util/config.log
         util/config.status
         util/rtrfilter
+- do-diffs (or something in the proc path) should make sure that all
+  the CVS'd files are up to date with respect to the repository.

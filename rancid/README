@@ -160,7 +160,7 @@ Quick Installation Guide (an example):
 	# run config differ hourly
 	1 * * * * <BASEDIR>/bin/do-diffs
 	# clean out config differ logs
-	50 23 * * * /usr/bin/find <BASEDIR>/logs -mtime +2 -exec rm {} \;
+	50 23 * * * /usr/bin/find <BASEDIR>/logs -type f -mtime +2 -exec rm {} \;
 
 11) Note: If you are using any of these programs (other than
     do-diffs) out of cron, make sure that you set your $PATH

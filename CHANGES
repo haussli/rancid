@@ -1,9 +1,14 @@
 1.5
+	Delete the cisco ospf authentication password.
+
+	Get both (juniper) show chassis ssb and scb but only process
+	them once.
+
 	Get info from show diag for 2600s as well.
 
 	Catch juniper "command is not valid on the olive" errors.
 
-	Catch juniper config mismatch between versions of JUNOS
+	Catch juniper config mismatch between versions of JUNOS.
 
 	Catch close on EOF in clogin/jlogin/flogin.
 

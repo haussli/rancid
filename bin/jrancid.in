@@ -277,9 +277,11 @@ sub ShowChassisRoutingEngine {
 }
 
 # This routine parses "show chassis scb" and "show chassis ssb"
+# Only do this routine once.
 sub ShowChassisSCB {
     print STDERR "    In ShowChassisSCB: $_" if ($debug);
 
+    return if ($ShowChassisSCB);
     s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
     while (<INPUT>) {
@@ -300,6 +302,7 @@ sub ShowChassisSCB {
 	/ used:/ && next;
 	ProcessHistory("","","","# $_");
     }
+    $ShowChassisSCB = 1;
     return;
 }
 

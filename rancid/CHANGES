@@ -1,4 +1,6 @@
 1.4
+	reworked code to reduce jumps. improvement in speed/cpu util.
+
 	add bits to cvs delete configs which have been removed from
 	a group's router.db.
 

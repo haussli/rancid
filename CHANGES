@@ -1,4 +1,7 @@
 1.5
+	add .cloginrc userprompt, passprompt, and enableprompt directives
+	to adjust expected cisco router prompts in clogin.
+
 	see README for info on web interface to rancid CVS repository.
 
 	Try to detect hung rancid jobs & send email.

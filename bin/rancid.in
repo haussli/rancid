@@ -306,9 +306,9 @@ sub ShowVersion {
     return(0);
 }
 
-# This routine parses "show version"
+# This routine parses "show redundancy"
 sub ShowRedundancy {
-    print STDERR "    In ShowVersion: $_" if ($debug);
+    print STDERR "    In ShowRedundancy: $_" if ($debug);
 
     while (<INPUT>) {
 	tr/\015//d;

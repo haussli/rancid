@@ -36,8 +36,6 @@
 	wc: routers.all: No such file or directory
 	[: 97: unexpected operator
 	comm: /tftpboot/rancid/foo/routers.up: No such file or directory
-- control_rancid (etc) should not have the path to perl 5, only the
-  basename.
 
 - from README - this should be automatic. :)
 	gnudiff - gnudiff provides the -u option.  if you do not have gnudiff,

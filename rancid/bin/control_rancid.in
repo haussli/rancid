@@ -53,12 +53,12 @@ if [ $# -ge 1 ] ; then
 	    shift; break;
 	    ;;
 	-h)
-	    usage
+	    pr_usage
 	    exit
 	    ;;
 	-*)
 	    echo "unknown option: $1" >&2
-	    usage
+	    pr_usage
 	    exit 1
 	    ;;
 	*)

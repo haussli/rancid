@@ -4,7 +4,6 @@
 - noenable should handle a value properly.  i.e.: 1 == noenable, 0 == enable or
   perhaps don't clear the -noenable cmd-line option.  the manpage needs to be
   fixed as well.  see msg from fred jordan.
-- extra info on c2950
 - recent hp procurve s/w does not seem have show flash or show module
 - would like to have a "pre-login-sequence" cloginrc directive, see
   rancid-disuss message from mike ethridge 16/may
@@ -101,4 +100,3 @@
 		else
 			rancid-admin-
 		fi
-

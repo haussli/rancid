@@ -1,5 +1,6 @@
 2.2
-	bin/alogin and changes for Alteon WebOS switch from andrew fort.
+	bin/alogin and changes of beta quality for Alteon WebOS switch
+	from andrew fort.
 
 	Check for more types of cisco 12000s.  Also check for 2600s.
 

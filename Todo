@@ -1,4 +1,7 @@
 - make control_rancid's PAR_COUNT a bin/env knob
+- would be nice if it were possible to add additional commands to be run
+  per-platform as a user desires.  how could the user also provide a
+  filtering routine?
 - extreme (xrancid)
 	- collect show switch
 	- filter ssh host private key

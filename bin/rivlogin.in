@@ -342,7 +342,6 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
     # Riverstone/Cabletron requires CR before Username? prompt appears
     send "\n" 
 
-
     # Here we get a little tricky.  There are several possibilities:
     # the router can ask for a username and passwd and then
     # talk to the TACACS server to authenticate you, or if the
@@ -516,11 +515,11 @@ proc run_commands { prompt command } {
 		-re "^<-+ More -+>\[^\n\r]*"	{ send_user -- "$expect_out(buffer)"
 						  send " "
 						  exp_continue }
-# Riverstone "More" prompt case
-# Ugh...  older SW versions have a More prompt with 3 dashes
-# Newer versions have only two...
-#
-                -re "^(--|---) More:\[^\n\r]*"	{ send " "
+		# Riverstone "More" prompt case
+		# Ugh...  older SW versions have a More prompt with 3 dashes
+		# Newer versions have only two...
+		#
+                -re "^-{1,3} More:\[^\n\r]*"	{ send " "
                                                   exp_continue
                                                 }
 
@@ -568,9 +567,9 @@ proc run_commands { prompt command } {
 		-re "^<-+ More -+>\[^\n\r]*"	{ send_user -- "$expect_out(buffer)"
 						  send " "
 						  exp_continue }
-# Riverstone "More" prompt case
-# 
-		-re "^(--|---) More:\[^\n\r]*"	{ send " "
+		# Riverstone "More" prompt case
+		# 
+		-re "^-{1,3} More:\[^\n\r]*"	{ send " "
 						  exp_continue
 						}
 

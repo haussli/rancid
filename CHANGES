@@ -1,4 +1,6 @@
 2.3.1.eft
+	clogin:	cat 19k lacks a space in front of pager prompt - darren @ adam
+
 	nlogin: correct find(sshcmd) argument - from Samuele Giovanni Tonon
 
 	lg.cgi: allow :s in arguments for sub-interface from Richard Doty

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 1997-2001 by Henry Kilmer, Erik Sherk and Pete Whiting.
+ * Copyright (C) 1997-2002 by Henry Kilmer, Erik Sherk and Pete Whiting.
  * All rights reserved.
  *
  * This software may be freely copied, modified and redistributed without
@@ -12,12 +12,13 @@
  * or its effect upon hardware, computer systems, other software, or
  * anything else.
  *
+ *
  * run telnet or ssh to connect to device specified on the command line.  the
  * point of hpfilter is to filter all the bloody vt100 (curses) escape codes
  * that the HP procurve switches belch and make hlogin a real bitch.
  */
 
-#define DFLT_TO	60
+#define DFLT_TO	60				/* default timeout */
 
 #include <config.h>
 
@@ -227,13 +228,19 @@ main(int argc, char **argv)
 		break;
 	    }
 	}
+	/* close */
+	close(0);
+	close(1);
+	close(s[1]);
+	close(r[0]);
+
     }
 
-    kill(child, SIGQUIT);
+    if (! kill(child, SIGQUIT))
+	reapchild();
+
     return(EX_OK);
 }
-
-#define	N_REG		10		/* number of regexes in reg[][] */
 
 int
 filter(buf, len)
@@ -241,6 +248,7 @@ filter(buf, len)
     int		len;
 {
     static regmatch_t	pmatch[1];
+#define	N_REG		11		/* number of regexes in reg[][] */
     static regex_t	preg[N_REG];
     static char		reg[N_REG][50] = {	/* vt100/220 escape codes */
 				"\e7\e\\[1;24r\e8",		/* ds */
@@ -256,6 +264,8 @@ filter(buf, len)
 				"\e\\[\\?7l",			/* RA */
 				"\e\\[\\?25h",			/* ve */
 				"\e\\[\\?25l",			/* vi */
+
+				"\eE",			/* replace w/ CR */
 			};
     char		ebuf[256];
     size_t		nmatch = 1;
@@ -266,7 +276,7 @@ filter(buf, len)
     if (index(buf, 0x1b) == 0 || len == 0)
 	return(len);
 
-    for (x = 0; x < N_REG; x++) {
+    for (x = 0; x < N_REG - 1; x++) {
 	if (! init) {
 	    if ((err = regcomp(&preg[x], reg[x], REG_EXTENDED))) {
 		regerror(err, &preg[x], ebuf, 256);
@@ -287,7 +297,28 @@ filter(buf, len)
 	}
     }
 
-    init++;
+    /* replace \eE w/ CR NL */
+    if (! init++) {
+	if ((err = regcomp(&preg[N_REG - 1], reg[N_REG - 1], REG_EXTENDED))) {
+	    regerror(err, &preg[N_REG - 1], ebuf, 256);
+	    fprintf(stderr, "%s: regex compile failed: %s\n", progname,
+		ebuf);
+	    abort();
+	}
+    }
+    while (1)
+	if ((err = regexec(&preg[N_REG - 1], buf, nmatch, pmatch, 0))) {
+	    if (err != REG_NOMATCH) {
+		regerror(err, &preg[N_REG - 1], ebuf, 256);
+		fprintf(stderr, "%s: regexec failed: %s\n", progname, ebuf);
+		abort();
+	    } else
+		break;
+	} else {
+	    *(buf + pmatch[0].rm_so) = '\n';
+	    strcpy(buf + pmatch[0].rm_so + 1, buf + pmatch[0].rm_eo);
+	    x = 0;
+	}
 
     return(strlen(buf));
 }

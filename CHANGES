@@ -1,3 +1,8 @@
+2.3.1.eft
+	look for diff -U if diff -u fails in configure.
+
+	fix typo in nlogin that made cloginrc password lookups fail.
+
 2.3
 	The following files have been moved to make rancid more
 	install/pkg/port/rpm friendly.

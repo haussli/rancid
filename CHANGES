@@ -1,4 +1,8 @@
-2.2b9
+2.2
+	{cat5}rancid: add dir of sup-{bootflash,microcode} for 6500
+
+	*rancid: print $host before "missed cmds" logs
+
 	cat5 module type match failed when user module name contained spaces
 
 	add FILTER_PWDS switch to env(5)

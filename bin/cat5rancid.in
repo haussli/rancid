@@ -987,6 +987,8 @@ sub DoNothing {print STDOUT;}
 	'dir bootflash:'	=> "DirSlotN",
 	'dir slot0:'		=> "DirSlotN",
 	'dir slot1:'		=> "DirSlotN",
+	'dir sup-bootflash:'	=> "DirSlotN",
+	'dir sup-microcode:'	=> "DirSlotN",
 	'show module'		=> "ShowModule",
 	'show port ifindex'	=> "ShowPortIfindex",
 	'write term'		=> "WriteTerm"
@@ -1000,6 +1002,8 @@ sub DoNothing {print STDOUT;}
 	"dir bootflash:",
 	"dir slot0:",
 	"dir slot1:",
+	"dir sup-bootflash:",
+	"dir sup-microcode:",
 	"show module",
 	"show port ifindex",
 	"write term"

@@ -746,12 +746,14 @@ sub ShowModule {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(-1) if (/command authorization failed/i);
 
-	# match slot info line, slot info then the rev info (the two are split)
-	if (/^ ?(\d+)\s+(\d+)\s+(.*)\s+(\S+)\s+(\S+)\s*$/) {
+	# match slot/card info line
+	if (/^ *(\d+)\s+(\d+)\s+(.*)\s+(\S+)\s+(\S+)\s*$/) {
 	    $lines[$1] .= "!Slot $1: type $3, $2 ports\n!Slot $1: part $4, serial $5\n";
 	    $lines[$1] =~ s/\s+,/,/g;
 	}
-	if (/^ ?(\d+)\s+\S+\s+to\s+\S+\s+(\S+)\s+(.*)\s+(\S+)\s*$/) {
+	# now match the Revs in the second paragraph of o/p and stick it in
+	# the array with the previous bits...grumble.
+	if (/^ *(\d+)\s+\S+\s+to\s+\S+\s+(\S+)\s+(.*)\s+(\S+)\s*$/) {
 	    $lines[$1] .= "!Slot $1: hvers $2, firmware $3, sw $4\n";
 	    $lines[$1] =~ s/\s+,/,/g;
 	}

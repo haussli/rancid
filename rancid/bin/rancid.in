@@ -244,8 +244,8 @@ sub ShowEnv {
 
     while (<INPUT>) {
 	tr/\015//d;
-	last if(/^$prompt/);
-	return(1) if(/^\s*$cmd\s*$/);
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if ($type !~ /^7/);
 	if (!defined($E0)) {
 	    $E0=1;
@@ -278,8 +278,8 @@ sub ShowGSR {
 
     while (<INPUT>) {
 	tr/\015//d;
-	last if(/^$prompt/);
-	return(1) if(/^\s*$cmd\s*$/);
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if ($type !~ /^120/);
 	/^$/ && next;
 	/^\s+Chassis: type (\S+) Fab Ver: (\S+)/ &&
@@ -311,9 +311,8 @@ sub ShowBoot {
 
     while (<INPUT>) {
 	tr/\015//d;
-	last if(/^$prompt/);
-	return(1) if(/^\s*$cmd\s*$/);
-	next if /^\s*$/;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /^\s*\^\s*$/;
 	return(1) if /Ambiguous command/i;
 	return(1) if /Invalid input detected/;
@@ -338,10 +337,9 @@ sub ShowFlash {
     print STDERR "    In ShowFlash: $_" if ($debug);
 
     while (<INPUT>) {
-    tr/\015//d;
-	last if(/^$prompt/);
-	return(1) if(/^\s*$cmd\s*$/);
-	next if /^\s*$/;
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if ($type =~ /^(1200|7.0)/);
 	return(1) if /^\s*\^\s*$/;
 	return(1) if /Invalid input detected/;
@@ -360,9 +358,8 @@ sub DirSlotN {
 
     while (<INPUT>) {
 	tr/\015//d;
-	last if(/^$prompt/);
-	return(1) if(/^\s*$cmd\s*$/);
-	next if /^\s*$/;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if ($type !~ /^(1200|7.0|36.0)/);
 	return(1) if /^\s*\^\s*$/;
 	return(1) if /Invalid input detected/;
@@ -383,8 +380,8 @@ sub ShowContAll {
 
     while (<INPUT>) {
 	tr/\015//d;
-	last if(/^$prompt/);
-	return(1) if(/^\s*$cmd\s*$/);
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if ($type =~ /^(1200|7[05])/);
 	if (/^Interface ([^ \n(]*)/) { $INT = "$1, "; next; }
 	/^(BRI unit \d)/ &&
@@ -435,8 +432,8 @@ sub ShowContCbus {
 
     while (<INPUT>) {
 	tr/\015//d;
-	last if(/^$prompt/);
-	return(1) if(/^\s*$cmd\s*$/);
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if ($type !~ /^7[05]0/);
 	if (/^\s*slot(\d+): ([^,]+), hw (\S+), sw (\S+), ccb/) {
 	    $slot = $1;
@@ -479,8 +476,8 @@ sub ShowDiagbus {
 
     while (<INPUT>) {
 	tr/\015//d;
-	last if(/^$prompt/);
-	return(1) if(/^\s*$cmd\s*$/);
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if ($type !~ /^7[05]/);
 	if (/^\s*Slot (\d+):/i) {
 	    $slot = $1;
@@ -564,8 +561,8 @@ sub ShowDiags {
 
     while (<INPUT>) {
 	tr/\015//d;
-	last if(/^$prompt/);
-	return(1) if(/^\s*$cmd\s*$/);
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if ($type !~ /^(1200|720|36.0)/);
 	/^$/ && next;
 	if (!defined($showdiags)) {$showdiags=1; ProcessHistory("SLOT","","","!\n");}
@@ -649,8 +646,8 @@ sub ShowC7200 {
 
     while (<INPUT>) {
 	tr/\015//d;
-	last if(/^$prompt/);
-	return(1) if(/^\s*$cmd\s*$/);
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if ($type !~ /^72/);
 	/^$/ && next;
 	if (/C7200 Midplane EEPROM:/) {

@@ -1,4 +1,6 @@
 2.2b7
+	brancid: patch to filter community strings from Mark Cooper
+
 	do-diffs: trap'ing SEGV (11) causes error on solaris.
 
 2.2b6

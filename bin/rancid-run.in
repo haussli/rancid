@@ -54,8 +54,10 @@ END
 		else
 			trap 'rm -fr $LOCKFILE;' 1 2 15
 			touch $LOCKFILE
-			control_rancid $GROUP
-			rm -f $LOCKFILE
+			if [ $? -eq 0 ] ; then
+			    control_rancid $GROUP
+			    rm -f $LOCKFILE
+			fi
 			trap '' 1 2 15
 		fi
 

@@ -1,18 +1,18 @@
-2.3.eft
+2.3.rc1
 	The following files have been moved to make rancid more
 	install/pkg/port/rpm friendly.
 		*** bin/env has been moved to etc/rancid.conf ***
 		*** bin/hpfilter has been renamed hpuifilter ***
 		*** util/lg/lg.conf has been moved to etc/lg.conf ***
-		*** util/lg/lg*.cgi has been moved to bin/lg*cgi ***
+		*** util/lg/lg*.cgi have been moved to bin/lg*cgi ***
 	Note: existing configuration files are *NOT* copied/moved for you
-
-	rancid: add show spe version and parse FRU show diag output
-	- from Yuval Ben-Ari.
 
 	bin/rename is no longer shipped with rancid
 
 	rancid.conf: add LOGDIR variable - see rancid.conf(5)
+
+	rancid: add show spe version and parse FRU show diag output
+	- from Yuval Ben-Ari.
 
 	add option --enable-adminmail-plus to configure
 

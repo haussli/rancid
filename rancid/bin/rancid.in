@@ -138,6 +138,7 @@ sub ShowVersion {
 	tr/\015//d;
 	last if(/^$prompt/);
 	next if(/^(\s*|\s*$cmd\s*)$/);
+	return(-1) if (/command authorization failed/i);
 	if (/^Slave in slot (\d+) is running/) {
 	    $slave = " Slave:";
 	    next;
@@ -284,6 +285,7 @@ sub ShowInstallActive {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /^\s*\^\s*$/;
 	return(1) if /(Invalid input detected|Type help or )/;
+	return(-1) if (/command authorization failed/i);
 	ProcessHistory("COMMENTS","keysort","F5","!Image: $_") && next;
     }
     return(0);
@@ -299,6 +301,7 @@ sub ShowEnv {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if ($type !~ /^7/);
+	return(-1) if (/command authorization failed/i);
 	if (!defined($E0)) {
 	    $E0=1;
 	    ProcessHistory("COMMENTS","keysort","E0","!\n");
@@ -332,6 +335,7 @@ sub ShowGSR {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(-1) if (/command authorization failed/i);
 	return(1) if ($type !~ /^120/);
 	/^$/ && next;
 	/^\s+Chassis: type (\S+) Fab Ver: (\S+)/ &&
@@ -367,6 +371,7 @@ sub ShowBoot {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /^\s*\^\s*$/;
+	return(-1) if (/command authorization failed/i);
 	return(1) if /Ambiguous command/i;
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(1) if /(Open device \S+ failed|Error opening \S+:)/;
@@ -398,6 +403,7 @@ sub ShowFlash {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if ($type =~ /^(120|7)/);
+	return(-1) if (/command authorization failed/i);
 	return(1) if /^\s*\^\s*$/;
 	return(1) if /(Invalid input detected|Type help or )/;
 	ProcessHistory("FLASH","","","!Flash: $_");
@@ -424,6 +430,7 @@ sub DirSlotN {
 	return(1) if /No space information available/;
 	return(-1) if /\%Error calling/;
 	return(-1) if /: device being squeezed/; # Flash is busy
+	return(-1) if (/command authorization failed/i);
 	return(1) if /(Open device \S+ failed|Error opening \S+:)/;
 	ProcessHistory("FLASH","","","!Flash: $dev: $_");
     }
@@ -441,6 +448,7 @@ sub ShowContAll {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if ($type =~ /^(120|7[05])/);
+	return(-1) if (/command authorization failed/i);
 	if (/^Interface ([^ \n(]*)/) { $INT = "$1, "; next; }
 	/^(BRI unit \d)/ &&
 	    ProcessHistory("INT","","","!Interface: $1\n") && next;
@@ -498,6 +506,7 @@ sub ShowContCbus {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if ($type !~ /^7[05]0/);
+	return(-1) if (/command authorization failed/i);
 	if (/^\s*slot(\d+): ([^,]+), hw (\S+), sw (\S+), ccb/) {
 	    $slot = $1;
 	    $board{$slot} = $2;
@@ -542,6 +551,7 @@ sub ShowDiagbus {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if ($type !~ /^7[05]/);
+	return(-1) if (/command authorization failed/i);
 	if (/^\s*Slot (\d+):/i) {
 	    $slot = $1;
 	    next;
@@ -627,6 +637,7 @@ sub ShowDiag {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if ($type !~ /^(120|720|36|26)/);
+	return(-1) if (/command authorization failed/i);
 	/^$/ && next;
 	if (!defined($showdiags)) {$showdiags=1; ProcessHistory("SLOT","","","!\n");}
 	s/Port Packet Over SONET/POS/;
@@ -727,6 +738,7 @@ sub ShowModule {
 	return if (/^\s*\^$/);
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(-1) if (/command authorization failed/i);
 
 	# match slot info line, slot info then the rev info (the two are split)
 	if (/^ ?(\d+)\s+(\d+)\s+(.*)\s+(\S+)\s+(\S+)\s*$/) {
@@ -757,6 +769,7 @@ sub ShowC7200 {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if ($type !~ /^72/);
+	return(-1) if (/command authorization failed/i);
 	/^$/ && next;
 	if (/C7200 Midplane EEPROM:/) {
 	    $_ = <INPUT>;
@@ -791,6 +804,7 @@ sub ShowVTP {
 	return(1) if /^\s*\^\s*$/;
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(1) if ($type !~ /^(2900XL|3500XL|6000)$/);
+	return(-1) if (/command authorization failed/i);
 	next if (/^Configuration last modified by/);
 	if (/^VTP Operating Mode\s+:\s+(Transparent|Server)/) {
 	    $DO_SHOW_VLAN = 1;
@@ -813,6 +827,7 @@ sub ShowVLAN {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(1) if ($type !~ /^(2900XL|3500XL|6000)$/);
+	return(-1) if (/command authorization failed/i);
 	ProcessHistory("COMMENTS","keysort","IO","!VLAN: $_");
     }
     ProcessHistory("COMMENTS","keysort","IO","!\n");
@@ -826,6 +841,7 @@ sub WriteTerm {
     while (<INPUT>) {
 	tr/\015//d;
 	last if(/^$prompt/);
+	return(-1) if (/command authorization failed/i);
 	# the pager can not be disabled per-session on the PIX
 	s/^<-+ More -+>\s*//;
 	/Non-Volatile memory is in use/  && return(-1); # NvRAM is locked

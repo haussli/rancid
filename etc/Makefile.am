@@ -28,8 +28,13 @@ EXTRA_DIST= $(pkgdata_DATA:%=%.in)
 
 CLEANFILES= $(pkgdata_DATA)
 
+if CONF_INSTALL
+DO_CONF_INSTALL=yes
+endif
+
 install-data-local: all
-	@if test -f $(sysconfdir)/rancid.conf ; then \
+	@if test "$(DO_CONF_INSTALL)" = "yes"; then \
+	if test -f $(sysconfdir)/rancid.conf ; then \
 	    echo ""; \
 	    echo "WARNING: *** $(sysconfdir)/rancid.conf exists.  See "; \
 	    echo "         *** $(pkgdatadir)/rancid.conf.sample for new"; \
@@ -46,7 +51,8 @@ install-data-local: all
 	    echo ""; \
 	else \
 	    $(INSTALL_DATA) lg.conf.sample $(sysconfdir)/lg.conf; \
-	fi;
+	fi; \
+	fi
 
 #clean:
 #	rm -f Makefile rancid.conf $(BIN_DATAS) $(BIN_PROGS)

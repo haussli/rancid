@@ -62,12 +62,15 @@ $ENV{PATH}="@prefix@/bin:@ENV_PATH@";
 #$LG_CACHE_TIME=600;
 #
 #
-# LG_SYSLOG_FAC	is the syslog facility to log to.  if not defined, the LG
-#		will log to LG_LOG_FILE.  possible values are from the
-#		facility codes in /usr/include/syslog.h minus the 'LOG_' and
-#		lower case.
+# LG_LOG	is either a FQPN (fully qualified path name) the syslog
+#		facility to use for logging.  if not defined, the LG
+#		will log to LG_CACHE_DIR/lg.log.  possible syslog facility
+#		values are from the facility codes in /usr/include/syslog.h
+#		minus the 'LOG_' and lower case.
 #
-#$LG_SYSLOG_FAC='local0';
+#$LG_LOG="$LG_CACHE_DIR/lg.log";
+#$LG_LOG="/tmp/lg.log";
+#$LG_LOG="local0";
 #
 #
 # LG_AS_REG	*** not implemented.

@@ -48,6 +48,30 @@ sub readconf
 
     return;
 }
+# logging
+sub dolog
+{
+    my($level, $msg) = @_;
+
+    if (defined($LG_LOG) && $LG_LOG !~ /\//) {
+	openlog($me, "pid", $LG_LOG);
+	syslog($level, "%s", $msg);
+	closelog;
+    } else {
+	local(*LOG);
+	my($file);
+	if (defined($LG_LOG)) {
+	    $file = $LG_LOG;
+	} else {
+	    $file = "$cache_dir/lg.log";
+	}
+	#  log date, hostname, query, addr
+	open(LOG,">>$file") ; 
+	printf(LOG "$msg");
+	close(LOG); 
+    }
+    return;
+}
 # run commands on the router
 sub DoRsh
 {
@@ -76,7 +100,6 @@ sub DoCmd
 {
     my($rtr, $mfg, $type, $arg) = @_;
     local(*CMD);
-printf STDERR "in do CMD $rtr, $mfg, $type, $arg\n";
 
     if ($mfg =~ /juniper/i) {
 	open(CMD, "jlogin -f $cloginrc -c \'$juniperCmd{$type} $arg\' $rtr |");
@@ -88,6 +111,7 @@ printf STDERR "in do CMD $rtr, $mfg, $type, $arg\n";
     while (<CMD>) {
 	tr/\015//d;
 	if (/^error:/i) {
+	    dolog(LOG_ERR, $_);
 	    return ($_);
 	}
 #		push(@results, $_);
@@ -122,64 +146,53 @@ sub mask2len {
 # create the page and log the transaction...
 sub print_results {
 
-#log_start($debug, $debugl, $cfgtools::log_facility, "lookingglass",
-#	$cfgtools::log_facility);
-#log_msg($debug, $debugl, undef, "user: $remote_user, query: $type, router: $router_param, arg: $arg");
-#log_end($debug, $debugl);
+    my($timestr) = strftime("%a %b %e %H:%M:%S %Y %Z", gmtime);
+    dolog(LOG_INFO, sprintf("%s %s %s %s\n",
+	$ENV{REMOTE_HOST}, $ENV{REMOTE_ADDR}, $ENV{REMOTE_USER},
+	"- - [$timestr] $type $router $arg"));
+    print $query->header;
+    print $query->start_html("Looking Glass Results - $router");
 
-#  log date, hostname, query, addr
-$date = `/bin/date` ; 
-chop $date ;
-open(LOG,">>$cache_dir/lg.log") ; 
-($ENV{REMOTE_HOST}) && ( print LOG "$ENV{'REMOTE_HOST'} ") ; 
-($ENV{REMOTE_ADDR}) && ( print LOG "$ENV{'REMOTE_ADDR'} ")  ; 
-($ENV{REMOTE_USER}) && ( print LOG "$ENV{'REMOTE_USER'} ")  ; 
-print LOG "- - [$date] $type $router $arg\n"  ; 
-close LOG ; 
+    $timestr = strftime("%a %b %e %H:%M:%S %Y %Z", gmtime);
 
-print $query->header;
-print $query->start_html("Looking Glass Results - $router");
+    # add the company image, LG_IMAGE
+    print $LG_IMAGE;
 
-my($timestr) = strftime("%a %b %e %H:%M:%S %Y %Z", gmtime);
+    print <<HEAD ;
+	</b></font>
+	<font size=+3><b><h1>Looking Glass Results - $router
+	</b></h1></font>
+	<hr>
 
-# add the company image, LG_IMAGE
-print $LG_IMAGE;
-
-print <<HEAD ;
-    </b></font>
-    <font size=+3><b><h1>Looking Glass Results - $router
-    </b></h1></font>
-    <hr>
-
-    <center>
-    <b>Date:</b> $timestr
-    <p>
-    <b>Query:</b> $cmdDisp{$type}
-    <br>
+	<center>
+	<b>Date:</b> $timestr
+	<p>
+	<b>Query:</b> $cmdDisp{$type}
+	<br>
 HEAD
 
-if ($arg) { print "<b>Argument(s):</b> $arg\n"; }
-print "</center>\n";
+    if ($arg) { print "<b>Argument(s):</b> $arg\n"; }
+    print "</center>\n";
 
-print <<END ; 
-    <!--$cached-->
-    </center>
-    <p>
-    <pre>
+    print <<END ; 
+	<!--$cached-->
+	</center>
+	<p>
+	<pre>
 END
 
-if ($seconds) { print "<b>From cache (number of seconds old (max $max_time_diff)):</b> $seconds\n\n" ; }
+    if ($seconds) { print "<b>From cache (number of seconds old (max $max_time_diff)):</b> $seconds\n\n" ; }
 
-print @results;
+    print @results;
 
-print <<END ; 
-    </pre>
-    <!--- end page content --->
-    </body>
+    print <<END ; 
+	</pre>
+	<!--- end page content --->
+	</body>
 END
 
-print $query->end_html;
-exit;
+    print $query->end_html;
+    exit;
 
 }  #end sub print_results
 

@@ -382,16 +382,14 @@ void
 usage(void)
 {
     fprintf(stderr,
-"usage: %s [-hv] <telnet|ssh> [<ssh options>] <hostname> [<telnet_port>]
-", progname);
+"usage: %s [-hv] <telnet|ssh> [<ssh options>] <hostname> [<telnet_port>]\n",
+	progname);
     return;
 }
 
 void
 vers(void)
 {
-    fprintf(stderr,
-"%s: %s version %s
-", progname, package, version);
+    fprintf(stderr, "%s: %s version %s\n", progname, package, version);
     return;
 }

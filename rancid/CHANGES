@@ -1,6 +1,15 @@
-2.2b3
+2.2
+	add 2 example expect script for clogin -s
+
+	handle foundrys and more juniper bits in the lookingglass
+
+	add LG_STRIP knob to strip login o/p in the lookingglass
+
+	add LG_BGP_RT knob to {dis}allow heavy o/p sh ip bgp neighbor LG cmds
+
 	bin/clogin shouldnt insist upon an enable password with -noenable option
 
+2.2b3
 	bin/rancid changes for cisco 124xx
 
 	some serial controllers (PAs) have predefined cable-type in show

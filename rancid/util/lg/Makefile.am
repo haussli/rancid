@@ -1,7 +1,8 @@
 ## Process this file with automake to produce Makefile.in
 ## A Makefile.in is supplied, in case you do not have automake.
 
-## Copyright (C) 1997-2001 by Henry Kilmer, Erik Sherk and Pete Whiting.
+## Copyright (C) 1997-2003 by Henry Kilmer, Erik Sherk and Pete Whiting, Andrew
+## Partan, and John Heasley.
 ## All rights reserved.
 ##
 ## This software may be freely copied, modified and redistributed without

@@ -45,8 +45,7 @@ sub ProcessHistory {
     }
     if (($new_hist_tag) && ($new_command) && ($command_string)) {
 	if ($history{$command_string}) {
-	    $history{$command_string} =
-"$history{$command_string}@string";
+	    $history{$command_string} = "$history{$command_string}@string";
 	} else {
 	    $history{$command_string} = "@string";
 	}
@@ -175,8 +174,7 @@ sub GetConf {
             next;
         }
  	if (/^set admin password (\S+)$/ && $filter_pwds >= 1) {
-            ProcessHistory("ADMIN","","","!set admin password
-<removed>\n");
+            ProcessHistory("ADMIN","","","!set admin password <removed>\n");
             next;
         }
 	ProcessHistory("","","","$_");
@@ -218,13 +216,10 @@ if ($debug);
     print STDOUT "executing nlogin -t $timeo -c\"$cisco_cmds\" $host\n"
 if ($log);
     if (defined($ENV{NOPIPE})) {
-	system "nlogin -t $timeo -c \"$cisco_cmds\" $host </dev/null >
-$host.raw 2>&1" || die "nlogin failed for $host: $!\n";
-	open(INPUT, "< $host.raw") || die "nlogin failed for $host:
-$!\n";
+	system "nlogin -t $timeo -c \"$cisco_cmds\" $host </dev/null > $host.raw 2>&1" || die "nlogin failed for $host: $!\n";
+	open(INPUT, "< $host.raw") || die "nlogin failed for $host: $!\n";
     } else {
-	open(INPUT,"nlogin -t $timeo -c \"$cisco_cmds\" $host </dev/null
-|") || die "nlogin failed for $host: $!\n";
+	open(INPUT,"nlogin -t $timeo -c \"$cisco_cmds\" $host </dev/null |") || die "nlogin failed for $host: $!\n";
     }
 }
 
@@ -274,10 +269,8 @@ if (defined($ENV{NOPIPE})) {
 # check for completeness
 if (scalar(%commands) || !$found_end) {
     if (scalar(%commands)) {
-	printf(STDOUT "$host: missed cmd(s): %s\n", join(',',
-keys(%commands)));
-	printf(STDERR "$host: missed cmd(s): %s\n", join(',',
-keys(%commands))) if ($debug);
+	printf(STDOUT "$host: missed cmd(s): %s\n", join(',', keys(%commands)));
+	printf(STDERR "$host: missed cmd(s): %s\n", join(',', keys(%commands))) if ($debug);
     }
     if (!$found_end) {
 	print STDOUT "$found_end: found end\n";

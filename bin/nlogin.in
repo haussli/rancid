@@ -4,10 +4,8 @@
 ## Copyright (C) 1997-2001 by Henry Kilmer, Erik Sherk and Pete Whiting.
 ## All rights reserved.
 ##
-## This software may be freely copied, modified and redistributed
-without
-## fee for non-commerical purposes provided that this copyright notice
-is
+## This software may be freely copied, modified and redistributed without
+## fee for non-commerical purposes provided that this copyright notice is
 ## preserved intact on all copies and modified copies.
 ## 
 ## There is no warranty or other guarantee of fitness of this software.
@@ -86,8 +84,7 @@ for {set i 0} {$i < $argc} {incr i} {
 	# Environment variable to pass to -s scripts
 	} -E*
 	{
-	    if {[ regexp .\[E\](.+)=(.+) $arg ignore varname varvalue]}
-{
+	    if {[ regexp .\[E\](.+)=(.+) $arg ignore varname varvalue]} {
 		set E$varname $varvalue
 	    } else {
 		send_user "Error: invalid format for -E in $arg\n"
@@ -222,14 +219,12 @@ proc find {var firewall} {
 proc source_password_file { password_file } {
     global env
     if { ! [file exists $password_file] } {
-	send_user "\nError: password file ($password_file) does not
-exist\n"
+	send_user "\nError: password file ($password_file) does not exist\n"
 	exit 1
     }
     file stat $password_file fileinfo
     if { [expr ($fileinfo(mode) & 007)] != 0000 } {
-	send_user "\nError: $password_file must not be world
-readable/writable\n"
+	send_user "\nError: $password_file must not be world readable/writable\n"
 	exit 1
     }
     if [ catch {source $password_file} reason ] {
@@ -253,16 +248,14 @@ cyphertype } {
 	    if {"$port" == ""} {
 		set retval [ catch {spawn telnet $firewall} reason ]
 	    } else {
-		set retval [ catch {spawn telnet $firewall $port} reason
-]
+		set retval [ catch {spawn telnet $firewall $port} reason ]
 	    }
 	    if { $retval } {
 		send_user "\nError: telnet failed: $reason\n"
 		exit 1
 	    }
 	} elseif ![string compare $prog "ssh"] {
-	    if [ catch {spawn ssh -c $cyphertype -x -l $user $firewall}
-reason ] {
+	    if [ catch {spawn ssh -c $cyphertype -x -l $user $firewall} reason ] {
 		send_user "\nError: ssh failed: $reason\n"
 		exit 1 
 	    }  
@@ -323,30 +316,24 @@ reason ] {
 	}
 	-re "Are you sure you want to continue connecting .*" {
 	    send "yes\r"
-	    send_user "Host $firewall added to the list of known
-hosts.\n"
+	    send_user "Host $firewall added to the list of known hosts.\n"
             exp_continue }
 	-re "Host key not found .* \(yes\/no\)\?"       {
             send "yes\r"
-            send_user "Host $firewall added to the list of known
-hosts.\n"
+            send_user "Host $firewall added to the list of known hosts.\n"
             exp_continue }
         -re "HOST IDENTIFICATION HAS CHANGED.* \(yes\/no\)\?"   {
             send "no\r"
-            send_user "\nError: The host key for $firewall has changed.
-Update the SSH known_hosts file accordingly.\n"
+            send_user "\nError: The host key for $firewall has changed.  Update the SSH known_hosts file accordingly.\n"
             return 1 }
 	-re "Offending key for .* \(yes\/no\)\?"   {
 	    send "no\r"
-	    send_user "\nError: host key mismatch for $firewall.  Update
-the SSH known_hosts file accordingly.\n"
+	    send_user "\nError: host key mismatch for $firewall.  Update the SSH known_hosts file accordingly.\n"
 	    return 1 }
-	denied		{ send_user "\nError: Check your passwd for
-$firewall\n" 
+	denied		{ send_user "\nError: Check your passwd for $firewall\n" 
 	                  catch {close}; wait; return 1
 	                }
-	" ### Login failed" {send_user "\nError: Check your passwd for
-$firewall\n"; return 1 }
+	" ### Login failed" {send_user "\nError: Check your passwd for $firewall\n"; return 1 }
 	-re "(login:)"	{
 					  sleep 1;
 					  send "$user\r"
@@ -430,8 +417,7 @@ foreach firewall [lrange $argv $i end] {
     if { $do_passwd || $do_enapasswd } {
       set pswd [find password $firewall]
       if { [llength $pswd] == 0 } {
-        send_user "Error: no password for $firewall in
-$password_file.\n"
+        send_user "Error: no password for $firewall in $password_file.\n"
         continue
       } 
      set passwd [lindex $pswd 0]
@@ -447,8 +433,7 @@ $password_file.\n"
       if { "$ruser" == "" } { set ruser $default_user }
     } 
 
-    # Figure out username's password (if different from the vty
-password)
+    # Figure out username's password (if different from the vty password)
     if {[info exists userpasswd]} {
       # command line username
       set userpswd $userpasswd
@@ -480,8 +465,7 @@ password)
     if { "$cmethod" == "" } { set cmethod {{telnet} {ssh}} }
 
     # Login to the firewall
-    if {[login $firewall $ruser $userpswd $passwd $enapasswd $prompt
-$cmethod $cyphertype]} {
+    if {[login $firewall $ruser $userpswd $passwd $enapasswd $prompt $cmethod $cyphertype]} {
 	continue
     }
     if { $enable } { 

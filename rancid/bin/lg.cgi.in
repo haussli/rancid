@@ -453,7 +453,7 @@ if (!defined($type) || !defined($router) || $router eq "") {
 								"a clue.\n");
 }
 
-if ($arg !~ /^[-A-Za-z0-9|_\/ \.^\$]*$/) {
+if ($arg !~ /^[-A-Za-z0-9|_\/: \.^\$]*$/) {
     &Error("Funny characters in argument; ignoring.\n");
 }
 if (length($arg) >= 50) {

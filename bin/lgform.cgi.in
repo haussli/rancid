@@ -32,6 +32,7 @@ BEGIN {
 }
 
 use CGI qw/:standard/;
+use POSIX qw(strftime);
 use Sys::Syslog;
 
 my(@rtrlist, %rtrlabels);

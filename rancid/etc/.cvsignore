@@ -1,4 +1,4 @@
 .deps
 Makefile
-lg.conf
-rancid.conf
+lg.conf.sample
+rancid.conf.sample

@@ -141,6 +141,9 @@ results.
 Configuration file described here, where $BASEDIR is set at the time that
 the rancid package was configured.  In this case, $BASEDIR is
 .IR @prefix@ .
+.B lg.conf
+is located by the value of the environment variable LG_CONF, in the CWD
+(current working directory), or rancid install directory ($BASEDIR/util/lg).
 .El
 .SH SEE ALSO
 .BR cloginrc (5),

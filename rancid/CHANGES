@@ -1,12 +1,13 @@
 2.0
-	collect 'show module' for 6500-ios.
+	Get some info out of "show version" for the cat5ks.
 
-	revamp *login's use of .cloginrc's method directive. see
-	cloginrc.sample
+	Collect 'show module' for 6500-ios.
 
-	Add bits for Cisco PIX.  thanks to joe rizzo@EA for access to a pix.
+	Revamp *login's use of .cloginrc's method directive. see
+	cloginrc.sample.
 
-	Make sure we continue to sort tacacs-server host.
+	Add bits for Cisco PIX.  Thanks to joe rizzo@EA for access to a PIX.
+
 	Sort usernames on ciscos.
 	Get more info out of "show diag" on the GSR.
 
@@ -33,9 +34,9 @@
 
 1.5
 	sync command-line option between clogin / jlogin.  jlogin modified:
-		-x passphrase   ->      -r passphrase
-				->      -x command-file
-		-e encrypt type ->      -y ssh_chyper_type
+		-x passphrase   ->	-r passphrase
+				->	-x command-file
+		-e encrypt type ->	-y ssh_chyper_type
 
 	add .cloginrc noenable directive to set the cmd-line -noenable
 	option.

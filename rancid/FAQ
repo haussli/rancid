@@ -22,6 +22,12 @@ A. This may be due to your prompt.  CatOS does not include an implicit '>' in
 	Password: 
 	cat5k> (enable) 
 
+Q. Polling a ZebOS box fails from cron, but it successful from the command-
+   line.
+A. This is the tty/pty handling of either your O/S or ZebOS.  Supposedly,
+   changing the TERM in <BASEDIR>/bin/env to the following will fix it.
+	TERM=vt100;export TERM
+	COLUMNS=160; LINES=48; export COLUMNS LINES
 
 
 2) CVS and filesystem permissions

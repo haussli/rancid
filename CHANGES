@@ -1,4 +1,11 @@
 2.3.eft
+	cat5rancid: collect 'write term all' for cats that support it - tested
+	by terry kennedy
+
+	cat5rancid: regularize escaping of regex operators in switch prompt
+
+	nsrancid: include "get log setting", as suggested by gael canal.
+
 	add manpage note about log_user with -s, from mail list discussion
 
 	xrancid: Handle end of ssh connection a bit better.

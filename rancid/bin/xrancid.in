@@ -291,7 +291,7 @@ sub WriteTerm {
 	ProcessHistory("","","","$_");
 	# end of config
 	if (/^# End of configuration file/i) {
-	    printf STDERR "    End WriteTerm: $_" if (debug);
+	    printf STDERR "    End WriteTerm: $_" if ($debug);
 	    $found_end = 1;
 	    return(1);
 	}

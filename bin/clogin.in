@@ -405,7 +405,7 @@ proc run_commands { prompt command } {
 	set num_commands [llength $commands]
 
 	for {set i 0} {$i < $num_commands} { incr i} {
-	    send "[subst [lindex $commands $i]]\r"
+	    send "[subst -nocommands [lindex $commands $i]]\r"
 	    expect {
 		-re "^\[^\n\r]*$reprompt."	{ exp_continue }
 		-re "^\[^\n\r *]*$reprompt"	{}
@@ -413,7 +413,7 @@ proc run_commands { prompt command } {
 	    }
 	}
     } else {
-	send "[subst $command]\r"
+	send "[subst -nocommands $command]\r"
 	expect {
 		-re "^\[^\n\r]*$reprompt."	{ exp_continue }
 		-re "^\[^\n\r *]*$reprompt"	{}

@@ -162,9 +162,6 @@ if [ -f $DIR/routers.up.missed ]; then
 fi
 while [ $round -le $pass ]
 do
-    echo "====================================="
-    echo "Getting missed routers: round $round."
-
     for router in `cat $DIR/routers.up`
     do
 	OFS=$IFS
@@ -180,6 +177,8 @@ do
     done
 
     if [ -f $DIR/routers.up.missed ]; then
+	echo "====================================="
+	echo "Getting missed routers: round $round."
 	par -q -n $PAR_COUNT -c "rancid-fe \{}" $DIR/routers.up.missed
 	rm -f $DIR/routers.up.missed
 	round=`expr $round + 1`
@@ -199,6 +198,7 @@ rename 's/.new$//' *.new
 cd $DIR
 #cvs diff -c3 >$TMP.diff
 #cvs diff -C 3 >$TMP.diff
+# Change the output of a unified diff to make it a bit more readable.
 cat > $TMP.sedf << EOF
 /^RCS file: /d
 #/^retrieving revision /d

@@ -234,18 +234,21 @@ Precedence: bulk
 EMAIL
 fi
 
-# If any machines have not been reached within 24 hours, mail
-# out a list of them.
+# If any machines have not been reached within the last $OLDTIME
+# hours, mail out a list of them.
 cd $DIR/configs
 rm -f $DIR/routers.failed
-perl -F: -ane '{$t = (stat($F[0]))[9]; print `ls -ld $F[0]`
-	if (time() - $t >= 86400);}' $DIR/routers.up | sort -u > $DIR/routers.failed
+if [ "X$OLDTIME" = "X" ] ; then
+    OLDTIME=24
+fi
+perl -F: -ane "{\$t = (stat(\$F[0]))[9]; print \`ls -ld \$F[0]\`
+	if (time() - \$t >= $OLDTIME*60*60);}" $DIR/routers.up | sort -u > $DIR/routers.failed
 if [ -s $DIR/routers.failed ]
 then
 	(
 		cat <<END
 The following routers have not been successfully contacted within the
-last 24 hours.
+last $OLDTIME hours.
 
 END
 		cat $DIR/routers.failed

@@ -255,12 +255,12 @@ proc login { router user passwd prompt encrypttype} {
 	-re "(Username|^login):"	{ send "$user\r"
 	    expect { 
 		eof             	{ send_user "Error: Couldn't login\n"; wait; return 1 }
-		-re "\[Pp]assword:"	{ stty -echo; send "$passwd\r"; stty echo }
+		-re "\[Pp]assword:"	{ send "$passwd\r" }
 		"$prompt"		{ set in_proc 0; return 0 }
 	    }
 	    exp_continue
 	}
-	"\[Pp]assword:"	{ stty -echo; send "$passwd\r"; stty echo
+	"\[Pp]assword:"	{ send "$passwd\r"
 	    expect { 
 		eof             { send_user "Error: Couldn't login\n"; wait; return 1 }
 		"$prompt"       { set in_proc 0; return 0 }

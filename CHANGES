@@ -1,5 +1,11 @@
 2.2b8
-	brancid: filter uptime in bayrs version 14 - from mordechai abzug
+	jlogin: add 1s sleeps to avoid passwords being echo before tty noecho
+	is set.  richard doty
+
+	few looking glass fixes
+
+	brancid: filter uptime in bayrs version 14.  from mordechai abzug
+
 	jrancid: m160 measured chassis clock MHz fluctuates, trim the
 	decimal places.  from Mark A Gebert.
 

@@ -1,4 +1,6 @@
 2.3.eft
+	xrancid: Handle end of ssh connection a bit better.
+
 	jrancid: skip master/backup re msgs
 
 	*rancid: escape regex chars found in prompt

@@ -435,7 +435,7 @@ TOP: while(<INPUT>) {
     # note: this match sucks rocks, but currently the extreme bits are
     # unreliable about echoing the 'exit\n' command.  this match might really
     # be a bad idea, but instead rely upon WriteTerm's found_end?
-    if (/$prompt\s?(quit|exit|Connection closed)/ && $found_end) {
+    if (/$prompt\s?(quit|exit|Connection( to \S+)? closed)/ && $found_end) {
 	$clean_run=1;
 	last;
     }

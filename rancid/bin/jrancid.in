@@ -139,7 +139,7 @@ sub sortbyipaddr {
 sub ShowChassisClocks {
     print STDERR "    In ShowChassisClocks: $_" if ($debug);
     /error: the chassis subsystem is not running/ && return;
-    ProcessHistory("","","","$_") && return;
+    ProcessHistory("","","","# $_") && return;
     return;
 }
 
@@ -148,7 +148,7 @@ sub ShowChassisEnvironment {
     print STDERR "    In ShowChassisEnvironment: $_" if ($debug);
     /error: the chassis subsystem is not running/ && return;
     / backplane temperature/ && return;
-    /(\s*Power supply.*), temperature/ && ProcessHistory("","","","$1\n") && return;
+    /(\s*Power supply.*), temperature/ && ProcessHistory("","","","# $1\n") && return;
     ProcessHistory("","","","# $_") && return;
     return;
 }
@@ -165,9 +165,9 @@ sub ShowChassisFirmware {
 sub ShowChassisFpcDetail {
     print STDERR "    In ShowChassisFpcDetail: $_" if ($debug);
     /error: the chassis subsystem is not running/ && return;
+    / Temperature:/ && return;
     / Start time:/ && return;
     / Uptime:/ && return;
-    / Temperature:/ && return;
     ProcessHistory("","","","# $_") && return;
     return;
 }
@@ -183,9 +183,9 @@ sub ShowChassisHardware {
 # This routine parses "show chassis routing-engine"
 sub ShowChassisRoutingEngine {
     print STDERR "    In ShowChassisRoutingEngine: $_" if ($debug);
-    /^Routing Engine status:/ && ProcessHistory("","","","$_") && return;
-    / DRAM:/ && ProcessHistory("","","","$_") && return;
-    /^\s*$/ && ProcessHistory("","","","$_") && return;
+    /^Routing Engine status:/ && ProcessHistory("","","","# $_") && return;
+    / DRAM:/ && ProcessHistory("","","","# $_") && return;
+    /^\s*$/ && ProcessHistory("","","","# $_") && return;
     return;
 }
 
@@ -197,11 +197,6 @@ sub ShowChassisSCB {
     /time:/ && return;
     / (IP|MLPS) routes:/ && return;
     / used:/ && return;
-
-#    /^SCB status:/ && ProcessHistory("","","","$_") && return;
-#    / DRAM:/ && ProcessHistory("","","","$_") && return;
-#    / SRAM size: / && ProcessHistory("","","","$_") && return;
-#    /^\s*$/ && ProcessHistory("","","","$_") && return;
     ProcessHistory("","","","# $_") && return;
     return;
 }
@@ -217,6 +212,7 @@ sub ShowVersion {
 # This routine parses "show configuration"
 sub ShowConfiguration {
     print STDERR "    In ShowConfiguration: $_" if ($debug);
+    /authentication-key / && return;
     ProcessHistory("","","","$_") && return;
     return;
 }
@@ -288,7 +284,7 @@ while(<INPUT>) {
 	last;
     }
     if (/($cmds_regexp)/) {
-	ProcessHistory("","","","$host> $1\n");
+	ProcessHistory("","","","# $host> $1\n");
 	$func = FlailHelplessly;
 	print STDERR ("HIT COMMAND:$_") if ($debug);
     } else {

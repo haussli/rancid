@@ -1,4 +1,8 @@
 2.1
+	Add "show port ifindex" for the cat5s.
+
+	Try to detect flash being busy on a cat5.
+
 	Tag each config file with its 'type'.  E.g.:
 		!RANCID-CONTENT-TYPE: cisco
 

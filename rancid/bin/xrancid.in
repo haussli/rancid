@@ -275,7 +275,7 @@ sub WriteTerm {
 
 	s/^\s*$/#/;
 	# filter extra comments and lead comments in config so we can preserve
-	# the chassis type at the top of muched o/p before the processhistory
+	# the chassis type at the top of muched o/p before the process history
 	# key changes.
 	if (/^#\s*$/) {
  	   if ($comment) {
@@ -302,6 +302,7 @@ sub WriteTerm {
 	    ProcessHistory("","","","# $_# <key removed>\n");
 	    while (<INPUT>) {
 		if (/^(#|enable|conf|disable|unconf)/) {
+		    tr/\015//d;
 		    last;
 		}
 	    }
@@ -309,7 +310,7 @@ sub WriteTerm {
 
 	# filter out any RCS/CVS tags to avoid confusing local CVS storage
 	s/\$(Revision|Id):/ $1:/;
-	/^(config bgp (neighbor|peer-group) \S+ password encrypted)/i &&
+	/^((config|configure) bgp (neighbor|peer-group) \S+ password encrypted)/i &&
 	    ProcessHistory("","","","# $1 <removed>\n") &&
 	    next;
 

@@ -1,4 +1,7 @@
 2.2b9
+	extreme: strip password if config|configure.  Strip ^M
+	right after ssh key.
+
 	Look for BOOTLDR: on ciscos.
 
 	add par.1 manpage

@@ -30,7 +30,7 @@ bin_SCRIPTS = cat5rancid control_rancid \
 	tntrancid xrancid zrancid
 
 bin_SCRIPTS += lg.cgi lgform.cgi
-dist_bin_SCRIPTS= lg.cgi.in lgform.cgi.in
+EXTRA_DIST= lg.cgi.in lgform.cgi.in
 #dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
 
 CLEANFILES= lg.cgi lgform.cgi

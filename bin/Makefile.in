@@ -39,12 +39,12 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 bin_PROGRAMS = hpuifilter$(EXEEXT)
 subdir = bin
-DIST_COMMON = $(dist_bin_SCRIPTS) $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(srcdir)/alogin.in $(srcdir)/arancid.in \
-	$(srcdir)/blogin.in $(srcdir)/brancid.in \
-	$(srcdir)/cat5rancid.in $(srcdir)/clogin.in \
-	$(srcdir)/control_rancid.in $(srcdir)/create_cvs.in \
-	$(srcdir)/do-diffs.in $(srcdir)/elogin.in $(srcdir)/erancid.in \
+DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
+	$(srcdir)/alogin.in $(srcdir)/arancid.in $(srcdir)/blogin.in \
+	$(srcdir)/brancid.in $(srcdir)/cat5rancid.in \
+	$(srcdir)/clogin.in $(srcdir)/control_rancid.in \
+	$(srcdir)/create_cvs.in $(srcdir)/do-diffs.in \
+	$(srcdir)/elogin.in $(srcdir)/erancid.in \
 	$(srcdir)/f10rancid.in $(srcdir)/flogin.in \
 	$(srcdir)/francid.in $(srcdir)/hlogin.in $(srcdir)/hrancid.in \
 	$(srcdir)/htlogin.in $(srcdir)/htrancid.in \
@@ -69,15 +69,14 @@ CONFIG_CLEAN_FILES = control_rancid create_cvs do-diffs par rancid-fe \
 	jerancid hlogin hrancid htlogin htrancid mrancid nlogin \
 	nrancid nslogin nsrancid prancid rivlogin rivrancid rrancid \
 	tntlogin tntrancid xrancid zrancid
-am__installdirs = $(DESTDIR)$(bindir) $(DESTDIR)$(bindir) $(DESTDIR)$(bindir)
+am__installdirs = $(DESTDIR)$(bindir) $(DESTDIR)$(bindir)
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
 am_hpuifilter_OBJECTS = hpuifilter.$(OBJEXT)
 hpuifilter_OBJECTS = $(am_hpuifilter_OBJECTS)
 hpuifilter_LDADD = $(LDADD)
 binSCRIPT_INSTALL = $(INSTALL_SCRIPT)
-dist_binSCRIPT_INSTALL = $(INSTALL_SCRIPT)
-SCRIPTS = $(bin_SCRIPTS) $(dist_bin_SCRIPTS)
+SCRIPTS = $(bin_SCRIPTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/include
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -202,7 +201,7 @@ bin_SCRIPTS = cat5rancid control_rancid \
 	rancid-fe rancid rename rivlogin rivrancid rrancid tntlogin \
 	tntrancid xrancid zrancid\
 lg.cgi lgform.cgi
-dist_bin_SCRIPTS = lg.cgi.in lgform.cgi.in
+EXTRA_DIST = lg.cgi.in lgform.cgi.in
 #dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
 CLEANFILES = lg.cgi lgform.cgi
 #CLEANFILES= $(bin_SCRIPTS)
@@ -383,25 +382,6 @@ uninstall-binSCRIPTS:
 	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
 	  rm -f $(DESTDIR)$(bindir)/$$f; \
 	done
-install-dist_binSCRIPTS: $(dist_bin_SCRIPTS)
-	@$(NORMAL_INSTALL)
-	$(mkdir_p) $(DESTDIR)$(bindir)
-	@list='$(dist_bin_SCRIPTS)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  if test -f $$d$$p; then \
-	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
-	    echo " $(dist_binSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(bindir)/$$f"; \
-	    $(dist_binSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(bindir)/$$f; \
-	  else :; fi; \
-	done
-
-uninstall-dist_binSCRIPTS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(dist_bin_SCRIPTS)'; for p in $$list; do \
-	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
-	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
-	  rm -f $(DESTDIR)$(bindir)/$$f; \
-	done
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -505,7 +485,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(PROGRAMS) $(SCRIPTS)
 installdirs:
-	$(mkdir_p) $(DESTDIR)$(bindir) $(DESTDIR)$(bindir) $(DESTDIR)$(bindir)
+	$(mkdir_p) $(DESTDIR)$(bindir) $(DESTDIR)$(bindir)
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -553,8 +533,7 @@ info-am:
 
 install-data-am:
 
-install-exec-am: install-binPROGRAMS install-binSCRIPTS \
-	install-dist_binSCRIPTS
+install-exec-am: install-binPROGRAMS install-binSCRIPTS
 
 install-info: install-info-am
 
@@ -580,20 +559,19 @@ ps: ps-am
 ps-am:
 
 uninstall-am: uninstall-binPROGRAMS uninstall-binSCRIPTS \
-	uninstall-dist_binSCRIPTS uninstall-info-am
+	uninstall-info-am
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-binPROGRAMS \
 	clean-generic ctags distclean distclean-compile \
 	distclean-generic distclean-tags distdir dvi dvi-am html \
 	html-am info info-am install install-am install-binPROGRAMS \
-	install-binSCRIPTS install-data install-data-am \
-	install-dist_binSCRIPTS install-exec install-exec-am \
-	install-info install-info-am install-man install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
-	uninstall-am uninstall-binPROGRAMS uninstall-binSCRIPTS \
-	uninstall-dist_binSCRIPTS uninstall-info-am
+	install-binSCRIPTS install-data install-data-am install-exec \
+	install-exec-am install-info install-info-am install-man \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
+	tags uninstall uninstall-am uninstall-binPROGRAMS \
+	uninstall-binSCRIPTS uninstall-info-am
 
 
 lg.cgi: Makefile $(srcdir)/lg.cgi.in

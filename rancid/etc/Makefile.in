@@ -13,6 +13,7 @@
 # PARTICULAR PURPOSE.
 
 @SET_MAKE@
+
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
 VPATH = @srcdir@
@@ -34,8 +35,7 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 subdir = etc
-DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(srcdir)/lg.conf.in $(srcdir)/rancid.conf.in
+DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/configure.in
@@ -43,9 +43,12 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES = rancid.conf lg.conf
+CONFIG_CLEAN_FILES =
 SOURCES =
 DIST_SOURCES =
+am__installdirs = $(DESTDIR)$(pkgdatadir)
+pkgdataDATA_INSTALL = $(INSTALL_DATA)
+DATA = $(pkgdata_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMDEP_FALSE = @AMDEP_FALSE@
@@ -144,6 +147,24 @@ target_alias = @target_alias@
 
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS = foreign
+pkgdata_DATA = lg.conf.sample rancid.conf.sample
+
+#clean:
+#	rm -f Makefile rancid.conf $(BIN_DATAS) $(BIN_PROGS)
+
+# auto_edit does the autoconf variable substitution.  This allows the
+# substitution to have the full expansion of the variables, eg: $sysconfdir
+# will be /prefix/etc instead of ${prefix}/etc.
+#
+# This is a bit of a PITA, but is the method recommended by the autoconf
+# documentation.
+auto_edit = sed \
+	-e 's,@prefix\@,$(prefix),g' \
+	-e 's,@sysconfdir\@,$(sysconfdir),g' \
+	-e 's,@EXPECT_PATH\@,$(EXPECT_PATH),g' \
+	-e 's,@PERLV_PATH\@,$(PERLV_PATH),g' \
+	-e 's,@ENV_PATH\@,$(ENV_PATH),g'
+
 all: all-am
 
 .SUFFIXES:
@@ -176,11 +197,24 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
-rancid.conf: $(top_builddir)/config.status $(srcdir)/rancid.conf.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-lg.conf: $(top_builddir)/config.status $(srcdir)/lg.conf.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 uninstall-info-am:
+install-pkgdataDATA: $(pkgdata_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkdir_p) $(DESTDIR)$(pkgdatadir)
+	@list='$(pkgdata_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(pkgdataDATA_INSTALL) $$d$$p $(DESTDIR)$(pkgdatadir)/$$f"; \
+	  $(pkgdataDATA_INSTALL) $$d$$p $(DESTDIR)$(pkgdatadir)/$$f; \
+	done
+
+uninstall-pkgdataDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pkgdata_DATA)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(pkgdatadir)/$$f"; \
+	  rm -f $(DESTDIR)$(pkgdatadir)/$$f; \
+	done
 tags: TAGS
 TAGS:
 
@@ -217,8 +251,9 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile
+all-am: Makefile $(DATA)
 installdirs:
+	$(mkdir_p) $(DESTDIR)$(pkgdatadir)
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -261,7 +296,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-data-local
+install-data-am: install-data-local install-pkgdataDATA
 
 install-exec-am:
 
@@ -287,53 +322,48 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-info-am uninstall-pkgdataDATA
 
 .PHONY: all all-am check check-am clean clean-generic distclean \
 	distclean-generic distdir dvi dvi-am html html-am info info-am \
 	install install-am install-data install-data-am \
 	install-data-local install-exec install-exec-am install-info \
-	install-info-am install-man install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
+	install-info-am install-man install-pkgdataDATA install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
-	pdf-am ps ps-am uninstall uninstall-am uninstall-info-am
+	pdf-am ps ps-am uninstall uninstall-am uninstall-info-am \
+	uninstall-pkgdataDATA
 
 
 install-data-local: all
-	if test -f $(bindir)/env ; then \
+	@if test -f $(sysconfdir)/rancid.conf ; then \
 	    echo ""; \
-	    echo "WARNING: *** Found $(bindir)/env from a previous installation."; \
-	    echo "         *** Beginning with RANCID 2.3, the configuration file "; \
-	    echo "         *** is now $(sysconfdir)/rancid.conf.  I moved the file for you."; \
+	    echo "WARNING: *** $(sysconfdir)/rancid.conf exists.  See "; \
+	    echo "         *** $(pkgdatadir)/rancid.conf.sample for new"; \
+	    echo "         *** examples."; \
 	    echo ""; \
-	    echo "mv $(bindir)/env $(sysconfdir)/rancid.conf"; \
-	    mv $(bindir)/env $(sysconfdir)/rancid.conf; \
-	fi; \
-	if test -f $(bindir)/env.new ; then \
-	    echo "mv $(bindir)/env.new $(sysconfdir)/rancid.conf.new"; \
-	    mv $(bindir)/env.new $(sysconfdir)/rancid.conf.new; \
-	fi; \
-	if test -f $(sysconfdir)/rancid.conf ; then \
-	    echo ""; \
-	    echo "WARNING: *** $(sysconfdir)/rancid.conf exists: installing as rancid.conf.new."; \
-	    echo "         *** review rancid.conf.new for new/deprecated switches"; \
-	    echo ""; \
-	    $(INSTALL_DATA) rancid.conf $(sysconfdir)/rancid.conf.new; \
 	else \
-	    $(INSTALL_DATA) rancid.conf $(sysconfdir); \
+	    $(INSTALL_DATA) rancid.conf.sample $(sysconfdir)/rancid.conf; \
 	fi; \
 	if test -f $(sysconfdir)/lg.conf ; then \
 	    echo ""; \
-	    echo "WARNING: *** $(sysconfdir)/lg.conf exists: installing as lg.conf.new."; \
-	    echo "         *** review lg.conf.new for new/deprecated switches"; \
+	    echo "WARNING: *** $(sysconfdir)/lg.conf exists.  See "; \
+	    echo "         *** $(pkgdatadir)/lg.conf.sample for new"; \
+	    echo "         *** examples."; \
 	    echo ""; \
-	    $(INSTALL_DATA) lg.conf $(sysconfdir)/lg.conf.new; \
 	else \
-	    $(INSTALL_DATA) lg.conf $(sysconfdir); \
-	fi
+	    $(INSTALL_DATA) lg.conf.sample $(sysconfdir)/lg.conf; \
+	fi;
 
-#clean:
-#	rm -f Makefile rancid.conf $(BIN_DATAS) $(BIN_PROGS)
+lg.conf.sample: Makefile $(srcdir)/lg.conf.sample.in
+	rm -f lg.conf.sample lg.conf.sample.tmp; \
+	$(auto_edit) $(srcdir)/lg.conf.sample.in >lg.conf.sample.tmp; \
+	mv lg.conf.sample.tmp lg.conf.sample
+
+rancid.conf.sample: Makefile $(srcdir)/rancid.conf.sample.in
+	rm -f rancid.conf.sample rancid.conf.sample.tmp; \
+	$(auto_edit) $(srcdir)/rancid.conf.sample.in >rancid.conf.sample.tmp; \
+	mv rancid.conf.sample.tmp rancid.conf.sample
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

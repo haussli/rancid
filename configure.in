@@ -182,7 +182,8 @@ ENV_PATH=`echo $ENV_PATH | $PERLV_PATH -e 'foreach $x(split(":",<>)){next unless
 ac_cv_env_path=$ENV_PATH
 AC_SUBST(ENV_PATH)
 
-AC_OUTPUT(Makefile man/Makefile)
+AC_OUTPUT([Makefile man/Makefile \
+	man/env.5])
 
 # fix permissions on scripts.
 for file in $progs; do chmod a+x $file; done

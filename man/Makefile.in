@@ -64,6 +64,7 @@ DIFF = @DIFF@
 DIRNAME = @DIRNAME@
 ENV_PATH = @ENV_PATH@
 EXPECT_PATH = @EXPECT_PATH@
+FIND = @FIND@
 ID = @ID@
 INST_PROGS = @INST_PROGS@
 LG_PING_CMD = @LG_PING_CMD@
@@ -90,17 +91,20 @@ VERSION = @VERSION@
 
 AUTOMAKE_OPTIONS = foreign no-dependencies
 
-man_MANS = rancid_intro.1 clogin.1 cloginrc.5
+man_gen_MANS = env.5
+man_nogen_MANS = rancid_intro.1 clogin.1 cloginrc.5 router.db.5
 
-EXTRA_DIST = $(man_MANS)
+man_MANS = $(man_gen_MANS) $(man_nogen_MANS)
+
+EXTRA_DIST = $(man_nogen_MANS)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_CLEAN_FILES = 
+CONFIG_CLEAN_FILES =  env.5
 man1dir = $(mandir)/man1
 man5dir = $(mandir)/man5
 MANS = $(man_MANS)
 
 NROFF = nroff
-DIST_COMMON =  Makefile.am Makefile.in
+DIST_COMMON =  Makefile.am Makefile.in env.5.in
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
@@ -115,6 +119,8 @@ Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
+env.5: $(top_builddir)/config.status env.5.in
+	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
 install-man1:
 	$(mkinstalldirs) $(DESTDIR)$(man1dir)

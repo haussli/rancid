@@ -163,8 +163,18 @@ mv routers.up.new routers.up
 rm -f routers.db
 trap 'rm -fr $TMP;' 1 2 15
 
-# cvs delete configs for routers not listed in routers.up.
 cd $DIR/configs
+# check for 'up' routers missing in cvs.  no idea how this happens to some folks
+for router in `cut -d: -f1 ../routers.up` ; do
+    cvs status $router: | grep -i 'status: unknown' > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+	touch $router
+	cvs add -ko $router
+	echo "CVS added missing router $router"
+    fi
+    echo
+done
+# cvs delete configs for routers not listed in routers.up.
 for router in `find . \( -name \*.new -prune -o -name CVS -prune \) -o -type f -print | sed -e 's/^.\///'` ; do
     grep -i "^$router:" ../router.db > /dev/null 2>&1
     if [ $? -eq 1 ]; then

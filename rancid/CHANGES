@@ -1,4 +1,6 @@
 2.2b2
+	add check for config/* files missing from the cvs repository.
+
 	add 2 juniper config checks to avoid truncation. 1) config should
 	have at least 1 "section" amounting to at least 3 lines and 2) if
 	a mgd version mismatch exists, there may be inaccuracies.

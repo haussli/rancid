@@ -307,7 +307,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS VERSION PACKAGE INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE subdirs MAKE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CPP EGREP U ANSI2KNR MAILPLUS DIRNAME DIFF DIFF_CMD SENDMAIL TAR PERLV_PATH PERLV EXPECT_PATH PING_PATH LG_PING_CMD RD_BIN_DATAS RD_BIN_PROGS RD_UTIL_PROGS RD_UTIL_LG_PROGS INST_PROGS CVS COMM FIND GREP ID MKDIR RSH SORT SSH TELNET TOUCH ENV_PATH LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS VERSION PACKAGE INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE subdirs MAKE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CPP EGREP U ANSI2KNR MAILPLUS DIRNAME DIFF DIFF_CMD SENDMAIL TAR PERLV_PATH PERLV EXPECT_PATH PING_PATH LG_PING_CMD RD_UTIL_PROGS RD_UTIL_LG_PROGS INST_PROGS CVS COMM FIND GREP ID MKDIR RSH SORT SSH TELNET TOUCH ENV_PATH LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -4994,20 +4994,6 @@ else
 fi
 rd_cv_lg_ping_cmd=$LG_PING_CMD
 
-# RD_BIN_DATAS are bin/ .in's that need to be installed without execute
-# perms.
-RD_BIN_DATAS=""
-
-rd_cv_rd_bin_datas=$RD_BIN_DATAS
-
-# RD_BIN_PROGS are bin/ .in's that need to be installed with execute perms.
-RD_BIN_PROGS="cat5rancid control_rancid \
-alogin arancid clogin create_cvs blogin brancid do-diffs elogin erancid \
-f10rancid flogin francid jlogin jrancid hlogin hrancid mrancid nslogin \
-nsrancid par rancid-fe rancid rename rrancid tntlogin tntrancid xrancid"
-
-rd_cv_rd_bin_progs=$RD_BIN_PROGS
-
 # RD_UTIL_PROGS are util/ .in's that need to be installed with execute perms.
 RD_UTIL_PROGS="rtrfilter downreport getipacctg"
 
@@ -6197,8 +6183,6 @@ s,@PERLV@,$PERLV,;t t
 s,@EXPECT_PATH@,$EXPECT_PATH,;t t
 s,@PING_PATH@,$PING_PATH,;t t
 s,@LG_PING_CMD@,$LG_PING_CMD,;t t
-s,@RD_BIN_DATAS@,$RD_BIN_DATAS,;t t
-s,@RD_BIN_PROGS@,$RD_BIN_PROGS,;t t
 s,@RD_UTIL_PROGS@,$RD_UTIL_PROGS,;t t
 s,@RD_UTIL_LG_PROGS@,$RD_UTIL_LG_PROGS,;t t
 s,@INST_PROGS@,$INST_PROGS,;t t

@@ -1,4 +1,6 @@
 2.3.2
+	rancid: filter nv_hdr file seen on sup720 - Bill Ouchark
+
 	etc/Makefile.am: support DESTDIR - from Michael Shields
 
 	rancid: add IOX/CRS support.

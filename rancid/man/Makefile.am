@@ -28,8 +28,7 @@ man_gen_MANS = lg.conf.5 rancid.conf.5 lg_intro.1
 man_nogen_MANS = alogin.1 blogin.1 clogin.1 control_rancid.1 \
 		cssrancid.1 rancid.1 \
 		rancid_intro.1 cloginrc.5 router.db.5 \
-		drancid.1 elogin.1 \
-		f10rancid.1 flogin.1 fnrancid.1 \
+		elogin.1 f10rancid.1 flogin.1 fnrancid.1 \
 		hlogin.1 hrancid.1 htlogin.1 htrancid.1 jlogin.1 \
 		jrancid.1 jerancid.1 f10rancid.1 francid.1 cat5rancid.1 \
 		erancid.1 mrancid.1 nlogin.1 nrancid.1 nslogin.1 nsrancid.1 \

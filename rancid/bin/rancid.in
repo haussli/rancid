@@ -703,6 +703,23 @@ sub WriteTerm {
 	    ProcessHistory("","","","! neighbor $1 password <removed>\n") &&
 	    next;
 	/fair-queue individual-limit/ && next;
+	# sort route-maps
+	if (/^route-map ([^ ]+)/) {
+	    my($key) = $1;
+	    my($routemap) = $_;
+	    while (<INPUT>) {
+		tr/\015//d;
+		last if (/^$prompt/ || ! /^(route-map |[ !])/);
+		if (/^route-map ([^ ]+)/) {
+		    ProcessHistory("ROUTEMAP","keysort","$key","$routemap");
+		    $key = $1;
+		    $routemap = $_;
+		} else  {
+		    $routemap .= $_;
+		}
+	    }
+	    ProcessHistory("ROUTEMAP","keysort","$key","$routemap");
+	}
 	# filter out any RCS/CVS tags to avoid confusing local CVS storage
 	s/\$(Revision|Id):/ $1:/;
 	# order access-lists

@@ -127,9 +127,6 @@ then
 	echo "$DIR/router.db does not exist."
     ) | sendmail -t
     exit 1;
-elif [ ! -s $DIR/router.db ]
-then
-    exit
 fi
 
 # generate the list of all, up, & down routers

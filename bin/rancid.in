@@ -855,13 +855,15 @@ sub ShowDiag {
 	    }
 	    next;
 	}
-	# 7200, 3600, and 2600 stuff
+	# 7200, 3600, 2600, and 1700 stuff
 	if (/^(Slot)\s+(\d+(\/\d+)?):/
-	    || /^\s+(WIC|VIC) Slot (\d):/
+	    || /^\s+(WIC|VIC|WIC\/VIC) Slot (\d):/
 	    || /^(Encryption AIM) (\d):/) {
 	    if ($1 eq "WIC") {
 		$WIC = "/$2";
 	    } elsif ($1 eq "VIC") {
+		$WIC = "/$2";
+	    } elsif ($1 eq "WIC/VIC") {
 		$WIC = "/$2";
 	    } elsif ($1 eq "Encryption AIM") {
 		$slot = "$2";

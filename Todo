@@ -1,3 +1,5 @@
+- i think the configure gunk for ucbmail ("# find UCB mail.") can be removed
+  from configure, since we should be using sendmail everywhere.
 - a format such as {<user>} as the pwd in .cloginrc to indicate *login should
   prompt the user for the password
 - better error logging in the looking glass

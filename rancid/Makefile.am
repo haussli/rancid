@@ -37,5 +37,9 @@ SUBDIRS = . include etc bin man share
 
 # sysconfdir is here because etc/Makefile uses a script to be careful about
 # installing rancid.conf, not over-writing an existing one.
+DIRS2_CREATE=$(prefix) $(sysconfdir)
+if MK_LCLSTATEDIR
+DIRS2_CREATE+=$(localstatedir)
+endif
 install-data-hook:
-	$(mkinstalldirs) $(prefix) $(localstatedir) $(sysconfdir);
+	$(mkinstalldirs) $(DIRS2_CREATE);

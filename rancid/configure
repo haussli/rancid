@@ -310,7 +310,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS VERSION PACKAGE INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot MAKE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CPP EGREP U ANSI2KNR MAILPLUS ADMINMAILPLUS DIRNAME DIFF DIFF_CMD SENDMAIL TAR PERLV_PATH PERLV EXPECT_PATH PING_PATH LG_PING_CMD CVS COMM FIND GREP ID MKDIR RSH SORT SSH TELNET TOUCH ENV_PATH LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS VERSION PACKAGE INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot MAKE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CPP EGREP U ANSI2KNR MK_LCLSTATEDIR_TRUE MK_LCLSTATEDIR_FALSE MAILPLUS ADMINMAILPLUS DIRNAME DIFF DIFF_CMD SENDMAIL TAR PERLV_PATH PERLV EXPECT_PATH PING_PATH LG_PING_CMD CVS COMM FIND GREP ID MKDIR RSH SORT SSH TELNET TOUCH ENV_PATH LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -848,6 +848,9 @@ Optional Features:
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
   --disable-dependency-tracking Speeds up one-time builds
   --enable-dependency-tracking  Do not reject slow dependency extractors
+  --enable-mk-localstatedir
+                          enable creation of the local state directory at
+                          install time (default: yes)
   --enable-mail-plus      enable mail to rancid+ addresses, instead of rancid-
   --enable-adminmail-plus enable mail to rancid-admin+ addresses, instead of
                           rancid-admin-
@@ -4936,6 +4939,38 @@ fi
 
 # Package-specific options/knobs
 #
+# Check if user wants us to create LOCALSTATEDIR.  If it's a package-system,
+# they might create it themselves for book-keeping sake; eg: NetBSD
+echo "$as_me:$LINENO: checking whether to create the local state directory at install time" >&5
+echo $ECHO_N "checking whether to create the local state directory at install time... $ECHO_C" >&6
+# Check whether --enable-mk-localstatedir or --disable-mk-localstatedir was given.
+if test "${enable_mk_localstatedir+set}" = set; then
+  enableval="$enable_mk_localstatedir"
+  if test "$enable_mk_localstatedir" = yes; then
+    echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+else
+    echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+else
+  echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+    enable_mk_localstatedir="yes"
+
+fi;
+#rd_cv_ADMINMAILPLUS=$ADMINMAILPLUS
+
+
+if test "${enable_mk_localstatedir}" = yes; then
+  MK_LCLSTATEDIR_TRUE=
+  MK_LCLSTATEDIR_FALSE='#'
+else
+  MK_LCLSTATEDIR_TRUE='#'
+  MK_LCLSTATEDIR_FALSE=
+fi
+
+
 # Check for a preference for using mail addresses like rancid+group
 # instead of the standard rancid-group
 echo "$as_me:$LINENO: checking whether mail addresses should be in the rancid+ form" >&5
@@ -4965,25 +5000,25 @@ rd_cv_MAILPLUS=$MAILPLUS
 
 # Check for a preference for using mail addresses like rancid+admin-group
 # instead of the standard rancid-admin-group
-echo "$as_me:$LINENO: checking whether admin mail addresses should be in the rancid+ form" >&5
-echo $ECHO_N "checking whether admin mail addresses should be in the rancid+ form... $ECHO_C" >&6
+echo "$as_me:$LINENO: checking whether admin mail addresses should be in the rancid-admin+ form" >&5
+echo $ECHO_N "checking whether admin mail addresses should be in the rancid-admin+ form... $ECHO_C" >&6
 # Check whether --enable-adminmail-plus or --disable-adminmail-plus was given.
 if test "${enable_adminmail_plus+set}" = set; then
   enableval="$enable_adminmail_plus"
   if test "$enable_adminmail_plus" = yes; then
-    echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
+    echo "$as_me:$LINENO: result: rancid-admin+" >&5
+echo "${ECHO_T}rancid-admin+" >&6
     ADMINMAILPLUS="rancid-admin+"
 
 else
-    echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6
+    echo "$as_me:$LINENO: result: ${MAILPLUS}admin-" >&5
+echo "${ECHO_T}${MAILPLUS}admin-" >&6
     ADMINMAILPLUS="${MAILPLUS}admin-"
 
 fi
 else
-  echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6
+  echo "$as_me:$LINENO: result: ${MAILPLUS}admin-" >&5
+echo "${ECHO_T}${MAILPLUS}admin-" >&6
     ADMINMAILPLUS="${MAILPLUS}admin-"
 
 
@@ -6157,6 +6192,13 @@ echo "$as_me: error: conditional \"am__fastdepCC\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
+if test -z "${MK_LCLSTATEDIR_TRUE}" && test -z "${MK_LCLSTATEDIR_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"MK_LCLSTATEDIR\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"MK_LCLSTATEDIR\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
 
 : ${CONFIG_STATUS=./config.status}
 ac_clean_files_save=$ac_clean_files
@@ -6774,6 +6816,8 @@ s,@CPP@,$CPP,;t t
 s,@EGREP@,$EGREP,;t t
 s,@U@,$U,;t t
 s,@ANSI2KNR@,$ANSI2KNR,;t t
+s,@MK_LCLSTATEDIR_TRUE@,$MK_LCLSTATEDIR_TRUE,;t t
+s,@MK_LCLSTATEDIR_FALSE@,$MK_LCLSTATEDIR_FALSE,;t t
 s,@MAILPLUS@,$MAILPLUS,;t t
 s,@ADMINMAILPLUS@,$ADMINMAILPLUS,;t t
 s,@DIRNAME@,$DIRNAME,;t t

@@ -1,9 +1,16 @@
 2.1
-	control_rancid cvs update's before starting group's collection
+	Change default umask to 027 (it was 007) mainly as an
+	attempt to stop people from changing stuff in rancid's CVS
+	store.  Only rancid should be updating its CVS store.
 
-	--enable-mail-plus opt patch from davidw@certaintysolutions.com
+	control_rancid cvs updates router.db before starting a
+	group's collection.
 
-	configure should figure out diff options on it's own
+	configure now has a --enable-mail-plus option to have rancid
+	send mail to rancid+$GROUP instead of to rancd-$GROUP.
+	Patch from davidw@certaintysolutions.com.
+
+	configure should figure out diff options on it's own.
 
 	try to get default user from env() and catch exec on id in *login
 
@@ -36,7 +43,7 @@
 	fix from afort@staff.webcentral.com.au to lg.cgi to allow prefix-list
 	with numerals.
 
-	fix lg form's formatting (on some browsers/conditions).  thanks to
+	fix lg form's formatting (on some browsers/conditions).  Thanks to
 	rrashid@verio.net for the html help.
 
 2.1b

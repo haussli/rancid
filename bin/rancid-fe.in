@@ -21,6 +21,8 @@
 # usage: rancid-fe <router>:<vendor>
 #
 
+require 5;
+
 ($router, $vendor) = split('\:', $ARGV[0]);
 
 if ($vendor =~ /^cisco$/i) {

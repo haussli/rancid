@@ -24,8 +24,8 @@
 #
 # LG_CLOGINRC	is the .cloginrc that the LG should use.  it defaults to
 #		<PREFIX>/.cloginrc.  note that the .cloginrc must readable
-#		by the user (UID / GID) that will be running the CGI.  this
-#		is normally the user the server (httpd) runs under.
+#		by the user or group (UID / GID) that will be running the CGI.
+#		this is normally the user the server (httpd) runs under.
 #
 #$LG_CLOGINRC="@PREFIX@/.cloginrc";
 #

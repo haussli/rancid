@@ -22,7 +22,9 @@
 #
 
 # Read in the environment
-. /u6/rancid/bin/env
+ENVFILE="`dirname $0`/env"
+
+. $ENVFILE
 
 if [ ! -d $CVSROOT ]; then
     mkdir $CVSROOT
@@ -32,6 +34,13 @@ if [ ! -d $CVSROOT/CVSROOT ]; then
 fi
 if [ ! -d $BASEDIR/logs ]; then
     mkdir $BASEDIR/logs
+fi
+
+if [ $# -ge 1 ] ; then
+	LIST_OF_GROUPS="$*"; export LIST_OF_GROUPS
+elif [ "$LIST_OF_GROUPS" = "" ] ; then
+	echo "LIST_OF_GROUPS is empty in $ENVFILE"
+	exit 1
 fi
 
 for GROUP in `echo $LIST_OF_GROUPS` ;

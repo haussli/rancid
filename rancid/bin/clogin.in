@@ -216,7 +216,7 @@ proc source_password_file { } {
   set read_password_file 1
   file stat $password_file fileinfo
   if { [expr ($fileinfo(mode) & 007)] != 0000 } {
-      send_user "Error: $password_file must have file mode 400\n"
+      send_user "Error: $password_file must not be world readable/writable\n"
       exit 1
   }
   source $password_file
@@ -237,7 +237,7 @@ proc login { router user userpswd passwd enapasswd prompt } {
     # This helps cleanup each expect clause.
     expect_after {
 	timeout {
-	    send_user "Error: TIMEOUT reached\n"
+	    send_user "\nError: TIMEOUT reached\n"
 	    close; wait
 	    if { $in_proc} {
 	        return 1
@@ -245,7 +245,7 @@ proc login { router user userpswd passwd enapasswd prompt } {
 	        continue
 	    }
         } eof {
-	    send_user "Error: EOF received\n"
+	    send_user "\nError: EOF received\n"
 	    close; wait
 	    if { $in_proc} {
 	        return 1
@@ -348,6 +348,7 @@ proc run_commands { prompt command } {
                 -re "^\[^\n\r]*$prompt."	{ exp_continue }
 		-re "^\[^\n\r *]*$prompt"	{}
                 "\n"				{ exp_continue }
+		timeout				{}
             }
 	}
     } else {

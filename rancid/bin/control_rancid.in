@@ -51,7 +51,7 @@ fi
 cd $DIR
 rm -f $DIR/allrouters.new
 perl -F: -ane '{($F[0] =~ tr@A-Z@a-z@,print $F[0],"\n")
-	if ($F[1] =~ /^up$/);}' $DIR/router.db |sort > $DIR/allrouters.new
+	if ($F[1] =~ /^up$/);}' $DIR/router.db | sort -u > $DIR/allrouters.new
 
 if diff $DIR/allrouters $DIR/allrouters.new > $DIR/allrouters.diffs
 then
@@ -135,7 +135,13 @@ cvs commit -m updates
 
 # Mail out the diffs (if there are any).
 if [ -s $TMP.diff ]; then
-    Mail -s "$GROUP cisco config diffs" rancid-$GROUP <$TMP.diff
+    sendmail -t <<EMAIL
+To: rancid-$GROUP
+Subject: $GROUP cisco config diffs
+Precedence: bulk
+
+`cat $TMP.diff`
+EMAIL
 fi
 
 # If any machines have not been reached within 24 hours, mail

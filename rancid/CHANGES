@@ -1,4 +1,7 @@
 2.3.eft
+	rancid: collect show idprom backplane (6500 cmd); this could collect
+	more - request from jared mauch
+
 	rancid: filter HSRP auth and SSA key-string reversable passwords
 
 	lg: set query/command list in lg.conf, thus allowing individual cmds

@@ -149,6 +149,9 @@ sub ShowVersion {
 	    $slaveslot = ", slot $1";
 	    next;
 	}
+	if (/^Application and Content Networking Software/) { $type="CE"; }
+	/^Application and Content Networking Software Release /i &&
+	    ProcessHistory("COMMENTS","keysort","F1", "!Image: $_") && next;
 	/^Cisco Secure PIX /i &&
 	    ProcessHistory("COMMENTS","keysort","F1", "!Image: $_") && next;
 	/^IOS .* Software \(([A-Za-z-0-9]*)\), .*Version\s+(.*)$/ &&
@@ -1410,7 +1413,7 @@ ProcessHistory("COMMENTS","keysort","F0","!\n");
 ProcessHistory("COMMENTS","keysort","G0","!\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
-    if (/\#\s?exit$/) {
+    if (/[>#]\s?exit$/) {
 	$clean_run=1;
 	last;
     }

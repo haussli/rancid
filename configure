@@ -2561,7 +2561,7 @@ rd_cv_rd_bin_datas=$RD_BIN_DATAS
 RD_BIN_PROGS="cat5rancid control_rancid \
 alogin arancid clogin create_cvs blogin brancid do-diffs elogin erancid \
 f10rancid flogin francid jlogin jrancid hlogin hrancid mrancid par rancid-fe \
-rancid rename rrancid xrancid"
+rancid rename rrancid tntlogin tntrancid xrancid"
 
 rd_cv_rd_bin_progs=$RD_BIN_PROGS
 
@@ -3108,7 +3108,7 @@ trap 'rm -fr `echo " Makefile include/Makefile bin/Makefile util/Makefile \
 	bin/env bin/erancid bin/f10rancid bin/flogin bin/francid bin/jlogin \
 	bin/jrancid bin/hlogin \
 	bin/hrancid bin/mrancid bin/par bin/rancid-fe bin/rancid bin/rename \
-	bin/rrancid bin/xrancid \
+	bin/rrancid bin/tntlogin bin/tntrancid bin/xrancid \
 	man/Makefile man/env.5 man/lg.conf.5 man/lg_intro.1 \
 	include/version.h \
 	util/rtrfilter util/downreport  include/config.h" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
@@ -3238,7 +3238,7 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile include/Makefile bin/Makefile util/Makefi
 	bin/env bin/erancid bin/f10rancid bin/flogin bin/francid bin/jlogin \
 	bin/jrancid bin/hlogin \
 	bin/hrancid bin/mrancid bin/par bin/rancid-fe bin/rancid bin/rename \
-	bin/rrancid bin/xrancid \
+	bin/rrancid bin/tntlogin bin/tntrancid bin/xrancid \
 	man/Makefile man/env.5 man/lg.conf.5 man/lg_intro.1 \
 	include/version.h \
 	util/rtrfilter util/downreport "}

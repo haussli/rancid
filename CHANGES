@@ -1,4 +1,6 @@
 2.3b
+	lg: filter ["`'] from args
+
 	rancid: fix username secret filtering
 
 	alogin: misplaced brace caused improper return from proc login

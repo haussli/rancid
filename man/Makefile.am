@@ -53,7 +53,7 @@ auto_edit = sed \
 	-e 's,@bindir\@,$(bindir),g' \
 	-e 's,@localstatedir\@,$(localstatedir),g' \
 	-e 's,@sysconfdir\@,$(sysconfdir),g' \
-	-e 's,@pkgdatadir\@,$(sysconfdir),g' \
+	-e 's,@pkgdatadir\@,$(pkgdatadir),g' \
 	-e 's,@ADMINMAILPLUS\@,$(ADMINMAILPLUS),g' \
 	-e 's,@MAILPLUS\@,$(MAILPLUS),g'
 

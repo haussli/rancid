@@ -173,7 +173,7 @@ sub ShowVersion {
 	    my($proc) = $1;
 	    my($cpu) = $2;
 	    my($mem) = $3;
-	    my($deivce) = "router";
+	    my($device) = "router";
 	    if ( $1 eq "CSC") {
 		$type = "AGS";
 	    } elsif ( $1 eq "CSC4") {
@@ -607,14 +607,18 @@ sub ShowDiag {
 	/^$/ && next;
 	if (!defined($showdiags)) {$showdiags=1; ProcessHistory("SLOT","","","!\n");}
 	s/Port Packet Over SONET/POS/;
-	if (/^\s*SLOT (\d+)\s+\(.*\): (.*)/) {
+	if (/^\s*SLOT\s+(\d+)\s+\((.*)\): (.*)/) {
 	    $slot = $1;
-	    ProcessHistory("SLOT","","","!Slot $slot: $2\n");
+	    ProcessHistory("SLOT","","","!Slot $slot: $2 - $3\n");
+	    $board = "Other";
 	    $board = "RP" if (/Route Processor/);
 	    $board = "CLK" if (/Clock Scheduler Card/);
 	    next;
 	}
-	if (/^\s+PCA:\s+(.*)/){
+	if (/^\s+MAIN:\s+ type \d+,\s+(.*)/) {
+	    ProcessHistory("SLOT","","","!Slot $slot/MAIN: part $1\n") && next;
+	}
+	if (/^\s+PCA:\s+(.*)/) {
 	    local($part) = $1;
 	    $_ = <INPUT>;
 	    /^\s+HW version (\S+)\s+S\/N (\S+)/ &&
@@ -622,7 +626,6 @@ sub ShowDiag {
 		ProcessHistory("SLOT","","","!Slot $slot/PCA: hvers $1\n");
 	    next;
 	}
-
 	if (/^\s+MBUS: .*\)\s+(.*)/) {
 	    local($tmp) = "!Slot $slot/MBUS: part $1";
 	    $_ = <INPUT>;
@@ -642,6 +645,11 @@ sub ShowDiag {
 	    $_ = <INPUT>;
 	    /^\s+FrFab SDRAM size: (\d+)/ &&
 		ProcessHistory("SLOT","","","!Slot $slot/MBUS: $dram Mbytes DRAM, "
+			   . $1 / 1024 . " Kbytes SDRAM\n!\n");
+	    next;
+	}
+	if (/^\s+FrFab SDRAM size: (\d+)/) {
+		ProcessHistory("SLOT","","","!Slot $slot/MBUS: "
 			   . $1 / 1024 . " Kbytes SDRAM\n!\n");
 	    next;
 	}

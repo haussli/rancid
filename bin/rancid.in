@@ -18,19 +18,12 @@
 #
 #  RANCID - Really Awesome New Cisco confIg Differ
 #
-# usage: rancid [-d] [-l] [-m (cisco|jnx)] [-f filename | $host]
+# usage: rancid [-d] [-l] [-f filename | $host]
 #
 use Getopt::Std;
 getopts('dflm');
 $log = $opt_l;
 $debug = $opt_d;
-$opt_m = "cisco" if (!defined($opt_m));
-if ($vendor eq "cisco") {
-	$logincmd = "clogin";
-} elsif ($vendor eq "jnx") {
-	$logincmd = "jlogin";
-}
-
 $file = $opt_f;
 $host = $ARGV[0];
 $clean_run = 0;
@@ -791,7 +784,6 @@ close(OUTPUT);
 
 # check for completeness
 $commands = join(", ", keys(%commands));
-#if (!$clean_run) {
 if (length($commands) > 0 || !$clean_run || !$found_end) {
     if (length($commands) > 0) {
 	print STDOUT "missed cmd(s): $commands\n";

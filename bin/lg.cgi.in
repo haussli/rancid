@@ -102,18 +102,22 @@ sub DoCmd
     my($rtr, $mfg, $type, $arg) = @_;
     local(*CMD);
 
-    if ($mfg =~ /juniper/i) {
+    if ($mfg =~ /foundry/i) {
+	open(CMD, "flogin -f $cloginrc -c \'$foundryCmd{$type} $arg\' $rtr |");
+	$cmd = $foundryCmd{$type};
+    } elsif ($mfg =~ /juniper/i) {
 	open(CMD, "jlogin -f $cloginrc -c \'$juniperCmd{$type} $arg\' $rtr |");
 	$cmd = $juniperCmd{$type};
     } else {
-	open(CMD, "clogin -noenable -f $cloginrc -c \'$ciscoCmd{$type} $arg\' $rtr |");
+	open(CMD, "sh -c \"clogin -noenable -f $cloginrc -c \'$ciscoCmd{$type} $arg\' $rtr\" 2>&1 |");
 	$cmd = $ciscoCmd{$type};
     }
     while (<CMD>) {
 	tr/\015//d;
 	if (/^error:/i) {
 	    dolog(LOG_ERR, $_);
-	    return ($_);
+	    push(@results, $_);
+	    return (@results);
 	}
 #		push(@results, $_);
 	if (/$cmd/) {
@@ -310,6 +314,10 @@ if ($mfg =~ /juniper/ && ! defined($juniperCmd{$type})) {
     $results[0] = "$cmdDisp{$type} not implemented for junipers.  sorry.\n";
     &print_results;
 }
+if ($mfg =~ /foundry/ && ! defined($foundry{$type})) {
+    $results[0] = "$cmdDisp{$type} not implemented for foundrys.  sorry.\n";
+    &print_results;
+}
 
 
 if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
@@ -333,7 +341,7 @@ if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
     if ($arg[1] =~ /[-\/0-9:.]+/) {
 	$arg = $arg[0] . " " . $arg[1];
     } else {
-	if ($arg[0] =~ /^b/i && $mfg =~ /cisco/i) {
+	if ($arg[0] !~ /^b[^ ]+[0-9]/i && $arg[0] =~ /^b/i && $mfg =~ /cisco/i) {
 	    $type = "intbrief";
 	    $arg = "brief";
 	} else {
@@ -341,10 +349,10 @@ if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
 	}
     }
 } elsif ($type eq "log") {
-    $arg[0] =~ s/^\s*|//;
-    if ($arg[0] =~ /^\s*$/) {
+    if ($arg[0] =~ /^\s*\|?$/) {
 	shift(@arg);
     }
+    $arg[0] =~ s/^\s*\|?//;
     if ($arg[0] !~ /^\s*$/) {
 	if ($mfg =~ /cisco/i) {
 	    $arg = " | include " . join(' ', @arg);

@@ -147,6 +147,8 @@ sub GetSystem {
 	tr/\015//d;
 	next if /^\s*$/;
 	last if(/$prompt/);
+	# throw away the pager lines
+	next if /^--- more ---/;
 
         /^Serial Number: (\d+), Control Number: \d+$/ &&
                 ProcessHistory("SYSTEM","","", "!SN: $1\n") && next;

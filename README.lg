@@ -50,5 +50,14 @@ and install bits in /usr/local/rancid/util/lg (or <prefix>/util/lg).
    httpd.conf like this for example:
 	SetEnvIf Request_URI "\/lg/.*.cgi" LG_CONF=/usr/local/util/lg/lg.conf
 
+N) set-up cron jobs to rotate the log file and clean out old cache files.
+   something like (YMMV):
+
+	# rotate lookingglass log
+	#0 0 * * * cd /usr/local/www/data/lg/tmp; /usr/local/etc/savelog -m 666 -c14 lg.log
+	0 0 * * * cd /usr/local/www/data/lg/tmp; /bin/mv lg.log lg.log.0
+	# clean out the lookingglass cache
+	0 0 * * * cd /usr/local/www/data/lg/tmp; /usr/local/bin/find . -type f -maxdepth 1 \( \! -name lg.log\* \) -mtime +1 -exec rm -f {} \;
+
 N) finally, search lg.cgi for '^#customize:' for some things you can
    customize.

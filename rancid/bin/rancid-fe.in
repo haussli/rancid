@@ -39,6 +39,7 @@ elsif ($vendor =~ /^mrtd$/i)		{ exec('mrancid', $router); }
 elsif ($vendor =~ /^netscaler$/i)	{ exec('nsrancid', $router); }
 elsif ($vendor =~ /^netscreen$/i)	{ exec('nrancid', $router); }
 elsif ($vendor =~ /^redback$/i)		{ exec('rrancid', $router); }
+elsif ($vendor =~ /^riverstone$/i)	{ exec('rivrancid', $router); }
 elsif ($vendor =~ /^tnt$/i)		{ exec('tntrancid', $router); }
 elsif ($vendor =~ /^zebra$/i)		{ exec('zrancid', $router); }
 else {

@@ -214,7 +214,6 @@ AC_CONFIG_FILES(include/version.h)	# this is not a header in the sense of
 					# autoheader to overwrite it, while all
 					# want is simple variable replacement
 AC_CONFIG_HEADERS(include/config.h)
-AC_CONFIG_FILES(etc/rancid.conf etc/lg.conf)
 AC_CONFIG_FILES(bin/control_rancid bin/create_cvs bin/do-diffs bin/par \
 		bin/rancid-fe bin/rename, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/alogin bin/arancid, [chmod a+x $ac_file])

@@ -18,38 +18,50 @@
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS=foreign
 
+pkgdata_DATA= lg.conf.sample rancid.conf.sample
+
 install-data-local: all
-	if test -f $(bindir)/env ; then \
+	@if test -f $(sysconfdir)/rancid.conf ; then \
 	    echo ""; \
-	    echo "WARNING: *** Found $(bindir)/env from a previous installation."; \
-	    echo "         *** Beginning with RANCID 2.3, the configuration file "; \
-	    echo "         *** is now $(sysconfdir)/rancid.conf.  I moved the file for you."; \
+	    echo "WARNING: *** $(sysconfdir)/rancid.conf exists.  See "; \
+	    echo "         *** $(pkgdatadir)/rancid.conf.sample for new"; \
+	    echo "         *** examples."; \
 	    echo ""; \
-	    echo "mv $(bindir)/env $(sysconfdir)/rancid.conf"; \
-	    mv $(bindir)/env $(sysconfdir)/rancid.conf; \
-	fi; \
-	if test -f $(bindir)/env.new ; then \
-	    echo "mv $(bindir)/env.new $(sysconfdir)/rancid.conf.new"; \
-	    mv $(bindir)/env.new $(sysconfdir)/rancid.conf.new; \
-	fi; \
-	if test -f $(sysconfdir)/rancid.conf ; then \
-	    echo ""; \
-	    echo "WARNING: *** $(sysconfdir)/rancid.conf exists: installing as rancid.conf.new."; \
-	    echo "         *** review rancid.conf.new for new/deprecated switches"; \
-	    echo ""; \
-	    $(INSTALL_DATA) rancid.conf $(sysconfdir)/rancid.conf.new; \
 	else \
-	    $(INSTALL_DATA) rancid.conf $(sysconfdir); \
+	    $(INSTALL_DATA) rancid.conf.sample $(sysconfdir)/rancid.conf; \
 	fi; \
 	if test -f $(sysconfdir)/lg.conf ; then \
 	    echo ""; \
-	    echo "WARNING: *** $(sysconfdir)/lg.conf exists: installing as lg.conf.new."; \
-	    echo "         *** review lg.conf.new for new/deprecated switches"; \
+	    echo "WARNING: *** $(sysconfdir)/lg.conf exists.  See "; \
+	    echo "         *** $(pkgdatadir)/lg.conf.sample for new"; \
+	    echo "         *** examples."; \
 	    echo ""; \
-	    $(INSTALL_DATA) lg.conf $(sysconfdir)/lg.conf.new; \
 	else \
-	    $(INSTALL_DATA) lg.conf $(sysconfdir); \
-	fi
+	    $(INSTALL_DATA) lg.conf.sample $(sysconfdir)/lg.conf; \
+	fi;
 
 #clean:
 #	rm -f Makefile rancid.conf $(BIN_DATAS) $(BIN_PROGS)
+
+# auto_edit does the autoconf variable substitution.  This allows the
+# substitution to have the full expansion of the variables, eg: $sysconfdir
+# will be /prefix/etc instead of ${prefix}/etc.
+#
+# This is a bit of a PITA, but is the method recommended by the autoconf
+# documentation.
+auto_edit = sed \
+	-e 's,@prefix\@,$(prefix),g' \
+	-e 's,@sysconfdir\@,$(sysconfdir),g' \
+	-e 's,@EXPECT_PATH\@,$(EXPECT_PATH),g' \
+	-e 's,@PERLV_PATH\@,$(PERLV_PATH),g' \
+	-e 's,@ENV_PATH\@,$(ENV_PATH),g'
+
+lg.conf.sample: Makefile $(srcdir)/lg.conf.sample.in
+	rm -f lg.conf.sample lg.conf.sample.tmp; \
+	$(auto_edit) $(srcdir)/lg.conf.sample.in >lg.conf.sample.tmp; \
+	mv lg.conf.sample.tmp lg.conf.sample
+
+rancid.conf.sample: Makefile $(srcdir)/rancid.conf.sample.in
+	rm -f rancid.conf.sample rancid.conf.sample.tmp; \
+	$(auto_edit) $(srcdir)/rancid.conf.sample.in >rancid.conf.sample.tmp; \
+	mv rancid.conf.sample.tmp rancid.conf.sample

@@ -5977,8 +5977,6 @@ ac_cv_env_path=$ENV_PATH
 					# want is simple variable replacement
           ac_config_headers="$ac_config_headers include/config.h"
 
-                    ac_config_files="$ac_config_files etc/rancid.conf etc/lg.conf"
-
                                                             ac_config_files="$ac_config_files bin/control_rancid bin/create_cvs bin/do-diffs bin/par bin/rancid-fe bin/rename"
 
                     ac_config_files="$ac_config_files bin/alogin bin/arancid"
@@ -6576,8 +6574,6 @@ do
   "man/Makefile" ) CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
   "util/Makefile" ) CONFIG_FILES="$CONFIG_FILES util/Makefile" ;;
   "include/version.h" ) CONFIG_FILES="$CONFIG_FILES include/version.h" ;;
-  "etc/rancid.conf" ) CONFIG_FILES="$CONFIG_FILES etc/rancid.conf" ;;
-  "etc/lg.conf" ) CONFIG_FILES="$CONFIG_FILES etc/lg.conf" ;;
   "bin/control_rancid" ) CONFIG_FILES="$CONFIG_FILES bin/control_rancid" ;;
   "bin/create_cvs" ) CONFIG_FILES="$CONFIG_FILES bin/create_cvs" ;;
   "bin/do-diffs" ) CONFIG_FILES="$CONFIG_FILES bin/do-diffs" ;;

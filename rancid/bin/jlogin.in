@@ -429,8 +429,18 @@ foreach router [lrange $argv $i end] {
       # command line passwd
       set passwd $userpswd
     } else {
-      set passwd [lindex [find password $loginname@$router] 0]
-      if { "$passwd" == "" } { set passwd [lindex [find password $router] 0] }
+      set userpswd [lindex [find userpassword $loginname@$router] 0]
+      if { "$userpswd" == "" } {
+        set userpswd [lindex [find userpassword $router] 0]
+      }
+      if { "$userpswd" == "" } {
+        set passwd [lindex [find password $loginname@$router] 0]
+        if { "$passwd" == "" } {
+          set passwd [lindex [find password $router] 0]
+        }
+      } else {
+        set passwd $userpswd
+      }
     }
 
     # figure out identity file to use

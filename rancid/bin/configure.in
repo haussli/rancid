@@ -40,7 +40,7 @@ do
 done
 unset prog_dir
 ENV_PATH="$ENV_PATH:/usr/local/bin:/usr/bin"
-ENV_PATH=`echo $ENV_PATH | awk 'BEGIN {FS=":"}{for (i=1;i <= NF;i++) {if ($i != "") print $i}}' | uniq | awk 'BEGIN{ORS=":"}{print;}END{ORS="";print "."}`
+ENV_PATH=`echo $ENV_PATH | awk 'BEGIN {FS=":"}{for (i=1;i <= NF;i++) {if ($i != "") print $i}}' | uniq | awk 'BEGIN{ORS=":"}{print;}END{ORS="";print "."}'`
 AC_SUBST(ENV_PATH)
 
 AC_OUTPUT(Makefile env $RD_BIN_DATAS $RD_BIN_PROGS)

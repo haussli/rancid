@@ -1,21 +1,26 @@
 #
-# This file setups up the environment used for rancid.  see rancid.conf(5)
+# This file sets-up up the environment used for rancid.  see rancid.conf(5)
 #
 # This will be site specific
 #
 TERM=network;export TERM
 #
-# Under $BASEDIR, there will be a bin directory for the rancid programs,
-# a log directory for the logs from rancid and a directory for each group
-# of routers (LIST_OF_GROUPS).  In addition to these directories, there
-# will be the CVS repositories as well.
-# use a full path (no sym-links) for BASEDIR.  some versions of CVS seemingly
-# don't take kindly to sym-links.
+# Under BASEDIR (ie: --localstatedir), there will be a "logs" directory for
+# the logs from rancid and a directory for each group of routers defined in
+# LIST_OF_GROUPS (below).  In addition to these, there will be a "CVS"
+# directory which is the cvs repository.
+#
+# Use a full path (no sym-links) for BASEDIR.  Some versions of CVS seem to
+# dislike sym-links.
 #
 TMPDIR=/tmp; export TMPDIR
-BASEDIR=@prefix@; export BASEDIR
-PATH=$BASEDIR/bin:@ENV_PATH@; export PATH
+# Be careful changing this, it affects CVSROOT below.
+BASEDIR=@localstatedir@; export BASEDIR
+PATH=@bindir@:@ENV_PATH@; export PATH
+# Location of the CVS repository.  Be careful changing this.
 CVSROOT=$BASEDIR/CVS; export CVSROOT
+# Location of log files produced by rancid-run(1).
+LOGDIR=$BASEDIR/logs; export LOGDIR
 #
 # if NOPIPE is set, temp files will be used instead of a cmd pipe during
 # collection from the router(s).
@@ -37,7 +42,7 @@ OLDTIME=4; export OLDTIME
 #PAR_COUNT=5; export PAR_COUNT
 #
 # list of rancid groups
-LIST_OF_GROUPS="sl joebobisp"
+#LIST_OF_GROUPS="sl joebobisp"
 #
 # For each group, define a list of people to receive the diffs.
 # in sendmail's /etc/aliases.

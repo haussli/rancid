@@ -288,17 +288,17 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
     set progs [llength $cmethod]
     foreach prog [lrange $cmethod 0 end] {
 	if ![string compare $prog "telnet"] {
-	    if [ catch {spawn telnet $router} reason ] {
+	    if [ catch {spawn hpfilter telnet $router} reason ] {
 		send_user "\nError: telnet failed: $reason\n"
 		exit 1
 	    }
 	} elseif ![string compare $prog "ssh"] {
-	    if [ catch {spawn ssh -c $cyphertype -x -l $user $router} reason ] {
+	    if [ catch {spawn hpfilter ssh -c $cyphertype -x -l $user $router} reason ] {
 		send_user "\nError: ssh failed: $reason\n"
 		exit 1
 	    }
 	} elseif ![string compare $prog "rsh"] {
-	    if [ catch {spawn rsh -l $user $router} reason ] {
+	    if [ catch {spawn hpfilter rsh -l $user $router} reason ] {
 		send_user "\nError: rsh failed: $reason\n"
 		exit 1
 	    }

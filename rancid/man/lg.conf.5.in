@@ -87,7 +87,7 @@ Sets the location for the
 file in rancid's
 .BR router.db (5)
 format.  It lists the devices that should be available to the looking glass
-users.  Only those devices of supported types and with status 'up' are made
+users.  Only those devices of supported types and with state 'up' are made
 available.  If not defined and the default file does not exist, the looking
 glass will compile a list from the router.db files of all the groups present
 in rancid, that is a concatenation of $BASEDIR/*/router.db.
@@ -108,7 +108,7 @@ debugging clogin problems.
 .\"
 .TP
 .B PATH
-Is a colon separated list of directory pathnames in the the file system
+Is a colon separated list of directory pathnames in the file system
 where rancid's login scripts,
 .IR clogin (1)
 etc. )
@@ -136,4 +136,5 @@ the rancid package was configured.  In this case, $BASEDIR is
 .El
 .SH SEE ALSO
 .BR cloginrc (5),
-.BR lg_intro (1)
+.BR lg_intro (1),
+.BR router.db (5)

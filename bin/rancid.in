@@ -1134,7 +1134,7 @@ sub WriteTerm {
 	if (/^(vpdn username \S+ password)/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
-	if (/^( cable shared-secret 7) / && $filter_pwds >= 1) {
+	if (/^( cable shared-secret ) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n");
 	    next;
 	}

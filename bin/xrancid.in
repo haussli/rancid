@@ -274,6 +274,7 @@ sub WriteTerm {
 	next if(/^\s*$/);
 	# the pager can not be disabled per-session on the PIX
 	s/^<-+ More -+>\s*//;
+	return(0) if ($found_end);
 
 	s/^\s*$/#/;
 	# filter extra comments and lead comments in config so we can preserve
@@ -356,7 +357,7 @@ sub WriteTerm {
 	if (/^# End of configuration file/i) {
 	    printf STDERR "    End WriteTerm: $_" if ($debug);
 	    $found_end = 1;
-	    return(1);
+	    return(0);
 	}
     }
     return(0);
@@ -367,12 +368,13 @@ sub DoNothing {print STDOUT;}
 
 # Main
 %commands=(
-	'show version'		=> "ShowVersion",
-	'show memory'		=> "ShowMemory",
-	'show diagnostics'	=> "ShowDiag",
-	'show switch'		=> "ShowSwitch",
-	'show slot'		=> "ShowSlot",
-	'show configuration'	=> "WriteTerm"
+	'show version'			=> "ShowVersion",
+	'show memory'			=> "ShowMemory",
+	'show diagnostics'		=> "ShowDiag",
+	'show switch'			=> "ShowSwitch",
+	'show slot'			=> "ShowSlot",
+	'show configuration detail'	=> "WriteTerm",
+	'show configuration'		=> "WriteTerm"
 );
 # keys() doesnt return things in the order entered and the order of the
 # cmds is important (show version first and write term last). pita
@@ -382,6 +384,7 @@ sub DoNothing {print STDOUT;}
 	"show diagnostics",
 	"show switch",
 	"show slot",
+	"show configuration detail",
 	"show configuration"
 );
 $cisco_cmds=join(";",@commands);
@@ -442,9 +445,10 @@ TOP: while(<INPUT>) {
 	$cmd = $1;
 	if (!defined($prompt)) {
 	    $prompt = ($_ =~ /^([^#]+#)/)[0];
+	    $prompt =~ s/([][}{)(\\])/\\$1/g;
 	    $prompt =~ s/:(\d+ ?)#/:\\d+ ?#/;
 	    $prompt =~ s/\*/\\\*/;
-	    print STDERR ("PROMPT MATCH:$prompt\n") if ($debug);
+	    print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
 	}
 	print STDERR ("HIT COMMAND:$_") if ($debug);
 	if (! defined($commands{$cmd})) {

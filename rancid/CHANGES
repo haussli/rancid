@@ -11,6 +11,8 @@
 
 	bin/rename is no longer shipped with rancid
 
+	rancid.conf: add MAILDOMAIN knob
+
 	clogin: allow the port to be specified for method ssh
 
 	jlogin: add cloginrc passphrase directive and order of precedence is

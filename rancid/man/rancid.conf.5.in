@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid.conf" "5" "7 Jan 2004"
+.TH "rancid.conf" "5" "12 Mar 2004"
 .SH NAME
 rancid.conf \- rancid environment configuration file
 .SH DESCRIPTION
@@ -113,6 +113,14 @@ Directory where
 places log files.
 .sp
 Default: $BASEDIR/logs
+.\"
+.TP
+.B MAILDOMAIN
+Define the domain part of addresses for administrative and diff e-mail.
+The value of this variable is simply appended to the normal mail addresses.
+For example @MAILPLUS@usfs@example.com, if
+.B MAILDOMAIN
+had been set to "@example.com".
 .\"
 .TP
 .B NOCOMMSTR

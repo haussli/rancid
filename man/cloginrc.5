@@ -95,7 +95,7 @@ may not support the type ssh uses by default.  See
 Default: {3des}
 .\"
 .TP
-.B add enableprompt <router name regexp> {<enable prompt>}
+.B add enableprompt <router name regexp> {"<enable prompt>"}
 When using AAA with a Cisco router or switch, it is possible to redefine the
 prompt the device presents to the user for the enable password.  enableprompt
 may be used to adjust the prompt that
@@ -145,7 +145,7 @@ device.  This is equivalent to
 .BR jlogin (1).
 .\"
 .TP
-.B add passprompt <router name regexp> {<password prompt>}
+.B add passprompt <router name regexp> {"<password prompt>"}
 When using AAA with a Cisco router or switch, it is possible to redefine the
 prompt the device presents to the user for the password.  passprompt may be
 used to adjust the prompt that
@@ -189,7 +189,7 @@ Specifies a password to be associated with a user, if different from that
 defined with the password directive.
 .\"
 .TP
-.B add userprompt <router name regexp> {<username prompt>}
+.B add userprompt <router name regexp> {"<username prompt>"}
 When using AAA with a Cisco router or switch, it is possible to redefine the
 prompt the device presents to the user for the username.  userprompt may be
 used to adjust the prompt that

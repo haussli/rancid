@@ -1,5 +1,7 @@
 /*
- * Copyright (C) 1997-2002 by Henry Kilmer, Erik Sherk and Pete Whiting.
+ * $Id$
+ * Copyright (C) 1997-2004 by Henry Kilmer, Pete Whiting, Andrew Partan,
+ * and John Heasley.
  * All rights reserved.
  *
  * This software may be freely copied, modified and redistributed without
@@ -12,10 +14,10 @@
  * or its effect upon hardware, computer systems, other software, or
  * anything else.
  *
- *
- * run telnet or ssh to connect to device specified on the command line.  the
+ * Run telnet or ssh to connect to device specified on the command line.  The
  * point of hpfilter is to filter all the bloody vt100 (curses) escape codes
- * that the HP procurve switches belch and make hlogin a real bitch.
+ * that the HP procurve switches belch out, which are a real bitch to handle
+ * in hlogin.
  */
 
 #define DFLT_TO	60				/* default timeout */

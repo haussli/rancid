@@ -1,6 +1,9 @@
 #!/bin/sh
 ##
-## Copyright (C) 1996-2003 by Henry Kilmer, Andrew Partan, and John Heasley.
+## $Id$
+##
+## Copyright (C) 1997-2004 by Henry Kilmer, Pete Whiting, Andrew Partan,
+## and John Heasley.
 ## All rights reserved.
 ##
 ## This software may be freely copied, modified and redistributed without
@@ -12,7 +15,6 @@
 ## responsibility and liability with respect to this software's usage
 ## or its effect upon hardware, computer systems, other software, or
 ## anything else.
-##
 ##
 #
 # control_rancid $GROUP

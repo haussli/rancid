@@ -2,11 +2,6 @@
 - *login should emmit "clogin error:" or "*login error:" to make matches for
   login failures definitive?
 - would like hpfilter to be more friendly to interactive logins
-- need to deal with this openssh prompt
-	user@jnx's password: foo
-
-	Permission denied, please try again.
-	user@jnx's password: ^Cguelah [5] 
 - rancid with zebra?  via vtysh?
 - rancid for unix?
 - extreme collections lose when the config on the switch is in an unsaved

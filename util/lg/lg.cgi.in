@@ -254,41 +254,60 @@ if (!defined($type) || !defined($router)) {
 
 # conversion of command "type" passed from lgform.cgi to the vendor's syntax.
 %ciscoCmd = (	
-		#acl => "sh access-list",
-		#aspath => "sh ip as-path-access-list",
-		#communitylist => "sh ip community-list",
-		damp => "sh ip bgp dampened-paths",
-		framerelay => "sh frame-relay pvc",
-		interface => "sh interface",
-		intbrief => "sh ip interface",
-		log => "sh logging",
-		mbgp => "sh ip mbgp",
-		mbgpsum => "sh ip mbgp summary",
-		regex => "sh ip bgp regex",
-		route => "sh ip route",
-		#routemap => "sh route-map",
+		#acl => "show access-list",
+		#aspath => "show ip as-path-access-list",
+		#communitylist => "show ip community-list",
+		damp => "show ip bgp dampened-paths",
+		framerelay => "show frame-relay pvc",
+		interface => "show interface",
+		intbrief => "show ip interface",
+		log => "show logging",
+		mbgp => "show ip mbgp",
+		mbgpsum => "show ip mbgp summary",
+		regex => "show ip bgp regex",
+		route => "show ip route",
+		routemap => "show route-map",
 		ping => "ping",
-		prefix => "sh ip bgp",
-		prefixlist => "sh ip prefix-list",
-		summary => "sh ip bgp summary",
+		prefix => "show ip bgp",
+		prefixlist => "show ip prefix-list",
+		summary => "show ip bgp summary",
+		trace => "traceroute"
+	);
+%foundryCmd = (	
+		#acl => "show access-list",
+		#aspath => "show ip as-path-access-list",
+		#communitylist => "show ip community-list",
+		damp => "show route damping suppressed terse table inet.0",
+		interface => "show interface",
+		log => "show log messages",
+		mbgp => "show route table inet.2 terse",
+		mbgpsum => "show bgp summary",
+		#regex => "show route table inet.0 aspath-regex",
+		route => "show route table inet.0",
+		routemap => "show route-map",
+		ping => "ping rapid count 5",
+		prefix => "show route table inet.0",
+		#prefixlist => "show ip prefix-list",
+		summary => "show bgp summary",
 		trace => "traceroute"
 	);
 %juniperCmd = (	
-		#acl => "sh access-list",
-		#aspath => "sh ip as-path-access-list",
-		#communitylist => "sh ip community-list",
+		#acl => "show access-list",
+		#aspath => "show ip as-path-access-list",
+		#communitylist => "show ip community-list",
 		damp => "show route damping suppressed terse table inet.0",
-		interface => "sh interface",
+		framerelay => "show frame-relay pvc",
+		interface => "show interface",
 		log => "show log messages",
-		mbgp => "sh route table inet.2 terse",
-		mbgpsum => "sh bgp summary",
-		#regex => "sh route table inet.0 aspath-regex",
-		route => "sh route table inet.0",
-		#routemap => "sh route-map",
+		mbgp => "show route table inet.2 terse",
+		mbgpsum => "show bgp summary",
+		regex => "show route table inet.0 aspath-regex",
+		route => "show route forwarding-table destination",
+		routemap => "show policy",
 		ping => "ping rapid count 5",
-		prefix => "sh route table inet.0",
-		#prefixlist => "sh ip prefix-list",
-		summary => "sh bgp summary",
+		prefix => "show route table inet.0",
+		prefixlist => "show policy",
+		summary => "show bgp summary",
 		trace => "traceroute"
 	);
 %cmdDisp = (	
@@ -332,6 +351,11 @@ if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
 	$arg = $arg[0] . "/" . mask2len($arg[1]);
     }
 } elsif ($type eq "framerelay") {
+    if ($mfg =~ /juniper/) {
+	$results[0] = "Juniper does not have a show frame-relay pvc command.  ".
+		"Use show interface.\n";
+	&print_results;
+    }
     if ($arg[0] > 15 && $arg[0] < 1024) {
 	$arg = $arg[0];
     } else {
@@ -393,9 +417,11 @@ if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
     $arg = $arg[0];
 } elsif ($type eq "regex") {
     $arg = $arg[0];
-    if ($#arg > 1) {
-	for ($n = 1; $n <= $#arg - 1; $n++) { $arg .= " " . $arg[$n]; }
+    if ($#arg >= 1) {
+	for ($n = 1; $n <= $#arg; $n++) { $arg .= " " . $arg[$n]; }
     }
+    # remove leading/trailing whitespace
+    $arg =~ s/^\s*//; $arg =~ s/\s*$//;
     if ($arg !~ /^[0-9_ ^.*+?[\])\(-]*\$?$/ || $arg =~ /^\s*$/) {
 	$results[0] = "That argument ($arg[0]) is not valid.\n";
 	&print_results;
@@ -406,7 +432,17 @@ if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
 	$results[0] = "Get real.  Such a query has potential to over-burden our router.\nLook that up on your own router.\n";
 	&print_results;
     }
-    # escape any ()
+    if ($mfg =~ /juniper/) {
+	$arg =~ s/_/ /g;
+	# pre-junos 4.4 do not allow anchors
+	if ($arg =~ /\^\$/) {
+	    $arg =~ "()";
+	} else {
+	    $arg =~ s/[\$^]/ /g;
+	}
+	$arg = "\"$arg\"";
+    }
+    # escape any ()s
     $arg =~ s/([\(\)])/\\$1/g;
 } elsif ($type eq "damp" || $type eq "summary" || $type eq "mbgpsum") {
     undef($arg);

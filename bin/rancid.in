@@ -620,7 +620,7 @@ sub WriteTerm {
     /^(username .*) password \d *(\S)\s*(.*)/ &&
 	ProcessHistory("USER","","","$1 password <removed>\n") &&
 	    return;
-    /^ password / &&
+    /^\s*password / &&
 	ProcessHistory("LINE-PASS","","","! password <removed>\n") &&
 	    return;
     /^\s*neighbor (\S*) password / &&

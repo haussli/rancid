@@ -1016,11 +1016,12 @@ sub ShowModule {
     print STDERR "    In ShowModule: $_" if ($debug);
 
     my(@lines);
-    my($slot);
+    my($slot, $pa);
 
     while (<INPUT>) {
 	tr/\015//d;
 	return if (/^\s*\^$/);
+	last if (/online diag status/i);
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(-1) if (/command authorization failed/i);
@@ -1029,14 +1030,27 @@ sub ShowModule {
 
 	# match slot/card info line
 	if (/^ *(\d+)\s+(\d+)\s+(.*)\s+(\S+)\s+(\S+)\s*$/) {
-	    $lines[$1] .= "!Slot $1: type $3, $2 ports\n!Slot $1: part $4, serial $5\n";
-	    $lines[$1] =~ s/\s+,/,/g;
+	    $lines[$1 * 1000] .= "!Slot $1: type $3, $2 ports\n!Slot $1: part $4, serial $5\n";
+	    $lines[$1 * 1000] =~ s/\s+,/,/g;
+	    next;
 	}
 	# now match the Revs in the second paragraph of o/p and stick it in
 	# the array with the previous bits...grumble.
 	if (/^ *(\d+)\s+\S+\s+to\s+\S+\s+(\S+)\s+(\S*)\s+(\S+)(\s+\S+)?\s*$/) {
-	    $lines[$1] .= "!Slot $1: hvers $2, firmware $3, sw $4\n";
-	    $lines[$1] =~ s/\s+,/,/g;
+	    $lines[$1 * 1000] .= "!Slot $1: hvers $2, firmware $3, sw $4\n";
+	    $lines[$1 * 1000] =~ s/\s+,/,/g;
+	    next;
+	}
+	# grab the sub-modules, if any
+	if (/^\s+(\d+)\s(.*)\s+(\S+)\s+(\S+)\s+(\S+)\s+\S+\s*$/) {
+	    my($idx);
+	    $pa = 0 if ($1 != $slot);
+	    $slot = $1;
+	    $idx = $1 * 1000 + $1 * 10 + $pa;
+	    $lines[$idx] .= "!Slot $1/$pa: type $2\n";
+	    $lines[$idx] .= "!Slot $slot/$pa: part $3, serial $4\n";
+	    $lines[$idx] .= "!Slot $slot/$pa: hvers $5\n";
+	    $pa++;
 	}
     }
     foreach $slot (@lines) {

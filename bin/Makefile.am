@@ -66,8 +66,10 @@ auto_edit = sed \
 	-e 's,@localstatedir\@,$(localstatedir),g' \
 	-e 's,@sysconfdir\@,$(sysconfdir),g' \
 	-e 's,@EXPECT_PATH\@,$(EXPECT_PATH),g' \
+	-e 's,@PERLV\@,$(PERLV),g' \
 	-e 's,@PERLV_PATH\@,$(PERLV_PATH),g' \
-	-e 's,@LG_PING_CMD\@,$(LG_PING_CMD),g'
+	-e 's,@LG_PING_CMD\@,$(LG_PING_CMD),g' \
+	-e 's,@MAILPLUS\@,$(MAILPLUS),g'
 
 lg.cgi: Makefile $(srcdir)/lg.cgi.in
 	rm -f lg.cgi lg.cgi.tmp; \

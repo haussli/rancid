@@ -193,7 +193,8 @@ sub ShowChassis {
     while (<INPUT>) {
 	tr/\015//d;
 	last if(/^$prompt/);
-	next if(/^(\s*|\s*$cmd\s*)$/);
+	last if(/^invalid input at/i);
+	next if(/^(\s*|\s*$cmd\s*|\s+\^)$/);
 
 	ProcessHistory("COMMENTS","keysort","C1","!Chassis: $_");
     }

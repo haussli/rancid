@@ -14,9 +14,6 @@
   ip msdp password <peer-address> <password>
         - password is reversible
 
-  ntp authentication-key <keyid> md5 <value>'
-        - value is reversible
-
   ip ospf message-digest-key <keyid> md5 <enctype> <key>
         - key is ?
         - enctype is 0|7

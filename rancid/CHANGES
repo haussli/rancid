@@ -1,4 +1,6 @@
 2.2b3
+	bin/rancid changes for cisco 124xx
+
 	some serial controllers (PAs) have predefined cable-type in show
 	controllers.  M8T-V.35 was being missed.
 

@@ -49,6 +49,8 @@ the --localstatedir option to configure.  e.g.:
 
 	./configure --localstatedir=/usr/local/rancid
 
+/usr/local/rancid is, and has been, the default <PREFIX>.
+
 To move them elsewhere, accept the default (e.g.: /usr/local/rancid/var) or
 specify your own and move the existing directories.  e.g.:
 

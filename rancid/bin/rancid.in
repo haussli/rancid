@@ -571,7 +571,7 @@ sub ShowFlash {
 	return(1) if /(Invalid input detected|Type help or )/;
 	# the pager can not be disabled per-session on the PIX
 	s/^<-+ More -+>\s*//;
-	/\s+vlan\.dat$/ && next;
+	/\s+(multiple-fs|vlan\.dat)$/ && next;
 	ProcessHistory("FLASH","","","!Flash: $_");
     }
     ProcessHistory("","","","!\n");

@@ -37,6 +37,8 @@
 
 #include <termios.h>
 
+#define	BUFSZ	(LINE_MAX * 2)
+
 char		*progname;
 int		debug = 0;
 
@@ -51,9 +53,9 @@ main(int argc, char **argv)
     extern char		*optarg;
     extern int		optind;
     char		ch,
-			hbuf[LINE_MAX * 2],	/* hlogin buffer */
+			hbuf[BUFSZ],		/* hlogin buffer */
 			*hbufp,
-			tbuf[LINE_MAX * 2],	/* telnet/ssh buffer */
+			tbuf[BUFSZ],		/* telnet/ssh buffer */
 			*tbufp;
     int			bytes,			/* bytes read/written */
 			child,
@@ -137,8 +139,8 @@ main(int argc, char **argv)
     }
 
     /* zero the buffers */
-    bzero(hbuf, LINE_MAX * 2);
-    bzero(tbuf, LINE_MAX * 2);
+    bzero(hbuf, BUFSZ);
+    bzero(tbuf, BUFSZ);
 
     if (child == 0) {
 	/* close the parent's side of the pipes; we write r[1], read s[0] */
@@ -241,9 +243,8 @@ main(int argc, char **argv)
 		}
 		if (FD_ISSET(0, &rfds)) {
 		    /* read stdin into hbuf */
-		    if (LINE_MAX * 2 - hlen > 1) {
-			hlen += read(0, hbuf + hlen,
-				(LINE_MAX * 2 - 1) - hlen);
+		    if (BUFSZ - hlen > 1) {
+			hlen += read(0, hbuf + hlen, (BUFSZ - 1) - hlen);
 			if (hlen > 0) {
 			    hbuf[hlen] = '\0';
 			} else if (hlen == 0 || errno != EAGAIN)
@@ -254,9 +255,8 @@ main(int argc, char **argv)
 		    }
 		} else if (FD_ISSET(r[0], &rfds)) {
 		    /* read telnet/ssh into tbuf, then filter */
-		    if (LINE_MAX * 2 - tlen > 1) {
-			tlen += read(r[0], tbuf + tlen,
-				(LINE_MAX * 2 - 1) - tlen);
+		    if (BUFSZ - tlen > 1) {
+			tlen += read(r[0], tbuf + tlen, (BUFSZ - 1) - tlen);
 			if (tlen > 0) {
 			    tbuf[tlen] = '\0';
 			    tlen = filter(tbuf, tlen);

@@ -112,3 +112,13 @@ add cyphertype *		{3des}
 
 # ssh identity for a juniper; used with jlogin
 add identity	my.juniper	$env(HOME)/.ssh/juniper
+
+# riverstone / enterasys / cabletron (rivlogin) example
+# these boxes are 'back-to-front' from cisco (i.e., ask
+# for vty password always, then tac+/radius if configured).
+#
+# vty password and last resort (enable) password for rivlogin
+add password rs3000		{vtypass}	{lastresort}
+# if using tac+ or radius login, include these lines
+add user rs3000			{monster}
+add userpassword rs3000		{scary}

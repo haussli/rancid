@@ -394,7 +394,7 @@ uninstall-man: uninstall-man1 uninstall-man5
 
 @SET_MAKE@
 
-#CLEANFILES = Makefile env.5 lg.conf.5 lg_intro.1
+#CLEANFILES = Makefile rancid.conf.5 lg.conf.5 lg_intro.1
 
 all:
 

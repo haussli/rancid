@@ -7,7 +7,7 @@ the files below by configure with substitutions completed:
 README		This file.
 CHANGES		List of changes to Rancid.
 Todo		partial list of what needs to be done.
-env.in		Environment settings needed.
+rancid.conf.in	Environment settings needed.
 do-diffs.in	Script designed to be run from cron calling control_rancid.
 control_rancid.in
 		Builds router list, calls rancid on each router and
@@ -91,7 +91,7 @@ Quick Installation Guide (an example):
 
 2) make install
 
-3) Modify <basedir>/bin/env.  The variable LIST_OF_GROUPS is a
+3) Modify <basedir>/etc/rancid.conf.  The variable LIST_OF_GROUPS is a
    space delimited list of router "groups".  E.g.:
 	LIST_OF_GROUPS="backbone aggregation switches"
 
@@ -158,7 +158,7 @@ Quick Installation Guide (an example):
 
 10) Put do-diffs in cron to be called however often you want it to
    run for each group (do-diffs [<GROUP>]).  If you run it less
-   often than once/hour, check the setting of OLDTIME in bin/env.
+   often than once/hour, check the setting of OLDTIME in etc/rancid.conf.
    E.g.:
 	# run config differ hourly
 	1 * * * * <BASEDIR>/bin/do-diffs
@@ -171,9 +171,9 @@ Quick Installation Guide (an example):
     it can call id, telnet, ssh, and/or rsh.
 
     configure already makes sure that $PATH is set correctly in
-    bin/env for do-diffs, so you could use the $PATH from there. eg:
+    etc/rancid.conf for do-diffs, so you could use the $PATH from there. eg:
 
-	50 23 * * * . /usr/local/rancid/bin/env; clogin -c 'sh vers' router
+	50 23 * * * . /usr/local/rancid/etc/rancid.conf; clogin -c 'sh vers' router
 
 12) Send any bugs, suggestions or updates to rancid@shrubbery.net.
     See the web page at http://www.shrubbery.net/rancid.  We have

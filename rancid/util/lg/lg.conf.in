@@ -73,7 +73,8 @@ $ENV{PATH}="@prefix@/bin:@ENV_PATH@";
 #		option; the group directories and router.db files' modes may
 #		have to be changed, depending upon the UID/GID of the user
 #		your server (httpd) runs under, since rancid's default mask
-#		is 007 (see bin/env).  routers not marked 'up' are skipped.
+#		is 007 (see etc/rancid.conf).  routers not marked 'up' are
+#		skipped.
 #
 #$LG_ROUTERDB="@prefix@/util/lg/router.db";
 #

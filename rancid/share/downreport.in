@@ -7,10 +7,10 @@
 
 # It can optionally
 # take a space list of groups on the command line
-# It will use the list of groups defined in env otherwise.
+# It will use the list of groups defined in rancid.conf otherwise.
 
 
-ENVFILE="`dirname $0`../bin/env"
+ENVFILE="`dirname $0`../etc/rancid.conf"
 
 . $ENVFILE
 

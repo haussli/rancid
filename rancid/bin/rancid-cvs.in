@@ -67,9 +67,19 @@ do
     fi
 
     # main files
-    if [ ! -f $DIR/allrouters ]; then
+    if [ ! -f $DIR/routers.all ]; then
 	cd $DIR
-	touch $DIR/allrouters
+	touch $DIR/routers.all
+	cd $BASEDIR
+    fi
+    if [ ! -f $DIR/routers.down ]; then
+	cd $DIR
+	touch $DIR/routers.down
+	cd $BASEDIR
+    fi
+    if [ ! -f $DIR/routers.up ]; then
+	cd $DIR
+	touch $DIR/routers.up
 	cd $BASEDIR
     fi
     if [ ! -f $DIR/router.db ]; then

@@ -609,6 +609,9 @@ sub WriteTerm {
 	ProcessHistory("","","","!\nconfig-register $config_register\n");
         tr/\015//d;
     }
+    # some versions have crap other crap mixed in with the bits in the block
+    # above
+    /^! (Last configuration|NVRAM config last)/ && return;
     # Dog gone Cool matches to process the rest of the config
     /^tftp-server flash /   && return; # kill and tftp remains
     /^ntp clock-period /    && return; # kill ntp clock-period
@@ -642,6 +645,9 @@ sub WriteTerm {
     /^ip prefix-list\s+(\S+)\s+seq\s+(\d+)\s+(permit|deny)\s+(\d\S+)(\/.*)$/ &&
 	ProcessHistory("PACL $1 $3","ipsort","$4","ip prefix-list $1 $3 $4$5\n")
 	    && return;
+    # order arp lists
+    /^arp\s+(\d+\.\d+\.\d+\.\d+)\s+/ &&
+	ProcessHistory("ARP","ipsort","$1","$_") && return;
     # order logging statements
     /^logging (\d+\.\d+\.\d+\.\d+)/ &&
 	ProcessHistory("LOGGING","ipsort","$1","$_") && return;

@@ -29,6 +29,13 @@ bin_SCRIPTS = cat5rancid control_rancid \
 	rancid-fe rancid rename rivlogin rivrancid rrancid tntlogin \
 	tntrancid xrancid zrancid
 
+bin_SCRIPTS += lg.cgi lgform.cgi
+dist_bin_SCRIPTS= lg.cgi.in lgform.cgi.in
+#dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
+
+CLEANFILES= lg.cgi lgform.cgi
+#CLEANFILES= $(bin_SCRIPTS)
+
 hpuifilter_SOURCES = hpuifilter.c
 
 #CPPFLAGS += @PG_CPPFLAGS@
@@ -46,3 +53,28 @@ YFLAGS = -d
 
 #clean:
 #	rm -f Makefile env $(BIN_DATAS) $(BIN_PROGS)
+
+# auto_edit does the autoconf variable substitution.  This allows the
+# substitution to have the full expansion of the variables, eg: $sysconfdir
+# will be /prefix/etc instead of ${prefix}/etc.
+#
+# This is a bit of a PITA, but is the method recommended by the autoconf
+# documentation.
+auto_edit = sed \
+	-e 's,@prefix\@,$(prefix),g' \
+	-e 's,@sysconfdir\@,$(sysconfdir),g' \
+	-e 's,@EXPECT_PATH\@,$(EXPECT_PATH),g' \
+	-e 's,@PERLV_PATH\@,$(PERLV_PATH),g' \
+	-e 's,@LG_PING_CMD\@,$(LG_PING_CMD),g'
+
+lg.cgi: Makefile $(srcdir)/lg.cgi.in
+	rm -f lg.cgi lg.cgi.tmp; \
+	$(auto_edit) $(srcdir)/lg.cgi.in >lg.cgi.tmp; \
+	chmod +x lg.cgi.tmp; \
+	mv lg.cgi.tmp lg.cgi
+
+lgform.cgi: Makefile $(srcdir)/lgform.cgi.in
+	rm -f lgform.cgi lgform.cgi.tmp; \
+	$(auto_edit) $(srcdir)/lgform.cgi.in >lgform.cgi.tmp; \
+	chmod +x lgform.cgi.tmp; \
+	mv lgform.cgi.tmp lgform.cgi

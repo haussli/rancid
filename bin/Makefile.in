@@ -39,12 +39,12 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 bin_PROGRAMS = hpuifilter$(EXEEXT)
 subdir = bin
-DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(srcdir)/alogin.in $(srcdir)/arancid.in $(srcdir)/blogin.in \
-	$(srcdir)/brancid.in $(srcdir)/cat5rancid.in \
-	$(srcdir)/clogin.in $(srcdir)/control_rancid.in \
-	$(srcdir)/create_cvs.in $(srcdir)/do-diffs.in \
-	$(srcdir)/elogin.in $(srcdir)/erancid.in \
+DIST_COMMON = $(dist_bin_SCRIPTS) $(srcdir)/Makefile.am \
+	$(srcdir)/Makefile.in $(srcdir)/alogin.in $(srcdir)/arancid.in \
+	$(srcdir)/blogin.in $(srcdir)/brancid.in \
+	$(srcdir)/cat5rancid.in $(srcdir)/clogin.in \
+	$(srcdir)/control_rancid.in $(srcdir)/create_cvs.in \
+	$(srcdir)/do-diffs.in $(srcdir)/elogin.in $(srcdir)/erancid.in \
 	$(srcdir)/f10rancid.in $(srcdir)/flogin.in \
 	$(srcdir)/francid.in $(srcdir)/hlogin.in $(srcdir)/hrancid.in \
 	$(srcdir)/htlogin.in $(srcdir)/htrancid.in \
@@ -69,14 +69,15 @@ CONFIG_CLEAN_FILES = control_rancid create_cvs do-diffs par rancid-fe \
 	jerancid hlogin hrancid htlogin htrancid mrancid nlogin \
 	nrancid nslogin nsrancid prancid rivlogin rivrancid rrancid \
 	tntlogin tntrancid xrancid zrancid
-am__installdirs = $(DESTDIR)$(bindir) $(DESTDIR)$(bindir)
+am__installdirs = $(DESTDIR)$(bindir) $(DESTDIR)$(bindir) $(DESTDIR)$(bindir)
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
 am_hpuifilter_OBJECTS = hpuifilter.$(OBJEXT)
 hpuifilter_OBJECTS = $(am_hpuifilter_OBJECTS)
 hpuifilter_LDADD = $(LDADD)
 binSCRIPT_INSTALL = $(INSTALL_SCRIPT)
-SCRIPTS = $(bin_SCRIPTS)
+dist_binSCRIPT_INSTALL = $(INSTALL_SCRIPT)
+SCRIPTS = $(bin_SCRIPTS) $(dist_bin_SCRIPTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/include
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -199,10 +200,35 @@ bin_SCRIPTS = cat5rancid control_rancid \
 	hlogin hrancid htlogin htrancid \
 	mrancid nlogin nrancid nslogin nsrancid par prancid \
 	rancid-fe rancid rename rivlogin rivrancid rrancid tntlogin \
-	tntrancid xrancid zrancid
-
+	tntrancid xrancid zrancid\
+lg.cgi lgform.cgi
+dist_bin_SCRIPTS = lg.cgi.in lgform.cgi.in
+#dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
+CLEANFILES = lg.cgi lgform.cgi
+#CLEANFILES= $(bin_SCRIPTS)
 hpuifilter_SOURCES = hpuifilter.c
 YFLAGS = -d
+#LFLAGS = -i
+
+# no idea why automake doesnt clean these targets
+#CLEANFILES= y.tab.c y.tab.h lex.yy.c conf.h conf.c conflex.c
+
+#clean:
+#	rm -f Makefile env $(BIN_DATAS) $(BIN_PROGS)
+
+# auto_edit does the autoconf variable substitution.  This allows the
+# substitution to have the full expansion of the variables, eg: $sysconfdir
+# will be /prefix/etc instead of ${prefix}/etc.
+#
+# This is a bit of a PITA, but is the method recommended by the autoconf
+# documentation.
+auto_edit = sed \
+	-e 's,@prefix\@,$(prefix),g' \
+	-e 's,@sysconfdir\@,$(sysconfdir),g' \
+	-e 's,@EXPECT_PATH\@,$(EXPECT_PATH),g' \
+	-e 's,@PERLV_PATH\@,$(PERLV_PATH),g' \
+	-e 's,@LG_PING_CMD\@,$(LG_PING_CMD),g'
+
 all: all-am
 
 .SUFFIXES:
@@ -357,6 +383,25 @@ uninstall-binSCRIPTS:
 	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
 	  rm -f $(DESTDIR)$(bindir)/$$f; \
 	done
+install-dist_binSCRIPTS: $(dist_bin_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	$(mkdir_p) $(DESTDIR)$(bindir)
+	@list='$(dist_bin_SCRIPTS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f $$d$$p; then \
+	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	    echo " $(dist_binSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(bindir)/$$f"; \
+	    $(dist_binSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(bindir)/$$f; \
+	  else :; fi; \
+	done
+
+uninstall-dist_binSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(dist_bin_SCRIPTS)'; for p in $$list; do \
+	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
+	  rm -f $(DESTDIR)$(bindir)/$$f; \
+	done
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -460,7 +505,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(PROGRAMS) $(SCRIPTS)
 installdirs:
-	$(mkdir_p) $(DESTDIR)$(bindir) $(DESTDIR)$(bindir)
+	$(mkdir_p) $(DESTDIR)$(bindir) $(DESTDIR)$(bindir) $(DESTDIR)$(bindir)
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -478,6 +523,7 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-rm -f $(CONFIG_CLEAN_FILES)
@@ -507,7 +553,8 @@ info-am:
 
 install-data-am:
 
-install-exec-am: install-binPROGRAMS install-binSCRIPTS
+install-exec-am: install-binPROGRAMS install-binSCRIPTS \
+	install-dist_binSCRIPTS
 
 install-info: install-info-am
 
@@ -533,27 +580,33 @@ ps: ps-am
 ps-am:
 
 uninstall-am: uninstall-binPROGRAMS uninstall-binSCRIPTS \
-	uninstall-info-am
+	uninstall-dist_binSCRIPTS uninstall-info-am
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-binPROGRAMS \
 	clean-generic ctags distclean distclean-compile \
 	distclean-generic distclean-tags distdir dvi dvi-am html \
 	html-am info info-am install install-am install-binPROGRAMS \
-	install-binSCRIPTS install-data install-data-am install-exec \
-	install-exec-am install-info install-info-am install-man \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-binPROGRAMS \
-	uninstall-binSCRIPTS uninstall-info-am
+	install-binSCRIPTS install-data install-data-am \
+	install-dist_binSCRIPTS install-exec install-exec-am \
+	install-info install-info-am install-man install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
+	uninstall-am uninstall-binPROGRAMS uninstall-binSCRIPTS \
+	uninstall-dist_binSCRIPTS uninstall-info-am
 
-#LFLAGS = -i
 
-# no idea why automake doesnt clean these targets
-#CLEANFILES= y.tab.c y.tab.h lex.yy.c conf.h conf.c conflex.c
+lg.cgi: Makefile $(srcdir)/lg.cgi.in
+	rm -f lg.cgi lg.cgi.tmp; \
+	$(auto_edit) $(srcdir)/lg.cgi.in >lg.cgi.tmp; \
+	chmod +x lg.cgi.tmp; \
+	mv lg.cgi.tmp lg.cgi
 
-#clean:
-#	rm -f Makefile env $(BIN_DATAS) $(BIN_PROGS)
+lgform.cgi: Makefile $(srcdir)/lgform.cgi.in
+	rm -f lgform.cgi lgform.cgi.tmp; \
+	$(auto_edit) $(srcdir)/lgform.cgi.in >lgform.cgi.tmp; \
+	chmod +x lgform.cgi.tmp; \
+	mv lgform.cgi.tmp lgform.cgi
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

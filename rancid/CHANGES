@@ -2,6 +2,8 @@
 	bin/par - rewrite in C, add -p, -f, and -e options
 
 2.2.2.eft
+	rancid/jrancid: filter isis passwords - partial from Janos Mohacsi
+
 	lg: make o/p from the lg stream and unbuffered, so one doesnt have
 	to wait for each line of o/p from the router in traceroute, for
 	example.  suggestion and clues from alexander koch.  while here, fix

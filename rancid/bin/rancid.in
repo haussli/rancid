@@ -945,6 +945,14 @@ sub WriteTerm {
 	if (/^( ip ospf authentication-key) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
+	# isis passwords appear to be completely plain-text
+	if (/^\s+isis password (\S+)( .*)?/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!isis password <removed>$2\n"); next;
+	}
+	if (/^\s+(domain-password|area-password) (\S+)( .*)?/
+							&& $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>$2\n"); next;
+	}
 	# this is reversable, despite 'md5' in the cmd
 	if (/^( ip ospf message-digest-key \d+ md5) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;

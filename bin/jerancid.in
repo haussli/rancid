@@ -334,6 +334,8 @@ sub WriteTerm {
 	    }
 	    next;
 	}
+
+#
 	if (/^( set session-key (in|out)bound ah \d+ )/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1<removed>\n");
 	    next;
@@ -450,6 +452,7 @@ sub WriteTerm {
 	# order logging statements
 	/^logging (\d+\.\d+\.\d+\.\d+)/ &&
 	    ProcessHistory("LOGGING","ipsort","$1","$_") && next;
+
 	# order/prune snmp-server host statements
 	# we only prune lines of the form
 	# snmp-server host a.b.c.d <community>
@@ -460,7 +463,7 @@ sub WriteTerm {
 		my(@tokens) = split(' ', $');
 		my($token);
 		while ($token = shift(@tokens)) {
-		    if ($token eq 'version') {
+		    if ($token eq 'version' || $tokens[0] == 1) {
 			$line .= " " . join(' ', ($token, shift(@tokens)));
 		    } elsif ($token =~ /^(informs?|traps?|(no)?auth)$/) {
 			$line .= " " . $token;

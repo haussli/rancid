@@ -148,7 +148,7 @@ EXTRA_DIST = README index.html lgnotes.html
 subdir = util/lg
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES = lg.cgi lg.conf lgform.cgi
+CONFIG_CLEAN_FILES = lg.conf lg.cgi lgform.cgi
 SCRIPTS = $(bin_SCRIPTS)
 
 DIST_SOURCES =
@@ -162,9 +162,9 @@ $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	  $(AUTOMAKE) --foreign  util/lg/Makefile
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
-lg.cgi: $(top_builddir)/config.status lg.cgi.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 lg.conf: $(top_builddir)/config.status lg.conf.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+lg.cgi: $(top_builddir)/config.status lg.cgi.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 lgform.cgi: $(top_builddir)/config.status lgform.cgi.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

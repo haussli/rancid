@@ -54,6 +54,7 @@ auto_edit = sed \
 	-e 's,@localstatedir\@,$(localstatedir),g' \
 	-e 's,@sysconfdir\@,$(sysconfdir),g' \
 	-e 's,@pkgdatadir\@,$(sysconfdir),g' \
+	-e 's,@ADMINMAILPLUS\@,$(ADMINMAILPLUS),g' \
 	-e 's,@MAILPLUS\@,$(MAILPLUS),g'
 
 lg.conf.5: Makefile $(srcdir)/lg.conf.5.in

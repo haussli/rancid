@@ -94,9 +94,9 @@ For example:
 .in +1i
 .nf
 @MAILPLUS@uofo:            frank
-@MAILPLUS@admin-uofo:      joe,bob
+@ADMINMAILPLUS@uofo:      joe,bob
 @MAILPLUS@usfs:            frank
-@MAILPLUS@admin-usfs:      joe,bob
+@ADMINMAILPLUS@usfs:      joe,bob
 .fi
 .sp
 .in -1i

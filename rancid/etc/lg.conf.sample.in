@@ -76,7 +76,7 @@ $ENV{PATH}="@prefix@/bin:@ENV_PATH@";
 #		mask is 007 (see etc/rancid.conf).  routers not marked 'up' are
 #		skipped.
 #
-#$LG_ROUTERDB="@prefix@/etc/router.db";
+#$LG_ROUTERDB="@sysconfdir@/router.db";
 #
 #
 # LG_STYLE	define a style sheet to be used for formatting HTML.

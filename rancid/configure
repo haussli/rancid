@@ -2447,7 +2447,7 @@ fi
     fi
 fi
 
-ac_cv_PERLV=`basename $PERLV_PATH`
+PERLV=`basename $PERLV_PATH`
 
 
 # Extract the first word of "expect", so it can be a program name with args.

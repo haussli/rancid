@@ -573,7 +573,7 @@ foreach router [lrange $argv $i end] {
     # was done on the command line. If it is not specifically set on the
     # command line, check the password file.
     if $autoenable {
-	set prompt "#"
+	set prompt "(#| \(enable\))"
     } else {
 	set ae [find autoenable $router]
 	if { "$ae" == "1" } {

@@ -126,9 +126,10 @@ Default: your default identity file.  see ssh(1).
 .TP
 .B add method <router name regexp> {ssh} [{...}]
 Defines, in order, the connection methods to use for a device from the
-set {ssh, telnet, rsh}.
+set {ssh, telnet, rsh}.  Method telnet may have a suffix, indicating an
+alternate TCP port, of the form ":port".
 .sp
-Example: add method * {ssh} {telnet} {rsh}
+Example: add method * {ssh} {telnet:3000} {rsh}
 .sp
 Which would cause
 .IR clogin

@@ -287,8 +287,10 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
     # try each of the connection methods in $cmethod until one is successful
     set progs [llength $cmethod]
     foreach prog [lrange $cmethod 0 end] {
-	if ![string compare $prog "telnet"] {
-	    if [ catch {spawn hpfilter telnet $router} reason ] {
+	if [string match "telnet*" $prog] {
+	    regexp {telnet(:(\d+))*} $prog command suffix port
+	    if {"$port" == ""} { set port 23 }
+	    if [ catch {spawn telnet $router $port} reason ] {
 		send_user "\nError: telnet failed: $reason\n"
 		exit 1
 	    }

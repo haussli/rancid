@@ -11,9 +11,9 @@ contains environment configuration information for
 .BR rancid-run (1)
 and
 .BR rancid (1)
-including shell PATH, list of rancid groups, etc. and is read by
-.BR rancid-run (1)
-at run-time.
+including shell PATH, list of rancid groups, etc. and is read by several
+scripts at run-time, including
+.BR rancid-run (1).
 .PP
 The syntax of
 .B rancid.conf

@@ -759,7 +759,7 @@ sub ShowModule {
 	}
 	# now match the Revs in the second paragraph of o/p and stick it in
 	# the array with the previous bits...grumble.
-	if (/^ *(\d+)\s+\S+\s+to\s+\S+\s+(\S+)\s+(.*)\s+(\S+)\s*$/) {
+	if (/^ *(\d+)\s+\S+\s+to\s+\S+\s+(\S+)\s+(\S*)\s+(\S+)(\s+\S+)?\s*$/) {
 	    $lines[$1] .= "!Slot $1: hvers $2, firmware $3, sw $4\n";
 	    $lines[$1] =~ s/\s+,/,/g;
 	}

@@ -617,10 +617,10 @@ sub ShowDiagbus {
 	    next;
 	}
 	/\s+(.*) (IP|PA), (\d) ports?, (\S+)/ &&
-	    ProcessHistory("SLOT","","","!Slot $slot/$board: type $3, $2 ports\n") &&
+	    ProcessHistory("SLOT","","","!Slot $slot/$board: type $4, $3 ports\n") &&
 	    next;
 	/\s+(.*) (IP|PA)( \(\S+\))?, (\d) ports?/ &&
-	    ProcessHistory("SLOT","","","!Slot $slot/$board: type $1$2, $3 ports\n") &&
+	    ProcessHistory("SLOT","","","!Slot $slot/$board: type $1$3, $4 ports\n") &&
 	    next;
 	/^\s*HW rev (\S+), Board revision (\S+)/ &&
 	    ProcessHistory("SLOT","","","!Slot $slot/$board: hvers $1 rev $2\n") &&

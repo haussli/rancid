@@ -6020,7 +6020,7 @@ ac_cv_env_path=$ENV_PATH
 
                     ac_config_files="$ac_config_files bin/xrancid bin/zrancid"
 
-                    ac_config_files="$ac_config_files share/rtrfilter share/getipacctg"
+          ac_config_files="$ac_config_files share/rtrfilter"
 
 
 cat >confcache <<\_ACEOF
@@ -6617,7 +6617,6 @@ do
   "bin/xrancid" ) CONFIG_FILES="$CONFIG_FILES bin/xrancid" ;;
   "bin/zrancid" ) CONFIG_FILES="$CONFIG_FILES bin/zrancid" ;;
   "share/rtrfilter" ) CONFIG_FILES="$CONFIG_FILES share/rtrfilter" ;;
-  "share/getipacctg" ) CONFIG_FILES="$CONFIG_FILES share/getipacctg" ;;
   "depfiles" ) CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
   "include/config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS include/config.h" ;;
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
@@ -7047,7 +7046,6 @@ s,@INSTALL@,$ac_INSTALL,;t t
     bin/xrancid ) chmod a+x $ac_file ;;
     bin/zrancid ) chmod a+x $ac_file ;;
     share/rtrfilter ) chmod a+x $ac_file ;;
-    share/getipacctg ) chmod a+x $ac_file ;;
   esac
 done
 _ACEOF

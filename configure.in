@@ -237,6 +237,6 @@ AC_CONFIG_FILES(bin/rivlogin bin/rivrancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/rrancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/tntlogin bin/tntrancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/xrancid bin/zrancid, [chmod a+x $ac_file])
-AC_CONFIG_FILES(share/rtrfilter share/getipacctg, [chmod a+x $ac_file])
+AC_CONFIG_FILES(share/rtrfilter, [chmod a+x $ac_file])
 
 AC_OUTPUT()

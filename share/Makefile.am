@@ -23,11 +23,12 @@
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS=foreign
 
-pkgdata_DATA= rtrfilter downreport getipacctg
-dist_pkgdata_DATA=README.misc cisco-load.exp cisco-reload.exp index.html \
-	lgnotes.html
+pkgdata_SCRIPTS= rtrfilter downreport
+dist_pkgdata_SCRIPTS=getipacctg
+dist_pkgdata_DATA=README.misc cisco-load.exp cisco-reload.exp \
+	index.html lgnotes.html
 
-EXTRA_DIST = rtrfilter.in downreport.in getipacctg.in
+EXTRA_DIST = rtrfilter.in downreport.in
 
 CLEANFILES= downreport
 

@@ -14,6 +14,7 @@
 
 @SET_MAKE@
 
+
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
 VPATH = @srcdir@
@@ -35,8 +36,8 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 subdir = share
-DIST_COMMON = $(dist_pkgdata_DATA) $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(srcdir)/getipacctg.in \
+DIST_COMMON = $(dist_pkgdata_DATA) $(dist_pkgdata_SCRIPTS) \
+	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/rtrfilter.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
@@ -45,13 +46,15 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES = rtrfilter getipacctg
+CONFIG_CLEAN_FILES = rtrfilter
+am__installdirs = $(DESTDIR)$(pkgdatadir) $(DESTDIR)$(pkgdatadir) $(DESTDIR)$(pkgdatadir)
+dist_pkgdataSCRIPT_INSTALL = $(INSTALL_SCRIPT)
+pkgdataSCRIPT_INSTALL = $(INSTALL_SCRIPT)
+SCRIPTS = $(dist_pkgdata_SCRIPTS) $(pkgdata_SCRIPTS)
 SOURCES =
 DIST_SOURCES =
-am__installdirs = $(DESTDIR)$(pkgdatadir) $(DESTDIR)$(pkgdatadir)
 dist_pkgdataDATA_INSTALL = $(INSTALL_DATA)
-pkgdataDATA_INSTALL = $(INSTALL_DATA)
-DATA = $(dist_pkgdata_DATA) $(pkgdata_DATA)
+DATA = $(dist_pkgdata_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMDEP_FALSE = @AMDEP_FALSE@
@@ -150,11 +153,12 @@ target_alias = @target_alias@
 
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS = foreign
-pkgdata_DATA = rtrfilter downreport getipacctg
-dist_pkgdata_DATA = README.misc cisco-load.exp cisco-reload.exp index.html \
-	lgnotes.html
+pkgdata_SCRIPTS = rtrfilter downreport
+dist_pkgdata_SCRIPTS = getipacctg
+dist_pkgdata_DATA = README.misc cisco-load.exp cisco-reload.exp \
+	index.html lgnotes.html
 
-EXTRA_DIST = rtrfilter.in downreport.in getipacctg.in
+EXTRA_DIST = rtrfilter.in downreport.in
 CLEANFILES = downreport
 
 # auto_edit does the autoconf variable substitution.  This allows the
@@ -203,8 +207,44 @@ $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 rtrfilter: $(top_builddir)/config.status $(srcdir)/rtrfilter.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-getipacctg: $(top_builddir)/config.status $(srcdir)/getipacctg.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+install-dist_pkgdataSCRIPTS: $(dist_pkgdata_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	$(mkdir_p) $(DESTDIR)$(pkgdatadir)
+	@list='$(dist_pkgdata_SCRIPTS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f $$d$$p; then \
+	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	    echo " $(dist_pkgdataSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(pkgdatadir)/$$f"; \
+	    $(dist_pkgdataSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(pkgdatadir)/$$f; \
+	  else :; fi; \
+	done
+
+uninstall-dist_pkgdataSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(dist_pkgdata_SCRIPTS)'; for p in $$list; do \
+	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	  echo " rm -f $(DESTDIR)$(pkgdatadir)/$$f"; \
+	  rm -f $(DESTDIR)$(pkgdatadir)/$$f; \
+	done
+install-pkgdataSCRIPTS: $(pkgdata_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	$(mkdir_p) $(DESTDIR)$(pkgdatadir)
+	@list='$(pkgdata_SCRIPTS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f $$d$$p; then \
+	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	    echo " $(pkgdataSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(pkgdatadir)/$$f"; \
+	    $(pkgdataSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(pkgdatadir)/$$f; \
+	  else :; fi; \
+	done
+
+uninstall-pkgdataSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pkgdata_SCRIPTS)'; for p in $$list; do \
+	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	  echo " rm -f $(DESTDIR)$(pkgdatadir)/$$f"; \
+	  rm -f $(DESTDIR)$(pkgdatadir)/$$f; \
+	done
 uninstall-info-am:
 install-dist_pkgdataDATA: $(dist_pkgdata_DATA)
 	@$(NORMAL_INSTALL)
@@ -219,23 +259,6 @@ install-dist_pkgdataDATA: $(dist_pkgdata_DATA)
 uninstall-dist_pkgdataDATA:
 	@$(NORMAL_UNINSTALL)
 	@list='$(dist_pkgdata_DATA)'; for p in $$list; do \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(pkgdatadir)/$$f"; \
-	  rm -f $(DESTDIR)$(pkgdatadir)/$$f; \
-	done
-install-pkgdataDATA: $(pkgdata_DATA)
-	@$(NORMAL_INSTALL)
-	$(mkdir_p) $(DESTDIR)$(pkgdatadir)
-	@list='$(pkgdata_DATA)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(pkgdataDATA_INSTALL) $$d$$p $(DESTDIR)$(pkgdatadir)/$$f"; \
-	  $(pkgdataDATA_INSTALL) $$d$$p $(DESTDIR)$(pkgdatadir)/$$f; \
-	done
-
-uninstall-pkgdataDATA:
-	@$(NORMAL_UNINSTALL)
-	@list='$(pkgdata_DATA)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
 	  echo " rm -f $(DESTDIR)$(pkgdatadir)/$$f"; \
 	  rm -f $(DESTDIR)$(pkgdatadir)/$$f; \
@@ -276,9 +299,9 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(DATA)
+all-am: Makefile $(SCRIPTS) $(DATA)
 installdirs:
-	$(mkdir_p) $(DESTDIR)$(pkgdatadir) $(DESTDIR)$(pkgdatadir)
+	$(mkdir_p) $(DESTDIR)$(pkgdatadir) $(DESTDIR)$(pkgdatadir) $(DESTDIR)$(pkgdatadir)
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -322,7 +345,8 @@ info: info-am
 
 info-am:
 
-install-data-am: install-dist_pkgdataDATA install-pkgdataDATA
+install-data-am: install-dist_pkgdataDATA install-dist_pkgdataSCRIPTS \
+	install-pkgdataSCRIPTS
 
 install-exec-am:
 
@@ -348,19 +372,20 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-dist_pkgdataDATA uninstall-info-am \
-	uninstall-pkgdataDATA
+uninstall-am: uninstall-dist_pkgdataDATA uninstall-dist_pkgdataSCRIPTS \
+	uninstall-info-am uninstall-pkgdataSCRIPTS
 
 .PHONY: all all-am check check-am clean clean-generic distclean \
 	distclean-generic distdir dvi dvi-am html html-am info info-am \
 	install install-am install-data install-data-am \
-	install-dist_pkgdataDATA install-exec install-exec-am \
-	install-info install-info-am install-man install-pkgdataDATA \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-generic pdf pdf-am ps ps-am uninstall uninstall-am \
-	uninstall-dist_pkgdataDATA uninstall-info-am \
-	uninstall-pkgdataDATA
+	install-dist_pkgdataDATA install-dist_pkgdataSCRIPTS \
+	install-exec install-exec-am install-info install-info-am \
+	install-man install-pkgdataSCRIPTS install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
+	pdf-am ps ps-am uninstall uninstall-am \
+	uninstall-dist_pkgdataDATA uninstall-dist_pkgdataSCRIPTS \
+	uninstall-info-am uninstall-pkgdataSCRIPTS
 
 
 all:

@@ -573,7 +573,7 @@ sub ShowDiagbus {
 	} elsif (/^\s*Slot (\d+) \(virtual\):/i) {
 	    $slot = $1;
 	    next;
-	} elsif (/^\s*(.*Processor.*|.*controller|.*Chassis Interface)(, FRU:.*)?, HW rev (\S+), board revision (\S+)/i) {
+	} elsif (/^\s*(.*Processor.*|.*controller|.*Chassis Interface)(, FRU\s?:.*)?, HW rev (\S+), board revision (\S+)/i) {
 	    $board = $1;
 	    $hwver = $3;
 	    $boardrev = $4;
@@ -626,7 +626,7 @@ sub ShowDiagbus {
 	    }
 	    next;
 	}
-	/\s+(.*) (IP|PA), (\d) ports?,( \S+,)? (FRU: )?(\S+)/ &&
+	/\s+(.*) (IP|PA), (\d) ports?,( \S+,)? (FRU\s?: )?(\S+)/ &&
 	    ProcessHistory("SLOT","","","!Slot $slot/$board: type $6, $3 ports\n") &&
 	    next;
 	/\s+(.*) (IP|PA)( \(\S+\))?, (\d) ports?/ &&

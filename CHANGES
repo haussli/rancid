@@ -1,4 +1,6 @@
 2.2
+	rancid: remove key from "crypto isakmp key".
+
 	*login: cleanup login() to be more generic and handle openssh password
 	reprompting
 

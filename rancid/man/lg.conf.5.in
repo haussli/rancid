@@ -42,7 +42,8 @@ Default: 600
 .B LG_CLOGINRC
 Defines the
 .BR cloginrc (5)
-that the looking glass should use.
+that the looking glass should use.  The path may be relative to the directory
+where the CGI scripts run in the server's document root.
 .sp
 Default: @prefix@/.cloginrc
 .sp

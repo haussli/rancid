@@ -1407,6 +1407,11 @@ sub WriteTerm {
 		while ($token = shift(@tokens)) {
 		    if ($token eq 'version') {
 			$line .= " " . join(' ', ($token, shift(@tokens)));
+			if ($token eq '3') {
+			    $line .= " " . join(' ', ($token, shift(@tokens)));
+			}
+		    } elsif ($token eq 'vrf') {
+			$line .= " " . join(' ', ($token, shift(@tokens)));
 		    } elsif ($token =~ /^(informs?|traps?|(no)?auth)$/) {
 			$line .= " " . $token;
 		    } else {

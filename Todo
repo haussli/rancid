@@ -11,5 +11,3 @@
 - rancid needs to treat the 3600s like the 7Ks and 12Ks...
   Also, need to allow 12012s, and force 700s to not be treated like 7Ks.
 - include a few -s and -x type example *login scripts.
-- rancid seems to miss the controller info for mx 8 port v35 PA on 7200.
-  eg: a01.sktnca01.us.ra

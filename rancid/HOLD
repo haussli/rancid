@@ -14,3 +14,13 @@ track.
 	override rw-r-----  root/wheel for routers.all? 
 - what to do about bin/rename?
 - what to do about bin/do-diffs?
+- move to share/rancid
+	- util/*.exp
+	- util/*README 
+	- util/lg/README
+	- util/lg/lgnotes.html
+- move util/lg*.cgi to bin/
+- deal with BASEDIR default move to /var/rancid
+- deal with logs dir move to /var/rancid.  w/ config variable in rancid.conf?
+- possibly install rancid.conf and lg.conf in share/*.sample and copy those
+  to sysconfdir/ ?

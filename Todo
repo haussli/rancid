@@ -2,7 +2,7 @@
   first match?
 - look at Andreas Dahl's Brocade switch collection scripts
 - make log file dir configurable
-- noenable should handle a value properly.  ie: 1 == noenable, 0 == enable or
+- noenable should handle a value properly.  i.e.: 1 == noenable, 0 == enable or
   perhaps don't clear the -noenable cmd-line option.  the manpage needs to be
   fixed as well.  see msg from fred jordan.
 - extra info on c2950
@@ -60,14 +60,14 @@
 	- show ip community-list
 	- show ip route-map
 - prancid - lots of GC'ing to be done
-- prancid - sort logging file by filename.  eg:
+- prancid - sort logging file by filename.  e.g.:
 	logging file messages facility kernel level debugging
 	logging file log facility any level debugging
 	logging file log archive files 10 size 10m
 - should we add CVS ID header to saved configs?  configurable option? - idea
   from andrew fort
 	logging file messages archive files 10 size 10m
-  then, sort by facility,  eg:
+  then, sort by facility,  e.g.:
 	logging file messages facility kernel level debugging
 	logging file messages facility authorization level debugging
 - cat 2900 extra info

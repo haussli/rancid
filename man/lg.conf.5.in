@@ -36,7 +36,7 @@ Default: ./tmp
 .sp
 Note that the default is relative to the directory where 
 .IR lg.cgi
-runs in the server's document root (eg: /usr/local/www/data/lg/tmp).
+runs in the server's document root (e.g.: /usr/local/www/data/lg/tmp).
 .\"
 .TP
 .B LG_CACHE_TIME
@@ -80,7 +80,7 @@ Example: $LG_INFO="For Support contact <a href=mailto:webmaster\@localhost>webma
 .\"
 .TP
 .B LG_LOG
-Defines the fully qualified path name (ie: begins with '/') for the log file
+Defines the fully qualified path name (i.e.: begins with '/') for the log file
 or the
 .BR syslog (3)
 facility to use for logging.  For syslog, the argument is the lowercase name

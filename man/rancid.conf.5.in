@@ -65,7 +65,7 @@ does not affect the handling of SNMP community strings.  see
 below.
 .sp
 Note: passwords whose value cycles and would produce erroneous diffs
-are always filtered (eg: Alteon passwords).
+are always filtered (e.g.: Alteon passwords).
 .\"
 .TP
 .B LIST_OF_GROUPS
@@ -175,7 +175,7 @@ value.  Some clients, such as
 .IR telnet (1)
 and
 .IR ssh (1) ,
-communicate this to the server (ie: the remote device), thus this can
+communicate this to the server (i.e.: the remote device), thus this can
 affect the behavior of login sessions on a device.  The default should
 suffice.
 .sp

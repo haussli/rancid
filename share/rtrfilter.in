@@ -23,14 +23,14 @@
 # rancid and emails a filtered copy to <rcpts> with the subject of the
 # original msg or the contents of -s <subject>.  the perl regex(es) specified
 # via -x or -i (exclusive and inclusive, respectively) are applied to the
-# router names (ie: files) from the "Index:" of the diff o/p.  alternatively,
+# router names (i.e.: files) from the "Index:" of the diff o/p.  alternatively,
 # the regex's may be specified in -f <regex file> in the form:
 #	# comment
 #	x <regex>
 #	# comment
 #	i <regex>
 # do not include /'s in the regex's.
-# eg:
+# e.g.:
 #	#i	inc1
 #	i	a0[12]\.
 #	i	a0[34]\.

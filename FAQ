@@ -14,7 +14,7 @@ rancid.
 	SYSCONFDIR	configure --sysconfdir option. default: <PREFIX>/etc
 			The location of rancid.conf, etc.
 	LOCALSTATEDIR	configure --localstatedir option. default: <PREFIX>/var
-			The location of the CVS repository, etc.
+			The location of the CVS repository, log files, etc.
 
 1) Platform specific
 
@@ -73,7 +73,7 @@ A. The directory was not imported into CVS properly or was not properly checked
    If it is just the directories that have been created manually, save a copy of
    the router.db file, then remove the group's directory, use rancid-cvs, and
    replace the router.db file.  If the CVS import was also performed manually,
-   cd to <localstatedir> and use 'cvs co <rancid group>' to create all the CVS
+   cd to <LOCALSTATEDIR> and use 'cvs co <rancid group>' to create all the CVS
    control bits.
 
 Q. I keep receiving the same diff for a (or set of) devices, but I know the
@@ -159,7 +159,7 @@ A. Our usual diagnostic procedure for this is:
         clogin cisco_router
 
      Should login to cisco_router and produce a router prompt that you can
-     use normally, as if clogin were not used (ie: telnet cisco_router).
+     use normally, as if clogin were not used (i.e.: telnet cisco_router).
 
    - See if commands can be executed on the router via clogin.  This will
      exercise the *login functionality needed for rancid.  For example:
@@ -194,7 +194,7 @@ A. The trickiest part about clogin (et al) is recognizing the prompt
 
    Don't use '>' or '#' in your prompt or in your banner or other motd.
 
-Q. I use <bindir>/*login -c to run commands on multiple boxes.  Sometimes
+Q. I use <BINDIR>/*login -c to run commands on multiple boxes.  Sometimes
    these are commands that take secondary input, like a filename.  How can
    enter the data for that secondary prompt?
 A. Two methods will work.  Write an expect script to be used with clogin's

@@ -219,7 +219,7 @@
 	alogin: misplaced brace caused improper return from proc login
 
 	relax the check ping and traceroute check of hostname arguments such
-	that non-fqdn hosts are allowed.  ie: just check that arg chars are
+	that non-fqdn hosts are allowed.  i.e.: just check that arg chars are
 	valid dns chars and leave the resolve errors to the router.
 
 	Add initial support for Force10.
@@ -359,9 +359,9 @@
 	can be used within configuration mode.  note: this turns $prompt into
 	a regexp, WRT -s scripts and -re option for expect's.
 
-	add -Evar=x option to pass variables to scripts.  eg:
+	add -Evar=x option to pass variables to scripts.  e.g.:
 		clogin -Evariable=something router...
-		clogin -Evariable=a,b,c [ie: an array/list which user splits]
+		clogin -Evariable=a,b,c [i.e.: an array/list which user splits]
 
 2.2b2
 	fix jlogin's password/userpassword functionality which broke when

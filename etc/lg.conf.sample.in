@@ -11,8 +11,9 @@ $ENV{PATH}="@prefix@/bin:@ENV_PATH@";
 # LG_CACHE_DIR	is the location of the cache directory.  the LG uses this
 #		to hold lock files, the default log file (lg.log), and o/p from
 #		commands that can be very verbose.  it defaults to "tmp",
-#		ie: relative to the directory where lg.cgi runs in your
-#		server's (httpd) DocumentRoot (eg: /usr/local/www/data/lg/tmp).
+#		i.e.: relative to the directory where lg.cgi runs in your
+#		server's (httpd) DocumentRoot (e.g.:
+#		/usr/local/www/data/lg/tmp).
 #
 #$LG_CACHE_DIR="./tmp";
 #
@@ -68,7 +69,7 @@ $ENV{PATH}="@prefix@/bin:@ENV_PATH@";
 #		the looking glass.  if defined, the LG will use this variable
 #		to find the router.db.  if not defined, it will look for it
 #		at <prefix>/<sysconfdir>/router.db.  if it does not exist, it
-#		will build the list from <prefix>/*/router.db (ie: the
+#		will build the list from <prefix>/*/router.db (i.e.: the
 #		router.db's from all your groups).  note that if you choose
 #		this last option; the group directories and router.db files'
 #		modes may have to be changed, depending upon the UID/GID of

@@ -47,7 +47,7 @@ install-data-local: all
 #	rm -f Makefile rancid.conf $(BIN_DATAS) $(BIN_PROGS)
 
 # auto_edit does the autoconf variable substitution.  This allows the
-# substitution to have the full expansion of the variables, eg: $sysconfdir
+# substitution to have the full expansion of the variables, e.g.: $sysconfdir
 # will be /prefix/etc instead of ${prefix}/etc.
 #
 # This is a bit of a PITA, but is the method recommended by the autoconf

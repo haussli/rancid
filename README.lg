@@ -39,7 +39,7 @@ and install bits in /usr/local/rancid/etc/lg.conf and
 	- create symlinks from /usr/local/htdocs/lg to each of these files.
 
    Note on links: if you use symlinks, you have to configure apache to
-   allow following symlinks.  eg:
+   allow following symlinks.  e.g.:
 	% cat /usr/local/htdocs/lg/.htaccess
 	Options FollowSymLinks ExecCGI
 

@@ -35,7 +35,7 @@ distdir:
             || mkdir $(DISTDIR) \
             || exit 1; \
         chmod 777 $(DISTDIR); \
-	for file in Makefile.in configure.in *README* lg.conf.in ; do \
+	for file in Makefile.in configure.in *README* *.html lg.conf.in ; do \
 	    $(INSTALL_DATA) $$file $(DISTDIR); \
 	done; \
 	for file in configure $(UTIL_LG_PROGS:=.in) ; do \

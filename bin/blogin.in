@@ -22,6 +22,8 @@
 # Instead there are seperate User and Manager accounts.  A 'system' command
 # exists, which i am told does nothing.
 #
+# The "bcc>" prompt changes to "box#", not "bcc#" after the config command.
+#
 
 # Usage line
 set usage "Usage: $argv0 \[-autoenable\] \[-noenable\] \[-c command\] \

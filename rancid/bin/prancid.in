@@ -243,7 +243,12 @@ sub WriteTerm {
 
 	# prune passwords {bgp, ...}
 	if (/^(\s*)password / && $filter_pwds >= 1) {
-	    ProcessHistory("LINE-PASS","","","!$1password <removed>\n");
+	    ProcessHistory("","","","!$1password <removed>\n");
+	    next;
+	}
+	# prune authentication keys {vrrp vrid N, ...}
+	if (/^(\s*authentication \S+ key) / && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>\n");
 	    next;
 	}
 

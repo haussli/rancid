@@ -11,6 +11,8 @@
 
 	rancid.conf: add LOGDIR variable - see rancid.conf(5)
 
+	add option --enable-adminmail-plus to configure
+
 	jrancid: collect show chassis alarms
 
 	rancid: skip show vlan for (3550|4500|7600) - from Andrew Fort

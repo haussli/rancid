@@ -153,6 +153,11 @@ Quick Installation Guide (an example):
    addresses mentioned above to "rancid+".  See sendmail's operation manual
    for more information on handling of '+'.
 
+   The --enable-adminmail-plus configure option will set each of the
+   "rancid-admin-" addresses mentioned above to "rancid-admin+".  If this
+   option is not used, the value of --enable-mail-plus is assumed.  That is,
+   the addresses will be "rancid+", if it is specified.
+
 7) Run rancid-cvs.
    This creates all of the necessary directories and config files for
    each of the groups in LIST_OF_GROUPS and imports them into CVS.  This

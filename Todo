@@ -91,12 +91,3 @@
 	Model number: WS-C2950-24
 	System serial number: FHK0619X2RN
 	Configuration register is 0xF
-- admin email needs to made an option like the diff email.  Configure needs
-	an option without which it assumes the value of the --mail-plus:
-		if --adminmail-plus
-			rancid-admin+
-		else if --mail-plus
-			rancid+admin
-		else
-			rancid-admin-
-		fi

@@ -1,7 +1,7 @@
 #!@PERLV_PATH@
 ##
 ##
-## Copyright (C) 1997 by Henry Kilmer.
+## Copyright (C) 1997-2001 by Henry Kilmer.
 ## All rights reserved.
 ##
 ## This software may be freely copied, modified and redistributed without
@@ -304,7 +304,7 @@ sub ShowEnv {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if ($type !~ /^7/);
+	#return(1) if ($type !~ /^7/);
 	return(-1) if (/command authorization failed/i);
 	if (!defined($E0)) {
 	    $E0=1;
@@ -330,7 +330,7 @@ sub ShowEnv {
 }
 
 # This routine parses "show gsr chassis-info" for the gsr
-# This will create arrarys for hw info.
+# This will create arrays for hw info.
 sub ShowGSR {
     # Skip if this is not a 1200n.
     print STDERR "    In ShowGSR: $_" if ($debug);
@@ -340,7 +340,7 @@ sub ShowGSR {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(-1) if (/command authorization failed/i);
-	return(1) if ($type !~ /^12[40]/);
+	# return(1) if ($type !~ /^12[40]/);
 	/^$/ && next;
 	/^\s+Chassis: type (\S+) Fab Ver: (\S+)/ &&
 	    ProcessHistory("COMMENTS","keysort","D0","!\n") &&
@@ -383,7 +383,7 @@ sub ShowBoot {
 	if (!defined($H0)) {
 	    $H0=1; ProcessHistory("COMMENTS","keysort","H0","!\n");
 	}
-	if ($type !~ /^(120|7)/) {
+	if ($type !~ /^(12[04]|7)/) {
 	    if ($type !~ /^(29|35)00/) {
 	        ProcessHistory("COMMENTS","keysort","H2","!BootFlash: $_");
 	    } else {
@@ -399,7 +399,8 @@ sub ShowBoot {
 
 # This routine parses "show flash"
 sub ShowFlash {
-    # skip if this is 7000, 7200, 7500, or 12000.
+    # skip if this is 7000, 7200, 7500, or 12000; else we end up with
+    # redundant data from dir /all slot0:
     print STDERR "    In ShowFlash: $_" if ($debug);
 
     while (<INPUT>) {
@@ -427,7 +428,7 @@ sub DirSlotN {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if ($type !~ /^(12[40]|7|36)/);
+	# return(1) if ($type !~ /^(12[40]|7|36)/);
 	return(1) if /^\s*\^\s*$/;
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(1) if /No such device/i;
@@ -452,7 +453,7 @@ sub ShowContAll {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if ($type =~ /^(12[40]|7[05])/);
+	# return(1) if ($type =~ /^(12[40]|7[05])/);
 	return(-1) if (/command authorization failed/i);
 	if (/^Interface ([^ \n(]*)/) { $INT = "$1, "; next; }
 	/^(BRI unit \d)/ &&
@@ -510,7 +511,7 @@ sub ShowContCbus {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if ($type !~ /^7[05]0/);
+	#return(1) if ($type !~ /^7[05]0/);
 	return(-1) if (/command authorization failed/i);
 	if (/^\s*slot(\d+): ([^,]+), hw (\S+), sw (\S+), ccb/) {
 	    $slot = $1;
@@ -555,7 +556,7 @@ sub ShowDiagbus {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if ($type !~ /^7[05]/);
+	#return(1) if ($type !~ /^7[05]/);
 	return(-1) if (/command authorization failed/i);
 	if (/^\s*Slot (\d+):/i) {
 	    $slot = $1;
@@ -641,7 +642,7 @@ sub ShowDiag {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if ($type !~ /^(12[40]|720|36|26)/);
+	# return(1) if ($type !~ /^(12[40]|720|36|26)/);
 	return(-1) if (/command authorization failed/i);
 	/^$/ && next;
 	if (!defined($showdiags)) {$showdiags=1; ProcessHistory("SLOT","","","!\n");}
@@ -773,7 +774,7 @@ sub ShowC7200 {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if ($type !~ /^72/);
+	#return(1) if ($type !~ /^72/);
 	return(-1) if (/command authorization failed/i);
 	/^$/ && next;
 	if (/C7200 Midplane EEPROM:/) {
@@ -808,7 +809,7 @@ sub ShowVTP {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /^\s*\^\s*$/;
 	return(1) if /(Invalid input detected|Type help or )/;
-	return(1) if ($type !~ /^(2900XL|3500XL|6000)$/);
+	#return(1) if ($type !~ /^(2900XL|3500XL|6000)$/);
 	return(-1) if (/command authorization failed/i);
 	next if (/^Configuration last modified by/);
 	if (/^VTP Operating Mode\s+:\s+(Transparent|Server)/) {
@@ -831,7 +832,7 @@ sub ShowVLAN {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /(Invalid input detected|Type help or )/;
-	return(1) if ($type !~ /^(2900XL|3500XL|6000)$/);
+	#return(1) if ($type !~ /^(2900XL|3500XL|6000)$/);
 	return(-1) if (/command authorization failed/i);
 	ProcessHistory("COMMENTS","keysort","IO","!VLAN: $_");
     }

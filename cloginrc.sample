@@ -85,11 +85,14 @@ add autoenable *.custx.net	1
 
 # customer y
 # this is the normal cisco login.  a password followed by and enable password.
+# try ssh first, then rlogin.
 add password *.custy.net	{vector}	{victor}
+add method *.custy.net		ssh rlogin
 
-# customer z
+# customer z; they use ssh only.
 add user *.custz.net		shirley
 add password *.custz.net	{jive}		{surely}
+add method *.custz.net		ssh
 
 # the route-server's do not provide enable access.  cmdline -noenable
 # equivalent.

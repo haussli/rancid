@@ -343,7 +343,7 @@ if (!defined($type) || !defined($router)) {
 		mneighbor => "show bgp neighbor",
 		neighbor => "show bgp neighbor",
 		regex => "show route table inet.0 aspath-regex",
-		route => "show route forwarding-table destination",
+		route => "show route table inet.0 terse",
 		routemap => "show policy",
 		ping => "ping rapid count 5",
 		prefix => "show route table inet.0",

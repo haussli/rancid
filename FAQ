@@ -1,4 +1,20 @@
-Frequently Asked Questions about rancid - last updated 20021223.
+Frequently Asked Questions about rancid - last updated 20040107.
+
+This FAQ contains information that may not apply directly to versions of
+rancid prior to 2.3.  It also contains paths containing tags such as
+<PREFIX>, which refer to paths that are site-specific and are determined
+by how rancid is or was configured at installation time.  These are explained
+briefly in the configure --help output.  Below are the defaults used in
+rancid.
+
+	PREFIX		configure --prefix= option. default: /usr/local/rancid
+	EPREFIX		configure --exec-prefix= option.  default: <PREFIX>
+	BINDIR		configure --bindir= option. default: <EPREFIX>/bin
+			The location of clogin, etc.
+	SYSCONFDIR	configure --sysconfdir option. default: <PREFIX>/etc
+			The location of rancid.conf, etc.
+	LOCALSTATEDIR	configure --localstatedir option. default: <PREFIX>/var
+			The location of the CVS repository, etc.
 
 1) Platform specific
 
@@ -8,7 +24,7 @@ A. A catalyst running IOS is type "cisco".  The 'show version' output will
    have banner including a phrase similar to "Cisco Internetwork Operating
    System Software".  See the router.db(5) manual page.
 
-Q. I have Hybrid Cisco switch, like a cat5k with an RSM.  How do collect
+Q. I have Hybrid Cisco switch, like a cat5k with an RSM.  How do I collect
    both the routing engine and switch configurations?
 A. Recommended way is to use two entries in the router.db, one for each.
    For example:
@@ -31,10 +47,11 @@ A. This may be due to your prompt.  CatOS does not include an implicit '>' in
 	Password: 
 	cat5k> (enable) 
 
-Q. Polling a ZebOS box fails from cron, but it successful from the command-
+Q. Polling a ZebOS box fails from cron, but is successful from the command-
    line.
 A. This is the tty/pty handling of either your O/S or ZebOS.  Supposedly,
-   changing the TERM in <BASEDIR>/etc/rancid.conf to the following will fix it.
+   changing the TERM in <SYSCONFDIR>/rancid.conf to the following seems to
+   fix it.
 	TERM=vt100;export TERM
 	COLUMNS=160; LINES=48; export COLUMNS LINES
 
@@ -51,12 +68,12 @@ A. The manual page for CVS is quite complete, but can be be overwhelming even
 Q. Errors are showing up in the logs like:
 	cvs [diff aborted]: there is no version here; run 'cvs checkout' first
 A. The directory was not imported into CVS properly or was not properly checked
-   out afterward, so CVS control files or directories do not exist.  create_cvs
+   out afterward, so CVS control files or directories do not exist.  rancid-cvs
    should always be used to create the directories and perform the CVS work.
    If it is just the directories that have been created manually, save a copy of
-   the router.db file, then remove the group's directory, use create_cvs, and
+   the router.db file, then remove the group's directory, use rancid-cvs, and
    replace the router.db file.  If the CVS import was also performed manually,
-   cd to <BASEDIR> and use 'cvs co <rancid group>' to create all the CVS
+   cd to <localstatedir> and use 'cvs co <rancid group>' to create all the CVS
    control bits.
 
 Q. I keep receiving the same diff for a (or set of) devices, but I know the
@@ -75,7 +92,7 @@ A. This is probably a CVS or filesystem permissions problem.  Check the log
    File: yogi.shrubbery.net        Status: Up-to-date
 
       Working revision:    1.197   Tue Jul 10 15:41:16 2001
-      Repository revision: 1.197   /user/local/rancid/CVS/shrubbery/configs/rtr.shrubbery.net,v
+      Repository revision: 1.197   /usr/local/rancid/var/CVS/shrubbery/configs/rtr.shrubbery.net,v
       Sticky Tag:          (none)
       Sticky Date:         (none)
       Sticky Options:      (none)
@@ -83,20 +100,20 @@ A. This is probably a CVS or filesystem permissions problem.  Check the log
    The Status: should be Up-to-date.  If the status is "Unknown", then somehow
    the file has been created without being cvs add'ed.  This should be
    corrected by removing that device's entry from the group's router.db file,
-   run do-diffs, replace the entry in router.db, and run do-diffs again.
+   run rancid-run, replace the entry in router.db, and run rancid-run again.
 
    If the Status is anything else, someone has most likely been touching the
    files manually.  Sane state can be achieved by removing the file and running
    cvs update <file> to get a fresh copy from the repository.
 
    Check the ownership and permissions of the file and directory and the
-   directory and file in the cvs repository (/usr/local/rancid/CVS/).  They
-   should be owned by the user who runs do-diffs from cron.  At the very least,
-   the directory and files should be writable by the rancid user.  Group and
-   world permissions will determined by the umask (default 027), which is set
-   in /usr/local/rancid/etc/rancid.conf.  Likely the easiest way to fix the
+   directory and file in the cvs repository (<LOCALSTATEDIR>/CVS/).  They
+   should be owned by the user who runs rancid-run from cron.  At the very
+   least, the directory and files should be writable by the rancid user.  Group
+   and world permissions will determined by the umask (default 027), which is
+   set in <SYSCONFDIR>/rancid.conf.  Likely the easiest way to fix the
    ownership on the cvs repository is
-	chown -R <rancid user> /usr/local/rancid/CVS
+	chown -R <rancid user> <LOCALSTATEDIR>/CVS <LOCALSTATEDIR>/<GROUPS>
 
 Q. I am renaming a device but would like the retain the history in CVS.  How
    is this done?
@@ -104,11 +121,11 @@ A. CVS does not provide a way (AFAIK) to rename files or to rename or delete
    directories.  The best way is to copy the CVS repository file manually
    like this (disclaimer: BE VERY CAREFUL mucking around with the repository):
 	% su - rancid_user
-	% cd /usr/local/rancid
+	% cd <LOCALSTATEDIR>
 	% echo "new_device_name:device_type:up" >> GROUP/router.db
 	% cp -p CVS/GROUP/configs/old_device_name,v \
 		CVS/GROUP/configs/new_device_name,v
-   where GROUP is the name of the rancid group the device is a member of.
+   where GROUP is the name of the rancid group that the device is a member of.
    Rancid will pick-up the new file with a CVS update the next time it runs.
    Once the renaming is complete, remove the old name from the router.db file
    and leave the CVS clean-up of the old filename to rancid.
@@ -120,11 +137,11 @@ A. CVS does not provide a way (AFAIK) to rename files or to rename or delete
 Q. I am removing a group and would like to remove all traces of it from the
    rancid directory and the CVS repository.  How is this done?
 A. As far as I know, CVS does not provide a way to remove directories.  First,
-   remove the group from /usr/local/rancid/etc/rancid.conf.  If rancid is
-   running, wait for it to complete.  Then just recursively remove the
+   remove the group from <SYSCONFDIR>/rancid.conf.  If rancid is running,
+   wait for it to complete.  Then just recursively remove the
    directory.  For example, a group named "fubar":
 	% su - rancid_user
-	% cd /usr/local/rancid
+	% cd <LOCALSTATEDIR>
 	% rm -rf fubar CVS/fubar
 
 
@@ -177,7 +194,7 @@ A. The trickiest part about clogin (et al) is recognizing the prompt
 
    Don't use '>' or '#' in your prompt or in your banner or other motd.
 
-Q. I use rancid/bin/*login -c to run commands on multiple boxes.  Sometimes
+Q. I use <bindir>/*login -c to run commands on multiple boxes.  Sometimes
    these are commands that take secondary input, like a filename.  How can
    enter the data for that secondary prompt?
 A. Two methods will work.  Write an expect script to be used with clogin's

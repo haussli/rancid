@@ -22,7 +22,7 @@ AUTOMAKE_OPTIONS=foreign
 
 bin_PROGRAMS = hpuifilter
 bin_SCRIPTS = cat5rancid control_rancid \
-	alogin arancid clogin blogin brancid \
+	alogin arancid clogin blogin brancid cssrancid \
 	elogin erancid f10rancid flogin francid fnrancid \
 	jlogin jrancid jerancid \
 	hlogin hrancid htlogin htrancid \

@@ -1,6 +1,18 @@
 Rancid is a "Really Awesome New Cisco confIg Differ" developed to
 maintain CVS controlled copies of router configs.
 
+*** The Following Information is Very Important ****
+Rancid 2.3 introduces a new directory layout.  It has been changed to more
+closely follow the standard path hierarchy, which is defined by the FHS
+standard and autoconf, and/or make these locations more easily configurable
+within rancid.
+
+The obvious advantage of this is making rancid more easily packagable; ie:
+NetBSD pkgsrc, FreeBSD port, Linux RPM, etc.
+
+Please please please please read the UPGRADING file for more information.
+**********
+
 The following is the packing list for Rancid.  .in is stripped from
 the files below by configure with substitutions completed:
 
@@ -8,7 +20,7 @@ README		This file.
 CHANGES		List of changes to Rancid.
 Todo		Partial list of what needs to be done.
 rancid.conf.in	Environment settings needed.
-do-diffs.in	Script designed to be run from cron calling control_rancid.
+rancid-run.in	Script designed to be run from cron calling control_rancid.
 control_rancid.in
 		Builds router list, calls rancid on each router and
 		handles cvs routines.
@@ -44,14 +56,13 @@ jlogin.in	Expect script that logs into juniper routers similarly to
 .cloginrc	TCL commands to set passwords, usernames etc. used by clogin
 		and jlogin.
 par.in		Parallel processing of commands - any commands.
-create_cvs.in	Creates all of the CVS and config directories.
+rancid-cvs.in	Creates all of the CVS and config directories.
 hpuifilter.c	HP procurve login filter - see end of hlogin(1).
 etc/		Configuration file samples
 etc/lg.conf.sample
 etc/rancid.conf.sample
 man/		man pages
-share/		Readmes, samples, etc
-util/		utilities / contribs
+share/		Readmes, samples, utilities, contribs, etc
 
 The following are included as part of the installation tools:
 
@@ -68,7 +79,7 @@ gnudiff		gnudiff provides the uni-diff (-u) option.  If you do not have
 perl5		perl version 5 or greater available from www.cpan.org
 expect		http://expect.nist.gov/  We highly suggest that you stick to
 		expect 5.24.1 (or so).  This seems to work best.  Note that
-		you have to have the accompanying tcl &/ tk.
+		you need to have the accompanying tcl &/ tk.
 tcl		Required by expect.
 
 Bill Fenner (now maintained by others) has a cgi script for interacting
@@ -82,19 +93,30 @@ cvs.  The package is not included, but can be found here:
 Quick Installation Guide (an example):
 
 1) ./configure [--prefix=<basedir>]
-   By default, All rancid crud will be installed under /usr/local/rancid (the
-   default "prefix").  This can be overridden with the --prefix option.  E.g.:
+   By default, rancid will be installed under /usr/local/rancid (the default
+   "prefix").  This can be overridden with the --prefix option.  E.g.:
 
 	./configure --prefix=/home/rancid
 
-   See ./configure --help for other configure options.
+   Rancid uses autoconf's "localstatedir" as the location of it's logs,
+   CVS respository, and directories where it's groups are placed.  By default,
+   this is <prefix>/var, or /home/rancid/var following the example above.
 
-   The user who will run rancid must have write permission in this directory.
+   We realize that this is not optimal, but it follows the standards.  We
+   suggest that this be altered to include the package name, like so:
+
+	./configure --prefix=/home/rancid \
+			--localstatedir=/home/rancid/var/rancid
+
+   The user who will run rancid must have write permission in "localstatedir".
+
+   See ./configure --help for other configure options.
 
 2) make install
 
-3) Modify <basedir>/etc/rancid.conf.  The variable LIST_OF_GROUPS is a
-   space delimited list of router "groups".  E.g.:
+3) Modify <sysconfdir>/rancid.conf (eg: <basedir>/etc/rancid.conf).  The
+   variable LIST_OF_GROUPS is a space delimited list of router "groups".
+   E.g.:
 	LIST_OF_GROUPS="backbone aggregation switches"
 
 4) Put .cloginrc in the home directory of the user who will run rancid.
@@ -108,9 +130,9 @@ Quick Installation Guide (an example):
    Note: the juniper user you use *must* log into a cli shell (which
    is the default on a juniper).
 
-   See the file cloginrc.sample, located in <basedir>, for examples and
-   good starting point.  Also take a look at the cloginrc manual page,
-   'man -M <basedir>/man cloginrc'.
+   See the file cloginrc.sample, located in <datadir> (<basedir>/share/rancid),
+   for examples and good starting point.  Also take a look at the cloginrc
+   manual page, 'man -M <basedir>/man cloginrc'.
 
 6) Modify /etc/aliases
    Rancid sends the diffs and other administrative emails to rancid-<GROUP>
@@ -129,25 +151,23 @@ Quick Installation Guide (an example):
    addresses mentioned above to "rancid+".  See sendmail's operation manual
    for more information on handling of '+'.
 
-7) Run create_cvs.
+7) Run rancid-cvs.
    This creates all of the necessary directories and config files for
    each of the groups in LIST_OF_GROUPS and imports them into CVS.  This
    will also be run each time a new group is added.  Do not create the
-   directories or CVS repository manually, allow create_cvs do it.  Also see
-   'man -M <basedir>/man create_cvs'.
+   directories or CVS repository manually, allow rancid-cvs do it.  Also see
+   'man -M <basedir>/man rancid-cvs'.
 
 8) For each "group", modify the router.db file in the group directory.
    The file is of the form "router:mfg:state" where "router" is
    the name (we use FQDN) of the router, mfg is the manufacturer
-   from the set of
-   (alteon|baynet|cat5|cisco|extreme|ezt3|force10|foundry|hp|juniper|
-    netscreen|redback),
-   and "state" is either up or down.  Each router listed as "up"
-   will have the configuration grabbed.  Note: manufacturer cat5
-   is intended only for cisco catalyst switches running catalyst (not
+   from the set of (cat5|cisco|juniper) (see router.db.5 for a complete
+   list and description), and "state" is either up or down.  Each router
+   listed as "up" will have the configuration grabbed.  Note: manufacturer
+   cat5 is intended only for cisco catalyst switches running catalyst (not
    IOS) code.
 
-   eg <basedir>/<group>/router.db:
+   eg <localstatedir>/<group>/router.db:
 	cisco-router.domain.com:cisco:up
 	adc-mux.domain.com:ezt3:up
 	foundry-switch-router.domain.com:foundry:up
@@ -155,26 +175,26 @@ Quick Installation Guide (an example):
 	redback-dsl-router.domain.com:redback:down
 	extreme-switch.domain.com:extreme:down
 
-9) For first-time users or new installations, run bin/do-diffs (with no
+9) For first-time users or new installations, run bin/rancid-run (with no
    arguments) and check the resulting log file(s) (in logs/*) for errors.
    Repeat until there are no errors.
 
-10) Put do-diffs in cron to be called however often you want it to
-   run for each group (do-diffs [<GROUP>]).  If you run it less
+10) Put rancid-run in cron to be called however often you want it to
+   run for each group (rancid-run [<GROUP>]).  If you run it less
    often than once/hour, check the setting of OLDTIME in etc/rancid.conf.
    E.g.:
 	# run config differ hourly
-	1 * * * * <BASEDIR>/bin/do-diffs
+	1 * * * * <BASEDIR>/bin/rancid-run
 	# clean out config differ logs
-	50 23 * * * /usr/bin/find <BASEDIR>/logs -type f -mtime +2 -exec rm {} \;
+	50 23 * * * /usr/bin/find <localstatedir>/logs -type f -mtime +2 -exec rm {} \;
 
 11) Note: If you are using any of these programs (other than
-    do-diffs) out of cron, make sure that you set your $PATH
+    rancid-run) out of cron, make sure that you set your $PATH
     correctly so that they work.  E.g.: if you are using clogin,
     it can call id, telnet, ssh, and/or rsh.
 
     configure already makes sure that $PATH is set correctly in
-    etc/rancid.conf for do-diffs, so you could use the $PATH from there. eg:
+    etc/rancid.conf for rancid-run, so you could use the $PATH from there. eg:
 
 	50 23 * * * . /usr/local/rancid/etc/rancid.conf; clogin -c 'sh vers' router
 

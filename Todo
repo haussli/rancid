@@ -6,3 +6,18 @@
 - change rancid to work on a file
 - flogin (for foundry) needs more testing and should be integrated with
   clogin when foundry fixes their UI.
+- checl clogin.  does it handle multiple addrs for 1 fqdn correctly?
+	> guelah [444] clogin gw6.partan.com
+	> gw6.partan.com
+	> spawn telnet gw6.partan.com
+	> Trying 198.6.255.57...
+	> telnet: connect to address 198.6.255.57: Host is unreachable
+	> telnet: connect to address 198.6.255.61: Host is unreachable
+	> telnet: connect to address 198.6.255.65: Host is unreachable
+	> Connected to gw6.partan.com (198.6.255.194).
+	> Escape character is '^]'.
+	>
+	>
+	> User Access Verification
+	>
+	> Username: ^Cguelah [445]

@@ -21,7 +21,7 @@
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS=foreign
 
-dist_pkgdata_DATA=index.html lgnotes.html
+dist_pkgdata_DATA=cisco-load.exp cisco-reload.exp index.html lgnotes.html
 
 #EXTRA_DIST = README cisco-load.exp cisco-reload.exp rtrfilter.README
 

@@ -158,7 +158,7 @@ AUTOMAKE_OPTIONS = foreign
 bin_SCRIPTS = rtrfilter downreport getipacctg
 YFLAGS = -d
 #LFLAGS = -i
-EXTRA_DIST = README cisco-load.exp cisco-reload.exp rtrfilter.README
+EXTRA_DIST = README rtrfilter.README
 all: all-am
 
 .SUFFIXES:
@@ -343,7 +343,7 @@ uninstall-am: uninstall-binSCRIPTS uninstall-info-am
 all:
 
 install-exec-local: all
-	for file in *README* *.exp; do \
+	for file in *README*; do \
 	    $(INSTALL_DATA) $$file $(bindir); \
 	done;
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

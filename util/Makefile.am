@@ -35,7 +35,7 @@ CFLAGS = -g -O0
 YFLAGS = -d
 #LFLAGS = -i
 
-EXTRA_DIST = README cisco-load.exp cisco-reload.exp rtrfilter.README
+EXTRA_DIST = README rtrfilter.README
 
 # no idea why automake doesnt clean these targets
 #CLEANFILES= y.tab.c y.tab.h lex.yy.c conf.h conf.c conflex.c
@@ -43,6 +43,6 @@ EXTRA_DIST = README cisco-load.exp cisco-reload.exp rtrfilter.README
 all:
 
 install-exec-local: all
-	for file in *README* *.exp; do \
+	for file in *README*; do \
 	    $(INSTALL_DATA) $$file $(bindir); \
 	done;

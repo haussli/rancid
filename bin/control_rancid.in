@@ -34,8 +34,10 @@ DIR=$BASEDIR/$GROUP
 # Bail if we do not have the necessary info to run
 if [ ! -d $DIR ]
 then
+    echo "$DIR does not exist."
     (
 	echo "$DIR does not exist."
+	echo "Run bin/create_cvs $GROUP to make all of the needed directories."
     ) | Mail -s "no $GROUP directory" rancid-admin-$GROUP
     exit 1
 fi

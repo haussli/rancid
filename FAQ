@@ -40,7 +40,7 @@ A. This is most likely either a CVS or filesystem permissions problem.  Check
    Note: It is very important the following be done as the user who normally
          runs the rancid collection from cron.
 
-   Check the cvs status of the device's file.  eg:
+   Check the cvs status of the device's file.  example:
 
    guelah [2704] cvs status rtr.shrubbery.net
    ===================================================================
@@ -94,7 +94,7 @@ A. CVS does not provide a way (AFAIK) to rename files or to rename or delete
 Q. I have a (set of) device(s) on which collection fails.  How can I debug
    this?
 A. Our usual diagnostic procedure for this is:
-   - Make sure that the appropriate *login (eg: clogin for cisco) works.
+   - Make sure that the appropriate *login (example: clogin for cisco) works.
      This tests to make sure you don't have routing or firewall issues, DNS
      or hostname errors, that your .cloginrc is correct, your banner does
      not have some character that *login does not like, and that the *login
@@ -130,13 +130,33 @@ A. Our usual diagnostic procedure for this is:
 
 Q. Are there any characters in the banner that rancid has problems with OR
    I changed the device's command prompt?
-A. The trickest part about clogin (et al) is recognizing the prompt
+A. The trickiest part about clogin (et al) is recognizing the prompt
    correctly.  clogin looks for '>' and '#' to figure out if it is logged
    in or in enable mode.  So if you have a '>' or '#' in your login banner
    (other other motd), then clogin gets all confused and will not be
    able to log in correctly, and thus rancid will fail.
 
    Don't use '>' or '#' in your prompt or in your banner or other motd.
+
+Q. I would like to collect device configurations every hour, but only receive
+   diffs every Nth collection or every N hours.  Is this possible?
+A. Certainly, but rancid does not provide such a mechanism natively.  Two
+   approaches are recommended:
+
+	1) Using your preferred mail-list software, add a list with a digest
+	   and configure your MTA (example: sendmail) to send diffs to the
+	   list.  Configure the mail-list software to force the digest at the
+	   interval desired.  This allows folks to choose which type they
+	   prefer, after each collection or every N hours.
+
+	   This method also provides easy methods to archive the diff mail and
+	   retrieve previous diffs.
+
+	2) Write a script to send diffs, which saves the time it last ran
+	   and passes this to the -D option of CVS.
+
+   Obviously, the first option is the cleanest and most featureful, which is
+   why the script mention in the second option is not provided.
 
 Q. I'm still stuck on this problem.  Where can I get more help?
 A. A discussion list is available, rancid-discuss@shrubbery.net.  You must

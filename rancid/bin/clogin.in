@@ -395,6 +395,12 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 				  send_user "\nError: Check your passwd for $router\n"
 				  return 1
 				}
+	-re "^Enter Selection: " {
+				  # Catalyst 1900s have some lame menu.  Enter
+				  # K to reach a command-line.
+				  send "K\r"
+				  exp_continue;
+				}
 	-re "@\[^\r\n]+ $p_prompt"	{
 					  # ssh pwd prompt
 					  sleep 1

@@ -205,8 +205,7 @@ sub DoNothing {print STDOUT;}
 $cisco_cmds=join(";",@commands);
 $cmds_regexp=join("|",@commands);
 
-open(OUTPUT,">$host.new") || die "Can't open $host.new for writing:
-$!\n";
+open(OUTPUT,">$host.new") || die "Can't open $host.new for writing: $!\n";
 select(OUTPUT);
 # make OUTPUT unbuffered if debugging
 if ($debug) { $| = 1; }
@@ -216,10 +215,8 @@ if ($file) {
     print STDOUT "opening file $host\n" if ($log);
     open(INPUT,"<$host") || die "open failed for $host: $!\n";
 } else {
-    print STDERR "executing nlogin -t $timeo -c\"$cisco_cmds\" $host\n"
-if ($debug);
-    print STDOUT "executing nlogin -t $timeo -c\"$cisco_cmds\" $host\n"
-if ($log);
+    print STDERR "executing nlogin -t $timeo -c\"$cisco_cmds\" $host\n" if ($debug);
+    print STDOUT "executing nlogin -t $timeo -c\"$cisco_cmds\" $host\n" if ($log);
     if (defined($ENV{NOPIPE})) {
 	system "nlogin -t $timeo -c \"$cisco_cmds\" $host </dev/null > $host.raw 2>&1" || die "nlogin failed for $host: $!\n";
 	open(INPUT, "< $host.raw") || die "nlogin failed for $host: $!\n";

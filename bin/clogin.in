@@ -415,7 +415,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 				  }
 				  exp_continue
 				}
-	"$prompt"		{ break; }
+	-re "$prompt"		{ break; }
 	"Login invalid"		{
 				  send_user "\nError: Invalid login: $router\n";
 				  catch {close}; wait; return 1
@@ -457,16 +457,19 @@ proc run_commands { prompt command } {
 
     # If the prompt is (enable), then we are on a switch and the
     # command is "set length 0"; otherwise its "term length 0".
-    # skip if its an extreme.
+    # skip if its an extreme (since the pager can not be disabled on a
+    # per-vty basis).
     if { [ string compare "extreme" "$platform" ] } {
 	if [ regexp -- ".*> .*enable" "$prompt" ] {
 	    send "set length 0\r"
 	} else {
 	    send "term length 0\r"
 	}
-	regsub -all "\[)(]" $prompt {\\&} reprompt
-	# match cisco config mode prompts too, but not for catalyst ie: (enable)
-	regsub -all "\[#>]$" $reprompt {(\\([^\\r\\n]+\\))?&} reprompt
+	# escape any parens in the prompt, such as "(enable)"
+	regsub -all {[)(]} $prompt {\\&} reprompt
+	# match cisco config mode prompts too, such as router(config-if)#,
+	# but catalyst does not change in this fashion.
+	regsub -all {^(.{1,14}).*([#>])$} $reprompt {\1([^#>\r\n]+)?[#>](\\([^)\\r\\n]+\\))?} reprompt
 	expect {
 	    -re $reprompt	{}
 	    -re "\[\n\r]+"	{ exp_continue }
@@ -474,6 +477,7 @@ proc run_commands { prompt command } {
     } else {
 	regsub -all "\[)(]" $prompt {\\&} reprompt
     }
+
     # this is the only way i see to get rid of more prompts in o/p..grrrrr
     log_user 0
     # Is this a multi-command?

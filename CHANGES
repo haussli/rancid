@@ -1,6 +1,8 @@
 2.3.eft
 	*** bin/env has been moved to etc/rancid.conf ***
 
+	strip WS around router.db fields - from Alastair Galloway
+
 	add goveling of 2600 mainboard port adapter info
 
 	*login: also check LOGNAME for default username - from Fredrik Thulin

@@ -204,6 +204,6 @@ AC_SUBST(ENV_PATH)
 
 AC_CONFIG_FILES(Makefile)
 AC_CONFIG_FILES(bin/Makefile)
-AC_CONFIG_FILES(bin/prancid)
+AC_CONFIG_FILES(bin/prancid, [chmod a+x bin/prancid])
 
 AC_OUTPUT()

@@ -146,6 +146,7 @@ sub ShowVersion {
 	s/^<-+ More -+>\s*//;
 	if (/^Slave in slot (\d+) is running/) {
 	    $slave = " Slave:";
+	    #ProcessHistory("COMMENTS","keysort","A4", "!CPU: Slave: slot$1\n");
 	    next;
 	}
 	/^Cisco Secure PIX /i &&
@@ -300,6 +301,28 @@ sub ShowVersion {
 	    $config_register=$1;
 	    next;
 	}
+    }
+    return(0);
+}
+
+# This routine parses "show version"
+sub ShowRedundancy {
+    print STDERR "    In ShowVersion: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	study;
+	last if(/^$prompt/);
+	next if(/^(\s*|\s*$cmd\s*)$/);
+	# the pager can not be disabled per-session on the PIX
+	s/^<-+ More -+>\s*//;
+
+	/^IOS .* Software \(([A-Za-z-0-9]*)\), .*Version\s+(.*)$/ &&
+	    ProcessHistory("COMMENTS","keysort","F1",
+		"!Image:$slave Software: $1, $2\n") && next;
+	/^Compiled (.*)$/ &&
+	    ProcessHistory("COMMENTS","keysort","F3",
+		"!Image:$slave Compiled: $1\n") && next;
     }
     return(0);
 }
@@ -1176,6 +1199,7 @@ sub DoNothing {print STDOUT;}
 # Main
 %commands=(
 	'show version'		=> "ShowVersion",
+	'show redundancy secondary'		=> "ShowRedundancy",
 	'show install active'	=> "ShowInstallActive",
 	'show env all'		=> "ShowEnv",
 	'show gsr chassis'	=> "ShowGSR",
@@ -1193,6 +1217,22 @@ sub DoNothing {print STDOUT;}
 	'dir /all disk2:'	=> "DirSlotN",
 	"dir /all sup-bootflash:"=> "DirSlotN",		# cat 6500-ios
 	"dir /all sup-microcode:"=> "DirSlotN",		# cat 6500-ios
+	'dir /all slavenvram:'	=> "DirSlotN",
+	'dir /all slavebootflash:'	=> "DirSlotN",
+	'dir /all slaveslot0:'	=> "DirSlotN",
+	'dir /all slavedisk0:'	=> "DirSlotN",
+	'dir /all slaveslot1:'	=> "DirSlotN",
+	'dir /all slavedisk1:'	=> "DirSlotN",
+	'dir /all slaveslot2:'	=> "DirSlotN",
+	'dir /all slavedisk2:'	=> "DirSlotN",
+	'dir /all sec-nvram:'	=> "DirSlotN",
+	'dir /all sec-bootflash:'	=> "DirSlotN",
+	'dir /all sec-slot0:'	=> "DirSlotN",
+	'dir /all sec-disk0:'	=> "DirSlotN",
+	'dir /all sec-slot1:'	=> "DirSlotN",
+	'dir /all sec-disk1:'	=> "DirSlotN",
+	'dir /all sec-slot2:'	=> "DirSlotN",
+	'dir /all sec-disk2:'	=> "DirSlotN",
 	'show controllers'	=> "ShowContAll",
 	'show controllers cbus'	=> "ShowContCbus",
 	'show diagbus'		=> "ShowDiagbus",
@@ -1207,6 +1247,7 @@ sub DoNothing {print STDOUT;}
 # cmds is important (show version first and write term last). pita
 @commands=(
 	"show version",
+	"show redundancy secondary",
 	"show install active",
 	"show env all",
 	"show gsr chassis",
@@ -1224,6 +1265,22 @@ sub DoNothing {print STDOUT;}
 	"dir /all disk2:",
 	"dir /all sup-bootflash:",
 	"dir /all sup-microcode:",
+	"dir /all slavenvram:",
+	"dir /all slavebootflash:",
+	"dir /all slaveslot0:",
+	"dir /all slavedisk0:",
+	"dir /all slaveslot1:",
+	"dir /all slavedisk1:",
+	"dir /all slaveslot2:",
+	"dir /all slavedisk2:",
+	"dir /all sec-nvram:",
+	"dir /all sec-bootflash:",
+	"dir /all sec-slot0:",
+	"dir /all sec-disk0:",
+	"dir /all sec-slot1:",
+	"dir /all sec-disk1:",
+	"dir /all sec-slot2:",
+	"dir /all sec-disk2:",
 	"show controllers",
 	"show controllers cbus",
 	"show diagbus",

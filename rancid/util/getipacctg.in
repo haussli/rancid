@@ -13,7 +13,7 @@
 #	will display the top 25 for src or dst ip's within prefix
 #	192.168.0.0/24
 #
-# contributed by steve neighorn.
+# contributed by Steve Neighorn.
 
 TMP="/tmp/ipacct.$$.prefixes"
 TMP2="/tmp/ipacct.$$.sorted"

@@ -1,0 +1,32 @@
+This is a looking glass based on Ed Kern's which can be found on
+http://nitrous.digex.net/.  This version supports cisco and
+juniper, uses rancid's [cj]login to login (so rcmd is not necessary,
+it can use telnet, ssh, or rsh), and has some additional commands
+implemented.
+
+the looking glass requires the CGI perl module.  this can be
+retrieved from CPAN, http://www.cpan.org/ or
+ftp://ftp-genome.wi.mit.edu/pub/software/WWW/.
+
+basic installation instructions:
+
+The configure and make install process will make variable substitutions
+and install bits in /usr/local/rancid/util (or <prefix>/util).  
+
+1) make the scripts/html available to your server (httpd) by
+   creating a directory in your server's document root directory
+   (apache's httpd.conf "DocumentRoot" variable).
+   eg: assuming the default in freebsd's apache pkg
+	mkdir /usr/local/www/data/lg
+
+   then either:
+	- copy the files {lgnotes.html, lg.cgi, lgform.cgi} to
+	  /usr/local/www/data/lg
+     OR
+	- create symlinks from /usr/local/www/data/lg to /usr/local/rancid/util
+
+   note on links: if you use symlinks, you have to configure apache to
+   allow following symlinks.  eg:
+	% cat /usr/local/www/data/lg/.htaccess
+	Options FollowSymLinks ExecCGI
+

@@ -115,6 +115,10 @@ main(int argc, char **argv)
 	}
 	tios.c_lflag &= ~ECHO;
 	tios.c_lflag &= ~ICANON;
+#ifdef VMIN
+	tios.c_cc[VMIN] = 1;
+	tios.c_cc[VTIME] = 0;
+#endif
 	if (tcsetattr(0, TCSANOW, &tios)) {
 	    fprintf(stderr, "%s: tcsetattr() failed: %s\n", progname,
 		strerror(errno));
@@ -185,7 +189,7 @@ main(int argc, char **argv)
 		 FD_SET(1, &wfds);
 	    }
 
-	    switch (select(6, &rfds, &wfds, NULL, &to)) {
+	    switch (select(r[1], &rfds, &wfds, NULL, &to)) {
 	    case 0:
 		/* timeout */
 			/* HEAS: what do i do here? */

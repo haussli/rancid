@@ -63,7 +63,7 @@
 #add password *		anything
 #
 #add user sl-gw*-dc	twit
-#add user sdn* 		sdn_auto
+#add user sdn*		sdn_auto
 #add user sdn-bb*	ops_eng
 #add user *		$env(USER)
 
@@ -82,7 +82,8 @@ add password *.custy.net	{vector}	{victor}
 add user *.custz.net		shirley
 add password *.custz.net	{jive}		{surely}
 
-# the route-server's do provide enable access.  cmdline -noenable equivalent.
+# the route-server's do not provide enable access.  cmdline -noenable
+# equivalent.
 add noenable route-server*	1
 
 # all our routers, ie: everything else

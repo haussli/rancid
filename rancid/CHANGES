@@ -1,4 +1,6 @@
 2.0
+	Make sure we continue to sort tacacs-server host.
+
 	Leave router type in place when telling about changes to
 	router.db.
 

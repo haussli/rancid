@@ -849,6 +849,8 @@ Optional Features:
   --disable-dependency-tracking Speeds up one-time builds
   --enable-dependency-tracking  Do not reject slow dependency extractors
   --enable-mail-plus      enable mail to rancid+ addresses, instead of rancid-
+  --enable-adminmail-plus enable mail to rancid-admin+ addresses, instead of
+                          rancid-admin-
 
 Some influential environment variables:
   CC          C compiler command
@@ -4934,8 +4936,8 @@ fi
 
 # Package-specific options/knobs
 #
-# Check for a preference for using mail addresses like rancid+admin-group
-# instead of the standard rancid-admin-group
+# Check for a preference for using mail addresses like rancid+group
+# instead of the standard rancid-group
 echo "$as_me:$LINENO: checking whether mail addresses should be in the rancid+ form" >&5
 echo $ECHO_N "checking whether mail addresses should be in the rancid+ form... $ECHO_C" >&6
 # Check whether --enable-mail-plus or --disable-mail-plus was given.
@@ -4945,26 +4947,47 @@ if test "${enable_mail_plus+set}" = set; then
     echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
     MAILPLUS="rancid+"
-    ADMINMAILPLUS="rancid+admin-"
-
 
 else
     echo "$as_me:$LINENO: result: no" >&5
 echo "${ECHO_T}no" >&6
     MAILPLUS="rancid-"
-    ADMINMAILPLUS="rancid-admin-"
-
 
 fi
 else
   echo "$as_me:$LINENO: result: no" >&5
 echo "${ECHO_T}no" >&6
     MAILPLUS="rancid-"
-    ADMINMAILPLUS="rancid-admin-"
 
 
 fi;
 rd_cv_MAILPLUS=$MAILPLUS
+
+# Check for a preference for using mail addresses like rancid+admin-group
+# instead of the standard rancid-admin-group
+echo "$as_me:$LINENO: checking whether admin mail addresses should be in the rancid+ form" >&5
+echo $ECHO_N "checking whether admin mail addresses should be in the rancid+ form... $ECHO_C" >&6
+# Check whether --enable-adminmail-plus or --disable-adminmail-plus was given.
+if test "${enable_adminmail_plus+set}" = set; then
+  enableval="$enable_adminmail_plus"
+  if test "$enable_adminmail_plus" = yes; then
+    echo "$as_me:$LINENO: result: yes" >&5
+echo "${ECHO_T}yes" >&6
+    ADMINMAILPLUS="rancid-admin+"
+
+else
+    echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+    ADMINMAILPLUS="${MAILPLUS}admin-"
+
+fi
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+    ADMINMAILPLUS="${MAILPLUS}admin-"
+
+
+fi;
 rd_cv_ADMINMAILPLUS=$ADMINMAILPLUS
 
 # Extract the first word of "dirname", so it can be a program name with args.

@@ -1,3 +1,6 @@
+	xrancid: do 'show diag' instead of 'show diagnostics' as the
+	longer version has sometimes timed out.
+
 2.3.rc1
 	The following files have been moved to make rancid more
 	install/pkg/port/rpm friendly.

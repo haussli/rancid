@@ -14,6 +14,8 @@
 
 	bin/rename is no longer shipped with rancid
 
+	rancid: parse 1760's DSP slot show diag output
+
 	francid: reorder listing of ports in a vlans - from Niels Bakker and
 		Steven Bakker
 

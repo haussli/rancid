@@ -250,11 +250,10 @@ sub FlailHelplessly {
 @commands=("show chassis clocks", "show chassis environment",
 	   "show chassis firmware", "show chassis fpc detail",
 	   "show chassis hardware", "show chassis routing-engine",
-	   "show chassis scb", "show version", "show configuration",
-	   "quit");
+	   "show chassis scb", "show version", "show configuration");
 
 foreach $c (@commands) { $commands{$c} = 1; }
-$jnx_commands=join("\n",@commands);
+$jnx_commands=join(";",@commands);
 $cmds_regexp=join("|",@commands);
 $func = FlailHelplessly;
 

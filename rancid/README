@@ -68,7 +68,8 @@ Quick Installation Guide (an example):
    the user who will run rancid must have write permission in this
    directory.
 
-3) Modify <basedir>/bin/env.
+3) Modify <basedir>/bin/env.  variable LIST_OF_GROUPS is a space delimited
+   list of router "groups".  eg: "backbone aggregation switches"
 
 4) Put .cloginrc in the home directory of the user who will run rancid.
 

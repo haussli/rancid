@@ -80,8 +80,8 @@ Quick Installation Guide (an example):
 
 9) For each "group", modify the router.db file in the group directory.
    The file is of the form "router:mfg:state" where "router" is
-   the name (we user fqdn) of the router, mfg is the manufacturer
-   (cisco|foundry|juniper|redback), and "state" is either up or
+   the name (we use FQDN) of the router, mfg is the manufacturer from the
+   set of (cisco|foundry|juniper|redback), and "state" is either up or
    down.  Each router listed as "up" will have the configuration
    grabbed.
 

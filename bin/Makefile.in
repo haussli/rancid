@@ -12,15 +12,15 @@ install: all
 	@for prog in $(BIN_PROGS) ; do \
 	    $(INSTALL) $$prog $(PREFIX)/bin; \
 	done; \
-# BIN_DATAS are empty at the moment.
-#	for prog in $(BIN_DATAS) ; do \
-#	    $(INSTALL_DATA) $$prog $(PREFIX)/bin; \
-#	done; \
 	if test -e $(PREFIX)/bin/env ; then \
 	    echo "WARNING: $(PREFIX)/bin/env exists: not installing."; \
 	else \
 	    $(INSTALL_DATA) env $(PREFIX)/bin; \
 	fi  
+# BIN_DATAS are empty at the moment.
+#	for prog in $(BIN_DATAS) ; do \
+#	    $(INSTALL_DATA) $$prog $(PREFIX)/bin; \
+#	done; \
 
 clean:
 	rm -f Makefile $(BIN_DATAS) $(BIN_PROGS)

@@ -17,7 +17,7 @@ AC_SUBST(PERLV_PATH)
 EXPECT_PATH=$ac_cv_path_EXPECT_PATH
 AC_SUBST(EXPECT_PATH)
 
-AC_OUTPUT(Makefile $RD_BIN_DATAS $RD_BIN_PROGS)
+AC_OUTPUT(Makefile env $RD_BIN_DATAS $RD_BIN_PROGS)
 
 # fix permissions on scripts.
 for file in $RD_BIN_PROGS; do chmod a+x $file; done

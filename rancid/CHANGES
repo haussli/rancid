@@ -1,4 +1,6 @@
 2.2
+	jrancid's show chassis hardware needs detail arg in junos 4.4
+
 	make *login print \n before errors, so rancid can use an anchored
 	match to find login errors and avoid such matches in router o/p.
 

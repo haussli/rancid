@@ -1,4 +1,8 @@
 2.3.eft
+	nlogin: Fix prompt groveling when running a cluster - from D. Pfleger
+
+	nrancid: filter "set admin user" - from D. Pfleger
+
 	rancid: do both 'write term' and 'show running-config' and
 	keep the output from the first one that works.  As cisco
 	phases out 'write term', this will keep things working.

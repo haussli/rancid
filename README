@@ -5,7 +5,7 @@ The following is the packing list for Rancid:
 
 README -    This file.
 env    -    Enviromental settings needed.
-run-me -    Script designed to be run from cron calling control_rancid.
+do-diffs -  Script designed to be run from cron calling control_rancid.
 control_rancid -    Builds router list, calls rancid on each router and
                     handles cvs routines.
 rancid-fe - chooses between rancid/francid/jrancid/rrancid.
@@ -85,11 +85,11 @@ Quick Installation Guide (an example):
    down.  Each router listed as "up" will have the configuration
    grabbed.
 
-10) Put run-me in cron to be called however often you want it to run
-    for each group (run-me [<GROUP>]).  eg:
+10) Put do-diffs in cron to be called however often you want it to run
+    for each group (do-diffs [<GROUP>]).  eg:
 
 	# run config differ hourly
-	1 * * * * <BASEDIR>/bin/run-me
+	1 * * * * <BASEDIR>/bin/do-diffs
 	# clean out hourly differ logs
 	50 23 * * * /usr/bin/find <BASEDIR>/logs -mtime +2 -exec rm {} \;
 

@@ -865,6 +865,7 @@ sub WriteTerm {
 	    next;
 	}
 	/fair-queue individual-limit/ && next;
+	/^ set port security \d+\/\d+ \S+-\S+\-/ && next;
 	# sort ip explicit-paths.
 	if (/^ip explicit-path name (\S+)/) {
 	    my($key) = $1;

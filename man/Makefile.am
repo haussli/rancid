@@ -24,8 +24,8 @@ man_nogen_MANS = alogin.1 blogin.1 clogin.1 control_rancid.1 \
 		cssrancid.1 rancid.1 \
 		rancid_intro.1 cloginrc.5 router.db.5 \
 		drancid.1 elogin.1 \
-		f10rancid.1 flogin.1 hlogin.1 hrancid.1 htlogin.1 htrancid.1 \
-		jlogin.1 \
+		f10rancid.1 flogin.1 fnrancid.1 \
+		hlogin.1 hrancid.1 htlogin.1 htrancid.1 jlogin.1 \
 		jrancid.1 jerancid.1 f10rancid.1 francid.1 cat5rancid.1 \
 		erancid.1 mrancid.1 nlogin.1 nrancid.1 nslogin.1 nsrancid.1 \
 		par.1 prancid.1 \
@@ -41,3 +41,27 @@ EXTRA_DIST = $(man_nogen_MANS)
 all:
 
 distclean: clean
+
+# auto_edit does the autoconf variable substitution.  This allows the
+# substitution to have the full expansion of the variables, eg: $sysconfdir
+# will be /prefix/etc instead of ${prefix}/etc.
+#
+# This is a bit of a PITA, but is the method recommended by the autoconf
+# documentation.
+auto_edit = sed \
+	-e 's,@prefix\@,$(prefix),g' \
+	-e 's,@bindir\@,$(bindir),g' \
+	-e 's,@localstatedir\@,$(localstatedir),g' \
+	-e 's,@sysconfdir\@,$(sysconfdir),g' \
+	-e 's,@MAILPLUS\@,$(MAILPLUS),g'
+
+lg.conf.5: Makefile $(srcdir)/lg.conf.5.in
+	rm -f lg.conf.5 lg.conf.5.tmp; \
+	$(auto_edit) $(srcdir)/lg.conf.5.in >lg.conf.5.tmp; \
+	mv lg.conf.5.tmp lg.conf.5
+
+rancid.conf.5: Makefile $(srcdir)/rancid.conf.5.in
+	rm -f rancid.conf.5 rancid.conf.5.tmp; \
+	$(auto_edit) $(srcdir)/rancid.conf.5.in >rancid.conf.5.tmp; \
+	mv rancid.conf.5.tmp rancid.conf.5
+

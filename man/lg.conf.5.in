@@ -26,8 +26,8 @@ to hold lock files, log files, and output from cached commands.
 .sp
 Default: ./tmp
 .sp
-Note that the default is relative to the directory where
-.BR lg.cgi (1)
+Note that the default is relative to the directory where 
+.IR lg.cgi
 runs in the server's document root (eg: /usr/local/www/data/lg/tmp).
 .\"
 .TP
@@ -126,5 +126,4 @@ the rancid package was configured.  In this case, $BASEDIR is
 .El
 .SH SEE ALSO
 .BR cloginrc (5),
-.BR lg.cgi (1),
-.BR lgform.cgi (1)
+.BR lg_intro (1)

@@ -20,25 +20,25 @@ $ENV{PATH}="@prefix@/bin:@ENV_PATH@";
 #		the routers and their platform that should be available to
 #		the looking glass.  if defined, the LG will use this variable
 #		to find the router.db.  if not defined, it will look for it
-#		at <PREFIX>/util/lg/router.db.  if it does not exist, it will
-#		build the list from <PREFIX>/*/router.db (ie: the router.db's
+#		at <prefix>/util/lg/router.db.  if it does not exist, it will
+#		build the list from <prefix>/*/router.db (ie: the router.db's
 #		from all your groups).  note that if you choose this last
 #		option; the group directories and router.db files' modes may
 #		have to be changed, depending upon the UID/GID of the user
 #		your server (httpd) runs under, since rancid's default mask
 #		is 007 (see bin/env).  routers marked 'down' are skipped.
 #
-#$LG_ROUTERDB="@PREFIX@/util/lg/router.db";
+#$LG_ROUTERDB="@prefix@/util/lg/router.db";
 #
 #
 # LG_CLOGINRC	is the .cloginrc that the LG should use.  it defaults to
-#		<PREFIX>/.cloginrc.  note that the .cloginrc must readable
+#		<prefix>/.cloginrc.  note that the .cloginrc must readable
 #		by the user or group (UID / GID) that will be running the CGI
 #		and the clogin (and friends) will not allow a world readable
 #		.cloginrc.  this is normally the user the server (httpd) runs
 #		under.
 #
-#$LG_CLOGINRC="@PREFIX@/.cloginrc";
+#$LG_CLOGINRC="@prefix@/.cloginrc";
 #
 #
 # LG_SINGLE	*** not implemented.

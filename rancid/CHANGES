@@ -9,6 +9,8 @@
 
 	bin/rename is no longer shipped with rancid
 
+	rancid.conf: add LOGDIR variable - see rancid.conf(5)
+
 	rancid: collect 6500 slave sup bootflash - from Andrew Fort
 
 	The Extreme does not have an 'enable' level, so make sure

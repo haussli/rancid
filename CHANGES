@@ -5,9 +5,15 @@
 		*** bin/hpfilter has been renamed hpuifilter ***
 		*** util/lg/lg.conf has been moved to etc/lg.conf ***
 		*** util/lg/lg*.cgi have been moved to bin/lg*cgi ***
+		*** bin/create_cvs has been renamed rancid-cvs ***
+		*** bin/do-diffs has been renamed rancid-run ***
 	Note: existing configuration files are *NOT* copied/moved for you
 
 	bin/rename is no longer shipped with rancid
+
+	*login: handle TCL meta-characters in cloginrc directive values
+
+	Riverstone/Enterasys updates from Andrew Fort
 
 	rancid.conf: add LOGDIR variable - see rancid.conf(5)
 

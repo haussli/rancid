@@ -165,8 +165,9 @@ else
 fi
 rd_cv_lg_ping_cmd=$LG_PING_CMD
 
-# locate tools to build $PATH for env.  order is significant.  want to be
-# sure that we pick up the the proper diff and ucbmail in bin/env.
+# locate tools to build $PATH for rancid.conf.  order is significant.  want
+# to be sure that we pick up the the proper diff and ucbmail in
+# bin/rancid.conf.
 ENV_PATH="`dirname $PERLV_PATH`:`dirname $EXPECT_PATH`:`dirname $SENDMAIL`"
 ENV_PATH="$ENV_PATH:`dirname $DIRNAME`:`dirname $DIFF`"
 
@@ -204,6 +205,7 @@ AC_SUBST(ENV_PATH)
 
 AC_CONFIG_FILES(Makefile)
 AC_CONFIG_FILES(bin/Makefile)
+AC_CONFIG_FILES(etc/Makefile)
 AC_CONFIG_FILES(include/Makefile)
 AC_CONFIG_FILES(man/Makefile)
 AC_CONFIG_FILES(util/Makefile)
@@ -213,7 +215,7 @@ AC_CONFIG_FILES(include/version.h)	# this is not a header in the sense of
 					# autoheader to overwrite it, while all
 					# want is simple variable replacement
 AC_CONFIG_HEADERS(include/config.h)
-AC_CONFIG_FILES(bin/env)
+AC_CONFIG_FILES(etc/rancid.conf)
 AC_CONFIG_FILES(bin/control_rancid bin/create_cvs bin/do-diffs bin/par \
 		bin/rancid-fe bin/rename, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/alogin bin/arancid, [chmod a+x $ac_file])
@@ -236,6 +238,6 @@ AC_CONFIG_FILES(util/rtrfilter util/downreport util/getipacctg,
 		[chmod a+x $ac_file])
 AC_CONFIG_FILES(util/lg/lg.conf)
 AC_CONFIG_FILES(util/lg/lg.cgi util/lg/lgform.cgi, [chmod a+x $ac_file])
-AC_CONFIG_FILES(man/env.5 man/lg.conf.5 man/lg_intro.1)
+AC_CONFIG_FILES(man/rancid.conf.5 man/lg.conf.5 man/lg_intro.1)
 
 AC_OUTPUT()

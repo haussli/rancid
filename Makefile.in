@@ -137,8 +137,10 @@ EXTRA_DIST = BUGS CHANGES COPYING FAQ README Todo cloginrc.sample configure \
 #DIST_COMMON = 
 
 # '.' is here (and at the beginnging of the macro) so that distclean-recursive
-# will run make distclean in . after the other dirs (preserving Makefile)
-SUBDIRS = . include bin man util
+# will run make distclean in . after the other dirs (preserving Makefile) and
+# mkinstalldirs will create the install destination before descending into
+# the subdirs.
+SUBDIRS = . include etc bin man util
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -318,7 +320,7 @@ distcleancheck_listfiles = find . -type f -print
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/bin $(distdir)/include $(distdir)/man $(distdir)/util $(distdir)/util/lg
+	$(mkinstalldirs) $(distdir)/bin $(distdir)/etc $(distdir)/include $(distdir)/man $(distdir)/util $(distdir)/util/lg
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -529,8 +531,10 @@ uninstall-info: uninstall-info-recursive
 # install-exec-local:
 # 	$(mkinstalldirs) $(prefix)/util/lg
 
+# sysconfdir is here because etc/Makefile uses a script to be careful about
+# installing rancid.conf, not over-writing an existing one.
 install-data-hook:
-	$(mkinstalldirs) $(prefix) ; \
+	$(mkinstalldirs) $(prefix) $(sysconfdir); \
 	for file in CHANGES FAQ README cloginrc.sample ; do \
 	    $(INSTALL_DATA) $$file $(prefix); \
 	done

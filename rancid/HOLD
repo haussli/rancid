@@ -8,3 +8,5 @@ track.
   repeatedly re-write this file causing erroneous rancid o/p
 - faq/readme reviews
 - review todo list for done items
+- running rancid-run for group whose router.db is empty, but had devices in
+  the previous run, does not remove old file in configs/

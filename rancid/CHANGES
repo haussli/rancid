@@ -1,6 +1,16 @@
 2.3.eft
 	Dell PowerConnect switch support - Dan Pfleger
 
+	jerancid: filter host ... ftp, encrypted passwords oscillate - reported
+	by Dave Mack.
+
+	rivlogin: add "User:" as a possible username prompt (u_prompt) for
+	some platforms - from Adam Rothschild
+
+	cat 3500 s/n and pix failover license - from Rob Evans
+
+	recognize cisco ContentEngine - from Rob Evans
+
 	Juniper ERX (jerancid) support, based on 5.0 - thanks to Dan Pfleger,
 	Richard Russman, Zaid, Mike Baker, and Mark Nguyen
 

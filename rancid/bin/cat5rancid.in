@@ -675,6 +675,15 @@ OUTER:while (<INPUT>) {
 		tr/\015//d;
 		last if (/^\s*$/);
 		last OUTER if (/^$prompt/);
+		if (/^Module .*mismatch/) {
+		    ProcessHistory("MODWARN","","","!\n! WARNING: $_");
+		    while (<INPUT>) {
+			tr/\015//d;
+			last OUTER if (/^\s*$/);
+			last if (/^\d/);
+			ProcessHistory("MODWARN","","","!          $_");
+		    }
+		}
 		if (/^(\d+)\s+\d+\s+\d+\s+(.*)\s+\S+\s+\S+\s*$/) {
 		    $modules{$1}->{type} = $2;
 		    $modules{$1}->{type} =~ s/\s{2,}.*$//;

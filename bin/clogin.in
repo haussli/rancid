@@ -439,10 +439,12 @@ proc do_enable { enauser enapasswd } {
 	-re "$e_prompt"	{ send "$enapasswd\r"; exp_continue}
 	"#"		{ set prompt "#" }
 	"(enable)"	{ set prompt "> (enable) " }
-	denied		{ send_user "\nError: Check your Enable passwd\n"; return 1}
+	denied		{ send_user "\nError: Check your Enable passwd\n";
+			  return 1
+			}
 	"% Bad passwords" { send_user "\nError: Check your Enable passwd\n"
-	    return 1
-	}
+			  return 1
+			}
     }
     # We set the prompt variable (above) so script files don't need
     # to know what it is.
@@ -552,11 +554,14 @@ proc run_commands { prompt command } {
 	send "quit\r"
     }
     expect {
+	-re "^\[^\n\r *]*$reprompt"		{ send "exit\r"
+						  exp_continue;
+						}
 	"Do you wish to save your configuration changes" {
 						  send "n\r"
 						  exp_continue
 						}
-	"\n"					{ exp_continue }
+	-re "\[\n\r]+"				{ exp_continue }
 	timeout					{ return 0 }
 	eof					{ return 0 }
     }

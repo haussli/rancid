@@ -452,7 +452,7 @@ foreach router [lrange $argv $i end] {
       # command line passwd
       set passwd $userpasswd
     } else {
-      set passwd [lindex [find userpassword $loginname] 0]
+      set passwd [lindex [find userpassword $router] 0]
       if { "$passwd" == "" } {
         set passwd [lindex [find password $router] 0]
         if { "$passwd" == "" } {

@@ -138,7 +138,7 @@ sub ShowVersion {
     print STDERR "    In ShowVersion: $_" if ($debug);
 
     ProcessHistory("COMMENTS","keysort","A1",
-	"- Chassis type:EZT3 - an ADC EZT3 M13 multiplexor\n");
+	"- Chassis type: EZT3 - an ADC EZT3 M13 multiplexor\n");
 
     while (<INPUT>) {
 	tr/\015//d;

@@ -4,31 +4,38 @@ maintain CVS controlled copies of router configs.
 The following is the packing list for Rancid:
 
 README -    This file.
-env    -    Enviromental settings needed.
+CHANGES -   List of changes to Rancid.
+Todo -      partial Todo list of what needs to be done.
+env -       Enviromental settings needed.
 do-diffs -  Script designed to be run from cron calling control_rancid.
 control_rancid -    Builds router list, calls rancid on each router and
-                    handles cvs routines.
-rancid-fe - chooses between rancid/francid/jrancid/rrancid.
+		    handles cvs routines.
+rancid-fe - chooses between rancid/francid/jrancid/rrancid/cat5rancid.
 rancid -    Runs commands on cisco routers and processes the output - the meat.
 francid -   Runs commands on foundry switches and processes the output.
 jrancid -   Runs commands on juniper routers and processes the output.
 rrancid -   Runs commands on redback routers and processes the output.
+cat5rancid -Runs commands on cisco cat5 switches and processes the output.
 clogin -    Expect script that logs into routers either interactively,
-            runs a set of commands or runs another expect script.
+	    runs a set of commands or runs another expect script.
 flogin -    Expect script that logs into foundry switches.  once foundry
 	    cleans up their bloody UI, clogin should do the job.
 jlogin -    Expect script that logs into juniper routers similarly to
 	    clogin.  it is not terribly robust, but mainly used for it's
 	    -c and -s options.
+cat5login - Expect script that logs into cat5 switches either interactively,
+	    runs a set of commands or runs another expect script.
 .cloginrc - TCL commands to set passwords, usernames etc. used by clogin and
 	    jlogin.
-par    -    Parallel processing of commands - any commands.
+par -       Parallel processing of commands - any commands.
+rename -    Perl script to rename files.
+create_cvs -Creates all of the CVS and config directories.
 
 rancid will also need to have the following packages:
 cvs	- code revision system available from prep.ai.mit.edu:/pub/gnu
 gnudiff - gnudiff provides the -u option.  if you do not have gnudiff,
-          you will have to modify control_rancid to use 'diff -c' or some
-          such.  see examples.
+	  you will have to modify control_rancid to use 'diff -c' or some
+	  such.  see examples.
 perl5	- perl version 5 or greater available from www.cpan.org
 expect	- http://expect.nist.gov/
 tcl	- required by expect.
@@ -80,10 +87,10 @@ Quick Installation Guide (an example):
 
 9) For each "group", modify the router.db file in the group directory.
    The file is of the form "router:mfg:state" where "router" is
-   the name (we use FQDN) of the router, mfg is the manufacturer from the
-   set of (cisco|foundry|juniper|redback), and "state" is either up or
-   down.  Each router listed as "up" will have the configuration
-   grabbed.
+   the name (we use FQDN) of the router, mfg is the manufacturer
+   from the set of (cisco|foundry|juniper|redback|cat5), and "state"
+   is either up or down.  Each router listed as "up" will have the
+   configuration grabbed.
 
 10) Put do-diffs in cron to be called however often you want it to run
     for each group (do-diffs [<GROUP>]).  eg:

@@ -54,9 +54,13 @@ A Redback router, NAS, etc.
 .El
 .\"
 .It <state>
-The state is either "up" or "down.  If the device is marked "down", it's
+The state is either "up" or "down".  If the device is marked "down", the
+device's
 configuration will not be collected.
 .El
+.Pp
+A ``#'' at the begining of a line is a comment; the entire line is
+ignored.
 .Pp
 .Sh FILES
 .Bl -tag -width .BASEDIR/group/ -compact

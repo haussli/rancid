@@ -40,9 +40,11 @@ would return the first line, even though the second is an exact match.
 .Pp
 .Nm
 is expected to exist in the user's home directory and
-must not be readable, writable, or executable by "others".  It should be
+must not be readable, writable, or executable by "others".
+.Nm
+should be
 mode 0600, or 0640 if it is to be shared with other users who are members
-of it's unix group.  See
+of the same unix group.  See
 .Ic chgrp(1)
 and
 .Ic chmod(1)

@@ -433,8 +433,8 @@ foreach firewall [lrange $argv $i end] {
         send_user "\nError: no password for $firewall in $password_file.\n"
         continue
       } 
-     set passwd [lindex $pswd 0]
-     set enapasswd [lindex $pswd 1]  
+     set passwd [join [lindex $pswd 0]""]
+     set enapasswd [join [lindex $pswd 1]  ""]
     }
 
     # Figure out username
@@ -442,7 +442,7 @@ foreach firewall [lrange $argv $i end] {
       # command line username
       set ruser $username
     } else {
-      set ruser [find user $firewall] 
+      set ruser [join [find user $firewall] ""]
       if { "$ruser" == "" } { set ruser $default_user }
     } 
 
@@ -451,7 +451,7 @@ foreach firewall [lrange $argv $i end] {
       # command line username
       set userpswd $userpasswd
     } else {
-      set userpswd [find userpassword $firewall] 
+      set userpswd [join [find userpassword $firewall] ""]
       if { "$userpswd" == "" } { set userpswd $passwd } 
     } 
     
@@ -460,7 +460,7 @@ foreach firewall [lrange $argv $i end] {
       # command line enausername
       set enauser $enausername
     } else {
-      set enauser [find enauser $firewall] 
+      set enauser [join [find enauser $firewall] ""]
       if { "$enauser" == "" } { set enauser $ruser } 
     } 
 

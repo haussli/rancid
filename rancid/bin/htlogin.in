@@ -419,7 +419,7 @@ foreach router [lrange $argv $i end] {
 	send_user "Error: no password for $router in $password_file.\n"
 	continue
       }
-      set passwd [lindex $pswd 0]
+      set passwd [join [lindex $pswd 0] ""]
     }
 
     # Figure out username
@@ -427,7 +427,7 @@ foreach router [lrange $argv $i end] {
       # command line username
       set ruser $username
     } else {
-      set ruser [find user $router]
+      set ruser [join [find user $router] ""]
       if { "$ruser" == "" } { set ruser $default_user }
     }
 
@@ -436,7 +436,7 @@ foreach router [lrange $argv $i end] {
       # command line username
       set userpswd $userpasswd
     } else {
-      set userpswd [find userpassword $router]
+      set userpswd [join [find userpassword $router] ""]
       if { "$userpswd" == "" } { set userpswd $passwd }
     }
 
@@ -445,13 +445,13 @@ foreach router [lrange $argv $i end] {
     if { "$u_prompt" == "" } {
 	set u_prompt "(Username|login|  Login):"
     } else {
-	set u_prompt [lindex $u_prompt 0]
+	set u_prompt [join [lindex $u_prompt 0] ""]
     }
     set p_prompt [find passprompt $router]
     if { "$p_prompt" == "" } {
 	set p_prompt "\[Pp]assword:"
     } else {
-	set p_prompt [lindex $p_prompt 0]
+	set p_prompt [join [lindex $p_prompt 0] ""]
     }
 
     # Figure out cypher type

@@ -880,8 +880,8 @@ if { $do_passwd || $do_enapasswd } {
         exit 1
     }
     
-    set passwd [lindex $pswd 0]
-    set enapasswd [lindex $pswd 1]  
+    set passwd [join [lindex $pswd 0] ""]
+    set enapasswd [join [lindex $pswd 1] ""]
 }
 
 
@@ -891,7 +891,7 @@ if {[info exists username]} {
     # command line username
     set user $username
 } else {
-    set user [find user $router] 
+    set user [join [find user $router] ""]
     if { "$user" == "" } { set user $default_user }
 } 
 
@@ -901,7 +901,7 @@ if {[info exists userpasswd]} {
     # command line username
     set userpswd $userpasswd
 } else {
-    set userpswd [find userpassword $router] 
+    set userpswd [join [find userpassword $router] ""]
     if { "$userpswd" == "" } { set userpswd $passwd } 
 } 
 
@@ -911,7 +911,7 @@ if {[info exists enausername]} {
     # command line enausername
     set enauser $enausername
 } else {
-    set enauser [find enauser $router] 
+    set enauser [join [find enauser $router] ""]
     if { "$enauser" == "" } { set enauser $user } 
 } 
 

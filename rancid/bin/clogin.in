@@ -638,8 +638,8 @@ foreach router [lrange $argv $i end] {
 	send_user "\nError: no enable password for $router in $password_file.\n"
 	continue
       }
-      set passwd [lindex $pswd 0]
-      set enapasswd [lindex $pswd 1]
+      set passwd [join [lindex $pswd 0] ""]
+      set enapasswd [join [lindex $pswd 1] ""]
     }
 
     # Figure out username
@@ -647,7 +647,7 @@ foreach router [lrange $argv $i end] {
       # command line username
       set ruser $username
     } else {
-      set ruser [find user $router]
+      set ruser [join [find user $router] ""]
       if { "$ruser" == "" } { set ruser $default_user }
     }
 
@@ -656,7 +656,7 @@ foreach router [lrange $argv $i end] {
       # command line username
       set userpswd $userpasswd
     } else {
-      set userpswd [find userpassword $router]
+      set userpswd [join [find userpassword $router] ""]
       if { "$userpswd" == "" } { set userpswd $passwd }
     }
 
@@ -665,7 +665,7 @@ foreach router [lrange $argv $i end] {
       # command line enausername
       set enauser $enausername
     } else {
-      set enauser [find enauser $router]
+      set enauser [join [find enauser $router] ""]
       if { "$enauser" == "" } { set enauser $ruser }
     }
 
@@ -674,19 +674,19 @@ foreach router [lrange $argv $i end] {
     if { "$u_prompt" == "" } {
 	set u_prompt "(Username|Login|login|user name):"
     } else {
-	set u_prompt [lindex $u_prompt 0]
+	set u_prompt [join [lindex $u_prompt 0] ""]
     }
     set p_prompt [find passprompt $router]
     if { "$p_prompt" == "" } {
 	set p_prompt "(\[Pp]assword|passwd):"
     } else {
-	set p_prompt [lindex $p_prompt 0]
+	set p_prompt [join [lindex $p_prompt 0] ""]
     }
     set e_prompt [find enableprompt $router]
     if { "$e_prompt" == "" } {
 	set e_prompt "\[Pp]assword:"
     } else {
-	set e_prompt [lindex $e_prompt 0]
+	set e_prompt [join [lindex $e_prompt 0] ""]
     }
 
     # Figure out cypher type

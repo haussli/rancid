@@ -446,7 +446,7 @@ foreach router [lrange $argv $i end] {
       # command line username
       set loginname $username
     } else {
-      set loginname [find user $router]
+      set loginname [join [find user $router] ""]
       if { "$loginname" == "" } { set loginname $default_user }
     }
 
@@ -455,9 +455,9 @@ foreach router [lrange $argv $i end] {
       # command line passwd
       set passwd $userpasswd
     } else {
-      set passwd [lindex [find userpassword $router] 0]
+      set passwd [join [lindex [find userpassword $router] 0] ""]
       if { "$passwd" == "" } {
-        set passwd [lindex [find password $router] 0]
+        set passwd [join [lindex [find password $router] 0] ""]
         if { "$passwd" == "" } {
 	  send_user "\nError: no password for $router in $password_file.\n"
 	  continue
@@ -468,7 +468,7 @@ foreach router [lrange $argv $i end] {
     # figure out identity file to use
     set identfile ""
     if {[info exists identity]} {
-	set identfile [lindex [find identity $router] 0]
+	set identfile [join [lindex [find identity $router] 0] ""]
     }
 
     # Figure out ssh cypher type

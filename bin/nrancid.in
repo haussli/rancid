@@ -184,6 +184,7 @@ sub GetConf {
     while (<INPUT>) {
 	tr/\015//d;
 	next if /^\s*$/;
+	next if /^Total Config.+$/i;
 	last if(/$prompt/);
 	# throw away the pager lines
 	next if /^--- more ---/;

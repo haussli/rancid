@@ -306,12 +306,10 @@ close(OUTPUT);
 
 # check for completeness
 $commands = join(", ", keys(%commands));
-if (length($commands) > 0 || !$clean_run) {
-    if (length($commands) > 0) {
+if (scalar(%commands) || !$clean_run) {
+    if (scalar(%commands)) {
 	print STDOUT "missed cmd(s): $commands\n";
-	print STDOUT "Incomplete run - removing $host.new\n";
-	(print STDERR "missed cmd(s): $commands[0]\n",
-	print STDERR "Incomplete run - removing $host.new\n") if ($debug);
+	print STDERR "missed cmd(s): $commands[0]\n" if ($debug);
     }
     if (!$clean_run) {
 	print STDOUT "End of run not found - removing $host.new\n";

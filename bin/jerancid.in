@@ -395,7 +395,7 @@ sub WriteTerm {
 	    ProcessHistory("","","","!$1 <removed>\n");
 	    next;
 	}
-	/fair-queue individual-limit/ && next;
+
 	# sort ip explicit-paths.
 	if (/^ip explicit-path name (\S+)/) {
 	    my($key) = $1;
@@ -494,7 +494,7 @@ sub WriteTerm {
 							$filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>$'"); next;
 	}
-	if (/^( key )\S+/ && $filter_pwds >= 1) {
+	if (/^( key )(\d )?\S+/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>$'"); next;
 	}
 

@@ -166,7 +166,7 @@ trap 'rm -fr $TMP;' 1 2 15
 cd $DIR/configs
 # check for 'up' routers missing in cvs.  no idea how this happens to some folks
 for router in `cut -d: -f1 ../routers.up` ; do
-    cvs status $router: | grep -i 'status: unknown' > /dev/null 2>&1
+    cvs status $router | grep -i 'status: unknown' > /dev/null 2>&1
     if [ $? -eq 0 ]; then
 	touch $router
 	cvs add -ko $router

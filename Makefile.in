@@ -64,6 +64,7 @@ DIFF = @DIFF@
 DIRNAME = @DIRNAME@
 ENV_PATH = @ENV_PATH@
 EXPECT_PATH = @EXPECT_PATH@
+ID = @ID@
 INST_PROGS = @INST_PROGS@
 LG_PING_CMD = @LG_PING_CMD@
 MAINT = @MAINT@
@@ -77,9 +78,12 @@ RD_BIN_DATAS = @RD_BIN_DATAS@
 RD_BIN_PROGS = @RD_BIN_PROGS@
 RD_UTIL_LG_PROGS = @RD_UTIL_LG_PROGS@
 RD_UTIL_PROGS = @RD_UTIL_PROGS@
+RSH = @RSH@
 SENDMAIL = @SENDMAIL@
 SORT = @SORT@
+SSH = @SSH@
 TAR = @TAR@
+TELNET = @TELNET@
 TOUCH = @TOUCH@
 UCBMAIL = @UCBMAIL@
 VERSION = @VERSION@
@@ -176,14 +180,6 @@ tags-recursive:
 	done
 
 tags: TAGS
-
-ID: $(HEADERS) $(SOURCES) $(LISP)
-	list='$(SOURCES) $(HEADERS)'; \
-	unique=`for i in $$list; do echo $$i; done | \
-	  awk '    { files[$$0] = 1; } \
-	       END { for (i in files) print i; }'`; \
-	here=`pwd` && cd $(srcdir) \
-	  && mkid -f$$here/ID $$unique $(LISP)
 
 TAGS: tags-recursive $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) $(LISP)
 	tags=; \

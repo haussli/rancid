@@ -37,7 +37,6 @@
 	    while executing
 	"exec id"
 
-- autoconf needs to look for id, ssh, telnet, and rsh.
 - make distclean does not remove
         util/Makefile
         util/config.log

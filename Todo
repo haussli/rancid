@@ -1,3 +1,5 @@
+- a format such as {<user>} as the pwd in .cloginrc to indicate *login should
+  prompt the user for the password
 - better error loggin in the looking glass
 - why do 'make distclean' & 'make dist' fail on fbsd 3.3?
 - handle foundry and reback in the looking glass

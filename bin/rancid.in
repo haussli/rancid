@@ -887,6 +887,8 @@ sub ShowDiag {
 		$WIC = "/$2";
 	    } elsif ($1 eq "WIC/VIC") {
 		$WIC = "/$2";
+	    } elsif ($1 eq "DSP") {
+		$WIC = "/$2";
 	    } elsif ($1 eq "Encryption AIM") {
 		$slot = "$2";
 		undef($WIC);
@@ -921,6 +923,15 @@ sub ShowDiag {
 		s/^\s+//;
 		ProcessHistory("SLOT","keysort","B","!Slot $slot$WIC: type $_");
 	    }
+	    next;
+	} elsif (/^\s+(.* (DSP) Module) Slot (\d):/) {
+	    # The 1760 (at least) has yet another format...where it has two
+	    # dedicated DSP slots, and thus two slot 0s.
+	    my($TYPE) = $1;
+	    $WIC = "/$3";
+	    ProcessHistory("SLOT","","","!\n");
+	    ProcessHistory("SLOT","keysort","B",
+					"!Slot $slot$WIC: type $TYPE\n");
 	    next;
 	}
 	# yet another format.  seen on 2600s w/ 12.1, but appears to be all

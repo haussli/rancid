@@ -27,10 +27,11 @@
 #
 
 # Usage line
-set usage "Usage: $argv0 \[-u user\] \[-p user-password\] \[-v vty-password\] \
-\[-w enable-username\] \[-e enable-password\] \[-noenable\] \
-\[-f cloginrc-file\] \[-y ssh_cypher_type\] \[-c command\] \[-s script-file\] \
-\[-x command-file\] \[-autoenable\] \[-t timeout\] router \[router...\]\n"
+set usage "Usage: $argv0 \[-autoenable\] \[-noenable\] \[-c command\] \
+\[-e enable-password\] \[-f cloginrc-file\] \[-p user-password\] \
+\[-s script-file\] \[-x command-file\] \[-t timeout\] \[-u username\] \
+\[-v vty-password\] \[-w enable-username\] \[-y ssh_cypher_type\] \
+router \[router...\]\n"
 
 # env(CLOGIN) may contain:
 #	x == do not set xterm banner or name
@@ -232,23 +233,28 @@ proc find {var router} {
 # that a "bad guy" could just as easy put such code in the clogin
 # script, so I will leave .cloginrc as just an extention of that script
 proc source_password_file { } {
-  global env password_file read_password_file
-  if { [info exists read_password_file] } { return }
-  if { [info exists password_file] == 0 } {
+    global env password_file read_password_file
+    if { [info exists read_password_file] } { return }
+    if { [info exists password_file] == 0 } {
 	set password_file $env(HOME)/.cloginrc
-  }
-  set read_password_file 1
-  file stat $password_file fileinfo
-  if { [expr ($fileinfo(mode) & 007)] != 0000 } {
-      send_user "Error: $password_file must not be world readable/writable\n"
-      exit 1
-  }
-  source $password_file
+    }
+    if { ! [file exists $password_file] } {
+	send_user "Error: password file ($password_file) does not exist\n"
+	exit 1
+    }
+    set read_password_file 1
+    file stat $password_file fileinfo
+    if { [expr ($fileinfo(mode) & 007)] != 0000 } {
+	send_user "Error: $password_file must not be world readable/writable\n"
+	exit 1
+    }
+    source $password_file
 }
 
 # Log into the router.
 proc login { router user userpswd passwd enapasswd prompt cyphertype } {
     global spawn_id in_proc do_command do_script
+    global u_prompt p_prompt e_prompt
     set in_proc 1
     set tryssh 1
 
@@ -321,18 +327,18 @@ proc login { router user userpswd passwd enapasswd prompt cyphertype } {
 	    send "no\r"
 	    send_user "Error: The host key for $router has changed.  update the known_hosts file accordingly.\n"
 	    return 1 }
-	-re "(Username|login):"	{ send "$user\r"
+	-re "$u_prompt"	{ send "$user\r"
 	    expect {
 		eof			{ send_user "Error: Couldn't login\n"; wait; return 1 }
-		-re "\[Pp]assword:"	{ send "$userpswd\r" }
+		-re "$p_prompt"		{ send "$userpswd\r" }
 		"$prompt"		{ set in_proc 0; return 0 }
 	    }
 	    exp_continue
 	}
-	"\[Pp]assword:"	{ send "$passwd\r"
+	-re "$p_prompt"	{ send "$passwd\r"
 	    expect {
 		eof		{ send_user "Error: Couldn't login\n"; wait; return 1 }
-		"\[Pp]assword:" { send "$enapasswd\r" }
+		-re "$e_prompt"	{ send "$enapasswd\r" }
 		"$prompt"	{ set in_proc 0; return 0 }
 	    }
 	    exp_continue
@@ -356,12 +362,13 @@ proc login { router user userpswd passwd enapasswd prompt cyphertype } {
 # Enable
 proc do_enable { enauser enapasswd } {
     global prompt in_proc
+    global u_prompt e_prompt
     set in_proc 1
 
     send "enable\r"
     expect {
-	"Username:"	{ send "$enauser\r"; exp_continue}
-	"\[Pp]assword:"	{ send "$enapasswd\r"; exp_continue}
+	-re "$u_prompt"	{ send "$enauser\r"; exp_continue}
+	-re "$e_prompt"	{ send "$enapasswd\r"; exp_continue}
 	"#"		{ set prompt "#" }
 	"(enable)"	{ set prompt "> (enable) " }
 	denied		{ send_user "Error: Check your Enable passwd\n"; return 1}
@@ -490,7 +497,15 @@ foreach router [lrange $argv $i end] {
       if { "$enauser" == "" } { set enauser $ruser }
     }
 
-    # Figure out cypher tpye
+    # Figure out prompts
+    set u_prompt [find userprompt $router]
+    if { "$u_prompt" == "" } { set u_prompt "(Username|login):" }
+    set p_prompt [find passprompt $router]
+    if { "$p_prompt" == "" } { set p_prompt "\[Pp]assword:" }
+    set e_prompt [find enableprompt $router]
+    if { "$e_prompt" == "" } { set e_prompt "\[Pp]assword:" }
+
+    # Figure out cypher type
     if {[info exists cypher]} {
       # command line cypher type
       set cyphertype $cypher

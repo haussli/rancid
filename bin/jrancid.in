@@ -150,6 +150,7 @@ sub ShowChassisEnvironment {
     /Couldn\'t initiate connection/ && return;
     / backplane temperature/ && return;
     /(\s*Power supply.*), temperature/ && ProcessHistory("","","","# $1\n") && return;
+    /(\s*.+) +\d+ degrees C.*$/ && ProcessHistory("","","","# $1\n") && return;
     ProcessHistory("","","","# $_") && return;
     return;
 }

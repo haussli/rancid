@@ -4,7 +4,7 @@
 	a mgd version mismatch exists, there may be inaccuracies.
 
 	convert usage of Mail to sendmail for portability.  local .mailrc
-	aliases can not be used.
+	aliases can no longer be used.
 
 	bin/alogin and changes (of beta quality) for Alteon WebOS switch
 	from andrew fort.

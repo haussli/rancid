@@ -99,9 +99,88 @@ sub readconf
 
     return;
 }
+# read router.db file
+sub readrouters
+{
+    my($rtrdb);
+    local(*RTR);
+
+    if (defined($LG_ROUTERDB)) {
+	$rtrdb = $LG_ROUTERDB;
+    } else {
+	$rtrdb = "$BASEDIR/util/lg/router.db";
+    }
+
+    if (! -f $rtrdb) {
+	my(@dirs, $dir);
+	# if the router.db file does not exist, try to compile the list from
+	# the rancid group router.db files.
+	local(*DIR);
+	if (! opendir(DIR, $BASEDIR)) {
+	    printf(STDERR "ERROR: couldn\'t read $BASEDIR: $!\n");
+	} else {
+	    while ($dir = readdir(DIR)) {
+		next if ($dir =~ /^(\.|\.\.|CVS|bin|logs|util)$/);
+		push(@dirs, $dir) if (-d "$BASEDIR/$dir");
+	    }
+	    closedir(DIR);
+
+	    foreach $dir (@dirs) {
+		if (! opendir(DIR, "$BASEDIR/$dir")) {
+		    printf(STDERR "ERROR: couldn\'t read $BASEDIR/$dir: $!\n");
+		    next;
+		}
+		closedir(DIR);
+		next if (! -f "$BASEDIR/$dir/router.db");
+		if (open(RTR, "< $BASEDIR/$dir/router.db")) {
+		    while (<RTR>) {
+			next if (/^\s*(#|$)/);
+			# fqdn:mfg:state
+			@record = split('\:', $_);
+			next if ($record[2] !~ /up/i || $record[1] !~ /(cisco|foundry|juniper)/);
+			push(@rtrlist, join(':', ($record[0], $record[1])));
+			$rtrlabels{join(':', ($record[0], $record[1]))} = $record[0];
+		    }
+		    close(RTR);
+		} else {
+		    printf(STDERR "ERROR: couldn\'t open the router.db file: $BASEDIR/$dir/router.db: $!\n");
+		}
+	    }
+	}
+    } else {
+	if (open(RTR, "< $rtrdb")) {
+	    while (<RTR>) {
+		next if (/^\s*(#|$)/);
+		# fqdn:mfg:state
+		@record = split('\:', $_);
+		next if ($record[2] !~ /up/i || $record[1] !~ /(cisco|foundry|juniper)/);
+		push(@rtrlist, join(':', ($record[0], $record[1])));
+		$rtrlabels{join(':', ($record[0], $record[1]))} = $record[0];
+	    }
+	    close(RTR);
+	} else {
+	    printf(STDERR "ERROR: couldn\'t open the router.db file: $rtrdb: $!\n");
+	    exit(255);
+	}
+    }
+
+    return;
+}
 
 # the functions remaining are particular to lg.cgi.
 
+# return true if $router is a member of @rtrlist
+sub arraymember {
+    my($rtrlist) = shift;
+    my($router) = shift;
+    my($r);
+
+    foreach $r (@$rtrlist) {
+	return(1) if ($r eq $router);
+    }
+
+    return(0);
+}
 # run commands on the router
 sub DoRsh
 {
@@ -165,6 +244,35 @@ sub DoCmd
     while (<CMD>) {}
     close(CMD);
     return @results;
+}
+#  Subroutine:  Error
+#       Usage:  &Error("msg"));
+# Description:  displays an error and exits.
+##
+sub Error {
+    my($msg) = @_;
+
+    my($q) = new CGI();
+    print $q->header;
+    print $q->start_html("Looking Glass Error");
+
+    print "<BODY>";
+
+    # add the company image, LG_IMAGE
+    print $LG_IMAGE;
+
+
+    print <<EOF ;
+<br>
+<B><FONT SIZE=+2>Looking Glass Error:</FONT></B>
+<p>
+$msg
+<br>
+</body>
+EOF
+
+    print $q->end_html;
+    exit();
 }
 # convert a ipv4 address mask to prefix length
 sub mask2len {
@@ -246,6 +354,8 @@ END
 # Main()
 # read the configuration file if it exists.
 readconf();
+# read routers table to get @rtrlist
+readrouters();  
 
 ## The script will now cache the results as simple files in the $cache_dir,
 ## named after the type of query (queries must, of course, be one word no 
@@ -288,11 +398,16 @@ $arg = ($query->param('args'))[0];
 $arg =~ s/["'`]//g;			# these are BS in any arg for any query
 @arg = split(' ', $arg);
 
-# verify commands, arguments, etc.
+# verify router, commands, arguments, etc.
 ($router, $mfg) = split(':', $router_param);
 if (!defined($type) || !defined($router)) {
     $results[0] = "You must at least choose a Query and a router.  Try buying a clue.\n";
     &print_results($mfg);
+}
+
+if (! arraymember(\@rtrlist, $router)) {
+    printf STDERR "lg/lg.cgi: attempt to access $router\n";
+    Error("access to $router not permitted");
 }
 
 # conversion of command "type" passed from lgform.cgi to the vendor's syntax.

@@ -446,7 +446,7 @@ sub DoNothing {print STDOUT;}
 	'show version all'	=> "ShowVersion",
 	'show package'		=> "ShowPackage",
 	'show hardware'		=> "ShowHardware",
-#	'show inventory'	=> "ShowInventory",	# PR 11511
+	'show inventory'	=> "ShowVersion",
 	'write term'		=> "WriteTerm"
 );
 # keys() doesnt return things in the order entered and the order of the
@@ -455,6 +455,7 @@ sub DoNothing {print STDOUT;}
 	"show version all",
 	"show package",
 	"show hardware",
+	"show inventory",
 	"write term"
 );
 $cisco_cmds=join(";",@commands);

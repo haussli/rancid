@@ -1,4 +1,6 @@
 2.3.2
+	nrancid: fix missing brace - from David King
+
 	lgform: need strftime from POSIX - from Joao Frade
 
 	rancid: filter multiple-fs file - from Yuval Ben-Ari

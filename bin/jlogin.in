@@ -46,8 +46,6 @@ set avenable 1
 # The default is to look in the password file to find the passwords.  This
 # tracks if we receive them on the command line.
 set do_passwd 1
-# No passphrase by default
-set passphrase ""
 
 # Find the user in the ENV, or use the unix userid.
 if {[ info exists env(CISCO_USER) ] } {
@@ -112,7 +110,7 @@ for {set i 0} {$i < $argc} {incr i} {
 	-R* {
 	    if {! [  regexp .\[rR\](.+) $arg ignore passphrase]} {
 		incr i
-		set passphrase [ lindex $argv $i ]
+		set avpassphrase [ lindex $argv $i ]
 	    }
 	# Expect script to run.
 	} -s* -
@@ -470,9 +468,16 @@ foreach router [lrange $argv $i end] {
     }
 
     # Figure out identity file to use
-    set identfile ""
-    if {[info exists identity]} {
-	set identfile [join [lindex [find identity $router] 0] ""]
+    set identfile [join [lindex [find identity $router] 0] ""]
+
+    # Figure out passphrase to use
+    if {[info exists avpassphrase]} {
+	set passphrase $avpassphrase
+    } else {
+	set passphrase [join [lindex [find passphrase $router] 0] ""]
+    }
+    if { ! [string length "$passphrase"]} {
+	set passphrase $passwd
     }
 
     # Figure out ssh cypher type

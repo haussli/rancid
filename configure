@@ -1657,7 +1657,7 @@ rd_cv_rd_util_progs=$RD_UTIL_PROGS
 
 # RD_UTIL_LG_PROGS are util/lg .in's that need to be installed with execute
 # perms.
-RD_UTIL_LG_PROGS="lg.conf lg.cgi lgform.cgi"
+RD_UTIL_LG_PROGS="lg.cgi lgform.cgi"
 
 rd_cv_rd_util_lg_progs=$RD_UTIL_LG_PROGS
 

@@ -20,6 +20,7 @@ clean:
 	rm -f Makefile $(UTIL_PROGS)
 
 distclean: clean
+	cd lg; $(MAKE) -e install; \
 	rm -f config.log config.status
 
 distdir:

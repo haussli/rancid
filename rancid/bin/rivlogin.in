@@ -457,14 +457,7 @@ proc run_commands { prompt command } {
     # command is "set length 0"; otherwise its "term length 0".
     # skip if its an extreme.
     if { [ string compare "extreme" "$platform" ] } {
-#	if [ regexp -- ".*> .*enable" "$prompt" ] {
-#	    send "set length 0\r"
-#	} else {
-#	    send "term length 0\r"
-#	}
 	regsub -all "\[)(]" $prompt {\\&} reprompt
-	# match cisco config mode prompts too, but not for catalyst ie: (enable)
-#	regsub -all "\[#>]$" $reprompt {(\\([^\\r\\n]+\\))?&} reprompt
     } else {
 	regsub -all "\[)(]" $prompt {\\&} reprompt
     }
@@ -474,9 +467,9 @@ proc run_commands { prompt command } {
     if [ string match "*\;*" "$command" ] {
 	set commands [split $command \;]
 	set num_commands [llength $commands]
-	# the pager can not be turned off on the PIX, so we have to look
-	# for the "More" prompt.  the extreme is equally obnoxious, with a
-	# global switch in the config.
+	# the pager can not be turned off, so we have to look for the "More"
+	# prompt.  the extreme is equally obnoxious, with a global switch in
+	# the config.
 	for {set i 0} {$i < $num_commands} { incr i} {
 	    # Chomp leading whitespace from command string
 	    # Is there an easier way to do this?
@@ -526,9 +519,9 @@ proc run_commands { prompt command } {
 	    }
 	}
     } else {
-	# the pager can not be turned off on the PIX, so we have to look
-	# for the "More" prompt.  the extreme is equally obnoxious, with a
-	# global switch in the config.
+	# the pager can not be turned off, so we have to look for the "More"
+	# prompt.  the extreme is equally obnoxious, with a global switch in
+	# the config.
 
 	# Chomp leading whitespace from command string
 	# Is there an easier way to do this?
@@ -577,12 +570,6 @@ proc run_commands { prompt command } {
     }
     log_user 1
 
-#    if { [ string compare "extreme" "$platform" ] } {
-#	send "exit\r"
-#    } else {
-#	send "quit\r"
-#    }
-
     # Riverstone uses "logout" to exit
     #
     send "logout\r"
@@ -603,7 +590,7 @@ proc run_commands { prompt command } {
 }
 
 #
-# For each router... (this is main loop)
+# For each router... (this is the main loop)
 #
 source_password_file $password_file
 set in_proc 0

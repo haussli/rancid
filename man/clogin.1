@@ -1,35 +1,47 @@
 .\"
+.na
 .TH "clogin" "1" "13 Jan 2001" "Application" ""
 .SH NAME
 clogin \- Cisco/Foundry login script
 .SH SYNOPSIS
 .B clogin
-[\-autoenable]
-[\-noenable]
+[\fB\-autoenable\fP]
+[\fB\-noenable\fP]
 [\c
-.BI \-c \ command]
+.BI \-c\ 
+command]
 [\c
-.BI \-e \  enable-password]
+.BI \-e\ 
+enable-password]
 [\c
-.BI \-f \  cloginrc-file]
+.BI \-f\ 
+cloginrc-file]
 [\c
-.BI \-p \  user-password]
+.BI \-p\ 
+user-password]
 [\c
-.BI \-s \  script-file]
+.BI \-s\ 
+script-file]
 [\c
-.BI \-t \  timeout]
+.BI \-t\ 
+timeout]
 [\c
-.BI \-u \  username]
+.BI \-u\ 
+username]
 [\c
-.BI \-v \  vty-password]
+.BI \-v\ 
+vty-password]
 [\c
-.BI \-w \  enable-username]
+.BI \-w\ 
+enable-username]
 [\c
-.BI \-x \  command-file]
+.BI \-x\ 
+command-file]
 [\c
-.BI \-y \  ssh_cypher_type]
+.BI \-y\ 
+ssh_cypher_type]
 router
-[router...]\c
+[router...]
 .SH DESCRIPTION
 .B clogin
 is an
@@ -172,12 +184,9 @@ to locate the
 configuration file.
 .El
 .SH FILES
-.TP
-.IR $HOME/.cloginrc
-.B clogin
-configuration file.
-.El
-.SH SEE ALSO
+.ta \w'xHOME/xcloginrc  'u 
+\fI$HOME/.cloginrc\fR   Configuration file.
+.SH "SEE ALSO"
 .BR cloginrc (5),
 .BR expect (1)
 .SH BUGS

@@ -156,16 +156,26 @@ AC_PATH_PROG(CVS,cvs,no)
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_CVS`"
 AC_PATH_PROG(COMM,comm,no)
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_COMM`"
+AC_PATH_PROG(FIND,find,no)
+ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_FIND`"
+AC_PATH_PROG(ID,id,no)
+ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_ID`"
 AC_PATH_PROG(MKDIR,mkdir,no)
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_MKDIR`"
 AC_PATH_PROG(DIRNAME,dirname,no)
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_DIRNAME`"
-AC_PATH_PROG(TOUCH,touch,no)
-ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_TOUCH`"
+AC_PATH_PROG(RSH,rsh,no)
+ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_RSH`"
 AC_PATH_PROG(SENDMAIL,sendmail,no)
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_SENDMAIL`"
-AC_PATH_PROG(SORT,sort,no)  
+AC_PATH_PROG(SORT,sort,no)
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_SORT`"
+AC_PATH_PROG(SSH,ssh,no)
+ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_SSH`"
+AC_PATH_PROG(TELNET,telnet,no)
+ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_TELNET`"
+AC_PATH_PROG(TOUCH,touch,no)
+ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_TOUCH`"
 ENV_PATH="$ENV_PATH:/usr/local/bin:/usr/bin"
 
 ENV_PATH=`echo $ENV_PATH | $PERLV_PATH -e 'foreach $x(split(":",<>)){next unless (length($x));push(@F, $x),$seen{$x}=1 unless (defined $seen{$x});}print join(":",@F);'`

@@ -4,9 +4,9 @@ AUTOMAKE_OPTIONS=foreign no-dependencies
 
 @SET_MAKE@
 
-EXTRA_DIST = CHANGES Todo cloginrc.sample configure install-sh mkinstalldirs \
-	Makefile.in Todo
-DIST_COMMON = README
+EXTRA_DIST = CHANGES README Todo cloginrc.sample configure install-sh \
+	mkinstalldirs Makefile.in Todo
+#DIST_COMMON = 
 
 # '.' is here (and at the beginnging of the macro) so that distclean-recursive
 # will run make distclean in . after the other dirs (preserving Makefile.inc)

@@ -10,6 +10,7 @@ cloginrc
 control_rancid
 create_cvs
 do-diffs
+drancid
 elogin
 env
 erancid
@@ -19,8 +20,8 @@ francid
 hlogin
 hpfilter
 hrancid
-jlogin
 jerancid
+jlogin
 jrancid
 mrancid
 nlogin

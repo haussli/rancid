@@ -13,8 +13,8 @@
 
 	rancid/jrancid: filter isis passwords - partial from Janos Mohacsi
 
-	lg: make o/p from the lg stream and unbuffered, so one doesnt have
-	to wait for each line of o/p from the router in traceroute, for
+	lg: make o/p from the lg stream (unbuffered), so one doesnt have
+	to wait for entire o/p from the router in a failing traceroute, for
 	example.  suggestion and clues from alexander koch.  while here, fix
 	cache handling so 1) it doesnt cache cmds that resulted in an error or
 	otherwise failed and 2) log and run the cmd as normal if there are

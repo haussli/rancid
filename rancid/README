@@ -21,6 +21,7 @@ francid.in	Runs commands on foundry switches and processes the output.
 hrancid.in	Runs commands on hp procurve switches and processes the output.
 jrancid.in	Runs commands on juniper routers and processes the output.
 mrancid.in	Runs commands on MRT daemons and processes the output.
+nrancid.in	Runs commands on netscreen routers and processes the output.
 rrancid.in	Runs commands on redback routers and processes the output.
 xrancid.in	Runs commands on extreme switches and processes the output.
 cat5rancid.in	Runs commands on cisco Cat switches and processes the output.
@@ -138,7 +139,8 @@ Quick Installation Guide (an example):
    The file is of the form "router:mfg:state" where "router" is
    the name (we use FQDN) of the router, mfg is the manufacturer
    from the set of
-   (alteon|baynet|cat5|cisco|extreme|ezt3|force10|foundry|hp|juniper|redback),
+   (alteon|baynet|cat5|cisco|extreme|ezt3|force10|foundry|hp|juniper|
+    netscreen|redback),
    and "state" is either up or down.  Each router listed as "up"
    will have the configuration grabbed.  Note: manufacturer cat5
    is intended only for cisco catalyst switches running catalyst (not

@@ -148,6 +148,7 @@ sub ShowChassisClocks {
 	/error: the chassis subsystem is not running/ && return;
 	/Couldn\'t initiate connection/ && return;
 	/Unrecognized command/ && return;
+	/command is not valid/ && return;
 	/^\s+\^/ && return;
 	/syntax error/ && return;
 	ProcessHistory("","","","# $_");
@@ -168,6 +169,7 @@ sub ShowChassisEnvironment {
 	/error: the chassis subsystem is not running/ && return;
 	/Couldn\'t initiate connection/ && return;
 	/Unrecognized command/ && return;
+	/command is not valid/ && return;
 	/^\s+\^/ && return;
 	/syntax error/ && return;
 	/ backplane temperature/ && next;
@@ -193,6 +195,7 @@ sub ShowChassisFirmware {
 	/error: the chassis subsystem is not running/ && return;
 	/Couldn\'t initiate connection/ && return;
 	/Unrecognized command/ && return;
+	/command is not valid/ && return;
 	/^\s+\^/ && return;
 	/syntax error/ && return;
 	ProcessHistory("","","","# $_");
@@ -213,6 +216,7 @@ sub ShowChassisFpcDetail {
 	/error: the chassis subsystem is not running/ && return;
 	/Couldn\'t initiate connection/ && return;
 	/Unrecognized command/ && return;
+	/command is not valid/ && return;
 	/^\s+\^/ && return;
 	/syntax error/ && return;
 	/ Temperature/ && next;
@@ -236,6 +240,7 @@ sub ShowChassisHardware {
 	/error: the chassis subsystem is not running/ && return;
 	/Couldn\'t initiate connection/ && return;
 	/Unrecognized command/ && return;
+	/command is not valid/ && return;
 	/^\s+\^/ && return;
 	/syntax error/ && return;
 	ProcessHistory("","","","# $_");
@@ -257,6 +262,7 @@ sub ShowChassisRoutingEngine {
 	/error: the chassis subsystem is not running/ && return;
 	/Couldn\'t initiate connection/ && return;
 	/Unrecognized command/ && return;
+	/command is not valid/ && return;
 	/^\s+\^/ && return;
 	/syntax error/ && return;
 	/^Routing Engine status:/ && ProcessHistory("","","","# $_") && next;
@@ -283,6 +289,7 @@ sub ShowChassisSCB {
 	/error: the chassis subsystem is not running/ && return;
 	/Couldn\'t initiate connection/ && return;
 	/Unrecognized command/ && return;
+	/command is not valid/ && return;
 	/^\s+\^/ && return;
 	/syntax error/ && return;
 	/ Temperature/ && next;

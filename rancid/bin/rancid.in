@@ -31,6 +31,9 @@ $file = $opt_f;
 $host = $ARGV[0];
 $clean_run = 0;
 $found_end = 0;
+$found_version = 0;
+$found_env = 0;
+$found_diag = 0;
 $timeo = 90;			# clogin timeout in seconds
 
 my(%filter_pwds);		# password filtering mode
@@ -142,9 +145,11 @@ sub ShowVersion {
 
     while (<INPUT>) {
 	tr/\015//d;
-	last if(/^$prompt/);
+	if (/^$prompt/) { $found_version=1; last};
 	next if(/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/command authorization failed/i);
+	return(0) if ($found_version);		# Only do this routine once
 	# the pager can not be disabled per-session on the PIX
 	s/^<-+ More -+>\s*//;
 	if (/^Slave in slot (\d+) is running/) {
@@ -423,10 +428,12 @@ sub ShowEnv {
 
     while (<INPUT>) {
 	tr/\015//d;
-	last if (/^$prompt/);
+	if (/^$prompt/) { $found_env=1; last};
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	#return(1) if ($type !~ /^7/);
+	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/command authorization failed/i);
+	return(0) if ($found_env);		# Only do this routine once
 	# the pager can not be disabled per-session on the PIX
 	s/^<-+ More -+>\s*//;
 	if (!defined($E0)) {
@@ -531,10 +538,10 @@ sub ShowBoot {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /^\s*\^\s*$/;
-	return(-1) if (/command authorization failed/i);
-	return(1) if /Ambiguous command/i;
 	return(1) if /(Invalid input detected|Type help or )/;
+	return(1) if /Ambiguous command/i;
 	return(1) if /(Open device \S+ failed|Error opening \S+:)/;
+	return(-1) if (/command authorization failed/i);
 	# the pager can not be disabled per-session on the PIX
 	s/^<-+ More -+>\s*//;
 	next if /CONFGEN variable/;
@@ -566,9 +573,9 @@ sub ShowFlash {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if ($type =~ /^(12[40]|7)/);
-	return(-1) if (/command authorization failed/i);
 	return(1) if /^\s*\^\s*$/;
 	return(1) if /(Invalid input detected|Type help or )/;
+	return(-1) if (/command authorization failed/i);
 	# the pager can not be disabled per-session on the PIX
 	s/^<-+ More -+>\s*//;
 	/\s+(multiple-fs|vlan\.dat)$/ && next;
@@ -724,6 +731,7 @@ sub ShowDiagbus {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	#return(1) if ($type !~ /^7[05]/);
+	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/command authorization failed/i);
 	# the pager can not be disabled per-session on the PIX
 	s/^<-+ More -+>\s*//;
@@ -809,10 +817,12 @@ sub ShowDiag {
 
     while (<INPUT>) {
 REDUX:	tr/\015//d;
-	last if (/^$prompt/);
+	if (/^$prompt/) { $found_diag=1; last};
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	# return(1) if ($type !~ /^(12[40]|720|36|26)/);
+	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/command authorization failed/i);
+	return(0) if ($found_diag);		# Only do this routine once
 	/^$/ && next;
 	# the pager can not be disabled per-session on the PIX
 	s/^<-+ More -+>\s*//;
@@ -1181,8 +1191,8 @@ sub WriteTerm {
     while (<INPUT>) {
 	tr/\015//d;
 	last if(/^$prompt/);
-	return(-1) if (/command authorization failed/i);
 	return(1) if /(Invalid input detected|Type help or )/;
+	return(-1) if (/command authorization failed/i);
 	# the pager can not be disabled per-session on the PIX
 	s/^<-+ More -+>\s*//;
 	/Non-Volatile memory is in use/  && return(-1); # NvRAM is locked
@@ -1485,10 +1495,12 @@ sub DoNothing {print STDOUT;}
 
 # Main
 %commands=(
+	'admin show version'	=> "ShowVersion",
 	'show version'		=> "ShowVersion",
 	'show redundancy secondary'	=> "ShowRedundancy",
 	'show idprom backplane',	=> "ShowIDprom",
 	'show install active'	=> "ShowInstallActive",
+	'admin show env all'	=> "ShowEnv",
 	'show env all'		=> "ShowEnv",
 	'show rsp chassis-info',=> "ShowRSP",
 	'show gsr chassis'	=> "ShowGSR",
@@ -1529,6 +1541,7 @@ sub DoNothing {print STDOUT;}
 	'show controllers'	=> "ShowContAll",
 	'show controllers cbus'	=> "ShowContCbus",
 	'show diagbus'		=> "ShowDiagbus",
+	'admin show diag'	=> "ShowDiag",
 	'show diag'		=> "ShowDiag",
 	'show module'		=> "ShowModule",	# cat 6500-ios
 	'show spe version'	=> "ShowSpeVersion",
@@ -1541,10 +1554,12 @@ sub DoNothing {print STDOUT;}
 # keys() doesnt return things in the order entered and the order of the
 # cmds is important (show version first and write term last). pita
 @commands=(
+	"admin show version",
 	"show version",
 	"show redundancy secondary",
 	"show idprom backplane",
 	"show install active",
+	"admin show env all",
 	"show env all",
 	"show rsp chassis-info",
 	"show gsr chassis",
@@ -1585,6 +1600,7 @@ sub DoNothing {print STDOUT;}
 	"show controllers",
 	"show controllers cbus",
 	"show diagbus",
+	"admin show diag",
 	"show diag",
 	"show module",
 	"show spe version",

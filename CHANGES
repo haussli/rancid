@@ -1,4 +1,6 @@
 2.2b9
+	add par.1 manpage
+
 	bin/par changes - add -p, -f, and -e options
 
 	allow a TCP port suffix to telnet in .cloginrc - Alex Bochannek

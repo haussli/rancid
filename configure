@@ -3415,7 +3415,7 @@ EOF
 cat >> $CONFIG_STATUS <<\EOF
 test -z "$CONFIG_HEADERS" || echo timestamp > include/stamp-h
 \
-	 chmod a+x bin/*login bin/*rancid 
+	 chmod a+x bin/*login bin/*rancid bin/par 
 	
 exit 0
 EOF

@@ -249,6 +249,7 @@ sub WriteTerm {
 	    next;
 	}
 
+	# prune passwords {bgp, ...}
 	if (/^(\s*)password / && $filter_pwds >= 1) {
 	    ProcessHistory("LINE-PASS","","","!$1password <removed>\n");
 	    next;

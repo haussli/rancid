@@ -100,12 +100,8 @@ Quick Installation Guide (an example):
    access routers or separate based upon network etc...  Different router
    uses forced different people being interested in router "groups" -
    thus this setup.  Make sure email to rancid-<GROUP> works.  /etc/aliases
-   can be maintainable by Majordomo stuff.
-				- OR -
-   Modify your home directory's .mailrc.  Control_rancid uses sendmail
-   to send diffs.  To use a private .mailrc, control_rancid will have to
-   be modified to use ucbmail or, better yet, something else which allow
-   the Precedence header to be set.  Pick your poison.
+   can be maintainable by Majordomo stuff, but make sure the user that
+   runs rancid can post to the list.
 
    The Precedence header set to bulk or junk *hopefully* avoids replies from
    auto-responders and vacation type mail filters.

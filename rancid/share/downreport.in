@@ -24,6 +24,10 @@ fi
 
 for GROUP in $LIST_OF_GROUPS; do
   (
+    echo "To: @MAILPLUS@admin-$GROUP"
+    echo "Subject: Down router report - $GROUP"
+    echo "Precedence: bulk"
+    echo ""
     DIR=$BASEDIR/$GROUP
     if [ -s $DIR/routers.down ]; then
       (
@@ -53,7 +57,6 @@ EOM
 
       ) 
     fi
-  ) |\
-  Mail -s "Down router report - $GROUP"  @MAILPLUS@admin-$GROUP
+  ) | sendmail -t
 
 done

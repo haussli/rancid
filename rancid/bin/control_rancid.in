@@ -38,9 +38,13 @@ then
     echo "$DIR does not exist."
     echo "Run bin/create_cvs $GROUP to make all of the needed directories."
     (
+	echo "To: @MAILPLUS@admin-$GROUP"
+	echo "Subject: no $GROUP directory"
+	echo "Precedence: bulk"
+	echo ""
 	echo "$DIR does not exist."
 	echo "Run bin/create_cvs $GROUP to make all of the needed directories."
-    ) | Mail -s "no $GROUP directory" @MAILPLUS@admin-$GROUP
+    ) | sendmail -t
     exit 1
 fi
 
@@ -60,8 +64,12 @@ rm -f $TMP
 if [ ! -f $DIR/router.db ]
 then
     (
+	echo "To: @MAILPLUS@admin-$GROUP"
+	echo "Subject: no $GROUP/router.db file"
+	echo "Precedence: bulk"
+	echo ""
 	echo "$DIR/router.db does not exist."
-    ) | Mail -s "no $GROUP/router.db file" @MAILPLUS@admin-$GROUP
+    ) | sendmail -t
     exit 1;
 elif [ ! -s $DIR/router.db ]
 then
@@ -119,7 +127,13 @@ then
     ) > routers.mail
 
     if [ -s routers.mail ] ; then
-        Mail -s "changes in $GROUP routers" @MAILPLUS@admin-$GROUP < routers.mail
+	(
+	  echo "To: @MAILPLUS@admin-$GROUP"
+	  echo "Subject: changes in $GROUP routers"
+	  echo "Precedence: bulk"
+	  echo ""
+	  cat routers.mail
+	) | sendmail -t
     fi
     rm -f routers.mail
 
@@ -261,13 +275,15 @@ fi
 if [ -s $DIR/routers.failed ]
 then
 	(
-		cat <<END
-The following routers have not been successfully contacted for more
-than $OLDTIME hours.
+	  echo "To: @MAILPLUS@admin-$GROUP"
+	  echo "Subject: config fetcher problems - $GROUP"
+	  echo "Precedence: bulk"
+	  echo ""
+	  echo "The following routers have not been successfully contacted for"
+	  echo "more than $OLDTIME hours."
 
-END
-		cat $DIR/routers.failed
-	) | Mail -s "config fetcher problems - $GROUP" @MAILPLUS@admin-$GROUP
+	  cat $DIR/routers.failed
+	) | sendmail -t
 fi
 
 # Cleanup

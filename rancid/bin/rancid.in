@@ -839,9 +839,9 @@ REDUX:	tr/\015//d;
 	if (/^\s+MAIN:\s* type \d+,\s+(.*)/) {
 	    local($part) = $1;
 	    $_ = <INPUT>;
-	    if (/^\s+HW version (\S+)\s+S\/N (\S+)/i) {
-		ProcessHistory("SLOT","keysort","AM","!Slot $slot/MAIN: part $part, serial $2\n");
-		ProcessHistory("SLOT","keysort","AM","!Slot $slot/MAIN: hvers $1\n");
+	    if (/^\s+(HW version|Design Release) (\S+)\s+S\/N (\S+)/i) {
+		ProcessHistory("SLOT","keysort","AM","!Slot $slot/MAIN: part $part, serial $3\n");
+		ProcessHistory("SLOT","keysort","AM","!Slot $slot/MAIN: hvers $2\n");
 	    } else {
 		ProcessHistory("SLOT","keysort","AM","!Slot $slot/MAIN: part $part\n");
 		goto REDUX;

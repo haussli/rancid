@@ -70,6 +70,14 @@ simply handed off to print().
 Example: $LG_IMAGE="<img src=/icons/rancid.gif hspace=0>\n <font size=+2>FOO</font>";
 .\"
 .TP
+.B LG_INFO
+Defines information in html format which, if defined, will be included at
+the bottom of the looking glass form page.  It may contain any html as it is
+simply handed off to print().
+.sp
+Example: $LG_INFO="For Support contact <a href=mailto:webmaster\@localhost>webmaster</a>";
+.\"
+.TP
 .B LG_LOG
 Defines the fully qualified path name for the log file or the
 .BR syslog (3)

@@ -242,7 +242,10 @@ TOP: while(<INPUT>) {
     }
     while (/>\s*($cmds_regexp)\s*$/) {
 	$cmd = $1;
-	if (!defined($prompt)) { $prompt = "\-\>\s*"; }
+	if (!defined($prompt)) {
+	    $prompt = "\-\>\s*";
+	    print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
+	}
 	print STDERR ("HIT COMMAND:$_") if ($debug);
 	if (!defined($commands{$cmd})) {
 	    print STDERR "$host: found unexpected command - \"$cmd\"\n";

@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/local/bin/perl
 ##
 ## Hacked version of rancid for ADC EZT3 series muxes. Only tested
 ## with switch software 1.50 so far - terry@tmk.com
@@ -187,32 +187,15 @@ sub WriteTerm {
         tr/\015//d;
         last if(/Active\) >/);
 	chop;
-	/snmp getcomm (\S*)/ &&
-	    ProcessHistory("","","","-   snmp getcomm   \"<removed>\"\n") &&
-	    next;
-	/snmp setcomm (\S*)/ &&
-	    ProcessHistory("","","","-   snmp setcomm   \"<removed>\"\n") &&
-	    next;
-	/snmp trapcomm (\S*)/ &&
-	    ProcessHistory("","","","-   snmp trapcomm  \"<removed>\"\n") &&
-	    next;
+	if (/^\s*snmp/ && defined($ENV{'NOCOMMSTR'})) {
+	    /snmp (getcomm|setcomm|trapcomm)(\s+)(\S*)/ &&
+	    ProcessHistory("","","","-   snmp $1$2\"<removed>\"\n") && next;
+	}
 	# believe it or not, "-" is the "whole line is comment" command
 	ProcessHistory("","","","$_\n");
     }
     $found_end = 1;
     return(1);
-}
-
-# This routine discards "screen 24"
-sub Screen24 {
-    print STDERR "    In Screen24: $_" if ($debug);
-
-    while (<INPUT>) {
-	tr/\015//d;
-	last if(/Active\) >/);
-	next if(/^(\s*|\s*$cmd\s*)$/);
-    }
-    return(0);
 }
 
 # dummy function
@@ -223,7 +206,6 @@ sub DoNothing {print STDOUT;}
 	'version'		=> "ShowVersion",
 	'equipment'		=> "ShowModule",
 	'config'		=> "WriteTerm",
-	'screen 24'		=> "Screen24"
 );
 # keys() doesnt return things in the order entered and the order of the
 # cmds is important (show version first and write term last). pita
@@ -231,7 +213,6 @@ sub DoNothing {print STDOUT;}
 	"version",
 	"equipment",
 	"config",
-	"screen 24"
 );
 $cisco_cmds=join(";",@commands);
 $cmds_regexp=join("|",@commands);

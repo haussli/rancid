@@ -1,6 +1,6 @@
 #!@PERLV_PATH@
-## The original original lookingglass s/w was written by Ed Kern.  it
-## is a single script and used to be available at http://nitrous.digex.net/
+## The original original lookingglass s/w was written by Ed Kern.  it was
+## a single script that used to be available at http://nitrous.digex.net/
 #
 ## Copyright (C) 1997-2001 by Henry Kilmer.
 ## All rights reserved.
@@ -74,6 +74,7 @@ sub dolog
     }
     return;
 }
+
 # read LG configuration file
 sub readconf
 {
@@ -99,12 +100,14 @@ sub readconf
 	close(CONF);
 	eval $cmds;
     } else {
-	printf(STDERR "ERROR: couldn\'t open the configuration file: $conffile: $!\n");
+	printf(STDERR "ERROR: couldn\'t open the configuration file: " .
+							"$conffile: $!\n");
 	exit(1);
     }
 
     return;
 }
+
 # read router.db file
 sub readrouters
 {
@@ -149,7 +152,8 @@ sub readrouters
 		    }
 		    close(RTR);
 		} else {
-		    dolog(LOG_ERR, "ERROR: couldn\'t open the router.db file: $BASEDIR/$dir/router.db: $!\n");
+		    dolog(LOG_ERR, "ERROR: couldn\'t open the router.db " .
+					"file: $BASEDIR/$dir/router.db: $!\n");
 		}
 	    }
 	}
@@ -165,7 +169,8 @@ sub readrouters
 	    }
 	    close(RTR);
 	} else {
-	    dolog(LOG_ERR, "ERROR: couldn\'t open the router.db file: $rtrdb: $!\n");
+	    dolog(LOG_ERR, "ERROR: couldn\'t open the router.db file: " .
+								"$rtrdb: $!\n");
 	    exit(1);
 	}
     }
@@ -173,7 +178,7 @@ sub readrouters
     return;
 }
 
-# the functions remaining are particular to lg.cgi.
+# the remaining functions are particular to lg.cgi.
 
 # return true if $router is a member of @rtrlist
 sub arraymember {
@@ -188,6 +193,7 @@ sub arraymember {
 
     return(0);
 }
+
 # check reachability and lock file before attempting to connect to device
 # return non-zero on error.
 sub DoRsh
@@ -216,8 +222,9 @@ sub DoRsh
     }
     $val = &DoCmd($router, $mfg, $cmd, $arg);
     $lckobj->unlock("$cache_dir/$router");
-    return ($val);
+    return($val);
 }
+
 # run commands on the router.  return non-zero on error.
 sub DoCmd
 {
@@ -266,6 +273,8 @@ sub DoCmd
 
     return(0);
 }
+
+##
 #  Subroutine:  Error
 #       Usage:  &Error("msg"));
 # Description:  displays an error and exits.
@@ -298,7 +307,8 @@ EOF
     print $q->end_html;
     exit(0);
 }
-# convert a ipv4 address mask to prefix length
+
+# convert an ipv4 address mask to prefix length
 sub mask2len {
     my($mask) = shift;
     my($a, $b, $c, $d) = split('\.', $mask);
@@ -311,6 +321,7 @@ sub mask2len {
 
     return($len);
 }
+
 # end the page and exit.
 sub end_page {
 
@@ -323,6 +334,7 @@ END
     print $query->end_html;
     exit(0);
 }
+
 # start the page and log the transaction...
 sub start_page {
     my($mfg) = @_;
@@ -377,17 +389,16 @@ HEAD
 END
 
     return;
-}  #end sub start_page
+}
 
 
 # Main()
 # read the configuration file if it exists.
 readconf();
 
-## The script will now cache the results as simple files in the $cache_dir,
-## named after the type of query (queries must, of course, be one word no
-## spaces).  Modify $max_time_diff to set the lifetime for each cache.
-## Currently, cache lifetime is the same for all queries.
+# The script will now cache the results as simple files in the $cache_dir,
+# named after the type of query (queries must, of course, be one word with
+# no spaces).  Modify $LG_CACHE_TIME to set the lifetime for cache entries.
 # for most web servers, cache_dir must be writable by uid nobody
 if (defined($LG_CACHE_DIR)) {
     $cache_dir = $LG_CACHE_DIR;
@@ -431,8 +442,8 @@ $arg =~ s/["'`]//g;			# these are BS in any arg for any query
 # verify router, commands, arguments, etc.
 ($router, $mfg) = split(':', $router_param);
 if (!defined($type) || !defined($router) || $router eq "") {
-    $results[0] = "You must at least choose a Query and a router.  Try buying a clue.\n";
-    &Error("You must at least choose a Query and a router.  Try buying a clue.\n");
+    &Error("You must at least choose a Query and a router.  Try buying " .
+								"a clue.\n");
 }
 
 if (! arraymember(\@rtrlist, $router)) {
@@ -471,7 +482,7 @@ if (! arraymember(\@rtrlist, $router)) {
 		#aspath => "show ip as-path-access-list",
 		#communitylist => "show ip community-list",
 		damp => "show ip bgp dampened-paths",
-		#framerelay => "show frame-relay pvc", # no frame relay
+		#framerelay => "show frame-relay pvc",	# no compatible command
 		interface => "show interface",
 		log => "show log",
 		#mbgp => "show ip mbgp",
@@ -530,7 +541,7 @@ if (! arraymember(\@rtrlist, $router)) {
 		trace => "traceroute"
 	);
 
-# not all cmds/queries are implemented for junipers
+# not all cmds/queries are implemented for all platforms
 if ($mfg =~ /juniper/) {
     if (! defined($juniperCmd{$type})) {
 	Error("$cmdDisp{$type} not implemented for junipers.  sorry.\n");
@@ -550,7 +561,8 @@ if ($mfg =~ /juniper/) {
 
 if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
     if ($arg[0] !~ /^\d+\.\d+\.\d+\.\d+$/) {
-	&Error("The IP address \"$arg[0]\" is not valid and lacking an address would over-burden our router.\n");
+	&Error("The IP address \"$arg[0]\" is not valid and lacking an " .
+				"address would over-burden our router.\n");
     } elsif (defined($arg[1]) && $arg[1] !~ /^\d+\.\d+\.\d+\.\d+$/) {
 	&Error("The IP netmask \"$arg[1]\" is not valid.\n");
     }
@@ -560,7 +572,7 @@ if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
 } elsif ($type eq "framerelay") {
     if ($mfg =~ /juniper/) {
 	&Error("Juniper does not have a show frame-relay pvc command.  " .
-		"Use show interface.\n");
+						"Use show interface.\n");
     }
     if ($arg[0] > 15 && $arg[0] < 1024) {
 	$arg = $arg[0];
@@ -740,7 +752,7 @@ start_page();
 
 # cache the following
 if ($type eq "summary" || $type eq "mbgpsu" || $type eq "damp"
-			|| $type eq "log") {
+							|| $type eq "log") {
     if (!$arg) {
 	# cache requests with no addr/argument
 	local(*CACHE);

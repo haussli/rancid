@@ -22,7 +22,7 @@ bin_SCRIPTS = cat5rancid control_rancid \
 	alogin arancid clogin create_cvs blogin brancid do-diffs elogin \
 	erancid f10rancid flogin francid jlogin jrancid hlogin hrancid \
 	mrancid nlogin nrancid nslogin nsrancid par rancid-fe rancid rename \
-	rrancid tntlogin tntrancid xrancid
+	rivlogin rivrancid rrancid tntlogin tntrancid xrancid
 
 hpfilter_SOURCES = hpfilter.c
 

@@ -301,6 +301,23 @@ sub WriteTerm {
 	    next;
 	}
 
+	# reorder listing of ports in a vlan
+	if (/^ (?:un)?tagged ethe/) {
+	    chomp;
+	    s/^\s+//;
+	    s/\s+$//;
+
+	    my @list = split /\s+ethe\s+/, $_;
+	    my $tagtype = shift @list;
+
+	    while (@list) {
+		ProcessHistory("","","",
+				" $tagtype ethe " . (shift @list) . "\n");
+	    }
+	    next;
+	}
+
+
 	ProcessHistory("","","","$_");
 	# end of config
 	if (/^end$/) {

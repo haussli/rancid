@@ -327,7 +327,7 @@ if ($file) {
     }
 }
 
-while(<INPUT>) {
+TOP: while(<INPUT>) {
     tr/\015//d;
     if (/\#exit$/) {
 	$clean_run=1;
@@ -347,13 +347,13 @@ while(<INPUT>) {
 	if (! defined($commands{$cmd})) {
 	    print STDERR "found unexpected command - \"$cmd\"\n";
 	    $clean_run = 0;
-	    last;
+	    last TOP;
 	}
 	$rval = &{$commands{$cmd}};
 	delete($commands{$cmd});
 	if ($rval == -1) {
 	    $clean_run = 0;
-	    last;
+	    last TOP;
 	}
     }
 }

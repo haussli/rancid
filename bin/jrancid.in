@@ -447,7 +447,7 @@ TOP: while(<INPUT>) {
 	if (! defined($commands{$cmd})) {
 	    print STDERR "found unexpected command - \"$cmd\"\n";
 	    $clean_run = 0;
-	    last;
+	    last TOP;
 	}
 	$rval = &{$commands{$cmd}};
 	delete($commands{$cmd});

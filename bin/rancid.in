@@ -383,7 +383,7 @@ sub ShowFlash {
     return;
 }
 
-# This routine parses "dir /all ((disk|slot)N|bootflash):"
+# This routine parses "dir /all ((disk|slot)N|bootflash|nvram):"
 sub DirSlotN {
     # Skip if this is not a 3600, 7000, 7200, 7500, or 12000.
     print STDERR "    In DirSlotN: $_" if ($debug);
@@ -928,6 +928,7 @@ sub DoNothing {print STDOUT;}
 	'show boot'		=> "ShowBoot",
 	'show bootvar'		=> "ShowBoot",
 	'show flash'		=> "ShowFlash",
+	'dir /all nvram:'	=> "DirSlotN",
 	'dir /all bootflash:'	=> "DirSlotN",
 	'dir /all slot0:'	=> "DirSlotN",
 	'dir /all disk0:'	=> "DirSlotN",
@@ -951,6 +952,7 @@ sub DoNothing {print STDOUT;}
 	"show boot",
 	"show bootvar",
 	"show flash",
+	"dir /all nvram:",
 	"dir /all bootflash:",
 	"dir /all slot0:",
 	"dir /all disk0:",

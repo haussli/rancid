@@ -1,4 +1,6 @@
 1.6
+	Add "dir nvram:" to rancid.
+
 	Add support for ADC EZ T3 mux.  adapted from tkenndedy@verio.net's
 	contrib.
 

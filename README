@@ -196,7 +196,7 @@ Quick Installation Guide (an example):
     configure already makes sure that $PATH is set correctly in
     etc/rancid.conf for rancid-run, so you could use the $PATH from there. e.g.:
 
-	50 23 * * * . /usr/local/rancid/etc/rancid.conf; clogin -c 'sh vers' router
+	50 23 * * * . <sysconfdir>/rancid.conf; clogin -c 'sh vers' router
 
 12) Send any bugs, suggestions or updates to rancid@shrubbery.net.
     See the web page at http://www.shrubbery.net/rancid.  We have

@@ -5,7 +5,7 @@
 par \- parallel command processing
 .SH SYNOPSIS
 .B par
-[\fB\-defiqx\fP]
+[\fB\-diqx\fP]
 [\c
 .BI \-c\ 
 command]
@@ -13,10 +13,8 @@ command]
 .BI \-l\ 
 logfile]
 [\c
-.BI \-\c
-[\c
-.BI np\c
-\] #]
+.BI \-n\c
+ #]
 file
 [file...]
 .SH DESCRIPTION
@@ -71,16 +69,6 @@ options, when the first line of the input file(s) begin with a pound-sign
 Print debugging information on standard error (stderr).
 .\"
 .TP
-.B \-e
-Run the command with arguments separated by spaces rather than via the shell.
-.\"
-.TP
-.B \-f
-Skip argument processing, just run
-.B \-n
-repetitions of the command.
-.\"
-.TP
 .B \-i
 Run commands interactively though (multiple) 
 .BR xterm (1)
@@ -99,12 +87,6 @@ Default: par.log.<time>.[0..]
 Number of simultaneous processes.
 .sp
 Default: 3
-.\"
-.TP
-.B \-p
-Pause N seconds between forks.
-.sp
-Default: 0
 .\"
 .TP
 .B \-q

@@ -1,3 +1,11 @@
+2.2b5
+	fix regex error in clogin affecting catalysts
+
+	clogin attempts to grope entire prompt after login
+
+	*login need to catch{} -x cmd file open so expect doesnt puke if
+	there is an error opening the file
+
 2.2b4
 	add extreme switch bits
 

@@ -20,7 +20,7 @@ francid.in	Runs commands on foundry switches and processes the output.
 hrancid.in	Runs commands on hp procurve switches and processes the output.
 jrancid.in	Runs commands on juniper routers and processes the output.
 rrancid.in	Runs commands on redback routers and processes the output.
-xancid.in	Runs commands on extreme switches and processes the output.
+xrancid.in	Runs commands on extreme switches and processes the output.
 cat5rancid.in	Runs commands on cisco cat5 switches and processes the output.
 blogin.in	Expect script that logs into baynet/nortel routers either
 		interactively, runs a set of commands, or runs another expect
@@ -32,7 +32,7 @@ elogin.in	Expect script that logs into ADC EZ-T3 muxes either
 		script.
 flogin.in	Expect script that logs into foundry switches.  Once foundry
 		cleans up their bloody UI, clogin should do the job.
-blogin.in	Expect script that logs into hp procurve switches either
+hlogin.in	Expect script that logs into hp procurve switches either
 		interactively, runs a set of commands, or runs another expect
 		script.
 jlogin.in	Expect script that logs into juniper routers similarly to
@@ -133,10 +133,12 @@ Quick Installation Guide (an example):
 8) For each "group", modify the router.db file in the group directory.
    The file is of the form "router:mfg:state" where "router" is
    the name (we use FQDN) of the router, mfg is the manufacturer
-   from the set of (cisco|ezt3|extreme|foundry|juniper|redback|cat5), and
-   "state" is either up or down.  Each router listed as "up" will have the
-   configuration grabbed.  Note: manufacturer cat5 is intended only for
-   catalyst switches running catalyst (not IOS) code.
+   from the set of
+   (alteon|baynet|cat5|cisco|extreme|ezt3|foundry|hp|juniper|redback),
+   and "state" is either up or down.  Each router listed as "up"
+   will have the configuration grabbed.  Note: manufacturer cat5
+   is intended only for catalyst switches running catalyst (not
+   IOS) code.
 
    eg <basedir>/<group>/router.db:
 	cisco-router.domain.com:cisco:up

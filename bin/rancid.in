@@ -183,7 +183,7 @@ sub ShowVersion {
 	    next;
 	/^System image file is "([^\"]*)"$/ &&
 	    ProcessHistory("COMMENTS","keysort","F5","!Image: $1\n") && next;
-	if (/(\S+)\s+\((\S+)\)\s+processor.*with (\S+K) bytes/) {
+	if (/(\S+)\s+\((\S+)\)\s+processor.*with (\S+[kK]) bytes/) {
 	    my($proc) = $1;
 	    my($cpu) = $2;
 	    my($mem) = $3;
@@ -241,24 +241,24 @@ sub ShowVersion {
 	    $sspmem = $1;
 	    next;
 	}
-	/^(\d+K) bytes of multibus/ &&
+	/^(\d+[kK]) bytes of multibus/ &&
 	    ProcessHistory("COMMENTS","keysort","B2",
 		"!Memory: multibus $1\n") && next;
-	/^(\d+K) bytes of non-volatile/ &&
+	/^(\d+[kK]) bytes of non-volatile/ &&
 	    ProcessHistory("COMMENTS","keysort","B3",
 		"!Memory: nvram $1\n") && next;
-	/^(\d+K) bytes of flash memory/ &&
+	/^(\d+[kK]) bytes of flash memory/ &&
 	    ProcessHistory("COMMENTS","keysort","B5","!Memory: flash $1\n") &&
 	    next;
-	/^(\d+K) bytes of .*flash partition/ &&
+	/^(\d+[kK]) bytes of .*flash partition/ &&
 	    ProcessHistory("COMMENTS","keysort","B6",
 		"!Memory: flash partition $1\n") && next;
-	/^(\d+K) bytes of Flash internal/ &&
+	/^(\d+[kK]) bytes of Flash internal/ &&
 	    ProcessHistory("COMMENTS","keysort","B4",
 		"!Memory: bootflash $1\n") && next;
-	if(/^(\d+K) bytes of (Flash|ATA)?.*PCMCIA .*slot ?(\d)/i) {
+	if(/^(\d+[kK]) bytes of (Flash|ATA)?.*PCMCIA .*(slot|disk) ?(\d)/i) {
 	    ProcessHistory("COMMENTS","keysort","B7",
-		"!Memory: pcmcia $2 slot$3 $1\n");
+		"!Memory: pcmcia $2 $3$4 $1\n");
 	    next;
 	}
 	if(/^WARNING/) {

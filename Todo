@@ -11,7 +11,6 @@
 	Permission denied, please try again.
 	user@jnx's password: ^Cguelah [5] 
 - rancid with zebra?  via vtysh?
-- rancid with mrt?
 - rancid for unix?
 - extreme collections lose when the config on the switch is in an unsaved
   state, probably due to the prompt changing or rather how clogin formulates

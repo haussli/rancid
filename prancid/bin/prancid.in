@@ -381,7 +381,8 @@ sub WriteTerm {
 	if (/^(tacacs-server|radius-server) key / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 key <removed>\n"); next;
 	}
-	if (/^(tacacs-server host \S+( .*)? key) \d \S+/ && $filter_pwds >= 1) {
+	if (/^(tacacs-server host \S+( .*)? key) (\d )?\S+/
+							&& $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
 

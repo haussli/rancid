@@ -1,4 +1,8 @@
 2.3.eft
+	study causes missed command somehow in redhat9 - from David King
+
+	filter port security mac entries, from Arnold Nipper
+
 	add Procket Networks support, "prancid"
 
 	filter ipsec keys in rancid & jrancid.

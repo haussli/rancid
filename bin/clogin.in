@@ -274,7 +274,7 @@ proc login { router user userpswd passwd enapasswd prompt } {
 	    expect eof
 	    send_user "Error: Unknown host\n"; wait; return 1
 	}
-	"Username:"	{ send "$user\r"
+	-re "(Username|login):"	{ send "$user\r"
 	    expect { 
 		eof             	{ send_user "Error: Couldn't login\n"; wait; return 1 }
 		-re "\[Pp]assword:"	{ send "$userpswd\r" }

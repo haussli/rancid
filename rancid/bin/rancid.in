@@ -1106,6 +1106,8 @@ sub DoNothing {print STDOUT;}
 	'dir /all disk0:'	=> "DirSlotN",
 	'dir /all slot1:'	=> "DirSlotN",
 	'dir /all disk1:'	=> "DirSlotN",
+	'dir /all slot2:'	=> "DirSlotN",
+	'dir /all disk2:'	=> "DirSlotN",
 	"dir /all sup-bootflash:"=> "DirSlotN",		# cat 6500-ios
 	"dir /all sup-microcode:"=> "DirSlotN",		# cat 6500-ios
 	'show controllers'	=> "ShowContAll",
@@ -1135,6 +1137,8 @@ sub DoNothing {print STDOUT;}
 	"dir /all disk0:",
 	"dir /all slot1:",
 	"dir /all disk1:",
+	"dir /all slot2:",
+	"dir /all disk2:",
 	"dir /all sup-bootflash:",
 	"dir /all sup-microcode:",
 	"show controllers",

@@ -136,7 +136,8 @@ man_nogen_MANS = do-diffs.1 alogin.1 blogin.1 clogin.1 control_rancid.1 \
 		elogin.1 f10rancid.1 flogin.1 hlogin.1 hrancid.1 jlogin.1 \
 		jrancid.1 f10rancid.1 francid.1 cat5rancid.1 erancid.1 \
 		mrancid.1 nlogin.1 nrancid.1 nslogin.1 nsrancid.1 par.1 \
-		rivlogin.1 rivrancid.1 tntlogin.1 tntrancid.1 xrancid.1
+		rivlogin.1 rivrancid.1 tntlogin.1 tntrancid.1 xrancid.1 \
+		zrancid.1
 
 
 man_MANS = $(man_gen_MANS) $(man_nogen_MANS)

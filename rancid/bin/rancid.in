@@ -198,8 +198,7 @@ sub ShowVersion {
     if (/(\S+) Silicon\s*Switch Processor/) {
 	if (!defined($C0)) {$C0=1; ProcessHistory("COMMENTS","keysort","C0","!\n");}
 	ProcessHistory("COMMENTS","keysort","C2","!SSP: $1\n");
-	$ssp = 1;
-	$sspmem = $1;
+	$sspmem = 1;
 	return;
     }
     /^(\d+K) bytes of multibus/ &&
@@ -336,36 +335,44 @@ sub DirSlot1 {
     return;
 }
 
-# This routine parses "show controllers all"
+# This routine parses "show controllers"
 sub ShowContAll {
     # Skip if this is a 70[01]0, 7200, 7500, or 12000.
     print STDERR "    In ShowContAll: $_" if ($debug);
     return if ($type =~ /^(1200|7)/);
+    if (/^Interface (\S*)$/) { $INT = "$1, "; return; }
     /^(BRI unit \d)/ &&
 	ProcessHistory("INT","","","!Interface: $1\n") && return;
-     /^LANCE unit \d, NIM/ &&
+    /^LANCE unit \d, NIM/ &&
 	ProcessHistory("INT","","","!Interface: $_") && return;
-     /^(LANCE unit \d)/ &&
+    /^(LANCE unit \d)/ &&
 	ProcessHistory("INT","","","!Interface: $1\n") && return;
-     /(Media Type is \S+),/ &&
+    /(Media Type is \S+),/ &&
 	ProcessHistory("INT","","","!\t$1\n");
-     /^(HD unit \d), idb/ &&
+    if (/(M\dT:) show controller:$/) {
+	my($ctlr) = $1;
+	$_ = <INPUT>; tr/\015//d; s/ subunit \d,//;
+	ProcessHistory("INT","","","!Interface: $ctlr $_");
+    }
+    /^(HD unit \d), idb/ &&
 	ProcessHistory("INT","","","!Interface: $1\n") && return;
-     /^HD unit \d, NIM/ &&
+    /^HD unit \d, NIM/ &&
 	ProcessHistory("INT","","","!Interface: $_") && return;
-     /^buffer size \d+  HD unit \d, (.*)/ &&
+    /^buffer size \d+  HD unit \d, (.*)/ &&
 	ProcessHistory("INT","","","!\t$1\n") && return;
     /^AM79970 / && ProcessHistory("INT","","","!Interface: $_") && return;
     /^buffer size \d+  (Universal Serial: .*)/ &&
 	ProcessHistory("INT","","","!\t$1\n") && return;
     /^Hardware is (.*)/ &&
-	ProcessHistory("INT","","","!Interface: $1\n") && return;
+	ProcessHistory("INT","","","!Interface: $INT$1\n") && return;
     /^(QUICC Serial unit \d),/ &&
 	ProcessHistory("INT","","","!$1\n") && return;
     /^QUICC Ethernet .*/ &&
 	ProcessHistory("INT","","","!$_") && return;
     /^DTE .*\.$/ &&
 	ProcessHistory("INT","","","!\t$_") && return;
+    /^(cable type :.*),/ &&
+	ProcessHistory("INT","","","!\t$1\n") && return;
     /^.* cable.*$/ &&
 	ProcessHistory("INT","","","!\t$_") && return;
     return;
@@ -474,8 +481,8 @@ sub ShowDiagbus {
     }
     /\s+(.*) PA, (\d) ports?, (\S+)/ &&
 	ProcessHistory("SLOT","","","!Slot $slot/$board: type $3, $2 ports\n") && return;
-    /\s+(.*) PA, (\d) ports?/ &&
-	ProcessHistory("SLOT","","","!Slot $slot/$board: type $1, $2 ports\n") && return;
+    /\s+(.*) PA( \(\S+\))?, (\d) ports?/ &&
+	ProcessHistory("SLOT","","","!Slot $slot/$board: type $1$2, $3 ports\n") && return;
     /^\s*HW rev (\S+), Board revision (\S+)/ &&
 	ProcessHistory("SLOT","","","!Slot $slot/$board: hvers $1 rev $2\n") && return;
     /Serial number: (\S+)\s*Part number: (\S+)/ &&
@@ -483,13 +490,14 @@ sub ShowDiagbus {
     return;
 }
 
-# This routine parses "show diags" for the gsr and 7200
+# This routine parses "show diags" for the gsr, 7200, 3600
 # This will create arrarys for hw info.
 sub ShowDiags {
     # Skip if this is not a 12000.
     print STDERR "    In ShowDiags: $_" if ($debug);
     return if ($type !~ /^(1200|720|36.0)/);
     /^$/ && return;
+    if (!defined($showdiags)) {$showdiags=1; ProcessHistory("SLOT","","","!\n");}
     s/Port Packet Over SONET/POS/;
     if (/^\s*SLOT (\d+)\s+\(.*\): (.*)/) {
 	$slot = $1;
@@ -537,7 +545,7 @@ sub ShowDiags {
 	    $slot = $2;
 	    undef($WIC);
 	}
-	$_ = <INPUT>;
+	$_ = <INPUT>; tr/\015//d;
 	# clean up hideous 7200 format to look more like 7500 output
 	s/Fast-ethernet on C7200 I\/O card/FE-IO/;
 	s/ with MII or RJ45/-TX/;
@@ -547,6 +555,8 @@ sub ShowDiags {
 	    ProcessHistory("SLOT","","","!Slot $slot: type $1, $2 ports\n");
 	/\s+(.*)\s+daughter card(.*)$/ &&
 	    ProcessHistory("SLOT","","","!Slot $slot$WIC: type $1$2\n");
+	/\s+(FT1)$/ &&
+	    ProcessHistory("SLOT","","","!Slot $slot$WIC: type $1\n");
 	return;
     }
     /revision\s+(\S+).*revision\s+(\S+)/ &&

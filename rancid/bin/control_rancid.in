@@ -235,6 +235,7 @@ then
     cd $DIR
 
 fi
+mv -f routers.all.new routers.all
 if [ $? -eq 0 ]; then
     echo "Error: could not rename routers.all.new"
 fi

@@ -1,3 +1,6 @@
+1.5
+	catch close on EOF in clogin/jlogin/flogin.
+
 1.4
 	sort cisco route-maps
 

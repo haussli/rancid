@@ -91,6 +91,21 @@ else
 fi
 rm -f $DIR/allrouters.diffs $DIR/allrouters.new
 
+# cvs delete configs for routers not listed in allrouters.
+cd $DIR/configs
+for router in `find \( -name \*.new -prune -o -name CVS -prune \) -o -type f -print | sed -e 's/^.\///'` ; do
+#    if [ -f $router ] ; then
+	grep "$router:" ../router.db > /dev/null 2>&1
+	if [ $? -eq 1 ]; then
+	    rm -f $router
+	    cvs delete $router
+	    cvs commit -m 'deleted router' $router
+	    echo "Deleted $router"
+	fi
+#    fi
+done
+cd $DIR
+
 # no routers, empty list or all 'down'
 if [ ! -s $DIR/allrouters ]
 then

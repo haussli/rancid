@@ -16,6 +16,7 @@ my($BASEDIR) = "@prefix@";
 my($pingcmd) = "@LG_PING_CMD@";
 
 my($query, $max_time_diff, $cache_dir, $cloginrc, @results);
+my($type, $router_param, $remote_user, $arg);
 
 if (!defined($ENV{HOME})) { $ENV{HOME} = "."; }
 
@@ -233,10 +234,10 @@ if (defined($LG_CLOGINRC)) {
 $query = new CGI;
 
 # get form data and validate
-my($type) = ($query->param('query'))[0];
-my($router_param) = ($query->param('router'))[0];
-my($remote_user) = $ENV{REMOTE_USER};
-my($arg) = ($query->param('args'))[0];
+$type = ($query->param('query'))[0];
+$router_param = ($query->param('router'))[0];
+$remote_user = $ENV{REMOTE_USER};
+$arg = ($query->param('args'))[0];
 # handle multiple args
 @arg = split(' ', $arg);
 

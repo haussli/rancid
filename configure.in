@@ -134,7 +134,7 @@ if test $PERLV_PATH = no; then
     fi
 fi
 AC_SUBST(PERLV_PATH)
-ac_cv_PERLV=`basename $PERLV_PATH`
+PERLV=`basename $PERLV_PATH`
 AC_SUBST(PERLV)
 
 AC_PATH_PROG(EXPECT_PATH,expect,no)

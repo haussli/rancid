@@ -281,6 +281,10 @@ sub WriteTerm {
 	/^ip nat (\S+) source static (\S+)/ &&
 	    ProcessHistory("IP NAT $1","ipsort","$2","$_") && next;
 
+	# filter ssh private key
+	/^(crypto key generate rsa private_key)/ &&
+	    ProcessHistory("","","","!$1 <removed>\n") && next;
+
 	ProcessHistory("","","","$_");
 	# end of config
 	if (/^end$/) {

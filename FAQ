@@ -167,7 +167,7 @@ A. Our usual diagnostic procedure for this is:
    router.db file is correct and check the group's last log file for errors.
 
 Q. Are there any characters in the banner that rancid has problems with OR
-   I changed the device's command prompt?
+   I changed the device's command prompt and now collection is failing?
 A. The trickiest part about clogin (et al) is recognizing the prompt
    correctly.  clogin looks for '>' and '#' to figure out if it is logged
    in or in enable mode.  So if you have a '>' or '#' in your login banner
@@ -175,6 +175,20 @@ A. The trickiest part about clogin (et al) is recognizing the prompt
    able to log in correctly, and thus rancid will fail.
 
    Don't use '>' or '#' in your prompt or in your banner or other motd.
+
+Q. I use rancid/bin/*login -c to run commands on multiple boxes.  Sometimes
+   these are commands that take secondary input, like a filename.  How can
+   enter the data for that secondary prompt?
+A. Two methods will work.  Write an expect script to be used with clogin's
+   -s option, for which a few examples come with rancid like cisco-load.exp.
+   OR provide all the input in one command with the -c option like so:
+	Router#clear counters
+	Clear "show interface" counters on all interfaces [confirm]
+	Router#
+
+	clogin -c 'clear counters\n'
+   The specific return (\n) will be entered after 'clear counters' followed
+   by the normal return after the command.
 
 Q. I would like to collect device configurations every hour, but only receive
    diffs every Nth collection or every N hours.  Is this possible?
@@ -203,6 +217,8 @@ A. A discussion list is available, rancid-discuss@shrubbery.net.  You must
    shell% echo "subscribe" | mail rancid-discuss-request@shrubbery.net
 
 Q. What else can I do with rancid?
-A. The possibilities are endless... see Joe Abley and Stephen Stuart's
-   NANOG presentation:
+A. The possibilities are endless...rancid is non-toxic when applied properly.
+   see Joe Abley and Stephen Stuart's NANOG presentation:
 	http://www.nanog.org/mtg-0210/abley.html
+   or our NANOG presentation:
+	http://www.shrubbery.net/rancid/NANOG29/

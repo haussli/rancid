@@ -35,6 +35,7 @@ DIR=$BASEDIR/$GROUP
 if [ ! -d $DIR ]
 then
     echo "$DIR does not exist."
+    echo "Run bin/create_cvs $GROUP to make all of the needed directories."
     (
 	echo "$DIR does not exist."
 	echo "Run bin/create_cvs $GROUP to make all of the needed directories."

@@ -726,14 +726,32 @@ sub WriteTerm {
 	    ProcessHistory("","","","! neighbor $1 password <removed>\n") &&
 	    next;
 	/fair-queue individual-limit/ && next;
+	# sort ip explicit-paths.
+	if (/^ip explicit-path (\S+)/) {
+	    my($key) = $1;
+	    my($expath) = $_;
+	    while (<INPUT>) {
+		tr/\015//d;
+		last if (/^$prompt/);
+		last if (/^$prompt/ || ! /^(ip explicit-path |[ !])/);
+		if (/^ip explicit-path (\S+)/) {
+		    ProcessHistory("EXPATH","keysort","$key","$expath");
+		    $key = $1;
+		    $expath = $_;
+		} else  {
+		    $expath .= $_;
+		}
+	    }
+	    ProcessHistory("EXPATH","keysort","$key","$expath");
+	}
 	# sort route-maps
-	if (/^route-map ([^ ]+)/) {
+	if (/^route-map (\S+)/) {
 	    my($key) = $1;
 	    my($routemap) = $_;
 	    while (<INPUT>) {
 		tr/\015//d;
 		last if (/^$prompt/ || ! /^(route-map |[ !])/);
-		if (/^route-map ([^ ]+)/) {
+		if (/^route-map (\S+)/) {
 		    ProcessHistory("ROUTEMAP","keysort","$key","$routemap");
 		    $key = $1;
 		    $routemap = $_;

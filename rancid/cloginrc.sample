@@ -6,6 +6,7 @@
 #	enauser
 #	autoenable
 #	cyphertype
+#	identity
 #
 # Details on each of these follows.
 #
@@ -28,7 +29,11 @@
 # add cyphertype <router name regexp> <ssh encryption type>
 #	Default is 3des.
 #
-# the first match for a hostname takes precedence.
+# add identity <router name regexp> <path to ssh identity file>
+#	Default is your default ssh identity.
+#
+#
+# Note: The first match for a hostname takes precedence.
 
 #add password sl-bb*-dc	cow24
 #add password sl-gw*-dc	geeks
@@ -63,3 +68,6 @@ add password *			{clearance}	{clarence}
 
 # set ssh encryption type, dflt: 3des
 add cyphertype *		{3des}
+
+# ssh identity for a juniper; used with jlogin
+add identity	my.juniper	$env(HOME)/.ssh/juniper

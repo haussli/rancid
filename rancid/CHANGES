@@ -1,6 +1,27 @@
 1.5
 	catch close on EOF in clogin/jlogin/flogin.
 
+	Don't expand RCS keywords in config files.
+
+	Catch the case were rancid gets and error and leaves an
+	empty new config file.
+
+	Make the time to elapse before complaining about unreachable
+	routers be configurable instead of fixed at 24 hrs.  The
+	default is now 4 hours.
+
+	Add -x passphrase to jlogin.
+
+	You can now set a ssh identity file in .cloginrc for use
+	with jlogin.
+
+	Handle more errors in jrancid.  Also handle changes for
+	JUNOS 4.0 and collect "show system boot-messages" output.
+
+	rancid now recognizes cisco 12016s and more types of 7200s.
+	It also looks for WARNING messages in show version.
+	And sort ip explicit-paths.
+
 1.4
 	sort cisco route-maps
 

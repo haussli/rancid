@@ -26,12 +26,6 @@
         - key is ?
         - enctype is 0|7
 
-  tacacs-server key <secret-key>'
-        - secret-key is reversible
-
-  tacacs-server host <ip-address> [single-connection | port <port> | timeout <tout>]+ [key <secret-key>]
-        - secret-key is reversible
-
   enable secret [level <level>] { <secret> }
         secret is not reversible
 

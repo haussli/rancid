@@ -53,7 +53,7 @@ OLDTIME=4; export OLDTIME
 # For each group, define a list of people to receive the diffs.
 # in sendmail's /etc/aliases.
 #   rancid-group:	joe,moe@foo
-#   rancid-group-admin:	hostmaster
+#   rancid-admin-group:	hostmaster
 # be sure to read ../README regarding aliases.
 #
 umask 027

@@ -182,6 +182,7 @@ sub arraymember {
     my($r);
 
     foreach $r (@$rtrlist) {
+	$r = (split(':', $r))[0];
 	return(1) if ($r eq $router);
     }
 

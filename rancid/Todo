@@ -1,3 +1,5 @@
+- util/ tool to prune cvs versions, excluding those with tags, by (all but
+  latest | keep N versions | keep N days/months/years)
 - deal w/ this openssh prompt
   Matching host key in /home/heas/.ssh/known_hosts:328
   Offending key for IP in /home/heas/.ssh/known_hosts:167

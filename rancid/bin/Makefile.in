@@ -78,6 +78,7 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 LDFLAGS = @LDFLAGS@
 LG_PING_CMD = @LG_PING_CMD@
+LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LTLIBOBJS = @LTLIBOBJS@
 MAILPLUS = @MAILPLUS@
@@ -141,7 +142,8 @@ bin_PROGRAMS = hpfilter
 bin_SCRIPTS = cat5rancid control_rancid \
 	alogin arancid clogin create_cvs blogin brancid do-diffs \
 	elogin erancid f10rancid flogin francid jlogin jrancid jerancid \
-	hlogin hrancid mrancid nlogin nrancid nslogin nsrancid par prancid \
+	hlogin hrancid htlogin htrancid \
+	mrancid nlogin nrancid nslogin nsrancid par prancid \
 	rancid-fe rancid rename rivlogin rivrancid rrancid tntlogin \
 	tntrancid xrancid zrancid
 
@@ -156,8 +158,9 @@ CONFIG_HEADER = $(top_builddir)/include/config.h
 CONFIG_CLEAN_FILES = control_rancid create_cvs do-diffs par rancid-fe \
 	rename alogin arancid blogin brancid cat5rancid clogin rancid \
 	elogin erancid f10rancid flogin francid jlogin jrancid jerancid \
-	hlogin hrancid mrancid nlogin nrancid nslogin nsrancid prancid \
-	rivlogin rivrancid rrancid tntlogin tntrancid xrancid zrancid
+	hlogin hrancid htlogin htrancid mrancid nlogin nrancid nslogin \
+	nsrancid prancid rivlogin rivrancid rrancid tntlogin tntrancid \
+	xrancid zrancid
 bin_PROGRAMS = hpfilter$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
@@ -181,11 +184,11 @@ DIST_SOURCES = $(hpfilter_SOURCES)
 DIST_COMMON = Makefile.am Makefile.in alogin.in arancid.in blogin.in \
 	brancid.in cat5rancid.in clogin.in control_rancid.in \
 	create_cvs.in do-diffs.in elogin.in erancid.in f10rancid.in \
-	flogin.in francid.in hlogin.in hrancid.in jerancid.in jlogin.in \
-	jrancid.in mrancid.in nlogin.in nrancid.in nslogin.in \
-	nsrancid.in par.in prancid.in rancid-fe.in rancid.in rename.in \
-	rivlogin.in rivrancid.in rrancid.in tntlogin.in tntrancid.in \
-	xrancid.in zrancid.in
+	flogin.in francid.in hlogin.in hrancid.in htlogin.in \
+	htrancid.in jerancid.in jlogin.in jrancid.in mrancid.in \
+	nlogin.in nrancid.in nslogin.in nsrancid.in par.in prancid.in \
+	rancid-fe.in rancid.in rename.in rivlogin.in rivrancid.in \
+	rrancid.in tntlogin.in tntrancid.in xrancid.in zrancid.in
 SOURCES = $(hpfilter_SOURCES)
 
 all: all-am
@@ -242,6 +245,10 @@ jerancid: $(top_builddir)/config.status jerancid.in
 hlogin: $(top_builddir)/config.status hlogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 hrancid: $(top_builddir)/config.status hrancid.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+htlogin: $(top_builddir)/config.status htlogin.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+htrancid: $(top_builddir)/config.status htrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 mrancid: $(top_builddir)/config.status mrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

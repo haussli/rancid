@@ -40,6 +40,17 @@ include {<file>}
 .fi
 .in -1i
 .PP
+Note: the braces ({}) surrounding the values is significant when the values
+include TCL meta-characters.  Best common practice is to always enclose the
+values in braces.  If a value includes a (left or right) brace, it must
+be backslash-escaped, as in:
+.PP
+.in +1i
+.nf
+add user <hostname glob> {foo\}bar}
+.fi
+.in -1i
+.PP
 As
 .B .cloginrc
 is searched for a directive matching a hostname, it is always the first
@@ -261,4 +272,5 @@ is interpreted directly by Tcl, so its syntax follows that of Tcl.  Errors
 may produce quite unexpected results.
 .SH "SEE ALSO"
 .BR clogin (1),
-.BR glob (3)
+.BR glob (3),
+.BR tclsh (1)

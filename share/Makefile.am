@@ -27,7 +27,24 @@ dist_pkgdata_DATA=README.misc cisco-load.exp cisco-reload.exp index.html \
 
 EXTRA_DIST = rtrfilter.in downreport.in getipacctg.in
 
-# no idea why automake doesnt clean these targets
-#CLEANFILES= y.tab.c y.tab.h lex.yy.c conf.h conf.c conflex.c
+CLEANFILES= downreport
 
 all:
+
+# auto_edit does the autoconf variable substitution.  This allows the
+# substitution to have the full expansion of the variables, e.g.: $sysconfdir
+# will be /prefix/etc instead of ${prefix}/etc.
+#
+# This is a bit of a PITA, but is the method recommended by the autoconf
+# documentation.
+auto_edit = sed \
+	-e 's,@prefix\@,$(prefix),g' \
+	-e 's,@localstatedir\@,$(localstatedir),g' \
+	-e 's,@sysconfdir\@,$(sysconfdir),g' \
+	-e 's,@pkgdatadir\@,$(pkgdatadir),g'
+
+downreport: Makefile $(srcdir)/downreport.in
+	rm -f downreport downreport.tmp; \
+	$(auto_edit) $(srcdir)/downreport.in >downreport.tmp; \
+	chmod +x downreport.tmp; \
+	mv downreport.tmp downreport

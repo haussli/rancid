@@ -31,5 +31,5 @@ do
 
 		echo
 		echo ending: `date`
-	) >$BASEDIR/logs/$GROUP.`date +%y%m%d.%H%M%S` 2>&1 
+	) >$BASEDIR/logs/$GROUP.`date +%Y%m%d.%H%M%S` 2>&1 
 done

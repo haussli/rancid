@@ -1,4 +1,5 @@
 Makefile
 config.h
 stamp-h
+stamp-h1
 version.h

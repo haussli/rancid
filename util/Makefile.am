@@ -17,14 +17,9 @@
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS=foreign
 
-bin_PROGRAMS = hpfilter
-bin_SCRIPTS = cat5rancid control_rancid \
-	alogin arancid clogin create_cvs blogin brancid do-diffs elogin \
-	erancid f10rancid flogin francid jlogin jrancid hlogin hrancid \
-	mrancid nlogin nrancid nslogin nsrancid par rancid-fe rancid rename \
-	rrancid tntlogin tntrancid xrancid
+bindir=${prefix}/util
 
-hpfilter_SOURCES = hpfilter.c
+bin_SCRIPTS = rtrfilter downreport getipacctg
 
 #CPPFLAGS += @PG_CPPFLAGS@
 #INCLUDES += -I$(top_srcdir)/include @PG_CPPFLAGS@
@@ -36,19 +31,16 @@ CFLAGS = -g -O0
 YFLAGS = -d
 #LFLAGS = -i
 
+SUBDIRS = lg
+
+EXTRA_DIST = README cisco-load.exp cisco-reload.exp rtrfilter.README
+
 # no idea why automake doesnt clean these targets
 #CLEANFILES= y.tab.c y.tab.h lex.yy.c conf.h conf.c conflex.c
 
-install-data-local: all
-	if test -f $(bindir)/env ; then \
-	    echo ""; \
-	    echo "WARNING: *** $(bindir)/env exists: installing as env.new."; \
-	    echo "         *** review env.new for new/deprecated switches"; \
-	    echo ""; \
-	    $(INSTALL_DATA) env $(bindir)/env.new; \
-	else \
-	    $(INSTALL_DATA) env $(bindir); \
-	fi
+all:
 
-#clean:
-#	rm -f Makefile env $(BIN_DATAS) $(BIN_PROGS)
+install-exec-local: all
+	for file in *README* *.exp; do \
+	    $(INSTALL_DATA) $$file $(bindir); \
+	done;

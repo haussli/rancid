@@ -19,7 +19,7 @@ SUBDIRS = . include bin man util
 # 	$(mkinstalldirs) $(prefix) $(prefix)/bin $(prefix)/man $(prefix)/util $(prefix)/util/lg
 
 # install-exec-local:
-# 	$(mkinstalldirs) $(prefix)/util $(prefix)/util/lg
+# 	$(mkinstalldirs) $(prefix)/util/lg
 
 install-data-hook:
 	$(mkinstalldirs) $(prefix) ; \

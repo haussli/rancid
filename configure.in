@@ -19,7 +19,7 @@ AC_PREFIX_DEFAULT(/usr/local/rancid)
 
 dnl AM_MAINTAINER_MODE()
 
-AC_CONFIG_SUBDIRS(util)
+dnl AC_CONFIG_SUBDIRS(util)
 
 # make sure MAKE sets ${MAKE}
 AC_PATH_PROG(MAKE,gmake,no)
@@ -167,11 +167,6 @@ else
 fi
 rd_cv_lg_ping_cmd=$LG_PING_CMD
 
-# RD_UTIL_PROGS are util/ .in's that need to be installed with execute perms.
-RD_UTIL_PROGS="rtrfilter downreport getipacctg"
-AC_SUBST(RD_UTIL_PROGS)
-rd_cv_rd_util_progs=$RD_UTIL_PROGS
-
 # RD_UTIL_LG_PROGS are util/lg .in's that need to be installed with execute
 # perms.
 RD_UTIL_LG_PROGS="lg.cgi lgform.cgi"
@@ -219,6 +214,7 @@ ac_cv_env_path=$ENV_PATH
 AC_SUBST(ENV_PATH)
 
 AC_OUTPUT([ Makefile include/Makefile bin/Makefile util/Makefile \
+	util/lg/Makefile \
 	bin/alogin bin/arancid bin/blogin bin/brancid bin/cat5rancid \
 	bin/clogin bin/control_rancid bin/create_cvs bin/do-diffs bin/elogin \
 	bin/env bin/erancid bin/f10rancid bin/flogin bin/francid bin/jlogin \
@@ -228,7 +224,8 @@ AC_OUTPUT([ Makefile include/Makefile bin/Makefile util/Makefile \
 	bin/rrancid bin/tntlogin bin/tntrancid bin/xrancid \
 	man/Makefile man/env.5 man/lg.conf.5 man/lg_intro.1 \
 	include/version.h \
-	util/rtrfilter util/downreport ], \
+	util/rtrfilter util/downreport util/getipacctg \
+	util/lg/lg.cgi util/lg/lg.conf util/lg/lgform.cgi ], \
 	[ chmod a+x bin/*login bin/*rancid bin/par ]
 	)
 

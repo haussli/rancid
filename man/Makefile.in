@@ -91,7 +91,6 @@ PERLV = @PERLV@
 PERLV_PATH = @PERLV_PATH@
 PING_PATH = @PING_PATH@
 RD_UTIL_LG_PROGS = @RD_UTIL_LG_PROGS@
-RD_UTIL_PROGS = @RD_UTIL_PROGS@
 RSH = @RSH@
 SENDMAIL = @SENDMAIL@
 SET_MAKE = @SET_MAKE@
@@ -127,7 +126,6 @@ prefix = @prefix@
 program_transform_name = @program_transform_name@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
-subdirs = @subdirs@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 

@@ -620,7 +620,7 @@ sub ShowDiags {
 	    s/ with MII or RJ45/-TX/;
 	    s/Fast-ethernet /100Base/; s/[)(]//g;
 
-	    /\s+(.*)\s+port adapter?,\s+(\d+)\s+/ &&
+	    /\s+(.*)\s+port adapter?,\s+(\d+)\s+/i &&
 		ProcessHistory("SLOT","","","!Slot $slot: type $1, $2 ports\n");
 	    /\s+(.*)\s+daughter card(.*)$/ &&
 		ProcessHistory("SLOT","","","!Slot $slot$WIC: type $1$2\n");

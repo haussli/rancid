@@ -21,8 +21,9 @@ bin_PROGRAMS = hpfilter
 bin_SCRIPTS = cat5rancid control_rancid \
 	alogin arancid clogin create_cvs blogin brancid do-diffs elogin \
 	erancid f10rancid flogin francid jlogin jrancid hlogin hrancid \
-	mrancid nlogin nrancid nslogin nsrancid par rancid-fe rancid rename \
-	rivlogin rivrancid rrancid tntlogin tntrancid xrancid zrancid
+	mrancid nlogin nrancid nslogin nsrancid par prancid \
+	rancid-fe rancid rename rivlogin rivrancid rrancid tntlogin \
+	tntrancid xrancid zrancid
 
 hpfilter_SOURCES = hpfilter.c
 

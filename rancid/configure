@@ -5488,6 +5488,8 @@ ac_cv_env_path=$ENV_PATH
 
                     ac_config_files="$ac_config_files bin/nslogin bin/nsrancid"
 
+          ac_config_files="$ac_config_files bin/prancid"
+
                     ac_config_files="$ac_config_files bin/rivlogin bin/rivrancid"
 
           ac_config_files="$ac_config_files bin/rrancid"
@@ -6068,6 +6070,7 @@ do
   "bin/nrancid" ) CONFIG_FILES="$CONFIG_FILES bin/nrancid" ;;
   "bin/nslogin" ) CONFIG_FILES="$CONFIG_FILES bin/nslogin" ;;
   "bin/nsrancid" ) CONFIG_FILES="$CONFIG_FILES bin/nsrancid" ;;
+  "bin/prancid" ) CONFIG_FILES="$CONFIG_FILES bin/prancid" ;;
   "bin/rivlogin" ) CONFIG_FILES="$CONFIG_FILES bin/rivlogin" ;;
   "bin/rivrancid" ) CONFIG_FILES="$CONFIG_FILES bin/rivrancid" ;;
   "bin/rrancid" ) CONFIG_FILES="$CONFIG_FILES bin/rrancid" ;;
@@ -6464,6 +6467,7 @@ s,@INSTALL@,$ac_INSTALL,;t t
     bin/nrancid ) chmod a+x $ac_file ;;
     bin/nslogin ) chmod a+x $ac_file ;;
     bin/nsrancid ) chmod a+x $ac_file ;;
+    bin/prancid ) chmod a+x $ac_file ;;
     bin/rivlogin ) chmod a+x $ac_file ;;
     bin/rivrancid ) chmod a+x $ac_file ;;
     bin/rrancid ) chmod a+x $ac_file ;;

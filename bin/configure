@@ -622,6 +622,9 @@ EXPECT_PATH=$ac_cv_path_EXPECT_PATH
 ENV_PATH=$ac_cv_env_path
 
 
+MAILPLUS=$rd_cv_MAILPLUS
+
+
 trap '' 1 2 15
 cat > confcache <<\EOF
 # This file is a shell script that caches the results of configure
@@ -775,6 +778,7 @@ s%@RD_BIN_PROGS@%$RD_BIN_PROGS%g
 s%@PERLV_PATH@%$PERLV_PATH%g
 s%@EXPECT_PATH@%$EXPECT_PATH%g
 s%@ENV_PATH@%$ENV_PATH%g
+s%@MAILPLUS@%$MAILPLUS%g
 
 CEOF
 EOF

@@ -18,6 +18,26 @@ VERSION=2.1
 
 AM_MAINTAINER_MODE()
 
+# Check for a preference for using mail addresses like rancid+admin-group
+# instead of the standard rancid-admin-group
+AC_MSG_CHECKING(if mail addresses should be in the rancid+ form)
+AC_ARG_ENABLE(mail-plus,
+[  --enable-mail-plus      enable mail to rancid+ addresses, instead of rancid-],
+[if test "$enable_mail_plus" = yes; then
+    AC_MSG_RESULT(yes)
+    MAILPLUS="rancid+"
+    AC_SUBST(MAILPLUS)
+else
+    AC_MSG_RESULT(no)
+    MAILPLUS="rancid-"
+    AC_SUBST(MAILPLUS)
+fi],
+[AC_MSG_RESULT(no)
+    MAILPLUS="rancid-"
+    AC_SUBST(MAILPLUS)
+])
+rd_cv_MAILPLUS=$MAILPLUS
+
 AC_PATH_PROG(CVS,cvs,no)
 AC_PATH_PROG(COMM,comm,no)
 AC_PATH_PROG(MKDIR,mkdir,no)

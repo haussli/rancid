@@ -478,7 +478,7 @@ foreach firewall [lrange $argv $i end] {
     if { "$cmethod" == "" } { set cmethod {{telnet} {ssh}} }
 
     # Figure out the SSH executable name  
-    set sshcmd [find sshcmd $router]  
+    set sshcmd [find sshcmd $firewall]  
     if { "$sshcmd" == "" } { set sshcmd {ssh} }  
 
     # Login to the firewall

@@ -1,4 +1,6 @@
 2.1
+	Add 'show vtp status' for the 3500XLs as well.
+
 	Escape regex meta-chars found in device prompts in *rancid
 
 	Add "include" directive to include other pwd files via .cloginrc

@@ -3,9 +3,6 @@
 ##    Modified by Paul B Matthews & Richard Vander Reyden.
 ##    I'm suprised it still works....
 ##
-##
-##
-##
 ## Copyright (C) 1997-2001 by Henry Kilmer.
 ## All rights reserved.
 ##
@@ -245,8 +242,9 @@ TOP: while(<INPUT>) {
 	$cmd = $1;
 	if (!defined($prompt)) {
 	    $prompt = ($_ =~ /^([^#]+#)/)[0];
+	    $prompt =~ s/([][}{)(\\])/\\$1/g;
 	    $prompt =~ s/:(\d+ ?)#/:\\d+ ?#/;
-	    print STDERR ("PROMPT MATCH:$prompt\n") if ($debug);
+	    print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
 	}
 	print STDERR ("HIT COMMAND:$_") if ($debug);
 	if (! defined($commands{$cmd})) {

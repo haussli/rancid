@@ -1,4 +1,6 @@
 2.3.eft
+	Dell PowerConnect switch support - Dan Pfleger
+
 	Juniper ERX (jerancid) support, based on 5.0 - thanks to Dan Pfleger,
 	Richard Russman, Zaid, Mike Baker, and Mark Nguyen
 

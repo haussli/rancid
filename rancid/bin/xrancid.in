@@ -474,9 +474,9 @@ if (defined($ENV{NOPIPE})) {
 # check for completeness
 if (scalar(%commands) || !$clean_run || !$found_end) {
     if (scalar(%commands)) {
-	printf(STDOUT "missed cmd(s): %s\n", join(',', keys(%commands)));
+	printf(STDOUT "$host missed cmd(s): %s\n", join(',', keys(%commands)));
 	if ($debug) {
-	    printf(STDERR "missed cmd(s): %s\n", join(',', keys(%commands)))
+	    printf(STDERR "$host missed cmd(s): %s\n", join(',', keys(%commands)))
 	}
     }
     if (!$clean_run || !$found_end) {

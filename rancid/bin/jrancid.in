@@ -543,8 +543,8 @@ if (defined($ENV{NOPIPE})) {
 $commands = join(", ", keys(%commands));
 if (scalar(%commands) || !$clean_run || !$found_end) {
     if (scalar(%commands)) {
-	printf(STDOUT "missed cmd(s): %s\n", join(',', keys(%commands)));
-	printf(STDERR "missed cmd(s): %s\n", join(',', keys(%commands))) if ($debug);
+	printf(STDOUT "$host missed cmd(s): %s\n", join(',', keys(%commands)));
+	printf(STDERR "$host missed cmd(s): %s\n", join(',', keys(%commands))) if ($debug);
     }
     if (!$clean_run || !$found_end) {
 	print STDOUT "End of run not found\n";

@@ -165,7 +165,7 @@ is located by the value of the environment variable LG_CONF, in the CWD
 (current working directory), or the sysconfdir defined when rancid was
 installed, in that order.
 .El
-.SH SEE ALSO
+.SH "SEE ALSO"
 .BR cloginrc (5),
 .BR lg_intro (1),
 .BR router.db (5)

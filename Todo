@@ -1,5 +1,7 @@
 - would like a FILTER_PWDS=(NO|YES|PARANOID) to "not filter", "filter
   reversables only", and "filter all" passwords
+- need to filter foundry ssh private key
+	crypto key generate rsa private_key "....
 - need to deal with this openssh prompt
 	user@jnx's password: foo
 

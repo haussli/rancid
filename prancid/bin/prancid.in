@@ -387,9 +387,6 @@ sub WriteTerm {
 #	/^clns host \S+ (\S+)/ &&
 #	    ProcessHistory("CLNS","keysort","$1","$_") && next;
 
-#	# order alias statements
-#	/^alias / && ProcessHistory("ALIAS","keysort","$_","$_") && next;
-
 	# prune vrrp password
 	if (/^( ip vrrp authentication .* key) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;

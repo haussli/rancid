@@ -1,12 +1,13 @@
+- extreme collections lose when the config on the switch is in an unsaved
+  state, probably due to the prompt changing or rather how clogin formulates
+  the prompt used by expect{ -re }'s.
+- extreme collection fails for tacacs-enabled boxen due to diffs in UI - blech!
 - should par's -c override an input files' : cmd?
 - *login should emmit "clogin error:" or "*login error:" to make matches for
   login failures definitive?
 - would like hpfilter to be more friendly to interactive logins
 - rancid with zebra?  via vtysh?
 - rancid for unix?
-- extreme collections lose when the config on the switch is in an unsaved
-  state, probably due to the prompt changing or rather how clogin formulates
-  the prompt used by expect{ -re }'s.
 - would be nice if it were possible to add additional commands to be run
   per-platform as a user desires.  how could the user also provide a
   filtering routine?

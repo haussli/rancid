@@ -67,7 +67,7 @@ A. This is most likely either a CVS or filesystem permissions problem.  Check
    the directory and files should be writable by the rancid user.  Group and
    world permissions will determined by the umask (default 027), which is set
    in /usr/local/rancid/bin/env.  Likely the easiest way to fix the ownership
-   on the cvs repository is chmod -R <rancid user> /usr/local/rancid/CVS
+   on the cvs repository is chown -R <rancid user> /usr/local/rancid/CVS
 
 Q. I am renaming a device but would like the retain the history in CVS.  How
    is this done?

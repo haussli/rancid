@@ -1,6 +1,7 @@
-2.1
+2.1b
 	add looking glass utility based on Ed Kern's original source.  Thanks
-	to Ed for permission to include it with rancid.
+	to Ed for permission to include it with rancid.  this is only partially
+	tested.
 
 2.0
 	Better formatting for cisco catalyst [non-ios] switches.

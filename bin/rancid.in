@@ -787,7 +787,7 @@ sub ShowVTP {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /^\s*\^\s*$/;
 	return(1) if /(Invalid input detected|Type help or )/;
-	return(1) if ($type !~ /^2900XL$/);
+	return(1) if ($type !~ /^(2900XL|3500XL|6000)$/);
 	next if (/^Configuration last modified by/);
 	ProcessHistory("COMMENTS","keysort","I0","!VTP: $_");
     }

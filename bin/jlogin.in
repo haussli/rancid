@@ -360,13 +360,7 @@ proc login { router user passwd cmethod cyphertype identfile} {
 						}
 	    -re "$prompt"		{ break; }
 	    denied	{ send_user "\nError: Check your password for $router\n"
-	                  if { $do_command || $do_script } {
-			      send "quit"
-			      wait
-			      return 1
-			  } else {
-			      return 1
-			  }
+	                  catch {close}; wait; return 1
 	                }
 	}
     }

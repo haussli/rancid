@@ -131,49 +131,93 @@ sub sortbyipaddr {
     &ipaddrval($a) <=> &ipaddrval($b);
 }
 
+# This routine parses "dir /<fsys>"
+sub DirFlash {
+    print STDERR "    In DirFlash: $_" if ($debug);
+
+    my($dev) = (/\/(.*)$/);
+    while (<INPUT>) {
+	tr/\015//d;
+	last if(/^$prompt/);
+	/^\s*$/ && next;
+
+	/(Can\'t open|No such device)/ && return;
+	ProcessHistory("FLASH","keysort",$dev,"!Flash: $dev: $_");
+    }
+    ProcessHistory("FLASH","keysort",$dev,"!\n");
+    return;
+}
+
 # This routine parses "show hardware"
 sub ShowHardware {
     print STDERR "    In ShowHardware: $_" if ($debug);
-    #ProcessHistory("","","","!Chassis: $_") && return;
-    ProcessHistory("COMMENTS","keysort","B1","!Chassis: $_") && return;
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if(/^$prompt/);
+	s/\s*$/\n/;
+
+	#ProcessHistory("","","","!Chassis: $_") && next;
+	ProcessHistory("COMMENTS","keysort","B1","!Chassis: $_");
+    }
+    ProcessHistory("COMMENTS","keysort","B1","!\n");
     return;
 }
 
 # This routine parses "show version"
 sub ShowVersion {
     print STDERR "    In ShowVersion: $_" if ($debug);
-    /(uptime|restarted|^$)/ && return;
-    ProcessHistory("COMMENTS","keysort","A1","!Image: $_") && return;
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if(/^$prompt/);
+
+	/(uptime|restarted|^\s*$)/ && next;
+	ProcessHistory("COMMENTS","keysort","A1","!Image: $_");
+    }
     return;
 }
 
 # This routine parses "show slot table"
 sub ShowSlotTable {
     print STDERR "    In ShowSlotTable: $_" if ($debug);
-    /(Slot Table|^$)/ && return;
-    s/^\s*//;
-    ProcessHistory("COMMENTS","keysort","D1","!Slot Table: $_") && return;
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if(/^$prompt/);
+
+	/(Slot Table|^$)/ && next;
+	s/^\s*//;
+	ProcessHistory("COMMENTS","keysort","D1","!Slot Table: $_");
+    }
+    ProcessHistory("COMMENTS","keysort","D1","!\n");
     return;
 }
 
 # This routine processes a "write term"
 sub WriteTerm {
     print STDERR "    In WriteTerm: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if(/^$prompt/);
+
 #    /Non-Volatile memory is in use/  && return(-1); # NvRAM is locked
-    # Dog gone Cool matches to process the rest of the config
-    /^! last updated: .*$/ && return; # kill last updated line
-    /^ length / && return; # kill length on serial lines
-    /^ width /  && return; # kill width on serial lines
-    # filter out any RCS/CVS tags to avoid confusing local CVS storage
-    s/\$(Revision|Id):/ $1:/;
-    # order access-lists
-    /^access-list\s+(\d\d?)\s+(\S+)\s+(\S+)/ &&
-        ProcessHistory("ACL $1 $2","ipsort","$3","$_") && return;
-    ProcessHistory("","","","$_");
+	# Dog gone Cool matches to process the rest of the config
+	/^! last updated: .*$/ && next; # kill last updated line
+	/^ length / && next; # kill length on serial lines
+	/^ width / && next; # kill width on serial lines
+	# filter out any RCS/CVS tags to avoid confusing local CVS storage
+	s/\$(Revision|Id):/ $1:/;
+	# order access-lists
+	/^access-list\s+(\d\d?)\s+(\S+)\s+(\S+)/ &&
+        ProcessHistory("ACL $1 $2","ipsort","$3","$_") && next;
+	ProcessHistory("","","","$_");
         # end of config
         if (/^end$/) {
-        $found_end = 1;
-        return "FlailHelplessly";
+            $found_end = 1;
+            last;
+	}
     }
     return;
 }
@@ -196,19 +240,35 @@ sub FlailHelplessly {
 }
 
 # Main
-@commands=("show version","show hardware","show slot table","show config");
+%commands=(
+	'show version'		=> "ShowVersion",
+	"dir /flash"		=> "DirFlash",
+	"dir /pcmcia0"		=> "DirFlash",
+	"dir /pcmcia1"		=> "DirFlash",
+	'show hardware'		=> "ShowHardware",
+	'show slot table'	=> "ShowSlotTable",
+	'show config'		=> "WriteTerm"
+);
+@commands=(
+	"show version",
+	"dir /flash",
+	"dir /pcmcia0",
+	"dir /pcmcia1",
+	"show hardware",
+	"show slot table",
+	"show config"
+);
+# dir /flash
+# dir /pcmcia0
+# dir /pcmcia1
 
-foreach $c (@commands) { $commands{$c} = 1; }
 $redback_cmds=join(";",@commands);
 $cmds_regexp=join("|",@commands);
-$func = FlailHelplessly;
 
 open(OUTPUT,">$host.new") || die "Can't open $host.new for writing: $!\n";
 select(OUTPUT);
 # make OUTPUT unbuffered
-if ($debug) {
-    $| = 1;
-}
+if ($debug) { $| = 1; }
 
 if ($file) {
     print STDERR "opening file $host\n" if ($debug);
@@ -241,16 +301,24 @@ while(<INPUT>) {
 	$clean_run=0;
 	last;
     }
-    if (/#\s*($cmds_regexp)/) {
-	$func = FlailHelplessly;
+    while (/#\s*($cmds_regexp)\s*$/) {
+	$cmd = $1;
+	if (!defined($prompt)) {
+	    $prompt = ($_ =~ /^([^#]*#)/)[0];
+	    $prompt =~ s/([][])/\\$1/g; # quote the damn []'s
+	}
 	print STDERR ("HIT COMMAND:$_") if ($debug);
-    } else {
-        $rval=eval $func;
+	if (! defined($commands{$cmd})) {
+	    print STDERR "found unexpected command - \"$cmd\"\n";
+	    $clean_run = 0;
+	    last;
+	}
+	$rval = &{$commands{$cmd}};
+	delete($commands{$cmd});
 	if ($rval == -1) {
 	    $clean_run = 0;
 	    last;
-	} 
-	$func=$rval if ($rval);
+	}
     }
 }
 print STDOUT "Done $logincmd: $_\n" if ($log);
@@ -261,19 +329,19 @@ close(INPUT);
 close(OUTPUT);
 
 if (defined($ENV{NOPIPE})) {
-    unlink("$host.raw");
+    unlink("$host.raw") if (! $debug);
 }
 
 # check for completeness
 if (scalar(%commands) || !$clean_run || !$found_end) {
     if (scalar(%commands)) {
-	print STDOUT "missed cmd(s): $commands\n";
-	print STDERR "missed cmd(s): $commands[0]\n" if ($debug);
+	printf(STDOUT "missed cmd(s): %s\n", join(',', keys(%commands)));
+	printf(STDERR "missed cmd(s): %s\n", join(',', keys(%commands))) if ($debug);
     }
     if (!$clean_run || !$found_end) {
-	print STDOUT "End of run not found - removing $host.new\n";
-	print STDERR "End of run not found - removing $host.new\n" if ($debug);
+	print STDOUT "End of run not found\n";
+	print STDERR "End of run not found\n" if ($debug);
 	system("/usr/bin/tail -1 $host.new");
     }
-    unlink "$host.new";
+    unlink "$host.new" if (! $debug);
 }

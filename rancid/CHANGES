@@ -1,4 +1,6 @@
 2.1
+	Add "include" directive to include other pwd files via .cloginrc
+
 	Add "show port ifindex" for the cat5s.
 
 	Try to detect flash being busy on a cat5.

@@ -5,6 +5,12 @@
    standby 1 authentication donkey2k
    standby 2 ip 158.81.248.249
    standby 2 authentication donkey2k
+- rancid needs to filter this key.  what is it anyway?  seen on
+  r00.atlnga03.us.sa
+    key chain jitz 
+     key 1
+  -   key-string 7 130618140D0901
+  +   key-string 7 130618140D0901
 - on 6500, show boot and show bootvar produce the same output and both appear
   in the crunched config.  should one be filtered?
 - fix varargs for knf in util.c

@@ -354,8 +354,6 @@ END
 # Main()
 # read the configuration file if it exists.
 readconf();
-# read routers table to get @rtrlist
-readrouters();  
 
 ## The script will now cache the results as simple files in the $cache_dir,
 ## named after the type of query (queries must, of course, be one word no 
@@ -367,6 +365,9 @@ if (defined($LG_CACHE_DIR)) {
 } else {
     $cache_dir = "./tmp";
 }
+
+# read routers table to get @rtrlist
+readrouters();  
 
 # when to display cache?  max time difference (in seconds)
 if (defined($LG_CACHE_TIME)) {

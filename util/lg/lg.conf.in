@@ -2,7 +2,7 @@
 #
 # note: these are perl statements!  mind the syntax
 #
-# adjust the path to find [cj]login, telnet, ssh, rsh, etc.
+# adjust the path to find [cfj]login, telnet, ssh, rsh, etc.
 #
 $ENV{PATH}="@prefix@/bin:@ENV_PATH@";
 #
@@ -32,7 +32,7 @@ $ENV{PATH}="@prefix@/bin:@ENV_PATH@";
 #
 #
 # LG_CLOGINRC	is the .cloginrc that the LG should use.  it defaults to
-#		<prefix>/.cloginrc.  note that the .cloginrc must readable
+#		<prefix>/.cloginrc.  note that the .cloginrc must be readable
 #		by the user or group (UID / GID) that will be running the CGI
 #		and the clogin (and friends) will not allow a world readable
 #		.cloginrc.  this is normally the user the server (httpd) runs
@@ -46,10 +46,10 @@ $ENV{PATH}="@prefix@/bin:@ENV_PATH@";
 #
 #
 # LG_CACHE_DIR	is the location of the cache directory.  the LG uses this
-#		to hold lock files, lg.log log file, and o/p from commands
-#		that can be very verbose.  it defaults to "tmp", ie: relative
-#		to the directory where lg.cgi runs in your server's (httpd's)
-#		DocumentRoot (eg: /usr/local/www/data/lg/tmp).
+#		to hold lock files, the default log file (lg.log), and o/p from
+#		commands that can be very verbose.  it defaults to "tmp",
+#		ie: relative to the directory where lg.cgi runs in your
+#		server's (httpd) DocumentRoot (eg: /usr/local/www/data/lg/tmp).
 #
 #$LG_CACHE_DIR="./tmp";
 #

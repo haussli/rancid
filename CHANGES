@@ -1,4 +1,13 @@
 2.3.eft
+	*rancid: escape regex chars found in prompt
+
+	clogin: dont send exit to extremes
+
+	xrancid: also collect 'show configuration detail'
+
+	hlogin: allow the port to be specified for method ssh and
+	add path to hlogin to env(PATH) for locating hpfilter
+
 	hpfilter: allow >2 arguments so that telnet port number can be passed.
 
 	rancid: gsr RP slot warning is only 1 line - Russell Heilling

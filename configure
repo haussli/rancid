@@ -781,7 +781,7 @@ fi
 
 
 
-subdirs="bin man util"
+subdirs="bin util"
 
 
 
@@ -2224,6 +2224,7 @@ fi
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_TOUCH`"
 ENV_PATH="$ENV_PATH:/usr/local/bin:/usr/bin"
 
+
 ENV_PATH=`echo $ENV_PATH | $PERLV_PATH -e 'foreach $x(split(":",<>)){next unless (length($x));push(@F, $x),$seen{$x}=1 unless (defined $seen{$x});}print join(":",@F);'`
 ac_cv_env_path=$ENV_PATH
 
@@ -2341,8 +2342,8 @@ done
 ac_given_srcdir=$srcdir
 ac_given_INSTALL="$INSTALL"
 
-trap 'rm -fr `echo "Makefile man/Makefile \
-	man/env.5" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
+trap 'rm -fr `echo "Makefile \
+	man/Makefile man/env.5" | sed "s/:[^ ]*//g"` conftest*; exit 1' 1 2 15
 EOF
 cat >> $CONFIG_STATUS <<EOF
 
@@ -2457,8 +2458,8 @@ EOF
 
 cat >> $CONFIG_STATUS <<EOF
 
-CONFIG_FILES=\${CONFIG_FILES-"Makefile man/Makefile \
-	man/env.5"}
+CONFIG_FILES=\${CONFIG_FILES-"Makefile \
+	man/Makefile man/env.5"}
 EOF
 cat >> $CONFIG_STATUS <<\EOF
 for ac_file in .. $CONFIG_FILES; do if test "x$ac_file" != x..; then
@@ -2554,7 +2555,7 @@ if test "$no_recursion" != yes; then
     esac
   done
 
-  for ac_config_dir in bin man util; do
+  for ac_config_dir in bin util; do
 
     # Do not complain, so a configure script can configure whichever
     # parts of a large source tree are present.

@@ -209,7 +209,6 @@ AC_CONFIG_FILES(etc/Makefile)
 AC_CONFIG_FILES(include/Makefile)
 AC_CONFIG_FILES(man/Makefile)
 AC_CONFIG_FILES(util/Makefile)
-AC_CONFIG_FILES(util/lg/Makefile)
 AC_CONFIG_FILES(include/version.h)	# this is not a header in the sense of
 					# AC_CONFIG_HEADERS will cause
 					# autoheader to overwrite it, while all
@@ -237,7 +236,6 @@ AC_CONFIG_FILES(bin/tntlogin bin/tntrancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/xrancid bin/zrancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(util/rtrfilter util/downreport util/getipacctg,
 		[chmod a+x $ac_file])
-AC_CONFIG_FILES(util/lg/lg.cgi util/lg/lgform.cgi, [chmod a+x $ac_file])
 AC_CONFIG_FILES(man/rancid.conf.5 man/lg.conf.5 man/lg_intro.1)
 
 AC_OUTPUT()

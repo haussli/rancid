@@ -1,4 +1,7 @@
 2.2
+	*rancid: handle variable amounts of spaces in front of
+	' password' correctly.
+
 	rancid: remove key from "crypto isakmp key".
 
 	*login: cleanup login() to be more generic and handle openssh password

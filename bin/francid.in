@@ -266,7 +266,10 @@ sub WriteTerm {
 	    ProcessHistory("","","","! $1<removed>\n");
 	    next;
 	}
-
+	if (/^tacacs-server host (\d+\.\d+\.\d+\.\d+)/) {
+	    ProcessHistory("TAC","ipsort","$1","$_");
+	    next;
+	}
 	# delete ntp auth password
 	if (/^(ntp authentication-key \d+ md5) / && $filter_pwds >= 2) {
 	    ProcessHistory("","","","!$1 <removed>\n");

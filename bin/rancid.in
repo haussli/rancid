@@ -865,7 +865,7 @@ sub WriteTerm {
 	s/^<-+ More -+>\s*//;
 	/Non-Volatile memory is in use/  && return(-1); # NvRAM is locked
 	# skip the crap
-	if (/^(##+$|Building configuration...)/i) {
+	if (/^(##+$|(Building|Current) configuration)/i) {
 	    while (<INPUT>) {
 		next if (/^Current configuration\s*:/i);
 		next if (/^:/);
@@ -912,8 +912,8 @@ sub WriteTerm {
 	    }
 	    next;
 	}
-	if (/^\s*password / && $filter_pwds >= 1) {
-	    ProcessHistory("LINE-PASS","","","! password <removed>\n");
+	if (/^(\s*)password / && $filter_pwds >= 1) {
+	    ProcessHistory("LINE-PASS","","","!$1password <removed>\n");
 	    next;
 	}
 	if (/^\s*neighbor (\S*) password / && $filter_pwds >= 1) {

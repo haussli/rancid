@@ -1,6 +1,7 @@
 #!/usr/local/bin/perl
 ##
-# rtrtfilter - "| rtrfilter -x <perl regex> -i <perl regex> -f <regex file> -s <subject> <rcpts>"
+# rtrtfilter - "| rtrfilter -x <perl regex> -i <perl regex> -f <regex file> \
+#	-u <From address> -s <subject> <rcpts>"
 #	expects to read an email message on stdin containing a diff from
 # rancid and emails a filtered copy to <rcpts> with the subject of the
 # original msg or the contents of -s <subject>.  the perl regex(es) specified
@@ -24,7 +25,7 @@
 # exclusion takes precedence and defaults to nothing.  inclusion defaults to
 # everything.
 #	
-# this program require the Mail::Send module which can be found on CPAN.
+# this program require the Mail::Mailer module which can be found on CPAN.
 ##
 BEGIN {
 $me = $0;
@@ -32,7 +33,7 @@ $me =~ s/.*\/(\S+)$/$1/;
 }
 
 require 'newgetopt.pl';
-use Mail::Send;
+use Mail::Mailer;
 
 # process command line options
 $newgetopt'ignorecase=0;
@@ -62,16 +63,20 @@ if (defined($opt_f)) {
 }
 
 # read the header, grok the subject line
-my($subject);
+my($subject, $from);
 while (<STDIN>) {
     last if (/^$/);
-    if (/^subject:/i) {
+    if (s/^from: //i) {
 	chomp;
-	s/^subject: //i;
+	$from = $_;
+    }
+    if (s/^subject: //i) {
+	chomp;
 	$subject = $_;
     }
 }
 if (defined($opt_s)) { $subject = $opt_s;}
+if (defined($opt_u)) { $from = $opt_u;}
 
 # filter the remainder of the mail.  save mail in memory to avoid empty msgs
 my(@mail);
@@ -91,11 +96,13 @@ while (<STDIN>) {
 
 # send mail, if any
 if ($#mail < 0) { exit; }
-my($msg) = new Mail::Send;
-$msg->to($rcpts);
-$msg->subject($subject);
-$msg->set("Precedence", ("bulk"));
-my($mailer) = $msg->open;
+$mailer = new Mail::Mailer 'sendmail', ('-t');
+$headers{From} = $from;
+$headers{Subject} = $subject;
+$headers{To} = $rcpts;
+$headers{Precedence} = "bulk";
+
+$mailer->open(\%headers);
 print $mailer @mail;
 $mailer->close;
 
@@ -124,12 +131,13 @@ sub filter {
 
 sub usage {
     print STDERR <<USAGE;
-usage: $me [-h] [-i <perl regex>] [-x <perl regex>] [-f <regex file>] [-s <subject>] <mail rcpt> [<rcpt> ...]
-       -h prints this message
-       -f file containing perl regex matching router names (mind the cwd())
-       -i perl regex matching router names (inclusive)
-       -s mail subject
-       -x perl regex matching router names (exclusive)
+usage: $me [-h] [-i <perl regex>] [-x <perl regex>] [-f <regex file>] [-u <From: address> [-s <subject>] <mail rcpt> [<rcpt> ...]
+	-h prints this message
+	-f file containing perl regex matching router names (mind the cwd())
+	-i perl regex matching router names (inclusive)
+	-u From: address
+	-s mail subject
+	-x perl regex matching router names (exclusive)
 USAGE
  exit $_;
 }

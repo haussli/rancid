@@ -1,4 +1,6 @@
 2.3
+	rancid: make sure we filter PIX pager prompts
+
 	xrancid: make xrancid work when the extreme has pending changes.
 
 	netscaler support - from Anshuman Kanwar.

@@ -146,7 +146,9 @@ Quick Installation Guide (an example):
     it can call id, telnet, ssh, and/or rsh.
 
     configure already makes sure that $PATH is set correctly in
-    bin/env for do-diffs, so you could use the $PATH from there.
+    bin/env for do-diffs, so you could use the $PATH from there. eg:
+
+	50 23 * * * . /usr/local/rancid/bin/env; clogin -c 'sh vers' router
 
 11) Send any bugs, suggestions or updates to rancid@shrubbery.net.
     See the web page at http://www.shrubbery.net/rancid.  We have

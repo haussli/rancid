@@ -499,7 +499,7 @@ proc run_commands { prompt command } {
 	    send "set length 0\r"
 	    # This is ugly, but reduces code duplication, allowing the
 	    # subsequent expects to handle everything as normal.
-	    set command "set logging session disable\r;$command"
+	    set command "set logging session disable;$command"
 	} else {
 	    send "term length 0\r"
 	}

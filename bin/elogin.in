@@ -41,8 +41,9 @@ set do_command 0
 set do_script 0
 # The default is to automatically enable
 set enable 1
-# The default is that you login non-enabled (tacacs can have you login already enabled)
-set autoenable 0
+# The default is that you login non-enabled (tacacs can have you login already
+# enabled)
+set avautoenable 0
 # The default is to look in the password file to find the passwords.  This
 # tracks if we receive them on the command line.
 set do_passwd 1
@@ -171,10 +172,10 @@ for {set i 0} {$i < $argc} {incr i} {
 	    set do_command 1
 	# Do we enable?
 	} -noenable {
-	# ignore -noenable
+	    # ignore -noenable
 	# Does tacacs automatically enable us?
 	} -autoenable {
-	# ignore -autoenable
+	    # ignore -autoenable
 	} -* {
 	    send_user "\nError: Unknown argument! $arg\n"
 	    send_user $usage
@@ -411,8 +412,8 @@ foreach router [lrange $argv $i end] {
 
     # Figure out prompt.
     set prompt "Active) > "
-	    set autoenable 1
-	    set enable 0
+    set autoenable 1
+    set enable 0
 
     # Figure out passwords
     if { $do_passwd } {

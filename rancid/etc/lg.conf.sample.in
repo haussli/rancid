@@ -67,16 +67,16 @@ $ENV{PATH}="@prefix@/bin:@ENV_PATH@";
 #		the routers and their platform that should be available to
 #		the looking glass.  if defined, the LG will use this variable
 #		to find the router.db.  if not defined, it will look for it
-#		at <prefix>/util/lg/router.db.  if it does not exist, it will
-#		build the list from <prefix>/*/router.db (ie: the router.db's
-#		from all your groups).  note that if you choose this last
-#		option; the group directories and router.db files' modes may
-#		have to be changed, depending upon the UID/GID of the user
-#		your server (httpd) runs under, since rancid's default mask
-#		is 007 (see etc/rancid.conf).  routers not marked 'up' are
+#		at <prefix>/<sysconfdir>/router.db.  if it does not exist, it
+#		will build the list from <prefix>/*/router.db (ie: the
+#		router.db's from all your groups).  note that if you choose
+#		this last option; the group directories and router.db files'
+#		modes may have to be changed, depending upon the UID/GID of
+#		the user your server (httpd) runs under, since rancid's default
+#		mask is 007 (see etc/rancid.conf).  routers not marked 'up' are
 #		skipped.
 #
-#$LG_ROUTERDB="@prefix@/util/lg/router.db";
+#$LG_ROUTERDB="@prefix@/etc/router.db";
 #
 #
 # LG_STYLE	define a style sheet to be used for formatting HTML.

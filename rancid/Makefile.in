@@ -58,7 +58,9 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 AUTOMAKE = @AUTOMAKE@
+CC = @CC@
 COMM = @COMM@
+CPP = @CPP@
 CVS = @CVS@
 DIFF = @DIFF@
 DIFF_CMD = @DIFF_CMD@
@@ -90,6 +92,7 @@ SSH = @SSH@
 TAR = @TAR@
 TELNET = @TELNET@
 TOUCH = @TOUCH@
+U = @U@
 VERSION = @VERSION@
 
 AUTOMAKE_OPTIONS = foreign no-dependencies
@@ -100,9 +103,10 @@ EXTRA_DIST = CHANGES COPYING FAQ README Todo cloginrc.sample configure 	install-
 
 # '.' is here (and at the beginnging of the macro) so that distclean-recursive
 # will run make distclean in . after the other dirs (preserving Makefile)
-SUBDIRS = . bin man util
+SUBDIRS = . include bin man util
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+CONFIG_HEADER = ./include/config.h
 CONFIG_CLEAN_FILES = 
 DIST_COMMON =  README COPYING Makefile.am Makefile.in acinclude.m4 \
 aclocal.m4 configure configure.in install-sh missing mkinstalldirs
@@ -343,8 +347,11 @@ mostlyclean distclean maintainer-clean
 
 all:
 
+# install-exec-local:
+# 	$(mkinstalldirs) $(prefix) $(prefix)/bin $(prefix)/man $(prefix)/util $(prefix)/util/lg
+
 install-exec-local:
-	$(mkinstalldirs) $(prefix) $(prefix)/bin $(prefix)/man $(prefix)/util $(prefix)/util/lg
+	$(mkinstalldirs) $(prefix)/util $(prefix)/util/lg
 
 install:
 	for file in CHANGES README cloginrc.sample ; do \

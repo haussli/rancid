@@ -1,4 +1,7 @@
 2.3.1.eft
+	add -- before (telnet|ssh) in call to hpuifilter so that any options
+	for telnet/ssh are not interpretted by hpuifilter
+
 	look for diff -U if diff -u fails in configure.
 
 	fix typo in nlogin that made cloginrc password lookups fail.

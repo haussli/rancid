@@ -211,18 +211,8 @@ rename 's/.new$//' *.new
 # This has been different for different machines...
 # Diff the directory and then checkin.
 cd $DIR
-#cvs diff -c3 >$TMP.diff
-#cvs diff -C 3 >$TMP.diff
-# Change the output of a unified diff to make it a bit more readable.
-cat > $TMP.sedf << EOF
-/^RCS file: /d
-#/^retrieving revision /d
-/^--- /d
-/^+++ /d
-s/^\([-+ ]\)/\1 /
-EOF
-cvs -f diff -u -4 | sed -f $TMP.sedf >$TMP.diff
-rm -f $TMP.sedf
+cvs -f @DIFF_CMD@ | sed -e '/^RCS file: /d' -e '/^--- /d' \
+	-e '/^+++ /d' -e 's/^\([-+ ]\)/\1 /' >$TMP.diff
 
 cvs commit -m updates
 

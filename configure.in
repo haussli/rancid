@@ -46,14 +46,29 @@ AC_PATH_PROG(DIRNAME,dirname,no)
 AC_PATH_PROG(DIFF,diff,no, /usr/local/bin:/usr/gnu/bin:/usr/bin:/usr/contrib/bin)
 if test $DIFF = no; then
     unset ac_cv_path_DIFF
-    AC_MSG_ERROR([can't locate a GNU diff.])
+    AC_MSG_ERROR([can't locate diff.])
 else
     $DIFF -u /dev/null /dev/null > /dev/null 2>&1
     if test $? -ne 0; then
-        AC_MSG_ERROR([can't locate a GNU diff (one which accepts the -u option).])
-	exit 1
+	$DIFF -C 2 /dev/null /dev/null > /dev/null 2>&1
+	if test $? -ne 0; then
+	    $DIFF -c2 /dev/null /dev/null > /dev/null 2>&1
+	    if test $? -ne 0; then
+		AC_MSG_ERROR([can't locate a diff which accepts the -u option.])
+		exit 1
+	    else
+		DIFF_CMD="diff -c4"
+	    fi
+	else
+	    DIFF_CMD="diff -C 4"
+	fi
+    else
+	DIFF_CMD="diff -u -4"
     fi
 fi
+rd_cv_DIFF_CMD=$DIFF_CMD
+AC_SUBST(DIFF_CMD)
+
 AC_PATH_PROG(TOUCH,touch,no)
 AC_PATH_PROG(SENDMAIL,sendmail,no, /usr/sbin:/usr/bin:/usr/lib)
 # find UCB mail.

@@ -46,13 +46,14 @@ install-sh	shell script to simulate BSD style install
 mkinstalldirs	shell script to make installation directories
 
 rancid will also need to have the following packages:
-cvs	- code revision system available from prep.ai.mit.edu:/pub/gnu
-gnudiff - gnudiff provides the -u option.  if you do not have gnudiff,
-	  you will have to modify control_rancid to use 'diff -c' or some
-	  such.  see examples.
-perl5	- perl version 5 or greater available from www.cpan.org
-expect	- http://expect.nist.gov/
-tcl	- required by expect.
+cvs		code revision system available from prep.ai.mit.edu:/pub/gnu
+gnudiff		gnudiff provides the uni-diff (-u) option.  if you do not have
+		gnudiff, configure will use 'diff -c' of 'diff -C'.
+perl5		perl version 5 or greater available from www.cpan.org
+expect		http://expect.nist.gov/  we highly suggest that you stick to
+		expect 5.24.1 (or so).  this seems to work best.  note that
+		you have to have the accompanying tcl &/ tk.
+tcl		required by expect.
 
 Bill Fenner has a cgi script for interacting with CVS repositories via
 a web interface.  This provides a great way to view rancid diffs and

@@ -34,6 +34,9 @@ my($pingcmd) = "@LG_PING_CMD@";
 my($query, $max_time_diff, $cache_dir, $cloginrc, @results);
 my($type, $router_param, $remote_user, $arg, $router, $mfg);
 
+my($LG_CACHE_DIR, $LG_CLOGINRC, $LG_IMAGE, $LG_LOG, $LG_ROUTERDB, $LG_AS_REG);
+my($LG_BGP_RT, $LG_CACHE_TIME, $LG_SINGLE, $LG_STRIP);
+
 if (!defined($ENV{HOME})) { $ENV{HOME} = "."; }
 
 # read LG configuration file
@@ -119,14 +122,14 @@ sub DoCmd
     local(*CMD);
 
     if ($mfg =~ /foundry/i) {
-	open(CMD, "sh -c \"flogin -f $cloginrc -c \'$cmd $arg\' $rtr\" 2>&1 |");
 	$cmd = $foundryCmd{$type};
+	open(CMD, "sh -c \"flogin -f $cloginrc -c \'$cmd $arg\' $rtr\" 2>&1 |");
     } elsif ($mfg =~ /juniper/i) {
-	open(CMD, "sh -c \"jlogin -f $cloginrc -c \'$cmd $arg\' $rtr\" 2>&1 |");
 	$cmd = $juniperCmd{$type};
+	open(CMD, "sh -c \"jlogin -f $cloginrc -c \'$cmd $arg\' $rtr\" 2>&1 |");
     } else {
-	open(CMD, "sh -c \"clogin -noenable -f $cloginrc -c \'$cmd $arg\' $rtr\" 2>&1 |");
 	$cmd = $ciscoCmd{$type};
+	open(CMD, "sh -c \"clogin -noenable -f $cloginrc -c \'$cmd $arg\' $rtr\" 2>&1 |");
     }
     while (<CMD>) {
 	tr/\015//d;
@@ -288,7 +291,7 @@ if (!defined($type) || !defined($router)) {
 		damp => "show ip bgp dampened-paths",
 		framerelay => "show frame-relay pvc",
 		interface => "show interface",
-		intbrief => "show ip interface",
+		intbrief => "show ip interface",	# switch in {interface}
 		log => "show logging",
 		mbgp => "show ip mbgp",
 		mbgpsum => "show ip mbgp summary",
@@ -408,14 +411,30 @@ if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
 	undef($arg);
     }
 } elsif ($type eq "interface") {
-    if ($arg[1] =~ /[-\/0-9:.]+/) {
-	$arg = $arg[0] . " " . $arg[1];
-    } else {
-	if ($arg[0] !~ /^b[^ ]+[0-9]/i && $arg[0] =~ /^b/i && $mfg =~ /(cisco|foundry)/i) {
+    if ($mfg =~ /(cisco|foundry)/) {
+	if ($arg[0] !~ /^b[^ ]+[0-9]/i && $arg[0] =~ /^b/i) {
 	    $type = "intbrief";
 	    $arg = "brief";
 	} else {
 	    $arg = $arg[0];
+	}
+    } elsif ($mfg =~ /juniper/) {
+	my($optind) = 0;
+	# arg 0 may be an intf name or a display option, but there can
+	# only be 2 args
+	$arg = "";
+	while ($optind <= $#arg && $optind < 2) {
+	    $arg[$optind] =~ s/brief/terse/;
+	    if ($arg[$optind] =~ /^([a-z0-9]{2}\-\d+\/\d+\/\d+(:\d+)?)/i) {
+		$arg .= " $1";
+	    } elsif ($arg[$optind] =~ /^det/i) {
+		$arg .= " detail";
+	    } elsif ($arg[$optind] =~ /^ter/i) {
+		$arg .= " terse";
+	    } elsif ($arg[$optind] =~ /^ext/i) {
+		$arg .= " extensive";
+	    }
+	    $optind += 1;
 	}
     }
 } elsif ($type eq "log") {

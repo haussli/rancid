@@ -1,5 +1,24 @@
-	bin/par changes - add -p, -f, and -e options
-2.3
+3.0.eft [speed branch]
+	bin/par - rewrite in C, add -p, -f, and -e options
+
+2.2.2.eft
+	lg: make o/p from the lg stream and unbuffered, so one doesnt have
+	to wait for each line of o/p from the router in traceroute, for
+	example.  suggestion and clues from alexander koch.  while here, fix
+	cache handling so 1) it doesnt cache cmds that resulted in an error or
+	otherwise failed and 2) log and run the cmd as normal if there are
+	problems opening a cache file.
+
+	lg: make logging more consistent.  log as defined by LG_LOG if
+	possible and stderr as last resort.  it was logging largely to stderr.
+	and make exit-code small (instead of 255); some wait()s only look at
+	the first 3 bits
+
+
+	lg: add check in lg.cgi that router name appears in the router.db
+	and is thus accessible.  from richard doty.  also fix-up a few
+	comments and such.
+
 	rancid: GSR LC PCA h/w revision now called "design release" on
 	some platforms.  CSCdw13295
 

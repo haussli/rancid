@@ -4932,6 +4932,8 @@ _ACEOF
 fi
 
 
+# Package-specific options/knobs
+#
 # Check for a preference for using mail addresses like rancid+admin-group
 # instead of the standard rancid-admin-group
 echo "$as_me:$LINENO: checking whether mail addresses should be in the rancid+ form" >&5
@@ -5958,6 +5960,7 @@ ENV_PATH=`echo $ENV_PATH | $PERLV_PATH -e 'foreach $x(split(":",<>)){next unless
 ac_cv_env_path=$ENV_PATH
 
 
+
           ac_config_files="$ac_config_files Makefile"
 
           ac_config_files="$ac_config_files bin/Makefile"
@@ -5970,8 +5973,6 @@ ac_cv_env_path=$ENV_PATH
 
           ac_config_files="$ac_config_files share/Makefile"
 
-          ac_config_files="$ac_config_files util/Makefile"
-
           ac_config_files="$ac_config_files include/version.h"
 	# this is not a header in the sense of
 					# AC_CONFIG_HEADERS will cause
@@ -5979,7 +5980,7 @@ ac_cv_env_path=$ENV_PATH
 					# want is simple variable replacement
           ac_config_headers="$ac_config_headers include/config.h"
 
-                                                  ac_config_files="$ac_config_files bin/control_rancid bin/par bin/rancid-cvs bin/rancid-fe bin/rancid-run"
+                              ac_config_files="$ac_config_files bin/control_rancid bin/par bin/rancid-fe"
 
                     ac_config_files="$ac_config_files bin/alogin bin/arancid"
 
@@ -6019,9 +6020,9 @@ ac_cv_env_path=$ENV_PATH
 
                     ac_config_files="$ac_config_files bin/xrancid bin/zrancid"
 
-                              ac_config_files="$ac_config_files util/rtrfilter util/downreport util/getipacctg"
+                              ac_config_files="$ac_config_files share/rtrfilter share/downreport share/getipacctg"
 
-                              ac_config_files="$ac_config_files man/rancid.conf.5 man/lg.conf.5 man/lg_intro.1"
+          ac_config_files="$ac_config_files man/lg_intro.1"
 
 
 cat >confcache <<\_ACEOF
@@ -6579,13 +6580,10 @@ do
   "include/Makefile" ) CONFIG_FILES="$CONFIG_FILES include/Makefile" ;;
   "man/Makefile" ) CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
   "share/Makefile" ) CONFIG_FILES="$CONFIG_FILES share/Makefile" ;;
-  "util/Makefile" ) CONFIG_FILES="$CONFIG_FILES util/Makefile" ;;
   "include/version.h" ) CONFIG_FILES="$CONFIG_FILES include/version.h" ;;
   "bin/control_rancid" ) CONFIG_FILES="$CONFIG_FILES bin/control_rancid" ;;
   "bin/par" ) CONFIG_FILES="$CONFIG_FILES bin/par" ;;
-  "bin/rancid-cvs" ) CONFIG_FILES="$CONFIG_FILES bin/rancid-cvs" ;;
   "bin/rancid-fe" ) CONFIG_FILES="$CONFIG_FILES bin/rancid-fe" ;;
-  "bin/rancid-run" ) CONFIG_FILES="$CONFIG_FILES bin/rancid-run" ;;
   "bin/alogin" ) CONFIG_FILES="$CONFIG_FILES bin/alogin" ;;
   "bin/arancid" ) CONFIG_FILES="$CONFIG_FILES bin/arancid" ;;
   "bin/blogin" ) CONFIG_FILES="$CONFIG_FILES bin/blogin" ;;
@@ -6620,11 +6618,9 @@ do
   "bin/tntrancid" ) CONFIG_FILES="$CONFIG_FILES bin/tntrancid" ;;
   "bin/xrancid" ) CONFIG_FILES="$CONFIG_FILES bin/xrancid" ;;
   "bin/zrancid" ) CONFIG_FILES="$CONFIG_FILES bin/zrancid" ;;
-  "util/rtrfilter" ) CONFIG_FILES="$CONFIG_FILES util/rtrfilter" ;;
-  "util/downreport" ) CONFIG_FILES="$CONFIG_FILES util/downreport" ;;
-  "util/getipacctg" ) CONFIG_FILES="$CONFIG_FILES util/getipacctg" ;;
-  "man/rancid.conf.5" ) CONFIG_FILES="$CONFIG_FILES man/rancid.conf.5" ;;
-  "man/lg.conf.5" ) CONFIG_FILES="$CONFIG_FILES man/lg.conf.5" ;;
+  "share/rtrfilter" ) CONFIG_FILES="$CONFIG_FILES share/rtrfilter" ;;
+  "share/downreport" ) CONFIG_FILES="$CONFIG_FILES share/downreport" ;;
+  "share/getipacctg" ) CONFIG_FILES="$CONFIG_FILES share/getipacctg" ;;
   "man/lg_intro.1" ) CONFIG_FILES="$CONFIG_FILES man/lg_intro.1" ;;
   "depfiles" ) CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
   "include/config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS include/config.h" ;;
@@ -7019,9 +7015,7 @@ s,@INSTALL@,$ac_INSTALL,;t t
   case $ac_file in
     bin/control_rancid ) chmod a+x $ac_file ;;
     bin/par ) chmod a+x $ac_file ;;
-    bin/rancid-cvs ) chmod a+x $ac_file ;;
     bin/rancid-fe ) chmod a+x $ac_file ;;
-    bin/rancid-run ) chmod a+x $ac_file ;;
     bin/alogin ) chmod a+x $ac_file ;;
     bin/arancid ) chmod a+x $ac_file ;;
     bin/blogin ) chmod a+x $ac_file ;;
@@ -7056,9 +7050,9 @@ s,@INSTALL@,$ac_INSTALL,;t t
     bin/tntrancid ) chmod a+x $ac_file ;;
     bin/xrancid ) chmod a+x $ac_file ;;
     bin/zrancid ) chmod a+x $ac_file ;;
-    util/rtrfilter ) chmod a+x $ac_file ;;
-    util/downreport ) chmod a+x $ac_file ;;
-    util/getipacctg ) chmod a+x $ac_file ;;
+    share/rtrfilter ) chmod a+x $ac_file ;;
+    share/downreport ) chmod a+x $ac_file ;;
+    share/getipacctg ) chmod a+x $ac_file ;;
   esac
 done
 _ACEOF

@@ -57,11 +57,13 @@ dnl AC_FUNC_VPRINTF
 AC_TYPE_SIGNAL
 AC_TYPE_SIZE_T
 
+# Package-specific options/knobs
+#
 # Check for a preference for using mail addresses like rancid+admin-group
 # instead of the standard rancid-admin-group
 AC_MSG_CHECKING([whether mail addresses should be in the rancid+ form])
 AC_ARG_ENABLE(mail-plus,
-[  --enable-mail-plus      enable mail to rancid+ addresses, instead of rancid-],
+	AS_HELP_STRING([--enable-mail-plus], [enable mail to rancid+ addresses, instead of rancid-]),
 [if test "$enable_mail_plus" = yes; then
     AC_MSG_RESULT(yes)
     MAILPLUS="rancid+"
@@ -203,20 +205,19 @@ ENV_PATH=`echo $ENV_PATH | $PERLV_PATH -e 'foreach $x(split(":",<>)){next unless
 ac_cv_env_path=$ENV_PATH
 AC_SUBST(ENV_PATH)
 
+
 AC_CONFIG_FILES(Makefile)
 AC_CONFIG_FILES(bin/Makefile)
 AC_CONFIG_FILES(etc/Makefile)
 AC_CONFIG_FILES(include/Makefile)
 AC_CONFIG_FILES(man/Makefile)
 AC_CONFIG_FILES(share/Makefile)
-AC_CONFIG_FILES(util/Makefile)
 AC_CONFIG_FILES(include/version.h)	# this is not a header in the sense of
 					# AC_CONFIG_HEADERS will cause
 					# autoheader to overwrite it, while all
 					# want is simple variable replacement
 AC_CONFIG_HEADERS(include/config.h)
-AC_CONFIG_FILES(bin/control_rancid bin/par bin/rancid-cvs \
-		bin/rancid-fe bin/rancid-run, [chmod a+x $ac_file])
+AC_CONFIG_FILES(bin/control_rancid bin/par bin/rancid-fe, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/alogin bin/arancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/blogin bin/brancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/cat5rancid bin/clogin bin/rancid, [chmod a+x $ac_file])
@@ -236,8 +237,8 @@ AC_CONFIG_FILES(bin/rivlogin bin/rivrancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/rrancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/tntlogin bin/tntrancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/xrancid bin/zrancid, [chmod a+x $ac_file])
-AC_CONFIG_FILES(util/rtrfilter util/downreport util/getipacctg,
+AC_CONFIG_FILES(share/rtrfilter share/downreport share/getipacctg,
 		[chmod a+x $ac_file])
-AC_CONFIG_FILES(man/rancid.conf.5 man/lg.conf.5 man/lg_intro.1)
+AC_CONFIG_FILES(man/lg_intro.1)
 
 AC_OUTPUT()

@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "lg.conf" "5" "26 Nov 2003"
+.TH "lg.conf" "5" "4 Jan 2004"
 .SH NAME
 lg.conf \- looking glass configuration file
 .SH DESCRIPTION
@@ -157,14 +157,14 @@ results.
 .SH FILES
 .Bl -tag -width .BASEDIR/etc/rancid.conf -compact
 .TP
-.B $BASEDIR/util/lg/lg.conf
+.B $BASEDIR/etc/lg.conf
 Configuration file described here, where $BASEDIR is set at the time that
 the rancid package was configured.  In this installation, $BASEDIR is
 .IR @prefix@ .
 .sp
 .B lg.conf
 is located by the value of the environment variable LG_CONF, in the CWD
-(current working directory), or rancid install directory ($BASEDIR/util/lg),
+(current working directory), or rancid install directory ($BASEDIR/etc),
 in that order.
 .El
 .SH SEE ALSO

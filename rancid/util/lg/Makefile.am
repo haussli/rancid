@@ -41,17 +41,3 @@ EXTRA_DIST = README index.html lgnotes.html
 #CLEANFILES= y.tab.c y.tab.h lex.yy.c conf.h conf.c conflex.c
 
 all:
-
-install-data-local: all
-	for file in *README* *.html; do \
-	    $(INSTALL_DATA) $$file $(bindir); \
-	done; \
-	if test -f $(bindir)/lg.conf ; then \
-	    echo ""; \
-	    echo "WARNING: *** $(bindir)/lg.conf exists: installing as lg.conf.new."; \
-	    echo "         *** review lg.conf.new for new/deprecated switches"; \
-	    echo ""; \
-	    $(INSTALL_DATA) lg.conf $(bindir)/lg.conf.new; \
-	else \
-	    $(INSTALL_DATA) lg.conf $(bindir); \
-	fi

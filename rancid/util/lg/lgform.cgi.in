@@ -199,6 +199,7 @@ TAIL
 
 print <<TAIL ;
 <p>
+$LG_INFO
 </body>
 TAIL
 

@@ -610,9 +610,11 @@ sub ShowDiag {
 	if (/^\s*SLOT\s+(\d+)\s+\((.*)\): (.*)/) {
 	    $slot = $1;
 	    ProcessHistory("SLOT","","","!Slot $slot: $2 - $3\n");
+	    # Here we look for boards that don't have DRAM.
 	    $board = "Other";
 	    $board = "RP" if (/Route Processor/);
 	    $board = "CLK" if (/Clock Scheduler Card/);
+	    $board = "SFC" if (/Switch Fabric Card/);
 	    next;
 	}
 	if (/^\s+MAIN:\s+ type \d+,\s+(.*)/) {
@@ -636,7 +638,7 @@ sub ShowDiag {
 	}
 	if (/^\s+MBUS Agent Software version (.*)/) {
 	    local($sw) = $1;
-	    local($tail) = "!\n" if ($board =~ /(CLK|RP)/);
+	    local($tail) = "!\n" if ($board ne "Other");
 	    ProcessHistory("SLOT","","","!Slot $slot/MBUS: software $sw\n$tail");
 	    next;
 	}

@@ -1378,6 +1378,7 @@ sub DoNothing {print STDOUT;}
 	'dir /all slavedisk1:'	=> "DirSlotN",
 	'dir /all slaveslot2:'	=> "DirSlotN",
 	'dir /all slavedisk2:'	=> "DirSlotN",
+	"dir /all slavesup-bootflash:"=> "DirSlotN",	# cat 7609
 	'dir /all sec-nvram:'	=> "DirSlotN",
 	'dir /all sec-bootflash:'	=> "DirSlotN",
 	'dir /all sec-slot0:'	=> "DirSlotN",
@@ -1429,6 +1430,7 @@ sub DoNothing {print STDOUT;}
 	"dir /all slavedisk1:",
 	"dir /all slaveslot2:",
 	"dir /all slavedisk2:",
+	"dir /all slavesup-bootflash:",
 	"dir /all sec-nvram:",
 	"dir /all sec-bootflash:",
 	"dir /all sec-slot0:",

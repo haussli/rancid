@@ -477,23 +477,25 @@ sub WriteTerm {
 	    }
 	    next;
 	}
-	if (/^(snmp-server community) (\S+)/ && defined($ENV{'NOCOMMSTR'})) {
-	    ProcessHistory("SNMPSERVERCOMM","keysort","$_","!$1 <removed>$'");
-	    next;
-	} else {
-	    ProcessHistory("SNMPSERVERCOMM","keysort","$_","$_") && next;
+	if (/^(snmp-server community) (\S+)/) {
+	    if (defined($ENV{'NOCOMMSTR'})) {
+		ProcessHistory("SNMPSERVERCOMM","keysort","$_","!$1 <removed>$'");
+		next;
+	    } else {
+		ProcessHistory("SNMPSERVERCOMM","keysort","$_","$_") && next;
+	    }
 	}
 
 	# prune tacacs/radius server keys
 	if (/^(tacacs-server|radius-server) key / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 key <removed>\n"); next;
 	}
-	if (/^((tacacs-server|radius-server) host \S+ key) / &&
+	if (/^((tacacs-server|radius-server) host \S+ key)( \d)? \S+/ &&
 							$filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 <removed>$'\n"); next;
+	    ProcessHistory("","","","!$1 <removed>$'"); next;
 	}
 	if (/^( key )\S+/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 <removed>$'\n"); next;
+	    ProcessHistory("","","","!$1 <removed>$'"); next;
 	}
 
 	# order clns host statements

@@ -1,0 +1,186 @@
+.\"
+.Dd December 20, 2000
+.Dt cloginrc 5
+.Sh NAME
+.Nm .cloginrc
+.Nd clogin configuration file
+.Sh DESCRIPTION
+.Nm
+contains configuration information for
+.Ic clogin(1) ,
+such as usernames, passwords, ssh encryption type, etc., and is read at
+run-time.
+.Pp
+Each line contains either white-space (blank line), a comment which begins
+with the comment character '#' and may be preceded by white-space, or one
+of the directives listed below.
+.Pp
+Each line containing a directive is of the form:
+.Pp
+.D1 add <directive> <hostname regex> {<value>} [{<value>}]
+or
+.D1 include {<file>}
+.Pp
+As
+.Nm
+is searched for a directive for a hostname, it is always the first instance
+of a directive whose hostname regular expression matches that hostname which
+is used.  For example; looking up the password for hostname foo in a
+.Nm
+file containing
+.Pp
+.D1 add password *   {bar} {table}
+.D1 add password foo {bar} {table}
+.Pp
+would return the first line, even though the second is an exact match.
+.Pp
+.Nm
+is expected to exist in the user's home directory and
+must not be readable, writable, or executable by "others".  It should be
+mode 0600, or 0640 if it is to be shared with other users who are members
+of it's unix group.  See
+.Ic chgrp(1)
+and
+.Ic chmod(1)
+for more information on ownership and file modes.
+.Pp
+A sample
+.Nm
+file can be found in the top-level directory of the distribution by the
+name
+.Pa "cloginrc.sample" .
+.Sh DIRECTIVES
+The accepted directives are (alphabetically):
+.Pp
+.Bl -tag -width flag
+.\"
+.It add autoenable <router name regexp> {[01]}
+When using locally defined usernames or AAA, it is possible to have a login
+which is automatically enabled.  This is, that user has enable privileges
+without the need to execute the enable command.  The router's prompt is
+different for enabled mode, ending with a # rather than a >.
+.Pp
+Example: add autoenable * 1
+.Pp
+Default: 0, (zero) meaning that
+the user is not automatically enabled and 
+.Ic clogin
+should execute the enable command to gain enable privileges, unless
+negated by the noenable directive or -noenable command-line option.
+.\"
+.It add cyphertype <router name regexp> <ssh encryption type>
+cyphertype defines which encryption algorithm is used with ssh.  A device
+may not support the type ssh uses by default.  See ssh's -c option for Details.
+.Pp
+Default: {3des}
+.\"
+.It add enableprompt <router name regexp> {<enable prompt>}
+When using AAA, it is possible to redefine the prompt the device presents to
+the user for the enable password.  enableprompt may be used to adjust the
+prompt that
+.Ic clogin
+should find.  Note that it may be a Tcl style regular expression.
+.Pp
+Example: "\\[Ee]nter the enable password:"
+.Pp
+Default: "\\[Pp]assword:"
+.\"
+.It add enauser <router name regexp> {<username>}
+This is only needed if a device prompts for a username when gaining
+enable privileges and where this username is different from that defined
+in or the default of the user directive.
+.\"
+.It add identity <router name regexp> {<path to ssh identity file>}
+May be used to specify an alternate identity file for use with ssh(1).
+See ssh's -i option for details.
+.Pp
+Default: your default identity file.  see ssh(1).
+.\"
+.It add method <router name regexp> {ssh} [...]
+Defines, in order, the connection methods to use for a device from the
+set {ssh, telnet, rsh}.
+.Pp
+Example: add method * {ssh} {telnet} {rsh}
+.Pp
+Which would cause
+.Ic clogin
+to first attempt an ssh connection to the device and if that were to
+fail with connection refused, a telnet connection would be tried, and
+then rsh.
+.Pp
+Default: {telnet} {ssh}
+.\"
+.It add noenable <router name regexp>
+.Ic clogin
+will not try to gain enable privileges when noenable is matched for a
+device.  This is equivalent to
+.Ic "clogin" 's
+-noenable command-line option.  This only applies to Cisco and Foundry.
+.\"
+.It add passprompt <router name regexp> {<password prompt>}
+When using AAA, it is possible to redefine the prompt the device presents to
+the user for the password.  passprompt may be used to adjust the prompt that
+.Ic clogin
+should find.  Note that it may be a Tcl style regular expression.
+.Pp
+Example: "\\[Ee]nter the password:"
+.Pp
+Default: "\\[Pp]assword:"
+.\"
+.It add password <router name regexp> {<vty passwd>} [{<enable passwd>}]
+Specifies a vty password, that which is prompted for upon the connection
+to the router.  The last argument is the enable password and need not be
+specified if a matching user directive exists.
+.\"
+.It add rc <router name regexp> {<cmd;cmd>}
+rc is used to specifies a command that will be run by
+.Ic clogin
+immediately after logging into the device.  multiple commands may be
+specified by separating them with semi-colons (;).  The command may
+not be one which expects additional input from the user, such as 'copy
+rcp startup-config' on a Cisco.
+.Pp
+Example: add rc *.domain.net {terminal monitor;show version}
+.\"
+.It add user <router name regexp> {<username>}
+Specifies a username
+.Ic clogin
+should use if or when prompted for one.
+.Pp
+Default: $USER, ie: your Unix username.
+.\"
+.It add userpassword <router name regexp> {<user password>}
+Specifies a password to be associated with a user, if different from that
+defined with the password directive.
+.\"
+.It add userprompt <router name regexp> {<username prompt>}
+When using AAA, it is possible to redefine the prompt the device presents to
+the user for the username.  userprompt may be used to adjust the prompt that
+.Ic clogin
+should find.  Note that it may be a Tcl style regular expression.
+.Pp
+Example: "\\[Ee]nter the your username:"
+.Pp
+Default: "(Username|login):"
+.\"
+.It include {<file>}
+<file> is the pathname of an additional
+.Nm
+file to include at that point.  It is evaluated immediately.  That is
+important with regard to the order of matching hostnames for a given
+directive, as mentioned above.  This is useful if you have your own
+.Nm
+plus an additional
+.Nm
+file that is shared among a group of folks.
+.Pp
+If <file> is not a full pathname, $HOME/ will be prepended.
+.Pp
+Example: include {.cloginrc.group}
+.El
+.Sh ERRORS
+.Nm
+is interpreted directly by Tcl, so its syntax follows that of Tcl.  Errors
+may produce quite unexpected results.
+.Sh SEE ALSO
+.Xr clogin 1

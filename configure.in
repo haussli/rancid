@@ -219,7 +219,6 @@ AC_CONFIG_FILES(bin/control_rancid bin/create_cvs bin/do-diffs bin/par \
 AC_CONFIG_FILES(bin/alogin bin/arancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/blogin bin/brancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/cat5rancid bin/clogin bin/rancid, [chmod a+x $ac_file])
-AC_CONFIG_FILES(bin/drancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/elogin bin/erancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/f10rancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/flogin bin/francid, [chmod a+x $ac_file])

@@ -139,7 +139,7 @@ AUTOMAKE_OPTIONS = foreign
 
 bin_PROGRAMS = hpfilter
 bin_SCRIPTS = cat5rancid control_rancid \
-	alogin arancid clogin create_cvs blogin brancid do-diffs drancid \
+	alogin arancid clogin create_cvs blogin brancid do-diffs \
 	elogin erancid f10rancid flogin francid jlogin jrancid jerancid \
 	hlogin hrancid mrancid nlogin nrancid nslogin nsrancid par prancid \
 	rancid-fe rancid rename rivlogin rivrancid rrancid tntlogin \
@@ -155,10 +155,10 @@ mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
 CONFIG_CLEAN_FILES = env control_rancid create_cvs do-diffs par \
 	rancid-fe rename alogin arancid blogin brancid cat5rancid \
-	clogin rancid drancid elogin erancid f10rancid flogin francid \
-	jlogin jrancid jerancid hlogin hrancid mrancid nlogin nrancid \
-	nslogin nsrancid prancid rivlogin rivrancid rrancid tntlogin \
-	tntrancid xrancid zrancid
+	clogin rancid elogin erancid f10rancid flogin francid jlogin \
+	jrancid jerancid hlogin hrancid mrancid nlogin nrancid nslogin \
+	nsrancid prancid rivlogin rivrancid rrancid tntlogin tntrancid \
+	xrancid zrancid
 bin_PROGRAMS = hpfilter$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
@@ -181,10 +181,10 @@ LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 DIST_SOURCES = $(hpfilter_SOURCES)
 DIST_COMMON = Makefile.am Makefile.in alogin.in arancid.in blogin.in \
 	brancid.in cat5rancid.in clogin.in control_rancid.in \
-	create_cvs.in do-diffs.in drancid.in elogin.in env.in \
-	erancid.in f10rancid.in flogin.in francid.in hlogin.in \
-	hrancid.in jerancid.in jlogin.in jrancid.in mrancid.in \
-	nlogin.in nrancid.in nslogin.in nsrancid.in par.in prancid.in \
+	create_cvs.in do-diffs.in elogin.in env.in erancid.in \
+	f10rancid.in flogin.in francid.in hlogin.in hrancid.in \
+	jerancid.in jlogin.in jrancid.in mrancid.in nlogin.in \
+	nrancid.in nslogin.in nsrancid.in par.in prancid.in \
 	rancid-fe.in rancid.in rename.in rivlogin.in rivrancid.in \
 	rrancid.in tntlogin.in tntrancid.in xrancid.in zrancid.in
 SOURCES = $(hpfilter_SOURCES)
@@ -225,8 +225,6 @@ cat5rancid: $(top_builddir)/config.status cat5rancid.in
 clogin: $(top_builddir)/config.status clogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 rancid: $(top_builddir)/config.status rancid.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-drancid: $(top_builddir)/config.status drancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 elogin: $(top_builddir)/config.status elogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

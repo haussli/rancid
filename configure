@@ -822,8 +822,8 @@ fi
 
 # Check for a preference for using mail addresses like rancid+admin-group
 # instead of the standard rancid-admin-group
-echo $ac_n "checking if mail addresses should be in the rancid+ form""... $ac_c" 1>&6
-echo "configure:827: checking if mail addresses should be in the rancid+ form" >&5
+echo $ac_n "checking whether mail addresses should be in the rancid+ form""... $ac_c" 1>&6
+echo "configure:827: checking whether mail addresses should be in the rancid+ form" >&5
 # Check whether --enable-mail-plus or --disable-mail-plus was given.
 if test "${enable_mail_plus+set}" = set; then
   enableval="$enable_mail_plus"

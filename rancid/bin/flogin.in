@@ -278,6 +278,7 @@ proc source_password_file { password_file } {
 proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype } {
     global spawn_id in_proc do_command do_script
     set in_proc 1
+    set uprompt_seen 0
 
     # Telnet to the router & try to login.
     set progs [llength $cmethod]
@@ -373,25 +374,6 @@ proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype } {
             send "no\r"
             send_user "\nError: The host key for $router has changed.  Update the SSH known_hosts file accordingly.\n"
             return 1 }
-	-re "(Username:|login:|Name  :)"	{
-		sleep 1;
-		send "$user\r"
-	    expect { 
-		eof             	{ send_user "\nError: Couldn't login\n"; wait; return 1 }
-		-re "\[Pp]assword:"	{ send "$userpswd\r" }
-		"$prompt"		{ set in_proc 0; return 0 }
-	    }
-	    exp_continue
-	}
-	"\[Pp]assword:"	{ send "$passwd\r"
-	    expect { 
-		eof             { send_user "\nError: Couldn't login\n"; wait; return 1 }
-		"Password:"     { send "$enapasswd\r" }
-		"$prompt"       { set in_proc 0; return 0 }
-	    }
-	    exp_continue
-	}
-	"$prompt"       { }
 	denied		{ send_user "\nError: Check your passwd for $router\n" 
 	                  if { $do_command || $do_script } {	
 			      send "quit"
@@ -402,6 +384,28 @@ proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype } {
 			  }
 	                }
 	"% Bad passwords" {send_user "\nError: Check your passwd for $router\n"; return 1 }
+	-re "(Username:|login:|Name  :)"	{
+					  sleep 1;
+					  send "$user\r"
+					  set uprompt_seen 1
+					  exp_continue
+					}
+	"@\[^\r\n]+\[Pp]assword:"	{
+					  # ssh pwd prompt
+					  sleep 1
+					  send "$userpswd\r"
+					  exp_continue
+					}
+	"\[Pp]assword:"			{
+					  sleep 1;
+					  if {$uprompt_seen == 1} {
+						send "$userpswd\r"
+					  } else {
+						send "$passwd\r"
+					  }
+					  exp_continue
+					}
+	"$prompt"       { break; }
      }
     }
     set in_proc 0

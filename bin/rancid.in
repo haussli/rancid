@@ -354,6 +354,7 @@ sub ShowRedundancy {
 	tr/\015//d;
 	last if(/^$prompt/);
 	next if(/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /(Invalid input detected|Type help or )/;
 	# the pager can not be disabled per-session on the PIX
 	s/^<-+ More -+>\s*//;
 
@@ -377,6 +378,7 @@ sub ShowIDprom {
 	tr/\015//d;
 	last if(/^$prompt/);
 	next if(/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /(Invalid input detected|Type help or )/;
 	# the pager can not be disabled per-session on the PIX
 	s/^<-+ More -+>\s*//;
 
@@ -1129,6 +1131,7 @@ sub WriteTerm {
 	tr/\015//d;
 	last if(/^$prompt/);
 	return(-1) if (/command authorization failed/i);
+	return(1) if /(Invalid input detected|Type help or )/;
 	# the pager can not be disabled per-session on the PIX
 	s/^<-+ More -+>\s*//;
 	/Non-Volatile memory is in use/  && return(-1); # NvRAM is locked

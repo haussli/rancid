@@ -35,6 +35,8 @@ if ($vendor =~ /^cisco$/i) {
     exec('jrancid', $router);
 } elsif ($vendor =~ /^foundry$/i) {
     exec('francid', $router);
+} elsif ($vendor =~ /^procket$/i) {
+    exec('prancid', $router);
 } elsif ($vendor =~ /^redback$/i) {
     exec('rrancid', $router);
 }

@@ -640,6 +640,9 @@ sub ShowDiag {
 	if (/^\s+MAIN:\s+ type \d+,\s+(.*)/) {
 	    ProcessHistory("SLOT","","","!Slot $slot/MAIN: part $1\n") && next;
 	}
+	if (/ Engine:\s+(.*)/) {
+	    ProcessHistory("SLOT","","","!Slot $slot/Engine: $1\n");
+	}
 	if (/^\s+PCA:\s+(.*)/) {
 	    local($part) = $1;
 	    $_ = <INPUT>;

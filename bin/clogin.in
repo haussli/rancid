@@ -607,13 +607,13 @@ foreach router [lrange $argv $i end] {
     if $avautoenable {
 	set autoenable 1
 	set enable 0
-	set prompt "#"
+	set prompt "(#| \\(enable\\))"
     } else {
 	set ae [find autoenable $router]
 	if { "$ae" == "1" } {
 	    set autoenable 1
 	    set enable 0
-	    set prompt "#"
+	    set prompt "(#| \\(enable\\))"
 	} else {
 	    set autoenable 0
 	    set prompt ">"
@@ -721,10 +721,11 @@ foreach router [lrange $argv $i end] {
     expect {
 	-re "\[\r\n]+"		{ exp_continue; }
 	-re "^(.+:)1 $prompt"	{ # stoopid extreme cmd-line numbers and
-				  # prompt based on state of config changes
+				  # prompt based on state of config changes,
+				  # which may have an * at the beginning.
 				  set junk $expect_out(1,string)
 				  regsub -all "^\\\* " $expect_out(1,string) {} junk
-				  set prompt ".? ?$junk\[0-9]+ $prompt";
+				  set prompt ".? ?$junk\[0-9]+ $expect_out(2,string)";
 				  set platform "extreme"
 				}
 	-re "^.+$prompt"	{ set junk $expect_out(0,string);

@@ -794,7 +794,7 @@ sub ShowC7200 {
 	#return(1) if ($type !~ /^72/);
 	return(-1) if (/command authorization failed/i);
 	/^$/ && next;
-	if (/C7200 Midplane EEPROM:/) {
+	if (/^(C7200 )?Midplane EEPROM:/) {
 	    $_ = <INPUT>;
 	    /revision\s+(\S+).*revision\s+(\S+)/;
 	    ProcessHistory("SLOT","","","!Slot Midplane: hvers $1 rev $2\n");

@@ -280,9 +280,15 @@ while(<INPUT>) {
 	last;
     }
     if (/^Error:/) {
-	print STDOUT ("$host ssh error: $_");
-	print STDERR ("$host ssh error: $_") if ($debug);
+	print STDOUT ("$host jlogin error: $_");
+	print STDERR ("$host jlogin error: $_") if ($debug);
 	$clean_run=0;
+	last;
+    }
+    if (/System shutdown message/) {
+	print STDOUT ("$host shutdown msg: $_");
+	print STDERR ("$host shutdown msg: $_") if ($debug);
+	$clean_run = 0;
 	last;
     }
     if (/($cmds_regexp)/) {
@@ -298,7 +304,7 @@ while(<INPUT>) {
 	$func=$rval if ($rval);
     }
 }
-print STDOUT "Done ssh: $_\n" if ($log);
+print STDOUT "Done jlogin: $_\n" if ($log);
 # Flush History
 ProcessHistory("","","","");
 # Cleanup

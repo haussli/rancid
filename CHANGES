@@ -1,4 +1,6 @@
 2.1
+	try to get default user from env() and catch exec on id in *login
+
 	make clean/distclean was missing some files
 
 	make sure do-diffs cleans up after itself if it exits prematurely

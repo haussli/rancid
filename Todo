@@ -26,16 +26,6 @@
 	> User Access Verification
 	>
 	> Username: ^Cguelah [445]
-- the exec here needs a 'catch' in *login
-    # This uses "id" which I think is portable.  At least it has existed
-    # (without options) on all machines/OSes I've been on recently -
-    # unlike whoami or id -nu.
-    regexp {\(([^)]*)} [exec id] junk default_user 
-
-	eg:
-	couldn't fork child process: resource temporarily unavailable
-	    while executing
-	"exec id"
 
 - do-diffs (or something in the proc path) should make sure that all
   the CVS'd files are up to date with respect to the repository.

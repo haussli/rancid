@@ -1,0 +1,86 @@
+#!/bin/sh
+##
+##
+## Copyright (C) 1996 by Henry Kilmer.
+## All rights reserved.
+##
+## This software may be freely copied, modified and redistributed without
+## fee for non-commerical purposes provided that this copyright notice is
+## preserved intact on all copies and modified copies.
+## 
+## There is no warranty or other guarantee of fitness of this software.
+## It is provided solely "as is". The author(s) disclaim(s) all
+## responsibility and liability with respect to this software's usage
+## or its effect upon hardware, computer systems, other software, or
+## anything else.
+##
+##
+#
+# Create all of the misc files & dirs needed.
+#
+# create_cvs
+#
+
+# Read in the environment
+. /u6/rancid/bin/env
+
+if [ ! -d $CVSROOT ]; then
+    mkdir $CVSROOT
+fi
+if [ ! -d $CVSROOT/CVSROOT ]; then
+    mkdir $CVSROOT/CVSROOT
+fi
+if [ ! -d $BASEDIR/logs ]; then
+    mkdir $BASEDIR/logs
+fi
+
+for GROUP in `echo $LIST_OF_GROUPS` ;
+do
+
+    DIR=$BASEDIR/$GROUP
+
+    if [ ! -d $DIR ]; then
+	mkdir $DIR
+    fi
+    if [ ! -d $CVSROOT/$GROUP ]; then
+	mkdir $CVSROOT/$GROUP
+    fi
+    if [ ! -d $CVSROOT/$GROUP/configs ]; then
+	mkdir $CVSROOT/$GROUP/configs
+    fi
+    if [ ! -f $DIR/allrouters ]; then
+	touch $DIR/allrouters
+    fi
+    if [ ! -f $DIR/router.db ]; then
+	touch $DIR/router.db
+    fi
+
+    if [ ! -d $DIR/CVS ]; then
+	mkdir $DIR/CVS
+    fi
+    if [ ! -f $DIR/CVS/Root ]; then
+	echo "$CVSROOT" > $DIR/CVS/Root
+    fi
+    if [ ! -f $DIR/CVS/Repository ]; then
+	echo "$CVSROOT/$GROUP" > $DIR/CVS/Repository
+    fi
+    if [ ! -f $DIR/CVS/Entries ]; then
+	touch $DIR/CVS/Entries
+    fi
+
+    if [ ! -d $DIR/configs ]; then
+	mkdir $DIR/configs
+    fi
+    if [ ! -d $DIR/configs/CVS ]; then
+	mkdir $DIR/configs/CVS
+    fi
+    if [ ! -f $DIR/configs/CVS/Root ]; then
+	echo "$CVSROOT" > $DIR/configs/CVS/Root
+    fi
+    if [ ! -f $DIR/configs/CVS/Repository ]; then
+	echo "$CVSROOT/$GROUP/configs" > $DIR/configs/CVS/Repository
+    fi
+    if [ ! -f $DIR/configs/CVS/Entries ]; then
+	touch $DIR/configs/CVS/Entries
+    fi
+done

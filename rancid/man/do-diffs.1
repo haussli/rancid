@@ -1,0 +1,78 @@
+.\"
+.Dd January 13, 2001
+.Dt do-diffs 1
+.Sh NAME
+.Nm do-diffs
+.Nd run rancid for each of the groups
+.Sh SYNOPSIS
+.Nm
+.Op Ar group Ar [group...]
+.Sh DESCRIPTION
+.Nm
+is a
+.Ic sh(1)
+script to run
+.Ic rancid(1)
+for a set of rancid group(s).
+.Pp
+.Nm
+reads
+.Pa env(5)
+to configure itself, then uses
+.Ic control_rancid(1)
+to run
+.Ic rancid(1)
+for each rancid group.  The set of rancid groups can either be provided
+as command-line arguments or via the
+.Ev LIST_OF_GROUPS
+variable in
+.Pa "env(5)" .
+.Pp
+A lock file is maintained per-group to prevent simultaneous runs for a given
+group by
+.Ic "do-diffs(1)" .
+The lock file will be named
+.Pa .<group>.run.lock
+and will be located in
+.Pa $TMPDIR
+(see below).
+.Pp
+A log file is produced under
+.Pa $BASEDIR/logs
+for each rancid group processed.  The file name will be <group>.YYYYMMDD.HHMMSS
+(year month day . hour minute second).
+.Pp
+.Nm
+is normally used to run rancid from
+.Ic "cron(8)" .
+For example:
+.Pp
+.D1 0 * * * *      /usr/local/rancid/bin/do-diffs
+.Sh ENVIRONMENT
+.Nm
+utilizes the following environment variables from
+.Pa "env(5)" .
+.Pp
+.Bl -tag -width LIST_OF_GROUPS
+.\"
+.It BASEDIR
+Location of group directories, etc.
+.\"
+.It LIST_OF_GROUPS
+List of rancid groups to collect.
+.\"
+.It PATH
+Search path for utilities.
+.\"
+.It TMPDIR
+Directory to hold temporary and lock files.
+.El
+.Sh FILES
+.Bl -tag -width .basedir/bin/env -compact
+.It $BASEDIR/bin/env
+.Nm
+configuration file.
+.El
+.Sh SEE ALSO
+.Xr control_rancid 1 ,
+.Xr env 5

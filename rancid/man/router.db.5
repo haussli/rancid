@@ -21,8 +21,9 @@ For example:
 .Bl -tag -width flag
 .\"
 .It <device_name>
-The name of the device, which must resolve via gethostbyname(3), used
-as the argument to
+The name of the device, which must resolve via
+.Fn "gethostbyname" ,
+used as the argument to
 .Ic "telnet(1)" ,
 .Ic "rsh(1)" ,
 or
@@ -62,7 +63,7 @@ configuration will not be collected.
 .It $BASEDIR/<group>/router.db
 Configuration file described here, where <group> is a device group name
 defined in
-.Va LIST_OF_GROUPS
+.Ev LIST_OF_GROUPS
 of
 .Pa "$BASEDIR/bin/env" .
 .El

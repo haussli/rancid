@@ -445,7 +445,7 @@ sub ShowRSP {
 				"!RSP Chassis S/N: $1\n") &&
 	    next;
     }
-    ProcessHistory("COMMENTS","","","!\n");
+
     return(0);
 }
 

@@ -176,11 +176,14 @@ Precedence: bulk
 EMAIL
 fi
 
+set -x
+
 # If any machines have not been reached within 24 hours, mail
 # out a list of them.
 cd $DIR/configs
-ls -t `cat $DIR/allrouters | sed -e 's/:.*$//'` >$TMP.lst
-find `cat $TMP.lst` -mtime +1 -ls > $DIR/routers.failed
+rm -f $DIR/routers.failed
+perl -F: -ane '{$t = (stat($F[0]))[9]; print `ls -ld $F[0]`
+	if (time() - $t >= 86400);}' $DIR/allrouters | sort -u > $DIR/routers.failed
 if [ -s $DIR/routers.failed ]
 then
 	(

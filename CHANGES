@@ -1,4 +1,6 @@
 2.3.2
+	jerancid: filter consecutive periods at top of write term - mark cooper
+
 	jerancid: fix check for slave RE sync in DirSlotN - from Mark Lovely
 
 	rancid: collect 6500's sub-module info from show modules

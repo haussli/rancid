@@ -7,6 +7,8 @@ ENVFILE="`dirname $0`/env"
 
 . $ENVFILE
 
+TMPDIR=${TMPDIR:=/tmp}; export TMPDIR
+
 if [ $# -ge 1 ] ; then
     LIST_OF_GROUPS="$*"; export LIST_OF_GROUPS
 elif [ "$LIST_OF_GROUPS" = "" ] ; then

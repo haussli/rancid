@@ -1,6 +1,23 @@
 #! /bin/sh
-#
-# $Id$
+##
+## $Id$
+##
+## Copyright (C) 1997-2004 by Terrapin Communications, Inc.
+## All rights reserved.
+##
+## This software may be freely copied, modified and redistributed
+## without fee for non-commerical purposes provided that this license
+## remains intact and unmodified with any RANCID distribution.
+##
+## There is no warranty or other guarantee of fitness of this software.
+## It is provided solely "as is".  The author(s) disclaim(s) all
+## responsibility and liability with respect to this software's usage
+## or its effect upon hardware, computer systems, other software, or
+## anything else.
+##
+## Except where noted otherwise, rancid was written by and is maintained by
+## Henry Kilmer, John Heasley, Andrew Partan, and Pete Whiting.
+##
 #
 # getipacctg uses clogin to login to a cisco router, collect the o/p of
 # show ip accounting, and sort by the greatest number of bytes.  If a

@@ -1,4 +1,5 @@
 - hlogin (hp procurve) needs to adjust it's PATH to find hpfilter
+- hlogin hangs when the procurve is does not ask for passwords
 - util/ tool to prune cvs versions, excluding those with tags, by (all but
   latest | keep N versions | keep N days/months/years)
 - extreme collections lose when the config on the switch is in an unsaved

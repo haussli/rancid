@@ -1,4 +1,9 @@
 1.5
+	sync command-line option between clogin / jlogin.  jlogin modified:
+		-x passphrase   ->      -r passphrase
+				->      -x command-file
+		-e encrypt type ->      -y ssh_chyper_type
+
 	add .cloginrc noenable directive to set the cmd-line -noenable
 	option.
 

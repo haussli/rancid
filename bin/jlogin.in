@@ -23,9 +23,10 @@
 #
 
 # Usage line
-set usage "Usage: $argv0 \[-c command\] \[-e encryption_type\] \
-\[-f cloginrc-file\] \[-p user-password\] \[-s script-file\] \
-\[-u username\] \[-t timeout\] \[-x passphrase\] router \[router...\]\n"
+set usage "Usage: $argv0 \[-c command\] \[-f cloginrc-file\] \
+\[-p user-password\] \[-r passphrase\] \[-s script-file\] \
+\[-u username\] \[-t timeout\] \[-x command-file\] \[-y ssh_cypher_type\] \
+router \[router...\]\n"
 
 # env(CLOGIN) may contain the following chars:
 #	x == do not set xterm banner or name
@@ -61,12 +62,20 @@ for {set i 0} {$i < $argc} {incr i} {
     set arg [lindex $argv $i]
 
     switch  -glob -- $arg {
-	# Username
-	-u* -
-	-U* {
-	    if {! [  regexp .\[uU\](.+) $arg ignore user]} {
+	# Command to run.
+	-c* -
+	-C* {
+	    if {! [  regexp .\[cC\](.+) $arg ignore command]} {
 		incr i
-		set username [ lindex $argv $i ]
+		set command [ lindex $argv $i ]
+	    }
+	    set do_command 1
+	# alternate cloginrc file
+	} -f* -
+	-F* {
+	    if {! [ regexp .\[fF\](.+) $arg ignore password_file]} {
+		incr i
+		set password_file [ lindex $argv $i ]
 	    }
 	# user Password
 	} -p* -
@@ -77,20 +86,12 @@ for {set i 0} {$i < $argc} {incr i} {
 	    }
 	    set do_passwd 0
 	# passphrase
-	} -x* -
-	-X* {
-	    if {! [  regexp .\[xX\](.+) $arg ignore passphrase]} {
+	} -r* -
+	-R* {
+	    if {! [  regexp .\[rR\](.+) $arg ignore passphrase]} {
 		incr i
 		set passphrase [ lindex $argv $i ]
 	    }
-	# Command to run.
-	} -c* -
-	-C* {
-	    if {! [  regexp .\[cC\](.+) $arg ignore command]} {
-		incr i
-		set command [ lindex $argv $i ]
-	    }
-	    set do_command 1
 	# Expect script to run.
 	} -s* -
 	-S* {
@@ -110,19 +111,31 @@ for {set i 0} {$i < $argc} {incr i} {
 		incr i
 		set timeout [ lindex $argv $i ]
 	    }
-	# encryption type
-	} -e* -
-	-E* {
-	    if {! [  regexp .\[eE\](.+) $arg ignore encrypt]} {
+	# Username
+	} -u* -
+	-U* {
+	    if {! [  regexp .\[uU\](.+) $arg ignore user]} {
 		incr i
-		set encrypt [ lindex $argv $i ]
+		set username [ lindex $argv $i ]
 	    }
-	# alternate cloginrc file
-	} -f* -
-	-F* {
-	    if {! [ regexp .\[fF\](.+) $arg ignore password_file]} {
+	# command file
+	} -x* -
+	-X* {
+	    if {! [  regexp .\[xX\](.+) $arg ignore cmd_file]} {
 		incr i
-		set password_file [ lindex $argv $i ]
+		set cmd_file [ lindex $argv $i ]
+	    }
+            set cmd_fd [open $cmd_file r]
+            set cmd_text [read $cmd_fd]
+            close $cmd_fd
+            set command [join [split $cmd_text \n] \;]
+            set do_command 1
+	# 'ssh -c' cypher type
+	} -y* -
+	-Y* {
+	    if {! [  regexp .\[yY\](.+) $arg ignore cypher]} {
+		incr i
+		set cypher [ lindex $argv $i ]
 	    }
 	} -* {
 	    send_user "Error: Unknown argument! $arg\n"
@@ -212,7 +225,7 @@ proc source_password_file { } {
 }
 
 # Log into the router.
-proc login { router user passwd prompt encrypttype identfile} {
+proc login { router user passwd prompt cyphertype identfile} {
     global spawn_id in_proc do_command do_script passphrase
     set in_proc 1
 
@@ -220,12 +233,12 @@ proc login { router user passwd prompt encrypttype identfile} {
     # We use two calls to spawn since spawn does not seem to parse
     # spaces correctly.
     if {$identfile != ""} {
-	if [ catch {spawn ssh -c $encrypttype -x -l $user -i $identfile $router} reason ] {
+	if [ catch {spawn ssh -c $cyphertype -x -l $user -i $identfile $router} reason ] {
 	    send_user "Error: failed to ssh: $reason\n"
 	    exit 1
 	}
     } else {
-	if [ catch {spawn ssh -c $encrypttype -x -l $user $router} reason ] {
+	if [ catch {spawn ssh -c $cyphertype -x -l $user $router} reason ] {
 	    send_user "Error: failed to ssh: $reason\n"
 	    exit 1
 	}
@@ -405,16 +418,17 @@ foreach router [lrange $argv $i end] {
 	set identfile [lindex [find identity $router] 0]
     }
 
-    # Figure out encryption tpye
-    if {[info exists encrypt]} {
-      # command line encryption type
-      set encrypttype $encrypt
+    # Figure out ssh cypher type
+    if {[info exists cypher]} {
+      # command line ssh cypher type
+      set cyphertype $cypher
     } else {
-      set encrypttype "3des"
+      set cyphertype [find cyphertype $router]
+      if { "$cyphertype" == "" } { set cyphertype "3des" }
     }
 
     # Login to the router
-    if {[login $router $loginname $passwd $prompt $encrypttype $identfile]} {
+    if {[login $router $loginname $passwd $prompt $cyphertype $identfile]} {
 	continue
     }
 

@@ -142,6 +142,8 @@ sub ShowVersion {
 	    $slave = " Slave:";
 	    next;
 	}
+	/^Cisco Secure PIX /i &&
+	    ProcessHistory("COMMENTS","keysort","F1", "!Image: $_") && next;
 	/^IOS .* Software \(([A-Za-z-0-9]*)\), .*Version\s+(.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","F1",
 		"!Image:$slave Software: $1, $2\n") && next;
@@ -154,6 +156,17 @@ sub ShowVersion {
 	/^ROM: (System )?Bootstrap.*(Version.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","G1",
 		"!ROM Bootstrap: $2\n") && next;
+	if (/^Hardware:\s+(.*), (.* RAM), CPU (.*)$/) {
+	    ProcessHistory("COMMENTS","keysort","A1",
+		"!Chassis type: $1 - a PIX\n");
+	    ProcessHistory("COMMENTS","keysort","A2",
+		"!CPU: $3\n");
+	    ProcessHistory("COMMENTS","keysort","B1", "!Memory: $2\n");
+	}
+	/^Serial Number:\s+(.*)$/ &&
+	    ProcessHistory("COMMENTS","keysort","C1", "!$_") && next;
+	/^Activation Key:\s+(.*)$/ &&
+	    ProcessHistory("COMMENTS","keysort","C2", "!$_") && next;
 	/^ROM: \d+ Bootstrap .*(Version.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","G2",
 		"!ROM Image: Bootstrap $1\n!\n") && next;
@@ -264,7 +277,7 @@ sub ShowInstallActive {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /^\s*\^\s*$/;
-	return(1) if /Invalid input detected/;
+	return(1) if /(Invalid input detected|Type help or )/;
 	ProcessHistory("COMMENTS","keysort","F5","!Image: $_") && next;
     }
     return(0);
@@ -349,7 +362,7 @@ sub ShowBoot {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /^\s*\^\s*$/;
 	return(1) if /Ambiguous command/i;
-	return(1) if /Invalid input detected/;
+	return(1) if /(Invalid input detected|Type help or )/;
 	return(1) if /(Open device \S+ failed|Error opening \S+:)/;
 	next if /CONFGEN variable/;
 	if (!defined($H0)) {
@@ -376,7 +389,7 @@ sub ShowFlash {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if ($type =~ /^(120|7)/);
 	return(1) if /^\s*\^\s*$/;
-	return(1) if /Invalid input detected/;
+	return(1) if /(Invalid input detected|Type help or )/;
 	ProcessHistory("FLASH","","","!Flash: $_");
     }
     ProcessHistory("","","","!\n");
@@ -396,7 +409,7 @@ sub DirSlotN {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if ($type !~ /^(120|7|36)/);
 	return(1) if /^\s*\^\s*$/;
-	return(1) if /Invalid input detected/;
+	return(1) if /(Invalid input detected|Type help or )/;
 	return(1) if /\%Error: No such file or directory/;
 	return(1) if /No space information available/;
 	return(-1) if /\%Error calling/;
@@ -748,16 +761,21 @@ sub WriteTerm {
     while (<INPUT>) {
 	tr/\015//d;
 	last if(/^$prompt/);
+	# the pager can not be disabled per-session on the PIX
+	s/^<-+ More -+>\s*//;
 	/Non-Volatile memory is in use/  && return(-1); # NvRAM is locked
 	# skip the crap
 	if (/^(##+$|Building configuration...)/i) {
 	    while (<INPUT>) {
 		next if (/^Current configuration:/i);
+		next if (/^:/);
 		next if (/^([%!].*|\s*)$/);
 		next if (/^ip add.*ipv4:/);	# band-aid for 3620 12.0S
 		last;
 	    }
-	    ProcessHistory("","","","!\nconfig-register $config_register\n");
+	    if (defined($config_register)) {
+		ProcessHistory("","","","!\nconfig-register $config_register\n");
+	    }
 	    tr/\015//d;
 	}
 	# some versions have other crap mixed in with the bits in the
@@ -770,8 +788,8 @@ sub WriteTerm {
 	/^ length /		&& next; # kill length on serial lines
 	/^ width /		&& next; # kill width on serial lines
 	/^ clockrate /		&& next; # kill clockrate on serial interfaces
-	/^enable password / &&
-	    ProcessHistory("ENABLE","","","!enable password <removed>\n") &&
+	/^(enable )?(password|passwd) / &&
+	    ProcessHistory("ENABLE","","","! $1$2 <removed>\n") &&
 	    next;
 	/^username (\S+) password /&&
 	    ProcessHistory("USER","keysort","$1","!username $1 password <removed>\n") && next;
@@ -920,7 +938,8 @@ sub WriteTerm {
 	# catch anything that wasnt match above.
 	ProcessHistory("","","","$_");
 	# end of config
-	if (/^end$/) {
+	#if (/^end(\n\[OK])?$/) {
+	if (/^(: )?end$/) {
 	    $found_end = 1;
 	    return(1);
 	}
@@ -1006,7 +1025,7 @@ ProcessHistory("COMMENTS","keysort","F0","!\n");
 ProcessHistory("COMMENTS","keysort","G0","!\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
-    if (/\#exit$/) {
+    if (/\#\s?exit$/) {
 	$clean_run=1;
 	last;
     }

@@ -1,4 +1,7 @@
 2.0
+	revamp *login's use of .cloginrc's method directive. see
+	cloginrc.sample
+
 	Add bits for Cisco PIX.  thanks to joe rizzo@EA for access to a pix.
 
 	Make sure we continue to sort tacacs-server host.

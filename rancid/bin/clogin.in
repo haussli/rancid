@@ -139,10 +139,14 @@ for {set i 0} {$i < $argc} {incr i} {
 		incr i
 		set password_file [ lindex $argv $i ]
 	    }
+	# Timeout
 	} -t* -
 	-T* {
-	    incr i
-	    set timeout [ lindex $argv $i ]
+	    if {! [ regexp .\[tT\](.+) $arg ignore timeout]} {
+		incr i
+	        set timeout [ lindex $argv $i ]
+	    }
+	# Command file
 	} -x* -
 	-X {
 	    if {! [  regexp .\[xX\](.+) $arg ignore cmd_file]} {

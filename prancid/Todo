@@ -1,0 +1,49 @@
+- reversables that need to be filtered, from asp
+
+  These were taken from .cli files; I don't remember what version
+  this was, but 2.0 something from about Oct 26 (maybe 2.0.0.3-A).
+
+  router bgp xx
+   neighbor xx
+    password <str>
+          - in the clear
+
+  router isis xx
+   authentication-key pp level-.
+          - pp is reversible
+
+  interface xx
+   isis authentication-key pp [level-.]
+        - pp is reversible
+
+  ip msdp password <peer-address> <password>
+        - password is reversible
+
+  ntp authentication-key <keyid> md5 <value>'
+        - value is reversible
+
+  ip ospf message-digest-key <keyid> md5 <enctype> <key>
+        - key is ?
+        - enctype is 0|7
+
+  tacacs-server key <secret-key>'
+        - secret-key is reversible
+
+  tacacs-server host <ip-address> [single-connection | port <port> | timeout <tout>]+ [key <secret-key>]
+        - secret-key is reversible
+
+  enable secret [level <level>] { <secret> }
+        secret is not reversible
+
+  username <name> { allow-shell | privilege <level> | password <passwd>}+ }
+        passwd is not reversible
+
+  ip vrrp authentication simple key <key1>
+        key1 is reversible
+
+  interface xx
+   router vrrp
+    authentication simple key <key1>
+        key1 is reversible
+
+- lots of GC'ing to be done

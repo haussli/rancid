@@ -328,7 +328,7 @@ sub WriteTerm {
 	    }
 	    next;
 	}
-	if (/^(configure snmp community (readonly|readwrite)) (\S+)/) {
+	if (/^(configure snmp community (readonly|readwrite)( encrypted)?) (\S+)/) {
 	    if (defined($ENV{'NOCOMMSTR'})) {
 		ProcessHistory("SNMPSVRCOMM","keysort","$_","#$1 <removed>$'");
 		next;

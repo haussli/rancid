@@ -1,4 +1,6 @@
 2.3
+	lg.conf: add LG_STYLE variable for style sheet - from Janos Mohacsi
+
 	also install the FAQ - good idea from Janos Mohacsi's freshport
 
 	rancid: filter 'cable shared-secret'

@@ -1,0 +1,106 @@
+#!@PERLV_PATH@
+# lgform.cgi - Looking glass front-end
+# produces html form for calling lg.cgi
+
+use CGI qw/:standard/;
+
+$routerdb = "/www/docs/lookingglass/routers.db";
+
+$query = new CGI;
+
+print $query->header;
+print $query->start_html("LookingGlass form");
+
+print "<BODY>";
+
+#customize: If you want to add a company image/logo at the top of the page,
+#customize: replace rancid.gif with the name and path of the image file
+#customize: and uncomment the line below.
+#print "<img src=/icons/rancid.gif hspace=0>";
+
+print <<HEAD ;
+<br><B><FONT SIZE=+2>Looking Glass</FONT></B>
+<br>
+<hr>
+HEAD
+
+# start table, etc here
+print <<DOTABLE ;
+<form action=lg.cgi method=GET>
+<center>
+<table border cellspacing=0 width=575 align=center>
+
+DOTABLE
+
+# available query types here
+print <<QTYPES ;
+<tr valign=top>
+        <TD><B>Query:</B>
+<dd><input type=radio name="query" value="framerelay">show frame-relay pvc [DLCI]</DD>
+<dd><input type=radio name="query" value="interface">show interface &lt;interface&gt;</DD>
+<dd><input type=radio name="query" value="prefix">show ip bgp &lt;prefix&gt; [netmask]</DD>
+<dd><input type=radio name="query" value="regex">show ip bgp regex &lt;reg_exp&gt;</DD>
+<dd><input type=radio name="query" value="summary">show ip bgp summary</DD>
+<dd><input type=radio name="query" value="damp">show ip bgp dampened-paths</DD>
+<dd>show ip bgp neighbor &lt;IP_addr&gt;</dd>
+<dd>show ip bgp neighbor &lt;IP_addr&gt; advertised routes</dd>
+<dd>show ip bgp neighbor &lt;IP_addr&gt; flap statistics</dd>
+<dd>show ip bgp neighbor &lt;IP_addr&gt; received</dd>
+<dd>show ip bgp neighbor &lt;IP_addr&gt; routes</dd>
+<dd><input type=radio name="query" value="prefixlist">show ip prefix-list &lt;list_name&gt;</DD>
+<dd><input type=radio name="query" value="route">show ip route &lt;prefix&gt; [netmask]</DD>
+<dd><input type=radio name="query" value="mbgp">show ip mbgp &lt;prefix&gt; [netmask]</dd>
+<dd><input type=radio name="query" value="mbgpsum">show ip mbgp summary</dd>
+<dd><input type=radio name="query" value="log">show logging [| &lt;match_string&gt;]</DD>
+<dd><input type=radio name="query" value="ping">ping &lt;IP_addr | FQDN&gt;</dd>
+<dd><input type=radio name="query" value="trace">traceroute &lt;IP_addr | FQDN&gt;</DD>
+
+<P><B>Argument(s):</B> <INPUT name="args" size=30></P>
+        </TD>
+        <td ALIGH=left VALIGN=top>
+        <b>Router:</B>
+
+<dd>
+QTYPES
+
+# disabled/removed query types.
+#
+# <dd><input type=radio name="query" value="aspath">sh ip as-path-access-list &lt;list_number&gt;</DD>
+# <dd><input type="radio" name="query" value="acl">sh access-list &lt;list_number&gt;</dd>
+# <dd><input type=radio name="query" value="communitylist">sh ip community-list &lt;list_number&gt;<DD>
+# <dd><input type=radio name="query" value="routemap">sh ip route-map &lt;map_name&gt;</DD>
+
+# routers here
+open(RTR, "< $routerdb") || die "failed to open router database: $!";
+while (<RTR>) {
+	next if (/^\s*#/);
+	#fqdn:mfg:state
+	@record = split('\:', $_);
+	next if ($record[2] !~ /up/i);
+	push(@rtrlist, join(':', ($record[0], $record[1])));
+	$rtrlabels{join(':', ($record[0], $record[1]))} = $record[0];
+}
+close(RTR);
+print $query->scrolling_list(-name => 'router',
+			-values => \@rtrlist,
+			-size => 20,
+			-labels => \%rtrlabels);
+# end
+print <<TAIL ;
+</dd>
+</td>
+</TABLE>
+<p><input type=submit value=Submit> <INPUT type=reset value=Reset></FORM>
+</center>
+<br>
+<a href=lgnotes.html>Looking Glass notes</a>
+TAIL
+
+print <<TAIL ;
+<p>
+</body>
+TAIL
+
+print $query->end_html;
+
+exit 0;

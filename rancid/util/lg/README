@@ -32,11 +32,11 @@ and install bits in /usr/local/rancid/util/lg (or <prefix>/util/lg).
 	mkdir /usr/local/www/data/lg
 
    then either:
-	- copy the files {lgnotes.html, lg.cgi, lgform.cgi} to
+	- copy the files {index.html, lgnotes.html, lg.cgi, lgform.cgi} to
 	  /usr/local/www/data/lg
      OR
-	- create symlinks from /usr/local/www/data/lg to each of {lgnotes.html,
-	  lg.cgi, lgform.cgi} in /usr/local/rancid/util/lg
+	- create symlinks from /usr/local/www/data/lg to each of {index.html,
+	  lgnotes.html, lg.cgi, lgform.cgi} in /usr/local/rancid/util/lg
 
    note on links: if you use symlinks, you have to configure apache to
    allow following symlinks.  eg:

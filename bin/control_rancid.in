@@ -82,8 +82,9 @@ TMP=${TMPDIR:=/tmp}/rancid.$GROUP.$$
 trap 'rm -fr $TMP;' 1 2 15
 
 # the receipient(s) of diffs
-mailrcpt=${mailrcpt:-"@MAILPLUS@$GROUP"}; export mailrcpt
-adminmailrcpt=${mailrcpt:-"@ADMINMAILPLUS@$GROUP"}; export adminmailrcpt
+mailrcpt=${mailrcpt:-"@MAILPLUS@${GROUP}${MAILDOMAIN}"}; export mailrcpt
+adminmailrcpt=${mailrcpt:-"@ADMINMAILPLUS@${GROUP}${MAILDOMAIN}"};
+export adminmailrcpt
 
 # Number of things par should run in parallel.
 PAR_COUNT=${PAR_COUNT:-5}

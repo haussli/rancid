@@ -1,0 +1,72 @@
+.\"
+.Dd January 16, 2001
+.Dt router.db 5
+.Sh NAME
+.Nm router.db
+.Nd rancid group configuration file
+.Sh DESCRIPTION
+.Nm
+contains information for devices which are members of a rancid group.
+.Ic control_rancid(1)
+reads this file to compile a list of devices which it should collect.
+.\"
+.Sh SYNTAX
+One device is listed per-line, where the syntax is:
+.Pp
+.D1 <device_name>:<device_type>:<state>
+.Pp
+For example:
+.D1 scooby.shrubbery.net:cisco:up
+.Pp
+.Bl -tag -width flag
+.\"
+.It <device_name>
+The name of the device, which must resolve via gethostbyname(3), used
+as the argument to
+.Ic "telnet(1)" ,
+.Ic "rsh(1)" ,
+or
+.Ic "ssh(1)" ,
+to connect to the device.  This
+also becomes the name of the file used to store the configuration under
+.Pa "$BASEDIR/<group>/configs" .
+.Pp
+Experience shows that the device's FQDN (Fully Qualified Domain Name) works
+best, as in the example above.
+.\"
+.It <device_type>
+The type of device from the set:
+.Bl -tag -width foundry
+.It cat5
+A cisco catalyst switch (ie: running the catalyst OS, not IOS).
+.It cisco
+A cisco router or switch such as the 3500XL or 6000 running IOS (or IOS-like)
+OS.
+.It ezt3
+An ADC-Kentrox EZ-T3 mux.
+.It foundry
+A Foundry router, switch, or router-switch.
+.It juniper
+A Juniper router.
+.It redback
+A Redback router, NAS, etc.
+.El
+.\"
+.It <state>
+The state is either "up" or "down.  If the device is marked "down", it's
+configuration will not be collected.
+.El
+.Pp
+.Sh FILES
+.Bl -tag -width .BASEDIR/group/ -compact
+.It $BASEDIR/<group>/router.db
+Configuration file described here, where <group> is a device group name
+defined in
+.Va LIST_OF_GROUPS
+of
+.Pa "$BASEDIR/bin/env" .
+.El
+.Sh SEE ALSO
+.Xr control_rancid 1 ,
+.Xr env 5 ,
+.Xr rancid 1

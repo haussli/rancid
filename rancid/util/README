@@ -2,5 +2,8 @@ rancid/util includes some utilities that either don't seem to belong
 in rancid/bin (ie: not part of the core pkg), contributed sources, or
 sources included for convenience.
 
-README -    This file.
-rtrfilter - mail filter for diffs
+README		This file.
+lg.cgi		work horse of the looking glass
+lgform.cgi	front-end form for the looking glass engine
+lgnotes.html	manual for the looking glass
+rtrfilter	mail filter for diffs

@@ -17,7 +17,7 @@ AM_CONFIG_HEADER(include/config.h)
 dnl default install location
 AC_PREFIX_DEFAULT(/usr/local/rancid)
 
-AM_MAINTAINER_MODE()
+dnl AM_MAINTAINER_MODE()
 
 dnl AC_CONFIG_SUBDIRS(bin util)
 AC_CONFIG_SUBDIRS(util)
@@ -177,8 +177,8 @@ rd_cv_rd_bin_datas=$RD_BIN_DATAS
 # RD_BIN_PROGS are bin/ .in's that need to be installed with execute perms.
 RD_BIN_PROGS="cat5rancid control_rancid \
 alogin arancid clogin create_cvs blogin brancid do-diffs elogin erancid \
-f10rancid flogin francid jlogin jrancid hlogin hrancid mrancid par rancid-fe \
-rancid rename rrancid tntlogin tntrancid xrancid"
+f10rancid flogin francid jlogin jrancid hlogin hrancid mrancid nslogin \
+nsrancid par rancid-fe rancid rename rrancid tntlogin tntrancid xrancid"
 AC_SUBST(RD_BIN_PROGS)
 rd_cv_rd_bin_progs=$RD_BIN_PROGS
 

@@ -38,3 +38,9 @@
 	comm: /tftpboot/rancid/foo/routers.up: No such file or directory
 - control_rancid (etc) should not have the path to perl 5, only the
   basename.
+
+- from README - this should be automatic. :)
+	gnudiff - gnudiff provides the -u option.  if you do not have gnudiff,
+          you will have to modify control_rancid to use 'diff -c' or some
+          such.  see examples.
+

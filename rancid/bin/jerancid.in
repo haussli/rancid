@@ -485,6 +485,7 @@ sub WriteTerm {
 		ProcessHistory("SNMPSERVERCOMM","keysort","$_","$_") && next;
 	    }
 	}
+
 	# prune tacacs/radius server keys
 	if (/^(tacacs-server|radius-server) key / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 key <removed>\n"); next;
@@ -502,10 +503,21 @@ sub WriteTerm {
 	    ProcessHistory("CLNS","keysort","$1","$_") && next;
 	# order alias statements
 	/^alias / && ProcessHistory("ALIAS","keysort","$_","$_") && next;
+	# filter isis keys
+	if (/^( (area|domain)-message-digest-key \d+ hmac-md5)( \d)? \S+/ &&
+							$filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>$'\n"); next;
+	}
+	if (/^( (area|domain)-authentication-key)( \d)? \S+( \d)?/ &&
+							$filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>$'\n"); next;
+	}
+
 	# delete ntp auth password - this md5 is a reversable too
 	if (/^(ntp authentication-key \d+ md5) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
+
 	# order ntp peers/servers
 	if (/^ntp (server|peer) (\d+)\.(\d+)\.(\d+)\.(\d+)/) {
 	    $sortkey = sprintf("$1 %03d%03d%03d%03d",$2,$3,$4,$5);

@@ -1038,7 +1038,7 @@ if ($file) {
     }
 }
 
-ProcessHistory("","","","!RANCID-CONTENT-TYPE: cisco-cat5\n!\n");
+ProcessHistory("","","","!RANCID-CONTENT-TYPE: cisco-cat\n!\n");
 ProcessHistory("COMMENTS","keysort","B0","!\n");
 ProcessHistory("COMMENTS","keysort","F0","!\n");
 ProcessHistory("COMMENTS","keysort","G0","!\n");

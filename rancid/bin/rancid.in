@@ -1026,8 +1026,8 @@ sub WriteTerm {
 	    ProcessHistory("CLNS","keysort","$1","$_") && next;
 	# order alias statements
 	/^alias / && ProcessHistory("ALIAS","keysort","$_","$_") && next;
-	# delete ntp auth password
-	if (/^(ntp authentication-key \d+ md5) / && $filter_pwds >= 2) {
+	# delete ntp auth password - this md5 is a reversable too
+	if (/^(ntp authentication-key \d+ md5) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
 	# order ntp peers/servers

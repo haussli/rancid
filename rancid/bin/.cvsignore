@@ -1,5 +1,6 @@
 config.*
 Makefile
+arancid
 cat5rancid
 clogin
 cloginrc

@@ -53,6 +53,7 @@ auto_edit = sed \
 	-e 's,@bindir\@,$(bindir),g' \
 	-e 's,@localstatedir\@,$(localstatedir),g' \
 	-e 's,@sysconfdir\@,$(sysconfdir),g' \
+	-e 's,@pkgdatadir\@,$(sysconfdir),g' \
 	-e 's,@MAILPLUS\@,$(MAILPLUS),g'
 
 lg.conf.5: Makefile $(srcdir)/lg.conf.5.in
@@ -60,8 +61,12 @@ lg.conf.5: Makefile $(srcdir)/lg.conf.5.in
 	$(auto_edit) $(srcdir)/lg.conf.5.in >lg.conf.5.tmp; \
 	mv lg.conf.5.tmp lg.conf.5
 
+lg_intro.5: Makefile $(srcdir)/lg_intro.5.in
+	rm -f lg_intro.5 lg_intro.5.tmp; \
+	$(auto_edit) $(srcdir)/lg_intro.5.in >lg_intro.5.tmp; \
+	mv lg_intro.5.tmp lg_intro.5
+
 rancid.conf.5: Makefile $(srcdir)/rancid.conf.5.in
 	rm -f rancid.conf.5 rancid.conf.5.tmp; \
 	$(auto_edit) $(srcdir)/rancid.conf.5.in >rancid.conf.5.tmp; \
 	mv rancid.conf.5.tmp rancid.conf.5
-

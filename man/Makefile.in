@@ -34,8 +34,7 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 subdir = man
-DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(srcdir)/lg_intro.1.in
+DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/configure.in
@@ -43,7 +42,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES = lg_intro.1
+CONFIG_CLEAN_FILES =
 depcomp =
 am__depfiles_maybe =
 SOURCES =
@@ -177,6 +176,7 @@ auto_edit = sed \
 	-e 's,@bindir\@,$(bindir),g' \
 	-e 's,@localstatedir\@,$(localstatedir),g' \
 	-e 's,@sysconfdir\@,$(sysconfdir),g' \
+	-e 's,@pkgdatadir\@,$(sysconfdir),g' \
 	-e 's,@MAILPLUS\@,$(MAILPLUS),g'
 
 all: all-am
@@ -211,8 +211,6 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
-lg_intro.1: $(top_builddir)/config.status $(srcdir)/lg_intro.1.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 uninstall-info-am:
 install-man1: $(man1_MANS) $(man_MANS)
 	@$(NORMAL_INSTALL)
@@ -435,6 +433,11 @@ lg.conf.5: Makefile $(srcdir)/lg.conf.5.in
 	rm -f lg.conf.5 lg.conf.5.tmp; \
 	$(auto_edit) $(srcdir)/lg.conf.5.in >lg.conf.5.tmp; \
 	mv lg.conf.5.tmp lg.conf.5
+
+lg_intro.5: Makefile $(srcdir)/lg_intro.5.in
+	rm -f lg_intro.5 lg_intro.5.tmp; \
+	$(auto_edit) $(srcdir)/lg_intro.5.in >lg_intro.5.tmp; \
+	mv lg_intro.5.tmp lg_intro.5
 
 rancid.conf.5: Makefile $(srcdir)/rancid.conf.5.in
 	rm -f rancid.conf.5 rancid.conf.5.tmp; \

@@ -42,9 +42,13 @@ and install bits in /usr/local/rancid/util/lg (or <prefix>/util/lg).
 	% cat /usr/local/www/data/lg/.htaccess
 	Options FollowSymLinks ExecCGI
 
+2) the LG needs to be able to find and read lg.conf.  by default this
+   is installed as <PREFIX>/util/lg/lg.conf and the LG will look there.
+   however, LG_CONF environment variable can be used to move it elsewhere.
 
-
-
+   to get LG_CONF into the enviroment, you can SetEnvIf in apache's
+   httpd.conf like this for example:
+	SetEnvIf Request_URI "\/lg/.*.cgi" LG_CONF=/usr/local/util/lg/lg.conf
 
 N) finally, search lg.cgi for '^#customize:' for some things you can
    customize.

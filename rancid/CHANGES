@@ -1,4 +1,6 @@
 2.3.eft
+	hpfilter: allow >2 arguments so that telnet port number can be passed.
+
 	rancid: gsr RP slot warning is only 1 line - Russell Heilling
 
 	add zrancid to handle zebra routing s/w

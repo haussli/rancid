@@ -79,8 +79,8 @@ sub readconf
 {
     my($conffile, $cmds);
     local(*CONF);
-    if (defined($env{LG_CONF})) {
-	$conffile = $env{LG_CONF};
+    if (defined($ENV{LG_CONF})) {
+	$conffile = $ENV{LG_CONF};
     } elsif (-e "lg.conf") {
 	$conffile = "lg.conf";
     } else {

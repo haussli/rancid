@@ -23,6 +23,9 @@
 - share/ tool to prune cvs versions, excluding those with tags, by (all but
   latest | keep N versions | keep N days/months/years)
 - extreme collection fails for tacacs-enabled boxen due to diffs in UI - blech!
+- xrancid should collect both of these:
+	show configuration
+	show configuration detail
 - FILTER_PWDS knob is not implemented in alteon, bay, ezt3 or redback due to
   lack of h/w to test against.  need help from the community.
 - should par's -c override an input files' : cmd?

@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!@PERLV_PATH@
 ##
 ## Amazingly hacked version of Hank's rancid - this one tries to
 ## deal with foundrys.

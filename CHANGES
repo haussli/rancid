@@ -1,3 +1,6 @@
+2.3.2
+	rancid: : filter multiple-fs file - from Yuval Ben-Ari
+
 	cssrancid: make this parse the collected output properly 
 
 	rancid: filter & sort IOS AP username passwords - noted by Stafford Rau

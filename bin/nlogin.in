@@ -20,16 +20,22 @@
 ##
 #
 # The login expect scripts were based on Erik Sherk's gwtn, by permission.
+# Netscreen hacks implemented by Stephen Gill <gillsr@yahoo.com>.
 #
 # nlogin - netscreen login
 #
 # Most options are intuitive for logging into a netscreen firewall.
 #
+# Misc notes
+#	netscreen does not have the concept of "enable", once logged in, a
+#	users permissions can not change.
 
 # Usage line
-set usage "Usage: $argv0 \[-c command\] \[-Evar=x\] \[-f cloginrc-file\]
-\[-s script-file\] \[-t timeout\] \[-u user\] \
-\[-p user-password\] \[-y ssh_cypher_type\] firewall \[firewall...\]\n"
+set usage "Usage: $argv0 \[-c command\] \[-Evar=x\] \[-f cloginrc-file\] \
+\[-p user-password\] \
+\[-s script-file\] \[-t timeout\] \[-u username\] \
+\[-v vty-password\] \[-x command-file\] \
+\[-y ssh_cypher_type\] router \[router...\]\n"
 
 # env(CLOGIN) may contain:
 #	x == do not set xterm banner or name
@@ -39,11 +45,6 @@ set password_file $env(HOME)/.cloginrc
 # Default is to login to the firewall
 set do_command 0
 set do_script 0
-# The default is to automatically enable
-set avenable 0
-# The default is that you login non-enabled (tacacs can have you login already
-# enabled)
-set avautoenable 1
 # The default is to look in the password file to find the passwords.  This
 # tracks if we receive them on the command line.
 set do_passwd 1
@@ -154,7 +155,6 @@ for {set i 0} {$i < $argc} {incr i} {
 	# Does tacacs automatically enable us?
         } -autoenable {
 	    # ignore autoenable
-	    #set avautoenable 1
 	} -* {
 	    send_user "\nError: Unknown argument! $arg\n"
 	    send_user $usage
@@ -347,7 +347,7 @@ cyphertype } {
 	                  catch {close}; wait; return 1
 	                }
 	" ### Login failed" {send_user "\nError: Check your passwd for $firewall\n"; return 1 }
-	-re "(login:)"	{
+	-re "(login:)"			{
 					  sleep 1;
 					  send "$user\r"
 					  set uprompt_seen 1
@@ -368,7 +368,7 @@ cyphertype } {
 					  }
 					  exp_continue
 					}
-	"$prompt"       { break; }
+	-- "$prompt"			{ break; }
      }
     }
     set in_proc 0
@@ -381,7 +381,7 @@ proc run_commands { prompt command } {
     set in_proc 1
 
     send "set console page 0\r"
-    expect $prompt {}
+    expect -re -- $prompt {}
 
     # Is this a multi-command?
     if [ string match "*\;*" "$command" ] {
@@ -391,19 +391,19 @@ proc run_commands { prompt command } {
 	for {set i 0} {$i < $num_commands} { incr i} {
 	    send "[subst [lindex $commands $i]]\r"
 	    expect {
-                -re "$prompt"	{}
+                -re -- "$prompt"	{}
             }
 	}
     } else {
 	send "[subst $command]\r"
 	expect {
-                -re "$prompt"	{}
+                -re -- "$prompt"	{}
 	}
     }
     send "exit\r"
     expect {
 	"\n" { exp_continue }
-	-re "$prompt" {
+	-re -- "$prompt" {
 		send "exit\r"
 		exp_continue }
 	-re "Configuration modified, save?" {
@@ -424,7 +424,7 @@ foreach firewall [lrange $argv $i end] {
     set firewall [string tolower $firewall]
     send_user "$firewall\n"
 
-    set prompt ">"
+    set prompt {-> }
 
     # Figure out passwords
     if { $do_passwd || $do_enapasswd } {
@@ -455,14 +455,6 @@ foreach firewall [lrange $argv $i end] {
       if { "$userpswd" == "" } { set userpswd $passwd } 
     } 
     
-    # Figure out enable username
-    if {[info exists enausername]} {  
-      # command line enausername
-      set enauser $enausername
-    } else {
-      set enauser [join [find enauser $firewall] ""]
-      if { "$enauser" == "" } { set enauser $ruser } 
-    } 
 
     # Figure out cypher type
     if {[info exists cypher]} {
@@ -485,20 +477,15 @@ foreach firewall [lrange $argv $i end] {
     if {[login $firewall $ruser $userpswd $passwd $enapasswd $prompt $cmethod $cyphertype]} {
 	continue
     }
-    if { $enable } { 
-	if {[do_enable $enauser $enapasswd]} {
-	    if { $do_command || $do_script } {
-		close; wait
-		continue
-	    }
-	}
-    }
+
     # we are logged in, now figure out the full prompt
     send "\r"
     expect {
 	-re "\[\r\n]+"		{ exp_continue; }
-	-re "^.+$prompt"	{ set junk $expect_out(0,string);
-				  regsub -all "\[\]\(\)\[]" $junk {\\&} prompt;
+	-re "^(.+$prompt)"	{ set junk $expect_out(0,string);
+				  # if it has HA (high avail), the prompt will
+				  # be "something-(.)->"
+				  regsub -all "\[\]\)\(\[]" $junk {\\&} prompt;
 				}
     }
 
@@ -508,7 +495,7 @@ foreach firewall [lrange $argv $i end] {
 	}
     } elseif { $do_script } {
 	send "set console page 0\r"
-	expect $prompt	{}
+	expect -- $prompt	{}
 	source $sfile
 	close
     } else {

@@ -1,4 +1,6 @@
 - would like to have a "timeout" cloginrc directive
+- possibly a "debug" (exp_internal 1 ?) cloginrc directive?  *login -d flag
+  for same?  warning about filling logs?
 - rancid needs to filter hsrp keys.  as in
   interface FastEthernet0/1 
    ip address 158.81.248.252 255.255.255.128

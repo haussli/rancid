@@ -5,6 +5,8 @@
 
 	fixed expect foo in *login when .cloginrc is unreadable.
 
+	Don't sort 'ip name-server' - order matters.
+
 2.0
 	Better formatting for cisco catalyst [non-ios] switches.
 

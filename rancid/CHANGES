@@ -1,4 +1,7 @@
 2.2b9
+	add support for HP procurve switches, in particular 2524M and 4108gl.
+	thanks to hp for the loaners.
+
 	filter encrypted passwords on alteon as the change for each display
 
 	More support for Redbacks.

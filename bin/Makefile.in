@@ -9,7 +9,7 @@ BIN_DATAS = @RD_BIN_DATAS@
 all:
 
 install: all
-	@for prog in $(BIN_PROGS) ; do \
+	for prog in $(BIN_PROGS) ; do \
 	    $(INSTALL) $$prog $(PREFIX)/bin; \
 	done; \
 	if test -f $(PREFIX)/bin/env ; then \
@@ -29,7 +29,7 @@ distclean: clean
 	rm -f config.log config.status
 
 distdir:
-	@for file in Makefile.in env.in $(BIN_DATAS:=.in) ; do \
+	for file in Makefile.in env.in $(BIN_DATAS:=.in) ; do \
 	    $(INSTALL_DATA) $$file $(distdir); \
 	done
 	for file in configure $(BIN_PROGS:=.in) ; do \

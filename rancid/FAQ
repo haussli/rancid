@@ -12,6 +12,12 @@ A. Check if 'write term' produces output.  Some IOS combined with large
    configs and low free memory produce zero 'write term' output, esp. combined
    with a memory leak.  The device will have to be rebooted or upgraded.
 
+Q. I have a Cisco Catalyst switch.  clogin connects, but after receiving the
+   prompt, it stalls until it times out.  Why?
+A. This may be due to your prompt.  CatOS does not include an implicit '>' in
+   it's prompt, like IOS does.  clogin looks for '>' during login, so specify
+   your prompt with a trailing '>'.  Also see cat5rancid(1).
+
 
 2) CVS and filesystem permissions
 

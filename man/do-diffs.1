@@ -1,78 +1,84 @@
 .\"
-.Dd January 13, 2001
-.Dt do-diffs 1
-.Sh NAME
-.Nm do-diffs
-.Nd run rancid for each of the groups
-.Sh SYNOPSIS
-.Nm
-.Op Ar group Ar [group...]
-.Sh DESCRIPTION
-.Nm
+.na
+.TH "do-diffs" "1" "13 Jan 2001"
+.SH NAME
+do-diffs \- run rancid for each of the groups
+.SH SYNOPSIS
+.B do-diffs
+[group [group ...]]
+.SH DESCRIPTION
+.B do-diffs
 is a
-.Ic sh(1)
+.IR sh (1)
 script to run
-.Ic rancid(1)
+.IR rancid (1)
 for a set of rancid group(s).
-.Pp
-.Nm
+.PP
+.B do-diffs
 reads
-.Pa env(5)
+.BR env (5)
 to configure itself, then uses
-.Ic control_rancid(1)
+.IR control_rancid (1)
 to run
-.Ic rancid(1)
+.IR rancid (1)
 for each rancid group.  The set of rancid groups can either be provided
 as command-line arguments or via the
-.Ev LIST_OF_GROUPS
+.I LIST_OF_GROUPS
 variable in
-.Pa "env(5)" .
-.Pp
+.BR env (5),
+if the group argument is omitted.
+.PP
 A lock file is maintained per-group to prevent simultaneous runs for a given
 group by
-.Ic "do-diffs(1)" .
+.IR do-diffs (1).
 The lock file will be named
-.Pa .<group>.run.lock
+.IR .<group>.run.lock
 and will be located in
-.Pa $TMPDIR
+.IR $TMPDIR
 (see below).
-.Pp
+.PP
 A log file is produced under
-.Pa $BASEDIR/logs
+.IR $BASEDIR/logs
 for each rancid group processed.  The file name will be <group>.YYYYMMDD.HHMMSS
 (year month day . hour minute second).
-.Pp
-.Nm
+.PP
+.B do-diffs
 is normally used to run rancid from
-.Ic "cron(8)" .
+.BR cron (8).
 For example:
-.Pp
-.D1 0 * * * *      /usr/local/rancid/bin/do-diffs
-.Sh ENVIRONMENT
-.Nm
-utilizes the following environment variables from
-.Pa "env(5)" .
-.Pp
-.Bl -tag -width LIST_OF_GROUPS
+.PP
+.in +1i
+.nf
+0 * * * *      /usr/local/rancid/bin/do-diffs
+.fi
+.in -1i
 .\"
-.It BASEDIR
+.SH ENVIRONMENT
+.B do-diffs
+utilizes the following environment variables from
+.BR env (5).
+.\"
+.TP
+.B BASEDIR
 Location of group directories, etc.
 .\"
-.It LIST_OF_GROUPS
+.TP
+.B LIST_OF_GROUPS
 List of rancid groups to collect.
 .\"
-.It PATH
+.TP
+.B PATH
 Search path for utilities.
 .\"
-.It TMPDIR
+.TP
+.B TMPDIR
 Directory to hold temporary and lock files.
-.El
-.Sh FILES
-.Bl -tag -width .basedir/bin/env -compact
-.It $BASEDIR/bin/env
-.Nm
+.SH FILES
+.TP
+.B $BASEDIR/bin/env
+.B do-diffs
 configuration file.
 .El
-.Sh SEE ALSO
-.Xr control_rancid 1 ,
-.Xr env 5
+.SH SEE ALSO
+.BR control_rancid (1),
+.BR env (5)

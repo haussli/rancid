@@ -490,7 +490,9 @@ proc run_commands { prompt command } {
     if { [ string compare "extreme" "$platform" ] } {
 	if [ regexp -- ".*> .*enable" "$prompt" ] {
 	    send "set length 0\r"
-	    send "set logging session disable\r"
+	    # This is ugly, but reduces code duplication, allowing the
+	    # subsequent expects to handle everything as normal.
+	    set command "set logging session disable\r;$command"
 	} else {
 	    send "term length 0\r"
 	}

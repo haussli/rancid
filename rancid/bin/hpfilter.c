@@ -125,7 +125,7 @@ main(int argc, char **argv)
 	return(EX_TEMPFAIL);
     }
 
-    /* if a tty, make it raw */
+    /* if a tty, make it raw as the hp echos _everything_ */
     if (isatty(0)) {
 	if (tcgetattr(0, &tios)) {
 	    fprintf(stderr, "%s: tcgetattr() failed: %s\n", progname,

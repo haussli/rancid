@@ -1,7 +1,7 @@
-3.0.eft [speed branch]
-	bin/par - rewrite in C, add -p, -f, and -e options
-
 2.2.2.eft
+	flogin: bring login() and do_enable() in-line with [cj]login.  also
+	match "telnet server disabled" - from brad volz.
+
 	control_rancid: report devices added to router.db - from Fredrik Thulin
 	also eliminate empty up/down lists.
 

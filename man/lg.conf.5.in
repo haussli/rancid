@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "lg.conf" "5" "22 Jan 2001"
+.TH "lg.conf" "5" "30 Sep 2002"
 .SH NAME
 lg.conf \- looking glass configuration file
 .SH DESCRIPTION
@@ -115,6 +115,10 @@ Causes the LG to strip login information from the looking glass results.
 Since Expect often munges disabling echo when passwords are entered,
 this is a SECURITY CONCERN!  However, this output can be very useful for
 debugging clogin problems.
+.\"
+.TP
+.B LG_STYLE
+Defines the URL of a style sheet to be used for HTML formatting.
 .\"
 .TP
 .B PATH

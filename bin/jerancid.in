@@ -337,15 +337,6 @@ sub WriteTerm {
 	    next;
 	}
 
-#
-	if (/^( set session-key (in|out)bound ah \d+ )/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1<removed>\n");
-	    next;
-	}
-	if (/^( set session-key (in|out)bound esp \d+ (authenticator|cypher) )/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1<removed>\n");
-	    next;
-	}
 	if (/^(\s*)password / && $filter_pwds >= 1) {
 	    ProcessHistory("LINE-PASS","","","!$1password <removed>\n");
 	    next;
@@ -355,9 +346,6 @@ sub WriteTerm {
 	    next;
 	}
 	if (/^(ppp .* password) 7 .*/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 <removed>\n"); next;
-	}
-	if (/^(ip ftp password) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
 	if (/^( ip ospf authentication-key) / && $filter_pwds >= 1) {

@@ -1,3 +1,5 @@
+- *login should emmit "clogin error:" or "*login error:" to make matches for
+  login failures definitive?
 - devices not marked up should not appear in "unsuccessfully collected"
   reports.
 - would like hpfilter to be more friendly to interactive logins

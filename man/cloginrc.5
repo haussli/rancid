@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "cloginrc" "5" "13 Jan 2004"
+.TH "cloginrc" "5" "20 Jan 2004"
 .SH NAME
  \.cloginrc \- clogin configuration file
 .SH DESCRIPTION
@@ -154,7 +154,7 @@ add "mode character" to .telnetrc.  See
 for more information on telnet command-line syntax, telnet options,
 and .telnetrc.
 .sp
-Example: add method * {ssh} {telnet:3000} {rsh}
+Example: add method * {ssh} {telnet:-3000} {rsh}
 .sp
 Which would cause
 .IR clogin

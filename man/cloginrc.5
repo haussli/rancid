@@ -103,7 +103,7 @@ may be used to adjust the prompt that
 should look for when trying to login.  Note that enableprompt can be a Tcl
 style regular expression.
 .sp
-Example: "\\[Ee]nter the enable password:"
+Example: add enableprompt rc*.example.net {"\\[Ee]nter the enable password:"}
 .sp
 Default: "\\[Pp]assword:"
 .\"
@@ -153,7 +153,7 @@ used to adjust the prompt that
 should look for when trying to login.  Note that passprompt can be a Tcl
 style regular expression.
 .sp
-Example: "\\[Ee]nter the password:"
+Example: add passprompt rc*.example.net {"\\[Ee]nter the password:"}
 .sp
 Default: "(\\[Pp]assword|passwd):"
 .\"
@@ -197,7 +197,7 @@ used to adjust the prompt that
 should look for when trying to login.  Note that userprompt can be a Tcl
 style regular expression.
 .sp
-Example: "\\[Ee]nter the your username:"
+Example: add userprompt rc*.example.net {"\\[Ee]nter your username:"}
 .sp
 Default: "(Username|login|user name):"
 .\"

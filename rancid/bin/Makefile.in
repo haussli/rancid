@@ -137,6 +137,7 @@ LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LTLIBOBJS = @LTLIBOBJS@
 MAILPLUS = @MAILPLUS@
+ADMINMAILPLUS = @ADMINMAILPLUS@
 MAKE = @MAKE@
 MAKEINFO = @MAKEINFO@
 MKDIR = @MKDIR@
@@ -230,7 +231,8 @@ auto_edit = sed \
 	-e 's,@PERLV\@,$(PERLV),g' \
 	-e 's,@PERLV_PATH\@,$(PERLV_PATH),g' \
 	-e 's,@LG_PING_CMD\@,$(LG_PING_CMD),g' \
-	-e 's,@MAILPLUS\@,$(MAILPLUS),g'
+	-e 's,@MAILPLUS\@,$(MAILPLUS),g' \
+	-e 's,@ADMINMAILPLUS\@,$(ADMINMAILPLUS),g'
 
 all: all-am
 

@@ -83,6 +83,7 @@ trap 'rm -fr $TMP;' 1 2 15
 
 # the receipient(s) of diffs
 mailrcpt=${mailrcpt:-"@MAILPLUS@$GROUP"}; export mailrcpt
+adminmailrcpt=${mailrcpt:-"@ADMINMAILPLUS@$GROUP"}; export adminmailrcpt
 
 # Number of things par should run in parallel.
 PAR_COUNT=${PAR_COUNT:-5}
@@ -93,7 +94,7 @@ then
     echo "$DIR does not exist."
     echo "Run bin/rancid-cvs $GROUP to make all of the needed directories."
     (
-	echo "To: @MAILPLUS@admin-$GROUP"
+	echo "To: $adminmailrcpt"
 	echo "Subject: no $GROUP directory"
 	echo "Precedence: bulk"
 	echo ""
@@ -119,7 +120,7 @@ rm -f $TMP
 if [ ! -f $DIR/router.db ]
 then
     (
-	echo "To: @MAILPLUS@admin-$GROUP"
+	echo "To: $adminmailrcpt"
 	echo "Subject: no $GROUP/router.db file"
 	echo "Precedence: bulk"
 	echo ""
@@ -211,7 +212,7 @@ then
 
     if [ -s routers.mail ] ; then
 	(
-	  echo "To: @MAILPLUS@admin-$GROUP"
+	  echo "To: $adminmailrcpt"
 	  echo "Subject: changes in $GROUP routers"
 	  echo "Precedence: bulk"
 	  echo ""
@@ -409,7 +410,7 @@ fi
 if [ -s $DIR/routers.failed ]
 then
 	(
-	  echo "To: @MAILPLUS@admin-$GROUP"
+	  echo "To: $adminmailrcpt"
 	  echo "Subject: config fetcher problems - $GROUP"
 	  echo "Precedence: bulk"
 	  echo ""

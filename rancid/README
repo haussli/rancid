@@ -19,6 +19,7 @@ erancid.in	Runs commands on ADC EZ-T3 muxes and processes the output.
 francid.in	Runs commands on foundry switches and processes the output.
 hrancid.in	Runs commands on hp procurve switches and processes the output.
 jrancid.in	Runs commands on juniper routers and processes the output.
+mrancid.in	Runs commands on MRT daemons and processes the output.
 rrancid.in	Runs commands on redback routers and processes the output.
 xrancid.in	Runs commands on extreme switches and processes the output.
 cat5rancid.in	Runs commands on cisco Cat switches and processes the output.
@@ -58,7 +59,8 @@ mkinstalldirs	GNU autoconf shell script to make installation directories
 rancid will also need to have the following packages:
 cvs		code revision system available from prep.ai.mit.edu:/pub/gnu
 gnudiff		gnudiff provides the uni-diff (-u) option.  if you do not have
-		gnudiff, configure will use 'diff -c' or 'diff -C'.
+		gnudiff, configure will set-up rancid to use 'diff -c' or
+		'diff -C'.
 perl5		perl version 5 or greater available from www.cpan.org
 expect		http://expect.nist.gov/  we highly suggest that you stick to
 		expect 5.24.1 (or so).  this seems to work best.  note that

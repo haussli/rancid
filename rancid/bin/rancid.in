@@ -333,6 +333,37 @@ sub ShowRedundancy {
     return(0);
 }
 
+# This routine parses "show IDprom"
+sub ShowIDprom {
+    my($tmp);
+
+    print STDERR "    In ShowIDprom: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	study;
+	last if(/^$prompt/);
+	next if(/^(\s*|\s*$cmd\s*)$/);
+	# the pager can not be disabled per-session on the PIX
+	s/^<-+ More -+>\s*//;
+
+	/FRU is .(.*)\'/ && ($tmp = $1);
+	/Product Number = .(.*)\'/ &&
+		ProcessHistory("COMMENTS","keysort","D0","!\n") &&
+		ProcessHistory("COMMENTS","keysort","D0",
+				"!Catalyst Chassis type: $1, $tmp\n");
+	/Serial Number = .([0-9A-Za-z]+)/ &&
+		ProcessHistory("COMMENTS","keysort","D1",
+				"!Catalyst Chassis S/N: $1\n");
+	/Manufacturing Assembly Number = .([-0-9]+)/ && ($tmp = $1);
+	/Manufacturing Assembly Revision = .(.*)\'/ && ($tmp .= ", rev " . $1);
+	/Hardware Revision = ([0-9.]+)/ &&
+		ProcessHistory("COMMENTS","keysort","D2",
+				"!Catalyst Chassis assembly: $tmp, ver $1\n");
+    }
+    return(0);
+}
+
 # This routine parses "show install active"
 sub ShowInstallActive {
     print STDERR "    In ShowInstallActive: $_" if ($debug);
@@ -1213,7 +1244,8 @@ sub DoNothing {print STDOUT;}
 # Main
 %commands=(
 	'show version'		=> "ShowVersion",
-	'show redundancy secondary'		=> "ShowRedundancy",
+	'show redundancy secondary'	=> "ShowRedundancy",
+	'show idprom backplane',	=> "ShowIDprom",
 	'show install active'	=> "ShowInstallActive",
 	'show env all'		=> "ShowEnv",
 	'show gsr chassis'	=> "ShowGSR",
@@ -1262,6 +1294,7 @@ sub DoNothing {print STDOUT;}
 @commands=(
 	"show version",
 	"show redundancy secondary",
+	"show idprom backplane",
 	"show install active",
 	"show env all",
 	"show gsr chassis",

@@ -310,7 +310,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS VERSION PACKAGE INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot MAKE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CPP EGREP U ANSI2KNR MAILPLUS DIRNAME DIFF DIFF_CMD SENDMAIL TAR PERLV_PATH PERLV EXPECT_PATH PING_PATH LG_PING_CMD CVS COMM FIND GREP ID MKDIR RSH SORT SSH TELNET TOUCH ENV_PATH LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS VERSION PACKAGE INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot MAKE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CPP EGREP U ANSI2KNR MAILPLUS ADMINMAILPLUS DIRNAME DIFF DIFF_CMD SENDMAIL TAR PERLV_PATH PERLV EXPECT_PATH PING_PATH LG_PING_CMD CVS COMM FIND GREP ID MKDIR RSH SORT SSH TELNET TOUCH ENV_PATH LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -4945,21 +4945,27 @@ if test "${enable_mail_plus+set}" = set; then
     echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
     MAILPLUS="rancid+"
+    ADMINMAILPLUS="rancid+admin-"
+
 
 else
     echo "$as_me:$LINENO: result: no" >&5
 echo "${ECHO_T}no" >&6
     MAILPLUS="rancid-"
+    ADMINMAILPLUS="rancid-admin-"
+
 
 fi
 else
   echo "$as_me:$LINENO: result: no" >&5
 echo "${ECHO_T}no" >&6
     MAILPLUS="rancid-"
+    ADMINMAILPLUS="rancid-admin-"
 
 
 fi;
 rd_cv_MAILPLUS=$MAILPLUS
+rd_cv_ADMINMAILPLUS=$ADMINMAILPLUS
 
 # Extract the first word of "dirname", so it can be a program name with args.
 set dummy dirname; ac_word=$2
@@ -6746,6 +6752,7 @@ s,@EGREP@,$EGREP,;t t
 s,@U@,$U,;t t
 s,@ANSI2KNR@,$ANSI2KNR,;t t
 s,@MAILPLUS@,$MAILPLUS,;t t
+s,@ADMINMAILPLUS@,$ADMINMAILPLUS,;t t
 s,@DIRNAME@,$DIRNAME,;t t
 s,@DIFF@,$DIFF,;t t
 s,@DIFF_CMD@,$DIFF_CMD,;t t

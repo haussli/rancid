@@ -12,3 +12,6 @@ track.
 	starting: Fri Nov 14 22:08:32 GMT 2003
 
 	override rw-r-----  root/wheel for routers.all? 
+- rename hpfilter to hpuifilter
+- what to do about bin/rename?
+- what to do about bin/do-diffs?

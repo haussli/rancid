@@ -19,9 +19,9 @@ AUTOMAKE_OPTIONS=foreign no-dependencies
 
 @SET_MAKE@
 
-EXTRA_DIST = BUGS CHANGES COPYING FAQ README Todo cloginrc.sample configure \
-	install-sh \
-	mkinstalldirs Makefile.in Todo
+pkgdata_DATA = CHANGES FAQ README README.lg cloginrc.sample
+EXTRA_DIST = BUGS COPYING Todo configure install-sh \
+	mkinstalldirs Makefile.in Todo $(pkgdata_DATA)
 #DIST_COMMON = 
 
 # '.' is here (and at the beginnging of the macro) so that distclean-recursive
@@ -30,14 +30,7 @@ EXTRA_DIST = BUGS CHANGES COPYING FAQ README Todo cloginrc.sample configure \
 # the subdirs.
 SUBDIRS = . include etc bin man util
 
-# install-exec-local:
-# 	$(mkinstalldirs) $(prefix)/util/lg
-
 # sysconfdir is here because etc/Makefile uses a script to be careful about
 # installing rancid.conf, not over-writing an existing one.
 install-data-hook:
-	$(mkinstalldirs) $(prefix) $(sysconfdir); \
-	for file in CHANGES FAQ README cloginrc.sample ; do \
-	    $(INSTALL_DATA) $$file $(prefix); \
-	done
-
+	$(mkinstalldirs) $(prefix) $(sysconfdir);

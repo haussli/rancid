@@ -695,27 +695,27 @@ sub DoNothing {print STDOUT;}
 sub FlailHelplessly {
     print STDERR "Flailing: $_" if ($debug);
     print STDOUT "Flailing: $_" if ($log);
-    /(show version)/ && delete($commands{$1}) && return("ShowVersion");
-    /(show env all)/ && delete($commands{$1}) && return("ShowEnv");
-    /(show gsr chassis)/ && delete($commands{$1}) && return("ShowGSR");
-    /(show boot.*)/ && delete($commands{$1}) && return("ShowBoot");
-    /(show flash)/ && delete($commands{$1}) &&
+    /#(show version)$/ && delete($commands{$1}) && return("ShowVersion");
+    /#(show env all)$/ && delete($commands{$1}) && return("ShowEnv");
+    /#(show gsr chassis)$/ && delete($commands{$1}) && return("ShowGSR");
+    /#(show boot.*)$/ && delete($commands{$1}) && return("ShowBoot");
+    /#(show flash)$/ && delete($commands{$1}) &&
 	(ProcessHistory("FLASH","","","!\n"),return("ShowFlash"));
-    /(dir \/all bootflash\:)/ && delete($commands{$1}) &&
+    /#(dir \/all bootflash\:)$/ && delete($commands{$1}) &&
 	(ProcessHistory("FLASH","","","!\n"), return("DirBootflash"));
-    /(dir \/all slot0\:)/ && delete($commands{$1}) &&
+    /#(dir \/all slot0\:)$/ && delete($commands{$1}) &&
 	(ProcessHistory("FLASH","","","!\n"),return("DirSlot0"));
-    /(dir \/all slot1\:)/ && delete($commands{$1}) &&
+    /#(dir \/all slot1\:)$/ && delete($commands{$1}) &&
 	(ProcessHistory("FLASH","","","!\n"),return("DirSlot1"));
     # These three generate a list of the hw.
     # There are a few variable created in ShowContCbus
     # That are printed out in ShowDiagbus.
-    /(show controllers cbus)/ && delete($commands{$1}) && return("ShowContCbus");
-    /(show controllers)/ && delete($commands{$1}) && return("ShowContAll");
-    /(show diagbus)/ && delete($commands{$1}) && return("ShowDiagbus");
-    /(show diag)/ && delete($commands{$1}) && return("ShowDiags");
-    /(show c7200)/ && delete($commands{$1}) && return("ShowC7200");
-    /(write term)/ && delete($commands{$1}) && return("WriteTerm");
+    /#(show controllers cbus)$/ && delete($commands{$1}) && return("ShowContCbus");
+    /#(show controllers)$/ && delete($commands{$1}) && return("ShowContAll");
+    /#(show diagbus)$/ && delete($commands{$1}) && return("ShowDiagbus");
+    /#(show diag)$/ && delete($commands{$1}) && return("ShowDiags");
+    /#(show c7200)$/ && delete($commands{$1}) && return("ShowC7200");
+    /#(write term)$/ && delete($commands{$1}) && return("WriteTerm");
     return "FlailHelplessly";
 }
 

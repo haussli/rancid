@@ -1,4 +1,6 @@
 2.3.2
+	etc/Makefile.am: support DESTDIR - from Michael Shields
+
 	rancid: add IOX/CRS support.
 
 	hrancid: show stack does not apply to all procurves - Eugene Zagrebelny

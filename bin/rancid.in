@@ -178,10 +178,17 @@ sub ShowVersion {
 	}
 	/^Serial Number:\s+(.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","C1", "!$_") && next;
-	# CatOS 3500xl
+	# CatOS 3500xl stuff
 	/^System serial number(:\s+.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","C1", "!Serial Number$1\n") &&
 	    next;
+	/^Model / &&
+	    ProcessHistory("COMMENTS","keysort","C2", "!$_") && next;
+	/^Motherboard / &&
+	    ProcessHistory("COMMENTS","keysort","C3", "!$_") && next;
+	/^Power supply / &&
+	    ProcessHistory("COMMENTS","keysort","C4", "!$_") && next;
+
 	/^Activation Key:\s+(.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","C2", "!$_") && next;
 	/^ROM: \d+ Bootstrap .*(Version.*)$/ &&

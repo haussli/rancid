@@ -1,4 +1,4 @@
-#!/bin/sh
+#! /bin/sh
 
 # Reports the list of routers not listed as 'up'.
 

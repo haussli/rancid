@@ -655,20 +655,13 @@ sub ShowDiag {
 	# return(1) if ($type !~ /^(12[40]|720|36|26)/);
 	return(-1) if (/command authorization failed/i);
 	/^$/ && next;
-	if (!defined($showdiags)) {$showdiags=1; ProcessHistory("SLOT","","","!\n");}
 	s/Port Packet Over SONET/POS/;
 	if (/^\s*SLOT\s+(\d+)\s+\((.*)\): (.*)/) {
 	    $slot = $1;
-	    ProcessHistory("SLOT","","","!Slot $slot: $3\n");
-	    # Here we look for boards that don't have DRAM.
-	    $board = "Other";
-	    $board = "PS" if (/Power Supply/);
-	    $board = "RP" if (/Route Processor/);
-	    $board = "CLK" if (/Clock Scheduler Card/);
-	    $board = "SFC" if (/Switch Fabric Card/);
+	    ProcessHistory("SLOT","","","!\n!Slot $slot: $3\n");
 	    next;
 	}
-	if (/^\s+MAIN:\s+ type \d+,\s+(.*)/) {
+	if (/^\s+MAIN:\s* type \d+,\s+(.*)/) {
 	    ProcessHistory("SLOT","","","!Slot $slot/MAIN: part $1\n") && next;
 	}
 	if (/ Engine:\s+(.*)/) {
@@ -691,17 +684,26 @@ sub ShowDiag {
 	    next;
 	}
 	if (/^\s+MBUS Agent Software version (.*)/) {
-	    local($sw) = $1;
-	    local($tail) = "!\n" if ($board ne "Other");
-	    ProcessHistory("SLOT","","","!Slot $slot/MBUS: software $sw\n$tail");
+	    ProcessHistory("SLOT","","","!Slot $slot/MBUS: software $1\n");
+	    next;
+	}
+	if (/^\s+ROM Monitor version (.*)/) {
+	    ProcessHistory("SLOT","","","!Slot $slot/ROM Monitor: version $1\n");
+	    next;
+	}
+	if (/^\s+Fabric Downloader version used (.*)/) {
+	    ProcessHistory("SLOT","","","!Slot $slot/Fabric Downloader: version $1\n");
 	    next;
 	}
 	if (/^\s+DRAM size: (\d+)/) {
 	    local($dram) = $1 / 1048576;
 	    $_ = <INPUT>;
-	    /^\s+FrFab SDRAM size: (\d+)/ &&
+	    if (/^\s+FrFab SDRAM size: (\d+)/) {
 		ProcessHistory("SLOT","","","!Slot $slot/MBUS: $dram Mbytes DRAM, "
-			   . $1 / 1024 . " Kbytes SDRAM\n!\n");
+			   . $1 / 1024 . " Kbytes SDRAM\n");
+	    } else {
+		ProcessHistory("SLOT","","","!Slot $slot/MBUS: $dram Mbytes DRAM\n");
+	    }
 	    next;
 	}
 	# 7200 and 3600 stuff
@@ -739,6 +741,7 @@ sub ShowDiag {
 	    ProcessHistory("SLOT","","","!Slot $slot$WIC: part $2, serial $1\n!\n") &&
 	    next;
     }
+    ProcessHistory("SLOT","","","!\n");
     return(0);
 }
 

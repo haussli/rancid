@@ -1,5 +1,6 @@
 2.3b
 	rancid: 12.0S(21) added "FRU" field in show diagbus o/p
+	Also look for a couple more things in some show diag output.
 
 	lg: filter ["`'] from args
 

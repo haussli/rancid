@@ -170,7 +170,7 @@ if ($LG_STYLE) {
     print $query->start_html(-title =>"LookingGlass form",
 						-style => {'src' => $LG_STYLE});
 } else {
-    print $query->start_html(-title =>"LookingGlass from");
+    print $query->start_html(-title =>"LookingGlass form");
 } 
 
 # add the company image, LG_IMAGE
@@ -184,45 +184,57 @@ print <<HEAD ;
 HEAD
 
 # start table, etc here
+print $query->startform( -action => 'lg.cgi', -method => 'POST');
 print <<DOTABLE ;
-<form action=lg.cgi method=GET>
 <center>
 <table border cellspacing=0 width=575 align=center>
 
 DOTABLE
 
 # available query types here
-print <<QTYPES ;
+print <<TABLEHEAD ;
 <tr valign=top>
-        <TD><B>Query:</B>
-<dd><input type=radio name="query" value="framerelay">show frame-relay pvc [DLCI]</DD>
-<dd><input type=radio name="query" value="interface">show interface &lt;interface&gt;</DD>
-<dd><input type=radio name="query" value="prefix">show ip bgp &lt;prefix&gt; [netmask]</DD>
-<dd><input type=radio name="query" value="neighbor">show ip bgp neighbor &lt;IP_addr&gt;</DD>
-<dd><input type=radio name="query" value="regex">show ip bgp regex &lt;reg_exp&gt;</DD>
-<dd><input type=radio name="query" value="summary">show ip bgp summary</DD>
-<dd><input type=radio name="query" value="damp">show ip bgp dampened-paths</DD>
-<dd><input type=radio name="query" value="prefixlist">show ip prefix-list &lt;list_name&gt;</DD>
-<dd><input type=radio name="query" value="route">show ip route &lt;prefix&gt; [netmask]</DD>
-<dd><input type=radio name="query" value="routemap">show route-map &lt;map_name&gt;</DD>
-<dd><input type=radio name="query" value="mbgp">show ip mbgp &lt;prefix&gt; [netmask]</dd>
-<dd><input type=radio name="query" value="mbgpsum">show ip mbgp summary</dd>
-<dd><input type=radio name="query" value="log">show logging [ | &lt;match_string&gt;]</DD>
-<dd><input type=radio name="query" value="ping">ping &lt;IP_addr | FQDN&gt;</dd>
-<dd><input type=radio name="query" value="trace">traceroute &lt;IP_addr | FQDN&gt;</DD>
+        <th align=left><B>Query:</B></th>
+        <th align=left><B>Router:</B></th>
+</tr>
+<tr><td>
+TABLEHEAD
+
+if (defined(%i_qrtype)) {
+    print $query->radio_group (-name => 'query', -values => \%i_qrtype,
+					-default => '-', -linebreak => 'true');
+    print $query->hr;
+}
+
+if (defined(%r_qrtype)) {
+    print $query->radio_group (-name => 'query', -values => \%r_qrtype,
+					-default => '-', -linebreak => 'true');
+    print $query->hr;
+}
+
+if (defined(%d_qrtype)) {
+    print $query->radio_group (-name => 'query', -values => \%d_qrtype,
+					-default => '-', -linebreak => 'true');
+    print $query->hr;
+}
+
+if (defined(%m_qrtype)) {
+    print $query->radio_group (-name => 'query', -values => \%m_qrtype,
+					-default => '-', -linebreak => 'true');
+    print $query->hr;
+}
+
+if (defined(%v6_qrtype)) {
+    print $query->radio_group (-name => 'query', -values => \%v6_qrtype,
+					-default => '-', -linebreak => 'true');
+}
+
+print <<QTYPES ;
 
 <P><B>Argument(s):</B> <INPUT name="args" size=30></P>
         </TD>
-        <td ALIGH=left VALIGN=top>
-        <b>Router:</B>
-
-<dd>
+        <td aligh=left valign=top>
 QTYPES
-
-# <dd><input type=radio name="query" value="aspath">sh ip as-path-access-list &lt;list_number&gt;</DD>
-# <dd><input type="radio" name="query" value="acl">sh access-list &lt;list_number&gt;</dd>
-# <dd><input type=radio name="query" value="communitylist">sh ip community-list &lt;list_number&gt;<DD>
-# <dd><input type=radio name="query" value="routemap">sh ip route-map &lt;map_name&gt;</DD>
 
 # read routers table and create the scrolling list
 readrouters();
@@ -232,20 +244,23 @@ print $query->scrolling_list(-name => 'router',
 			-labels => \%rtrlabels);
 
 # end
-print <<TAIL ;
+print <<TABLEEND ;
 </dd>
 </td>
 </TABLE>
-<p><input type=submit value=Submit> <INPUT type=reset value=Reset></FORM>
+<p>
+TABLEEND
+
+print $query->submit(-name => 'submit', -value =>'Submit');
+print $query->reset;
+print $query->endform;
+
+print <<TAIL ;
 </center>
 <br>
 <a href=lgnotes.html>Looking Glass notes</a>
-TAIL
-
-print <<TAIL ;
 <p>
 $LG_INFO
-</body>
 TAIL
 
 print $query->end_html;

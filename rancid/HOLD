@@ -20,6 +20,5 @@ track.
 - etc/lg.conf needs $sysconfdir for LG_ROUTERDB
 - README.lg needs cleansing
 - this doesnt make sense: lg.conf.5.in:Default: @prefix@/.cloginrc
+			lg.conf.5.in:Default: @prefix@/util/lg/router.db
 - man/rancid.db.5 needs BASEDIR fixing
-
-- share/downreport.in needs full expansion

@@ -265,13 +265,12 @@ select(OUTPUT); $| = 1;
 if ($file) {
     print STDERR "opening file $host\n" if ($debug);
     print STDOUT "opening file $host\n" if ($log);
-    open(INPUT,"<$host") || die "open failed for $host: $!\n";
+    open(INPUT,"< $host") || die "open failed for $host: $!\n";
 } else {
-    #print STDERR "executing echo \"$jnx_commands\" | ssh -q $host cli\n") if ($debug);
-    #print STDOUT "executing echo \"$jnx_commands\" | ssh -q $host cli\n") if ($log);
-#    open(INPUT,"echo \"$jnx_commands\" | ssh -q $host cli |") ||
-    open(INPUT,"echo \"$jnx_commands\" | ssh -q $host |") ||
-	die "ssh failed for $host: $!\n";
+    print(STDERR "executing echo jlogin -c\"$jnx_commands\" $host\n") if ($debug);
+    print(STDOUT "executing echo jlogin -c\"$jnx_commands\" $host\n") if ($debug);
+    open(INPUT,"jlogin -c\"$jnx_commands\" $host </dev/null |") ||
+					die "jlogin failed for $host: $!\n";
 }
 while(<INPUT>) {
     tr/\015//d;

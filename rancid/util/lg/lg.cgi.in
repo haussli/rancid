@@ -275,9 +275,12 @@ sub Error {
 
     my($q) = new CGI();
     print $q->header;
-    print $q->start_html("Looking Glass Error");
-
-    print "<BODY>";
+    if ($LG_STYLE) {
+	print $query->start_html(-title => "LookingGlass Results - $router",
+						-style => {'src' => $LG_STYLE});
+    } else {
+	print $query->start_html(-title =>"LookingGlass Results - $router");
+    }
 
     # add the company image, LG_IMAGE
     print $LG_IMAGE;
@@ -330,7 +333,12 @@ sub start_page {
 	$ENV{REMOTE_HOST}, $ENV{REMOTE_ADDR}, $ENV{REMOTE_USER},
 	"- - [$timestr] $type $router $arg"));
     print $query->header;
-    print $query->start_html("Looking Glass Results - $router");
+    if ($LG_STYLE) {
+	print $query->start_html(-title =>"LookingGlass form",
+						-style => {'src' => $LG_STYLE});
+    } else {
+	print $query->start_html(-title =>"LookingGlass from");
+    } 
 
     $timestr = strftime("%a %b %e %H:%M:%S %Y %Z", gmtime);
 
@@ -422,7 +430,7 @@ $arg =~ s/["'`]//g;			# these are BS in any arg for any query
 
 # verify router, commands, arguments, etc.
 ($router, $mfg) = split(':', $router_param);
-if (!defined($type) || !defined($router)) {
+if (!defined($type) || !defined($router) || $router eq "") {
     $results[0] = "You must at least choose a Query and a router.  Try buying a clue.\n";
     &Error("You must at least choose a Query and a router.  Try buying a clue.\n");
 }

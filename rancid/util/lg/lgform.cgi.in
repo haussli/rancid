@@ -161,9 +161,12 @@ readconf();
 $query = new CGI;
 
 print $query->header;
-print $query->start_html("LookingGlass form");
-
-print "<BODY>";
+if ($LG_STYLE) {
+    print $query->start_html(-title =>"LookingGlass form",
+						-style => {'src' => $LG_STYLE});
+} else {
+    print $query->start_html(-title =>"LookingGlass from");
+} 
 
 # add the company image, LG_IMAGE
 print $LG_IMAGE;

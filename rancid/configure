@@ -4999,8 +4999,9 @@ else
 fi
 rd_cv_lg_ping_cmd=$LG_PING_CMD
 
-# locate tools to build $PATH for env.  order is significant.  want to be
-# sure that we pick up the the proper diff and ucbmail in bin/env.
+# locate tools to build $PATH for rancid.conf.  order is significant.  want
+# to be sure that we pick up the the proper diff and ucbmail in
+# bin/rancid.conf.
 ENV_PATH="`dirname $PERLV_PATH`:`dirname $EXPECT_PATH`:`dirname $SENDMAIL`"
 ENV_PATH="$ENV_PATH:`dirname $DIRNAME`:`dirname $DIFF`"
 
@@ -5469,6 +5470,8 @@ ac_cv_env_path=$ENV_PATH
 
           ac_config_files="$ac_config_files bin/Makefile"
 
+          ac_config_files="$ac_config_files etc/Makefile"
+
           ac_config_files="$ac_config_files include/Makefile"
 
           ac_config_files="$ac_config_files man/Makefile"
@@ -5484,7 +5487,7 @@ ac_cv_env_path=$ENV_PATH
 					# want is simple variable replacement
           ac_config_headers="$ac_config_headers include/config.h"
 
-          ac_config_files="$ac_config_files bin/env"
+          ac_config_files="$ac_config_files etc/rancid.conf"
 
                                                             ac_config_files="$ac_config_files bin/control_rancid bin/create_cvs bin/do-diffs bin/par bin/rancid-fe bin/rename"
 
@@ -5526,7 +5529,7 @@ ac_cv_env_path=$ENV_PATH
 
                     ac_config_files="$ac_config_files util/lg/lg.cgi util/lg/lgform.cgi"
 
-                              ac_config_files="$ac_config_files man/env.5 man/lg.conf.5 man/lg_intro.1"
+                              ac_config_files="$ac_config_files man/rancid.conf.5 man/lg.conf.5 man/lg_intro.1"
 
 
 cat >confcache <<\_ACEOF
@@ -6059,12 +6062,13 @@ do
   # Handling of arguments.
   "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
   "bin/Makefile" ) CONFIG_FILES="$CONFIG_FILES bin/Makefile" ;;
+  "etc/Makefile" ) CONFIG_FILES="$CONFIG_FILES etc/Makefile" ;;
   "include/Makefile" ) CONFIG_FILES="$CONFIG_FILES include/Makefile" ;;
   "man/Makefile" ) CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
   "util/Makefile" ) CONFIG_FILES="$CONFIG_FILES util/Makefile" ;;
   "util/lg/Makefile" ) CONFIG_FILES="$CONFIG_FILES util/lg/Makefile" ;;
   "include/version.h" ) CONFIG_FILES="$CONFIG_FILES include/version.h" ;;
-  "bin/env" ) CONFIG_FILES="$CONFIG_FILES bin/env" ;;
+  "etc/rancid.conf" ) CONFIG_FILES="$CONFIG_FILES etc/rancid.conf" ;;
   "bin/control_rancid" ) CONFIG_FILES="$CONFIG_FILES bin/control_rancid" ;;
   "bin/create_cvs" ) CONFIG_FILES="$CONFIG_FILES bin/create_cvs" ;;
   "bin/do-diffs" ) CONFIG_FILES="$CONFIG_FILES bin/do-diffs" ;;
@@ -6107,7 +6111,7 @@ do
   "util/lg/lg.conf" ) CONFIG_FILES="$CONFIG_FILES util/lg/lg.conf" ;;
   "util/lg/lg.cgi" ) CONFIG_FILES="$CONFIG_FILES util/lg/lg.cgi" ;;
   "util/lg/lgform.cgi" ) CONFIG_FILES="$CONFIG_FILES util/lg/lgform.cgi" ;;
-  "man/env.5" ) CONFIG_FILES="$CONFIG_FILES man/env.5" ;;
+  "man/rancid.conf.5" ) CONFIG_FILES="$CONFIG_FILES man/rancid.conf.5" ;;
   "man/lg.conf.5" ) CONFIG_FILES="$CONFIG_FILES man/lg.conf.5" ;;
   "man/lg_intro.1" ) CONFIG_FILES="$CONFIG_FILES man/lg_intro.1" ;;
   "depfiles" ) CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;

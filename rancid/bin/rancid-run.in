@@ -12,10 +12,11 @@
 ## or its effect upon hardware, computer systems, other software, or
 ## anything else.
 ##
-# do diffs for each of the diff groups ($LIST_OF_GROUPS) from <BASEDIR>/bin/env
+# do diffs for each of the diff groups ($LIST_OF_GROUPS) from
+# <BASEDIR>/etc/rancid.conf
 ##
 
-ENVFILE="`dirname $0`/env"
+ENVFILE="`dirname $0`/../etc/rancid.conf"
 
 . $ENVFILE
 

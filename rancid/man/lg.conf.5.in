@@ -107,7 +107,7 @@ Default: @prefix@/util/lg/router.db
 Note that if the concatenation method is used, it may be necessary to alter
 the mode of the router.db files in the rancid group directories, since rancid's
 default umask is 027 (see
-.BR env (5)).
+.BR rancid.conf (5)).
 .\"
 .TP
 .B LG_STRIP
@@ -155,7 +155,7 @@ is interpreted directly by
 so its syntax follows that of perl.  Syntax errors may produce quite unexpected
 results.
 .SH FILES
-.Bl -tag -width .BASEDIR/bin/ENV -compact
+.Bl -tag -width .BASEDIR/etc/ENV -compact
 .TP
 .B $BASEDIR/util/lg/lg.conf
 Configuration file described here, where $BASEDIR is set at the time that

@@ -1,7 +1,8 @@
 ## Process this file with automake to produce Makefile.in
 ## A Makefile.in is supplied, in case you do not have automake.
 
-## Copyright (C) 1997-2001 by Henry Kilmer, Erik Sherk and Pete Whiting.
+## Copyright (C) 1997-2003 by Henry Kilmer, Erik Sherk and Pete Whiting, Andrew
+## Partan, and John Heasley.
 ## All rights reserved.
 ##
 ## This software may be freely copied, modified and redistributed without
@@ -39,17 +40,6 @@ YFLAGS = -d
 
 # no idea why automake doesnt clean these targets
 #CLEANFILES= y.tab.c y.tab.h lex.yy.c conf.h conf.c conflex.c
-
-install-data-local: all
-	if test -f $(bindir)/env ; then \
-	    echo ""; \
-	    echo "WARNING: *** $(bindir)/env exists: installing as env.new."; \
-	    echo "         *** review env.new for new/deprecated switches"; \
-	    echo ""; \
-	    $(INSTALL_DATA) env $(bindir)/env.new; \
-	else \
-	    $(INSTALL_DATA) env $(bindir); \
-	fi
 
 #clean:
 #	rm -f Makefile env $(BIN_DATAS) $(BIN_PROGS)

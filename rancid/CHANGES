@@ -14,6 +14,8 @@
 
 	bin/rename is no longer shipped with rancid
 
+	clogin: disable session logging w/ -c on catos - from Jason Ornstein
+
 	rancid: add Processor ID to save output
 
 	*login: handle TCL meta-characters in cloginrc directive values

@@ -246,8 +246,8 @@ sub ShowEnv {
 # This routine parses "show gsr chassis-info" for the gsr
 # This will create arrarys for hw info.
 sub ShowGSR {
-    print STDERR "    In ShowGSR: $_" if ($debug);
     # Skip if this is not a 1200n.
+    print STDERR "    In ShowGSR: $_" if ($debug);
     return if ($type !~ /^120/);
     /^$/ && return;
     /^\s+Chassis: type (\S+) Fab Ver: (\S+)/ &&
@@ -266,12 +266,11 @@ sub ShowGSR {
 # This routine parses "show boot"
 sub ShowBoot {
     # Pick up boot variables if 7000/7500/12000; otherwise pick up bootflash.
-    local(@bootflashinfo,@bootvars) = ();
     print STDERR "    In ShowBoot: $_" if ($debug);
     return if /^\s*$/;
     return if /^\s*\^\s*$/;
     return if /Invalid input detected/;
-    return if /Open device \S+ failed /;
+    return if /(Open device \S+ failed|Error opening \S+:)/;
     if (!defined($H0)) {$H0=1; ProcessHistory("COMMENTS","keysort","H0","!\n");}
     if ($type !~ /^(1200|7)/) {
 	ProcessHistory("COMMENTS","keysort","H2","!BootFlash: $_");
@@ -301,36 +300,36 @@ sub DirBootflash {
     return if ($type !~ /^(1200|7.0)/);
     return if /^\s*\^\s*$/;
     return if /Invalid input detected/;
+    /: device being squeezed/ && return(-1); # Flash is busy
     return if /(Open device \S+ failed|Error opening \S+:)/;
-    /: device being squeezed/  && return(-1); # Flash is busy
     ProcessHistory("FLASH","","","!Flash: BootFlash: $_");
     return;
 }
 
 # This routine parses "dir /all slot0:"
 sub DirSlot0 {
-    # Skip if this is not a 7000, 7200, 7500, or 12000.
+    # Skip if this is not a 3600, 7000, 7200, 7500, or 12000.
     print STDERR "    In DirSlot0: $_" if ($debug);
     return if /^\s*$/;
-    return if ($type !~ /^(1200|7.0)/);
+    return if ($type !~ /^(1200|7.0|36.0)/);
     return if /^\s*\^\s*$/;
     return if /Invalid input detected/;
+    /: device being squeezed/ && return(-1); # Flash is busy
     return if /(Open device \S+ failed|Error opening \S+:)/;
-    /: device being squeezed/  && return(-1); # Flash is busy
     ProcessHistory("FLASH","","","!Flash: Slot0: $_");
     return;
 }
 
 # This routine parses "dir /all slot1:"
 sub DirSlot1 {
-    # Skip if this is not a 7000, 7200, 7500, or 12000.
+    # Skip if this is not a 3600, 7000, 7200, 7500, or 12000.
     print STDERR "    In DirSlot1: $_" if ($debug);
     return if /^\s*$/;
-    return if ($type !~ /^(1200|7.0)/);
+    return if ($type !~ /^(1200|7.0|36.0)/);
     return if /^\s*\^\s*$/;
     return if /Invalid input detected/;
+    /: device being squeezed/ && return(-1); # Flash is busy
     return if /(Open device \S+ failed|Error opening \S+:)/;
-    /: device being squeezed/  && return(-1); # Flash is busy
     ProcessHistory("FLASH","","","!Flash: Slot1: $_");
     return;
 }
@@ -357,6 +356,16 @@ sub ShowContAll {
     /^AM79970 / && ProcessHistory("INT","","","!Interface: $_") && return;
     /^buffer size \d+  (Universal Serial: .*)/ &&
 	ProcessHistory("INT","","","!\t$1\n") && return;
+    /^Hardware is (.*)/ &&
+	ProcessHistory("INT","","","!Interface: $1\n") && return;
+    /^(QUICC Serial unit \d),/ &&
+	ProcessHistory("INT","","","!$1\n") && return;
+    /^QUICC Ethernet .*/ &&
+	ProcessHistory("INT","","","!$_") && return;
+    /^DTE .*\.$/ &&
+	ProcessHistory("INT","","","!\t$_") && return;
+    /^.* cable.*$/ &&
+	ProcessHistory("INT","","","!\t$_") && return;
     return;
 }
 
@@ -425,7 +434,7 @@ sub ShowDiagbus {
 		$board = "SSP";
 	    } elsif ($board =~ /Switch/) {
 		$board = "SP";
-		$board = "SSP $sspmem" if $ssp;
+		$board = "SSP $ssp" if $ssp;
 	    } elsif ($board =~ /ATM/) {
 		$board = "AIP";
 	    }
@@ -453,7 +462,7 @@ sub ShowDiagbus {
     if (/PA Bay (\d) Information/) {
 	$pano = $1;
 	if ("PA" =~ /$board/) {
-	    ($s,$c,$p) = split(/\//,$board);
+	    ($s,$c) = split(/\//,$board);
 	    $board = "$s/$c/PA $pano";
 	} else {
 	    $board =~ s/\/PA \d//;
@@ -472,12 +481,12 @@ sub ShowDiagbus {
     return;
 }
 
-# This routine parses "show diags" for the gsr
+# This routine parses "show diags" for the gsr and 7200
 # This will create arrarys for hw info.
 sub ShowDiags {
     # Skip if this is not a 12000.
     print STDERR "    In ShowDiags: $_" if ($debug);
-    return if ($type !~ /^(1200|720)/);
+    return if ($type !~ /^(1200|720|36.0)/);
     /^$/ && return;
     s/Port Packet Over SONET/POS/;
     if (/^\s*SLOT (\d+)\s+\(.*\): (.*)/) {
@@ -518,25 +527,30 @@ sub ShowDiags {
 			   . $1 / 1024 . " Kbytes SDRAM\n!\n");
 	return;
     }
-    # 7200 stuff
-    if (/^Slot (\d+):/) {
-	$slot = $1;
+    # 7200 and 3600 stuff
+    if (/^(Slot) (\d+):/ || /^\s+(WIC) Slot (\d):/) {
+	if ($1 eq "WIC") {
+	    $WIC = "/$2";
+	} else {
+	    $slot = $2;
+	    undef($WIC);
+	}
 	$_ = <INPUT>;
 	# clean up hideous 7200 format to look more like 7500 output
 	s/Fast-ethernet on C7200 I\/O card/FE-IO/;
 	s/ with MII or RJ45/-TX/;
 	s/Fast-ethernet /100Base/; s/[)(]//g;
 
-	/\s+(.*)\s+port adapter,\s+(\d+)\s+/ &&
+	/\s+(.*)\s+port adapter?,\s+(\d+)\s+/ &&
 	    ProcessHistory("SLOT","","","!Slot $slot: type $1, $2 ports\n");
-	<INPUT>; <INPUT>; $_ = <INPUT>;
-	/revision\s+(\S+).*revision\s+(\S+)/ &&
-	    ProcessHistory("SLOT","","","!Slot $slot: hvers $1 rev $2\n");
-        $_ = <INPUT>;
-	/number\s+(\S+)\s+Part number\s+(\S+)/ &&
-	    ProcessHistory("SLOT","","","!Slot $slot: part $2, serial $1\n!\n");
+	/\s+(.*)\s+daughter card(.*)$/ &&
+	    ProcessHistory("SLOT","","","!Slot $slot$WIC: type $1$2\n");
 	return;
     }
+    /revision\s+(\S+).*revision\s+(\S+)/ &&
+	ProcessHistory("SLOT","","","!Slot $slot$WIC: hvers $1 rev $2\n") && return;
+    /number\s+(\S+)\s+Part number\s+(\S+)/ &&
+	ProcessHistory("SLOT","","","!Slot $slot$WIC: part $2, serial $1\n!\n") && return;
     return;
 }
 
@@ -577,6 +591,7 @@ sub WriteTerm {
 	while (<INPUT>) {
 	    next if (/^Current configuration:/i);
 	    next if (/^([%!].*|\s*)$/);
+	    next if (/^ip add.*ipv4:/);	# band-aid for 3620 12.0S
 	    last;
 	}
 	ProcessHistory("","","","!\nconfig-register $config_register\n");
@@ -679,6 +694,7 @@ sub FlailHelplessly {
     # That are printed out in ShowDiagbus.
     /show controllers all/ && return("ShowContAll");
     /show controllers cbus/ && return("ShowContCbus");
+    /show controllers/ && return("ShowContAll");
     /show diagbus/ && return("ShowDiagbus");
     /show diag/ && return("ShowDiags");
     /show c7200/ && return("ShowC7200");
@@ -688,9 +704,10 @@ sub FlailHelplessly {
 
 # Main
 @commands=("show version","show env all","show gsr chassis",
-	   "show boot","show flash","dir /all bootflash:","dir /all slot0:",
-	   "dir /all slot1:","show controllers all","show controllers cbus",
-	   "show diagbus","show diag","show c7200","write term");
+	   "show boot","show bootvar","show flash","dir /all bootflash:",
+	   "dir /all slot0:", "dir /all slot1:","show controllers",
+	   "show controllers cbus", "show diagbus","show diag","show c7200",
+	   "write term");
 
 # show controllers <<< get intf info on the c100x
 
@@ -699,7 +716,6 @@ $cmds_regexp=join("|",@commands);
 $func = FlailHelplessly;
 
 open(OUTPUT,">$host.new") || die "Can't open $host.new for writing: $!\n";
-open(CLOG,">$host.clog") || die "Can't open $host.new for writing: $!\n";
 # make OUTPUT unbuffered
 select(OUTPUT); $| = 1;
 select(OUTPUT);
@@ -719,7 +735,6 @@ ProcessHistory("COMMENTS","keysort","B0","!\n");
 ProcessHistory("COMMENTS","keysort","F0","!\n");
 ProcessHistory("COMMENTS","keysort","G0","!\n");
 while(<INPUT>) {
-    printf CLOG;
     tr/\015//d;
     if (/\#exit$/) {
 	$clean_run=1;

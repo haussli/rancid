@@ -1,4 +1,7 @@
 2.2
+	PIX520 supplies different more(1) prompt than others.  from William R
+	Thomas.
+
 	fix typo in jlogin.  from richard doty.
 
 	add 2 example expect script for clogin -s

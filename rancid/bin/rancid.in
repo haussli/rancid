@@ -30,6 +30,8 @@ $clean_run = 0;
 $found_end = 0;
 $timeo = 90;			# clogin timeout in seconds
 
+my(%filter_pwds);		# password filtering mode
+
 # This routine is used to print out the router configuration
 sub ProcessHistory {
     my($new_hist_tag,$new_command,$command_string,@string)=(@_);
@@ -881,24 +883,50 @@ sub WriteTerm {
 	/^ length /		&& next; # kill length on serial lines
 	/^ width /		&& next; # kill width on serial lines
 	/^ clockrate /		&& next; # kill clockrate on serial interfaces
-	/^(enable )?(password|passwd) / &&
-	    ProcessHistory("ENABLE","","","!$1$2 <removed>\n") &&
+	if (/^(enable )?(password|passwd) / && $filter_pwds >= 1) {
+	    ProcessHistory("ENABLE","","","!$1$2 <removed>\n");
 	    next;
-	/^username (\S+)(\s.*)? password /&&
-	    ProcessHistory("USER","keysort","$1","!username $1$2 password <removed>\n") && next;
-	/^\s*password / &&
-	    ProcessHistory("LINE-PASS","","","! password <removed>\n") && next;
-	/^\s*neighbor (\S*) password / &&
-	    ProcessHistory("","","","! neighbor $1 password <removed>\n") &&
+	}
+	if (/^(enable secret) / && $filter_pwds >= 2) {
+	    ProcessHistory("ENABLE","","","!$1 <removed>\n");
 	    next;
-	/^(ppp .* password) 7 .*/ &&
-	    ProcessHistory("","","","!$1 <removed>\n") && next;
-	/^(ip ftp password) / &&
-	    ProcessHistory("","","","!$1 <removed>\n") && next;
-	/^( ip ospf authentication-key) / &&
-	    ProcessHistory("","","","!$1 <removed>\n") && next;
-	/^( ip ospf message-digest-key \d+ md5) / &&
-	    ProcessHistory("","","","!$1 <removed>\n") && next;
+	}
+	if (/^username (\S+)(\s.*)? secret /) {
+	    if ($filter_pwds >= 2) {
+		ProcessHistory("USER","keysort","$1","!username $1$2 secret <removed>\n");
+	    } else {
+		ProcessHistory("USER","keysort","$1","$_");
+	    }
+	    next;
+	}
+	if (/^username (\S+)(\s.*)? password /) {
+	    if ($filter_pwds >= 1) {
+		ProcessHistory("USER","keysort","$1","!username $1$2 password <removed>\n");
+	    } else {
+		ProcessHistory("USER","keysort","$1","$_");
+	    }
+	    next;
+	}
+	if (/^\s*password / && $filter_pwds >= 1) {
+	    ProcessHistory("LINE-PASS","","","! password <removed>\n");
+	    next;
+	}
+	if (/^\s*neighbor (\S*) password / && $filter_pwds >= 1) {
+	    ProcessHistory("","","","! neighbor $1 password <removed>\n");
+	    next;
+	}
+	if (/^(ppp .* password) 7 .*/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>\n"); next;
+	}
+	if (/^(ip ftp password) / && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>\n"); next;
+	}
+	if (/^( ip ospf authentication-key) / && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>\n"); next;
+	}
+	if (/^( ip ospf message-digest-key \d+ md5) / && $filter_pwds >= 2) {
+	    ProcessHistory("","","","!$1 <removed>\n"); next;
+	}
 	/fair-queue individual-limit/ && next;
 	# sort ip explicit-paths.
 	if (/^ip explicit-path name (\S+)/) {
@@ -989,16 +1017,18 @@ sub WriteTerm {
 	    }
 	}
 	# order/prune tacacs/radius server statements
-	/^(tacacs-server|radius-server) key / &&
-	    ProcessHistory("","","","!$1 key <removed>\n") && next;
+	if (/^(tacacs-server|radius-server) key / && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 key <removed>\n"); next;
+	}
 	# order clns host statements
 	/^clns host \S+ (\S+)/ &&
 	    ProcessHistory("CLNS","keysort","$1","$_") && next;
 	# order alias statements
 	/^alias / && ProcessHistory("ALIAS","keysort","$_","$_") && next;
 	# delete ntp auth password
-	/^(ntp authentication-key \d+ md5) / &&
-	    ProcessHistory("","","","!$1 <removed>\n") && next;
+	if (/^(ntp authentication-key \d+ md5) / && $filter_pwds >= 2) {
+	    ProcessHistory("","","","!$1 <removed>\n"); next;
+	}
 	# order ntp peers/servers
 	if (/^ntp (server|peer) (\d+)\.(\d+)\.(\d+)\.(\d+)/) {
 	    $sortkey = sprintf("$1 %03d%03d%03d%03d",$2,$3,$4,$5);
@@ -1021,9 +1051,10 @@ sub WriteTerm {
 	/^syscon address (\S*) (\S*)/ &&
 	    ProcessHistory("","","","!syscon address $1 <removed>\n") &&
 	    next;
-	/^syscon password (\S*)/ &&
-	    ProcessHistory("","","","!syscon password <removed>\n") &&
+	if (/^syscon password (\S*)/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!syscon password <removed>\n");
 	    next;
+	}
 
 	# catch anything that wasnt match above.
 	ProcessHistory("","","","$_");
@@ -1114,6 +1145,15 @@ if ($file) {
     } else {
 	open(INPUT,"clogin -t $timeo -c \"$cisco_cmds\" $host </dev/null |") || die "clogin failed for $host: $!\n";
     }
+}
+
+# determine password filtering mode
+if ($ENV{"FILTER_PWDS"} =~ /no/i) {  
+	$filter_pwds = 0;
+} elsif ($ENV{"FILTER_PWDS"} =~ /all/i) {
+	$filter_pwds = 2;
+} else {
+	$filter_pwds = 1;
 }
 
 ProcessHistory("","","","!RANCID-CONTENT-TYPE: cisco\n!\n");

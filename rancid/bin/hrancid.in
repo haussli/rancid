@@ -32,6 +32,8 @@ $clean_run = 0;
 $found_end = 0;			# unused - hp lacks an end-of-config tag.
 $timeo = 90;			# clogin timeout in seconds
 
+my(%filter_pwds);		# password filtering mode
+
 # This routine is used to print out the router configuration
 sub ProcessHistory {
     my($new_hist_tag,$new_command,$command_string,@string)=(@_);
@@ -263,9 +265,10 @@ sub WriteTerm {
 
 	# no so sure this match is correct.  show running doesnt seem to
 	# actually o/p anything after "password (manager|operator)"
-	/^\s*password (manager|operator)?/ &&
-	    ProcessHistory("LINE-PASS","","",";password $1 <removed>\n") &&
+	if (/^\s*password (manager|operator)?/ && $filter_pwds >= 1) {
+	    ProcessHistory("LINE-PASS","","",";password $1 <removed>\n");
 	    next;
+	}
 
 	if (/^(snmp-server community) (\S+)/) {
 	    if (defined($ENV{'NOCOMMSTR'})) {
@@ -303,14 +306,20 @@ sub WriteTerm {
 	}
 
 	# order/prune tacacs/radius server statements
-	/^(tacacs-server|radius-server) key / &&
-	    ProcessHistory("","","",";$1 key <removed>\n") && next;
-	/^(tacacs-server host \d+\.\S+) key / &&
-	    ProcessHistory("","","",";$1 key <removed>\n") && next;
+	if (/^(tacacs-server|radius-server) key / && $filter_pwds >= 1) {
+	    ProcessHistory("","","",";$1 key <removed>\n");
+	    next;
+	}
+	if (/^(tacacs-server host \d+\.\S+) key / && $filter_pwds >= 1) {
+	    ProcessHistory("","","",";$1 key <removed>\n");
+	    next;
+	}
 
 	# prune passwords from stack member statements
-	/^(stack member .* password )\S+/ &&
-	    ProcessHistory("","","",";$1<removed>$'") && next;
+	if (/^(stack member .* password )\S+/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","",";$1<removed>$'");
+	    next;
+	}
 
 	# order arp lists
 	/^ip arp\s+(\d+\.\d+\.\d+\.\d+)/ &&
@@ -332,18 +341,28 @@ sub WriteTerm {
 	/^ntp clock-period /    && next; # kill ntp clock-period
 	/^ length /		&& next; # kill length on serial lines
 	/^ width /		&& next; # kill width on serial lines
-	/^(enable )?(password|passwd) / &&
-	    ProcessHistory("ENABLE","","",";$1$2 <removed>\n") &&
+	if (/^(enable )?(password|passwd) / && $filter_pwds >= 1) {
+	    ProcessHistory("ENABLE","","",";$1$2 <removed>\n");
 	    next;
-	/^username (\S+)(\s.*)? password /&&
-	    ProcessHistory("USER","keysort","$1",";username $1$2 password <removed>\n") && next;
+	}
+	if (/^username (\S+)(\s.*)? password /) {
+	    if ($filter_pwds >= 1) {
+		ProcessHistory("USER","keysort","$1",";username $1$2 password <removed>\n");
+	    } else {
+		ProcessHistory("USER","keysort","$1","$_");
+	    }
+	    next;
+	}
 
-	/^(ip ftp password) / &&
-	    ProcessHistory("","","",";$1 <removed>\n") && next;
-	/^( ip ospf authentication-key) / &&
-	    ProcessHistory("","","",";$1 <removed>\n") && next;
-	/^( ip ospf message-digest-key \d+ md5) / &&
-	    ProcessHistory("","","",";$1 <removed>\n") && next;
+	if (/^(ip ftp password) / && $filter_pwds >= 1) {
+	    ProcessHistory("","","",";$1 <removed>\n"); next;
+	}
+	if (/^( ip ospf authentication-key) / && $filter_pwds >= 1) {
+	    ProcessHistory("","","",";$1 <removed>\n"); next;
+	}
+	if (/^( ip ospf message-digest-key \d+ md5) / && $filter_pwds >= 1) {
+	    ProcessHistory("","","",";$1 <removed>\n"); next;
+	}
 	# sort route-maps
 	if (/^route-map (\S+)/) {
 	    my($key) = $1;
@@ -375,8 +394,9 @@ sub WriteTerm {
 	# order alias statements
 	/^alias / && ProcessHistory("ALIAS","keysort","$_","$_") && next;
 	# delete ntp auth password
-	/^(ntp authentication-key \d+ md5) / &&
-	    ProcessHistory("","","",";$1 <removed>\n") && next;
+	if (/^(ntp authentication-key \d+ md5) / && $filter_pwds >= 1) {
+	    ProcessHistory("","","",";$1 <removed>\n"); next;
+	}
 	# order ntp peers/servers
 	if (/^ntp (server|peer) (\d+)\.(\d+)\.(\d+)\.(\d+)/) {
 	    $sortkey = sprintf("$1 %03d%03d%03d%03d",$2,$3,$4,$5);
@@ -441,6 +461,15 @@ if ($file) {
     } else {
 	open(INPUT,"hlogin -t $timeo -c \"$cisco_cmds\" $host </dev/null |") || die "hlogin failed for $host: $!\n";
     }
+}
+
+# determine password filtering mode
+if ($ENV{"FILTER_PWDS"} =~ /no/i) {
+	$filter_pwds = 0;  
+} elsif ($ENV{"FILTER_PWDS"} =~ /all/i) {
+	$filter_pwds = 2;
+} else {
+	$filter_pwds = 1;
 }
 
 ProcessHistory("","","",";RANCID-CONTENT-TYPE: hp-procurve\n;\n");

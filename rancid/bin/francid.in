@@ -32,6 +32,8 @@ $clean_run = 0;
 $found_end = 0;
 $timeo = 90;			# flogin timeout in seconds
 
+my(%filter_pwds);		# password filtering mode
+
 # This routine is used to print out the router configuration
 sub ProcessHistory {
     my($new_hist_tag,$new_command,$command_string,@string)=(@_);
@@ -260,14 +262,20 @@ sub WriteTerm {
 	    }
 	}
 	# order tacacs server statements
-	/^(tacacs-server key )/ &&
-	    ProcessHistory("","","","! $1<removed>\n") && next;
-	/^tacacs-server host (\d+\.\d+\.\d+\.\d+)/ &&
-	    ProcessHistory("TAC","ipsort","$1","$_") && next;
+	if (/^(tacacs-server key )/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","! $1<removed>\n");
+	    next;
+	}
+	if (/^tacacs-server host (\d+\.\d+\.\d+\.\d+)/ && $filter_pwds >= 1) {
+	    ProcessHistory("TAC","ipsort","$1","$_");
+	    next;
+	}
 
 	# delete ntp auth password
-	/^(ntp authentication-key \d+ md5) / && 
-	    ProcessHistory("","","","!$1 <removed>\n") && next;
+	if (/^(ntp authentication-key \d+ md5) / && $filter_pwds >= 2) {
+	    ProcessHistory("","","","!$1 <removed>\n");
+	    next;
+	}
 	# order ntp peers/servers
 	if (/^ntp (server|peer) (\d+)\.(\d+)\.(\d+)\.(\d+)/) {
 	    $sortkey = sprintf("$1 %03d%03d%03d%03d",$2,$3,$4,$5);
@@ -282,8 +290,10 @@ sub WriteTerm {
 	    ProcessHistory("IP NAT $1","ipsort","$2","$_") && next;
 
 	# filter ssh private key
-	/^(crypto key generate rsa private_key)/ &&
-	    ProcessHistory("","","","!$1 <removed>\n") && next;
+	if (/^(crypto key generate rsa private_key)/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>\n");
+	    next;
+	}
 
 	ProcessHistory("","","","$_");
 	# end of config
@@ -336,6 +346,15 @@ if ($file) {
     } else {
 	open(INPUT,"flogin -t $timeo -c \"$cisco_cmds\" $host </dev/null |") || die "flogin failed for $host: $!\n";
     }
+}
+
+# determine password filtering mode
+if ($ENV{"FILTER_PWDS"} =~ /no/i) {
+	$filter_pwds = 0;  
+} elsif ($ENV{"FILTER_PWDS"} =~ /all/i) {
+	$filter_pwds = 2;
+} else {
+	$filter_pwds = 1;
 }
 
 ProcessHistory("","","","!RANCID-CONTENT-TYPE: foundry\n!\n");

@@ -1318,14 +1318,11 @@ sub WriteTerm {
 	# i am told these are plain-text on the PIX
 	if (/^(vpdn username (\S+) password)/) {
 	    if ($filter_pwds >= 1) {
-		ProcessHistory("USER","keysort","$2","!$1$2 <removed>\n");
+		ProcessHistory("USER","keysort","$2","!$1 <removed>\n");
 	    } else {
 		ProcessHistory("USER","keysort","$2","$_");
 	    }
 	    next;
-	}
-	if (/^(vpdn username \S+ password)/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
 	if (/^( cable shared-secret )/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n");

@@ -11,6 +11,12 @@ install: all
 	for file in $(UTIL_LG_PROGS) ; do \
 	    $(INSTALL) $$file $(PREFIX)/util/lg; \
 	done; \
+	if test -f $(PREFIX)/util/lg/lg.conf ; then \
+	    echo "WARNING: *** $(PREFIX)/util/lg/lg.conf exists: installing as lg.conf.new."; \
+	    $(INSTALL_DATA) lg.conf $(PREFIX)/util/lg/lg.conf.new; \
+	else \
+	    $(INSTALL_DATA) lg.conf $(PREFIX)/util/lg; \
+	fi; \
 	for file in *README* *.html; do \
 	    $(INSTALL_DATA) $$file $(PREFIX)/util/lg; \
 	done
@@ -22,7 +28,7 @@ distclean: clean
 	rm -f config.log config.status
 
 distdir:
-	for file in Makefile.in configure.in *README* ; do \
+	for file in Makefile.in configure.in *README* lg.conf.in ; do \
 	    $(INSTALL_DATA) $$file $(distdir); \
 	done; \
 	for file in configure $(UTIL_LG_PROGS:=.in) ; do \

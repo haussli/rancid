@@ -428,7 +428,7 @@ sub ShowConfiguration {
 	    ProcessHistory("","","","#$1<removed>;\n");
 	    next;
 	}
-	if (/^(\s+key (ascii-text|hexadecimal) )[^ ;]+/ && $filter_pwds >= 1) {
+	if (/^(\s+(pre-shared-|)key (ascii-text|hexadecimal) )[^ ;]+/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","#$1<removed>$'");
 	    next;
 	}

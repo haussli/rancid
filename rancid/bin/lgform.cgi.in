@@ -20,7 +20,12 @@ use CGI qw/:standard/;
 my(@rtrlist, %rtrlabels);
 my($BASEDIR) = "@prefix@";
 
+# note: the following functions are duplicated between lgform.cgi and lg.cgi
+# to avoid the need for module inclusion headaches from within a httpd context.
+# it is just easier to be self-contained.
+# SO, ANY CHANGES HERE SHOULD BE REFLECTED IN THE OTHER .cgi.
 
+# 
 # read LG configuration file
 sub readconf
 {
@@ -66,8 +71,8 @@ sub readrouters
 
     if (! -f $rtrdb) {
 	my(@dirs, $dir);
-	# if the router.db file does not exist, try to compile from
-	# the rancid group's router.db files.
+	# if the router.db file does not exist, try to compile the list from
+	# the rancid group router.db files.
 	local(*DIR);
 	if (! opendir(DIR, $BASEDIR)) {
 	    printf(STDERR "ERROR: couldn\'t read $BASEDIR: $!\n");

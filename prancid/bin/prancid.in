@@ -185,7 +185,7 @@ sub ShowHardware {
 	last if(/^$prompt/);
 	next if(/^(\s*|\s*$cmd\s*)$/);
 	# skip show hardware on titanium
-	return(-1) if ($platform =~ /i386/i);
+	return(0) if ($platform =~ /i386/i);
 	return(-1) if (/command authorization failed/i);
 	return(-1) if (/cli: couldn.t communicate with/);
 

@@ -11,7 +11,7 @@
 
 	bin/rename is no longer shipped with rancid
 
-	rancid.conf: add MAILDOMAIN knob
+	rancid.conf: add MAILDOMAIN knob - from David C.
 
 	clogin: allow the port to be specified for method ssh
 

@@ -1,3 +1,4 @@
+- make control_rancid's PAR_COUNT a bin/env knob
 - extreme (xrancid)
 	- collect show switch
 	- filter ssh host private key

@@ -5979,7 +5979,7 @@ ac_cv_env_path=$ENV_PATH
 					# want is simple variable replacement
           ac_config_headers="$ac_config_headers include/config.h"
 
-                                                  ac_config_files="$ac_config_files bin/control_rancid bin/create_cvs bin/do-diffs bin/par bin/rancid-fe"
+                                                  ac_config_files="$ac_config_files bin/control_rancid bin/par bin/rancid-cvs bin/rancid-fe bin/rancid-run"
 
                     ac_config_files="$ac_config_files bin/alogin bin/arancid"
 
@@ -6582,10 +6582,10 @@ do
   "util/Makefile" ) CONFIG_FILES="$CONFIG_FILES util/Makefile" ;;
   "include/version.h" ) CONFIG_FILES="$CONFIG_FILES include/version.h" ;;
   "bin/control_rancid" ) CONFIG_FILES="$CONFIG_FILES bin/control_rancid" ;;
-  "bin/create_cvs" ) CONFIG_FILES="$CONFIG_FILES bin/create_cvs" ;;
-  "bin/do-diffs" ) CONFIG_FILES="$CONFIG_FILES bin/do-diffs" ;;
   "bin/par" ) CONFIG_FILES="$CONFIG_FILES bin/par" ;;
+  "bin/rancid-cvs" ) CONFIG_FILES="$CONFIG_FILES bin/rancid-cvs" ;;
   "bin/rancid-fe" ) CONFIG_FILES="$CONFIG_FILES bin/rancid-fe" ;;
+  "bin/rancid-run" ) CONFIG_FILES="$CONFIG_FILES bin/rancid-run" ;;
   "bin/alogin" ) CONFIG_FILES="$CONFIG_FILES bin/alogin" ;;
   "bin/arancid" ) CONFIG_FILES="$CONFIG_FILES bin/arancid" ;;
   "bin/blogin" ) CONFIG_FILES="$CONFIG_FILES bin/blogin" ;;
@@ -7018,10 +7018,10 @@ s,@INSTALL@,$ac_INSTALL,;t t
   # Run the commands associated with the file.
   case $ac_file in
     bin/control_rancid ) chmod a+x $ac_file ;;
-    bin/create_cvs ) chmod a+x $ac_file ;;
-    bin/do-diffs ) chmod a+x $ac_file ;;
     bin/par ) chmod a+x $ac_file ;;
+    bin/rancid-cvs ) chmod a+x $ac_file ;;
     bin/rancid-fe ) chmod a+x $ac_file ;;
+    bin/rancid-run ) chmod a+x $ac_file ;;
     bin/alogin ) chmod a+x $ac_file ;;
     bin/arancid ) chmod a+x $ac_file ;;
     bin/blogin ) chmod a+x $ac_file ;;

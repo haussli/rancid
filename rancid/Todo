@@ -2,6 +2,10 @@
 	- ignoring length/width/passwd is a start, but need more
 - sort route-maps into alpha order
 - add ability to put comments in router.db
-- get rid of this junk:
+- get rid of this junk - only happens when run from cron, not by hand
 	!BootFlash: show boot
 	!BootFlash: show bootvar
+	!Flash: disk0: dir /all disk0:
+	!Flash: disk1: dir /all disk1:
+	!Flash: bootflash: dir /all bootflash:
+- add .cloginrc var to say to use ssh or telnet

@@ -615,7 +615,6 @@ TOP: while(<INPUT>) {
     }
     while (/#\s*($cmds_regexp)\s*$/) {
 	$cmd = $1;
-	print STDERR "============>>>> CMD: $cmd  REGEXP: $cmds_regexp \n";
 	if (!defined($prompt)) {$prompt = ($_ =~ /^([^#]+#)/)[0]; }
 	print STDERR ("HIT COMMAND:$_") if ($debug);
 	if (! defined($commands{$cmd})) {

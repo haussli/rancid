@@ -126,8 +126,13 @@ The filename of an
 script which will be sourced after the login is successful and is expected
 to return control to
 .B clogin,
-with the connection to the router intact, when it is done.  Example script(s)
-can be found in util/*.exp.
+with the connection to the router intact, when it is done.  Note that
+.B clogin
+disables
+.IR log_user
+of
+.BR expect (1).
+Example script(s) can be found in util/*.exp.
 .\"
 .TP
 .B \-t

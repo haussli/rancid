@@ -1,0 +1,44 @@
+# configuration file for the looking glass
+#
+# note: these are perl statements!  mind the syntax
+#
+# LG_ROUTERDB	is the router.db in rancid's router.db format, listing
+#		the routers and their platform that should be available to
+#		the looking glass.  if defined, the LG will use this variable
+#		to find the router.db.  if not defined, it will look for the
+#		in <PREFIX>/util/lg/router.db.  if it does not exist, it will
+#		build the list from <PREFIX>/*/router.db (ie: the router.db's
+#		from all your groups).  routers marked 'down' are skipped.
+#
+#$LG_ROUTERDB="@PREFIX@/util/lg/router.db";
+#
+#
+# LG_CLOGINRC	is the .cloginrc that the LG should use.  it defaults to
+#		<PREFIX>/.cloginrc.  the LG does not need enable privileges.
+#
+#$LG_CLOGINRC="@PREFIX@/.cloginrc";
+#
+#
+# LG_SINGLE	*** not implemented.
+#$LG_SINGLE=0;
+#
+#
+# LG_CACHE_TIME	is the number of seconds the LG should cache o/p from certain
+#		commands; those that tend to produce a lot of o/p, such as
+#		'show ip bgp dampened-paths'.  it defaults to 600 seconds
+#		(10 minutes).
+#
+#$LG_CACHE_TIME=600;
+#
+#
+# LG_SYSLOG_FAC	is the syslog facility to log to.  if not defined, the LG
+#		will log to LG_LOG_FILE.  possible values are from the
+#		facility codes in /usr/include/syslog.h minus the 'LOG_'.
+#
+#$LG_SYSLOG_FAC='local0';
+#
+#
+# LG_AS_REG	*** not implemented.
+#
+#@LG_AS_REG=();
+#

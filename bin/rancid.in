@@ -242,6 +242,8 @@ sub ShowVersion {
 		$type = "2600";
 	    } elsif ( $proc =~ /^36[0246][0-9]/) {
 		$type = "3600";
+	    } elsif ( $proc =~ /^37/) {
+		$type = "3700";
 	    } elsif ( $proc eq "RSP7000") {
 		$type = "7500";
 	    } elsif ( $proc =~ /RSP\d/) {

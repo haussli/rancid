@@ -145,7 +145,7 @@ sub ShowVersion {
 	    ProcessHistory("COMMENTS","keysort","B0","#Power: $1 $2 $3\n")
 	    && next;
 	/^Image\s*:\s*(.*)/i &&
-	    ProcessHistory("COMMENTS","keysort","C0","#\n#Image: $1\n")
+	    ProcessHistory("COMMENTS","keysort","C0","#Image: $1\n")
 	    && next;
 #heas: need to collect this from show vers for ShowSlot where rev #s are excluded
 #SLOT 1 :  702005-06  0025S-00877 CPLD Rev <FF>
@@ -153,6 +153,21 @@ sub ShowVersion {
 #SLOT 3 :  702009-06  0024S-00170 CPLD Rev <FF>
 #SLOT 4 :  702009-06  0024S-00319 CPLD Rev <FF>
 
+    }
+    return(0);
+}
+
+# This routine parses "show memory"
+sub ShowMemory {
+    print STDERR "    In ShowMemory: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if(/^$prompt/);
+	next if(/^(\s*|\s*$cmd\s*)$/);
+
+	/^Total DRAM Size: (.*)/ &&
+	    ProcessHistory("COMMENTS","keysort","A0","#\n#Memory: $1\n")
     }
     return(0);
 }
@@ -184,10 +199,6 @@ sub ShowSlot {
 	    return if (/^$prompt/);
 	    next;
 	}
-#	return(1) if /^\s*\^\s*$/;
-#	return(1) if /(Invalid input detected|Type help or )/;
-#	return(-1) if (/command authorization failed/i);
-#	ProcessHistory("COMMENTS","keysort","F5","!Image: $_") && next;
     }
     return(0);
 }
@@ -802,29 +813,15 @@ sub WriteTerm {
 	# order/prune snmp-server host statements
 	# we only prune lines of the form
 
-#	# snmp-server host a.b.c.d <community>
-#	if (/^snmp-server host (\d+\.\d+\.\d+\.\d+) /) {
-#	    if (defined($ENV{'NOCOMMSTR'})) {
-#		my($ip) = $1;
-#		my($line) = "snmp-server host $ip";
-#		my(@tokens) = split(' ', $');
-#		my($token);
-#		while ($token = shift(@tokens)) {
-#		    if ($token eq 'version') {
-#			$line .= " " . join(' ', ($token, shift(@tokens)));
-#		    } elsif ($token =~ /^(informs?|traps?|(no)?auth)$/) {
-#			$line .= " " . $token;
-#		    } else {
-#			$line = "!$line " . join(' ', ("<removed>", join(' ',@tokens)));
-#			last;
-#		    }
-#		}
-#		ProcessHistory("SNMPSERVERHOST","ipsort","$ip","$line\n");
-#	    } else {
-#		ProcessHistory("SNMPSERVERHOST","ipsort","$1","$_");
-#	    }
-#	    next;
-#	}
+	# configure snmp add trapreceiver a.b.c.d <community>
+	if (/^(configure snmp add trapreceiver )(\d+\.\d+\.\d+\.\d+) (community) \S+ (.*)/) {
+	    if (defined($ENV{'NOCOMMSTR'})) {
+		ProcessHistory("SNMPSVRHOST","ipsort","$2","# $1$2 $3 <removed> $4\n");
+	    } else {
+		ProcessHistory("SNMPSVRHOST","ipsort","$2","$_\n");
+	    }
+	    next;
+	}
 	if (/^(configure snmp add community (readonly|readwrite) \S+) (\S+)/) {
 	    if (defined($ENV{'NOCOMMSTR'})) {
 		ProcessHistory("SNMPSVRCOMM","keysort","$_","#$1 <removed>$'");
@@ -834,22 +831,9 @@ sub WriteTerm {
 	    }
 	}
 #	# order/prune tacacs/radius server statements
-#	/^(tacacs-server|radius-server) key / &&
-#	    ProcessHistory("","","","!$1 key <removed>\n") && next;
-#	# order clns host statements
-#	/^clns host \S+ (\S+)/ &&
-#	    ProcessHistory("CLNS","keysort","$1","$_") && next;
-#	# order alias statements
-#	/^alias / && ProcessHistory("ALIAS","keysort","$_","$_") && next;
-#	# delete ntp auth password
-#	/^(ntp authentication-key \d+ md5) / &&
-#	    ProcessHistory("","","","!$1 <removed>\n") && next;
-#	# order ntp peers/servers
-#	if (/^ntp (server|peer) (\d+)\.(\d+)\.(\d+)\.(\d+)/) {
-#	    $sortkey = sprintf("$1 %03d%03d%03d%03d",$2,$3,$4,$5);
-#	    ProcessHistory("NTP","keysort",$sortkey,"$_");
-#	    next;
-#	}
+	/^(configure radius (primary|secondary) (tacacs-server|radius-server) shared-secret encrypted)/ &&
+	    ProcessHistory("","","","# $1 <removed>\n") && next;
+
 #	# order ip host line statements
 #	/^ip host line(\d+)/ &&
 #	    ProcessHistory("IPHOST","numsort","$1","$_") && next;
@@ -861,14 +845,6 @@ sub WriteTerm {
 #	    ProcessHistory("ATM map-list","ipsort","$1","$_") && next;
 #	# order ip rcmd lines
 #	/^ip rcmd/ && ProcessHistory("RCMD","keysort","$_","$_") && next;
-
-#	# system controller
-#	/^syscon address (\S*) (\S*)/ &&
-#	    ProcessHistory("","","","!syscon address $1 <removed>\n") &&
-#	    next;
-#	/^syscon password (\S*)/ &&
-#	    ProcessHistory("","","","!syscon password <removed>\n") &&
-#	    next;
 
 	# catch anything that wasnt match above.
 	ProcessHistory("","","","$_");
@@ -888,6 +864,7 @@ sub DoNothing {print STDOUT;}
 # Main
 %commands=(
 	'show version'		=> "ShowVersion",
+	'show memory'		=> "ShowMemory",
 	'show slot'		=> "ShowSlot",
 	'show configuration'	=> "WriteTerm"
 );
@@ -895,6 +872,7 @@ sub DoNothing {print STDOUT;}
 # cmds is important (show version first and write term last). pita
 @commands=(
 	"show version",
+	"show memory",
 	"show slot",
 	"show configuration"
 );
@@ -924,7 +902,6 @@ if ($file) {
 ProcessHistory("","","","#RANCID-CONTENT-TYPE: extreme\n#\n");
 ProcessHistory("COMMENTS","keysort","B0","#\n");	# power supply info
 ProcessHistory("COMMENTS","keysort","C0","#\n");	# image name
-#ProcessHistory("COMMENTS","keysort","F0","#\n");
 #ProcessHistory("COMMENTS","keysort","G0","#\n");
 TOP: while(<INPUT>) {
     tr/\015//d;

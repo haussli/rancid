@@ -14,10 +14,12 @@
 
 	bin/rename is no longer shipped with rancid
 
-	rancid: parse 1760's DSP slot show diag output
+	rancid: filter file vlan.dat from show flash on IOS switches
+
+	rancid: parse cisco 1760's DSP slot show diag output
 
 	francid: reorder listing of ports in a vlans - from Niels Bakker and
-		Steven Bakker
+	Steven Bakker
 
 	clogin: disable session logging w/ -c on catos - from Jason Ornstein
 

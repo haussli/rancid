@@ -128,57 +128,57 @@ $queries->{"interface"} = {
 #
 # Routing queries
 $queries->{"routing"} = {
-	damp = "show ip bgp dampened-paths",
-	neighbor = "show ip bgp neighbor <IP_addr>",
-	prefix = "show ip bgp prefix <prefix> [netmask]",
-	prefixlist = "show ip prefix-list <list_name>",
-	regex = "show ip bgp regex <regex>",
-	route = "show ip route <prefix> [netmask]",
-	## routemap = "Show Routing Policy Actions <policy_name/number>",
-	summary = "show ip bgp summary"
+	damp => "show ip bgp dampened-paths",
+	neighbor => "show ip bgp neighbor <IP_addr>",
+	prefix => "show ip bgp prefix <prefix> [netmask]",
+	prefixlist => "show ip prefix-list <list_name>",
+	regex => "show ip bgp regex <regex>",
+	route => "show ip route <prefix> [netmask]",
+	## routemap => "Show Routing Policy Actions <policy_name/number>",
+	summary => "show ip bgp summary"
 };
 #
 # Debug queries
 $queries->{"debug"} = {
-	## log = "Show Logs [ | <match_string>]",
-	ping = "ping <IP_addr | FQDN>",
-	trace = "traceroute <IP_addr | FQDN>"
+	## log => "Show Logs [ | <match_string>]",
+	ping => "ping <IP_addr | FQDN>",
+	trace => "traceroute <IP_addr | FQDN>"
 };
 #
 # Multicast queries
 $queries->{"multicast"} = {
-	## mbgp = "Show Multicast Route (MBGP) <prefix> [netmask]",
-	## mbgpsum = "Show MBGP Peering Status",
+	## mbgp => "Show Multicast Route (MBGP) <prefix> [netmask]",
+	## mbgpsum => "Show MBGP Peering Status",
 	# show ip pim interface/show pim interface
-	## pim_interface = "Show PIM Interfaces",
+	## pim_interface => "Show PIM Interfaces",
 	# ???/show pim join (extensive)
-	## pim_join = "Show PIM Join [group_address]",
+	## pim_join => "Show PIM Join [group_address]",
 	# show ip mroute/show multicast route [active]
-	## mroute = "Show Multicast Forwarding Table [active]",
+	## mroute => "Show Multicast Forwarding Table [active]",
 	# show ip msdp summary/show msdp
-	## msdp = "Show MSDP Peering Status",
+	## msdp => "Show MSDP Peering Status",
 	# show ip msdp sa cache/show msdp source-active
-	## msdpsa = "Show MSDP Source Active Table",
+	## msdpsa => "Show MSDP Source Active Table",
 	# show ip sdr|show multicast sessions
-	## msess = "Show Multicast SDR sessions [detail]",
+	## msess => "Show Multicast SDR sessions [detail]",
 	# show ip pim neighbor/show pim neighbors
-	## pim_neighbor = "Show PIM Neighbors [detail]",
+	## pim_neighbor => "Show PIM Neighbors [detail]",
 	# show ip pim rp mapping/show pim rps
-	## pim_rp = "Show PIM Rendez-vous Points [detail]",
+	## pim_rp => "Show PIM Rendez-vous Points [detail]",
 	# show ip rpf [address] /show multicast rpf [address]
-	## rpf = "Test Multicast RPF <address>"
+	## rpf => "Test Multicast RPF <address>"
 };
 #
 # IPv6 commands
 $queries->{"ipv6"} = {
 	# show bgp ipv6 / ???
-	## v6_bgp = "Show IPv6 BGP table";
+	## v6_bgp => "Show IPv6 BGP table";
 	# show ipv6 interface / show interface
-	## v6_interface = "Show IPv6 interface parameters [interface]";
+	## v6_interface => "Show IPv6 interface parameters [interface]";
 	# show bgp ipv6 summary / show bgp summary
-	## v6_summary = "Show IPv6 BGP Summary";
+	## v6_summary => "Show IPv6 BGP Summary";
 	# show ipv6 route / show route table inet6.0
-	## v6_route = "Show IPv6 Routes <prefix>";
+	## v6_route => "Show IPv6 Routes <prefix>";
 };
 #
 # %EOF%

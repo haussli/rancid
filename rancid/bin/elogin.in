@@ -409,7 +409,7 @@ foreach router [lrange $argv $i end] {
     if { $do_passwd } {
       set pswd [find password $router]
       if { [llength $pswd] == 0 } {
-	send_user "Error - no password for $router in $password_file.\n"
+	send_user "Error: no password for $router in $password_file.\n"
 	continue
       }
       set passwd [lindex $pswd 0]

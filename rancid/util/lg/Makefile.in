@@ -13,6 +13,7 @@ install: all
 	done; \
 	if test -f $(PREFIX)/util/lg/lg.conf ; then \
 	    echo "WARNING: *** $(PREFIX)/util/lg/lg.conf exists: installing as lg.conf.new."; \
+	    echo "         *** review lg.conf.new for new/deprecated switches"; \
 	    $(INSTALL_DATA) lg.conf $(PREFIX)/util/lg/lg.conf.new; \
 	else \
 	    $(INSTALL_DATA) lg.conf $(PREFIX)/util/lg; \

@@ -936,6 +936,10 @@ sub WriteTerm {
 	if (/^((crypto )?isakmp key) \S+ / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed> $'\n"); next;
 	}
+	# i am told these are plain-text on the PIX
+	if (/^(vpdn username \S+ password)/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>\n"); next;
+	}
 	/fair-queue individual-limit/ && next;
 	# sort ip explicit-paths.
 	if (/^ip explicit-path name (\S+)/) {

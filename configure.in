@@ -67,17 +67,23 @@ AC_ARG_ENABLE(mail-plus,
 [if test "$enable_mail_plus" = yes; then
     AC_MSG_RESULT(yes)
     MAILPLUS="rancid+"
+    ADMINMAILPLUS="rancid-admin+"
     AC_SUBST(MAILPLUS)
+    AC_SUBST(ADMINMAILPLUS)
 else
     AC_MSG_RESULT(no)
     MAILPLUS="rancid-"
+    ADMINMAILPLUS="rancid-admin-"
     AC_SUBST(MAILPLUS)
+    AC_SUBST(ADMINMAILPLUS)
 fi],
 [AC_MSG_RESULT(no)
     MAILPLUS="rancid-"
-    AC_SUBST(MAILPLUS)
+    ADMINMAILPLUS="rancid-admin-"
+    AC_SUBST(ADMINMAILPLUS)
 ])
 rd_cv_MAILPLUS=$MAILPLUS
+rd_cv_ADMINMAILPLUS=$ADMINMAILPLUS
 
 AC_PATH_PROG(DIRNAME,dirname,no)
 # locate GNU diff (one supporting the -u option)

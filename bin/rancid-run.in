@@ -107,7 +107,7 @@ do
 			if [ -s $TMPDIR/.$GROUP.old ]
 			then
 				(
-				  echo "To: @MAILPLUS@admin-$GROUP"
+				  echo "To: @ADMINMAILPLUS@-$GROUP"
 				  echo "Subject: rancid hung - $GROUP"
 				  echo "Precedence: bulk"
 				  echo ""

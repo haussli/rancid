@@ -12,10 +12,36 @@ AC_SUBST(RD_BIN_DATAS)
 RD_BIN_PROGS=$rd_cv_rd_bin_progs
 AC_SUBST(RD_BIN_PROGS)
 
-PERLV_PATH=$ac_cv_path_PERLV_PATH
+dnl PERLV_PATH=$ac_cv_path_PERLV_PATH
 AC_SUBST(PERLV_PATH)
-EXPECT_PATH=$ac_cv_path_EXPECT_PATH
+dnl EXPECT_PATH=$ac_cv_path_EXPECT_PATH
 AC_SUBST(EXPECT_PATH)
+
+# locate tools to build $PATH for env.
+AC_PATH_PROG(CVS,cvs,no)
+AC_PATH_PROG(COMM,comm,no)
+AC_PATH_PROG(MKDIR,mkdir,no)
+AC_PATH_PROG(DIRNAME,dirname,no)
+AC_PATH_PROG(DIFF,diff,no)
+AC_PATH_PROG(TOUCH,touch,no)
+AC_PATH_PROG(SENDMAIL,sendmail,no)
+AC_PATH_PROG(SORT,sort,no)  
+# find UCB mail.
+AC_PATH_PROG(UCBMAIL,Mail,no)
+
+unset ENV_PATH
+# order is significant.  want to be sure that we pick up the the proper
+# diff and mail in bin/env.
+for prog_path in $ac_cv_path_DIFF $ac_cv_path_UCBMAIL $ac_cv_path_CVS $ac_cv_path_COMM $ac_cv_path_MKDIR $ac_cv_path_DIRNAME $ac_cv_path_TOUCH $ac_cv_path_SORT $ac_cv_path_SENDMAIL
+do
+   prog_dir=`dirname $prog_path`
+   if test $prog_dir = ""; then continue; fi
+   ENV_PATH="$ENV_PATH:$prog_dir"
+done
+unset prog_dir
+ENV_PATH="$ENV_PATH:/usr/local/bin:/usr/bin"
+ENV_PATH=`echo $ENV_PATH | awk 'BEGIN {FS=":"}{for (i=1;i <= NF;i++) {if ($i != "") print $i}}' | uniq | awk 'BEGIN{ORS=":"}{print;}END{ORS="";print "."}`
+AC_SUBST(ENV_PATH)
 
 AC_OUTPUT(Makefile env $RD_BIN_DATAS $RD_BIN_PROGS)
 

@@ -18,6 +18,38 @@ VERSION=2.0
 
 AM_MAINTAINER_MODE()
 
+AC_PATH_PROG(CVS,cvs,no)
+AC_PATH_PROG(COMM,comm,no)
+AC_PATH_PROG(MKDIR,mkdir,no)
+AC_PATH_PROG(DIRNAME,dirname,no)
+# locate GNU diff (-u option)
+AC_PATH_PROG(DIFF,diff,no, /usr/local/bin:/usr/gnu/bin:/usr/bin:/usr/contrib/bin)
+if test $DIFF = no; then
+    unset ac_cv_path_DIFF
+    AC_MSG_ERROR([can't locate a GNU diff.])
+else
+    $DIFF -u /dev/null /dev/null > /dev/null 2>&1
+    if test $? -ne 0; then
+        AC_MSG_ERROR([can't locate a GNU diff (one which accepts the -u option).])
+	exit 1
+    fi
+fi
+AC_PATH_PROG(TOUCH,touch,no)
+AC_PATH_PROG(SENDMAIL,sendmail,no, /usr/sbin:/usr/bin:/usr/lib)
+# find UCB mail.
+AC_ARG_WITH(ucbmail, [  --with-ucbmail=[FQPN]   path to UCB mail], UCBMAIL=$withval; unset ac_cv_path_UCBMAIL)
+AC_PATH_PROG(UCBMAIL,Mail,no)
+if test $UCBMAIL = no; then
+    unset ac_cv_path_UCBMAIL
+    AC_PATH_PROG(UCBMAIL,mailx,no)
+    if test $UCBMAIL = no; then
+        AC_MSG_ERROR([can't locate a UCB Mail (one which accepts the -s option for subject).])
+        AC_MSG_ERROR([UCB mail is normally Mail or mailx.  use --with-ucbmail to specify the path.])
+	exit 1
+    fi
+fi
+AC_PATH_PROG(SORT,sort,no)
+
 AC_PATH_PROG(MAKE,gmake,no)
 if test $MAKE = no; then
     unset ac_cv_path_MAKE

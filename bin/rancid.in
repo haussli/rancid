@@ -767,7 +767,7 @@ while(<INPUT>) {
 	$clean_run=0;
 	last;
     }
-    if (/$cmds_regexp/) {
+    if (/#\s*($cmds_regexp)/) {
 	$func = FlailHelplessly;
 	print STDERR ("HIT COMMAND:$_") if ($debug);
     } else {

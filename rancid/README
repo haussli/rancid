@@ -138,7 +138,7 @@ Quick Installation Guide (an example):
    The file is of the form "router:mfg:state" where "router" is
    the name (we use FQDN) of the router, mfg is the manufacturer
    from the set of
-   (alteon|baynet|cat5|cisco|extreme|ezt3|foundry|hp|juniper|redback),
+   (alteon|baynet|cat5|cisco|extreme|ezt3|force10|foundry|hp|juniper|redback),
    and "state" is either up or down.  Each router listed as "up"
    will have the configuration grabbed.  Note: manufacturer cat5
    is intended only for cisco catalyst switches running catalyst (not

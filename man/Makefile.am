@@ -38,10 +38,6 @@ EXTRA_DIST = $(man_nogen_MANS) $(man_gen_MANS:%=%.in)
 
 CLEANFILES = Makefile $(man_gen_MANS)
 
-all:
-
-distclean: clean
-
 # auto_edit does the autoconf variable substitution.  This allows the
 # substitution to have the full expansion of the variables, e.g.: $sysconfdir
 # will be /prefix/etc instead of ${prefix}/etc.
@@ -61,10 +57,10 @@ lg.conf.5: Makefile $(srcdir)/lg.conf.5.in
 	$(auto_edit) $(srcdir)/lg.conf.5.in >lg.conf.5.tmp; \
 	mv lg.conf.5.tmp lg.conf.5
 
-lg_intro.5: Makefile $(srcdir)/lg_intro.5.in
-	rm -f lg_intro.5 lg_intro.5.tmp; \
-	$(auto_edit) $(srcdir)/lg_intro.5.in >lg_intro.5.tmp; \
-	mv lg_intro.5.tmp lg_intro.5
+lg_intro.1: Makefile $(srcdir)/lg_intro.1.in
+	rm -f lg_intro.1 lg_intro.1.tmp; \
+	$(auto_edit) $(srcdir)/lg_intro.1.in >lg_intro.1.tmp; \
+	mv lg_intro.1.tmp lg_intro.1
 
 rancid.conf.5: Makefile $(srcdir)/rancid.conf.5.in
 	rm -f rancid.conf.5 rancid.conf.5.tmp; \

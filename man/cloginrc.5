@@ -1,5 +1,5 @@
 .\"
-.Dd December 20, 2000
+.Dd January 13, 2001
 .Dt cloginrc 5
 .Sh NAME
 .Nm .cloginrc
@@ -8,6 +8,10 @@
 .Nm
 contains configuration information for
 .Ic clogin(1) ,
+.Ic elogin(1) ,
+.Ic flogin(1) ,
+and
+.Ic jlogin(1) ,
 such as usernames, passwords, ssh encryption type, etc., and is read at
 run-time.
 .Pp
@@ -24,7 +28,7 @@ or
 As
 .Nm
 is searched for a directive for a hostname, it is always the first instance
-of a directive whose hostname regular expression matches that hostname which
+of a directive whose hostname regular expression matches the hostname which
 is used.  For example; looking up the password for hostname foo in a
 .Nm
 file containing
@@ -115,7 +119,8 @@ Default: {telnet} {ssh}
 will not try to gain enable privileges when noenable is matched for a
 device.  This is equivalent to
 .Ic "clogin" 's
--noenable command-line option.  This only applies to Cisco and Foundry.
+-noenable command-line option.  This does not apply to
+.Ic jlogin(1) .
 .\"
 .It add passprompt <router name regexp> {<password prompt>}
 When using AAA, it is possible to redefine the prompt the device presents to
@@ -136,7 +141,7 @@ specified if a matching user directive exists.
 rc is used to specifies a command that will be run by
 .Ic clogin
 immediately after logging into the device.  multiple commands may be
-specified by separating them with semi-colons (;).  The command may
+specified by separating them with semi-colons (;).  The command must
 not be one which expects additional input from the user, such as 'copy
 rcp startup-config' on a Cisco.
 .Pp

@@ -13,6 +13,7 @@ use Sys::Syslog;
 use LockFile::Simple qw(lock trylock unlock);
 
 my($BASEDIR) = "@prefix@";
+my($pingcmd) = "@LG_PING_CMD@";
 
 my($query, @results);
 

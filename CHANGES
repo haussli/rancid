@@ -7,7 +7,9 @@
 		*** util/lg/lg*.cgi has been moved to bin/lg*cgi ***
 	Note: existing configuration files are *NOT* copied/moved for you
 
-	*login: add cloginrc sshcmd directive
+	add Cisco CSS support - from Wedge Martin
+
+	*login: add cloginrc sshcmd directive - idea from steve neighorn
 
 	rancid: IOS show version changes w/ 12.3 - from Yuval Ben-Ari
 

@@ -5987,6 +5987,8 @@ ac_cv_env_path=$ENV_PATH
 
                               ac_config_files="$ac_config_files bin/cat5rancid bin/clogin bin/rancid"
 
+          ac_config_files="$ac_config_files bin/cssrancid"
+
                     ac_config_files="$ac_config_files bin/elogin bin/erancid"
 
           ac_config_files="$ac_config_files bin/f10rancid"
@@ -6590,6 +6592,7 @@ do
   "bin/cat5rancid" ) CONFIG_FILES="$CONFIG_FILES bin/cat5rancid" ;;
   "bin/clogin" ) CONFIG_FILES="$CONFIG_FILES bin/clogin" ;;
   "bin/rancid" ) CONFIG_FILES="$CONFIG_FILES bin/rancid" ;;
+  "bin/cssrancid" ) CONFIG_FILES="$CONFIG_FILES bin/cssrancid" ;;
   "bin/elogin" ) CONFIG_FILES="$CONFIG_FILES bin/elogin" ;;
   "bin/erancid" ) CONFIG_FILES="$CONFIG_FILES bin/erancid" ;;
   "bin/f10rancid" ) CONFIG_FILES="$CONFIG_FILES bin/f10rancid" ;;
@@ -7025,6 +7028,7 @@ s,@INSTALL@,$ac_INSTALL,;t t
     bin/cat5rancid ) chmod a+x $ac_file ;;
     bin/clogin ) chmod a+x $ac_file ;;
     bin/rancid ) chmod a+x $ac_file ;;
+    bin/cssrancid ) chmod a+x $ac_file ;;
     bin/elogin ) chmod a+x $ac_file ;;
     bin/erancid ) chmod a+x $ac_file ;;
     bin/f10rancid ) chmod a+x $ac_file ;;

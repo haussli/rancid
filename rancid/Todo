@@ -11,8 +11,7 @@
 - Also, need to allow 12012s, and force 700s to not be treated like 7Ks.
 - flogin (for foundry) needs more testing and should be integrated with
   clogin when foundry fixes their UI.
-- missing man pages for lg.conf.5 ??, rtrfilter.1 ??, lgform.cgi.1 ???,
-  lg.cgi.1 ???
+- missing man pages for rtrfilter.1 ??, lgform.cgi.1 ???, lg.cgi.1 ???
 - Can you poke at the enableprompt stuff for .cloginrc?  In teh
     cloginrc.sample & the man page?  I think that both need to be
     checked to be sure that the examples are correct & work.  [Probably
@@ -32,3 +31,4 @@
 - add -E to *login to pass through variables to scripts
 	clogin -Evariable=something router...
 	clogin -Evariable=a,b,c		[ie: an array/list which user splits]
+- lg configure should look for the syslog package

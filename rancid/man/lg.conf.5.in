@@ -68,7 +68,7 @@ Defines the fully qualified path name for the log file or the
 facility to use for logging.  For syslog, the argument is the lowercase name
 of a syslog facility (see syslog.h) without the 'LOG_' prefix.
 .sp
-Exmaple: local0
+Example: local0
 .sp
 Default: $LG_CACHE_DIR/lg.log
 .\"
@@ -86,7 +86,7 @@ in rancid, that is a concatenation of $BASEDIR/*/router.db.
 .sp
 Default: @prefix@/util/lg/router.db
 .sp
-Note that if the concatention method is used, it may be necessary to alter
+Note that if the concatenation method is used, it may be necessary to alter
 the mode of the router.db files in the rancid group directories, since the
 default umask is 0007 (see
 .BR env (5)).

@@ -137,7 +137,7 @@ sub ShowVersion {
     while (<INPUT>) {
 	tr/\015//d;
 	last if(/^$prompt/);
-	return(1) if(/^\s*$cmd\s*$/);
+	next if(/^(\s*|\s*$cmd\s*)$/);
 	if (/^Slave in slot (\d+) is running/) {
 	    $slave = " Slave:";
 	    next;

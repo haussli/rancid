@@ -337,6 +337,7 @@ sub ShowChassisSCB {
 sub ShowChassisAlarms {
     print STDERR "    In ShowChassisAlarms: $_" if ($debug);
 
+    s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
     while (<INPUT>) {
 	tr/\015//d;

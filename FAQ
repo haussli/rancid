@@ -16,7 +16,12 @@ Q. I have a Cisco Catalyst switch.  clogin connects, but after receiving the
    prompt, it stalls until it times out.  Why?
 A. This may be due to your prompt.  CatOS does not include an implicit '>' in
    it's prompt, like IOS does.  clogin looks for '>' during login, so specify
-   your prompt with a trailing '>'.  Also see cat5rancid(1).
+   your prompt with a trailing '>'.  Also see cat5rancid(1).  For example:
+	cat5k>
+	cat5k> enable
+	Password: 
+	cat5k> (enable) 
+
 
 
 2) CVS and filesystem permissions

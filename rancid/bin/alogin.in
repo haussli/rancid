@@ -330,7 +330,7 @@ proc login { router user userpswd passwd prompt cmethod cyphertype } {
 					  catch {close}; wait; return 1 }
 		eof			{ send_user "Error: Couldn't login\n"; wait; return 1 }
 		-re "$p_prompt"		{ send "$userpswd\r" }
-		"$prompt"		{ set in_proc 0; return 0 }
+		-re "$prompt"		{ set in_proc 0; return 0 }
 	    }
 	    exp_continue
 	}
@@ -339,7 +339,7 @@ proc login { router user userpswd passwd prompt cmethod cyphertype } {
 		"Password incorrect"	{ send_user "Error: Couldn't login\n";
 					  catch {close}; wait; return 1 }
 		eof		{ send_user "Error: Couldn't login\n"; wait; return 1 }
-		"$prompt"	{ set in_proc 0; return 0 }
+		-re "$prompt"	{ set in_proc 0; return 0 }
 		"Confirm seeing above note" { send "y\r" }
 	    }
 	    exp_continue
@@ -347,7 +347,7 @@ proc login { router user userpswd passwd prompt cmethod cyphertype } {
 	-re "^Confirm seeing above note" { send "y\r" }
 	"Password incorrect"	{ send_user "Error: Check your password for $router\n";
 				  catch {close}; wait; return 1 }
-	"$prompt"	{ }
+	-re "$prompt"	{ }
 	denied		{ send_user "Error: Check your passwd for $router\n"
 			    if { $do_command || $do_script } {
 			      send "exit\r"
@@ -357,7 +357,7 @@ proc login { router user userpswd passwd prompt cmethod cyphertype } {
 			      return 1
 			  }
 			}
-	"\r\n"	{ exp_continue; }
+	"\r\n"		{ exp_continue; }
     }
     set in_proc 0
     return 0
@@ -370,7 +370,7 @@ proc run_commands { prompt command } {
     set in_proc 1
 
     send "lines 0\r"
-    expect $prompt {}
+    expect -re $prompt {}
 
     regsub -all "\[)(]" $prompt {\\&} reprompt
 
@@ -378,21 +378,20 @@ proc run_commands { prompt command } {
     if [ string match "*\;*" "$command" ] {
 	set commands [split $command \;]
 	set num_commands [llength $commands]
-
 	for {set i 0} {$i < $num_commands} { incr i} {
 	    send "[subst -nocommands [lindex $commands $i]]\r"
 	    expect {
-		-re "^\[^\n\r]*$reprompt."	{}
+		-re "^\[^\n\r]*$reprompt"	{}
 		-re "^\[^\n\r ]*>>.*$reprompt"	{ exp_continue }
-		-re "\[\n\r]"			{ exp_continue }
+		-re "\[\n\r]+"			{ exp_continue }
 	    }
 	}
     } else {
 	send "[subst -nocommands $command]\r"
 	expect {
-		-re "^\[^\n\r]*$reprompt."	{}
+		-re "^\[^\n\r]*$reprompt"	{}
 		-re "^\[^\n\r ]*>>.*$reprompt"	{ exp_continue }
-		-re "\[\n\r]"			{ exp_continue }
+		-re "\[\n\r]+"			{ exp_continue }
 	}
     }
     send "exit\r"
@@ -420,9 +419,10 @@ foreach router [lrange $argv $i end] {
     send_user "$router\n"
 
     # Figure out prompt.
-    set prompt "#"
-	    set autoenable 1
-	    set enable 0
+    set prompt ">> \[^\r\n]*\[#|>] "
+    # alteon only "enables" based on the password used at login time
+    set autoenable 1
+    set enable 0
 
     # Figure out passwords
     if { $do_passwd } {
@@ -482,7 +482,7 @@ foreach router [lrange $argv $i end] {
 	}
     } elseif { $do_script } {
 	send "lines 0\r"
-	expect $prompt	{}
+	expect -re $prompt	{}
 	source $sfile
 	close
     } else {

@@ -27,8 +27,8 @@
 # vars: query, router, args
 
 BEGIN {
-$me = $0;
-$me =~ s/.*\/(\S+)$/$1/;
+    $me = $0;
+    $me =~ s/.*\/(\S+)$/$1/;
 }
 
 use CGI qw/:standard escapeHTML/;

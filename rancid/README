@@ -62,33 +62,27 @@ Quick Installation Guide (an example):
    be modified to use ucbmail or, better yet, something else which allow
    the Precedence header to be set.  Pick your poison.
 
-   The Precedence header set to bulk or junk *hopefully* avoids
+   The Precedence header set to bulk or junk *hopefully* avoids replies from
    auto-responders and vacation type mail filters.
 
-8) Modify run-me &/ do-diffs.
-   Set path to env.
+8) Run create_cvs.
+   This creates all of the CVS necessary directories and all of the
+   config directories.
 
-9) Modify create_cvs.
-    Set path to env.
+9) For each "group", modify the router.db file in the group directory.
+   The file is of the form "router:mfg:state" where "router" is the name
+   (we user fqdn) of the router, mfg is the manufacturer (cisco|juniper),
+   and "state" is either up or down.  Each router listed as "up" will have
+   the configuration grabbed.
 
-10) Run create_cvs.
-    This creates all of the CVS necessary directories and all of the
-    config directories.
-
-11) For each "group", create the router.db file in the group directory.
-    The file is of the form "router:mfg:state" where "router" is the name
-    of the router, mfg is the manufacturer (cisco|juniper), and "state"
-    is either up or down.  Each router listed as "up" will have the
-    configuration grabbed.
-
-12) Put run-me/do-diffs in cron to be called however often you want it to run
-    for each group (run-me <GROUP>).  eg:
+10) Put run-me/do-diffs in cron to be called however often you want it to run
+    for each group (run-me [<GROUP>] - OR - do-diffs [<GROUP>]).  eg:
 
 	# run config differ hourly
 	1 * * * * <BASEDIR>/bin/do-diffs
 	# clean out hourly differ logs
 	50 23 * * * /usr/bin/find <BASEDIR>/logs -mtime +2 -exec rm {} \;
 
-13) Send me any bugs, suggestions or updates (rancid@shrubbery.net).
+11) Send me any bugs, suggestions or updates (rancid@shrubbery.net).
 
 -Hank

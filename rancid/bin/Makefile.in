@@ -124,7 +124,7 @@ CONFIG_HEADER = ../include/config.h
 CONFIG_CLEAN_FILES =  alogin arancid blogin brancid cat5rancid clogin \
 control_rancid create_cvs do-diffs elogin env erancid f10rancid flogin \
 francid jlogin jrancid hlogin hrancid mrancid par rancid-fe rancid \
-rename rrancid xrancid
+rename rrancid tntlogin tntrancid xrancid
 PROGRAMS =  $(bin_PROGRAMS)
 
 
@@ -143,7 +143,8 @@ DIST_COMMON =  Makefile.am Makefile.in alogin.in arancid.in blogin.in \
 brancid.in cat5rancid.in clogin.in control_rancid.in create_cvs.in \
 do-diffs.in elogin.in env.in erancid.in f10rancid.in flogin.in \
 francid.in hlogin.in hrancid.in jlogin.in jrancid.in mrancid.in par.in \
-rancid-fe.in rancid.in rename.in rrancid.in xrancid.in
+rancid-fe.in rancid.in rename.in rrancid.in tntlogin.in tntrancid.in \
+xrancid.in
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
@@ -212,6 +213,10 @@ rancid: $(top_builddir)/config.status rancid.in
 rename: $(top_builddir)/config.status rename.in
 	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 rrancid: $(top_builddir)/config.status rrancid.in
+	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+tntlogin: $(top_builddir)/config.status tntlogin.in
+	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+tntrancid: $(top_builddir)/config.status tntrancid.in
 	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 xrancid: $(top_builddir)/config.status xrancid.in
 	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status

@@ -1,4 +1,6 @@
 2.3
+	lucent tnt support - from Richard Vander Reyden
+
 	rancid: skip consecutive comment lines.  on some access servers the
 	number of comment lines oscillate.
 

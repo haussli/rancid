@@ -57,8 +57,7 @@ main(int argc, char **argv)
     ssize_t		hlen = 0,		/* len of hbuf */
 			tlen = 0;		/* len of tbuf */
     struct timeval	to = { DFLT_TO, 0 };
-    fd_set		efds,			/* select() */
-			rfds,
+    fd_set		rfds,			/* select() */
 			wfds;
     struct termios	tios;
 
@@ -172,23 +171,21 @@ main(int argc, char **argv)
 	}
 
 	/* loop to read on stdin and r[0] */
-	FD_ZERO(&rfds); FD_ZERO(&wfds); FD_ZERO(&efds);
+	FD_ZERO(&rfds); FD_ZERO(&wfds);
 	hbufp = hbuf; tbufp = tbuf;
 
 	while (1) {
 	    FD_SET(0, &rfds); FD_SET(r[0], &rfds);
-	    FD_SET(0, &efds); FD_SET(r[0], &efds);
-	    /* once we have stuff in our buffer(s), we select on writes too */
+	    /* if we have stuff in our buffer(s), we select on writes too */
+	    FD_ZERO(&wfds);
 	    if (hlen) {
 		 FD_SET(s[1], &wfds);
-		 FD_SET(s[1], &efds);
 	    }
 	    if (tlen) {
 		 FD_SET(1, &wfds);
-		 FD_SET(1, &efds);
 	    }
 
-	    switch (select(6, &rfds, &wfds, &efds, &to)) {
+	    switch (select(6, &rfds, &wfds, NULL, &to)) {
 	    case 0:
 		/* timeout */
 			/* HEAS: what do i do here? */

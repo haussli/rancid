@@ -11,6 +11,8 @@
 
 	rancid.conf: add LOGDIR variable - see rancid.conf(5)
 
+	jrancid: collect show chassis alarms
+
 	rancid: collect 6500 slave sup bootflash - from Andrew Fort
 
 	rancid: show diag updates for 1700, 3700, etc - help from Michael Haba

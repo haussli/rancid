@@ -64,4 +64,4 @@ OLDTIME=4; export OLDTIME
 # domain not the same the local one, define that domain here.  "@" must be
 # included, as this is simply appended to the usual recipients.  It is NOT
 # appended to recipients specified in rancid-run's -m option.
-#MAILDOMAIN="@example.com"
+#MAILDOMAIN="@example.com"; export MAILDOMAIN

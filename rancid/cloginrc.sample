@@ -33,3 +33,6 @@ add password *.custz.net	{jive}		{surely}
 
 # all our routers, ie: everything else
 add password *			{clearance}	{clarence}
+
+# set ssh encryption type, dflt: 3des
+add cyphertype *		{3des}

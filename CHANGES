@@ -14,7 +14,11 @@
 
 	rancid: collect 6500's sub-module info from show modules
 
-	jrancid: collect license info & RE Model.
+	jrancid: collect license info & RE Model.  Don't collect
+	the license keys as this is only supported on the jseries
+	and running 'show system license keys' on other junipers
+	produces output from *two* commands - 'show system license'
+	AND 'show system licensekeys'.
 
 	rancid: erroneous space in shared-secret match - from Blaz Zupan
 

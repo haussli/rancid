@@ -429,28 +429,6 @@ sub ShowSystemLicenseKeys {
     return;
 }
 
-# This routine parses "show system license usage"
-sub ShowSystemLicenseUsage {
-    print STDERR "    In ShowSystemLicenseUsage: $_" if ($debug);
-
-    s/^[a-z]+@//;
-    ProcessHistory("","","","# $_");
-    while (<INPUT>) {
-	tr/\015//d;
-	last if(/^$prompt/);
-	next if(/^system (shutdown message from|going down )/i);
-	next if(/^\{(master|backup)}/);
-
-	/Unrecognized command/ && return;
-	/command is not valid/ && return;
-	/^\s+\^/ && return;
-	/syntax error/ && return;
-
-	ProcessHistory("","","","# $_");
-    }
-    return;
-}
-
 # This routine parses "show system boot-messages"
 sub ShowSystemBootMessages {
     print STDERR "    In ShowSystemBootMessages: $_" if ($debug);
@@ -596,8 +574,7 @@ sub DoNothing {print STDOUT;}
 	"show chassis alarms"		=> "ShowChassisAlarms",
 #	"show system autoinstallation status" => "ShowSystemAutoinstall",
 	"show system license"		=> "ShowSystemLicense",
-	"show system license keys"	=> "ShowSystemLicenseKeys",
-	"show system license usage"	=> "ShowSystemLicenseUsage",
+#	"show system license keys"	=> "ShowSystemLicenseKeys",
 	"show system boot-messages"	=> "ShowSystemBootMessages",
 	"show version detail"		=> "ShowVersion",
 	"show configuration"		=> "ShowConfiguration"
@@ -617,8 +594,7 @@ sub DoNothing {print STDOUT;}
 	"show chassis alarms",
 #	"show system autoinstallation status",
 	"show system license",
-	"show system license keys",
-	"show system license usage",
+#	"show system license keys",
 	"show system boot-messages",
 	"show version detail",
 	"show configuration"

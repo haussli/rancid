@@ -29,9 +29,9 @@
 # Usage line
 set usage "Usage: $argv0 \[-autoenable\] \[-noenable\] \[-c command\] \
 \[-e enable-password\] \[-f cloginrc-file\] \[-p user-password\] \
-\[-s script-file\] \[-x command-file\] \[-t timeout\] \[-u username\] \
-\[-v vty-password\] \[-w enable-username\] \[-y ssh_cypher_type\] \
-router \[router...\]\n"
+\[-s script-file\] \[-t timeout\] \[-u username\] \
+\[-v vty-password\] \[-w enable-username\] \[-x command-file\] \
+\[-y ssh_cypher_type\] router \[router...\]\n"
 
 # env(CLOGIN) may contain:
 #	x == do not set xterm banner or name
@@ -126,7 +126,7 @@ for {set i 0} {$i < $argc} {incr i} {
 		exit 1
 	    }
 	    set do_script 1
-	# cypher type
+	# 'ssh -c' cypher type
 	} -y* -
 	-Y* {
 	    if {! [  regexp .\[eE\](.+) $arg ignore cypher]} {

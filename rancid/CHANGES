@@ -4,6 +4,7 @@
 		*** bin/env has been moved to etc/rancid.conf ***
 		*** bin/hpfilter has been rename hpuifilter ***
 		*** util/lg/lg.conf has been moved to etc/lg.conf ***
+		*** util/lg/lg*.cgi has been moved to bin/lg*cgi ***
 
 	rancid: IOS show version changes w/ 12.3 - from Yuval Ben-Ari
 

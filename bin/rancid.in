@@ -805,7 +805,7 @@ sub ShowVTP {
 sub ShowVLAN {
     print STDERR "    In ShowVLAN: $_" if ($debug);
 
-    return(1) if (!$DO_SHOW_VLAN);
+    ($_=<INPUT>,return(1)) if (!$DO_SHOW_VLAN);
 
     while (<INPUT>) {
 	tr/\015//d;

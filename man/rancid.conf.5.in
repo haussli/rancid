@@ -201,9 +201,9 @@ is interpreted directly by
 so its syntax follows that of the bourne shell.  Errors
 may produce quite unexpected results.
 .SH FILES
-.Bl -tag -width .BASEDIR/etc/rancid.conf -compact
+.Bl -tag -width @sysconfdir@/rancid.conf -compact
 .TP
-.B $BASEDIR/etc/rancid.conf
+.B @sysconfdir@/rancid.conf
 Configuration file described here.
 .El
 .\"

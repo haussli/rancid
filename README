@@ -26,8 +26,6 @@ par    -    Parallel processing of commands - any commands.
 
 rancid will also need to have the following packages:
 cvs	- code revision system available from prep.ai.mit.edu:/pub/gnu
-rcs	- code revision system which cvs built on top of.  available from
-	  prep.ai.mit.edu:/pub/gnu
 gnudiff - gnudiff provides the -u option.  if you do not have gnu's diff,
           you will have to modify control_rancid to use 'diff -c' or some
           such.  see examples.
@@ -58,7 +56,7 @@ Quick Installation Guide (an example):
    routers.  This way you can seperate your backbone routers from your
    access routers or seperate based upon network etc...  Different router
    uses forced different people being interested in router "groups" -
-   thus is setup.  Make sure email to rancid-<GROUP> works.  /etc/aliases
+   thus this setup.  Make sure email to rancid-<GROUP> works.  /etc/aliases
    can be maintainable by Majordomo stuff.
 				- OR -
    Modify your home directory's .mailrc.  Control_rancid uses sendmail
@@ -74,10 +72,11 @@ Quick Installation Guide (an example):
    config directories.
 
 9) For each "group", modify the router.db file in the group directory.
-   The file is of the form "router:mfg:state" where "router" is the name
-   (we user fqdn) of the router, mfg is the manufacturer
-   (cisco|foundry|juniper|redback), and "state" is either up or down.
-   Each router listed as "up" will have the configuration grabbed.
+   The file is of the form "router:mfg:state" where "router" is
+   the name (we user fqdn) of the router, mfg is the manufacturer
+   (cisco|foundry|juniper|redback), and "state" is either up or
+   down.  Each router listed as "up" will have the configuration
+   grabbed.
 
 10) Put run-me/do-diffs in cron to be called however often you want it to run
     for each group (run-me [<GROUP>] - OR - do-diffs [<GROUP>]).  eg:
@@ -87,6 +86,6 @@ Quick Installation Guide (an example):
 	# clean out hourly differ logs
 	50 23 * * * /usr/bin/find <BASEDIR>/logs -mtime +2 -exec rm {} \;
 
-11) Send any bugs, suggestions or updates (rancid@shrubbery.net).
+11) Send any bugs, suggestions or updates to rancid@shrubbery.net.
 
 -Hank

@@ -71,7 +71,7 @@ sub readconf
     } elsif (-e "lg.conf") {
 	$conffile = "lg.conf";
     } else {
-	$conffile = "$BASEDIR/util/lg/lg.conf";
+	$conffile = "$BASEDIR/etc/lg.conf";
     }
 
     if (! -f $conffile) {
@@ -103,7 +103,7 @@ sub readrouters
     if (defined($LG_ROUTERDB)) {
 	$rtrdb = $LG_ROUTERDB;
     } else {
-	$rtrdb = "$BASEDIR/util/lg/router.db";
+	$rtrdb = "$BASEDIR/etc/router.db";
     }
 
     if (! -f $rtrdb) {

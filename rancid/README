@@ -12,7 +12,7 @@ do-diffs.in	Script designed to be run from cron calling control_rancid.
 control_rancid.in
 		Builds router list, calls rancid on each router and
 		handles cvs routines.
-rancid-fe.in	chooses between rancid/[efjr]rancid/cat5rancid.
+rancid-fe.in	chooses between rancid/[abefhjrx]rancid/cat5rancid.
 rancid.in	Runs commands on cisco routers and processes the output.
 brancid.in	Runs commands on baynet/nortel routers and processes the output.
 erancid.in	Runs commands on ADC EZ-T3 muxes and processes the output.
@@ -21,7 +21,7 @@ hrancid.in	Runs commands on hp procurve switches and processes the output.
 jrancid.in	Runs commands on juniper routers and processes the output.
 rrancid.in	Runs commands on redback routers and processes the output.
 xrancid.in	Runs commands on extreme switches and processes the output.
-cat5rancid.in	Runs commands on cisco cat5 switches and processes the output.
+cat5rancid.in	Runs commands on cisco Cat switches and processes the output.
 blogin.in	Expect script that logs into baynet/nortel routers either
 		interactively, runs a set of commands, or runs another expect
 		script.
@@ -138,7 +138,7 @@ Quick Installation Guide (an example):
    (alteon|baynet|cat5|cisco|extreme|ezt3|foundry|hp|juniper|redback),
    and "state" is either up or down.  Each router listed as "up"
    will have the configuration grabbed.  Note: manufacturer cat5
-   is intended only for catalyst switches running catalyst (not
+   is intended only for cisco catalyst switches running catalyst (not
    IOS) code.
 
    eg <basedir>/<group>/router.db:

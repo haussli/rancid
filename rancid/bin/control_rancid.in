@@ -73,10 +73,11 @@ else
     # Add new routers to the CVS structure.
     for router in `comm -13 $DIR/allrouters $DIR/allrouters.new`
     do
+	OFS=$IFS
 	IFS=:
 	set $router
-	router=$1; mfg=$2
-	IFS=' '
+	IFS=$OFS
+	router=$1
 
 	touch $router
 	cvs add $router
@@ -114,14 +115,16 @@ if [ -f $DIR/allrouters.missed ]; then
 fi
 while [ $round -le $pass ]
 do
+    echo "====================================="
     echo "Getting missed routers: round $round."
 
     for router in `cat $DIR/allrouters`
     do
-	IFS=:
+	OFS=$IFS
+	IFS=':'
 	set $router
+	IFS=$OFS
 	router=$1; mfg=$2
-	IFS=' '
 
 	if [ ! -f $DIR/configs/$router.new ]
 	then
@@ -135,7 +138,7 @@ do
 	round=`expr $round + 1`
     else
 	echo "All routers sucessfully completed."
-	round=5
+	round=`expr $pass + 1`
     fi
 done
 echo

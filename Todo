@@ -5,8 +5,6 @@
   in the crunched config.  should one be filtered?
 - fix varargs for knf in util.c
 - isis filtering for foundry?
-- extreme v6.2.x need 'show configuration detail' to get full config but
-  does not work on older vers
 - hlogin hangs when the procurve does not ask for passwords
 - util/ tool to prune cvs versions, excluding those with tags, by (all but
   latest | keep N versions | keep N days/months/years)

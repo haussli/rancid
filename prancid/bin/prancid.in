@@ -382,6 +382,11 @@ sub WriteTerm {
 
 #	# order alias statements
 #	/^alias / && ProcessHistory("ALIAS","keysort","$_","$_") && next;
+
+	# prune msdp password
+	if (/^(ip msdp password \S+) / && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>\n"); next;
+	}
 	# delete ntp auth password - this md5 is a reversable too
 	if (/^(ntp authentication-key \d+ md5) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;

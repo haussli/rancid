@@ -1,4 +1,6 @@
 1.7
+	Leave router type in place when telling about changes to
+	router.db.
 
 1.6
 	Add "dir nvram:" to rancid.

@@ -68,22 +68,22 @@ then
 	if [ $RUP -ne 0 ] ; then
 	    if [ $RUP -eq 1 ] ; then
 	        echo Routers changed to up:
-	        comm -13 routers.up routers.up.new | sed -e 's/^/        /' -e 's/:.*$//'
+	        comm -13 routers.up routers.up.new | sed -e 's/^/        /'
 	        echo
 	    elif [ -s routers.up.new ] ; then
 	        echo Routers changed to up:
-	        sed -e 's/^/        /' -e 's/:.*$//' routers.up.new
+	        sed -e 's/^/        /' routers.up.new
 	        echo
 	    fi
 	fi
 	if [ $RDOWN -ne 0 ] ; then
 	    if [ $RDOWN -eq 1 ] ; then
 	        echo Routers changed to down:
-	        comm -13 routers.down routers.down.new | sed -e 's/^/        /' -e 's/:.*$//'
+	        comm -13 routers.down routers.down.new | sed -e 's/^/        /'
 	        echo
 	    elif [ -s routers.down.new ] ; then
 	        echo Routers changed to down:
-	        sed -e 's/^/        /' -e 's/:.*$//' routers.down.new
+	        sed -e 's/^/        /' routers.down.new
 	        echo
 	    fi
 	fi
@@ -91,7 +91,7 @@ then
 	WCNEW=`wc -l routers.all.new | sed -e 's/^ *\([^ ]*\) .*$/\1/'`
 	if [ $RALL -eq 1 -a $WC -gt $WCNEW ] ; then
 	    echo Deleted routers:
-	    comm -23 routers.all routers.all.new | sed -e 's/^/        /' -e 's/:.*$//'
+	    comm -23 routers.all routers.all.new | sed -e 's/^/        /'
 	fi
     ) > routers.mail
 

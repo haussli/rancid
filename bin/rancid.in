@@ -789,7 +789,7 @@ sub ShowDiagbus {
     return(0);
 }
 
-# This routine parses "show diag" for the gsr, 7200, 3600, 2600.
+# This routine parses "show diag" for the gsr, 7200, 3700, 3600, 2600.
 # This will create arrarys for hw info.
 sub ShowDiag {
     # Skip if this is not a 12000.
@@ -813,7 +813,14 @@ sub ShowDiag {
 	    next;
 	}
 	if (/^\s+MAIN:\s* type \d+,\s+(.*)/) {
-	    ProcessHistory("SLOT","keysort","AM","!Slot $slot/MAIN: part $1\n") && next;
+	    ProcessHistory("SLOT","keysort","AM","!Slot $slot/MAIN: part $1\n");
+	    next;
+	}
+	if (/^c3700\s+(io-board|mid-plane)/i) {
+	    $slot=$1;
+	    ProcessHistory("SLOT","","","!\n");
+	    ProcessHistory("SLOT","keysort","A","!Slot $slot: part $1\n");
+	    next;
 	}
 	if (/ Engine:\s+(.*)/) {
 	    ProcessHistory("SLOT","keysort","AE","!Slot $slot/Engine: $1\n");
@@ -879,10 +886,11 @@ sub ShowDiag {
 	    }
 	    $_ = <INPUT>; tr/\015//d;
 
-	    # clean up hideous 7200 format to look more like 7500 output
+	    # clean up hideous 7200/etc formats to look more like 7500 output
 	    s/Fast-ethernet on C7200 I\/O card/FE-IO/;
 	    s/ with MII or RJ45/-TX/;
 	    s/Fast-ethernet /100Base/; s/[)(]//g;
+	    s/intermediate reach/IR/i;
 
 	    ProcessHistory("SLOT","","","!\n");
 	    /\s+(.*) port adapter,?\s+(\d+)\s+/i &&
@@ -903,10 +911,15 @@ sub ShowDiag {
 	    next;
 	}
 	# yet another format.  seen on 2600s w/ 12.1, but appears to be all
-	# 12.1, including 7200s.
-	if (/hardware revision\s+:\s+(\S+)$/i) {
+	# 12.1, including 7200s & 3700s.  Sometimes the PCB serial appears
+	# before the hardware revision.
+	if (/(pcb serial number|hardware revision)\s+:\s+(\S+)$/i) {
 	    my($hw, $pn, $rev, $sn);
-	    $hw = $1;
+	    if ($1 =~ /^pcb/i) {
+		$sn = $2;
+	    } else {
+		$hw = $2;
+	    }
 	    while (<INPUT>) {
 		tr/\015//d;
 
@@ -914,6 +927,7 @@ sub ShowDiag {
 		    # no effing idea why break does not work there
 		    goto PerlSucks;
 		}
+		if (/hardware revision\s+:\s+(\S+)/i) { $hw = $1; }
 		if (/part number\s+:\s+(\S+)/i) { $pn = $1; }
 		if (/board revision\s+:\s+(\S+)/i) { $rev = $1; }
 		if (/pcb serial number\s+:\s+(\S+)/i) { $sn = $1; }

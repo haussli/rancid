@@ -275,6 +275,10 @@ sub WriteTerm {
 	if (/^( ip ospf message-digest-key \d+ md5) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
+	# this is reversable, despite 'md5' in the cmd
+	if (/^(\s*message-digest-key \d+ md5) / && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>\n"); next;
+	}
 
 #	if (/^((crypto )?isakmp key) \S+ / && $filter_pwds >= 1) {
 #	    ProcessHistory("","","","!$1 <removed> $'"); next;
@@ -392,8 +396,8 @@ sub WriteTerm {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
 	# prune isis password
-	if (/^( isis authentication-key) \d \S+ (\S+)/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 <removed> $2\n"); next;
+	if (/^( isis authentication-key) \d \S+/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>$'"); next;
 	}
 	# prune msdp password
 	if (/^(ip msdp password \S+) / && $filter_pwds >= 1) {
@@ -476,7 +480,7 @@ if ($file) {
 }
 
 # determine password filtering mode
-if ($ENV{"FILTER_PWDS"} =~ /no/i) {  
+if ($ENV{"FILTER_PWDS"} =~ /no/i) {
 	$filter_pwds = 0;
 } elsif ($ENV{"FILTER_PWDS"} =~ /all/i) {
 	$filter_pwds = 2;

@@ -1,6 +1,8 @@
 config.*
 Makefile
 arancid
+blogin
+brancid
 cat5rancid
 clogin
 cloginrc
@@ -20,3 +22,4 @@ rancid
 rancid-fe
 rename
 rrancid
+xrancid

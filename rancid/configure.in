@@ -130,30 +130,36 @@ fi],
 rd_cv_ADMINMAILPLUS=$ADMINMAILPLUS
 
 AC_PATH_PROG(DIRNAME,dirname,no)
+
 # locate GNU diff (one supporting the -u option)
-AC_PATH_PROG(DIFF,diff,no, /usr/local/bin:/usr/gnu/bin:/usr/bin:/usr/contrib/bin)
-if test $DIFF = no; then
-    unset ac_cv_path_DIFF
-    AC_MSG_ERROR([can't locate diff.])
-else
-    $DIFF -u /dev/null /dev/null > /dev/null 2>&1
-    if test $? -ne 0; then
-	$DIFF -C 2 /dev/null /dev/null > /dev/null 2>&1
+AC_MSG_CHECKING([for a diff(1) that supports -u])
+_DIFF_PATH=`echo $PATH:${prefix}/bin:/usr/bin:/usr/pkg/bin:/usr/local/bin:/usr/gnu/bin:/usr/contrib/bin | sed -e 's/:/ /g'`
+for _diff in ${_DIFF_PATH} ;
+do
+    if test -e ${_diff}/diff ; then
+	${_diff}/diff -u /dev/null /dev/null > /dev/null 2>&1
 	if test $? -ne 0; then
-	    $DIFF -c2 /dev/null /dev/null > /dev/null 2>&1
-	    if test $? -ne 0; then
-		AC_MSG_ERROR([can't locate a diff which accepts the -u option.])
-		exit 1
-	    else
-		DIFF_CMD="diff -c4"
+	    if test "${ADIFF}" == "" ; then
+		ADIFF="${_diff}/diff"
+		ADIFF_CMD="diff -c -4"
 	    fi
 	else
-	    DIFF_CMD="diff -C 4"
+	    DIFF="${_diff}/diff"
+	    DIFF_CMD="diff -u -4"
+	    break
 	fi
-    else
-	DIFF_CMD="diff -u -4"
     fi
+done
+if test "$DIFF" = "" ; then
+    DIFF=$ADIFF
+    DIFF_CMD=$ADIFF_CMD
 fi
+if test "$DIFF" = "" ; then
+    AC_MSG_ERROR([can't locate diff.])
+fi
+AC_MSG_RESULT([${DIFF_CMD}])
+rd_cv_DIFF=$DIFF
+AC_SUBST(DIFF)
 rd_cv_DIFF_CMD=$DIFF_CMD
 AC_SUBST(DIFF_CMD)
 
@@ -240,10 +246,7 @@ ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_RSH`"
 AC_PATH_PROG(SORT,sort,no)
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_SORT`"
 AC_PATH_PROG(SSH,ssh,no)
-if test $DIFF = no; then
-    ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_SSH`"
-fi
-unset ac_cv_path_SSH
+ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_SSH`"
 AC_PATH_PROG(TELNET,telnet,no)
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_TELNET`"
 AC_PATH_PROG(TOUCH,touch,no)

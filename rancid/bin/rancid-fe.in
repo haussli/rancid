@@ -25,19 +25,20 @@ require 5;
 
 ($router, $vendor) = split('\:', $ARGV[0]);
 
-   if ($vendor =~ /^alteon$/i)	{ exec('arancid', $router); }
-elsif ($vendor =~ /^baynet$/i)	{ exec('brancid', $router); }
-elsif ($vendor =~ /^cat5$/i)	{ exec('cat5rancid', $router); }
-elsif ($vendor =~ /^cisco$/i)	{ exec('rancid', $router); }
-elsif ($vendor =~ /^extreme$/i)	{ exec('xrancid', $router); }
-elsif ($vendor =~ /^ezt3$/i)	{ exec('erancid', $router); }
-elsif ($vendor =~ /^force10$/i)	{ exec('f10rancid', $router); }
-elsif ($vendor =~ /^foundry$/i)	{ exec('francid', $router); }
-elsif ($vendor =~ /^hp$/i)	{ exec('hrancid', $router); }
-elsif ($vendor =~ /^juniper$/i)	{ exec('jrancid', $router); }
-elsif ($vendor =~ /^mrtd$/i)	{ exec('mrancid', $router); }
-elsif ($vendor =~ /^redback$/i)	{ exec('rrancid', $router); }
-elsif ($vendor =~ /^tnt$/i)	{ exec('tntrancid', $router); }
+   if ($vendor =~ /^alteon$/i)		{ exec('arancid', $router); }
+elsif ($vendor =~ /^baynet$/i)		{ exec('brancid', $router); }
+elsif ($vendor =~ /^cat5$/i)		{ exec('cat5rancid', $router); }
+elsif ($vendor =~ /^cisco$/i)		{ exec('rancid', $router); }
+elsif ($vendor =~ /^extreme$/i)		{ exec('xrancid', $router); }
+elsif ($vendor =~ /^ezt3$/i)		{ exec('erancid', $router); }
+elsif ($vendor =~ /^force10$/i)		{ exec('f10rancid', $router); }
+elsif ($vendor =~ /^foundry$/i)		{ exec('francid', $router); }
+elsif ($vendor =~ /^hp$/i)		{ exec('hrancid', $router); }
+elsif ($vendor =~ /^juniper$/i)		{ exec('jrancid', $router); }
+elsif ($vendor =~ /^mrtd$/i)		{ exec('mrancid', $router); }
+elsif ($vendor =~ /^netscreen$/i)	{ exec('nrancid', $router); }
+elsif ($vendor =~ /^redback$/i)		{ exec('rrancid', $router); }
+elsif ($vendor =~ /^tnt$/i)		{ exec('tntrancid', $router); }
 else {
     printf(STDERR "unknown router manufacturer for $router: $vendor\n");
     exit(-1);

@@ -15,7 +15,7 @@
  * anything else.
  *
  * Except where noted otherwise, rancid was written by and is maintained by
- * Henry Kilmer, John Heasley, Andrew Partan, and Pete Whiting.
+ * Henry Kilmer, John Heasley, Andrew Partan, Pete Whiting, and Austin Schutz.
  *
  * Run telnet or ssh to connect to device specified on the command line.  The
  * point of hpfilter is to filter all the bloody vt100 (curses) escape codes

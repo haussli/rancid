@@ -17,7 +17,7 @@
 ## anything else.
 ##
 ## Except where noted otherwise, rancid was written by and is maintained by
-## Henry Kilmer, John Heasley, Andrew Partan, and Pete Whiting.
+## Henry Kilmer, John Heasley, Andrew Partan, Pete Whiting, and Austin Schutz.
 ##
 
 AUTOMAKE_OPTIONS=foreign no-dependencies

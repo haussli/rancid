@@ -1,0 +1,147 @@
+.\"
+.Dd December 20, 2000
+.Dt clogin 1
+.Sh NAME
+.Nm clogin
+.Nd Cisco/Foundry login script
+.Sh SYNOPSIS
+.Nm
+.Op -autoenable
+.Op -noenable
+.Op Fl c Ar command
+.Op Fl e Ar enable-password
+.Op Fl f Ar cloginrc-file
+.Op Fl p Ar user-password
+.Op Fl s Ar script-file
+.Op Fl t Ar timeout
+.Op Fl u Ar username
+.Op Fl v Ar vty-password
+.Op Fl w Ar enable-username
+.Op Fl x Ar command-file
+.Op Fl y Ar ssh_cypher_type
+router
+.Op router...
+.Sh DESCRIPTION
+.Nm
+is an
+.Ic expect(1)
+script to automate the process of logging into a Cisco router or catalyst
+switch and Redback routers.  There are complementary scripts for Juniper,
+Foundry, and ADC-kentrox EZ-T3 mux named 
+.Ic "jlogin" ,
+.Ic "flogin" ,
+and
+.Ic "elogin" ,
+respectively.
+.Pp
+.Nm
+reads the
+.Pa .cloginrc
+file for it's configuration, then connects and logins into each of the
+router's specified on the command line in the order listed.  Some command-line
+options exist to override the corresponding directives found in the
+.Pa .cloginrc
+configuration file.
+.Pp
+The command-line options are as follows:
+.Pp
+.Bl -tag -width foo
+.It Fl c
+Command to be run on each router list on the command-line.  Multiple
+commands maybe listed by separating them with semi-colons (;).  The argument
+should be quoted to avoid shell expansion.
+.It Fl e
+Specify a password to be supplied when gaining enable privileges on the
+router(s).  Also see the password directive of the
+.Pa .cloginrc
+file.
+.It Fl f
+Specifies an alternate configuration file.  The default is
+.Pa $HOME/.cloginrc .
+.It Fl p
+Specifies a password associated with the user specified by the
+.Fl u
+option, user directive of the
+.Pa .cloginrc
+file, or the username of the user.
+.It Fl s
+The filename of an
+.Ic expect(1)
+script which will be sourced after the login is successful and is expected
+to return control to
+.Nm
+when it is done with the connection to the router intact.
+.It Fl t
+Alters the timeout interval
+.Nm
+waits for an individual command to return a prompt or the login process to
+produce a prompt or failure.  The argument is in seconds.
+.It Fl u
+Specifies the username used when prompted.  The command-line option overrides
+any user directive found in
+.Pa .cloginrc .
+The default is the current Unix username.
+.It Fl v
+Specifies a vty password, that which is prompted for upon connection
+to the router.  This overrides the vty password of the
+.Pa .cloginrc
+file's password directive.
+.It Fl w
+Specifies the username used if prompted when gaining enable privileges.  The
+command-line option overrides any user or enauser directives found in
+.Pa .cloginrc .
+The default is the current Unix username.
+.It Fl x
+Similar to the
+.Fl c
+option;
+.Fl x
+specifies a file with commands to run on each of the routers.  The commands
+must not expect additional input, such as 'copy rcp startup-config' does.
+For example:
+.Pp
+.Dl show version
+.Dl show logging
+.It Fl y
+Specifies the encryption algorithm for use with the
+.Ic ssh(1)
+-c option.  The default encryption type is often not supported.  See the
+.Ic ssh(1)
+man page for details.  The default is 3des.
+.El
+.Sh ENVIRONMENT
+.Nm
+recognizes the following environment variables.
+.Pp
+.Bl -tag -width CISCO_USER
+.It CISCO_USER
+Overrides the user directive found in the
+.Pa .cloginrc
+file, but may be overridden by the
+.Fl u
+option.
+.It CLOGIN
+.Nm
+will not change the banner on your xterm window if this includes the
+character 'x'.
+.It HOME
+Normally set by
+.Ic login(1)
+to the user's home directory,
+it used by
+.Nm
+to locate the
+.Pa .cloginrc
+configuration file.
+.El
+.Sh FILES
+.Bl -tag -width .cloginrc -compact
+.It $HOME/.cloginrc
+.Nm
+configuration file.
+.El
+.Sh SEE ALSO
+.Xr cloginrc 5 ,
+.Xr expect 1
+.Sh BUGS
+All these login scripts for separate devices should be rolled into one.

@@ -361,6 +361,7 @@ sub DirSlotN {
 	return(1) if /^\s*\^\s*$/;
 	return(1) if /Invalid input detected/;
 	return(1) if /No space information available/;
+	return(-1) if /\%Error calling/;
 	return(-1) if /: device being squeezed/; # Flash is busy
 	return(1) if /(Open device \S+ failed|Error opening \S+:)/;
 	ProcessHistory("FLASH","","","!Flash: $dev: $_");

@@ -29,7 +29,7 @@ do
 
 		if [ -f $LOCKFILE ]
 		then
-			echo hourly cisco diffs failed: $LOCKFILE exists
+			echo hourly config diffs failed: $LOCKFILE exists
 			/bin/ls -l $LOCKFILE
 		else
 			/usr/bin/touch $LOCKFILE
@@ -39,5 +39,5 @@ do
 
 		echo ending: `date`
 		echo
-	) >$BASEDIR/logs/$GROUP.`date +%Y%m%d.%H%M%S` 2>&1 
+	) >$BASEDIR/logs/$GROUP.`date +%y%m%d.%H%M%S` 2>&1 
 done

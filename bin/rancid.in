@@ -845,11 +845,19 @@ sub ShowDiag {
 	    next;
 	}
 	# 7200, 3600, and 2600 stuff
-	if (/^(Slot)\s+(\d+(\/\d+)?):/ || /^\s+(WIC|VIC) Slot (\d):/) {
+	if (/^(Slot)\s+(\d+(\/\d+)?):/
+	    || /^\s+(WIC|VIC) Slot (\d):/
+	    || /^(Encryption AIM) (\d):/) {
 	    if ($1 eq "WIC") {
 		$WIC = "/$2";
 	    } elsif ($1 eq "VIC") {
 		$WIC = "/$2";
+	    } elsif ($1 eq "Encryption AIM") {
+		$slot = "$2";
+		undef($WIC);
+		ProcessHistory("SLOT","","","!\n");
+		ProcessHistory("SLOT","keysort","B","!Slot $slot: type $1\n");
+		next;
 	    } else {
 		$slot = $2;
 		undef($WIC);

@@ -1,6 +1,7 @@
 2.0
 	Get some info out of "show version" for the cat5ks.
 	cat5k "show boot" does variables, not bootflash.
+	Skip more goo from 'write term' on some cat5ks.
 
 	Collect 'show module' for 6500-ios.
 

@@ -691,6 +691,8 @@ sub WriteTerm {
 #heas	next if (/^\.+$/);
 	/Non-Volatile memory is in use/  && return(-1); # NvRAM is locked
 	# skip the crap
+	next if (/^This command shows non-default configurations only./i);
+	next if (/^Use 'write terminal all' to show both default and non/i);
 	if (/^(\.\.+$|##+$|Building configuration...)/i) {
 	    while (<INPUT>) {
 		tr/\015//d;
@@ -701,7 +703,7 @@ sub WriteTerm {
 	    }
 	    ProcessHistory("","","","!\n");
 	    if (defined($config_register)) {
-		ProcessHistory("","","","!\nconfig-register $config_register\n");
+		ProcessHistory("","","","config-register $config_register\n");
 	    }
 	    tr/\015//d;
 	}

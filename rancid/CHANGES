@@ -1,4 +1,9 @@
 2.2b9
+	Fixed RANCID-CONTENT-TYPE to be more consistant.  Changes are
+		brancid		bay
+		cat5rancid	cisco-cat5
+		erancid		adc-ezt3
+
 	jlogin should not look for username@router in .cloginrc
 
 	filter foundry ssh private key

@@ -857,7 +857,7 @@ sub WriteTerm {
         # snmp-server host a.b.c.d <community>
 	if (/^set snmp trap (\d+\.\d+\.\d+\.\d+) /) {
 	    if (defined($ENV{'NOCOMMSTR'})) {
-		ProcessHistory("SNMPSERVERHOST","ipsort","$1","# set snmp trap $1 <removed>\n");
+		ProcessHistory("SNMPSERVERHOST","ipsort","$1","!set snmp trap $1 <removed>\n");
 	    } else {
 		ProcessHistory("SNMPSERVERHOST","ipsort","$1","$_");
 	    } 
@@ -865,7 +865,7 @@ sub WriteTerm {
 	}
 	if (/^(set snmp community) (\S+) (\S+)/) {
 	    if (defined($ENV{'NOCOMMSTR'})) {
-		ProcessHistory("SNMPSERVERCOMM","keysort","$_","#$1 $2 <removed>\n");
+		ProcessHistory("SNMPSERVERCOMM","keysort","$_","!$1 $2 <removed>\n");
 	    } else {
 		ProcessHistory("SNMPSERVERCOMM","keysort","$_","$_")
 	    }
@@ -873,7 +873,7 @@ sub WriteTerm {
 	}
 	# order tacacs server statements
 	/^set (tacacs) key / &&
-	    ProcessHistory("","","","! set $1 key <removed>\n") && next;
+	    ProcessHistory("","","","!set $1 key <removed>\n") && next;
 	/^set tacacs server (\d+\.\d+\.\d+\.\d+)/ &&
 	    ProcessHistory("TAC","ipsort","$1","$_") && next;
 	# order clns host statements

@@ -851,7 +851,7 @@ sub WriteTerm {
 		    } elsif ($token =~ /^(informs?|traps?|(no)?auth)$/) {
 			$line .= " " . $token;
 		    } else {
-			$line = "! $line " . join(' ', ("<removed>", join(' ',@tokens)));
+			$line = "!$line " . join(' ', ("<removed>", join(' ',@tokens)));
 			last;
 		    }
 		}

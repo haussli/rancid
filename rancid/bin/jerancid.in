@@ -282,7 +282,7 @@ sub ShowHardware {
 # This routine processes a "show configuration"
 sub WriteTerm {
     print STDERR "    In WriteTerm: $_" if ($debug);
-    my($lineauto,$comment) = (0,0);
+    my($lineauto) = 0;
 
     while (<INPUT>) {
 	tr/\015//d;
@@ -290,18 +290,10 @@ sub WriteTerm {
 	return(-1) if (/command authorization failed/i);
 	/Non-Volatile memory is in use/  && return(-1); # NvRAM is locked
 	$lineauto = 0 if (/^[^ ]/);
+
 	# skip the crap
 	/^! Configuration script /i && next;
-
-	# skip consecutive comment lines to avoid oscillating extra comment
-	# line on some access servers.  grrr.
-	if (/^!/) {
-	    next if ($comment);
-	    ProcessHistory("","","",$_);
-	    $comment++;
-	    next;
-	}
-	$comment = 0;
+	/^! Copyright /i && next;
 
 	# Dog gone Cool matches to process the rest of the config
 	/^tftp-server flash /   && next; # kill any tftp remains

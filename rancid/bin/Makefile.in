@@ -17,7 +17,7 @@ install: all
 	done
 
 clean:
-	rm -f Makefile $(BIN_PROGS)
+	rm -f Makefile $(BIN_DATAS) $(BIN_PROGS)
 
 distclean: clean
 	rm -f config.log config.status

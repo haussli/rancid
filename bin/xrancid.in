@@ -278,6 +278,8 @@ sub WriteTerm {
 	return(0) if ($found_end);
 
 	s/^\s*$/#/;
+	next if (/full detail configuration/i);
+
 	# filter extra comments and lead comments in config so we can preserve
 	# the chassis type at the top of muched o/p before the process history
 	# key changes.
@@ -303,11 +305,11 @@ sub WriteTerm {
 	/# software version/i && next;
 
 	if (/((create|configure) account \S+ \S+) / && $filter_pwds >= 2) {
-	    ProcessHistory("","","","# $1 <key removed>\n");
+	    ProcessHistory("COMMENTS","keysort","H0","# $1 <key removed>\n");
 	    next;
 	}
 	if (/configure ssh2 key/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","# $_# <key removed>\n");
+	    ProcessHistory("COMMENTS","keysort","H0","# $_# <key removed>\n");
 	    while (<INPUT>) {
 		if (/^(#|enable|conf|disable|unconf)/) {
 		    tr/\015//d;
@@ -319,7 +321,7 @@ sub WriteTerm {
 	# filter out any RCS/CVS tags to avoid confusing local CVS storage
 	s/\$(Revision|Id):/ $1:/;
 	if (/^((config|configure) bgp (neighbor|peer-group) \S+ password encrypted)/i && $filter_pwds >= 1) {
-	    ProcessHistory("","","","# $1 <removed>\n");
+	    ProcessHistory("COMMENTS","keysort","H0","# $1 <removed>\n");
 	    next;
 	}
 
@@ -348,12 +350,12 @@ sub WriteTerm {
 	}
 	# order/prune tacacs/radius server statements
 	if (/^(configure radius (primary|secondary) (tacacs-server|radius-server) shared-secret encrypted)/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","# $1 <removed>\n");
+	    ProcessHistory("COMMENTS","keysort","H0","# $1 <removed>\n");
 	    next;
 	}
 
 	# catch anything that wasnt match above.
-	ProcessHistory("","","","$_");
+	ProcessHistory("COMMENTS","keysort","H0","$_");
 	# end of config
 	if (/^# End of configuration file/i) {
 	    printf STDERR "    End WriteTerm: $_" if ($debug);
@@ -426,6 +428,7 @@ ProcessHistory("COMMENTS","keysort","C0","#\n");	# power supply info
 ProcessHistory("COMMENTS","keysort","D0","#\n");	# image name
 ProcessHistory("COMMENTS","keysort","E0","#\n");	# h/w info
 ProcessHistory("COMMENTS","keysort","F0","#\n");	# slot info
+ProcessHistory("COMMENTS","keysort","H0","#\n");	# config
 ProcessHistory("COMMENTS","keysort","X0","#\n");
 TOP: while(<INPUT>) {
     tr/\015//d;

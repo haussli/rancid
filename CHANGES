@@ -30,6 +30,8 @@
 	jerancid: add matches for "Please wait" to all functions -
 	reported by Dave Mack
 
+	fnrancid: Fortigate support - from D. Pfleger
+
 	nlogin: Fix prompt groveling when running a cluster - from D. Pfleger
 
 	nrancid: filter "set admin user" - from D. Pfleger

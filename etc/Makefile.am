@@ -19,6 +19,7 @@
 AUTOMAKE_OPTIONS=foreign
 
 pkgdata_DATA= lg.conf.sample rancid.conf.sample
+dist_pkgdata_DATA= $(pkgdata_DATA)
 
 install-data-local: all
 	@if test -f $(sysconfdir)/rancid.conf ; then \

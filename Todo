@@ -44,3 +44,5 @@
         util/rtrfilter
 - do-diffs (or something in the proc path) should make sure that all
   the CVS'd files are up to date with respect to the repository.
+- missing man pages for env.5, do-diffs.1, control_rancid.1 ??, router.db.5
+  rancid.1, lg.conf.5 ??

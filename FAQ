@@ -9,8 +9,8 @@ A. A catalyst running IOS is type "cisco".  See the router.db(5) manual page.
 Q. I have a Cisco ??? on which collection stopped working, but clogin works
    as expected.
 A. Check if 'write term' produces output.  Some IOS combined with large
-   configs and low free memory produce zero 'write term' output.  The device
-   will have to be rebooted.
+   configs and low free memory produce zero 'write term' output, esp. combined
+   with a memory leak.  The device will have to be rebooted or upgraded.
 
 
 2) CVS and filesystem permissions
@@ -109,10 +109,11 @@ A. Our usual diagnostic procedure for this is:
    If all of these work, make sure that the device's entry in the group's
    router.db file is correct and check the group's last log file for errors.
 
-Q. Are there any characters in the banner that rancid has problems with?
+Q. Are there any characters in the banner that rancid has problems with OR
+   i changed the device's command prompt?
 A. The trickest part about clogin (et al) is recognizing the prompt
    correctly.  clogin looks for '>' and '#' to figure out if it is logged
-   in or in enable mode.  So if you have a '>' or '#' in your banner
+   in or in enable mode.  So if you have a '>' or '#' in your login banner
    (other other motd), then clogin gets all confused and will not be
    able to log in correctly, and thus rancid will fail.
 

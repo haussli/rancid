@@ -34,7 +34,7 @@ man_nogen_MANS = alogin.1 blogin.1 clogin.1 control_rancid.1 \
 
 man_MANS = $(man_nogen_MANS) $(man_gen_MANS)
 
-EXTRA_DIST = $(man_nogen_MANS)
+EXTRA_DIST = $(man_nogen_MANS) $(man_gen_MANS:%=%.in)
 
 CLEANFILES = Makefile $(man_gen_MANS)
 

@@ -887,6 +887,8 @@ sub WriteTerm {
 	/^\s*neighbor (\S*) password / &&
 	    ProcessHistory("","","","! neighbor $1 password <removed>\n") &&
 	    next;
+	/^(ppp .* password) 7 .*/ &&
+	    ProcessHistory("","","","!$1 <removed>\n") && next;
 	/^(ip ftp password) / &&
 	    ProcessHistory("","","","!$1 <removed>\n") && next;
 	/^( ip ospf authentication-key) / &&

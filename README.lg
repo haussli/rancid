@@ -33,11 +33,10 @@ and install bits in /usr/local/rancid/etc/lg.conf and
 	mkdir /usr/local/htdocs/lg
 
    Then either:
-	- copy the files {index.html, lgnotes.html, lg.cgi, lgform.cgi} to
-	  /usr/local/htdocs/lg
+	- copy the files <PREFIX>/share/rancid/{index.html,lgnotes.html} and
+	  <PREFIX>/bin/{lg.cgi,lgform.cgi} to /usr/local/htdocs/lg
      OR
-	- create symlinks from /usr/local/htdocs/lg to each of {index.html,
-	  lgnotes.html, lg.cgi, lgform.cgi} under /usr/local/rancid
+	- create symlinks from /usr/local/htdocs/lg to each of these files.
 
    Note on links: if you use symlinks, you have to configure apache to
    allow following symlinks.  eg:
@@ -56,7 +55,7 @@ and install bits in /usr/local/rancid/etc/lg.conf and
 
 2) The looking glass scripts need to be able to find and read lg.conf.  By
    default it is installed as <PREFIX>/etc/lg.conf and the scripts will first
-   look in its CWD (Current Working Directory) and then <PREFIX>/etc/lg.conf
+   look in their CWD (Current Working Directory) and then <PREFIX>/etc/lg.conf,
    if it does not exist in the CWD.  However, the LG_CONF environment variable
    can be used to move it elsewhere.
 
@@ -64,10 +63,10 @@ and install bits in /usr/local/rancid/etc/lg.conf and
    httpd.conf.  For example:
 	SetEnvIf Request_URI "\/lg/.*.cgi" LG_CONF=/usr/local/htdocs/lg/lg.conf
 
-3) Edit <PREFIX>/etc/lg.conf.
+3) Edit <sysconfigdir>/lg.conf (usually <PREFIX>/etc/lg.conf).
 
 4) Set-up cron jobs to rotate the log file and clean out old cache files.
-   see LG_CACHE_DIR & LG_LOG in lg.conf.  Something like (YMMV):
+   See LG_CACHE_DIR & LG_LOG in lg.conf.  Something like (YMMV):
 
 	# rotate lookingglass log
 	#0 0 * * * cd /usr/local/htdocs/lg/tmp; /usr/local/etc/savelog -m 666 -c14 lg.log

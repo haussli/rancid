@@ -19,7 +19,8 @@
 # blogin - Bay Networks(Nortel) login
 #
 # Unlike the Cisco's, there is no enable function on the Bay's.
-# Instead there are seperate User and Manager accounts.
+# Instead there are seperate User and Manager accounts.  A 'system' command
+# exists, which i am told does nothing.
 #
 
 # Usage line

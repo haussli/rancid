@@ -490,6 +490,7 @@ proc run_commands { prompt command } {
     if { [ string compare "extreme" "$platform" ] } {
 	if [ regexp -- ".*> .*enable" "$prompt" ] {
 	    send "set length 0\r"
+	    send "set logging session disable\r"
 	} else {
 	    send "term length 0\r"
 	}

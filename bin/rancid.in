@@ -573,10 +573,10 @@ sub ShowDiagbus {
 	} elsif (/^\s*Slot (\d+) \(virtual\):/i) {
 	    $slot = $1;
 	    next;
-	} elsif (/^\s*(.*Processor.*|.*controller|.*Chassis Interface).*, HW rev (\S+), board revision (\S+)/i) {
+	} elsif (/^\s*(.*Processor.*|.*controller|.*Chassis Interface)(, FRU:.*)?, HW rev (\S+), board revision (\S+)/i) {
 	    $board = $1;
-	    $hwver = $2;
-	    $boardrev = $3;
+	    $hwver = $3;
+	    $boardrev = $4;
 	    if ($board =~ /Processor/) {
 		if ($board =~ /7000 Route\/Switch/) {
 		    $board = "RSP7000";
@@ -626,8 +626,8 @@ sub ShowDiagbus {
 	    }
 	    next;
 	}
-	/\s+(.*) (IP|PA), (\d) ports?, (\S+)/ &&
-	    ProcessHistory("SLOT","","","!Slot $slot/$board: type $4, $3 ports\n") &&
+	/\s+(.*) (IP|PA), (\d) ports?,( \S+,)? (FRU: )?(\S+)/ &&
+	    ProcessHistory("SLOT","","","!Slot $slot/$board: type $6, $3 ports\n") &&
 	    next;
 	/\s+(.*) (IP|PA)( \(\S+\))?, (\d) ports?/ &&
 	    ProcessHistory("SLOT","","","!Slot $slot/$board: type $1$3, $4 ports\n") &&

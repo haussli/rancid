@@ -1,6 +1,9 @@
-1.7
+2.0
 	Leave router type in place when telling about changes to
 	router.db.
+
+	Add autoconf (configure) and makefile bits to automate install
+	and perl/expect replacement
 
 1.6
 	Add "dir nvram:" to rancid.

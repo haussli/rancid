@@ -1,4 +1,4 @@
-2.3.2
+2.3.2a
 	rancid: correct handling of SNMPv3 host configs - Patrick Adlam
 
 	rancid: filter nv_hdr file seen on sup720 - Bill Ouchark

@@ -933,8 +933,8 @@ sub WriteTerm {
 	if (/^( ip ospf message-digest-key \d+ md5) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
-	if (/^(crypto isakmp key) \S+ (address \S+)\n/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 <removed> $2\n"); next;
+	if (/^((crypto )?isakmp key) \S+ / && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed> $'\n"); next;
 	}
 	/fair-queue individual-limit/ && next;
 	# sort ip explicit-paths.

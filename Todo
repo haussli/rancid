@@ -27,3 +27,13 @@
 	> User Access Verification
 	>
 	> Username: ^Cguelah [445]
+- the exec here needs a 'catch' in *login
+    # This uses "id" which I think is portable.  At least it has existed
+    # (without options) on all machines/OSes I've been on recently -
+    # unlike whoami or id -nu.
+    regexp {\(([^)]*)} [exec id] junk default_user 
+
+	eg:
+	couldn't fork child process: resource temporarily unavailable
+	    while executing
+	"exec id"

@@ -28,8 +28,8 @@ if [ $# -lt 1 ]; then
 else
     GROUP=$1
 fi
-TMP=/var/tmp/rancid.$GROUP.$$
 DIR=$BASEDIR/$GROUP
+TMP=${TMPDIR:=/tmp}/rancid.$GROUP.$$
 
 # Bail if we do not have the necessary info to run
 if [ ! -d $DIR ]

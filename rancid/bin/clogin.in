@@ -432,7 +432,7 @@ proc run_commands { prompt command } {
     # If the prompt is (enable), then we are on a switch and the
     # command is "set length 0"; otherwise its "term length 0".
     # skip if its and extreme.
-    if { [ string compare "extreme" "$prompt" ] } {
+    if { [ string compare "extreme" "$platform" ] } {
 	if [ regexp -- ".*> .*enable" "$prompt" ] {
 	    send "set length 0\r"
 	} else {
@@ -501,7 +501,12 @@ proc run_commands { prompt command } {
 	}
     }
     log_user 1
-    send "exit\r"
+
+    if { [ string compare "extreme" "$platform" ] } {
+	send "exit\r"
+    } else {
+	send "quit\r"
+    }
     expect {
 	"Do you wish to save your configuration changes" {
 						  send "n\r"

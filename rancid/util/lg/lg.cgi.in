@@ -46,7 +46,7 @@ sub readconf
     local(*CONF);
     if (defined($env{LG_CONF})) {
 	$conffile = $env{LG_CONF};
-    } elsif {
+    } elsif (-e "lg.conf") {
 	$conffile = "lg.conf";
     } else {
 	$conffile = "$BASEDIR/util/lg/lg.conf";

@@ -1,4 +1,6 @@
 2.2b9
+	filter encrypted passwords on alteon as the change for each display
+
 	More support for Redbacks.
 
 	rancid now looks for "[kK] bytes" and "slot|disk".

@@ -319,15 +319,15 @@ sub WriteTerm {
 	# we only prune lines of the form
 
 	# configure snmp add trapreceiver a.b.c.d <community>
-	if (/^(configure snmp add trapreceiver )(\d+\.\d+\.\d+\.\d+) (community) \S+ (.*)/) {
+	if (/^(configure snmp add trapreceiver )(\d+\.\d+\.\d+\.\d+) (community) \S+/) {
 	    if (defined($ENV{'NOCOMMSTR'})) {
-		ProcessHistory("SNMPSVRHOST","ipsort","$2","# $1$2 $3 <removed> $4\n");
+		ProcessHistory("SNMPSVRHOST","ipsort","$2","# $1$2 $3 <removed> $'\n");
 	    } else {
 		ProcessHistory("SNMPSVRHOST","ipsort","$2","$_\n");
 	    }
 	    next;
 	}
-	if (/^(configure snmp add community (readonly|readwrite) \S+) (\S+)/) {
+	if (/^(configure snmp community (readonly|readwrite)) (\S+)/) {
 	    if (defined($ENV{'NOCOMMSTR'})) {
 		ProcessHistory("SNMPSVRCOMM","keysort","$_","#$1 <removed>$'");
 		next;

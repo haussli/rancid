@@ -205,25 +205,21 @@ if (defined(%i_qrtype)) {
 					-default => '-', -linebreak => 'true');
     print $query->hr;
 }
-
 if (defined(%r_qrtype)) {
     print $query->radio_group (-name => 'query', -values => \%r_qrtype,
 					-default => '-', -linebreak => 'true');
     print $query->hr;
 }
-
 if (defined(%d_qrtype)) {
     print $query->radio_group (-name => 'query', -values => \%d_qrtype,
 					-default => '-', -linebreak => 'true');
     print $query->hr;
 }
-
 if (defined(%m_qrtype)) {
     print $query->radio_group (-name => 'query', -values => \%m_qrtype,
 					-default => '-', -linebreak => 'true');
     print $query->hr;
 }
-
 if (defined(%v6_qrtype)) {
     print $query->radio_group (-name => 'query', -values => \%v6_qrtype,
 					-default => '-', -linebreak => 'true');

@@ -13,6 +13,8 @@
 
 	jrancid: collect show chassis alarms
 
+	rancid: skip show vlan for (3550|4500|7600) - from Andrew Fort
+
 	rancid: collect 6500 slave sup bootflash - from Andrew Fort
 
 	rancid: show diag updates for 1700, 3700, etc - help from Michael Haba

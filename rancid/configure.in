@@ -59,30 +59,44 @@ AC_TYPE_SIZE_T
 
 # Package-specific options/knobs
 #
-# Check for a preference for using mail addresses like rancid+admin-group
-# instead of the standard rancid-admin-group
+# Check for a preference for using mail addresses like rancid+group
+# instead of the standard rancid-group
 AC_MSG_CHECKING([whether mail addresses should be in the rancid+ form])
 AC_ARG_ENABLE(mail-plus,
 	AS_HELP_STRING([--enable-mail-plus], [enable mail to rancid+ addresses, instead of rancid-]),
 [if test "$enable_mail_plus" = yes; then
     AC_MSG_RESULT(yes)
     MAILPLUS="rancid+"
-    ADMINMAILPLUS="rancid+admin-"
     AC_SUBST(MAILPLUS)
-    AC_SUBST(ADMINMAILPLUS)
 else
     AC_MSG_RESULT(no)
     MAILPLUS="rancid-"
-    ADMINMAILPLUS="rancid-admin-"
     AC_SUBST(MAILPLUS)
-    AC_SUBST(ADMINMAILPLUS)
 fi],
 [AC_MSG_RESULT(no)
     MAILPLUS="rancid-"
-    ADMINMAILPLUS="rancid-admin-"
-    AC_SUBST(ADMINMAILPLUS)
+    AC_SUBST(MAILPLUS)
 ])
 rd_cv_MAILPLUS=$MAILPLUS
+
+# Check for a preference for using mail addresses like rancid+admin-group
+# instead of the standard rancid-admin-group
+AC_MSG_CHECKING([whether admin mail addresses should be in the rancid+ form])
+AC_ARG_ENABLE(adminmail-plus,
+	AS_HELP_STRING([--enable-adminmail-plus], [enable mail to rancid-admin+ addresses, instead of rancid-admin-]),
+[if test "$enable_adminmail_plus" = yes; then
+    AC_MSG_RESULT(yes)
+    ADMINMAILPLUS="rancid-admin+"
+    AC_SUBST(ADMINMAILPLUS)
+else
+    AC_MSG_RESULT(no)
+    ADMINMAILPLUS="${MAILPLUS}admin-"
+    AC_SUBST(ADMINMAILPLUS)
+fi],
+[AC_MSG_RESULT(no)
+    ADMINMAILPLUS="${MAILPLUS}admin-"
+    AC_SUBST(ADMINMAILPLUS)
+])
 rd_cv_ADMINMAILPLUS=$ADMINMAILPLUS
 
 AC_PATH_PROG(DIRNAME,dirname,no)

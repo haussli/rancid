@@ -1,5 +1,6 @@
 2.2b9
-	brancid: handle []'s in bay prompts - from mark cooper
+	brancid: handle []'s in bay prompts and drop lock-address from config
+	- from mark cooper
 
 	extreme: strip password if config|configure.  Strip ^M
 	right after ssh key.

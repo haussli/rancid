@@ -12,9 +12,10 @@ install: all
 	@for prog in $(BIN_PROGS) ; do \
 	    $(INSTALL) $$prog $(PREFIX)/bin; \
 	done; \
-	for prog in $(BIN_DATAS) ; do \
-	    $(INSTALL_DATA) $$prog $(PREFIX)/bin; \
-	done; \
+# BIN_DATAS are empty at the moment.
+#	for prog in $(BIN_DATAS) ; do \
+#	    $(INSTALL_DATA) $$prog $(PREFIX)/bin; \
+#	done; \
 	if test -e $(PREFIX)/bin/env ; then \
 	    echo "WARNING: $(PREFIX)/bin/env exists: not installing."; \
 	else \
@@ -28,7 +29,7 @@ distclean: clean
 	rm -f config.log config.status
 
 distdir:
-	@for file in Makefile.in $(BIN_DATAS:=.in) ; do \
+	@for file in Makefile.in env.in $(BIN_DATAS:=.in) ; do \
 	    $(INSTALL_DATA) $$file $(distdir); \
 	done
 	for file in configure $(BIN_PROGS:=.in) ; do \

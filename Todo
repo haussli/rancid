@@ -1,3 +1,5 @@
+- rancid with zebra?  via vtysh?
+- rancid with mrt?
 - extreme collections loses when the config on the switch is in an unsaved
   state, probably due to the prompt changing or rather the regex clogin
   formulates for the prompt.

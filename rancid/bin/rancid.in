@@ -869,7 +869,7 @@ sub ShowVLAN {
 # This routine processes a "write term"
 sub WriteTerm {
     print STDERR "    In WriteTerm: $_" if ($debug);
-    my($lineauto) = 0;
+    my($lineauto,$comment) = (0,0);
 
     while (<INPUT>) {
 	tr/\015//d;
@@ -897,6 +897,16 @@ sub WriteTerm {
 	# some versions have other crap mixed in with the bits in the
 	# block above
 	/^! (Last configuration|NVRAM config last)/ && next;
+
+	# skip consecutive comment lines to avoid oscillating extra comment
+	# line on some access servers.  grrr.
+	if (/^!/) {
+	    next if ($comment);
+	    ProcessHistory("","","",$_);
+	    $comment++;
+	    next;
+	}
+	$comment = 0;
 
 	# Dog gone Cool matches to process the rest of the config
 	/^tftp-server flash /   && next; # kill any tftp remains

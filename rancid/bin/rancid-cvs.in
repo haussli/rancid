@@ -26,16 +26,20 @@ ENVFILE="`dirname $0`/env"
 
 . $ENVFILE
 
+# Top level CVS stuff
 if [ ! -d $CVSROOT ]; then
     mkdir $CVSROOT
 fi
 if [ ! -d $CVSROOT/CVSROOT ]; then
     mkdir $CVSROOT/CVSROOT
 fi
+
+# Log dir
 if [ ! -d $BASEDIR/logs ]; then
     mkdir $BASEDIR/logs
 fi
 
+# Which groups to do
 if [ $# -ge 1 ] ; then
 	LIST_OF_GROUPS="$*"; export LIST_OF_GROUPS
 elif [ "$LIST_OF_GROUPS" = "" ] ; then
@@ -48,48 +52,25 @@ do
 
     DIR=$BASEDIR/$GROUP
 
+    # Directory for the group and the configs
     if [ ! -d $DIR ]; then
 	mkdir $DIR
+	cvs add $DIR
+	cvs commit -m 'new' $DIR
     fi
-    if [ ! -d $CVSROOT/$GROUP ]; then
-	mkdir $CVSROOT/$GROUP
+    if [ ! -d $DIR/configs ]; then
+	mkdir $DIR/configs
+	cvs add $DIR/configs
+	cvs commit -m 'new' $DIR/configs
     fi
-    if [ ! -d $CVSROOT/$GROUP/configs ]; then
-	mkdir $CVSROOT/$GROUP/configs
-    fi
+
+    # main files
     if [ ! -f $DIR/allrouters ]; then
 	touch $DIR/allrouters
     fi
     if [ ! -f $DIR/router.db ]; then
 	touch $DIR/router.db
-    fi
-
-    if [ ! -d $DIR/CVS ]; then
-	mkdir $DIR/CVS
-    fi
-    if [ ! -f $DIR/CVS/Root ]; then
-	echo "$CVSROOT" > $DIR/CVS/Root
-    fi
-    if [ ! -f $DIR/CVS/Repository ]; then
-	echo "$CVSROOT/$GROUP" > $DIR/CVS/Repository
-    fi
-    if [ ! -f $DIR/CVS/Entries ]; then
-	touch $DIR/CVS/Entries
-    fi
-
-    if [ ! -d $DIR/configs ]; then
-	mkdir $DIR/configs
-    fi
-    if [ ! -d $DIR/configs/CVS ]; then
-	mkdir $DIR/configs/CVS
-    fi
-    if [ ! -f $DIR/configs/CVS/Root ]; then
-	echo "$CVSROOT" > $DIR/configs/CVS/Root
-    fi
-    if [ ! -f $DIR/configs/CVS/Repository ]; then
-	echo "$CVSROOT/$GROUP/configs" > $DIR/configs/CVS/Repository
-    fi
-    if [ ! -f $DIR/configs/CVS/Entries ]; then
-	touch $DIR/configs/CVS/Entries
+	cvs add $DIR/router.db
+	cvs commit -m 'new' $DIR/router.db
     fi
 done

@@ -40,6 +40,7 @@ elsif ($vendor =~ /^netscaler$/i)	{ exec('nsrancid', $router); }
 elsif ($vendor =~ /^netscreen$/i)	{ exec('nrancid', $router); }
 elsif ($vendor =~ /^redback$/i)		{ exec('rrancid', $router); }
 elsif ($vendor =~ /^tnt$/i)		{ exec('tntrancid', $router); }
+elsif ($vendor =~ /^zebra$/i)		{ exec('zrancid', $router); }
 else {
     printf(STDERR "unknown router manufacturer for $router: $vendor\n");
     exit(-1);

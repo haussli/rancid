@@ -38,9 +38,6 @@ fi],
 ])
 rd_cv_MAILPLUS=$MAILPLUS
 
-AC_PATH_PROG(CVS,cvs,no)
-AC_PATH_PROG(COMM,comm,no)
-AC_PATH_PROG(MKDIR,mkdir,no)
 AC_PATH_PROG(DIRNAME,dirname,no)
 # locate GNU diff (-u option)
 AC_PATH_PROG(DIFF,diff,no, /usr/local/bin:/usr/gnu/bin:/usr/bin:/usr/contrib/bin)
@@ -69,7 +66,6 @@ fi
 rd_cv_DIFF_CMD=$DIFF_CMD
 AC_SUBST(DIFF_CMD)
 
-AC_PATH_PROG(TOUCH,touch,no)
 AC_PATH_PROG(SENDMAIL,sendmail,no, /usr/sbin:/usr/bin:/usr/lib)
 # find UCB mail.
 AC_ARG_WITH(ucbmail, [  --with-ucbmail=[FQPN]   path to UCB mail], UCBMAIL=$withval; unset ac_cv_path_UCBMAIL)
@@ -83,7 +79,6 @@ if test $UCBMAIL = no; then
 	exit 1
     fi
 fi
-AC_PATH_PROG(SORT,sort,no)
 
 AC_PATH_PROG(MAKE,gmake,no)
 if test $MAKE = no; then
@@ -184,11 +179,9 @@ INST_PROGS=$progs
 
 # locate tools to build $PATH for env.  order is significant.  want to be
 # sure that we pick up the the proper diff and ucbmail in bin/env.
-unset ENV_PATH
-AC_PATH_PROG(DIFF,diff,no)
-ENV_PATH=`dirname $ac_cv_path_DIFF`
-AC_PATH_PROG(UCBMAIL,Mail,no)
-ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_UCBMAIL`"
+ENV_PATH="`dirname $PERLV_PATH`:`dirname $EXPECT_PATH`:`dirname $SENDMAIL`"
+ENV_PATH="$ENV_PATH:`dirname $DIRNAME`:`dirname $DIFF`:`dirname $UCBMAIL`"
+
 AC_PATH_PROG(CVS,cvs,no)
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_CVS`"
 AC_PATH_PROG(COMM,comm,no)
@@ -201,12 +194,8 @@ AC_PATH_PROG(ID,id,no)
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_ID`"
 AC_PATH_PROG(MKDIR,mkdir,no)
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_MKDIR`"
-AC_PATH_PROG(DIRNAME,dirname,no)
-ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_DIRNAME`"
 AC_PATH_PROG(RSH,rsh,no)
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_RSH`"
-AC_PATH_PROG(SENDMAIL,sendmail,no)
-ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_SENDMAIL`"
 AC_PATH_PROG(SORT,sort,no)
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_SORT`"
 AC_PATH_PROG(SSH,ssh,no)

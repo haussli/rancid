@@ -621,7 +621,7 @@ sub ShowDiags {
 	    next;
 	}
 	# 7200 and 3600 stuff
-	if (/^(Slot) (\d+):/ || /^\s+(WIC) Slot (\d):/) {
+	if (/^(Slot)\s+(\d+):/ || /^\s+(WIC) Slot (\d):/) {
 	    if ($1 eq "WIC") {
 		$WIC = "/$2";
 	    } else {
@@ -635,8 +635,11 @@ sub ShowDiags {
 	    s/ with MII or RJ45/-TX/;
 	    s/Fast-ethernet /100Base/; s/[)(]//g;
 
-	    /\s+(.*)\s+port adapter?,\s+(\d+)\s+/i &&
+	    /\s+(.*) port adapter,?\s+(\d+)\s+/i &&
 		ProcessHistory("SLOT","","","!Slot $slot: type $1, $2 ports\n");
+	    # I/O controller with no interfaces
+	    /\s+(.*)\s+port adapter\s*$/i &&
+		ProcessHistory("SLOT","","","!Slot $slot: type $1, 0 ports\n");
 	    /\s+(.*)\s+daughter card(.*)$/ &&
 		ProcessHistory("SLOT","","","!Slot $slot$WIC: type $1$2\n");
 	    /\s+(FT1)$/ &&
@@ -674,7 +677,7 @@ sub ShowC7200 {
 	    ProcessHistory("SLOT","","","!Slot Midplane: part $2, serial $1\n!\n");
 	    next;
 	}
-	if (/C7200 CPU EEPROM:/) {
+	if (/C720\d(VXR)? CPU EEPROM:/) {
 	    $_ = <INPUT>;
 	    /revision\s+(\S+).*revision\s+(\S+)/ &&
 		ProcessHistory("SLOT","","","!Slot CPU: hvers $1 rev $2\n");

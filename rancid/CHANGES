@@ -3,6 +3,8 @@
 	to Ed for permission to include it with rancid.  this is only partially
 	tested.
 
+	fixed expect foo in *login when .cloginrc is unreadable.
+
 2.0
 	Better formatting for cisco catalyst [non-ios] switches.
 

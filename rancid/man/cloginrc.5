@@ -96,11 +96,12 @@ Default: {3des}
 .\"
 .TP
 .B add enableprompt <router name regexp> {<enable prompt>}
-When using AAA, it is possible to redefine the prompt the device presents to
-the user for the enable password.  enableprompt may be used to adjust the
-prompt that
+When using AAA with a Cisco router or switch, it is possible to redefine the
+prompt the device presents to the user for the enable password.  enableprompt
+may be used to adjust the prompt that
 .IR clogin
-should look for.  Note that enableprompt can be a Tcl style regular expression.
+should look for when trying to login.  Note that enableprompt can be a Tcl
+style regular expression.
 .sp
 Example: "\\[Ee]nter the enable password:"
 .sp
@@ -145,10 +146,12 @@ device.  This is equivalent to
 .\"
 .TP
 .B add passprompt <router name regexp> {<password prompt>}
-When using AAA, it is possible to redefine the prompt the device presents to
-the user for the password.  passprompt may be used to adjust the prompt that
+When using AAA with a Cisco router or switch, it is possible to redefine the
+prompt the device presents to the user for the password.  passprompt may be
+used to adjust the prompt that
 .IR clogin
-should look for.  Note that passprompt can be a Tcl style regular expression.
+should look for when trying to login.  Note that passprompt can be a Tcl
+style regular expression.
 .sp
 Example: "\\[Ee]nter the password:"
 .sp
@@ -187,10 +190,12 @@ defined with the password directive.
 .\"
 .TP
 .B add userprompt <router name regexp> {<username prompt>}
-When using AAA, it is possible to redefine the prompt the device presents to
-the user for the username.  userprompt may be used to adjust the prompt that
+When using AAA with a Cisco router or switch, it is possible to redefine the
+prompt the device presents to the user for the username.  userprompt may be
+used to adjust the prompt that
 .IR clogin
-should look for.  Note that userprompt can be a Tcl style regular expression.
+should look for when trying to login.  Note that userprompt can be a Tcl
+style regular expression.
 .sp
 Example: "\\[Ee]nter the your username:"
 .sp

@@ -783,7 +783,7 @@ sub ShowPortIfindex {
     }
 }
 
-# This routine processes a "write term"
+# This routine processes a "write term {all}"
 sub WriteTerm {
     print STDERR "    In WriteTerm: $_" if ($debug);
 

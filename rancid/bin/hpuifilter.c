@@ -25,8 +25,8 @@
 
 #define DFLT_TO	60				/* default timeout */
 
-#include <config.h>
-#include <version.h>
+#include "config.h"
+#include "version.h"
 
 #include <stdio.h>
 #include <limits.h>

@@ -80,7 +80,8 @@ Example: $LG_INFO="For Support contact <a href=mailto:webmaster\@localhost>webma
 .\"
 .TP
 .B LG_LOG
-Defines the fully qualified path name for the log file or the
+Defines the fully qualified path name (ie: begins with '/') for the log file
+or the
 .BR syslog (3)
 facility to use for logging.  For syslog, the argument is the lowercase name
 of a syslog facility (see syslog.h) without the 'LOG_' prefix.
@@ -129,6 +130,17 @@ note that it must include $BASEDIR/bin (see above).
 .\"
 .El
 .\"
+.SH ENVIRONMENT
+.Bl -tag -width LG_CONF -compact
+.TP
+.B LG_CONF
+Location of
+.B lg.conf
+file.  See the
+.IR FILES
+section for more information.
+.El
+.\"
 .SH ERRORS
 .B lg.conf
 is interpreted directly by 
@@ -140,11 +152,13 @@ results.
 .TP
 .B $BASEDIR/util/lg/lg.conf
 Configuration file described here, where $BASEDIR is set at the time that
-the rancid package was configured.  In this case, $BASEDIR is
+the rancid package was configured.  In this installation, $BASEDIR is
 .IR @prefix@ .
+.sp
 .B lg.conf
 is located by the value of the environment variable LG_CONF, in the CWD
-(current working directory), or rancid install directory ($BASEDIR/util/lg).
+(current working directory), or rancid install directory ($BASEDIR/util/lg),
+in that order.
 .El
 .SH SEE ALSO
 .BR cloginrc (5),

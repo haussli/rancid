@@ -352,7 +352,7 @@ sub ShowGSR {
 
 # This routine parses "show boot"
 sub ShowBoot {
-    # Pick up boot variables if 7000/7200/7500/12000;
+    # Pick up boot variables if 7000/7200/7500/12000/2900;
     # otherwise pick up bootflash.
     print STDERR "    In ShowBoot: $_" if ($debug);
 
@@ -369,7 +369,11 @@ sub ShowBoot {
 	    $H0=1; ProcessHistory("COMMENTS","keysort","H0","!\n");
 	}
 	if ($type !~ /^(120|7)/) {
-	    ProcessHistory("COMMENTS","keysort","H2","!BootFlash: $_");
+	    if ($type !~ /^2900/) {
+	        ProcessHistory("COMMENTS","keysort","H2","!BootFlash: $_");
+	    } else {
+	        ProcessHistory("COMMENTS","keysort","H1","!Variable: $_");
+	    }
 	} elsif (/variable/) {
 	    ProcessHistory("COMMENTS","keysort","H1","!Variable: $_");
 	}
@@ -777,6 +781,7 @@ sub ShowVTP {
 	return(1) if /^\s*\^\s*$/;
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(1) if ($type !~ /^2900XL$/);
+	next if (/^Configuration last modified by/);
 	ProcessHistory("COMMENTS","keysort","I0","!VTP: $_");
     }
     ProcessHistory("COMMENTS","keysort","I0","!\n");

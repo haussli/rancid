@@ -1,3 +1,5 @@
+- would like a FILTER_PWDS=(NO|YES|PARANOID) to "not filter", "filter
+  reversables only", and "filter all" passwords
 - need to deal with this openssh prompt
 	user@jnx's password: foo
 
@@ -6,7 +8,7 @@
 - rancid with zebra?  via vtysh?
 - rancid with mrt?
 - extreme collections loses when the config on the switch is in an unsaved
-  state, probably due to the prompt changing or rather the regex clogin
+  state, probably due to the prompt changing or rather how in regex clogin
   formulates for the prompt.
 - cat4 support?
 - investigate option to keep passwords in the saved config and filter them

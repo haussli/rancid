@@ -4,9 +4,6 @@
   perhaps don't clear the -noenable cmd-line option.  the manpage needs to be
   fixed as well.  see msg from fred jordan.
 - extra info on c2950
-- need to collect both write term and show running on cisco as cisco
-  deprecates write term.  affects cat1900 right now - mail from regnar Bang
-  Lyngs
 - recent hp procurve s/w does not seem have show flash or show module
 - would like to have a "pre-login-sequence" cloginrc directive, see
   rancid-disuss message from mike ethridge 16/may

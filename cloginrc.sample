@@ -28,6 +28,7 @@
 # add cyphertype <router name regexp> <ssh encryption type>
 #	Default is 3des.
 #
+# the first match for a hostname takes precedence.
 
 #add password sl-bb*-dc	cow24
 #add password sl-gw*-dc	geeks

@@ -158,9 +158,9 @@ sub ShowVersion {
 	# PIX fail-over license
 	/^This PIX has an?\s+(.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","C1", "!$_") && next;
-	/^IOS .* Software \(([A-Za-z-0-9]*)\), .*Version\s+(.*)$/ &&
+	/^(Cisco )?IOS .* Software,? \(([A-Za-z-0-9]*)\), .*Version\s+(.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","F1",
-		"!Image:$slave Software: $1, $2\n") && next;
+		"!Image:$slave Software: $2, $3\n") && next;
 	/^([A-Za-z-0-9_]*) Synced to mainline version: (.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","F2",
 		"!Image:$slave $1 Synced to mainline version: $2\n") && next;
@@ -291,7 +291,7 @@ sub ShowVersion {
 	/^(\d+[kK]) bytes of multibus/ &&
 	    ProcessHistory("COMMENTS","keysort","B2",
 		"!Memory: multibus $1\n") && next;
-	/^(\d+[kK]) bytes of non-volatile/ &&
+	/^(\d+[kK]) bytes of (non-volatile|NVRAM)/ &&
 	    ProcessHistory("COMMENTS","keysort","B3",
 		"!Memory: nvram $1\n") && next;
 	/^(\d+[kK]) bytes of flash memory/ &&

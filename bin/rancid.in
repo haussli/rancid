@@ -743,17 +743,17 @@ sub WriteTerm {
 	/^ width /		&& next; # kill width on serial lines
 	/^ clockrate /		&& next; # kill clockrate on serial interfaces
 	/^enable password / &&
-	    ProcessHistory("ENABLE","","","!enable password <removed>\n") &&
+	    ProcessHistory("ENABLE","","","! enable password <removed>\n") &&
 	    next;
-	/^(username .*) password /&&
-	    ProcessHistory("USER","","","!$1 password <removed>\n") && next;
+	/^username (\S+) password /&&
+	    ProcessHistory("USER","keysort","$1","! username $1 password <removed>\n") && next;
 	/^\s*password / &&
 	    ProcessHistory("LINE-PASS","","","! password <removed>\n") && next;
 	/^\s*neighbor (\S*) password / &&
 	    ProcessHistory("","","","! neighbor $1 password <removed>\n") &&
 	    next;
 	/^(ip ftp password) / &&
-	    ProcessHistory("","","","!$1 <removed>\n") && next;
+	    ProcessHistory("","","","! $1 <removed>\n") && next;
 	/^( ip ospf authentication-key) / &&
 	    ProcessHistory("","","","!$1 <removed>\n") && next;
 	/^( ip ospf message-digest-key \d+ md5) / &&
@@ -823,11 +823,9 @@ sub WriteTerm {
 	    ProcessHistory("SNMPSERVERHOST","ipsort","$1","$_") && next;
 	/^snmp-server community /  &&
 	    ProcessHistory("SNMPSERVERCOMM","keysort","$_","$_") && next;
-	# order tacacs server statements
-	/^(tacacs-server key )/ &&
-	    ProcessHistory("","","","!$1<removed>\n") && next;
-	/^tacacs-server host (\d+\.\d+\.\d+\.\d+)/ &&
-	    ProcessHistory("TAC","ipsort","$1","$_") && next;
+	# order/prune tacacs/radius server statements
+	/^(tacacs-server|radius-server) key / &&
+	    ProcessHistory("","","","! $1 key <removed>\n") && next;
 	# order clns host statements
 	/^clns host \S+ (\S+)/ &&
 	    ProcessHistory("CLNS","keysort","$1","$_") && next;
@@ -835,7 +833,7 @@ sub WriteTerm {
 	/^alias / && ProcessHistory("ALIAS","keysort","$_","$_") && next;
 	# delete ntp auth password
 	/^(ntp authentication-key \d+ md5) / &&
-	    ProcessHistory("","","","!$1 <removed>\n") && next;
+	    ProcessHistory("","","","! $1 <removed>\n") && next;
 	# order ntp peers/servers
 	if (/^ntp (server|peer) (\d+)\.(\d+)\.(\d+)\.(\d+)/) {
 	    $sortkey = sprintf("$1 %03d%03d%03d%03d",$2,$3,$4,$5);
@@ -854,6 +852,15 @@ sub WriteTerm {
 	# order ip rcmd lines
 	/^ip rcmd/ && ProcessHistory("RCMD","keysort","$_","$_") && next;
 
+	# system controller
+	/^syscon address (\S*) (\S*)/ &&
+	    ProcessHistory("","","","! syscon address $1 <removed>\n") &&
+	    next;
+	/^syscon password (\S*)/ &&
+	    ProcessHistory("","","","! syscon password <removed>\n") &&
+	    next;
+
+	# catch anything that wasnt match above.
 	ProcessHistory("","","","$_");
 	# end of config
 	if (/^end$/) {

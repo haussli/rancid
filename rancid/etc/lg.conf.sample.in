@@ -33,7 +33,7 @@ $ENV{PATH}="@prefix@/bin:@ENV_PATH@";
 #		.cloginrc.  this is normally the user the server (httpd) runs
 #		under.
 #
-#$LG_CLOGINRC="@prefix@/.cloginrc";
+#$LG_CLOGINRC="$ENV(HOME)/.cloginrc";
 #
 #
 # LG_IMAGE	is the filename of an image you wish to appear at the top

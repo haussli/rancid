@@ -4,17 +4,5 @@ track.
 - extreme login shite from stephen stuart
 - cisco content engine change questions for Rob Evans
 - awaiting comment on clogin cat1900 menu shite, enter K to get cli
-- caught this in a log file...after _I_ stupidly ran do-diffs as root.
-  can we deal with this with input redirection, whatevercmd < /dev/null ?
-	starting: Fri Nov 14 22:08:32 GMT 2003
-
-	override rw-r-----  root/wheel for routers.all? 
-- deal with LG log file default location move to ???.
-- etc/lg.conf needs $sysconfdir for LG_ROUTERDB
-- README.lg needs cleansing
-- this doesnt make sense: lg.conf.5.in:Default: @prefix@/.cloginrc
-			lg.conf.5.in:Default: @prefix@/util/lg/router.db
+- $-signs in cloginrc passwords...grrr
 - man/rancid.db.5 needs BASEDIR fixing
-- weird stuff wrt NWO
-  bin/lg.cgi.in:          next if ($dir =~ /^(\.|\.\.|CVS|bin|etc|logs|util)$/);  
-  bin/lgform.cgi.in:              next if ($dir =~ /^(\.|\.\.|CVS|bin|logs|util)$/);

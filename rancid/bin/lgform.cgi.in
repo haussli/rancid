@@ -116,7 +116,7 @@ sub readrouters
 	    dolog(LOG_ERR, "ERROR: couldn\'t read $BASEDIR: $!\n");
 	} else {
 	    while ($dir = readdir(DIR)) {
-		next if ($dir =~ /^(\.|\.\.|CVS|bin|logs|util)$/);
+		next if ($dir =~ /^(\.|\.\.|CVS|bin|etc|logs|util)$/);
 		push(@dirs, $dir) if (-d "$BASEDIR/$dir");
 	    }
 	    closedir(DIR);

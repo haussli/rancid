@@ -621,8 +621,10 @@ sub ShowDiag {
 	    next;
 	}
 	# 7200 and 3600 stuff
-	if (/^(Slot)\s+(\d+):/ || /^\s+(WIC) Slot (\d):/) {
+	if (/^(Slot)\s+(\d+):/ || /^\s+(WIC|VIC) Slot (\d):/) {
 	    if ($1 eq "WIC") {
+		$WIC = "/$2";
+	    } elsif ($1 eq "VIC") {
 		$WIC = "/$2";
 	    } else {
 		$slot = $2;

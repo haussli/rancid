@@ -14,7 +14,6 @@
 	and make exit-code small (instead of 255); some wait()s only look at
 	the first 3 bits
 
-
 	lg: add check in lg.cgi that router name appears in the router.db
 	and is thus accessible.  from richard doty.  also fix-up a few
 	comments and such.

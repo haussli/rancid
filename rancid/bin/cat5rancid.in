@@ -354,6 +354,7 @@ sub ShowFlash {
 	return(1) if ($type =~ /^(120|7)/);
 	return(1) if /^\s*\^\s*$/;
 	return(1) if /Invalid input detected/;
+	return(-1) if /session in progress. Try again later/; # Flash is busy
 	ProcessHistory("FLASH","","","!Flash: $_");
     }
     ProcessHistory("","","","!\n");
@@ -798,6 +799,23 @@ sub ShowC7200 {
     return(0);
 }
 
+# This routine processes a "show port ifindex"
+sub ShowPortIfindex {
+    print STDERR "    In ShowPortIfindex: $_" if ($debug);
+
+    ProcessHistory("","","","!\n");
+    while (<INPUT>) {
+	tr/\015//d;
+	last if(/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /^\s*\^\s*$/;
+	return(1) if /Invalid input detected/;
+	return(1) if /Unknown command/;
+	return(1) if /Usage: /;
+	ProcessHistory("","","","! $_");
+    }
+}
+
 # This routine processes a "write term"
 sub WriteTerm {
     print STDERR "    In WriteTerm: $_" if ($debug);
@@ -980,6 +998,7 @@ sub DoNothing {print STDOUT;}
 	'dir slot0:'		=> "DirSlotN",
 	'dir slot1:'		=> "DirSlotN",
 	'show module'		=> "ShowModule",
+	'show port ifindex'	=> "ShowPortIfindex",
 	'write term'		=> "WriteTerm"
 );
 # keys() doesnt return things in the order entered and the order of the
@@ -992,6 +1011,7 @@ sub DoNothing {print STDOUT;}
 	"dir slot0:",
 	"dir slot1:",
 	"show module",
+	"show port ifindex",
 	"write term"
 );
 $cisco_cmds=join(";",@commands);

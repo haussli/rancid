@@ -329,6 +329,7 @@ sub ShowSystemBootMessages {
 	/^\s+\^/ && return;
 	/syntax error/ && return;
 	/^JUNOS / && <INPUT> && next;
+	/^Timecounter "TSC" / && next;
 	/^real memory / && next;
 	/^avail memory / && next;
 	/^\/dev\// && next;

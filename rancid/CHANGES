@@ -1,6 +1,8 @@
 2.3
 	also install the FAQ - good idea from Janos Mohacsi's freshport
 
+	rancid: filter 'cable shared-secret'
+
 2.2.2
 	*login: fix handling of userprompt et al so that {}'s are used in
 	.cloginrc as they are with every other .cloginrc directive.

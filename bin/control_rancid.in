@@ -247,8 +247,8 @@ if [ -s $DIR/routers.failed ]
 then
 	(
 		cat <<END
-The following routers have not been successfully contacted within the
-last $OLDTIME hours.
+The following routers have not been successfully contacted for more
+than $OLDTIME hours.
 
 END
 		cat $DIR/routers.failed

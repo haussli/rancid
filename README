@@ -107,7 +107,7 @@ Quick Installation Guide (an example):
    The Precedence header set to bulk or junk *hopefully* avoids replies from
    auto-responders and vacation type mail filters.
 
-   The --with-mail-plus option to configure will set each of the "rancid-"
+   The --enable-mail-plus option to configure will set each of the "rancid-"
    addresses mentioned above to "rancid+".  See sendmail's operation manual
    for more information on handling of '+'.
 

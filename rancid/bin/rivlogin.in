@@ -115,7 +115,7 @@ for {set i 0} {$i < $argc} {incr i} {
 	    if {[ regexp .\[E\](.+)=(.+) $arg ignore varname varvalue]} {
 		set E$varname $varvalue
 	    } else {
-		send_user "Error: invalid format for -E in $arg\n"
+		send_user "\nError: invalid format for -E in $arg\n"
 		exit 1
 	    }
 	# Enable Password
@@ -625,11 +625,11 @@ foreach router [lrange $argv $i end] {
     if { $do_passwd || $do_enapasswd } {
       set pswd [find password $router]
       if { [llength $pswd] == 0 } {
-	send_user "Error: no password for $router in $password_file.\n"
+	send_user "\nError: no password for $router in $password_file.\n"
 	continue
       }
       if { $enable && $do_enapasswd && $autoenable == 0 && [llength $pswd] < 2 } {
-	send_user "Error: no enable password for $router in $password_file.\n"
+	send_user "\nError: no enable password for $router in $password_file.\n"
 	continue
       }
       set passwd [lindex $pswd 0]

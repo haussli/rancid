@@ -181,7 +181,7 @@ EXTRA_DIST = BUGS COPYING Todo configure install-sh \
 # will run make distclean in . after the other dirs (preserving Makefile) and
 # mkinstalldirs will create the install destination before descending into
 # the subdirs.
-SUBDIRS = . include etc bin man util
+SUBDIRS = . include etc bin man util share
 all: all-recursive
 
 .SUFFIXES:

@@ -5968,6 +5968,8 @@ ac_cv_env_path=$ENV_PATH
 
           ac_config_files="$ac_config_files man/Makefile"
 
+          ac_config_files="$ac_config_files share/Makefile"
+
           ac_config_files="$ac_config_files util/Makefile"
 
           ac_config_files="$ac_config_files include/version.h"
@@ -6572,6 +6574,7 @@ do
   "etc/Makefile" ) CONFIG_FILES="$CONFIG_FILES etc/Makefile" ;;
   "include/Makefile" ) CONFIG_FILES="$CONFIG_FILES include/Makefile" ;;
   "man/Makefile" ) CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
+  "share/Makefile" ) CONFIG_FILES="$CONFIG_FILES share/Makefile" ;;
   "util/Makefile" ) CONFIG_FILES="$CONFIG_FILES util/Makefile" ;;
   "include/version.h" ) CONFIG_FILES="$CONFIG_FILES include/version.h" ;;
   "bin/control_rancid" ) CONFIG_FILES="$CONFIG_FILES bin/control_rancid" ;;

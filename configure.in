@@ -208,6 +208,7 @@ AC_CONFIG_FILES(bin/Makefile)
 AC_CONFIG_FILES(etc/Makefile)
 AC_CONFIG_FILES(include/Makefile)
 AC_CONFIG_FILES(man/Makefile)
+AC_CONFIG_FILES(share/Makefile)
 AC_CONFIG_FILES(util/Makefile)
 AC_CONFIG_FILES(include/version.h)	# this is not a header in the sense of
 					# AC_CONFIG_HEADERS will cause

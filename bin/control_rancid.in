@@ -7,7 +7,7 @@
 ## This software may be freely copied, modified and redistributed without
 ## fee for non-commerical purposes provided that this copyright notice is
 ## preserved intact on all copies and modified copies.
-## 
+##
 ## There is no warranty or other guarantee of fitness of this software.
 ## It is provided solely "as is". The author(s) disclaim(s) all
 ## responsibility and liability with respect to this software's usage
@@ -18,6 +18,9 @@
 #
 # control_rancid $GROUP
 #
+
+# Number of things par should run in parallel.
+PAR_COUNT=5
 
 # Must specify a group to run rancid
 if [ $# -lt 1 ]; then
@@ -91,7 +94,7 @@ cd $DIR/configs
 # The number of processes running at any given time can be
 # tailored to the specific installation.
 echo "Trying to get all of the configs."
-par -q -n 5 -c "rancid \{}" $DIR/allrouters
+par -q -n $PAR_COUNT -c "rancid \{}" $DIR/allrouters
 
 # This section will generate a list of missed routers
 # and try to grab them again.  It will run through
@@ -113,7 +116,7 @@ do
     done
 
     if [ -f $DIR/allrouters.missed ]; then
-	par -q -n 5 -c "rancid \{}" $DIR/allrouters.missed
+	par -q -n $PAR_COUNT -c "rancid \{}" $DIR/allrouters.missed
 	rm -f $DIR/allrouters.missed
 	round=`expr $round + 1`
     else
@@ -153,7 +156,7 @@ then
 	(
 		cat <<END
 The following routers have not been successfully contacted within the
-last 24 hours. 
+last 24 hours.
 
 END
 		cat $DIR/routers.failed

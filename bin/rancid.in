@@ -199,6 +199,7 @@ sub ShowVersion {
 	if (!defined($C0)) {$C0=1; ProcessHistory("COMMENTS","keysort","C0","!\n");}
 	ProcessHistory("COMMENTS","keysort","C2","!SSP: $1\n");
 	$ssp = 1;
+	$sspmem = $1;
 	return;
     }
     /^(\d+K) bytes of multibus/ &&
@@ -435,7 +436,7 @@ sub ShowDiagbus {
 		$board = "SSP";
 	    } elsif ($board =~ /Switch/) {
 		$board = "SP";
-		$board = "SSP $ssp" if $ssp;
+		$board = "SSP $sspmem" if $ssp;
 	    } elsif ($board =~ /ATM/) {
 		$board = "AIP";
 	    }

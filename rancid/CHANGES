@@ -1,4 +1,6 @@
 2.2b9
+	filter '#Time" from catalyst 4 write term
+
 	display platform specific command in lookingglass results - patch
 	from Janos Mohacsi
 

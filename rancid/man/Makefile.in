@@ -102,6 +102,8 @@ man_nogen_MANS = do-diffs.1 clogin.1 control_rancid.1 create_cvs.1 rancid.1 		ra
 man_MANS = $(man_gen_MANS) $(man_nogen_MANS)
 
 EXTRA_DIST = $(man_nogen_MANS)
+
+CLEANFILES = Makefile env.5 lg.conf.5 lg_intro.1
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_CLEAN_FILES =  env.5 lg.conf.5 lg_intro.1
 man1dir = $(mandir)/man1
@@ -252,6 +254,7 @@ installdirs:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-rm -f Makefile $(CONFIG_CLEAN_FILES)

@@ -904,8 +904,10 @@ sub WriteTerm {
 	    }
 	    next;
 	}
-	if (/^username (\S+)(\s.*)? password /) {
-	    if ($filter_pwds >= 1) {
+	if (/^username (\S+)(\s.*)? password ((\d) \s+|\s+)/) {
+	    if ($filter_pwds == 2) {
+		ProcessHistory("USER","keysort","$1","!username $1$2 password <removed>\n");
+	    } elsif ($filter_pwds == 1 && $4 ne "5"){
 		ProcessHistory("USER","keysort","$1","!username $1$2 password <removed>\n");
 	    } else {
 		ProcessHistory("USER","keysort","$1","$_");

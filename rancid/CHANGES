@@ -1,4 +1,6 @@
 2.3
+	rancid: include additional cpu info from show version in !CPU: line.
+
 	lucent tnt support - from Richard Vander Reyden
 
 	rancid: skip consecutive comment lines.  on some access servers the

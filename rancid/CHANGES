@@ -1,4 +1,7 @@
 2.2b3
+	some serial controllers (PAs) have predefined cable-type in show
+	controllers.  M8T-V.35 was being missed.
+
 	modify jlogin to grope the full prompt after login such that -x
 	can be used within configuration mode.
 

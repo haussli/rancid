@@ -79,10 +79,10 @@ sub DoCmd
 printf STDERR "in do CMD $rtr, $mfg, $type, $arg\n";
 
     if ($mfg =~ /juniper/i) {
-	open(CMD, "/home/heas/rancid/bin/jlogin -f $cloginrc -c \'$juniperCmd{$type} $arg\' $rtr |");
+	open(CMD, "jlogin -f $cloginrc -c \'$juniperCmd{$type} $arg\' $rtr |");
 	$cmd = $juniperCmd{$type};
     } else {
-	open(CMD, "/home/heas/rancid/bin/clogin -noenable -f $cloginrc -c \'$ciscoCmd{$type} $arg\' $rtr |");
+	open(CMD, "clogin -noenable -f $cloginrc -c \'$ciscoCmd{$type} $arg\' $rtr |");
 	$cmd = $ciscoCmd{$type};
     }
     while (<CMD>) {

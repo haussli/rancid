@@ -349,7 +349,7 @@
 
 	add man pages
 
-	collect 'sh vlan' on cat 6000 - afort@staff.webcentral.com.au
+	collect 'sh vlan' on cat 6000 - afort@choqolat.org
 
 	Add 'show vtp status' for the 3500XLs as well.
 

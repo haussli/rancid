@@ -1,7 +1,6 @@
 - could the cloginrc match function do a longest-match search instead of
   first match?
 - look at Andreas Dahl's Brocade switch collection scripts
-- make log file dir configurable
 - noenable should handle a value properly.  i.e.: 1 == noenable, 0 == enable or
   perhaps don't clear the -noenable cmd-line option.  the manpage needs to be
   fixed as well.  see msg from fred jordan.
@@ -23,9 +22,6 @@
 - hlogin does not work with ssh, needs to alloc a pty?
 - share/ tool to prune cvs versions, excluding those with tags, by (all but
   latest | keep N versions | keep N days/months/years)
-- extreme collections lose when the config on the switch is in an unsaved
-  state, probably due to the prompt changing or rather how clogin formulates
-  the prompt used by expect{ -re }'s.
 - extreme collection fails for tacacs-enabled boxen due to diffs in UI - blech!
 - FILTER_PWDS knob is not implemented in alteon, bay, ezt3 or redback due to
   lack of h/w to test against.  need help from the community.

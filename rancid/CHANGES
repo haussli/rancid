@@ -1,4 +1,6 @@
 2.3.2
+	rancid: erroneous space in shared-secret match - from Blaz Zupan
+
 	nrancid: fix missing brace - from David King
 
 	lgform: need strftime from POSIX - from Joao Frade

@@ -9,13 +9,6 @@ track.
 	starting: Fri Nov 14 22:08:32 GMT 2003
 
 	override rw-r-----  root/wheel for routers.all? 
-- what to do about bin/do-diffs?
-- create_cvs and do-diffs need sysconfdir for rancid.conf
-- move to share/rancid
-	- util/*.exp
-	- util/*README 
-- deal with BASEDIR default move to /var/rancid
-- deal with logs dir move to /var/rancid.  w/ config variable in rancid.conf?
 - deal with LG log file default location move to ???.
 - etc/lg.conf needs $sysconfdir for LG_ROUTERDB
 - README.lg needs cleansing

@@ -89,7 +89,7 @@ Default: @prefix@/util/lg/router.db
 .sp
 Note that if the concatenation method is used, it may be necessary to alter
 the mode of the router.db files in the rancid group directories, since the
-default umask is 0007 (see
+default umask is 027 (see
 .BR env (5)).
 .\"
 .TP

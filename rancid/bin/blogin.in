@@ -555,7 +555,7 @@ foreach router [lrange $argv $i end] {
 
     # Figure out connection method
     set cmethod [find method $router]
-    if { "$cmethod" == "" } { set cmethod {{telnet} {ssh}} }
+    if { "$cmethod" == "" } { set cmethod {{telnet}} }
 
     # Login to the router
     if {[login $router $ruser $userpswd $passwd $enapasswd $prompt $cmethod $cyphertype]} {

@@ -1,4 +1,4 @@
-#!@PERLV_PATH@
+#!/usr/bin/perl5
 # Looking glass
 # vars: query, router, args
 
@@ -12,6 +12,54 @@ use POSIX qw(strftime);
 use Sys::Syslog;
 use LockFile::Simple qw(lock trylock unlock);
 
+my($BASEDIR) = "@prefix@";
+
+# read LG configuration file
+sub readconf
+{
+    my($conffile, $cmds);
+    local(*CONF);
+    if (defined($env{LG_CONF})) {
+	$conffile = $env{LG_CONF};
+    } else {
+	$conffile = "$BASEDIR/util/lg/lg.conf";
+    }
+
+    if (! -f $conffile) {
+	return;
+    }
+
+    if (open(CONF, "< $conffile")) {
+	while (<CONF>) {
+	    next if (/^\s*(#|$)/);
+	    $cmds .= $_;
+	}
+	close(CONF);
+	eval $cmds;
+    } else {
+	printf(STDERR "ERROR: couldn\'t open the configuration file: $conffile: $!\n");
+	exit(255);
+    }
+
+    return;
+}
+# convert a ipv4 address mask to prefix length
+sub mask2len {
+    my($mask) = shift;
+    my($a, $b, $c, $d) = split('\.', $mask);
+    my($p, $len);
+
+    $p = ~ (($a << 24) + ($b << 16) + ($c << 8) + $d);
+    for ($len = 32; $p > 0; $len --) {
+        $p = $p >> 1;
+    }
+
+    return($len);
+}
+
+# read the configuration file if it exists.
+readconf();
+
 $TOP = "/www/docs/lookingglass";
 
 ## The script will now cache the results as simple files in the $cache_dir,
@@ -22,7 +70,13 @@ $TOP = "/www/docs/lookingglass";
 $cache_dir = $TOP . "/tmp" ; 
 
 # when to display cache?  max time difference (in seconds)
-$max_time_diff = "600" ;
+my($max_time_diff);
+if (defined($LG_CACHE_TIME)) {
+    $max_time_diff = $LG_CACHE_TIME;
+} else {
+    $max_time_diff = "600" ;
+}
+
 # max seconds to wait for a 'router' lock to free up
 $max_lock_wait = 30;
 $lock_int = 5;
@@ -33,27 +87,24 @@ $CLOGINRC = $TOP . "/.cloginrc";
 $CLOGIN = $TOP . "/clogin";
 $JLOGIN = $TOP . "/jlogin";
 
-# database of routers
-$routerdb = "routers.db";
-
-$query = new CGI;
+my($query) = new CGI;
 
 # get form data and validate
-$type = ($query->param('query'))[0];
-$router_param = ($query->param('router'))[0];
-$remote_user = $ENV{REMOTE_USER};
-$arg = ($query->param('args'))[0];
+my($type) = ($query->param('query'))[0];
+my($router_param) = ($query->param('router'))[0];
+my($remote_user) = $ENV{REMOTE_USER};
+my($arg) = ($query->param('args'))[0];
 # handle multiple args
 @arg = split(' ', $arg);
 
 # verify arguments
-($router, $mfg) = split(':', $router_param);
+my($router, $mfg) = split(':', $router_param);
 if (!defined($type) || !defined($router)) {
-	$results[0] = "You must at least choose a Query and a router.  Try buying a clue.\n";
-	&print_results;
+    $results[0] = "You must at least choose a Query and a router.  Try buying a clue.\n";
+    &print_results;
 }
 
-# set cmds
+# conversion of command "type" passed from lgform.cgi to the vendor's syntax.
 %ciscoCmd = (	
 		#acl => "sh access-list",
 		#aspath => "sh ip as-path-access-list",
@@ -112,9 +163,10 @@ if (!defined($type) || !defined($router)) {
 
 # not all cmds/queries are implemented for junipers
 if ($mfg =~ /juniper/ && ! defined($juniperCmd{$type})) {
-		$results[0] = "$cmdDisp{$type} not implemented for junipers.  sorry.\n";
-		&print_results;
+    $results[0] = "$cmdDisp{$type} not implemented for junipers.  sorry.\n";
+    &print_results;
 }
+
 
 if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
 	if ($arg[0] !~ /^\d+\.\d+\.\d+\.\d+$/) {
@@ -256,18 +308,30 @@ exit ;
 # create the page and log the transaction...
 sub print_results {
 
-log_start($debug, $debugl, $cfgtools::log_facility, "lookingglass",
-	$cfgtools::log_facility);
-log_msg($debug, $debugl, undef, "user: $remote_user, query: $type, router: $router_param, arg: $arg");
-log_end($debug, $debugl);
+#log_start($debug, $debugl, $cfgtools::log_facility, "lookingglass",
+#	$cfgtools::log_facility);
+#log_msg($debug, $debugl, undef, "user: $remote_user, query: $type, router: $router_param, arg: $arg");
+#log_end($debug, $debugl);
+
+#  log date, hostname, query, addr
+$date = `/bin/date` ; 
+chop $date ;
+open(LOG,">>$cache_dir/lg.log") ; 
+($ENV{REMOTE_HOST}) && ( print LOG "$ENV{'REMOTE_HOST'} ") ; 
+($ENV{REMOTE_ADDR}) && ( print LOG "$ENV{'REMOTE_ADDR'} ")  ; 
+($ENV{REMOTE_USER}) && ( print LOG "$ENV{'REMOTE_USER'} ")  ; 
+print LOG "- - [$date] $type $router $arg\n"  ; 
+close LOG ; 
 
 print $query->header;
 print $query->start_html("Looking Glass Results - $router");
 
-$timestr = strftime("%a %b %e %H:%M:%S %Y %Z", gmtime);
+my($timestr) = strftime("%a %b %e %H:%M:%S %Y %Z", gmtime);
+
+# add the company image, LG_IMAGE
+print $LG_IMAGE;
 
 print <<HEAD ;
-<p align=left><font size=4><b><img src=/icons/rancid.gif hspace=0>
 </b></font>
 <font size=+3><b><h1>Looking Glass Results - $router
 </b></h1></font>
@@ -305,24 +369,13 @@ print <<END ;
 END
 
 print $query->end_html;
-
-#  log date, hostname, query, addr
-$date = `/bin/date` ; 
-chop $date ;
-open(LOG,">>$cache_dir/lg.log") ; 
-($ENV{REMOTE_HOST}) && ( print LOG "$ENV{'REMOTE_HOST'} ") ; 
-($ENV{REMOTE_ADDR}) && ( print LOG "$ENV{'REMOTE_ADDR'} ")  ; 
-($ENV{REMOTE_USER}) && ( print LOG "$ENV{'REMOTE_USER'} ")  ; 
-print LOG "- - [$date] $type $router $arg\n"  ; 
-close LOG ; 
-
 exit;
 
 }  #end sub print_results
 
 sub DoRsh
 {
-	local ($router, $mfg, $type, $arg)=@_;
+	my ($router, $mfg, $type, $arg)=@_;
 	local(@results);
 	my($ctime) = time();
 
@@ -343,7 +396,7 @@ sub DoRsh
 
 sub DoCmd
 {
-	local ($program, $rtr, $mfg, $type, $arg) = @_;
+	my ($program, $rtr, $mfg, $type, $arg) = @_;
 
 	local (@results);
 
@@ -374,17 +427,4 @@ sub DoCmd
 	while (<CMD>) {}
 	close(CMD);
 	return @results;
-}
-
-sub mask2len {
-    my($mask) = shift;
-    my($a, $b, $c, $d) = split('\.', $mask);
-    my($p, $len);
-
-    $p = ~ (($a << 24) + ($b << 16) + ($c << 8) + $d);
-    for ($len = 32; $p > 0; $len --) {
-        $p = $p >> 1;
-    }
-
-    return($len);
 }

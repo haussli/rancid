@@ -1,4 +1,7 @@
 2.3.eft
+	rancid: collect show idprom backplane (6500 cmd); this could collect
+	more - request from jared mauch
+
 	rancid: order all 'ip host' commands.
 
 	rancid: collect show rsp chassis-info

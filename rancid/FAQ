@@ -4,7 +4,9 @@ Frequently Asked Questions about rancid - last updated 20021223.
 
 Q. I have a Cisco Catalyst 6500 series switch running the IOS (NOT catOS)
    software, is the router.db device type cisco or cat5?
-A. A catalyst running IOS is type "cisco".  See the router.db(5) manual page.
+A. A catalyst running IOS is type "cisco".  The 'show version' output will
+   have banner including a phrase similar to "Cisco Internetwork Operating
+   System Software".  See the router.db(5) manual page.
 
 Q. I have Hybrid Cisco switch, like a cat5k with an RSM.  How do collect
    both the routing engine and switch configurations?

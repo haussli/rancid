@@ -11,7 +11,7 @@ env.in -    Enviromental settings needed.
 do-diffs.in - Script designed to be run from cron calling control_rancid.
 control_rancid.in - Builds router list, calls rancid on each router and
 		    handles cvs routines.
-rancid-fe.in - chooses between rancid/francid/jrancid/rrancid/cat5rancid.
+rancid-fe.in - chooses between rancid/[efjr]rancid/cat5rancid.
 rancid.in - Runs commands on cisco routers and processes the output - the meat.
 erancid.in -   Runs commands on ADC EZ-T3 muxes and processes the output.
 francid.in -   Runs commands on foundry switches and processes the output.
@@ -19,20 +19,20 @@ jrancid.in -   Runs commands on juniper routers and processes the output.
 rrancid.in -   Runs commands on redback routers and processes the output.
 cat5rancid.in -Runs commands on cisco cat5 switches and processes the output.
 clogin.in - Expect script that logs into routers either interactively,
-	    runs a set of commands or runs another expect script.
+	    runs a set of commands, or runs another expect script.
 elogin.in - Expect script that logs into ADC EZ-T3 muxes either interactively,
-	    runs a set of commands or runs another expect script.
-flogin.in - Expect script that logs into foundry switches.  once foundry
+	    runs a set of commands, or runs another expect script.
+flogin.in - Expect script that logs into foundry switches.  Once foundry
 	    cleans up their bloody UI, clogin should do the job.
 jlogin.in - Expect script that logs into juniper routers similarly to
-	    clogin.  it is not terribly robust, but mainly used for it's
+	    clogin.  It is not terribly robust, but mainly used for it's
 	    -c and -s options.
 .cloginrc - TCL commands to set passwords, usernames etc. used by clogin and
 	    jlogin.
 par.in -    Parallel processing of commands - any commands.
 rename.in - Perl script to rename files.
-create_cvs.in -Creates all of the CVS and config directories.
-util.in -   utilities / contribs
+create_cvs.in - Creates all of the CVS and config directories.
+util/ -   utilities / contribs
 
 The following are included as part of the installation tools:
 
@@ -61,15 +61,16 @@ Quick Installation Guide (an example):
 
 1) ./configure [--prefix=<basedir>]
    By default, All rancid crud will be installed under /usr/local/rancid.
-   This can be overridden with the --prefix option.  eg: we chose /home/rancid.
-   ./configure --prefix=/home/rancid
-
-2) make install
-   the user who will run rancid must have write permission in this
+   This can be overridden with the --prefix option.  E.g.:
+	./configure --prefix=/home/rancid
+   The user who will run rancid must have write permission in this
    directory.
 
-3) Modify <basedir>/bin/env.  variable LIST_OF_GROUPS is a space delimited
-   list of router "groups".  eg: "backbone aggregation switches"
+2) make install
+
+3) Modify <basedir>/bin/env.  The variable LIST_OF_GROUPS is a
+   space delimited list of router "groups".  E.g.:
+	LIST_OF_GROUPS="backbone aggregation switches"
 
 4) Put .cloginrc in the home directory of the user who will run rancid.
 
@@ -116,14 +117,21 @@ Quick Installation Guide (an example):
 	juniper-router.domain.com:juniper:up
 	redback-dsl-router.domain.com:redback:down
 
-9) Put do-diffs in cron to be called however often you want it to run
-    for each group (do-diffs [<GROUP>]).  eg:
-
+9) Put do-diffs in cron to be called however often you want it to
+   run for each group (do-diffs [<GROUP>]).  If you run it less
+   often than once/hour, check the setting of OLDTIME in bin/env.
+   E.g.:
 	# run config differ hourly
 	1 * * * * <BASEDIR>/bin/do-diffs
-	# clean out hourly differ logs
+	# clean out config differ logs
 	50 23 * * * /usr/bin/find <BASEDIR>/logs -mtime +2 -exec rm {} \;
 
 10) Send any bugs, suggestions or updates to rancid@shrubbery.net.
+    See the web page at http://www.shrubbery.net/rancid.  We have
+    created the standard mailing lists for those interested;
+    rancid-announce@shrubbery.net and rancid-discuss@shrubbery.net.
+    Subscribe by sending an email whose body contains "subscribe
+    rancid-<announce or discuss>" to majordomo@shrubbery.net.
+
 
 -Hank

@@ -235,8 +235,8 @@ proc source_password_file { password_file } {
 }
 
 # Log into the router.
-proc login { router user passwd prompt cmethod cyphertype identfile} {
-    global spawn_id in_proc do_command do_script passphrase
+proc login { router user passwd cmethod cyphertype identfile} {
+    global spawn_id in_proc do_command do_script passphrase prompt
     set in_proc 1
 
     # try each of the connection methods in $cmethod until one is successful
@@ -336,18 +336,18 @@ proc login { router user passwd prompt cmethod cyphertype identfile} {
 		    eof             	{ send_user "\nError: Couldn't login\n";
 					  wait; return 1 }
 		    -re "\[Pp]assword:"	{ send "$passwd\r" }
-		    "$prompt"		{ set in_proc 0; return 0 }
+		    -re "$prompt"	{ break; }
 		}
 		exp_continue
 	    }
 	    "\[Pp]assword:"	{ send "$passwd\r"
 		expect {
 		eof             { send_user "\nError: Couldn't login\n"; wait; return 1 }
-		"$prompt"       { set in_proc 0; return 0 }
+		-re "$prompt"   { break; }
 	    }
 	    exp_continue
 	}
-	"$prompt"       { break; }
+	-re "$prompt"	{ break; }
 	denied		{ send_user "\nError: Check your passwd for $router\n"
 	                  if { $do_command || $do_script } {
 			      send "quit"
@@ -360,6 +360,16 @@ proc login { router user passwd prompt cmethod cyphertype identfile} {
 	"% Bad passwords" {send_user "\nError: Check your passwd for $router\n"; return 1 }
     }
   }
+
+    # we are logged in, now figure out the full prompt
+    send "\r"
+    expect {
+	-re "(\r\n|\n)"		{ exp_continue; }
+	-re "^\[^ ]+$prompt"	{ set prompt $expect_out(0,string);
+				  regsub ">" $prompt "\[#>]" prompt;
+				}
+    }
+
     set in_proc 0
     return 0
 }
@@ -370,9 +380,9 @@ proc run_commands { prompt command } {
     set in_proc 1
 
     send "set cli complete-on-space off\r"
-    expect $prompt	{}
+    expect -re $prompt	{}
     send "set cli screen-length 0\r"
-    expect $prompt {}
+    expect -re $prompt	{}
 
     # Is this a multi-command?
     if [ string match "*\;*" "$command" ] {
@@ -463,7 +473,7 @@ foreach router [lrange $argv $i end] {
     if { "$cmethod" == "" } { set cmethod {{telnet} {ssh}} }
 
     # Login to the router
-    if {[login $router $loginname $passwd $prompt $cmethod $cyphertype $identfile]} {
+    if {[login $router $loginname $passwd $cmethod $cyphertype $identfile]} {
 	continue
     }
 
@@ -473,9 +483,9 @@ foreach router [lrange $argv $i end] {
 	}
     } elseif { $do_script } {
 	send "set cli complete-on-space off\r"
-	expect $prompt	{}
+	expect -re $prompt	{}
 	send "set cli screen-length 0\r"
-	expect $prompt	{}
+	expect -re $prompt	{}
 	source $sfile
 	close
     } else {

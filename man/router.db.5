@@ -14,7 +14,7 @@ One device is listed per-line, where the syntax is:
 .PP
 .in +1i
 .nf
-<device_name>:<device_type>:<state>
+<device_name>:<device_type>:<state>[:]
 .fi
 .in -1i
 .PP
@@ -40,8 +40,8 @@ to connect to the device.  Once converted to lower-case, this
 also becomes the name of the file used to store the configuration under
 \fI$BASEDIR/<group>/configs\fR.
 .sp
-Experience shows that the device's FQDN (Fully Qualified Domain Name) works
-best, as in the example above.
+Experience has shown that using the device's FQDN (Fully Qualified
+Domain Name) works best, as in the example above.
 .\"
 .TP
 .B <device_type>
@@ -77,6 +77,19 @@ configuration will not be collected.
 .PP
 A ``#'' at the begining of a line is a comment; the entire line is
 ignored.
+.PP
+If you delete a device from the 
+.B router.db
+file, then
+.B rancid
+will clean up by removing the device's config file from
+\fI$BASEDIR/<group>/configs\fR.
+The
+.IR cvs (1)
+information for the device will be moved to 
+.IR cvs (1)'s
+Attic directory (using
+.IR "cvs delete").
 .PP
 .SH FILES
 .ta \w'xBASEDIR/<group>/router.db  'u

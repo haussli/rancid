@@ -3,7 +3,7 @@
 # $Id$
 #
 # getipacctg uses clogin to login to a cisco router, collect the o/p of
-# show ip accounting, and sort by the greatest number of bytes.  if a
+# show ip accounting, and sort by the greatest number of bytes.  If a
 # second argument is supplied, it is a number indicating the top N producers.
 # a third (3 to N) argument(s) specify a prefix(es) to match/select src/dst
 # IPs, while others will be filtered.
@@ -22,16 +22,16 @@ TMP2="/tmp/ipacct.$$.sorted"
 TMP3="/tmp/ipacct.$$.pl"
 
 if [ $# -eq 0 ] ; then
-   echo "usage: getipacctg router_name [<number of lines off the top>] [<src/dest prefix filter> [...]]" >&2
-   exit 1;
+    echo "usage: getipacctg router_name [<number of lines off the top>] [<src/dest prefix filter> [...]]" >&2
+    exit 1;
 fi
 
 trap 'rm -fr /tmp/ipacct.$$ $TMP $TMP2 $TMP3;' 1 2 15
 clogin -c 'show ip accounting' $1 > /tmp/ipacct.$$
 
 if [ $? -ne 0 ] ; then
-   echo "clogin failed." >&2
-   exit 1
+    echo "clogin failed." >&2
+    exit 1
 fi
 # rest of the command-line options
 exec 6>$TMP
@@ -94,7 +94,7 @@ cat > $TMP3 <<PERL
 	    }
 	}
 PERL
-     perl $TMP3 $TMP $TMP2 | $HEAD
+    perl $TMP3 $TMP $TMP2 | $HEAD
 else
     $HEAD $TMP2
 fi
@@ -102,4 +102,3 @@ fi
 rm -fr /tmp/ipacct.$$ $TMP $TMP2 $TMP3
 trap ';' 1 2 15
 exit 0
-

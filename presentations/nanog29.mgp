@@ -1,0 +1,183 @@
+%include "default.mgp"
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+%nodefault
+%font "standard"
+%fore "white"
+%vgap 20
+%center
+%size 7
+
+
+
+Tracking Device Configuration
+Changes with RANCID
+
+or
+
+What the (=&!@* Changed?
+
+%size 4
+Hank Kilmer
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+
+Really Awesome New Cisco confIg Differ
+
+	Supports more than just Cisco
+		IOS, CatOS, JUNOS, Foundry, HP Procurve...
+
+	Mix of PERL, shell, Expect, C
+
+	Collected data stored in CVS
+
+	Man pages?  Yes!
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+
+How does it work?
+
+%size 7
+	Run control script from cron
+%size 7
+	For list of groups do
+%size 5
+		For list of devices in each group
+
+%size 5
+			Use expect scripts to login to devices and issue commands
+%size 5
+			Run "show" commands
+%size 5
+			Collect and filter/re-format data
+%size 5
+			Generate Unix diff from last collection
+%size 5
+			E-mail the diff to mail-list
+%size 5
+			CVS check-in changes
+
+# %fore "yellow"
+# 	Need IP with huge address space
+# %fore "white"
+# 		IPng or IP next generation
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+
+Zoinks! Sounds like work.
+
+	Easy 12-step install, no coins to earn
+
+	Auto-conf'd
+
+	Instant redemption
+
+	Did we mention manpages?
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+
+What's in it for me?
+
+	Track configuration changes
+
+	Track hardware changes
+
+	Track image (O/S) changes
+
+	Dead RSP? Recover the config from the RANCID CVS
+
+	Renegade NOC? What did they help with last night?
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+
+That's nice but what's REALLY in it for me?
+
+	grep, awk, whatever your configs
+
+	Login scripts (and their configuration) can be re-used for home-grown scripts or interactive logins
+
+	Parallel processing tool "par" can be used to speed up other tasks in addition to rancid
+
+	reuse RANCID configuration/input ... 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+
+What else?
+
+	Comes with ...
+%size 5
+		A looking glass, support foir Cisco, Juniper, Foundry
+
+%size 5
+		Samples for reuse of login scripts
+
+%size 5
+		Few other miscellaneous bits
+
+	A data-set and tools on which to build more tools
+
+But, wait.  There's more...
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+
+The good folks at ACME, err ISC ...
+
+Scripts to prime your adventures with automation
+
+	Consistency checks / Audit
+
+	Generate DNS zone files
+
+	Topo-maps
+
+Also see, Joe Abley and Stephen Stuart's NANOG tutorial,
+"Managing IP Networks with Free Software"
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+
+Where?
+
+RANCID
+ http://www.shrubbery.net/rancid/
+ ftp://ftp.shrubbery.net/pub/rancid/
+
+ISC
+ ftp://ftp.isc.org/isc/toolmakers/
+ http://nanog.org/mtg-0210/abley.html
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%page
+
+
+
+%center, size 10
+Questions?
+
+
+
+
+%center, size 4
+Slides have little value...they may as well be entertaining.
+
+%center, size 2
+magicpoint - ftp://ftp.mew.org/pub/MagicPoint/
+#
+# %center, size 2
+# %image "dad.eps" 800x600
+# %%image "dad.jpg" 800x600
+#
+#%center, size 2
+# %image "v6header.eps" 800x600
+# %%image "v6header.jpg" 800x600
+#
+#%leftfill
+#		4 times for address length, twice of header length
+#		Options are implemented by extension headers
+#		Maximum Hop Limit is 255

@@ -5,6 +5,7 @@
 #	userprompt
 #	userpassword
 #	passprompt
+#	noenable
 #	enauser
 #	enableprompt
 #	autoenable
@@ -29,6 +30,9 @@
 # add passprompt <router name regexp> <password prompt>
 #	What the router prints to prompt for the password.
 #	Default: "\[Pp]assword:"
+#
+# add noenable <router name regexp>
+#	equivalent of -noenable on the cmd line to not enable at login.
 #
 # add enableprompt <router name regexp> <enable prompt>
 #	What the router prints to prompt for the enable password.
@@ -77,6 +81,9 @@ add password *.custy.net	{vector}	{victor}
 # customer z
 add user *.custz.net		shirley
 add password *.custz.net	{jive}		{surely}
+
+# the route-server's do provide enable access.  cmdline -noenable equivalent.
+add noenable route-server*	1
 
 # all our routers, ie: everything else
 add password *			{clearance}	{clarence}

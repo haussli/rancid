@@ -143,7 +143,7 @@ sub ShowVersion {
 	next if /^\s*$/;
 	last if(/^$prompt/);
 
-	next if (/^The system /);
+	next if (/^(The system |Crash time)/);
 
 	s/^\s*(HW|SW)/$1/;
 	s/^\s*(Compiled on)/SW: $1/;

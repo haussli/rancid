@@ -44,7 +44,6 @@ jlogin.in	Expect script that logs into juniper routers similarly to
 .cloginrc	TCL commands to set passwords, usernames etc. used by clogin
 		and jlogin.
 par.in		Parallel processing of commands - any commands.
-rename.in	Perl script to rename files.
 create_cvs.in	Creates all of the CVS and config directories.
 hpuifilter.c	HP procurve login filter - see end of hlogin(1).
 etc/		Configuration file samples

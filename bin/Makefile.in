@@ -52,7 +52,7 @@ DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/mrancid.in $(srcdir)/nlogin.in $(srcdir)/nrancid.in \
 	$(srcdir)/nslogin.in $(srcdir)/nsrancid.in $(srcdir)/par.in \
 	$(srcdir)/prancid.in $(srcdir)/rancid-fe.in \
-	$(srcdir)/rancid.in $(srcdir)/rename.in $(srcdir)/rivlogin.in \
+	$(srcdir)/rancid.in $(srcdir)/rivlogin.in \
 	$(srcdir)/rivrancid.in $(srcdir)/rrancid.in \
 	$(srcdir)/tntlogin.in $(srcdir)/tntrancid.in \
 	$(srcdir)/xrancid.in $(srcdir)/zrancid.in
@@ -64,7 +64,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
 CONFIG_CLEAN_FILES = control_rancid create_cvs do-diffs par rancid-fe \
-	rename alogin arancid blogin brancid cat5rancid clogin rancid \
+	alogin arancid blogin brancid cat5rancid clogin rancid \
 	cssrancid elogin erancid f10rancid flogin francid jlogin \
 	jrancid jerancid hlogin hrancid htlogin htrancid mrancid \
 	nlogin nrancid nslogin nsrancid prancid rivlogin rivrancid \
@@ -198,7 +198,7 @@ bin_SCRIPTS = cat5rancid control_rancid \
 	elogin erancid f10rancid flogin francid jlogin jrancid jerancid \
 	hlogin hrancid htlogin htrancid \
 	mrancid nlogin nrancid nslogin nsrancid par prancid \
-	rancid-fe rancid rename rivlogin rivrancid rrancid tntlogin \
+	rancid-fe rancid rivlogin rivrancid rrancid tntlogin \
 	tntrancid xrancid zrancid\
 lg.cgi lgform.cgi
 EXTRA_DIST = lg.cgi.in lgform.cgi.in
@@ -270,8 +270,6 @@ do-diffs: $(top_builddir)/config.status $(srcdir)/do-diffs.in
 par: $(top_builddir)/config.status $(srcdir)/par.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 rancid-fe: $(top_builddir)/config.status $(srcdir)/rancid-fe.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rename: $(top_builddir)/config.status $(srcdir)/rename.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 alogin: $(top_builddir)/config.status $(srcdir)/alogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

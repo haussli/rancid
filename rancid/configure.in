@@ -107,9 +107,15 @@ AC_SUBST(RD_BIN_PROGS)
 rd_cv_rd_bin_progs=$RD_BIN_PROGS
 
 # RD_UTIL_PROGS are util/ .in's that need to be installed with execute perms.
-RD_UTIL_PROGS="lg.cgi lgform.cgi rtrfilter"
+RD_UTIL_PROGS="rtrfilter"
 AC_SUBST(RD_UTIL_PROGS)
 rd_cv_rd_util_progs=$RD_UTIL_PROGS
+
+# RD_UTIL_LG_PROGS are util/lg .in's that need to be installed with execute
+# perms.
+RD_UTIL_LG_PROGS="lg.cgi lgform.cgi"
+AC_SUBST(RD_UTIL_LG_PROGS)
+rd_cv_rd_util_lg_progs=$RD_UTIL_LG_PROGS
 
 AC_SUBST(INST_PROGS)
 INST_PROGS=$progs

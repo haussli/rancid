@@ -1,4 +1,5 @@
 - extreme (xrancid)
+	- collect show switch
 	- filter ssh host private key
 	- ??? separate module p/n and s/n or collect from sh ver instead of
 	  show slot?

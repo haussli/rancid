@@ -34,6 +34,14 @@
 #$LG_SINGLE=0;
 #
 #
+# LG_CACHE_DIR	is the location of the cache directory.  the LG uses this
+#		to hold lock files and o/p from commands that can be very
+#		verbose.  it defaults to "tmp", ie: relative to the directory
+#		where lg.cgi runs in your server's (httpd's) DocumentRoot.
+#
+#$LG_CACHE_DIR="./tmp";
+#
+#
 # LG_CACHE_TIME	is the number of seconds the LG should cache o/p from certain
 #		commands; those that tend to produce a lot of o/p, such as
 #		'show ip bgp dampened-paths'.  it defaults to 600 seconds

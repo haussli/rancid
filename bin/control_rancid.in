@@ -343,18 +343,26 @@ do
 done
 echo
 
-# Make sure that all of the new configs are not empty.
-for config in *.new
-do
-    if [ ! -s $config ]
+# Make sure that no empty configs are accepted.  Those that are non-empty
+# are renamed from device_name.new -> device_name.
+for router in `cat $devlistfile`
+do 
+    OFS=$IFS
+    IFS=':'
+    set $router 
+    IFS=$OFS
+    router=$1;
+
+    if [ ! -s $router.new ]
     then
-	rm -f $config
+	rm -f $router.new
+    else
+	mv $router.new $router
+	if [ $? -ne 0 ]; then
+	    echo "Error: could not rename $router.new to $router"
+	fi
     fi
 done
-
-# Now that we have the new configs, rename them to their proper
-# name.
-rename 's/.new$//' *.new
 
 # This has been different for different machines...
 # Diff the directory and then checkin.

@@ -12,9 +12,9 @@ AC_SUBST(RD_BIN_DATAS)
 RD_BIN_PROGS=$rd_cv_rd_bin_progs
 AC_SUBST(RD_BIN_PROGS)
 
-dnl PERLV_PATH=$ac_cv_path_PERLV_PATH
+PERLV_PATH=$ac_cv_path_PERLV_PATH
 AC_SUBST(PERLV_PATH)
-dnl EXPECT_PATH=$ac_cv_path_EXPECT_PATH
+EXPECT_PATH=$ac_cv_path_EXPECT_PATH
 AC_SUBST(EXPECT_PATH)
 
 # locate tools to build $PATH for env.  order is significant.  want to be
@@ -40,7 +40,7 @@ AC_PATH_PROG(SORT,sort,no)
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_SORT`"
 ENV_PATH="$ENV_PATH:/usr/local/bin:/usr/bin"
 
-ENV_PATH=`echo $ENV_PATH | perl -e 'foreach $x(split(":",<>)){next unless (length($x));push(@F, $x),$seen{$x}=1 unless (defined $seen{$x});}print join(":",@F);'`
+ENV_PATH=`echo $ENV_PATH | $PERLV_PATH -e 'foreach $x(split(":",<>)){next unless (length($x));push(@F, $x),$seen{$x}=1 unless (defined $seen{$x});}print join(":",@F);'`
 AC_SUBST(ENV_PATH)
 
 AC_OUTPUT(Makefile env $RD_BIN_DATAS $RD_BIN_PROGS)

@@ -11,32 +11,10 @@
 - Also, need to allow 12012s, and force 700s to not be treated like 7Ks.
 - flogin (for foundry) needs more testing and should be integrated with
   clogin when foundry fixes their UI.
-- check clogin.  does it handle multiple addrs for 1 fqdn correctly?
-	> guelah [444] clogin gw6.partan.com
-	> gw6.partan.com
-	> spawn telnet gw6.partan.com
-	> Trying 198.6.255.57...
-	> telnet: connect to address 198.6.255.57: Host is unreachable
-	> telnet: connect to address 198.6.255.61: Host is unreachable
-	> telnet: connect to address 198.6.255.65: Host is unreachable
-	> Connected to gw6.partan.com (198.6.255.194).
-	> Escape character is '^]'.
-	>
-	>
-	> User Access Verification
-	>
-	> Username: ^Cguelah [445]
-
 - do-diffs (or something in the proc path) should make sure that all
   the CVS'd files are up to date with respect to the repository.
 - missing man pages for lg.conf.5 ??, rtrfilter.1 ??, lgform.cgi.1 ???,
   lg.cgi.1 ???
-- control_rancid should trap to 'rm -f routerS.db, routers*.new', 
-- control_rancid needs to check for existence of these files:
-	wc: routers.all: No such file or directory
-	[: 97: unexpected operator
-	comm: /tftpboot/rancid/foo/routers.up: No such file or directory
-
 - Can you poke at the enableprompt stuff for .cloginrc?  In teh
     cloginrc.sample & the man page?  I think that both need to be
     checked to be sure that the examples are correct & work.  [Probably
@@ -52,7 +30,7 @@
     > that should have mentioned that it is not necessary if the user is
     > autoenabled and there is a matching userpassword.  right?
     
-- include a few -s and -x type example scripts.
+- include a few -s and -x type example *login scripts.
 - add -E to *login to pass through variables to scripts
 	clogin -Evariable=something router...
 	clogin -Evariable=a,b,c		[ie: an array/list which user splits]

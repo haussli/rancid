@@ -54,7 +54,7 @@ if {[ info exists env(CISCO_USER) ] } {
 }
 
 # Sometimes routers take awhile to answer (the default is 10 sec)
-set timeout 45
+set timeout 120
 
 # Process the command line
 for {set i 0} {$i < $argc} {incr i} {

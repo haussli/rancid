@@ -51,11 +51,14 @@ Quick Installation Guide (an example):
 
 2) mkdir <basedir>/bin
 
-3) Put the contents of rancid/bin in <basedir>/bin.  modify the location of
-   perl and expect in each of clogin, par, rancid, rancid-fe, jlogin,
-   jrancid, and rename if necessary.  Make sure that you are using perl
-   version 5 and not perl version 4.  There are also 3 calls to perl in
-   control_rancid.
+3) Put the contents of rancid/bin in <basedir>/bin.
+
+   Modify the location of perl and expect in each of cat5rancid,
+   clogin, flogin, francid, jlogin, jrancid, par, rancid, rancid-fe,
+   rename, and rrancid if necessary.  There are also 3 calls to
+   perl in control_rancid and one in do-diffs.
+
+   Make sure that you are using perl version 5 and not perl version 4.
 
 4) Modify <basedir>/bin/env.
 

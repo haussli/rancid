@@ -740,6 +740,7 @@ sub WriteTerm {
 	/^! (Last configuration|NVRAM config last)/ && next;
 
 	# Dog gone Cool matches to process the rest of the config
+	/^#time: /              && next; # kill time:
 	/^tftp-server flash /   && next; # kill any tftp remains
 	/^ntp clock-period /    && next; # kill ntp clock-period
 	/^ length /		&& next; # kill length on serial lines

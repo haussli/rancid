@@ -1,3 +1,5 @@
+- devices not marked up should not appear in "unsuccessfully collected"
+  reports.
 - would like hpfilter to be more friendly to interactive logins
 - would like a FILTER_PWDS=(NO|YES|PARANOID) to "not filter", "filter
   reversables only", and "filter all" passwords.

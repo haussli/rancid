@@ -1,4 +1,6 @@
 2.2b9
+	jlogin should not look for username@router in .cloginrc
+
 	filter foundry ssh private key
 
 	filter '#Time" from catalyst 4 write term

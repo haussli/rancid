@@ -22,12 +22,6 @@
         - enctype is 0|7
 	it has to be reversible, so it can be used to encrypt pkts
 
-  enable secret [level <level>] { <secret> }
-        secret is not reversible
-
-  username <name> { allow-shell | privilege <level> | password <passwd>}+ }
-        passwd is not reversible
-
   ip vrrp authentication simple key <key1>
         key1 is reversible
 

@@ -146,6 +146,8 @@ sub GetSystem {
 
         /^Serial Number: (\d+), Control Number: \d+$/ &&
                 ProcessHistory("SYSTEM","","", "!SN: $1\n") && next;
+        /^Product Name: (\S+)$/ &&
+                ProcessHistory("SYSTEM","","", "!Product: $1\n") && next;
         /^Hardware Version: (\S+), / &&
                 ProcessHistory("SYSTEM","","", "!HW: $1\n") && next;
         /^Software Version: (\S+), Type: (\S+)$/ &&

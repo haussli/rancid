@@ -8,11 +8,11 @@ env    -    Enviromental settings needed.
 run-me -    Script designed to be run from cron calling control_rancid.
 control_rancid -    Builds router list, calls rancid on each router and
                     handles cvs routines.
-rancid-fe - chooses between rancid/francid/jrancid/rrancid
-rancid -    Runs commands on router and processes the output - the meat.
-francid -   Runs commands on foundry switches and processes the output
-jrancid -   Runs commands on juniper routers and processes the output
-rrancid -   Runs commands on redback routers and processes the output
+rancid-fe - chooses between rancid/francid/jrancid/rrancid.
+rancid -    Runs commands on cisco routers and processes the output - the meat.
+francid -   Runs commands on foundry switches and processes the output.
+jrancid -   Runs commands on juniper routers and processes the output.
+rrancid -   Runs commands on redback routers and processes the output.
 clogin -    Expect script that logs into routers either interactively,
             runs a set of commands or runs another expect script.
 flogin -    Expect script that logs into foundry switches.  once foundry
@@ -26,12 +26,12 @@ par    -    Parallel processing of commands - any commands.
 
 rancid will also need to have the following packages:
 cvs	- code revision system available from prep.ai.mit.edu:/pub/gnu
-gnudiff - gnudiff provides the -u option.  if you do not have gnu's diff,
+gnudiff - gnudiff provides the -u option.  if you do not have gnudiff,
           you will have to modify control_rancid to use 'diff -c' or some
           such.  see examples.
 perl5	- perl version 5 or greater available from www.cpan.org
 expect	- http://expect.nist.gov/
-tcl	- required by expect
+tcl	- required by expect.
 
 Quick Installation Guide (an example):
 
@@ -51,6 +51,11 @@ Quick Installation Guide (an example):
 5) Put .cloginrc in your home directory.
 
 6) Modify .cloginrc.
+
+   Test to make sure that you can log into every router.
+
+   Note: the juniper user you use *must* log into a cli shell (which
+   is the default on a juniper).
 
 7) Modify /etc/aliases
    Rancid sends the diffs and other controlling emails to rancid-<GROUP>
@@ -80,11 +85,11 @@ Quick Installation Guide (an example):
    down.  Each router listed as "up" will have the configuration
    grabbed.
 
-10) Put run-me/do-diffs in cron to be called however often you want it to run
-    for each group (run-me [<GROUP>] - OR - do-diffs [<GROUP>]).  eg:
+10) Put run-me in cron to be called however often you want it to run
+    for each group (run-me [<GROUP>]).  eg:
 
 	# run config differ hourly
-	1 * * * * <BASEDIR>/bin/do-diffs
+	1 * * * * <BASEDIR>/bin/run-me
 	# clean out hourly differ logs
 	50 23 * * * /usr/bin/find <BASEDIR>/logs -mtime +2 -exec rm {} \;
 

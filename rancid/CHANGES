@@ -1,4 +1,6 @@
 2.1
+	ignore case when cvs delete'g removed routers
+
 	francid/rrancid (foundry/redback) now strip snmp communities like
 	the others, via NOCOMMSTR var in bin/env.
 

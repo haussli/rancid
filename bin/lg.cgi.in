@@ -16,7 +16,7 @@ my($BASEDIR) = "@prefix@";
 my($pingcmd) = "@LG_PING_CMD@";
 
 my($query, $max_time_diff, $cache_dir, $cloginrc, @results);
-my($type, $router_param, $remote_user, $arg);
+my($type, $router_param, $remote_user, $arg, $router, $mfg);
 
 if (!defined($ENV{HOME})) { $ENV{HOME} = "."; }
 
@@ -242,7 +242,7 @@ $arg = ($query->param('args'))[0];
 @arg = split(' ', $arg);
 
 # verify commands, arguments, etc.
-my($router, $mfg) = split(':', $router_param);
+($router, $mfg) = split(':', $router_param);
 if (!defined($type) || !defined($router)) {
     $results[0] = "You must at least choose a Query and a router.  Try buying a clue.\n";
     &print_results;

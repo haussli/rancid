@@ -1066,7 +1066,7 @@ sub ShowVLAN {
 	return(1) if /(Invalid input detected|Type help or )/;
 	# newer releases (~12.1(9)) place the vlan config in the normal
 	# configuration (write term).
-	return(1) if ($type !~ /^(3550|4500|7600)$/);
+	return(1) if ($type =~ /^(3550|4500|7600)$/);
 	#return(1) if ($type !~ /^(2900XL|3500XL|6000)$/);
 	return(-1) if (/command authorization failed/i);
 	# the pager can not be disabled per-session on the PIX

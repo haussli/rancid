@@ -455,6 +455,11 @@ foreach router [lrange $argv $i end] {
 	}
     }
 
+    # look for noenable option in .cloginrc
+    if { [find noenable $router] != "" } {
+	set enable 0
+    }
+
     # Figure out passwords
     if { $do_passwd || $do_enapasswd } {
       set pswd [find password $router]

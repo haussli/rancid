@@ -1,4 +1,7 @@
 1.5
+	add .cloginrc noenable directive to set the cmd-line -noenable
+	option.
+
 	add .cloginrc userprompt, passprompt, and enableprompt directives
 	to adjust expected cisco router prompts in clogin.
 

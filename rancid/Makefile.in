@@ -91,7 +91,6 @@ PERLV = @PERLV@
 PERLV_PATH = @PERLV_PATH@
 PING_PATH = @PING_PATH@
 RD_UTIL_LG_PROGS = @RD_UTIL_LG_PROGS@
-RD_UTIL_PROGS = @RD_UTIL_PROGS@
 RSH = @RSH@
 SENDMAIL = @SENDMAIL@
 SET_MAKE = @SET_MAKE@
@@ -127,7 +126,6 @@ prefix = @prefix@
 program_transform_name = @program_transform_name@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
-subdirs = @subdirs@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 
@@ -146,7 +144,7 @@ subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES = util/Makefile util/rtrfilter util/downreport
+CONFIG_CLEAN_FILES =
 depcomp =
 am__depfiles_maybe =
 DIST_SOURCES =
@@ -179,12 +177,6 @@ $(srcdir)/configure:  $(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENC
 
 $(ACLOCAL_M4):  configure.in acinclude.m4
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
-util/Makefile: $(top_builddir)/config.status $(top_srcdir)/util/Makefile.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
-util/rtrfilter: $(top_builddir)/config.status $(top_srcdir)/util/rtrfilter.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
-util/downreport: $(top_builddir)/config.status $(top_srcdir)/util/downreport.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
 uninstall-info-am:
 
 # This directory's subdirectories are mostly independent; you can cd
@@ -321,7 +313,7 @@ distcleancheck_listfiles = find . -type f -print
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/bin $(distdir)/include $(distdir)/man $(distdir)/util
+	$(mkinstalldirs) $(distdir)/bin $(distdir)/include $(distdir)/man $(distdir)/util $(distdir)/util/lg
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -535,7 +527,7 @@ uninstall-info: uninstall-info-recursive
 # 	$(mkinstalldirs) $(prefix) $(prefix)/bin $(prefix)/man $(prefix)/util $(prefix)/util/lg
 
 # install-exec-local:
-# 	$(mkinstalldirs) $(prefix)/util $(prefix)/util/lg
+# 	$(mkinstalldirs) $(prefix)/util/lg
 
 install-data-hook:
 	$(mkinstalldirs) $(prefix) ; \

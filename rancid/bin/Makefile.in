@@ -97,7 +97,6 @@ PERLV = @PERLV@
 PERLV_PATH = @PERLV_PATH@
 PING_PATH = @PING_PATH@
 RD_UTIL_LG_PROGS = @RD_UTIL_LG_PROGS@
-RD_UTIL_PROGS = @RD_UTIL_PROGS@
 RSH = @RSH@
 SENDMAIL = @SENDMAIL@
 SET_MAKE = @SET_MAKE@
@@ -133,15 +132,12 @@ prefix = @prefix@
 program_transform_name = @program_transform_name@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
-subdirs = @subdirs@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS = foreign
 
-
-# PREFIX = @prefix@
 bin_PROGRAMS = hpfilter
 bin_SCRIPTS = cat5rancid control_rancid \
 	alogin arancid clogin create_cvs blogin brancid do-diffs elogin \
@@ -538,9 +534,6 @@ install-data-local: all
 
 #clean:
 #	rm -f Makefile env $(BIN_DATAS) $(BIN_PROGS)
-
-#distclean: clean
-#	rm -f config.log config.status
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

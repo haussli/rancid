@@ -1620,7 +1620,7 @@ fi
 # ping seems to take one of two formats for count (N)
 # BSD: ping -c N host
 # SVR: ping host N
-$PING_PATH -c 1 127.0.0.1 > /dev/null 2>&1
+$PING_PATH -c 1 -v 127.0.0.1 > /dev/null 2>&1
 if test $? -ne 0 ; then
     $PING_PATH 127.0.0.1 56 1 > /dev/null 2>&1
     if test $? -ne 0 ; then

@@ -791,6 +791,7 @@ sub ShowDiag {
 	/^$/ && next;
 	# the pager can not be disabled per-session on the PIX
 	s/^<-+ More -+>\s*//;
+
 	s/Port Packet Over SONET/POS/;
 	if (/^\s*SLOT\s+(\d+)\s+\((.*)\): (.*)/) {
 	    $slot = $1;
@@ -862,17 +863,19 @@ sub ShowDiag {
 
 	    ProcessHistory("SLOT","","","!\n");
 	    /\s+(.*) port adapter,?\s+(\d+)\s+/i &&
-		ProcessHistory("SLOT","keysort","B","!Slot $slot: type $1, $2 ports\n");
+		ProcessHistory("SLOT","keysort","B","!Slot $slot: type $1, $2 ports\n") && next;
 	    # I/O controller with no interfaces
 	    /\s+(.*)\s+port adapter\s*$/i &&
-		ProcessHistory("SLOT","keysort","B","!Slot $slot: type $1, 0 ports\n");
+		ProcessHistory("SLOT","keysort","B","!Slot $slot: type $1, 0 ports\n") && next;
 	    /\s+(.*)\s+daughter card(.*)$/ &&
-		ProcessHistory("SLOT","keysort","B","!Slot $slot$WIC: type $1$2\n");
+		ProcessHistory("SLOT","keysort","B","!Slot $slot$WIC: type $1$2\n") && next;
 	    /\s+(FT1)$/ &&
-		ProcessHistory("SLOT","keysort","B","!Slot $slot$WIC: type $1\n");
-	    # another WIC oddity - "Serial 2T (12in1)"
-	    if (/\s+(.*)\s+(12in1)$/ && defined($WIC)) {
-		ProcessHistory("SLOT","keysort","B","!Slot $slot$WIC: type $1\n");
+		ProcessHistory("SLOT","keysort","B","!Slot $slot$WIC: type $1\n") && next;
+	    # handle WICs lacking "daughter card" in the 2nd line of their
+	    # show diag o/p
+	    if (defined($WIC)) {
+		s/^\s+//;
+		ProcessHistory("SLOT","keysort","B","!Slot $slot$WIC: type $_");
 	    }
 	    next;
 	}

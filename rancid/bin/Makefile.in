@@ -43,8 +43,8 @@ DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/alogin.in $(srcdir)/arancid.in $(srcdir)/blogin.in \
 	$(srcdir)/brancid.in $(srcdir)/cat5rancid.in \
 	$(srcdir)/clogin.in $(srcdir)/control_rancid.in \
-	$(srcdir)/create_cvs.in $(srcdir)/do-diffs.in \
-	$(srcdir)/elogin.in $(srcdir)/erancid.in \
+	$(srcdir)/create_cvs.in $(srcdir)/cssrancid.in \
+	$(srcdir)/do-diffs.in $(srcdir)/elogin.in $(srcdir)/erancid.in \
 	$(srcdir)/f10rancid.in $(srcdir)/flogin.in \
 	$(srcdir)/francid.in $(srcdir)/hlogin.in $(srcdir)/hrancid.in \
 	$(srcdir)/htlogin.in $(srcdir)/htrancid.in \
@@ -65,10 +65,10 @@ mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
 CONFIG_CLEAN_FILES = control_rancid create_cvs do-diffs par rancid-fe \
 	rename alogin arancid blogin brancid cat5rancid clogin rancid \
-	elogin erancid f10rancid flogin francid jlogin jrancid \
-	jerancid hlogin hrancid htlogin htrancid mrancid nlogin \
-	nrancid nslogin nsrancid prancid rivlogin rivrancid rrancid \
-	tntlogin tntrancid xrancid zrancid
+	cssrancid elogin erancid f10rancid flogin francid jlogin \
+	jrancid jerancid hlogin hrancid htlogin htrancid mrancid \
+	nlogin nrancid nslogin nsrancid prancid rivlogin rivrancid \
+	rrancid tntlogin tntrancid xrancid zrancid
 am__installdirs = $(DESTDIR)$(bindir) $(DESTDIR)$(bindir)
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
@@ -286,6 +286,8 @@ cat5rancid: $(top_builddir)/config.status $(srcdir)/cat5rancid.in
 clogin: $(top_builddir)/config.status $(srcdir)/clogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 rancid: $(top_builddir)/config.status $(srcdir)/rancid.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+cssrancid: $(top_builddir)/config.status $(srcdir)/cssrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 elogin: $(top_builddir)/config.status $(srcdir)/elogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

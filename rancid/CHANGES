@@ -1,4 +1,6 @@
 2.3.1.eft
+	francid: bits for Mucho Grande - from Niels Bakker
+
 	add -- before (telnet|ssh) in call to hpuifilter so that any options
 	for telnet/ssh are not interpretted by hpuifilter
 

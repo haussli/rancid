@@ -13,6 +13,8 @@
 
 	rancid: collect 6500 slave sup bootflash - from Andrew Fort
 
+	rancid: show diag updates for 1700, 3700, etc - help from Michael Haba
+
 	The Extreme does not have an 'enable' level, so make sure
 	you have 'set autoenable' for it in your .cloginrc so clogin
 	will work.

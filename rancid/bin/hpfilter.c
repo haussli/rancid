@@ -83,7 +83,7 @@ main(int argc, char **argv)
 	    return(EX_USAGE);
 	}
 
-    if (argc - optind != 2) {
+    if (argc - optind <= 2) {
 	usage();
 	return(EX_USAGE);
     }

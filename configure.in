@@ -3,7 +3,7 @@ AC_INIT()
 
 AM_INIT_AUTOMAKE(PACKAGE, VERSION)
 
-AC_CONFIG_SUBDIRS(bin util)
+AC_CONFIG_SUBDIRS(bin man util)
 
 dnl default install location
 AC_PREFIX_DEFAULT(/usr/local/rancid)
@@ -172,7 +172,7 @@ ENV_PATH=`echo $ENV_PATH | $PERLV_PATH -e 'foreach $x(split(":",<>)){next unless
 ac_cv_env_path=$ENV_PATH
 AC_SUBST(ENV_PATH)
 
-AC_OUTPUT(Makefile)
+AC_OUTPUT(Makefile man/Makefile)
 
 # fix permissions on scripts.
 for file in $progs; do chmod a+x $file; done

@@ -1,8 +1,14 @@
+	bin/par changes - add -p, -f, and -e options
+
 2.2.1
+	rancid: npe400 cpu eeprom info o/p format changed in 12.0.21S1 -
+	spotted by tom campbell
+
 	fix problem in *login where if there was a login failure we would try
-	disconnect gracefully (albeit incorrectly).  writing to the half-closed
-	socket would not return an error (at least on some platform/expect
-	combinations or even consistently) causing the script to hang.
+	to disconnect gracefully (albeit incorrectly).  writing to the
+	half-closed socket would not return an error (at least on some
+	platform/expect combinations or even consistently) and expect would
+	hang.
 
 	add device name to diff mail subject when -r is specified
 

@@ -804,12 +804,21 @@ sub ShowC7200 {
 	    next;
 	}
 	if (/C720\d(VXR)? CPU EEPROM:/) {
-	    $_ = <INPUT>;
-	    /revision\s+(\S+).*revision\s+(\S+)/ &&
-		ProcessHistory("SLOT","","","!Slot CPU: hvers $1 rev $2\n");
-	    $_ = <INPUT>;
-	    /number\s+(\S+)\s+Part number\s+(\S+)/ &&
-		ProcessHistory("SLOT","","","!Slot CPU: part $2, serial $1\n!\n");
+	    my ($hvers,$rev,$part,$serial);
+	    # npe400s report their cpu eeprom info differently w/ 12.0.21S
+	    while (<INPUT>) {
+		/Hardware Revision\s+: (\S+)/ && ($hvers = $1) && next;
+		/Board Revision\s+: (\S+)/ && ($rev = $1) && next;
+		/Part Number\s+: (\S+)/ && ($part = $1) && next;
+		/Serial Number\s+: (\S+)/ && ($serial = $1) && next;
+		/revision\s+(\S+).*revision\s+(\S+)/ &&
+		    ($hvers = $1, $rev = $2) && next;
+		/number\s+(\S+)\s+Part number\s+(\S+)/ &&
+		    ($serial = $1, $part = $2) && next;
+		/^\s*$/ && last;
+	    }
+	    ProcessHistory("SLOT","","","!Slot CPU: hvers $hvers rev $rev\n");
+	    ProcessHistory("SLOT","","","!Slot CPU: part $part, serial $serial\n!\n");
 	    next;
 	}
     }

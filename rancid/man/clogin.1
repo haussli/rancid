@@ -225,8 +225,16 @@ configuration file.
 .SH "SEE ALSO"
 .BR cloginrc (5),
 .BR expect (1)
+.\"
 .SH CAVEATS
 The HP Procurve switches that are Foundry OEMs use flogin, not hlogin.
+.PP
+The Extreme is supported by
+.B clogin ,
+but it has no concept of an "enabled" privilege level.  User's
+.IR .cloginrc
+must set autoenable for these devices.
+.\"
 .SH BUGS
 Do not use greater than (>) or pound sign (#) in device banners.  These
 are the normal terminating characters of device prompts and the login

@@ -674,11 +674,11 @@ foreach router [lrange $argv $i end] {
 
     # Figure out cypher type
     if {[info exists cypher]} {
-      # command line cypher type
-      set cyphertype $cypher
+        # command line cypher type
+        set cyphertype $cypher
     } else {
-      set cyphertype [find cyphertype $router]
-      if { "$cyphertype" == "" } { set cyphertype "3des" }
+        set cyphertype [find cyphertype $router]
+        if { "$cyphertype" == "" } { set cyphertype "3des" }
     }
 
     # Figure out connection method

@@ -230,7 +230,7 @@ AC_CONFIG_FILES(bin/nslogin bin/nsrancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/rivlogin bin/rivrancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/rrancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/tntlogin bin/tntrancid, [chmod a+x $ac_file])
-AC_CONFIG_FILES(bin/xrancid, [chmod a+x $ac_file])
+AC_CONFIG_FILES(bin/xrancid bin/zrancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(util/rtrfilter util/downreport util/getipacctg,
 		[chmod a+x $ac_file])
 AC_CONFIG_FILES(util/lg/lg.conf)

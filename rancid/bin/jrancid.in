@@ -424,6 +424,7 @@ sub ShowConfiguration {
 	/^version .*;\d+$/ && return(-1);
 
 	s/ # SECRET-DATA$//;
+	s/ ## SECRET-DATA$//;
 	# filter snmp community, when in snmp { stanza }
 	/^snmp/ && $snmp++;
 	/^}/ && ($snmp = 0);
@@ -433,6 +434,10 @@ sub ShowConfiguration {
 		}
 	}
 	if (/(\s*authentication-key )[^ ;]+/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","#$1<removed>$'");
+	    next;
+	}
+	if (/(\s*md5 \d+ key )[^ ;]+/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","#$1<removed>$'");
 	    next;
 	}

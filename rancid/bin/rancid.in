@@ -1188,9 +1188,9 @@ sub WriteTerm {
 	    next;
 	}
 	if (/^username (\S+)(\s.*)? password ((\d) \S+|\S+)/) {
-	    if ($filter_pwds == 2) {
+	    if ($filter_pwds >= 2) {
 		ProcessHistory("USER","keysort","$1","!username $1$2 password <removed>\n");
-	    } elsif ($filter_pwds == 1 && $4 ne "5"){
+	    } elsif ($filter_pwds >= 1 && $4 ne "5"){
 		ProcessHistory("USER","keysort","$1","!username $1$2 password <removed>\n");
 	    } else {
 		ProcessHistory("USER","keysort","$1","$_");
@@ -1207,6 +1207,10 @@ sub WriteTerm {
 	}
 	if (/^(\s*)password / && $filter_pwds >= 1) {
 	    ProcessHistory("LINE-PASS","","","!$1password <removed>\n");
+	    next;
+	}
+	if (/^(\s*)secret / && $filter_pwds >= 2) {
+	    ProcessHistory("LINE-PASS","","","!$1secret <removed>\n");
 	    next;
 	}
 	if (/^\s*neighbor (\S*) password / && $filter_pwds >= 1) {
@@ -1432,6 +1436,9 @@ sub DoNothing {print STDOUT;}
 	'dir /all disk1:'	=> "DirSlotN",
 	'dir /all slot2:'	=> "DirSlotN",
 	'dir /all disk2:'	=> "DirSlotN",
+	'dir /all harddisk:'	=> "DirSlotN",
+	'dir /all harddiska:'	=> "DirSlotN",
+	'dir /all harddiskb:'	=> "DirSlotN",
 	"dir /all sup-bootflash:"=> "DirSlotN",		# cat 6500-ios
 	"dir /all sup-microcode:"=> "DirSlotN",		# cat 6500-ios
 	'dir /all slavenvram:'	=> "DirSlotN",
@@ -1485,6 +1492,9 @@ sub DoNothing {print STDOUT;}
 	"dir /all disk1:",
 	"dir /all slot2:",
 	"dir /all disk2:",
+	"dir /all harddisk:",
+	"dir /all harddiska:",
+	"dir /all harddiskb:",
 	"dir /all sup-bootflash:",
 	"dir /all sup-microcode:",
 	"dir /all slavenvram:",

@@ -70,7 +70,6 @@ INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
-INST_PROGS = @INST_PROGS@
 LDFLAGS = @LDFLAGS@
 LG_PING_CMD = @LG_PING_CMD@
 LIBS = @LIBS@
@@ -90,7 +89,6 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 PERLV = @PERLV@
 PERLV_PATH = @PERLV_PATH@
 PING_PATH = @PING_PATH@
-RD_UTIL_LG_PROGS = @RD_UTIL_LG_PROGS@
 RSH = @RSH@
 SENDMAIL = @SENDMAIL@
 SET_MAKE = @SET_MAKE@
@@ -133,6 +131,9 @@ target_alias = @target_alias@
 AUTOMAKE_OPTIONS = foreign
 
 noinst_HEADERS = config.h version.h
+
+# no idea why automake doesnt clean these targets
+CLEANFILES = stamp-h stamp-h1
 subdir = include
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
@@ -280,6 +281,7 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-rm -f Makefile $(CONFIG_CLEAN_FILES)

@@ -76,7 +76,6 @@ INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
-INST_PROGS = @INST_PROGS@
 LDFLAGS = @LDFLAGS@
 LG_PING_CMD = @LG_PING_CMD@
 LIBS = @LIBS@
@@ -96,7 +95,6 @@ PATH_SEPARATOR = @PATH_SEPARATOR@
 PERLV = @PERLV@
 PERLV_PATH = @PERLV_PATH@
 PING_PATH = @PING_PATH@
-RD_UTIL_LG_PROGS = @RD_UTIL_LG_PROGS@
 RSH = @RSH@
 SENDMAIL = @SENDMAIL@
 SET_MAKE = @SET_MAKE@
@@ -152,11 +150,11 @@ YFLAGS = -d
 subdir = bin
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES = alogin arancid blogin brancid cat5rancid clogin \
-	control_rancid create_cvs do-diffs elogin env erancid f10rancid \
-	flogin francid jlogin jrancid hlogin hrancid mrancid nlogin \
-	nrancid nslogin nsrancid par rancid-fe rancid rename rrancid \
-	tntlogin tntrancid xrancid
+CONFIG_CLEAN_FILES = env control_rancid create_cvs do-diffs par \
+	rancid-fe rename alogin arancid blogin brancid cat5rancid \
+	clogin rancid elogin erancid f10rancid flogin francid jlogin \
+	jrancid hlogin hrancid mrancid nlogin nrancid nslogin nsrancid \
+	rrancid tntlogin tntrancid xrancid
 bin_PROGRAMS = hpfilter$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
@@ -195,6 +193,20 @@ $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	  $(AUTOMAKE) --foreign  bin/Makefile
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
+env: $(top_builddir)/config.status env.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+control_rancid: $(top_builddir)/config.status control_rancid.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+create_cvs: $(top_builddir)/config.status create_cvs.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+do-diffs: $(top_builddir)/config.status do-diffs.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+par: $(top_builddir)/config.status par.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+rancid-fe: $(top_builddir)/config.status rancid-fe.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+rename: $(top_builddir)/config.status rename.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 alogin: $(top_builddir)/config.status alogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 arancid: $(top_builddir)/config.status arancid.in
@@ -207,15 +219,9 @@ cat5rancid: $(top_builddir)/config.status cat5rancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 clogin: $(top_builddir)/config.status clogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-control_rancid: $(top_builddir)/config.status control_rancid.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-create_cvs: $(top_builddir)/config.status create_cvs.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-do-diffs: $(top_builddir)/config.status do-diffs.in
+rancid: $(top_builddir)/config.status rancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 elogin: $(top_builddir)/config.status elogin.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-env: $(top_builddir)/config.status env.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 erancid: $(top_builddir)/config.status erancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
@@ -242,14 +248,6 @@ nrancid: $(top_builddir)/config.status nrancid.in
 nslogin: $(top_builddir)/config.status nslogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 nsrancid: $(top_builddir)/config.status nsrancid.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-par: $(top_builddir)/config.status par.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rancid-fe: $(top_builddir)/config.status rancid-fe.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rancid: $(top_builddir)/config.status rancid.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rename: $(top_builddir)/config.status rename.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 rrancid: $(top_builddir)/config.status rrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

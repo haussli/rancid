@@ -204,16 +204,19 @@ proc login { router user passwd prompt encrypttype identfile} {
     global spawn_id in_proc do_command do_script passphrase
     set in_proc 1
 
+    # ssh to the router & try to login with or without an identfile.
+    # We use two calls to spawn since spawn does not seem to parse
+    # spaces correctly.
     if {$identfile != ""} {
-	set have_ident "-i"
+	if [ catch {spawn ssh -c $encrypttype -x -l $user -i $identfile $router} reason ] {
+	    send_user "Error: failed to ssh: $reason\n"
+	    exit 1
+	}
     } else {
-	set have_ident ""
-    }
-
-    # ssh to the router & try to login.
-    if [ catch {spawn ssh -c $encrypttype -x -l $user $have_ident $identfile $router} reason ] {
-	send_user "Error: failed to ssh: $reason\n"
-	exit 1
+	if [ catch {spawn ssh -c $encrypttype -x -l $user $router} reason ] {
+	    send_user "Error: failed to ssh: $reason\n"
+	    exit 1
+	}
     }
     sleep 0.3
 

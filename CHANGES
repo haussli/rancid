@@ -1,4 +1,6 @@
 	bin/par changes - add -p, -f, and -e options
+2.3
+	add util/getipacctg example script - contrib from steve neighorn
 
 2.2.1
 	rancid: npe400 cpu eeprom info o/p format changed in 12.0.21S1 -

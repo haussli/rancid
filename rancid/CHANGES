@@ -1,4 +1,6 @@
 1.4
+	added foundry switch bits
+
 	reworked code to reduce jumps. improvement in speed/cpu util.
 
 	add bits to cvs delete configs which have been removed from

@@ -306,7 +306,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS VERSION PACKAGE INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE MAKE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CPP EGREP U ANSI2KNR MAILPLUS DIRNAME DIFF DIFF_CMD SENDMAIL TAR PERLV_PATH PERLV EXPECT_PATH PING_PATH LG_PING_CMD RD_UTIL_LG_PROGS INST_PROGS CVS COMM FIND GREP ID MKDIR RSH SORT SSH TELNET TOUCH ENV_PATH LIBOBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS VERSION PACKAGE INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE MAKE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CPP EGREP U ANSI2KNR MAILPLUS DIRNAME DIFF DIFF_CMD SENDMAIL TAR PERLV_PATH PERLV EXPECT_PATH PING_PATH LG_PING_CMD CVS COMM FIND GREP ID MKDIR RSH SORT SSH TELNET TOUCH ENV_PATH LIBOBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -1504,15 +1504,6 @@ fi
  VERSION=$VERSION
 
 
-cat >>confdefs.h <<_ACEOF
-#define PACKAGE "$PACKAGE"
-_ACEOF
-
-
-cat >>confdefs.h <<_ACEOF
-#define VERSION "$VERSION"
-_ACEOF
-
 # Some tools Automake needs.
 
 ACLOCAL=${ACLOCAL-"${am_missing_run}aclocal-${am__api_version}"}
@@ -1626,9 +1617,6 @@ INSTALL_STRIP_PROGRAM="\${SHELL} \$(install_sh) -c -s"
 # some platforms.
 
 
-
-
-          ac_config_headers="$ac_config_headers include/config.h"
 
 
 
@@ -4989,15 +4977,6 @@ else
 fi
 rd_cv_lg_ping_cmd=$LG_PING_CMD
 
-# RD_UTIL_LG_PROGS are util/lg .in's that need to be installed with execute
-# perms.
-RD_UTIL_LG_PROGS="lg.cgi lgform.cgi"
-
-rd_cv_rd_util_lg_progs=$RD_UTIL_LG_PROGS
-
-
-INST_PROGS=$progs
-
 # locate tools to build $PATH for env.  order is significant.  want to be
 # sure that we pick up the the proper diff and ucbmail in bin/env.
 ENV_PATH="`dirname $PERLV_PATH`:`dirname $EXPECT_PATH`:`dirname $SENDMAIL`"
@@ -5464,8 +5443,64 @@ ENV_PATH=`echo $ENV_PATH | $PERLV_PATH -e 'foreach $x(split(":",<>)){next unless
 ac_cv_env_path=$ENV_PATH
 
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ac_config_files="$ac_config_files Makefile include/Makefile bin/Makefile util/Makefile util/lg/Makefile bin/alogin bin/arancid bin/blogin bin/brancid bin/cat5rancid bin/clogin bin/control_rancid bin/create_cvs bin/do-diffs bin/elogin bin/env bin/erancid bin/f10rancid bin/flogin bin/francid bin/jlogin bin/jrancid bin/hlogin bin/hrancid bin/mrancid bin/nlogin bin/nrancid bin/nslogin bin/nsrancid bin/par bin/rancid-fe bin/rancid bin/rename bin/rrancid bin/tntlogin bin/tntrancid bin/xrancid man/Makefile man/env.5 man/lg.conf.5 man/lg_intro.1 include/version.h util/rtrfilter util/downreport util/getipacctg util/lg/lg.cgi util/lg/lg.conf util/lg/lgform.cgi"
-          ac_config_commands="$ac_config_commands default"
+          ac_config_files="$ac_config_files Makefile"
+
+          ac_config_files="$ac_config_files bin/Makefile"
+
+          ac_config_files="$ac_config_files include/Makefile"
+
+          ac_config_files="$ac_config_files man/Makefile"
+
+          ac_config_files="$ac_config_files util/Makefile"
+
+          ac_config_files="$ac_config_files util/lg/Makefile"
+
+          ac_config_files="$ac_config_files include/version.h"
+	# this is not a header in the sense of
+					# AC_CONFIG_HEADERS will cause
+					# autoheader to overwrite it, while all
+					# want is simple variable replacement
+          ac_config_headers="$ac_config_headers include/config.h"
+
+          ac_config_files="$ac_config_files bin/env"
+
+                                                            ac_config_files="$ac_config_files bin/control_rancid bin/create_cvs bin/do-diffs bin/par bin/rancid-fe bin/rename"
+
+                    ac_config_files="$ac_config_files bin/alogin bin/arancid"
+
+                    ac_config_files="$ac_config_files bin/blogin bin/brancid"
+
+                              ac_config_files="$ac_config_files bin/cat5rancid bin/clogin bin/rancid"
+
+                    ac_config_files="$ac_config_files bin/elogin bin/erancid"
+
+          ac_config_files="$ac_config_files bin/f10rancid"
+
+                    ac_config_files="$ac_config_files bin/flogin bin/francid"
+
+                    ac_config_files="$ac_config_files bin/jlogin bin/jrancid"
+
+                    ac_config_files="$ac_config_files bin/hlogin bin/hrancid"
+
+          ac_config_files="$ac_config_files bin/mrancid"
+
+                    ac_config_files="$ac_config_files bin/nlogin bin/nrancid"
+
+                    ac_config_files="$ac_config_files bin/nslogin bin/nsrancid"
+
+          ac_config_files="$ac_config_files bin/rrancid"
+
+                    ac_config_files="$ac_config_files bin/tntlogin bin/tntrancid"
+
+          ac_config_files="$ac_config_files bin/xrancid"
+
+                              ac_config_files="$ac_config_files util/rtrfilter util/downreport util/getipacctg"
+
+                              ac_config_files="$ac_config_files util/lg/lg.cgi util/lg/lg.conf util/lg/lgform.cgi"
+
+                              ac_config_files="$ac_config_files man/env.5 man/lg.conf.5 man/lg_intro.1"
+
+
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -5995,21 +6030,27 @@ do
   case "$ac_config_target" in
   # Handling of arguments.
   "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
-  "include/Makefile" ) CONFIG_FILES="$CONFIG_FILES include/Makefile" ;;
   "bin/Makefile" ) CONFIG_FILES="$CONFIG_FILES bin/Makefile" ;;
+  "include/Makefile" ) CONFIG_FILES="$CONFIG_FILES include/Makefile" ;;
+  "man/Makefile" ) CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
   "util/Makefile" ) CONFIG_FILES="$CONFIG_FILES util/Makefile" ;;
   "util/lg/Makefile" ) CONFIG_FILES="$CONFIG_FILES util/lg/Makefile" ;;
+  "include/version.h" ) CONFIG_FILES="$CONFIG_FILES include/version.h" ;;
+  "bin/env" ) CONFIG_FILES="$CONFIG_FILES bin/env" ;;
+  "bin/control_rancid" ) CONFIG_FILES="$CONFIG_FILES bin/control_rancid" ;;
+  "bin/create_cvs" ) CONFIG_FILES="$CONFIG_FILES bin/create_cvs" ;;
+  "bin/do-diffs" ) CONFIG_FILES="$CONFIG_FILES bin/do-diffs" ;;
+  "bin/par" ) CONFIG_FILES="$CONFIG_FILES bin/par" ;;
+  "bin/rancid-fe" ) CONFIG_FILES="$CONFIG_FILES bin/rancid-fe" ;;
+  "bin/rename" ) CONFIG_FILES="$CONFIG_FILES bin/rename" ;;
   "bin/alogin" ) CONFIG_FILES="$CONFIG_FILES bin/alogin" ;;
   "bin/arancid" ) CONFIG_FILES="$CONFIG_FILES bin/arancid" ;;
   "bin/blogin" ) CONFIG_FILES="$CONFIG_FILES bin/blogin" ;;
   "bin/brancid" ) CONFIG_FILES="$CONFIG_FILES bin/brancid" ;;
   "bin/cat5rancid" ) CONFIG_FILES="$CONFIG_FILES bin/cat5rancid" ;;
   "bin/clogin" ) CONFIG_FILES="$CONFIG_FILES bin/clogin" ;;
-  "bin/control_rancid" ) CONFIG_FILES="$CONFIG_FILES bin/control_rancid" ;;
-  "bin/create_cvs" ) CONFIG_FILES="$CONFIG_FILES bin/create_cvs" ;;
-  "bin/do-diffs" ) CONFIG_FILES="$CONFIG_FILES bin/do-diffs" ;;
+  "bin/rancid" ) CONFIG_FILES="$CONFIG_FILES bin/rancid" ;;
   "bin/elogin" ) CONFIG_FILES="$CONFIG_FILES bin/elogin" ;;
-  "bin/env" ) CONFIG_FILES="$CONFIG_FILES bin/env" ;;
   "bin/erancid" ) CONFIG_FILES="$CONFIG_FILES bin/erancid" ;;
   "bin/f10rancid" ) CONFIG_FILES="$CONFIG_FILES bin/f10rancid" ;;
   "bin/flogin" ) CONFIG_FILES="$CONFIG_FILES bin/flogin" ;;
@@ -6023,27 +6064,20 @@ do
   "bin/nrancid" ) CONFIG_FILES="$CONFIG_FILES bin/nrancid" ;;
   "bin/nslogin" ) CONFIG_FILES="$CONFIG_FILES bin/nslogin" ;;
   "bin/nsrancid" ) CONFIG_FILES="$CONFIG_FILES bin/nsrancid" ;;
-  "bin/par" ) CONFIG_FILES="$CONFIG_FILES bin/par" ;;
-  "bin/rancid-fe" ) CONFIG_FILES="$CONFIG_FILES bin/rancid-fe" ;;
-  "bin/rancid" ) CONFIG_FILES="$CONFIG_FILES bin/rancid" ;;
-  "bin/rename" ) CONFIG_FILES="$CONFIG_FILES bin/rename" ;;
   "bin/rrancid" ) CONFIG_FILES="$CONFIG_FILES bin/rrancid" ;;
   "bin/tntlogin" ) CONFIG_FILES="$CONFIG_FILES bin/tntlogin" ;;
   "bin/tntrancid" ) CONFIG_FILES="$CONFIG_FILES bin/tntrancid" ;;
   "bin/xrancid" ) CONFIG_FILES="$CONFIG_FILES bin/xrancid" ;;
-  "man/Makefile" ) CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
-  "man/env.5" ) CONFIG_FILES="$CONFIG_FILES man/env.5" ;;
-  "man/lg.conf.5" ) CONFIG_FILES="$CONFIG_FILES man/lg.conf.5" ;;
-  "man/lg_intro.1" ) CONFIG_FILES="$CONFIG_FILES man/lg_intro.1" ;;
-  "include/version.h" ) CONFIG_FILES="$CONFIG_FILES include/version.h" ;;
   "util/rtrfilter" ) CONFIG_FILES="$CONFIG_FILES util/rtrfilter" ;;
   "util/downreport" ) CONFIG_FILES="$CONFIG_FILES util/downreport" ;;
   "util/getipacctg" ) CONFIG_FILES="$CONFIG_FILES util/getipacctg" ;;
   "util/lg/lg.cgi" ) CONFIG_FILES="$CONFIG_FILES util/lg/lg.cgi" ;;
   "util/lg/lg.conf" ) CONFIG_FILES="$CONFIG_FILES util/lg/lg.conf" ;;
   "util/lg/lgform.cgi" ) CONFIG_FILES="$CONFIG_FILES util/lg/lgform.cgi" ;;
+  "man/env.5" ) CONFIG_FILES="$CONFIG_FILES man/env.5" ;;
+  "man/lg.conf.5" ) CONFIG_FILES="$CONFIG_FILES man/lg.conf.5" ;;
+  "man/lg_intro.1" ) CONFIG_FILES="$CONFIG_FILES man/lg_intro.1" ;;
   "depfiles" ) CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
-  "default" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default" ;;
   "include/config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS include/config.h" ;;
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
@@ -6177,8 +6211,6 @@ s,@PERLV@,$PERLV,;t t
 s,@EXPECT_PATH@,$EXPECT_PATH,;t t
 s,@PING_PATH@,$PING_PATH,;t t
 s,@LG_PING_CMD@,$LG_PING_CMD,;t t
-s,@RD_UTIL_LG_PROGS@,$RD_UTIL_LG_PROGS,;t t
-s,@INST_PROGS@,$INST_PROGS,;t t
 s,@CVS@,$CVS,;t t
 s,@COMM@,$COMM,;t t
 s,@FIND@,$FIND,;t t
@@ -6780,9 +6812,6 @@ echo "$as_me: error: cannot create directory $dirpart/$fdir" >&2;}
   done
 done
  ;;
-    default ) \
-	 chmod a+x bin/*login bin/*rancid bin/par
-	 ;;
   esac
 done
 _ACEOF
@@ -6813,6 +6842,3 @@ if test "$no_create" != yes; then
   $ac_cs_success || { (exit 1); exit 1; }
 fi
 
-
-# fix permissions on scripts.
-for file in $progs; do chmod a+x $file; done

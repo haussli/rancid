@@ -10,9 +10,7 @@ PACKAGE=`sed -n 's/.*package.*"\(.*\)".*/\1/p' $srcdir/include/version.h.in|tr -
 AC_SUBST(VERSION)
 AC_SUBST(PACKAGE)
 
-AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
-
-AM_CONFIG_HEADER(include/config.h)
+AM_INIT_AUTOMAKE($PACKAGE, $VERSION, rancid@shrubbery.net)
 
 dnl default install location
 AC_PREFIX_DEFAULT(/usr/local/rancid)
@@ -167,15 +165,6 @@ else
 fi
 rd_cv_lg_ping_cmd=$LG_PING_CMD
 
-# RD_UTIL_LG_PROGS are util/lg .in's that need to be installed with execute
-# perms.
-RD_UTIL_LG_PROGS="lg.cgi lgform.cgi"
-AC_SUBST(RD_UTIL_LG_PROGS)
-rd_cv_rd_util_lg_progs=$RD_UTIL_LG_PROGS
-
-AC_SUBST(INST_PROGS)
-INST_PROGS=$progs
-
 # locate tools to build $PATH for env.  order is significant.  want to be
 # sure that we pick up the the proper diff and ucbmail in bin/env.
 ENV_PATH="`dirname $PERLV_PATH`:`dirname $EXPECT_PATH`:`dirname $SENDMAIL`"
@@ -213,21 +202,36 @@ ENV_PATH=`echo $ENV_PATH | $PERLV_PATH -e 'foreach $x(split(":",<>)){next unless
 ac_cv_env_path=$ENV_PATH
 AC_SUBST(ENV_PATH)
 
-AC_OUTPUT([ Makefile include/Makefile bin/Makefile util/Makefile \
-	util/lg/Makefile \
-	bin/alogin bin/arancid bin/blogin bin/brancid bin/cat5rancid \
-	bin/clogin bin/control_rancid bin/create_cvs bin/do-diffs bin/elogin \
-	bin/env bin/erancid bin/f10rancid bin/flogin bin/francid bin/jlogin \
-	bin/jrancid bin/hlogin \
-	bin/hrancid bin/mrancid bin/nlogin bin/nrancid bin/nslogin \
-	bin/nsrancid bin/par bin/rancid-fe bin/rancid bin/rename \
-	bin/rrancid bin/tntlogin bin/tntrancid bin/xrancid \
-	man/Makefile man/env.5 man/lg.conf.5 man/lg_intro.1 \
-	include/version.h \
-	util/rtrfilter util/downreport util/getipacctg \
-	util/lg/lg.cgi util/lg/lg.conf util/lg/lgform.cgi ], \
-	[ chmod a+x bin/*login bin/*rancid bin/par ]
-	)
+AC_CONFIG_FILES(Makefile)
+AC_CONFIG_FILES(bin/Makefile)
+AC_CONFIG_FILES(include/Makefile)
+AC_CONFIG_FILES(man/Makefile)
+AC_CONFIG_FILES(util/Makefile)
+AC_CONFIG_FILES(util/lg/Makefile)
+AC_CONFIG_FILES(include/version.h)	# this is not a header in the sense of
+					# AC_CONFIG_HEADERS will cause
+					# autoheader to overwrite it, while all
+					# want is simple variable replacement
+AC_CONFIG_HEADERS(include/config.h)
+AC_CONFIG_FILES(bin/env)
+AC_CONFIG_FILES(bin/control_rancid bin/create_cvs bin/do-diffs bin/par \
+		bin/rancid-fe bin/rename)
+AC_CONFIG_FILES(bin/alogin bin/arancid)
+AC_CONFIG_FILES(bin/blogin bin/brancid)
+AC_CONFIG_FILES(bin/cat5rancid bin/clogin bin/rancid)
+AC_CONFIG_FILES(bin/elogin bin/erancid)
+AC_CONFIG_FILES(bin/f10rancid)
+AC_CONFIG_FILES(bin/flogin bin/francid)
+AC_CONFIG_FILES(bin/jlogin bin/jrancid)
+AC_CONFIG_FILES(bin/hlogin bin/hrancid)
+AC_CONFIG_FILES(bin/mrancid)
+AC_CONFIG_FILES(bin/nlogin bin/nrancid)
+AC_CONFIG_FILES(bin/nslogin bin/nsrancid)
+AC_CONFIG_FILES(bin/rrancid)
+AC_CONFIG_FILES(bin/tntlogin bin/tntrancid)
+AC_CONFIG_FILES(bin/xrancid)
+AC_CONFIG_FILES(util/rtrfilter util/downreport util/getipacctg)
+AC_CONFIG_FILES(util/lg/lg.cgi util/lg/lg.conf util/lg/lgform.cgi)
+AC_CONFIG_FILES(man/env.5 man/lg.conf.5 man/lg_intro.1)
 
-# fix permissions on scripts.
-for file in $progs; do chmod a+x $file; done
+AC_OUTPUT()

@@ -1,64 +1,34 @@
 /*
- * run telnet to connect to device specified on the command line.  the
- * point of vtfilter is to filter all the bloody vt100 (curses) escape codes
- * that the HP procurve switches belch.
+ * Copyright (C) 1997-2001 by Henry Kilmer, Erik Sherk and Pete Whiting.
+ * All rights reserved.
  *
- * stdin/out should be connected to hlogin.
+ * This software may be freely copied, modified and redistributed without
+ * fee for non-commerical purposes provided that this copyright notice is
+ * preserved intact on all copies and modified copies.
+ *
+ * There is no warranty or other guarantee of fitness of this software.
+ * It is provided solely "as is". The author(s) disclaim(s) all
+ * responsibility and liability with respect to this software's usage
+ * or its effect upon hardware, computer systems, other software, or
+ * anything else.
+ *
+ * run telnet or ssh to connect to device specified on the command line.  the
+ * point of hpfilter is to filter all the bloody vt100 (curses) escape codes
+ * that the HP procurve switches belch and make hlogin a real bitch.
  */
 
 #define DFLT_TO	60
 
-#define HAVE_UNISTD_H 1
-#define HAVE_SYSEXITS_H 1
-#define HAVE_SYS_WAIT_H 1
-#define RETSIGTYPE void
-#define HAVE_STRING_H 1
+#include <config.h>
 
 #include <stdio.h>
 #include <limits.h>
-#include <errno.h>
 #include <fcntl.h>
 #include <signal.h>
-#include <sys/types.h>
 #include <sys/time.h>
 #include <regex.h>
 
 #include <termios.h>
-
-#if HAVE_UNISTD_H
-# include <unistd.h>
-#endif
-
-#if HAVE_STRING_H
-# include <string.h>
-#endif
-#if HAVE_STRINGS_H
-# include <strings.h>
-#endif
-
-#if HAVE_SYS_WAIT_H
-# include <sys/wait.h>
-#endif
-#ifndef WEXITSTATUS
-# define WEXITSTATUS(stat_val) ((unsigned)(stat_val) >> 8)
-#endif
-#ifndef WIFEXITED
-# define WIFEXITED(stat_val) (((stat_val) & 255) == 0)
-#endif
-
-#if HAVE_SYSEXITS_H
-# include <sysexits.h>
-#else
-					/* missing sysexits.h */
-# define EX_OK		0
-# define EX_USAGE	64		/* command line usage error */
-# define EX_NOINPUT	66		/* cannot open input */
-# define EX_TEMPFAIL	75		/* temp failure */
-# define EX_OSERR	71		/* system error */
-# define EX_CANTCREAT	73		/* can't create (user) output file */
-# define EX_IOERR	74		/* input/output error */
-# define EX_CONFIG	78		/* configuration error */
-#endif
 
 char		*progname;
 int		debug = 0;

@@ -1,0 +1,100 @@
+##
+# this expect snipit is sourced by clogin (-s option) to issue a reload
+# command on a cisco router.  it DOES NOT save the config if it has been
+# modified.
+#
+# it expects the following variables via the -E option:
+#	reload_arg	='command argument' such as 'at 05:00' or 'cancel
+##
+#exp_internal 1
+#log_user 1
+
+# take reload command from -Ereload_arg='at 05:00'
+if ([info exists Ereload_arg]) {
+	#puts "reload_arg == $Ereload_arg"
+	set reloadcmd "reload $Ereload_arg"
+} else {
+	send_error "ERROR: -Ereload_arg= was not set on the command-line.\n"
+	exit
+}
+
+#send_user "$router\n"
+
+send "\r"
+expect {
+     timeout 			{ send_error "Error: did not receive prompt\n"
+				  exit }
+    -re "^.*$prompt"		{ send "$reloadcmd\r"
+				  expect * {} }
+}
+# look for response
+expect	{
+    -re "configuration has been modified.*no.:"	{ send "no\r";
+						  exp_continue }
+    -re "Reload scheduled .*\r"			{ set sched $expect_out(0,string)
+						  exp_continue }
+    -re "SHUTDOWN ABORTED"			{ set sched $expect_out(0,string) }
+    -re "Proceed with .*confirm\]"		{ send "\r" }
+    -re "\n.*No reload "			{ set sched "no reload scheduled"
+						  send "\r" }
+}
+send "\r"
+expect "$prompt"
+if ([info exists sched]) {
+	send_user "\t$sched\n"
+}
+send "quit\r"
+expect {
+	timeout		{ send_error "Error: timeout waiting for EOF after quit\n"}
+	eof	{ exit 0 }
+}
+
+## dennis#reload in ?
+## Delay before reload (mmm or hhh:mm)
+##
+## dennis#reload in 100:10
+##
+## System configuration has been modified. Save? [yes/no]: no
+## Reload scheduled in 100 hours and 9 minutes
+## Proceed with reload? [confirm]
+## dennis#reload ca
+## dennis#reload cancel
+## dennis#
+##
+##
+## ***
+## *** --- SHUTDOWN ABORTED ---
+## ***
+##
+## dennis#wr
+## Building configuration...
+## [OK]
+## dennis#reload in 100:10
+## Reload scheduled in 100 hours and 10 minutes
+## Proceed with reload? [confirm]
+## dennis#rel
+## dennis#reload can
+## dennis#reload cancel
+## dennis#
+##
+##
+## ***
+## *** --- SHUTDOWN ABORTED ---
+## ***
+## System configuration has been modified. Save? [yes/no]: no
+## Reload scheduled for 11:51:48 PST Thu Dec 10 1998 (in 299 hours and 59 minutes)
+## Proceed with reload? [confirm]
+## ultra#reload can
+## ultra#
+## 
+## 
+## ***
+## *** --- SHUTDOWN ABORTED ---
+## ***
+## ultra# reload at 8:10 10 dec
+## 
+## System configuration has been modified. Save? [yes/no]: no
+## Reload scheduled for 08:10:00 PST Thu Dec 10 1998 (in 296 hours and 17 minutes)
+## Proceed with reload? [confirm]
+## ultra#
+## 

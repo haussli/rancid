@@ -1,4 +1,6 @@
 2.3.2
+	jrancid: collect license info & RE Model.
+
 	rancid: erroneous space in shared-secret match - from Blaz Zupan
 
 	nrancid: fix missing brace - from David King
@@ -7,7 +9,7 @@
 
 	rancid: filter multiple-fs file - from Yuval Ben-Ari
 
-	cssrancid: make this parse the collected output properly 
+	cssrancid: make this parse the collected output properly
 
 	rancid: filter & sort IOS AP username passwords - noted by Stafford Rau
 

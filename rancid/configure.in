@@ -105,6 +105,8 @@ if test $PERLV_PATH = no; then
     fi
 fi
 AC_SUBST(PERLV_PATH)
+ac_cv_PERLV=`basename $PERLV_PATH`
+AC_SUBST(PERLV)
 
 AC_PATH_PROG(EXPECT_PATH,expect,no)
 if test $EXPECT_PATH = no; then
@@ -193,7 +195,10 @@ ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_SENDMAIL`"
 AC_PATH_PROG(SORT,sort,no)
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_SORT`"
 AC_PATH_PROG(SSH,ssh,no)
-ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_SSH`"
+if test $DIFF = no; then
+    ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_SSH`"
+fi
+unset ac_cv_path_SSH
 AC_PATH_PROG(TELNET,telnet,no)
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_TELNET`"
 AC_PATH_PROG(TOUCH,touch,no)

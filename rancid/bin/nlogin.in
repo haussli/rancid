@@ -240,7 +240,7 @@ proc source_password_file { password_file } {
 # Log into the firewall.
 proc login { firewall user userpswd passwd enapasswd prompt cmethod
 cyphertype } {
-    global spawn_id in_proc do_command do_script
+    global spawn_id in_proc do_command do_script sshcmd
     set in_proc 1
     set uprompt_seen 0
 
@@ -259,8 +259,8 @@ cyphertype } {
 		exit 1
 	    }
 	} elseif ![string compare $prog "ssh"] {
-	    if [ catch {spawn ssh -c $cyphertype -x -l $user $firewall} reason ] {
-		send_user "\nError: ssh failed: $reason\n"
+	    if [ catch {spawn $sshcmd -c $cyphertype -x -l $user $firewall} reason ] {
+		send_user "\nError: $sshcmd failed: $reason\n"
 		exit 1 
 	    }  
 	} elseif ![string compare $prog "rsh"] {
@@ -467,6 +467,10 @@ foreach firewall [lrange $argv $i end] {
     # Figure out connection method
     set cmethod [find method $firewall]
     if { "$cmethod" == "" } { set cmethod {{telnet} {ssh}} }
+
+    # Figure out the SSH executable name  
+    set sshcmd [find sshcmd $router]  
+    if { "$sshcmd" == "" } { set sshcmd {ssh} }  
 
     # Login to the firewall
     if {[login $firewall $ruser $userpswd $passwd $enapasswd $prompt $cmethod $cyphertype]} {

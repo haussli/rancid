@@ -662,6 +662,9 @@ sub WriteTerm {
     /^clns host \S+ (\S+)/ && ProcessHistory("CLNS","keysort","$1","$_") && return;
     # order alias statements
     /^alias / && ProcessHistory("ALIAS","keysort","$_","$_") && return;
+    # delete ntp auth password
+    /^(ntp authentication-key \d+ md5) / && 
+	ProcessHistory("","","","!$1 <removed>\n") && return;
     # order ntp peers/servers
     if (/^ntp (server|peer) (\d+)\.(\d+)\.(\d+)\.(\d+)/) {
 	$sortkey = sprintf("$1 %03d%03d%03d%03d",$2,$3,$4,$5);

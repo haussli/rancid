@@ -1,4 +1,7 @@
 - would like to have a "timeout" cloginrc directive
+- would like to have a ssh "passphrase" cloginrc directive
+- would like to have a "login_option" cloginrc directive to specify arbitrary
+  command-line options
 - possibly a "debug" (exp_internal 1 ?) cloginrc directive?  *login -d flag
   for same?  warning about filling logs?
 - on 6500, show boot and show bootvar produce the same output and both appear

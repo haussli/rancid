@@ -8,7 +8,9 @@ env    -    Enviromental settings needed.
 run-me -    Script designed to be run from cron calling control_rancid.
 control_rancid -    Builds router list, calls rancid on each router and
                     handles cvs routines.
+rancid-fe - chooses between rancid an jrancid
 rancid -    Runs commands on router and processes the output - the meat.
+jrancid -   Runs commands on juniper routers and processes the output
 clogin -    Expect script that logs into routers either interactively,
             runs a set of commands or runs another expect script.
 .cloginrc - TCL commands to set passwords, usernames etc. used by clogin.
@@ -66,9 +68,10 @@ Quick Installation Guide (an example):
     config directories.
 
 11) For each "group", create the router.db file in the group directory.
-    The file is of the form "router:state:" where "router" is the name
-    of the router and "state" is either up or down.  Each router listed
-    as "up" will have the configuration grabbed.
+    The file is of the form "router:mfg:state" where "router" is the name
+    of the router, mfg is the manufacturer (cisco|juniper), and "state"
+    is either up or down.  Each router listed as "up" will have the
+    configuration grabbed.
 
 12) Put run-me/do-diffs in cron to be called however ofter you want it to run
     for each group (run-me <GROUP>).  eg:
@@ -76,7 +79,7 @@ Quick Installation Guide (an example):
 	# run config differ hourly
 	1 * * * * $HOME/bin/do-diffs
 	# clean out hourly differ logs
-	50 23 * * * /usr/bin/find $HOME/logs -mtime +2 -exec rm {} \;
+	50 23 * * * /usr/bin/find $BASEDIR/logs -mtime +2 -exec rm {} \;
 
 13) Send me any bugs, suggestions or updates (hank@terrapin.net).
 

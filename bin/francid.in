@@ -172,6 +172,7 @@ sub ShowChassis {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/ from /);
+	next if (/current temperature/i);
 	ProcessHistory("CHASSIS","","","! $_");
     }
     ProcessHistory("CHASSIS","","","!\n");

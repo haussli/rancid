@@ -6,7 +6,7 @@ the files below by configure with substitutions completed:
 
 README		This file.
 CHANGES		List of changes to Rancid.
-Todo		partial Todo list of what needs to be done.
+Todo		partial list of what needs to be done.
 env.in		Environment settings needed.
 do-diffs.in	Script designed to be run from cron calling control_rancid.
 control_rancid.in

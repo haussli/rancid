@@ -339,9 +339,6 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	    }
 	}
 
-    # Riverstone/Cabletron requires CR before Username? prompt appears
-    send "\n" 
-
     # Here we get a little tricky.  There are several possibilities:
     # the router can ask for a username and passwd and then
     # talk to the TACACS server to authenticate you, or if the
@@ -392,6 +389,11 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	-re "% (Bad passwords|Authentication failed)"	{
 				  send_user "\nError: Check your passwd for $router\n"
 				  return 1
+				}
+	-re "^Press RETURN to activate console" {
+				  # This occurs before authentication
+				  send "\r"
+				  exp_continue
 				}
 	-re "@\[^\r\n]+ $p_prompt"	{
 					  # ssh pwd prompt
@@ -732,12 +734,7 @@ foreach router [lrange $argv $i end] {
     } elseif { $do_script } {
 	# If the prompt is (enable), then we are on a switch and the
 	# command is "set length 0"; otherwise its "term length 0".
-	if [ regexp -- ".*> .*enable" "$prompt" ] {
-	    send "set length 0\r"
-	    send "set logging session disable\r"
-	} else {
-	    send "term length 0\r"
-	}
+	send "cli set terminal rows 0\r"
 	expect -re $prompt	{}
 	source $sfile
 	close

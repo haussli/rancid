@@ -447,6 +447,10 @@ proc do_enable { enauser enapasswd } {
 	denied		{ send_user "\nError: Check your Enable passwd\n";
 			  return 1
 			}
+	"Incorrect username or password" {
+			  send_user "\nError: Check your Enable passwd\n";
+			  return 1
+			}
 	"% Bad passwords" { send_user "\nError: Check your Enable passwd\n";
 			  return 1
 			}

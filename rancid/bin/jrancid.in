@@ -320,6 +320,8 @@ sub ShowSystemBootMessages {
 	/^\s+\^/ && return;
 	/syntax error/ && return;
 	/^JUNOS / && <INPUT> && next;
+	/^real memory / && next;
+	/^avail memory / && next;
 	/^\/dev\// && next;
 	ProcessHistory("","","","# $_");
     }

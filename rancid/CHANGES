@@ -1,7 +1,7 @@
 1.5
-	Skip the kernel version and fsck output of "show system
-	boot-messages" - fsck output changes every time you boot
-	and the version is found elsewhere.
+	Skip the kernel version, memory, and fsck output of "show
+	system boot-messages" - fsck output changes every time you
+	boot and the version & memory is better found elsewhere.
 
 	Delete the cisco ospf authentication and ftp passwords.
 

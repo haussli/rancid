@@ -40,7 +40,7 @@ set password_file $env(HOME)/.cloginrc
 set do_command 0
 set do_script 0
 # The default is to automatically enable
-set enable 0
+set avenable 0
 # The default is that you login non-enabled (tacacs can have you login already
 # enabled)
 set avautoenable 1

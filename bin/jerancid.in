@@ -142,6 +142,7 @@ sub ShowVersion {
 	tr/\015//d;
 	last if(/^$prompt/);
 	next if(/^(\s*|\s*$cmd\s*)$/);
+	next if (/^Please wait/i);
 	return(-1) if (/command authorization failed/i);
 
 	/^Juniper Edge .* (\S+)$/ &&
@@ -190,13 +191,13 @@ sub ShowRedundancy {
 
 # This routine parses "show environment all"
 sub ShowEnv {
-    # Skip if this is not a 7500, 7200, or 7000.
     print STDERR "    In ShowEnv: $_" if ($debug);
 
     while (<INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^Please wait/i);
 	return(-1) if (/command authorization failed/i);
 
 	# skip the temperature goop
@@ -224,6 +225,7 @@ sub ShowBoot {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^Please wait/i);
 	next if (/^\s*$/);
 	return(1) if /^\s*\^\s*$/;
 	return(-1) if (/command authorization failed/i);
@@ -251,8 +253,8 @@ sub DirSlotN {
     while (<INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
-	next if (/^Please wait/i);
 	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^Please wait/i);
 	next if (/^system\.log/);
 
 	ProcessHistory("FLASH","","","!Flash: $_");
@@ -263,13 +265,13 @@ sub DirSlotN {
 
 # This routine parses "show hardware"
 sub ShowHardware {
-    # Skip if this is a 70[01]0, 7500, or 12000.
     print STDERR "    In ShowHardware: $_" if ($debug);
 
     while (<INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^Please wait/i);
 	# return(1) if ($type =~ /^(12[40]|7[05])/);
 	return(-1) if (/command authorization failed/i);
 	next if (/^Please wait/i);
@@ -289,6 +291,7 @@ sub WriteTerm {
     while (<INPUT>) {
 	tr/\015//d;
 	last if(/^$prompt/);
+	next if (/^Please wait/i);
 	return(-1) if (/command authorization failed/i);
 	/Non-Volatile memory is in use/  && return(-1); # NvRAM is locked
 	$lineauto = 0 if (/^[^ ]/);

@@ -1,6 +1,6 @@
 #!@PERLV_PATH@
 ## The original original lookingglass s/w was written by Ed Kern.  it
-## is a single script and can be found at http://nitrous.digex.net/ 
+## is a single script and used to be available at http://nitrous.digex.net/ 
 #
 ## Copyright (C) 1997-2001 by Henry Kilmer.
 ## All rights reserved.
@@ -62,9 +62,15 @@ sub dolog
 	    $file = "$cache_dir/lg.log";
 	}
 	#  log date, hostname, query, addr
-	open(LOG,">>$file") ; 
-	printf(LOG "$msg");
-	close(LOG); 
+	if (open(LOG, ">>$file") == 0) {
+	    # stderr, if all else fails
+	    printf(STDERR "[" . strftime("%a %b %e %H:%M:%S %Y", gmtime) .
+			"] could not open log file $file: $!\n");
+	    printf(STDERR $msg);
+	} else {
+	    printf(LOG $msg);
+	    close(LOG); 
+	}
     }
     return;
 }
@@ -94,7 +100,7 @@ sub readconf
 	eval $cmds;
     } else {
 	printf(STDERR "ERROR: couldn\'t open the configuration file: $conffile: $!\n");
-	exit(255);
+	exit(1);
     }
 
     return;
@@ -117,7 +123,7 @@ sub readrouters
 	# the rancid group router.db files.
 	local(*DIR);
 	if (! opendir(DIR, $BASEDIR)) {
-	    printf(STDERR "ERROR: couldn\'t read $BASEDIR: $!\n");
+	    dolog(LOG_ERR, "ERROR: couldn\'t read $BASEDIR: $!\n");
 	} else {
 	    while ($dir = readdir(DIR)) {
 		next if ($dir =~ /^(\.|\.\.|CVS|bin|logs|util)$/);
@@ -127,7 +133,7 @@ sub readrouters
 
 	    foreach $dir (@dirs) {
 		if (! opendir(DIR, "$BASEDIR/$dir")) {
-		    printf(STDERR "ERROR: couldn\'t read $BASEDIR/$dir: $!\n");
+		    dolog(LOG_ERR, "ERROR: couldn\'t read $BASEDIR/$dir: $!\n");
 		    next;
 		}
 		closedir(DIR);
@@ -143,7 +149,7 @@ sub readrouters
 		    }
 		    close(RTR);
 		} else {
-		    printf(STDERR "ERROR: couldn\'t open the router.db file: $BASEDIR/$dir/router.db: $!\n");
+		    dolog(LOG_ERR, "ERROR: couldn\'t open the router.db file: $BASEDIR/$dir/router.db: $!\n");
 		}
 	    }
 	}
@@ -159,8 +165,8 @@ sub readrouters
 	    }
 	    close(RTR);
 	} else {
-	    printf(STDERR "ERROR: couldn\'t open the router.db file: $rtrdb: $!\n");
-	    exit(255);
+	    dolog(LOG_ERR, "ERROR: couldn\'t open the router.db file: $rtrdb: $!\n");
+	    exit(1);
 	}
     }
 
@@ -272,7 +278,7 @@ $msg
 EOF
 
     print $q->end_html;
-    exit();
+    exit(0);
 }
 # convert a ipv4 address mask to prefix length
 sub mask2len {
@@ -292,7 +298,7 @@ sub print_results {
     my($mfg) = @_;
     my($cmd);
 
-    my($timestr) = strftime("%a %b %e %H:%M:%S %Y %Z", gmtime);
+    my($timestr) = strftime("%a %b %e %H:%M:%S %Y", gmtime);
     dolog(LOG_INFO, sprintf("%s %s %s %s\n",
 	$ENV{REMOTE_HOST}, $ENV{REMOTE_ADDR}, $ENV{REMOTE_USER},
 	"- - [$timestr] $type $router $arg"));
@@ -346,7 +352,7 @@ END
 END
 
     print $query->end_html;
-    exit;
+    exit(0);
 
 }  #end sub print_results
 
@@ -407,7 +413,10 @@ if (!defined($type) || !defined($router)) {
 }
 
 if (! arraymember(\@rtrlist, $router)) {
-    printf STDERR "lg/lg.cgi: attempt to access $router\n";
+    my($timestr) = strftime("%a %b %e %H:%M:%S %Y", gmtime);
+    dolog(LOG_WARNING, sprintf("%s %s %s %s\n",
+	$ENV{REMOTE_HOST}, $ENV{REMOTE_ADDR}, $ENV{REMOTE_USER},
+	"- - [$timestr] lg.cgi: attempt to access $router\n"));
     Error("access to $router not permitted");
 }
 
@@ -753,4 +762,4 @@ if ($type eq "summary" || $type eq "mbgpsu" || $type eq "damp" || $type eq "log"
 @results = &DoRsh($router, $mfg, $cmd, $arg);
 &print_results($mfg);
 
-exit; 
+exit(0); 

@@ -44,5 +44,6 @@
         util/rtrfilter
 - do-diffs (or something in the proc path) should make sure that all
   the CVS'd files are up to date with respect to the repository.
-- missing man pages for do-diffs.1, control_rancid.1 ??,
+- missing man pages for control_rancid.1 ??,
   rancid.1, lg.conf.5 ??, create_cvs.1
+- do-diffs has a number of hard-coded paths, such as touch.

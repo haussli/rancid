@@ -238,8 +238,8 @@ AC_OUTPUT([ Makefile include/Makefile bin/Makefile util/Makefile \
 	bin/clogin bin/control_rancid bin/create_cvs bin/do-diffs bin/elogin \
 	bin/env bin/erancid bin/flogin bin/francid bin/jlogin bin/jrancid \
 	bin/hlogin \
-	bin/hrancid bin/par bin/rancid-fe bin/rancid bin/rename bin/rrancid \
-	bin/xrancid \
+	bin/hrancid bin/mrancid bin/par bin/rancid-fe bin/rancid bin/rename \
+	bin/rrancid bin/xrancid \
 	man/Makefile man/env.5 man/lg.conf.5 man/lg_intro.1 \
 	include/version.h \
 	util/rtrfilter util/downreport ], \

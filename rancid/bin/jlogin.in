@@ -311,7 +311,7 @@ proc login { router user passwd cmethod cyphertype identfile} {
 	# passwd.  Or, the router might not have TACACS turned on,
 	# then it will just send the passwd.
 	expect {
-	    -re "(Connection refused|Secure connection \[^\n\r]+ refused|Connectionclosed by)" {
+	    -re "(Connection refused|Secure connection \[^\n\r]+ refused|Connection closed by)" {
 		catch {close}; wait
 		if !$progs {
 		   send_user "\nError: Connection Refused ($prog)\n"; return 1

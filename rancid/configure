@@ -5995,6 +5995,8 @@ ac_cv_env_path=$ENV_PATH
 
                     ac_config_files="$ac_config_files bin/flogin bin/francid"
 
+          ac_config_files="$ac_config_files bin/fnrancid"
+
                               ac_config_files="$ac_config_files bin/jlogin bin/jrancid bin/jerancid"
 
                     ac_config_files="$ac_config_files bin/hlogin bin/hrancid"
@@ -6597,6 +6599,7 @@ do
   "bin/f10rancid" ) CONFIG_FILES="$CONFIG_FILES bin/f10rancid" ;;
   "bin/flogin" ) CONFIG_FILES="$CONFIG_FILES bin/flogin" ;;
   "bin/francid" ) CONFIG_FILES="$CONFIG_FILES bin/francid" ;;
+  "bin/fnrancid" ) CONFIG_FILES="$CONFIG_FILES bin/fnrancid" ;;
   "bin/jlogin" ) CONFIG_FILES="$CONFIG_FILES bin/jlogin" ;;
   "bin/jrancid" ) CONFIG_FILES="$CONFIG_FILES bin/jrancid" ;;
   "bin/jerancid" ) CONFIG_FILES="$CONFIG_FILES bin/jerancid" ;;
@@ -7032,6 +7035,7 @@ s,@INSTALL@,$ac_INSTALL,;t t
     bin/f10rancid ) chmod a+x $ac_file ;;
     bin/flogin ) chmod a+x $ac_file ;;
     bin/francid ) chmod a+x $ac_file ;;
+    bin/fnrancid ) chmod a+x $ac_file ;;
     bin/jlogin ) chmod a+x $ac_file ;;
     bin/jrancid ) chmod a+x $ac_file ;;
     bin/jerancid ) chmod a+x $ac_file ;;

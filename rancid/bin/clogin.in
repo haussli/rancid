@@ -1,7 +1,9 @@
 #!@EXPECT_PATH@ --
 ##
+## $Id$
 ##
-## Copyright (C) 1997-2001 by Henry Kilmer, Erik Sherk and Pete Whiting.
+## Copyright (C) 1997-2004 by Henry Kilmer, Pete Whiting, Andrew Partan,
+## and John Heasley.
 ## All rights reserved.
 ##
 ## This software may be freely copied, modified and redistributed without
@@ -14,6 +16,7 @@
 ## or its effect upon hardware, computer systems, other software, or
 ## anything else.
 ##
+## The login expect scripts were based on Erik Sherk's gwtn, by permission.
 ##
 #
 # clogin - Cisco login

@@ -1,5 +1,9 @@
 #!/bin/sh
-## Copyright (C) 1997-2001 by Henry Kilmer.
+##
+## $Id$
+##
+## Copyright (C) 1997-2004 by Henry Kilmer, Pete Whiting, Andrew Partan,
+## and John Heasley.
 ## All rights reserved.
 ##
 ## This software may be freely copied, modified and redistributed without

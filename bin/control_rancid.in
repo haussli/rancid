@@ -89,14 +89,14 @@ PAR_COUNT=${PAR_COUNT:-5}
 if [ ! -d $DIR ]
 then
     echo "$DIR does not exist."
-    echo "Run bin/create_cvs $GROUP to make all of the needed directories."
+    echo "Run bin/rancid-cvs $GROUP to make all of the needed directories."
     (
 	echo "To: @MAILPLUS@admin-$GROUP"
 	echo "Subject: no $GROUP directory"
 	echo "Precedence: bulk"
 	echo ""
 	echo "$DIR does not exist."
-	echo "Run bin/create_cvs $GROUP to make all of the needed directories."
+	echo "Run bin/rancid-cvs $GROUP to make all of the needed directories."
     ) | sendmail -t
     exit 1
 fi

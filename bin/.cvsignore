@@ -8,9 +8,7 @@ cat5rancid
 clogin
 cloginrc
 control_rancid
-create_cvs
 cssrancid
-do-diffs
 drancid
 elogin
 erancid
@@ -35,7 +33,9 @@ nsrancid
 par
 prancid
 rancid
+rancid-cvs
 rancid-fe
+rancid-run
 rivlogin
 rivrancid
 rrancid

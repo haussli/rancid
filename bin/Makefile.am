@@ -22,13 +22,13 @@ AUTOMAKE_OPTIONS=foreign
 
 bin_PROGRAMS = hpuifilter
 bin_SCRIPTS = cat5rancid control_rancid \
-	alogin arancid clogin create_cvs blogin brancid do-diffs \
+	alogin arancid clogin blogin brancid \
 	elogin erancid f10rancid flogin francid fnrancid \
 	jlogin jrancid jerancid \
 	hlogin hrancid htlogin htrancid \
 	mrancid nlogin nrancid nslogin nsrancid par prancid \
-	rancid-fe rancid rivlogin rivrancid rrancid tntlogin \
-	tntrancid xrancid zrancid
+	rancid rancid-cvs rancid-fe rancid-run rivlogin rivrancid rrancid \
+	tntlogin tntrancid xrancid zrancid
 
 bin_SCRIPTS += lg.cgi lgform.cgi
 EXTRA_DIST= lg.cgi.in lgform.cgi.in

@@ -19,7 +19,7 @@
 #
 # Create all of the misc files & dirs needed.
 #
-# create_cvs
+# rancid-cvs
 #
 
 # Read in the environment

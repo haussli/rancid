@@ -43,16 +43,16 @@ DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/alogin.in $(srcdir)/arancid.in $(srcdir)/blogin.in \
 	$(srcdir)/brancid.in $(srcdir)/cat5rancid.in \
 	$(srcdir)/clogin.in $(srcdir)/control_rancid.in \
-	$(srcdir)/create_cvs.in $(srcdir)/cssrancid.in \
-	$(srcdir)/do-diffs.in $(srcdir)/elogin.in $(srcdir)/erancid.in \
-	$(srcdir)/f10rancid.in $(srcdir)/flogin.in \
-	$(srcdir)/fnrancid.in $(srcdir)/francid.in $(srcdir)/hlogin.in \
-	$(srcdir)/hrancid.in $(srcdir)/htlogin.in \
+	$(srcdir)/cssrancid.in $(srcdir)/elogin.in \
+	$(srcdir)/erancid.in $(srcdir)/f10rancid.in \
+	$(srcdir)/flogin.in $(srcdir)/fnrancid.in $(srcdir)/francid.in \
+	$(srcdir)/hlogin.in $(srcdir)/hrancid.in $(srcdir)/htlogin.in \
 	$(srcdir)/htrancid.in $(srcdir)/jerancid.in \
 	$(srcdir)/jlogin.in $(srcdir)/jrancid.in $(srcdir)/mrancid.in \
 	$(srcdir)/nlogin.in $(srcdir)/nrancid.in $(srcdir)/nslogin.in \
 	$(srcdir)/nsrancid.in $(srcdir)/par.in $(srcdir)/prancid.in \
-	$(srcdir)/rancid-fe.in $(srcdir)/rancid.in \
+	$(srcdir)/rancid-cvs.in $(srcdir)/rancid-fe.in \
+	$(srcdir)/rancid-run.in $(srcdir)/rancid.in \
 	$(srcdir)/rivlogin.in $(srcdir)/rivrancid.in \
 	$(srcdir)/rrancid.in $(srcdir)/tntlogin.in \
 	$(srcdir)/tntrancid.in $(srcdir)/xrancid.in \
@@ -64,12 +64,12 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES = control_rancid create_cvs do-diffs par rancid-fe \
-	alogin arancid blogin brancid cat5rancid clogin rancid \
-	cssrancid elogin erancid f10rancid flogin francid fnrancid \
-	jlogin jrancid jerancid hlogin hrancid htlogin htrancid \
-	mrancid nlogin nrancid nslogin nsrancid prancid rivlogin \
-	rivrancid rrancid tntlogin tntrancid xrancid zrancid
+CONFIG_CLEAN_FILES = control_rancid par rancid-cvs rancid-fe \
+	rancid-run alogin arancid blogin brancid cat5rancid clogin \
+	rancid cssrancid elogin erancid f10rancid flogin francid \
+	fnrancid jlogin jrancid jerancid hlogin hrancid htlogin \
+	htrancid mrancid nlogin nrancid nslogin nsrancid prancid \
+	rivlogin rivrancid rrancid tntlogin tntrancid xrancid zrancid
 am__installdirs = $(DESTDIR)$(bindir) $(DESTDIR)$(bindir)
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
@@ -195,13 +195,13 @@ target_alias = @target_alias@
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS = foreign
 bin_SCRIPTS = cat5rancid control_rancid \
-	alogin arancid clogin create_cvs blogin brancid do-diffs \
+	alogin arancid clogin blogin brancid \
 	elogin erancid f10rancid flogin francid fnrancid \
 	jlogin jrancid jerancid \
 	hlogin hrancid htlogin htrancid \
 	mrancid nlogin nrancid nslogin nsrancid par prancid \
-	rancid-fe rancid rivlogin rivrancid rrancid tntlogin \
-	tntrancid xrancid zrancid\
+	rancid rancid-cvs rancid-fe rancid-run rivlogin rivrancid rrancid \
+	tntlogin tntrancid xrancid zrancid\
 lg.cgi lgform.cgi
 EXTRA_DIST = lg.cgi.in lgform.cgi.in
 #dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
@@ -265,13 +265,13 @@ $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 control_rancid: $(top_builddir)/config.status $(srcdir)/control_rancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-create_cvs: $(top_builddir)/config.status $(srcdir)/create_cvs.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-do-diffs: $(top_builddir)/config.status $(srcdir)/do-diffs.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 par: $(top_builddir)/config.status $(srcdir)/par.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+rancid-cvs: $(top_builddir)/config.status $(srcdir)/rancid-cvs.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 rancid-fe: $(top_builddir)/config.status $(srcdir)/rancid-fe.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+rancid-run: $(top_builddir)/config.status $(srcdir)/rancid-run.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 alogin: $(top_builddir)/config.status $(srcdir)/alogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

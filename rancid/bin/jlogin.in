@@ -323,9 +323,9 @@ proc login { router user passwd prompt cmethod cyphertype identfile} {
 		send_user "\nKey has passphrase!\n"
 		send "$passphrase\r"
 		exp_continue }
-	    -re "Host key not found .* \(yes\/no\)\?"	{
+	    -re "(Host key not found |The authenticity of host .* be established).*\(yes\/no\)\?" {
 		send "yes\r"
-		send_user "Host $router added to the list of known hosts.\n"
+		send_user "\nHost $router added to the list of known hosts.\n"
 		exp_continue }
 	    -re "HOST IDENTIFICATION HAS CHANGED.* \(yes\/no\)\?"	{
 		send "no\r"

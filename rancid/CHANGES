@@ -1,3 +1,6 @@
+2.2
+	make *login automatically add host keys with openssh's prompting
+
 2.1
 	Change default umask to 027 (it was 007) mainly as an
 	attempt to stop people from changing stuff in rancid's CVS

@@ -291,19 +291,25 @@ proc login { router user userpswd passwd prompt cyphertype } {
 	}
 	-re "$u_prompt"	{ send "$user\r"
 	    expect {
+		"Login incorrect"	{ send_user "Error: Couldn't login\n";
+					  catch {close}; wait; return 1 }
 		eof			{ send_user "Error: Couldn't login\n"; wait; return 1 }
 		-re "$p_prompt"		{ send "$userpswd\r" }
 		"$prompt"		{ set in_proc 0; return 0 }
 	    }
-#	    exp_continue
+	    exp_continue
 	}
 	-re "$p_prompt"	{ send "$passwd\r"
 	    expect {
+		"Password incorrect"	{ send_user "Error: Couldn't login\n";
+					  catch {close}; wait; return 1 }
 		eof		{ send_user "Error: Couldn't login\n"; wait; return 1 }
 		"$prompt"	{ set in_proc 0; return 0 }
 	    }
-#	    exp_continue
+	    exp_continue
 	}
+	"Password incorrect"	{ send_user "Error: Check your password for $router\n";
+				  catch {close}; wait; return 1 }
 	"$prompt"	{ }
 	denied		{ send_user "Error: Check your passwd for $router\n"
 			    if { $do_command || $do_script } {
@@ -314,7 +320,7 @@ proc login { router user userpswd passwd prompt cyphertype } {
 			      return 1
 			  }
 			}
-	"% Bad passwords" {send_user "Error: Check your passwd for $router\n"; return 1 }
+	"\r\n"	{ exp_continue; }
     }
     set in_proc 0
     return 0
@@ -325,6 +331,7 @@ proc run_commands { prompt command } {
     global in_proc
     set in_proc 1
 
+    send "\r"
     expect $prompt {}
 
     regsub -all "\[)(]" $prompt {\\&} reprompt

@@ -290,9 +290,9 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	if [string match "telnet*" $prog] {
 	    regexp {telnet(:([^[:space:]]+))*} $prog command suffix port
 	    if {"$port" == ""} {
-		set retval [ catch {spawn telnet $router} reason ]
+		set retval [ catch {spawn hpfilter telnet $router} reason ]
 	    } else {
-		set retval [ catch {spawn telnet $router $port} reason ]
+		set retval [ catch {spawn hpfilter telnet $router $port} reason ]
 	    }
 	    if { $retval } {
 		send_user "\nError: telnet failed: $reason\n"

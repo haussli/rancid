@@ -13,7 +13,7 @@
 ## anything else.
 #
 # this expect snipit is sourced by clogin (-s option) to load a configuration
-# file (named <routername>-confg into nvram from and rcp host.  this is an
+# file (named <routername>-confg into nvram from an rcp/tftp host.  this is an
 # _example_ as it not guaranteed to work for all applications.  PLEASE test
 # for your environment.
 #
@@ -27,7 +27,7 @@
 # example usage:
 # % clogin -s ./cisco-load.exp -Ercphost=foo.shrubbery.net router
 # router
-# loading rotuer config from foo.shrubbery.net
+# loading router config from foo.shrubbery.net
 #
 # keep in mind that it is important to NOT polute the global variable space.
 # particularly, do not use variables used within clogin.  this may result in

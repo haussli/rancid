@@ -6,6 +6,7 @@
 - fix varargs for knf in util.c
 - isis filtering for foundry?
 - hlogin hangs when the procurve does not ask for passwords
+- hlogin does not work with ssh, needs to alloc a pty?
 - util/ tool to prune cvs versions, excluding those with tags, by (all but
   latest | keep N versions | keep N days/months/years)
 - extreme collections lose when the config on the switch is in an unsaved

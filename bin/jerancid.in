@@ -478,12 +478,11 @@ sub WriteTerm {
 	    }
 	    next;
 	}
-	if (/^(snmp-server community) (\S+)/) {
-	    if (defined($ENV{'NOCOMMSTR'})) {
-		ProcessHistory("SNMPSERVERCOMM","keysort","$_","!$1 <removed>$'") && next;
-	    } else {
-		ProcessHistory("SNMPSERVERCOMM","keysort","$_","$_") && next;
-	    }
+	if (/^(snmp-server community) (\S+)/ && defined($ENV{'NOCOMMSTR'})) {
+	    ProcessHistory("SNMPSERVERCOMM","keysort","$_","!$1 <removed>$'");
+	    next;
+	} else {
+	    ProcessHistory("SNMPSERVERCOMM","keysort","$_","$_") && next;
 	}
 
 	# prune tacacs/radius server keys

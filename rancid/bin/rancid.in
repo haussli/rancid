@@ -573,7 +573,7 @@ sub ShowDiagbus {
 	} elsif (/^\s*Slot (\d+) \(virtual\):/i) {
 	    $slot = $1;
 	    next;
-	} elsif (/^\s*(.*Processor.*|.*controller|.*Chassis Interface)(, FRU\s?:.*)?, HW rev (\S+), board revision (\S+)/i) {
+	} elsif (/^\s*(.*Processor.*|.*controller|.*controler|.*Chassis Interface)(, FRU\s?:.*)?, HW rev (\S+), board revision (\S+)/i) {
 	    $board = $1;
 	    $hwver = $3;
 	    $boardrev = $4;

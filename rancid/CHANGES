@@ -9,6 +9,8 @@
 		*** bin/do-diffs has been renamed rancid-run ***
 	Note: existing configuration files are *NOT* copied/moved for you
 
+	clogin: allow the port to be specified for method ssh
+
 	bin/rename is no longer shipped with rancid
 
 	jlogin: add cloginrc passphrase directive and order of precedence is

@@ -1,4 +1,6 @@
 2.3
+	add riverstone support - from Jim Meehan
+
 	jrancid: fix handling of reversible keys such that trailing text is
 	not removed
 

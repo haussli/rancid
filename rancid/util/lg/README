@@ -6,6 +6,7 @@ implemented.
 
 packing list:
 README          This file.
+lg.conf		looking glass configuration file
 lg.cgi          work horse of the looking glass
 lgform.cgi      front-end form for the looking glass engine
 lgnotes.html    manual for the looking glass
@@ -13,12 +14,13 @@ lgnotes.html    manual for the looking glass
 the looking glass requires the CGI and LockFile-Simple perl modules.
 these can be retrieved from CPAN, http://www.cpan.org/.  CGI's home is
 ftp://ftp-genome.wi.mit.edu/pub/software/WWW/.  it also requires
-the POSIX module (for strftime), which i believe comes with perl5.
+the POSIX module (for strftime) and Sys::Syslog, which i believe come
+with perl5.
 
 basic installation instructions:
 
 The configure and make install process will make variable substitutions
-and install bits in /usr/local/rancid/util (or <prefix>/util).  
+and install bits in /usr/local/rancid/util/lg (or <prefix>/util/lg).  
 
 1) make the scripts/html available to your server (httpd) by
    creating a directory in your server's document root directory
@@ -30,7 +32,8 @@ and install bits in /usr/local/rancid/util (or <prefix>/util).
 	- copy the files {lgnotes.html, lg.cgi, lgform.cgi} to
 	  /usr/local/www/data/lg
      OR
-	- create symlinks from /usr/local/www/data/lg to /usr/local/rancid/util
+	- create symlinks from /usr/local/www/data/lg to each of {lgnotes.html,
+	  lg.cgi, lgform.cgi} in /usr/local/rancid/util/lg
 
    note on links: if you use symlinks, you have to configure apache to
    allow following symlinks.  eg:

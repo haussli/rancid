@@ -16,7 +16,7 @@
 	francid/rrancid (foundry/redback) now strip snmp communities like
 	the others, via NOCOMMSTR var in bin/env.
 
-	add some man pages
+	add man pages
 
 	collect 'sh vlan' on cat 6000 - afort@staff.webcentral.com.au
 

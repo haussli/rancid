@@ -10,21 +10,6 @@
   Also, need to allow 12012s, and force 700s to not be treated like 7Ks.
 - flogin (for foundry) needs more testing and should be integrated with
   clogin when foundry fixes their UI.
-- Can you poke at the enableprompt stuff for .cloginrc?  In teh
-    cloginrc.sample & the man page?  I think that both need to be
-    checked to be sure that the examples are correct & work.  [Probably
-    also the passprompt and userprompt stuff as well.]
-
-    > > In cloginrc.1, what do you mean by this (for the password directive):
-    > >     The last argument is the enable password and need not be
-    > >     specified if a matching user directive exists.
-    > > ?  How else do you specify the enable password?  Or do you mean
-    > > its not used if either the autoenable or noenable directive is set?
-    > 
-    > mmm, typo and you are correct.  should mention autoenable/noenable and
-    > that should have mentioned that it is not necessary if the user is
-    > autoenabled and there is a matching userpassword.  right?
-    
 - include a few -s and -x type example *login scripts.
 - add -E to *login to pass through variables to scripts
 	clogin -Evariable=something router...

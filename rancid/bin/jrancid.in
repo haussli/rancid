@@ -322,6 +322,7 @@ sub ShowChassisSCB {
 	/^\s+\^/ && return;
 	/syntax error/ && return;
 	/ Temperature/ && next;
+	/ temperature/ && next;
 	/ utilization/ && next;
 	/ Start time/ && next;
 	/ Uptime/ && next;

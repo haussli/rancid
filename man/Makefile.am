@@ -16,4 +16,8 @@ man_MANS = $(man_gen_MANS) $(man_nogen_MANS)
 
 EXTRA_DIST = $(man_nogen_MANS)
 
-CLEANFILES = Makefile env.5 lg.conf.5 lg_intro.1
+#CLEANFILES = Makefile env.5 lg.conf.5 lg_intro.1
+
+all:
+
+distclean: clean

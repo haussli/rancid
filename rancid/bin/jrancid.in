@@ -354,6 +354,7 @@ sub ShowVersion {
 # This routine parses "show configuration"
 sub ShowConfiguration {
     my($lines) = 0;
+    my($snmp) = 0;
     print STDERR "    In ShowConfiguration: $_" if ($debug);
 
     s/^[a-z]+@//;
@@ -371,9 +372,13 @@ sub ShowConfiguration {
 
 	/^database header mismatch: / && return(-1);
 	/^version .*;\d+$/ && return(-1);
-	if (/^(\s*)(community |trap-group )[^ ;]+(\s?[;{])$/) {
+
+	# filter snmp community, when in snmp { stanza }
+	/^snmp/ && $snmp++;
+	/^}/ && ($snmp = 0);
+	if ($snmp && /^(\s*)(community|trap-group) [^ ;]+(\s?[;{])$/) {
 		if (defined($ENV{'NOCOMMSTR'})) {
-		    $_ = "$1$2\"<removed>\"$3\n";
+		    $_ = "$1$2 \"<removed>\"$3\n";
 		}
 	}
 	s/(\s*authentication-key ).*$/#$1<removed>;/;

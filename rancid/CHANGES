@@ -1,4 +1,5 @@
 1.6
+	Ignore "fan spinning at" noise on junipers.
 
 1.5
 	sync command-line option between clogin / jlogin.  jlogin modified:

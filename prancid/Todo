@@ -7,10 +7,6 @@
    authentication-key pp level-.
           - pp is reversible
 
-  interface xx
-   isis authentication-key pp [level-.]
-        - pp is reversible
-
   ip ospf message-digest-key <keyid> md5 <enctype> <key>
         - key is ?
         - enctype is 0|7
@@ -23,5 +19,7 @@
    router vrrp
     authentication simple key <key1>
         key1 is reversible
+	- got there interface bits...doesnt appear to be a 'router vrrp',
+	  need to look closer.
 
 - lots of GC'ing to be done

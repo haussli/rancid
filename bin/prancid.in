@@ -142,7 +142,6 @@ sub ShowVersion {
 
     while (<INPUT>) {
 	tr/\015//d;
-	study;
 	last if(/^$prompt/);
 	next if(/^(\s*|\s*$cmd\s*)$/);
 	return(-1) if (/command authorization failed/i);
@@ -165,7 +164,6 @@ sub ShowPackage {
 
     while (<INPUT>) {
 	tr/\015//d;
-	study;
 	last if(/^$prompt/);
 	next if(/^(\s*|\s*$cmd\s*)$/);
 	return(-1) if (/command authorization failed/i);
@@ -182,7 +180,6 @@ sub ShowHardware {
 
     while (<INPUT>) {
 	tr/\015//d;
-	study;
 	last if(/^$prompt/);
 	next if(/^(\s*|\s*$cmd\s*)$/);
 	# skip show hardware on titanium
@@ -202,7 +199,6 @@ sub ShowInventory {
 
     while (<INPUT>) {
 	tr/\015//d;
-	study;
 	last if(/^$prompt/);
 	next if(/^(\s*|\s*$cmd\s*)$/);
 	return(0) if (/^\s+\^/);
@@ -223,7 +219,6 @@ sub WriteTerm {
 
     while (<INPUT>) {
 	tr/\015//d;
-	study;
 	last if(/^$prompt/);
 	return(-1) if (/command authorization failed/i);
 

@@ -27,10 +27,14 @@
 # produces html form for calling lg.cgi
 
 use CGI qw/:standard/;
+require "syslog.pl";
 
 my(@rtrlist, %rtrlabels);
 my($BASEDIR) = "@prefix@";
 my($SYSCONFDIR) = "@sysconfdir@";
+
+$me = $0;
+$me =~ s/.*\/(\S+)$/$1/;
 
 # note: the following functions are duplicated between lgform.cgi and lg.cgi
 # to avoid the need for module inclusion headaches from within a httpd context.

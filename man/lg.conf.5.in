@@ -125,12 +125,15 @@ Defines the URL of a style sheet to be used for HTML formatting.
 Is a colon separated list of directory pathnames in the file system
 where rancid's login scripts,
 .IR clogin (1)
-etc. )
+etc.)
 and programs needed within these, such as
 .IR telnet (1),
 are located.
 Its value is set by configure.  Should it be necessary to modify PATH,
 note that it must include $BASEDIR/bin (see above).
+.\"
+.TP
+Queries		...................................
 .\"
 .El
 .\"

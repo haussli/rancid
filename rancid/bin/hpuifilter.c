@@ -48,13 +48,15 @@ main(int argc, char **argv)
 			*hbufp,
 			tbuf[LINE_MAX * 2],	/* telnet buffer */
 			*tbufp;
-    int			child,
+    int			bytes,			/* bytes read/written */
+			child,
 			r[2],			/* recv pipe */
 			s[2];			/* send pipe */
     ssize_t		hlen = 0,		/* len of hbuf */
 			tlen = 0;		/* len of tbuf */
     struct timeval	to = { DFLT_TO, 0 };
-    fd_set		rfds,
+    fd_set		efds,			/* select() */
+			rfds,
 			wfds;
     struct termios	tios;
 
@@ -70,6 +72,7 @@ main(int argc, char **argv)
 	switch (ch) {
 	case 'd':
 	    debug++;
+	    break;
 	case 'h':
 	default:
 	    usage();
@@ -86,6 +89,7 @@ main(int argc, char **argv)
     signal(SIGHUP, (void *) reapchild);
     signal(SIGINT, (void *) reapchild);
     signal(SIGKILL, (void *) reapchild);
+    signal(SIGTERM, (void *) reapchild);
 
     /* create 2 pipes for send/recv and then fork and exec telnet */
     for (child = 3; child < 10; child++)
@@ -96,7 +100,9 @@ main(int argc, char **argv)
 	return(EX_TEMPFAIL);
     }
 
-    /* if a tty, make it raw as the hp echos _everything_ */
+    /* if a tty, make it raw as the hp echos _everything_, including
+     * passwords.
+     */
     if (isatty(0)) {
 	if (tcgetattr(0, &tios)) {
 	    fprintf(stderr, "%s: tcgetattr() failed: %s\n", progname,
@@ -135,7 +141,6 @@ main(int argc, char **argv)
 	close(s[0]);
 	close(r[1]);
 	/* exec telnet */
-	/*if (execlp("telnet", "telnet", argv[optind], NULL)) {*/
 	if (execvp(argv[optind], argv + optind)) {
 	    fprintf(stderr, "%s: execlp() failed: %s\n", progname,
 		strerror(errno));
@@ -152,24 +157,33 @@ main(int argc, char **argv)
 	close(r[1]);
 
 	/* make FDs non-blocking */
-	fcntl(s[1], F_SETFL, O_NONBLOCK);
-	fcntl(r[0], F_SETFL, O_NONBLOCK);
-	fcntl(0, F_SETFL, O_NONBLOCK);
-	fcntl(1, F_SETFL, O_NONBLOCK);
+	if (fcntl(s[1], F_SETFL, O_NONBLOCK) ||
+		fcntl(r[0], F_SETFL, O_NONBLOCK) ||
+		fcntl(0, F_SETFL, O_NONBLOCK) ||
+		fcntl(1, F_SETFL, O_NONBLOCK)) {
+	    fprintf(stderr, "%s: fcntl(NONBLOCK) failed: %s\n", progname,
+		strerror(errno));
+	    exit(EX_OSERR);
+	}
 
 	/* loop to read on stdin and r[0] */
-	FD_ZERO(&rfds); FD_ZERO(&wfds);
+	FD_ZERO(&rfds); FD_ZERO(&wfds); FD_ZERO(&efds);
 	hbufp = hbuf; tbufp = tbuf;
 
 	while (1) {
 	    FD_SET(0, &rfds); FD_SET(r[0], &rfds);
+	    FD_SET(0, &efds); FD_SET(r[0], &efds);
 	    /* once we have stuff in our buffer(s), we select on writes too */
-	    if (hlen)
+	    if (hlen) {
 		 FD_SET(s[1], &wfds);
-	    if (tlen)
+		 FD_SET(s[1], &efds);
+	    }
+	    if (tlen) {
 		 FD_SET(1, &wfds);
+		 FD_SET(1, &efds);
+	    }
 
-	    switch (select(6, &rfds, &wfds, NULL, &to)) {
+	    switch (select(6, &rfds, &wfds, &efds, &to)) {
 	    case 0:
 		/* timeout */
 			/* HEAS: what do i do here? */
@@ -183,45 +197,64 @@ main(int argc, char **argv)
 		}
 		break;
 	    default:
-		/* which FD is ready?  if we have stuff to write, check those
-		 * FDs first.
-		 */
-		/* write hbuf -> s[1] */
-		if (FD_ISSET(s[1], &wfds)) {
-		    if ((hlen = write(s[1], hbufp, hlen))) {
-			hbufp += hlen;
-			if (*hbufp == '\0') {
-			    *hbuf = '\0';
-			    hbufp= hbuf;
-			}
-		    }
+		/* check exceptions first */
+
+		/* which FD is ready?  write our buffers asap. */
+		/* write hbuf (stdin) -> s[1] */
+		if (FD_ISSET(s[1], &wfds) && hlen) {
+		    if ((hlen = write(s[1], hbuf, hlen)) < 0) {
+			fprintf(stderr, "%s: write() failed: %s\n", progname,
+				strerror(errno));
+			close(s[1]);
+		    } else
+			strcpy(hbuf, hbuf + hlen);
+
 		    hlen = strlen(hbuf);
 		}
 		/* write tbuf -> stdout */
-		if (FD_ISSET(1, &wfds)) {
-		    if ((tlen = write(1, tbufp, tlen))) {
-		    tbufp += tlen;
-		    if (*tbufp == '\0') {
-			*tbuf = '\0';
-			tbufp= tbuf;
-		    }
-		    }
+		if (FD_ISSET(1, &wfds) && tlen) {
+		    /* if there is an escape char that didnt get filter()'d,
+		     * we need to only write up to that point and wait for
+		     * the bits that complete the escape sequence
+		     */
+		    if ((tbufp = index(tbuf, 0x1b)) != NULL)
+			tlen = tbufp - tbuf;
+
+		    if ((tlen = write(1, tbuf, tlen)) < 0) {
+			fprintf(stderr, "%s: write() failed: %s\n", progname,
+				strerror(errno));
+			close(1);
+		    } else
+			strcpy(tbuf, tbuf + tlen);
+
 		    tlen = strlen(tbuf);
 		}
 		if (FD_ISSET(0, &rfds)) {
-		    /* read stdin.  hbuf has to be "empty" */
-		    if (! hlen) {
-		    hlen = read(0, hbuf, LINE_MAX * 2 - 1);
-		    hbuf[hlen] = '\0';
-		    FD_SET(1, &wfds);
+		    /* read stdin into hbuf */
+		    if (LINE_MAX * 2 - hlen > 1) {
+			hlen += read(0, hbuf + hlen,
+				(LINE_MAX * 2 - 1) - hlen);
+			if (hlen > 0) {
+			    hbuf[hlen] = '\0';
+			} else if (hlen == 0 || errno != EAGAIN)
+			    /* EOF or read error */
+			    close(0);
+
+			hlen = strlen(hbuf);
 		    }
 		} else if (FD_ISSET(r[0], &rfds)) {
-		    /* read telnet, filter.  tbuf has to be "empty" */
-		    if (! tlen) {
-		    tlen = read(r[0], tbuf, LINE_MAX * 2 - 1);
-		    tbuf[tlen] = '\0';
-		    tlen = filter(tbuf, tlen);
-		    FD_SET(s[1], &wfds);
+		    /* read telnet into tbuf, then filter */
+		    if (LINE_MAX * 2 - tlen > 1) {
+			tlen += read(r[0], tbuf + tlen,
+				(LINE_MAX * 2 - 1) - tlen);
+			if (tlen > 0) {
+			    tbuf[tlen] = '\0';
+			    tlen = filter(tbuf, tlen);
+			} else if (tlen == 0 || errno != EAGAIN)
+			    /* EOF or read error */
+			    close(r[0]);
+
+			tlen = strlen(tbuf);
 		    }
 		}
 
@@ -334,7 +367,8 @@ reapchild(void)
 	if (debug)
             fprintf(stderr, "reap child %d\n", pid);
     
-    exit(1);
+    /*exit(1);*/
+return;
 
     /* not reached */
 }   

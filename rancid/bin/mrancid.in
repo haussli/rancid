@@ -359,7 +359,7 @@ TOP: while(<INPUT>) {
 				$prompt .= "[#>]"; }
 	print STDERR ("HIT COMMAND:$_") if ($debug);
 	if (! defined($commands{$cmd})) {
-	    print STDERR "found unexpected command - \"$cmd\"\n";
+	    print STDERR "$host: found unexpected command - \"$cmd\"\n";
 	    $clean_run = 0;
 	    last TOP;
 	}
@@ -385,12 +385,12 @@ if (defined($ENV{NOPIPE})) {
 # check for completeness
 if (scalar(%commands) || !$clean_run) {
     if (scalar(%commands)) {
-	printf(STDOUT "$host missed cmd(s): %s\n", join(',', keys(%commands)));
-	printf(STDERR "$host missed cmd(s): %s\n", join(',', keys(%commands))) if ($debug);
+	printf(STDOUT "$host: missed cmd(s): %s\n", join(',', keys(%commands)));
+	printf(STDERR "$host: missed cmd(s): %s\n", join(',', keys(%commands))) if ($debug);
     }
     if (!$clean_run) {
-	print STDOUT "End of run not found\n";
-	print STDERR "End of run not found\n" if ($debug);
+	print STDOUT "$host: End of run not found\n";
+	print STDERR "$host: End of run not found\n" if ($debug);
 	system("/usr/bin/tail -1 $host.new");
     }
     unlink "$host.new" if (! $debug);

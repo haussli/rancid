@@ -147,6 +147,7 @@ sub ShowChassisClocks {
 sub ShowChassisEnvironment {
     print STDERR "    In ShowChassisEnvironment: $_" if ($debug);
     /error: the chassis subsystem is not running/ && return;
+    /Couldn\'t initiate connection/ && return;
     / backplane temperature/ && return;
     /(\s*Power supply.*), temperature/ && ProcessHistory("","","","# $1\n") && return;
     ProcessHistory("","","","# $_") && return;
@@ -192,6 +193,7 @@ sub ShowChassisRoutingEngine {
 # This routine parses "show chassis scb"
 sub ShowChassisSCB {
     print STDERR "    In ShowChassisSCB: $_" if ($debug);
+    /error: the chassis subsystem is not running/ && return;
     / Temperature:/ && return;
     / utilization:/ && return;
     /time:/ && return;
@@ -212,7 +214,7 @@ sub ShowVersion {
 # This routine parses "show configuration"
 sub ShowConfiguration {
     print STDERR "    In ShowConfiguration: $_" if ($debug);
-    s/(\s*authentication-key ).*$/#$1 <removed>;/;
+    s/(\s*authentication-key ).*$/#$1<removed>;/;
     ProcessHistory("","","","$_") && return;
     return;
 }

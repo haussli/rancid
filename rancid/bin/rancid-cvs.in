@@ -28,6 +28,7 @@ ENVFILE="`dirname $0`/env"
 
 # Top level CVS stuff
 if [ ! -d $CVSROOT ]; then
+    cd $BASEDIR
     cvs init
 fi
 

@@ -16,6 +16,14 @@ $ENV{PATH}="@prefix@/bin:@ENV_PATH@";
 #$LG_CACHE_DIR="./tmp";
 #
 #
+# LG_CACHE_TIME	is the number of seconds the LG should cache o/p from certain
+#		commands; those that tend to produce a lot of o/p, such as
+#		'show ip bgp dampened-paths'.  it defaults to 600 seconds
+#		(10 minutes).
+#
+#$LG_CACHE_TIME=600;
+#
+#
 # LG_CLOGINRC	is the .cloginrc that the LG should use.  it defaults to
 #		<prefix>/.cloginrc.  note that the .cloginrc must be readable
 #		by the user or group (UID / GID) that will be running the CGI
@@ -37,7 +45,8 @@ $ENV{PATH}="@prefix@/bin:@ENV_PATH@";
 #
 # LG_INFO	is info in html format to output at the bottom of main form.
 #		it might be local contact information, disclaimer, etc.  this
-#		is just handed to print, so \n and the like will work.
+#		is just handed to print, so \n and the like will work and mind
+#		the character escapes (backslashes).
 #
 #$LG_INFO="For support, contact <a href=\"mailto:webmaster\@localhost\">webmaster</a>";
 #
@@ -68,6 +77,11 @@ $ENV{PATH}="@prefix@/bin:@ENV_PATH@";
 #$LG_ROUTERDB="@prefix@/util/lg/router.db";
 #
 #
+# LG_STYLE	define a style sheet to be used for formatting HTML
+#
+#$LG_STYLE="http://www.your.site/style/style.css";
+#
+#
 # Options:
 #
 # LG_AS_REG	*** not implemented.
@@ -83,14 +97,6 @@ $ENV{PATH}="@prefix@/bin:@ENV_PATH@";
 #$LG_BGP_RT=1
 #
 #
-# LG_CACHE_TIME	is the number of seconds the LG should cache o/p from certain
-#		commands; those that tend to produce a lot of o/p, such as
-#		'show ip bgp dampened-paths'.  it defaults to 600 seconds
-#		(10 minutes).
-#
-#$LG_CACHE_TIME=600;
-#
-#
 # LG_SINGLE	serializes and limits queries per-router to one at a time via
 #		per-router lock files.
 #
@@ -98,7 +104,7 @@ $ENV{PATH}="@prefix@/bin:@ENV_PATH@";
 #
 # $LG_STRIP	strips login o/p from the looking glass results.  Expect
 #		occassionally screws up disabling echo when passwords are
-#		entered (NOTE SECURITY CONCERN).  However, this o/p can be
+#		entered (NOTE: SECURITY CONCERN).  However, this o/p can be
 #		very useful for debugging clogin problems.
 #
 $LG_STRIP=1;

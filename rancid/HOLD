@@ -11,7 +11,6 @@ track.
 	starting: Fri Nov 14 22:08:32 GMT 2003
 
 	override rw-r-----  root/wheel for routers.all? 
-- what to do about bin/rename?
 - what to do about bin/do-diffs?
 - create_cvs and do-diffs need sysconfdir for rancid.conf
 - move to share/rancid
@@ -25,3 +24,4 @@ track.
 - etc/lg.conf needs $sysconfdir for LG_ROUTERDB
 - install CHANGE, FAQ, README in pkgdatadir
 - README.lg needs cleansing
+- this doesnt make sense: lg.conf.5.in:Default: @prefix@/.cloginrc

@@ -15,6 +15,5 @@
 ##
 ## The login expect scripts were based on Erik Sherk's gwtn, by permission.
 
-# bin/rename	- is from CPAN by lwall.
 # util/lg	- the original looking glass was by Ed Kern, provided by
 #		  permission and modified beyond recognition of the original

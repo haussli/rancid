@@ -2,10 +2,12 @@
 	The following files have been moved to make rancid more
 	install/pkg/port/rpm friendly.
 		*** bin/env has been moved to etc/rancid.conf ***
-		*** bin/hpfilter has been rename hpuifilter ***
+		*** bin/hpfilter has been renamed hpuifilter ***
 		*** util/lg/lg.conf has been moved to etc/lg.conf ***
 		*** util/lg/lg*.cgi has been moved to bin/lg*cgi ***
 	Note: existing configuration files are *NOT* copied/moved for you
+
+	bin/rename is no longer shipped with rancid
 
 	The Extreme does not have an 'enable' level, so make sure
 	you have 'set autoenable' for it in your .cloginrc so clogin

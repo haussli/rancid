@@ -26,7 +26,7 @@ bin_SCRIPTS = cat5rancid control_rancid \
 	elogin erancid f10rancid flogin francid jlogin jrancid jerancid \
 	hlogin hrancid htlogin htrancid \
 	mrancid nlogin nrancid nslogin nsrancid par prancid \
-	rancid-fe rancid rename rivlogin rivrancid rrancid tntlogin \
+	rancid-fe rancid rivlogin rivrancid rrancid tntlogin \
 	tntrancid xrancid zrancid
 
 bin_SCRIPTS += lg.cgi lgform.cgi

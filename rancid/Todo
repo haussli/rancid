@@ -1,5 +1,4 @@
 - detect 'same' vty configs
 	- ignoring length/width/passwd is a start, but need more
 - sort route-maps into alpha order
-- add support for foundry switches
 - modify the admin msg to indicate up/down/deleted vs. just added/deleted.

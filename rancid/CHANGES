@@ -1,6 +1,11 @@
 1.6
 	Ignore "fan spinning at" noise on junipers.
 
+	merge tkennedy@verio.net's support for cisco 2900xl into rancid
+
+	strip (try to) snmp community strings from cisco and juniper configs.
+	needs to be added to the other platforms.
+
 1.5
 	sync command-line option between clogin / jlogin.  jlogin modified:
 		-x passphrase   ->      -r passphrase

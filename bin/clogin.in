@@ -30,7 +30,7 @@
 set usage "Usage: $argv0 \[-u user\] \[-p user-password\] \[-v vty-password\] \
 \[-w enable-username\] \[-e enable-password\] \[-noenable\] \
 \[-f cloginrc-file\] \[-c command\] \[-s script-file\] \[-autoenable\] \
-router \[router...\]\n"
+\[-t timeout\] router \[router...\]\n"
 
 # env(CLOGIN) may contain:
 #	x == do not set xterm banner or name
@@ -132,6 +132,10 @@ for {set i 0} {$i < $argc} {incr i} {
 		incr i
 		set password_file [ lindex $argv $i ]
 	    }
+	} -t* -
+	-T* {
+	    incr i
+	    set timeout [ lindex $argv $i ]
 	# Do we enable?
 	} -noenable {
 	    set enable 0

@@ -1,3 +1,5 @@
+	rancid: parse more variants of 'show diag' output.
+
 2.3.1
 	jerancid: fail/retry if the RP is syncing to the backup - Dave Mack
 

@@ -18,6 +18,7 @@ if [ ! -d $BASEDIR/logs ] ; then
 	mkdir $BASEDIR/logs
 fi
 
+
 for GROUP in $LIST_OF_GROUPS
 do
 
@@ -49,9 +50,11 @@ END
 			rm -f $TMPDIR/.$GROUP.old
 
 		else
-			/usr/bin/touch $LOCKFILE
+			trap 'rm -fr $LOCKFILE;' 1 2 15
+			touch $LOCKFILE
 			control_rancid $GROUP
-			/bin/rm -f $LOCKFILE
+			rm -f $LOCKFILE
+			trap '' 1 2 15
 		fi
 
 		echo

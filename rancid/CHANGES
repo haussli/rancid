@@ -1,6 +1,8 @@
 2.1
 	--enable-mail-plus opt patch from davidw@certaintysolutions.com
 
+	configure should figure out diff options on it's own
+
 	try to get default user from env() and catch exec on id in *login
 
 	make clean/distclean was missing some files

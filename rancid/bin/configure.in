@@ -26,6 +26,9 @@ AC_SUBST(ENV_PATH)
 MAILPLUS=$rd_cv_MAILPLUS
 AC_SUBST(MAILPLUS)
 
+DIFF_CMD=$rd_cv_DIFF_CMD
+AC_SUBST(DIFF_CMD)
+
 AC_OUTPUT(Makefile env $RD_BIN_DATAS $RD_BIN_PROGS)
 
 # fix permissions on scripts.

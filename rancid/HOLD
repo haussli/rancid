@@ -3,7 +3,6 @@ track.
 
 - extreme login stuff that asp mentioned in email
 - extreme login shite from stephen stuart
-- autoenable login to cats does not work
 - cisco content engine change questions for Rob Evans
 - awaiting comment on clogin cat1900 menu shite, enter K to get cli
 - caught this in a log file...after _I_ stupidly ran do-diffs as root.
@@ -19,9 +18,6 @@ track.
 - deal with BASEDIR default move to /var/rancid
 - deal with logs dir move to /var/rancid.  w/ config variable in rancid.conf?
 - deal with LG log file default location move to ???.
-- possibly install rancid.conf and lg.conf in share/*.sample and copy those
-  to sysconfdir/ ?
 - etc/lg.conf needs $sysconfdir for LG_ROUTERDB
-- install CHANGE, FAQ, README in pkgdatadir
 - README.lg needs cleansing
 - this doesnt make sense: lg.conf.5.in:Default: @prefix@/.cloginrc

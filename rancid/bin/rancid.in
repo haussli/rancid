@@ -28,7 +28,7 @@ $file = $opt_f;
 $host = $ARGV[0];
 $clean_run = 0;
 $found_end = 0;
-$timeo = 90;			# clogin time in seconds
+$timeo = 90;			# clogin timeout in seconds
 
 # This routine is used to print out the router configuration
 sub ProcessHistory {
@@ -736,8 +736,11 @@ $cmds_regexp=join("|",@commands);
 $func = FlailHelplessly;
 
 open(OUTPUT,">$host.new") || die "Can't open $host.new for writing: $!\n";
+select(OUTPUT);
 # make OUTPUT unbuffered
-select(OUTPUT); $| = 1;
+if ($debug) {
+    $| = 1;
+}
 
 if ($file) {
     print STDERR "opening file $host\n" if ($debug);
@@ -746,9 +749,12 @@ if ($file) {
 } else {
     print STDERR "executing clogin -t $timeo -c\"$cisco_cmds\" $host\n" if ($debug);
     print STDOUT "executing clogin -t $timeo -c\"$cisco_cmds\" $host\n" if ($log);
-    open(INPUT,"clogin -t $timeo -c\"$cisco_cmds\" $host </dev/null |") ||
-	die "clogin failed for $host: $!\n";
-#    open(INPUT,"-|") || exec("clogin","-c\"$cisco_cmds\"",$host);
+    if (defined($ENV{NOPIPE})) {
+	system "clogin -t $timeo -c \"$cisco_cmds\" $host </dev/null > $host.raw 2>&1" || die "clogin failed for $host: $!\n";
+	open(INPUT, "< $host.raw") || die "clogin failed for $host: $!\n";
+    } else {
+	open(INPUT,"clogin -t $timeo -c \"$cisco_cmds\" $host </dev/null |") || die "clogin failed for $host: $!\n";
+    }
 }
 
 ProcessHistory("COMMENTS","keysort","B0","!\n");
@@ -784,6 +790,10 @@ ProcessHistory("","","","");
 # Cleanup
 close(INPUT);
 close(OUTPUT);
+
+if (defined($ENV{NOPIPE})) {
+    unlink("$host.raw");
+}
 
 # check for completeness
 if (scalar(%commands) || !$clean_run || !$found_end) {

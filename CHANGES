@@ -1,4 +1,7 @@
 2.3
+	rancid: skip consecutive comment lines.  on some access servers the
+	number of comment lines oscillate.
+
 	lg.conf: add LG_STYLE variable for style sheet - from Janos Mohacsi
 
 	also install the FAQ - good idea from Janos Mohacsi's freshport

@@ -345,8 +345,9 @@ proc login { router user passwd cmethod cyphertype identfile} {
 		catch {close};
 		send_user "\nError: Unknown host\n"; wait; return 1
 	    }
-	    -re "Enter passphrase for RSA key '\[^'\]*': " {
+	    -re "Enter passphrase.*: " {
 		send_user "\nKey has passphrase!\n"
+		# sleep briefly to allow time for stty -echo
 		sleep 1
 		send "$passphrase\r"
 		exp_continue }

@@ -310,10 +310,11 @@ sub WriteTerm {
 
 	# prune passwords from stack member statements
 	/^(stack member .* password )\S+/ &&
+	    ProcessHistory("","","",";$1<removed>$'") && next;
 
 	# order arp lists
-	/^arp\s+(.*\s+)?(\d+\.\d+\.\d+\.\d+)\s+/ &&
-	    ProcessHistory("ARP","ipsort","$2","$_") && next;
+	/^ip arp\s+(\d+\.\d+\.\d+\.\d+)/ &&
+	    ProcessHistory("ARP","ipsort","$1","$_") && next;
 
 	/^ip prefix-list\s+(\S+)\s+seq\s+(\d+)\s+(permit|deny)\s+(\d\S+)(\/.*)$/ &&
 	    ProcessHistory("PACL $1 $3","ipsort","$4","ip prefix-list $1 $3 $4$5\n")

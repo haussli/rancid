@@ -1,3 +1,10 @@
+- rancid needs to filter hsrp keys.  as in
+  interface FastEthernet0/1 
+   ip address 158.81.248.252 255.255.255.128
+   standby 1 ip 158.81.248.254
+   standby 1 authentication donkey2k
+   standby 2 ip 158.81.248.249
+   standby 2 authentication donkey2k
 - on 6500, show boot and show bootvar produce the same output and both appear
   in the crunched config.  should one be filtered?
 - fix varargs for knf in util.c

@@ -177,6 +177,10 @@ sub ShowVersion {
 		$type = "AGS";
 	    } elsif ( $1 eq "CSC4") {
 		$type = "AGS+";
+	    } elsif ( $1 eq "2511" || $1 eq "2524" || $1 eq "AS2511-RJ") {
+		$type = "2500";
+	    } elsif ( $1 eq "3620" || $1 eq "3640") {
+		$type = "3600";
 	    } elsif ( $1 eq "RSP7000") {
 		$type = "7500";
 	    } elsif ( $1 =~ /RSP\d/) {
@@ -185,9 +189,9 @@ sub ShowVersion {
 		$type = "7000";
 	    } elsif ( $1 eq "RP") {
 		$type = "7000";
-	    } elsif ( $1 eq "7202" || $1 eq "7204" || $1 eq "7206") {
+	    } elsif ( $1 eq "7202" || $1 eq "7204" || $1 eq "7204VXR" || $1 eq "7206" || $1 eq "7206VXR") {
 		$type = "7200";
-	    } elsif ($1 eq "12004/GRP" || $1 eq "12008/GRP" || $1 eq "12012/GRP") {
+	    } elsif ($1 eq "12004/GRP" || $1 eq "12008/GRP" || $1 eq "12012/GRP" || $1 eq "12016/GRP") {
 		$type = "12000";
 	    } else {
 		$type = $1;
@@ -249,7 +253,7 @@ sub ShowVersion {
 
 # This routine parses "show env all"
 sub ShowEnv {
-    # Skip if this is not a 7500 or 7000.
+    # Skip if this is not a 7500, 7200, or 7000.
     print STDERR "    In ShowEnv: $_" if ($debug);
 
     while (<INPUT>) {
@@ -316,7 +320,8 @@ sub ShowGSR {
 
 # This routine parses "show boot"
 sub ShowBoot {
-    # Pick up boot variables if 7000/7500/12000; otherwise pick up bootflash.
+    # Pick up boot variables if 7000/7200/7500/12000;
+    # otherwise pick up bootflash.
     print STDERR "    In ShowBoot: $_" if ($debug);
 
     while (<INPUT>) {
@@ -331,7 +336,7 @@ sub ShowBoot {
 	if (!defined($H0)) {
 	    $H0=1; ProcessHistory("COMMENTS","keysort","H0","!\n");
 	}
-	if ($type !~ /^(1200|7)/) {
+	if ($type !~ /^(120|7)/) {
 	    ProcessHistory("COMMENTS","keysort","H2","!BootFlash: $_");
 	} elsif (/variable/) {
 	    ProcessHistory("COMMENTS","keysort","H1","!Variable: $_");
@@ -350,7 +355,7 @@ sub ShowFlash {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if ($type =~ /^(1200|7.0)/);
+	return(1) if ($type =~ /^(120|7)/);
 	return(1) if /^\s*\^\s*$/;
 	return(1) if /Invalid input detected/;
 	ProcessHistory("FLASH","","","!Flash: $_");
@@ -370,7 +375,7 @@ sub DirSlotN {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if ($type !~ /^(1200|7.0|36.0)/);
+	return(1) if ($type !~ /^(120|7|36)/);
 	return(1) if /^\s*\^\s*$/;
 	return(1) if /Invalid input detected/;
 	return(1) if /No space information available/;
@@ -392,7 +397,7 @@ sub ShowContAll {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if ($type =~ /^(1200|7[05])/);
+	return(1) if ($type =~ /^(120|7[05])/);
 	if (/^Interface ([^ \n(]*)/) { $INT = "$1, "; next; }
 	/^(BRI unit \d)/ &&
 	    ProcessHistory("INT","","","!Interface: $1\n") && next;
@@ -573,7 +578,7 @@ sub ShowDiags {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if ($type !~ /^(1200|720|36.0)/);
+	return(1) if ($type !~ /^(120|720|36)/);
 	/^$/ && next;
 	if (!defined($showdiags)) {$showdiags=1; ProcessHistory("SLOT","","","!\n");}
 	s/Port Packet Over SONET/POS/;

@@ -1,5 +1,8 @@
-2.3
-	add riverstone support - from Jim Meehan
+2.3.eft
+	add zrancid to handle zebra routing s/w
+
+	add riverstone support - from Jim Meehan.  thanks to Hong Luo for
+	access to a riverstone to test.
 
 	jrancid: fix handling of reversible keys such that trailing text is
 	not removed

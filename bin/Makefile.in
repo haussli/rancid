@@ -141,7 +141,7 @@ bin_SCRIPTS = cat5rancid control_rancid \
 	alogin arancid clogin create_cvs blogin brancid do-diffs elogin \
 	erancid f10rancid flogin francid jlogin jrancid hlogin hrancid \
 	mrancid nlogin nrancid nslogin nsrancid par rancid-fe rancid rename \
-	rivlogin rivrancid rrancid tntlogin tntrancid xrancid
+	rivlogin rivrancid rrancid tntlogin tntrancid xrancid zrancid
 
 
 hpfilter_SOURCES = hpfilter.c
@@ -154,7 +154,7 @@ CONFIG_CLEAN_FILES = env control_rancid create_cvs do-diffs par \
 	rancid-fe rename alogin arancid blogin brancid cat5rancid \
 	clogin rancid elogin erancid f10rancid flogin francid jlogin \
 	jrancid hlogin hrancid mrancid nlogin nrancid nslogin nsrancid \
-	rivlogin rivrancid rrancid tntlogin tntrancid xrancid
+	rivlogin rivrancid rrancid tntlogin tntrancid xrancid zrancid
 bin_PROGRAMS = hpfilter$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
@@ -181,7 +181,8 @@ DIST_COMMON = Makefile.am Makefile.in alogin.in arancid.in blogin.in \
 	f10rancid.in flogin.in francid.in hlogin.in hrancid.in \
 	jlogin.in jrancid.in mrancid.in nlogin.in nrancid.in nslogin.in \
 	nsrancid.in par.in rancid-fe.in rancid.in rename.in rivlogin.in \
-	rivrancid.in rrancid.in tntlogin.in tntrancid.in xrancid.in
+	rivrancid.in rrancid.in tntlogin.in tntrancid.in xrancid.in \
+	zrancid.in
 SOURCES = $(hpfilter_SOURCES)
 
 all: all-am
@@ -260,6 +261,8 @@ tntlogin: $(top_builddir)/config.status tntlogin.in
 tntrancid: $(top_builddir)/config.status tntrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 xrancid: $(top_builddir)/config.status xrancid.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+zrancid: $(top_builddir)/config.status zrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 install-binPROGRAMS: $(bin_PROGRAMS)

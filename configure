@@ -5494,7 +5494,7 @@ ac_cv_env_path=$ENV_PATH
 
                     ac_config_files="$ac_config_files bin/tntlogin bin/tntrancid"
 
-          ac_config_files="$ac_config_files bin/xrancid"
+                    ac_config_files="$ac_config_files bin/xrancid bin/zrancid"
 
                               ac_config_files="$ac_config_files util/rtrfilter util/downreport util/getipacctg"
 
@@ -6074,6 +6074,7 @@ do
   "bin/tntlogin" ) CONFIG_FILES="$CONFIG_FILES bin/tntlogin" ;;
   "bin/tntrancid" ) CONFIG_FILES="$CONFIG_FILES bin/tntrancid" ;;
   "bin/xrancid" ) CONFIG_FILES="$CONFIG_FILES bin/xrancid" ;;
+  "bin/zrancid" ) CONFIG_FILES="$CONFIG_FILES bin/zrancid" ;;
   "util/rtrfilter" ) CONFIG_FILES="$CONFIG_FILES util/rtrfilter" ;;
   "util/downreport" ) CONFIG_FILES="$CONFIG_FILES util/downreport" ;;
   "util/getipacctg" ) CONFIG_FILES="$CONFIG_FILES util/getipacctg" ;;
@@ -6469,6 +6470,7 @@ s,@INSTALL@,$ac_INSTALL,;t t
     bin/tntlogin ) chmod a+x $ac_file ;;
     bin/tntrancid ) chmod a+x $ac_file ;;
     bin/xrancid ) chmod a+x $ac_file ;;
+    bin/zrancid ) chmod a+x $ac_file ;;
     util/rtrfilter ) chmod a+x $ac_file ;;
     util/downreport ) chmod a+x $ac_file ;;
     util/getipacctg ) chmod a+x $ac_file ;;

@@ -38,6 +38,10 @@ extern int		errno;
 # include <strings.h>
 #endif 
 
+#if ! HAVE_STRERROR
+# define strerror(n)	sys_errlist[n];
+#endif
+
 #if HAVE_SYS_WAIT_H 
 # include <sys/wait.h>
 #endif  

@@ -28,11 +28,14 @@ The following variables are used (alphabetically):
 .\"
 .TP
 .B BASEDIR
-BASEDIR is the top-level directory where rancid is installed.  Its value
-is set by configure and should be modified if rancid is moved to a new
-location in the file system without re-installing from the distribution.
+BASEDIR is the directory where
+.B rancid-run's
+log directory and where the CVS repository and rancid collection group
+directories will be placed.  Its value is configure's localstatedir and
+should be modified if rancid is moved to a new location in the file
+system without re-installing from the distribution.
 .sp
-Default: @prefix@
+Default: @localstatedir@
 .\"
 .TP
 .B CVSROOT
@@ -102,6 +105,14 @@ Defines the number of hours a group's lock file may age before rancid
 starts to complain about a hung collection.  The default is 4 hours.
 .\"
 .TP
+.B LOGDIR
+Directory where
+.B rancid-run
+places log files.
+.sp
+Default: $BASEDIR/logs
+.\"
+.TP
 .B NOCOMMSTR
 If set,
 .IR rancid (1)
@@ -155,12 +166,18 @@ and
 scripts should look for the programs that it needs, such as
 .IR telnet (1).
 Its value is set by configure.  Should it be necessary to modify PATH,
-note that it must include $BASEDIR/etc (see above).
+note that it must include @bindir@.
 .\"
 .TP
 .B TERM
 Some Unix utilities require TERM, the terminal type, to be set to a sane
-value.  The default should suffice.
+value.  Some clients, such as
+.IR telnet (1)
+and
+.IR ssh (1) ,
+communicate this to the server (ie: the remote device), thus this can
+affect the behavior of login sessions on a device.  The default should
+suffice.
 .sp
 Default: network
 .\"

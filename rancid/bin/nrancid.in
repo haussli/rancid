@@ -144,10 +144,19 @@ sub GetSystem {
 	next if /^\s*$/;
 	last if(/$prompt/);
 
-	/^Serial Number: (\d+), Control Number: \d+$/ &&
-		ProcessHistory("SYSTEM","","", "!SN: $1\n") && next;
-	/^Image: (\S+), / &&
-		ProcessHistory("SYSTEM","","", "!Image: $1\n") && next;
+        /^Serial Number: (\d+), Control Number: \d+$/ &&
+                ProcessHistory("SYSTEM","","", "!SN: $1\n") && next;
+        /^Hardware Version: (\S+), / &&
+                ProcessHistory("SYSTEM","","", "!HW: $1\n") && next;
+        /^Software Version: (\S+), Type: (\S+)$/ &&
+                ProcessHistory("SYSTEM","","", "!Netscreen Type: $2\n!Software Version: $1\n") && next;
+        /^Image: (\S+), / &&
+                ProcessHistory("SYSTEM","","", "!Image: $1\n") && next;
+        /^Feature: (\S+)$/ &&
+                ProcessHistory("SYSTEM","","", "!Feature: $1\n") && next;
+        /^File Name: (\S+), Checksum: (\S+)$/ &&
+                ProcessHistory("SYSTEM","","", "!File Name: $1, Checksum: $2\n") && next;
+
     }
     ProcessHistory("SYSTEM","","","!\n");
     return(0);

@@ -307,6 +307,7 @@ sub WriteTerm {
 	# skip the crap
 	/^! Configuration script /i && next;
 	/^! Copyright /i && next;
+	/^Please wait/i && next;
 	/^(\.+)$/ && next; # Skip variable length pausing dot lines
 
 	# Dog gone Cool matches to process the rest of the config

@@ -116,57 +116,69 @@ $LG_STRIP=1;
 #		of each variable is the string which will appear in the
 #		(lgform.cgi) menu.
 #
-#		the double-commented queries are not implemented.
+#		The double-commented queries are not implemented.
+#
+$queries = {};
 #
 # Interface queries
-$i_qrtype{'framerelay'}="show frame-relay PVC [DLCI]";
-$i_qrtype{'interface'}="show interface [interface]";
+$queries->{"interface"} = {
+        framerelay => "show frame-relay PVC [DLCI]",
+        interface => "show interface [interface]"
+};
 #
 # Routing queries
-$r_qrtype{'damp'}="show ip bgp dampened-paths";
-$r_qrtype{'neighbor'}="show ip bgp neighbor <IP_addr>";
-$r_qrtype{'prefix'}="show ip bgp prefix <prefix> [netmask]";
-$r_qrtype{'prefixlist'}="show ip prefix-list <list_name>";
-$r_qrtype{'regex'}="show ip bgp regex <regex>";
-$r_qrtype{'route'}="show ip route <prefix> [netmask]";
-## $r_qrtype{'routemap'}="Show Routing Policy Actions <policy_name/number>";
-$r_qrtype{'summary'}="show ip bgp summary";
+$queries->{"routing"} = {
+	damp = "show ip bgp dampened-paths",
+	neighbor = "show ip bgp neighbor <IP_addr>",
+	prefix = "show ip bgp prefix <prefix> [netmask]",
+	prefixlist = "show ip prefix-list <list_name>",
+	regex = "show ip bgp regex <regex>",
+	route = "show ip route <prefix> [netmask]",
+	## routemap = "Show Routing Policy Actions <policy_name/number>",
+	summary = "show ip bgp summary"
+};
 #
 # Debug queries
-## $d_qrtype{'log'}="Show Logs [ | <match_string>]";
-$d_qrtype{'ping'}="ping <IP_addr | FQDN>";
-$d_qrtype{'trace'}="traceroute <IP_addr | FQDN>";
+$queries->{"debug"} = {
+	## log = "Show Logs [ | <match_string>]",
+	ping = "ping <IP_addr | FQDN>",
+	trace = "traceroute <IP_addr | FQDN>"
+};
 #
 # Multicast queries
-## $m_qrtype{'mbgp'}="Show Multicast Route (MBGP) <prefix> [netmask]";
-## $m_qrtype{'mbgpsum'}="Show MBGP Peering Status";
-# show ip pim interface/show pim interface
-## $m_qrtype{'pim_interface'}="Show PIM Interfaces";
-# ???/show pim join (extensive)
-## $m_qrtype{'pim_join'}="Show PIM Join [group_address]";
-# show ip mroute/show multicast route [active]
-## $m_qrtype{'mroute'}="Show Multicast Forwarding Table [active]";
-# show ip msdp summary/show msdp
-## $m_qrtype{'msdp'}="Show MSDP Peering Status";
-# show ip msdp sa cache/show msdp source-active
-## $m_qrtype{'msdpsa'}="Show MSDP Source Active Table";
-# show ip sdr|show multicast sessions
-## $m_qrtype{'msess'}="Show Multicast SDR sessions [detail]";
-# show ip pim neighbor/show pim neighbors
-## $m_qrtype{'pim_neighbor'}="Show PIM Neighbors [detail]";
-# show ip pim rp mapping/show pim rps
-## $m_qrtype{'pim_rp'}="Show PIM Rendez-vous Points [detail]";
-# show ip rpf [address] /show multicast rpf [address]
-## $m_qrtype{'rpf'}="Test Multicast RPF <address>";
+$queries->{"multicast"} = {
+	## mbgp = "Show Multicast Route (MBGP) <prefix> [netmask]",
+	## mbgpsum = "Show MBGP Peering Status",
+	# show ip pim interface/show pim interface
+	## pim_interface = "Show PIM Interfaces",
+	# ???/show pim join (extensive)
+	## pim_join = "Show PIM Join [group_address]",
+	# show ip mroute/show multicast route [active]
+	## mroute = "Show Multicast Forwarding Table [active]",
+	# show ip msdp summary/show msdp
+	## msdp = "Show MSDP Peering Status",
+	# show ip msdp sa cache/show msdp source-active
+	## msdpsa = "Show MSDP Source Active Table",
+	# show ip sdr|show multicast sessions
+	## msess = "Show Multicast SDR sessions [detail]",
+	# show ip pim neighbor/show pim neighbors
+	## pim_neighbor = "Show PIM Neighbors [detail]",
+	# show ip pim rp mapping/show pim rps
+	## pim_rp = "Show PIM Rendez-vous Points [detail]",
+	# show ip rpf [address] /show multicast rpf [address]
+	## rpf = "Test Multicast RPF <address>"
+};
 #
 # IPv6 commands
-# show bgp ipv6 / ???
-## #$v6_qrtype{'v6_bgp'}="Show IPv6 BGP table";
-# show ipv6 interface / show interface
-## $v6_qrtype{'v6_interface'}="Show IPv6 interface parameters [interface]";
-# show bgp ipv6 summary / show bgp summary
-## $v6_qrtype{'v6_summary'}="Show IPv6 BGP Summary";
-# show ipv6 route / show route table inet6.0
-## $v6_qrtype{'v6_route'}="Show IPv6 Routes <prefix>";
+$queries->{"ipv6"} = {
+	# show bgp ipv6 / ???
+	## v6_bgp = "Show IPv6 BGP table";
+	# show ipv6 interface / show interface
+	## v6_interface = "Show IPv6 interface parameters [interface]";
+	# show bgp ipv6 summary / show bgp summary
+	## v6_summary = "Show IPv6 BGP Summary";
+	# show ipv6 route / show route table inet6.0
+	## v6_route = "Show IPv6 Routes <prefix>";
+};
 #
 # %EOF%

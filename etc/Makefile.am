@@ -40,6 +40,15 @@ install-data-local: all
 	    $(INSTALL_DATA) rancid.conf $(sysconfdir)/rancid.conf.new; \
 	else \
 	    $(INSTALL_DATA) rancid.conf $(sysconfdir); \
+	fi; \
+	if test -f $(sysconfdir)/lg.conf ; then \
+	    echo ""; \
+	    echo "WARNING: *** $(sysconfdir)/lg.conf exists: installing as lg.conf.new."; \
+	    echo "         *** review lg.conf.new for new/deprecated switches"; \
+	    echo ""; \
+	    $(INSTALL_DATA) lg.conf $(sysconfdir)/lg.conf.new; \
+	else \
+	    $(INSTALL_DATA) lg.conf $(sysconfdir); \
 	fi
 
 #clean:

@@ -40,7 +40,7 @@ man_MANS = $(man_nogen_MANS) $(man_gen_MANS)
 
 EXTRA_DIST = $(man_nogen_MANS) $(man_gen_MANS:%=%.in)
 
-CLEANFILES = Makefile $(man_gen_MANS)
+CLEANFILES = $(man_gen_MANS)
 
 # auto_edit does the autoconf variable substitution.  This allows the
 # substitution to have the full expansion of the variables, e.g.: $sysconfdir

@@ -1043,7 +1043,7 @@ ProcessHistory("COMMENTS","keysort","F0","!\n");
 ProcessHistory("COMMENTS","keysort","G0","!\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
-    if (/> \(enable\) exit$/) {
+    if (/> \(enable\) ?exit$/) {
 	$clean_run=1;
 	last;
     }

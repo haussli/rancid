@@ -140,6 +140,7 @@ sub ShowConfig {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	next if (/^Reading configuration information/);
+	next if (/^\# *uptime +\d+\s*$/);
 	if (/community label /) {
 	    if (defined($ENV{'NOCOMMSTR'})) {
 		$_ =~ s/community label .*$/community label <removed>/;

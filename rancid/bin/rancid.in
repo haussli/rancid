@@ -1051,6 +1051,10 @@ sub WriteTerm {
 	if (/^((crypto )?isakmp key) \S+ / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed> $'"); next;
 	}
+	# this appears in "measurement/sla" images
+	if (/^(\s+key-string \d?)/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>\n"); next;
+	}
 	# i am told these are plain-text on the PIX
 	if (/^(vpdn username \S+ password)/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;

@@ -1,4 +1,6 @@
 2.2b3
+	bin/clogin shouldnt insist upon an enable password with -noenable option
+
 	bin/rancid changes for cisco 124xx
 
 	some serial controllers (PAs) have predefined cable-type in show

@@ -306,8 +306,15 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 		send_user "\nError: telnet failed: $reason\n"
 		exit 1
 	    }
-	} elseif ![string compare $prog "ssh"] {
-	    if [ catch {spawn $sshcmd -c $cyphertype -x -l $user $router} reason ] {
+	} elseif [string match "ssh*" $prog] {
+	    regexp {ssh(:([^[:space:]]+))*} $prog command suffix port
+	    if {"$port" == ""} {
+		set retval [ catch {spawn $sshcmd -c $cyphertype -x -l $user $router} reason ]
+
+	    } else {
+		set retval [ catch {spawn $sshcmd -c $cyphertype -x -l $user -p $port $router} reason ]
+	    }
+	    if { $retval } {
 		send_user "\nError: $sshcmd failed: $reason\n"
 		exit 1
 	    }

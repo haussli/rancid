@@ -44,8 +44,7 @@
         util/rtrfilter
 - do-diffs (or something in the proc path) should make sure that all
   the CVS'd files are up to date with respect to the repository.
-- missing man pages for control_rancid.1 ??,
-  rancid.1, lg.conf.5 ??, create_cvs.1, rtrfilter.1 ??, lgform.cgi.1 ???,
+- missing man pages for lg.conf.5 ??, rtrfilter.1 ??, lgform.cgi.1 ???,
   lg.cgi.1 ???
 - do-diffs has a number of hard-coded paths, such as touch.
 - do-diffs should trap to 'rm -f $LOCKFILE'
@@ -54,4 +53,3 @@
 	wc: routers.all: No such file or directory
 	[: 97: unexpected operator
 	comm: /tftpboot/rancid/foo/routers.up: No such file or directory
-

@@ -26,3 +26,4 @@ track.
 - possibly install rancid.conf and lg.conf in share/*.sample and copy those
   to sysconfdir/ ?
 - etc/lg.conf needs $sysconfdir for LG_ROUTERDB
+- install CHANGE, FAQ, README in pkgdatadir

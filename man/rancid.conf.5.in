@@ -1,4 +1,6 @@
 .\"
+.\" $Id$
+.\"
 .hys 50
 .TH "rancid.conf" "5" "7 Jan 2004"
 .SH NAME
@@ -22,7 +24,7 @@ is used to set environment variables used by other rancid scripts to
 effect their run-time behavior or to enable them to find their resources.
 .PP
 .SH VARIABLES
-The following variables are used (alphabetically):
+The following variables are used (listed alphabetically):
 .PP
 .Bl -tag -width flag
 .\"
@@ -43,7 +45,7 @@ Default: @localstatedir@
 and
 .IR rancid-cvs (1)
 use this environment variable to locate the CVS repository.  It should
-not be necessary to alter CVSROOT.
+not be necessary to alter it.
 .sp
 Default: $BASEDIR/CVS
 .\"

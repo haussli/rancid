@@ -924,7 +924,8 @@ sub WriteTerm {
 	if (/^( ip ospf authentication-key) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
-	if (/^( ip ospf message-digest-key \d+ md5) / && $filter_pwds >= 2) {
+	# this is reversable, despite 'md5' in the cmd
+	if (/^( ip ospf message-digest-key \d+ md5) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
 	/fair-queue individual-limit/ && next;

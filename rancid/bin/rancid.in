@@ -340,32 +340,23 @@ sub ShowContAll {
     # Skip if this is a 70[01]0, 7200, 7500, or 12000.
     print STDERR "    In ShowContAll: $_" if ($debug);
     return if ($type =~ /^(1200|7)/);
-    /^(BRI unit \d)/ && ProcessHistory("INT","","","!\n!Interface: $1\n") && return;
-    if (/^(LANCE unit \d),/) {
-	local($intf) = $1;
-	local($NIM) = /(, NIM slot \d, NIM type code \d+, NIM version \d)/;
-	$_ = <INPUT>;
-	if (/(Media Type is \S+),/) {
-	    ProcessHistory("INT","","","!\n!Interface: $intf$NIM, $1\n");
-	} else {
-	    ProcessHistory("INT","","","!\n!Interface: $intf$NIM\n");
-	}
-	return;
-    }
-    /^(HD unit \d), idb/ && ProcessHistory("INT","","","!\n!Interface: $1, ") && return;
-    /^buffer size \d+  HD unit \d, (.*)/ && ProcessHistory("INT","","","$1\n") && return;
-    if (/^AM79970 /) {
-	chop;
-	ProcessHistory("INT","","","!\n!Interface: $_, ");
-	ProcessHistory("INT","","","!\n!Interface: $_, ");
-	return;
-    } elsif (/^HD unit \d, NIM/) {
-	chop;
-	ProcessHistory("INT","","","!\n!Interface: $_, ");
-	return;
-    }
+    /^(BRI unit \d)/ &&
+	ProcessHistory("INT","","","!Interface: $1\n") && return;
+     /^LANCE unit \d, NIM/ &&
+	ProcessHistory("INT","","","!Interface: $_") && return;
+     /^(LANCE unit \d)/ &&
+	ProcessHistory("INT","","","!Interface: $1\n") && return;
+     /(Media Type is \S+),/ &&
+	ProcessHistory("INT","","","!\t$1\n");
+     /^(HD unit \d), idb/ &&
+	ProcessHistory("INT","","","!Interface: $1\n") && return;
+     /^HD unit \d, NIM/ &&
+	ProcessHistory("INT","","","!Interface: $_") && return;
+     /^buffer size \d+  HD unit \d, (.*)/ &&
+	ProcessHistory("INT","","","!\t$1\n") && return;
+    /^AM79970 / && ProcessHistory("INT","","","!Interface: $_") && return;
     /^buffer size \d+  (Universal Serial: .*)/ &&
-	ProcessHistory("INT","","","$1\n") && return;
+	ProcessHistory("INT","","","!\t$1\n") && return;
     return;
 }
 

@@ -1,5 +1,9 @@
 2.0
 	Make sure we continue to sort tacacs-server host.
+	Sort usernames on ciscos.
+	Get more info out of "show diag" on the GSR.
+
+	Add "show chassis sfm detail" for the M160.
 
 	Leave router type in place when telling about changes to
 	router.db.

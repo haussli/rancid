@@ -424,7 +424,8 @@ if ($file) {
     }
 
 }
-while(<INPUT>) {
+
+TOP: while(<INPUT>) {
     tr/\015//d;
     if (/^Error:/) {
 	s/^.*Error:/Error:/;
@@ -452,7 +453,7 @@ while(<INPUT>) {
 	delete($commands{$cmd});
 	if ($rval == -1) {
 	    $clean_run = 0;
-	    last;
+	    last TOP;
 	}
     }
     if (/>\s*quit/) {

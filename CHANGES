@@ -1,4 +1,6 @@
 2.2b9
+	cat5 module type match failed when user module name contained spaces
+
 	add FILTER_PWDS switch to env(5)
 
 	add merit MRTd support

@@ -701,7 +701,7 @@ OUTER:while (<INPUT>) {
 		tr/\015//d;
 		last if (/^\s*$/);
 		last OUTER if (/^$prompt/);
-		if (/^(\d+)\s+(\S+\s+)?\d+\s+(.*)\s+\S+\s+(\S+)\s+\S+\s*$/) {
+		if (/^(\d+)\s+(.+\s+)?\d+\s+(.*)\s+\S+\s+(\S+)\s+\S+\s*$/) {
 		    $modules{$1}->{serial} = $4;
 		    $modules{$1}->{type} = $3;
 		    #$modules{$1}->{type} =~ s/\s{2,}.*$//;

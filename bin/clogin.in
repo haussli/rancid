@@ -404,19 +404,27 @@ proc run_commands { prompt command } {
 	set commands [split $command \;]
 	set num_commands [llength $commands]
 
+	# the pager can not be turned off per-session on the PIX, so we have
+	# to look for the "More" prompt
 	for {set i 0} {$i < $num_commands} { incr i} {
 	    send "[subst -nocommands [lindex $commands $i]]\r"
 	    expect {
-		-re "^\[^\n\r]*$reprompt."	{ exp_continue }
 		-re "^\[^\n\r *]*$reprompt"	{}
+		-re "^\[^\n\r]*$reprompt."	{ exp_continue }
+		-re "^<--- More --->"		{ send " "
+						  exp_continue }
 		-re "\[\n\r]"			{ exp_continue }
 	    }
 	}
     } else {
+	# the pager can not be turned off on the PIX, so we have to look
+	# for the "More" prompt
 	send "[subst -nocommands $command]\r"
 	expect {
-		-re "^\[^\n\r]*$reprompt."	{ exp_continue }
 		-re "^\[^\n\r *]*$reprompt"	{}
+		-re "^\[^\n\r]*$reprompt."	{ exp_continue }
+		-re "^<--- More --->"		{ send " "
+						  exp_continue }
 		-re "\[\n\r]"			{ exp_continue }
 	}
     }
@@ -506,7 +514,7 @@ foreach router [lrange $argv $i end] {
     set u_prompt [find userprompt $router]
     if { "$u_prompt" == "" } { set u_prompt "(Username|login):" }
     set p_prompt [find passprompt $router]
-    if { "$p_prompt" == "" } { set p_prompt "\[Pp]assword:" }
+    if { "$p_prompt" == "" } { set p_prompt "(\[Pp]assword|passwd):" }
     set e_prompt [find enableprompt $router]
     if { "$e_prompt" == "" } { set e_prompt "\[Pp]assword:" }
 

@@ -209,7 +209,7 @@ sub WriteTerm {
     while (<INPUT>) {
 	tr/\015//d;
 	last if(/^$prompt/);
-	return(-1) if (/command authorization failed/i);
+	next if(/^\s*$/);
 	# the pager can not be disabled per-session on the PIX
 	s/^<-+ More -+>\s*//;
 

@@ -1,11 +1,13 @@
 #!@PERLV_PATH@
 ##
+## $Id$
+##
 ## Hacked version of rancid for Alteon WebOS switches 
 ## tested with: ad3 v8.1.18
 ## afort@choqolat.org (andrew fort)
 ##
-##
-## Copyright (C) 1997-2001 by Henry Kilmer.
+## Copyright (C) 1997-2004 by Henry Kilmer, Pete Whiting, Andrew Partan,
+## and John Heasley.
 ## All rights reserved.
 ##
 ## This software may be freely copied, modified and redistributed without
@@ -17,7 +19,6 @@
 ## responsibility and liability with respect to this software's usage
 ## or its effect upon hardware, computer systems, other software, or
 ## anything else.
-##
 ##
 #
 #  RANCID - Really Awesome New Cisco confIg Differ

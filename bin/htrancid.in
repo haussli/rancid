@@ -1,8 +1,11 @@
 #! @PERLV_PATH@
 ##
+## $Id$
+##
 ## hacked version of Hank's rancid - this one tries to deal with Hitachi's.
 ##
-## Copyright (C) 1997-2001 by Henry Kilmer.
+## Copyright (C) 1997-2004 by Henry Kilmer, Pete Whiting, Andrew Partan,
+## and John Heasley.
 ## Copyright 2003 Janos Mohacsi.
 ## All rights reserved.
 ##
@@ -15,7 +18,6 @@
 ## responsibility and liability with respect to this software's usage
 ## or its effect upon hardware, computer systems, other software, or
 ## anything else.
-##
 ##
 #
 #  RANCID - Really Awesome New Cisco confIg Differ

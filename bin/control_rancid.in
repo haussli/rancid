@@ -159,7 +159,7 @@ cat > $TMP.sedf << EOF
 /^+++ /d
 s/^\([-+ ]\)/\1 /
 EOF
-cvs diff -u -4 | sed -f $TMP.sedf >$TMP.diff
+cvs -f diff -u -4 | sed -f $TMP.sedf >$TMP.diff
 rm -f $TMP.sedf
 
 cvs commit -m updates

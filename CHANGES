@@ -1,3 +1,5 @@
+1.6
+
 1.5
 	sync command-line option between clogin / jlogin.  jlogin modified:
 		-x passphrase   ->      -r passphrase

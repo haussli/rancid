@@ -382,7 +382,7 @@ void
 usage(void)
 {
     fprintf(stderr,
-"usage: %s [-hv] <telnet|ssh> <hostname>
+"usage: %s [-hv] <telnet|ssh> [<ssh options>] <hostname> [<telnet_port>]
 ", progname);
     return;
 }

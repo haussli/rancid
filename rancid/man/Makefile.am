@@ -19,7 +19,7 @@ AUTOMAKE_OPTIONS=foreign no-dependencies
 
 @SET_MAKE@
 
-man_gen_MANS = rancid.conf.5 lg.conf.5 lg_intro.1
+man_gen_MANS = lg.conf.5 rancid.conf.5 lg_intro.1
 man_nogen_MANS = alogin.1 blogin.1 clogin.1 control_rancid.1 \
 		cssrancid.1 rancid.1 \
 		rancid_intro.1 cloginrc.5 router.db.5 \
@@ -36,7 +36,7 @@ man_MANS = $(man_nogen_MANS) $(man_gen_MANS)
 
 EXTRA_DIST = $(man_nogen_MANS)
 
-#CLEANFILES = Makefile rancid.conf.5 lg.conf.5 lg_intro.1
+CLEANFILES = Makefile $(man_gen_MANS)
 
 all:
 

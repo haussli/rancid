@@ -20,7 +20,7 @@ AUTOMAKE_OPTIONS=foreign no-dependencies
 @SET_MAKE@
 
 pkgdata_DATA = CHANGES FAQ README README.lg cloginrc.sample
-EXTRA_DIST = BUGS COPYING Todo configure install-sh \
+EXTRA_DIST = BUGS COPYING Todo UPGRADING configure install-sh \
 	mkinstalldirs Makefile.in Todo $(pkgdata_DATA)
 #DIST_COMMON = 
 
@@ -28,9 +28,9 @@ EXTRA_DIST = BUGS COPYING Todo configure install-sh \
 # will run make distclean in . after the other dirs (preserving Makefile) and
 # mkinstalldirs will create the install destination before descending into
 # the subdirs.
-SUBDIRS = . include etc bin man util share
+SUBDIRS = . include etc bin man share
 
 # sysconfdir is here because etc/Makefile uses a script to be careful about
 # installing rancid.conf, not over-writing an existing one.
 install-data-hook:
-	$(mkinstalldirs) $(prefix) $(sysconfdir);
+	$(mkinstalldirs) $(prefix) $(localstatedir) $(sysconfdir);

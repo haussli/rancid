@@ -172,7 +172,7 @@ sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 AUTOMAKE_OPTIONS = foreign no-dependencies
 pkgdata_DATA = CHANGES FAQ README README.lg cloginrc.sample
-EXTRA_DIST = BUGS COPYING Todo configure install-sh \
+EXTRA_DIST = BUGS COPYING Todo UPGRADING configure install-sh \
 	mkinstalldirs Makefile.in Todo $(pkgdata_DATA)
 
 #DIST_COMMON = 
@@ -181,7 +181,7 @@ EXTRA_DIST = BUGS COPYING Todo configure install-sh \
 # will run make distclean in . after the other dirs (preserving Makefile) and
 # mkinstalldirs will create the install destination before descending into
 # the subdirs.
-SUBDIRS = . include etc bin man util share
+SUBDIRS = . include etc bin man share
 all: all-recursive
 
 .SUFFIXES:
@@ -356,7 +356,7 @@ distclean-tags:
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkdir_p) $(distdir)/bin $(distdir)/include $(distdir)/man $(distdir)/util
+	$(mkdir_p) $(distdir)/bin $(distdir)/include $(distdir)/man $(distdir)/share
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -597,7 +597,7 @@ uninstall-info: uninstall-info-recursive
 # sysconfdir is here because etc/Makefile uses a script to be careful about
 # installing rancid.conf, not over-writing an existing one.
 install-data-hook:
-	$(mkinstalldirs) $(prefix) $(sysconfdir);
+	$(mkinstalldirs) $(prefix) $(localstatedir) $(sysconfdir);
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

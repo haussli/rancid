@@ -948,7 +948,7 @@ sub ShowDiag {
 	    while (<INPUT>) {
 		tr/\015//d;
 
-		if (/0x..: /) {
+		if (/0x..: / || /^$/) {
 		    # no effing idea why break does not work there
 		    goto PerlSucks;
 		}

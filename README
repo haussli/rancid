@@ -57,6 +57,7 @@ not included, but can be found here:
 
 	http://www.freebsd.org/~fenner/cvsweb/cvsweb-1.0.tar.gz
 
+
 Quick Installation Guide (an example):
 
 1) ./configure [--prefix=<basedir>]
@@ -126,7 +127,15 @@ Quick Installation Guide (an example):
 	# clean out config differ logs
 	50 23 * * * /usr/bin/find <BASEDIR>/logs -mtime +2 -exec rm {} \;
 
-10) Send any bugs, suggestions or updates to rancid@shrubbery.net.
+10) Note: If you are using any of these programs (other than
+    do-diffs) out of cron, make sure that you set your $PATH
+    correctly so that they work.  E.g.: if you are using clogin,
+    it can call id, telnet, ssh, and/or rsh.
+
+    configure already makes sure that $PATH is set correctly in
+    bin/env for do-diffs, so you could use the $PATH from there.
+
+11) Send any bugs, suggestions or updates to rancid@shrubbery.net.
     See the web page at http://www.shrubbery.net/rancid.  We have
     created the standard mailing lists for those interested;
     rancid-announce@shrubbery.net and rancid-discuss@shrubbery.net.

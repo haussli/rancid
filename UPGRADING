@@ -31,7 +31,7 @@ Autoconf defines the following (see configure --help):
 File and directory movement:
   bin/env		the rancid configuration file has moved to
 			sysconfdir/rancid.conf
-  util/lg/lg.conf	the looking glass configuration has move to
+  util/lg/lg.conf	the looking glass configuration has moved to
 			sysconfdir/lg.conf
   util/lg/lg.cgi
   util/lg/lgform.cgi	the looking glass CGI scripts have moved to bindir

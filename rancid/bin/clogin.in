@@ -489,10 +489,8 @@ proc run_commands { prompt command } {
 						  exp_continue }
 		-re "\[\n\r]+"			{ send_user -- "$expect_out(buffer)"
 						  exp_continue }
-		-re "\[^\r\n]*Press <SPACE> to cont\[^\r\n]*"	{ send " "
-						  expect {
-							-re "\[\r\n]*\r\r" {}
-						  }
+		-re "\[^\r\n]*Press <SPACE> to cont\[^\r\n]*"	{
+						  send " "
 						  exp_continue
 						}
 		-re "^<-+ More -+>\[^\n\r]*"	{ send " "

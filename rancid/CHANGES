@@ -5,6 +5,9 @@
 		*** bin/hpfilter has been rename hpuifilter ***
 		*** util/lg/lg.conf has been moved to etc/lg.conf ***
 		*** util/lg/lg*.cgi has been moved to bin/lg*cgi ***
+	Note: existing configuration files are *NOT* copied/moved for you
+
+	*login: add cloginrc sshcmd directive
 
 	rancid: IOS show version changes w/ 12.3 - from Yuval Ben-Ari
 

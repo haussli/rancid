@@ -177,6 +177,11 @@ sub GetConf {
             ProcessHistory("ADMIN","","","!set admin password <removed>\n");
             next;
         }
+ 	if (/^set admin user (\S+) password (\S+) privilege (\S+)$/ &&
+							$filter_pwds >= 1) {
+            ProcessHistory("ADMIN","","",
+		"!set admin user $1 password <removed> privilege $3\n");
+            next;
 	ProcessHistory("","","","$_");
     }
     $found_end=1;

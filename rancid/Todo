@@ -1,3 +1,4 @@
+- look at Andreas Dahl's Brocade switch collection scripts
 - make log file dir configurable
 - noenable should handle a value properly.  ie: 1 == noenable, 0 == enable or
   perhaps don't clear the -noenable cmd-line option.  the manpage needs to be
@@ -68,3 +69,26 @@
   then, sort by facility,  eg:
 	logging file messages facility kernel level debugging
 	logging file messages facility authorization level debugging
+- cat 2900 extra info
+	<hostname> uptime is 3 weeks, 3 days, 14 hours, 17 minutes
+	System returned to ROM by power-on
+	System restarted at 15:21:54 UTC Mon Sep 30 2002
+	System image file is "flash:c2950-i6q4l2-mz.121-9.EA1d.bin"
+	
+	cisco WS-C2950-24 (RC32300) processor (revision B0) with 20821K bytes of memory.
+	Processor board ID FHK0619X2RN
+	Last reset from system-reset
+	Running Standard Image
+	24 FastEthernet/IEEE 802.3 interface(s)
+	
+	32K bytes of flash-simulated non-volatile configuration memory.
+	Base ethernet MAC Address: 00:09:B7:50:DE:C0
+	Motherboard assembly number: 73-5781-10
+	Power supply part number: 34-0965-01
+	Motherboard serial number: FOC061903JF
+	Power supply serial number: DAB061735H4
+	Model revision number: B0
+	Motherboard revision number: A0
+	Model number: WS-C2950-24
+	System serial number: FHK0619X2RN
+	Configuration register is 0xF

@@ -7,7 +7,8 @@ AUTOMAKE_OPTIONS=foreign no-dependencies
 
 man_gen_MANS = env.5
 man_nogen_MANS = do-diffs.1 clogin.1 rancid_intro.1 \
-		cloginrc.5 router.db.5
+		cloginrc.5 router.db.5 \
+		elogin.1 flogin.1 jlogin.1
 
 man_MANS = $(man_gen_MANS) $(man_nogen_MANS)
 

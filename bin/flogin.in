@@ -281,10 +281,14 @@ proc login { router user userpswd passwd enapasswd prompt cyphertype } {
     set tryssh 1
 
     # Telnet to the router & try to login.
-    regexp {telnet(:(\d+))*} $prog command suffix port
-    if {"$port" == ""} { set port 23 }
-    if [ catch {spawn telnet $router $port} reason ] {
-	send_user "\nError: failed to telnet: $reason\n"
+    regexp {telnet(:([^[:space:]]+))*} $prog command suffix port
+    if {"$port" == ""} {
+	set retval [ catch {spawn telnet $router} reason ]
+    } else {
+	set retval [ catch {spawn telnet $router $port} reason ]
+    }
+    if { $retval } {
+	send_user "\nError: telnet failed: $reason\n"
 	exit 1
     }
     sleep 0.3

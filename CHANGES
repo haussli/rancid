@@ -1,4 +1,7 @@
 2.1
+	fix from afort@staff.webcentral.com.au to lg.cgi to allow prefix-list
+	with numerals.
+
 	fix lg form's formatting (on some browsers/conditions).  thanks to
 	rrashid@verio.net for the html help.
 

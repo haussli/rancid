@@ -27,3 +27,4 @@ track.
   to sysconfdir/ ?
 - etc/lg.conf needs $sysconfdir for LG_ROUTERDB
 - install CHANGE, FAQ, README in pkgdatadir
+- README.lg needs cleansing

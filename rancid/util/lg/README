@@ -56,7 +56,7 @@ and install bits in /usr/local/rancid/util/lg (or <prefix>/util/lg).
 2) the LG needs to be able to find and read lg.conf.  by default this
    is installed as <PREFIX>/util/lg/lg.conf and the LG will first look in
    its CWD (current working directory) and then <PREFIX>/util/lg/lg.conf if
-   it does not exist in the CWD.  however, LG_CONF environment variable can
+   it does not exist in the CWD.  However the LG_CONF environment variable can
    be used to move it elsewhere.
 
    to get LG_CONF into the enviroment, you can use SetEnvIf in apache's

@@ -1,4 +1,8 @@
 2.2.2
+	f10rancid: Fix to pick up new info in show version output.
+
+	jrancid: Ignore Timecounter "TSC" in show system boot-messages output.
+
 	rancid: filter tty line speed when configured for auto-configure
 
 	flogin: bring login() and do_enable() in-line with [cj]login.  also

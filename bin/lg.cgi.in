@@ -39,6 +39,11 @@ my($LG_BGP_RT, $LG_CACHE_TIME, $LG_SINGLE, $LG_STRIP);
 
 if (!defined($ENV{HOME})) { $ENV{HOME} = "."; }
 
+# note: the following functions are duplicated between lgform.cgi and lg.cgi
+# to avoid the need for module inclusion headaches from within a httpd context.
+# it is just easier to be self-contained.
+# SO, ANY CHANGES HERE SHOULD BE REFLECTED IN THE OTHER .cgi.
+
 # read LG configuration file
 sub readconf
 {

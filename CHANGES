@@ -1,4 +1,6 @@
 2.3.eft
+	*** bin/env has been moved to etc/rancid.conf ***
+
 	nlogin: Fix prompt groveling when running a cluster - from D. Pfleger
 
 	nrancid: filter "set admin user" - from D. Pfleger

@@ -13,11 +13,6 @@ EXTRA_DIST = BUGS CHANGES COPYING FAQ README Todo cloginrc.sample configure \
 # will run make distclean in . after the other dirs (preserving Makefile)
 SUBDIRS = . include bin man util
 
-# all:
-
-# install-exec-local:
-# 	$(mkinstalldirs) $(prefix) $(prefix)/bin $(prefix)/man $(prefix)/util $(prefix)/util/lg
-
 # install-exec-local:
 # 	$(mkinstalldirs) $(prefix)/util/lg
 

@@ -622,7 +622,7 @@ sub ShowDiag {
 	s/Port Packet Over SONET/POS/;
 	if (/^\s*SLOT\s+(\d+)\s+\((.*)\): (.*)/) {
 	    $slot = $1;
-	    ProcessHistory("SLOT","","","!Slot $slot: $2 - $3\n");
+	    ProcessHistory("SLOT","","","!Slot $slot: $3\n");
 	    # Here we look for boards that don't have DRAM.
 	    $board = "Other";
 	    $board = "RP" if (/Route Processor/);
@@ -660,11 +660,6 @@ sub ShowDiag {
 	    $_ = <INPUT>;
 	    /^\s+FrFab SDRAM size: (\d+)/ &&
 		ProcessHistory("SLOT","","","!Slot $slot/MBUS: $dram Mbytes DRAM, "
-			   . $1 / 1024 . " Kbytes SDRAM\n!\n");
-	    next;
-	}
-	if (/^\s+FrFab SDRAM size: (\d+)/) {
-		ProcessHistory("SLOT","","","!Slot $slot/MBUS: "
 			   . $1 / 1024 . " Kbytes SDRAM\n!\n");
 	    next;
 	}
@@ -789,7 +784,7 @@ sub WriteTerm {
 	/^ width /		&& next; # kill width on serial lines
 	/^ clockrate /		&& next; # kill clockrate on serial interfaces
 	/^(enable )?(password|passwd) / &&
-	    ProcessHistory("ENABLE","","","! $1$2 <removed>\n") &&
+	    ProcessHistory("ENABLE","","","!$1$2 <removed>\n") &&
 	    next;
 	/^username (\S+) password /&&
 	    ProcessHistory("USER","keysort","$1","!username $1 password <removed>\n") && next;

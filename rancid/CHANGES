@@ -1,5 +1,6 @@
 2.3.2
-	jerancid: filter "please wait" from config - David Gethings
+	jerancid: case fluctuates in "active/standby" - from David Gethings
+	jerancid: filter "please wait" from config - from David Gethings
 
 	jerancid: filter consecutive periods at top of write term - mark cooper
 

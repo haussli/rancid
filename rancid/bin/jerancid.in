@@ -263,7 +263,7 @@ sub DirSlotN {
 	next if (/^Please wait/i);
 	next if (/^system\.log/);
 	# fail if the RP is amid the auto-sync process
-	return(-1) if (/active\/standby/ && /not sync/);
+	return(-1) if (/active\/standby/i && /not sync/);
 
 	ProcessHistory("FLASH","","","!Flash: $_");
     }

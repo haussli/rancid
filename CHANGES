@@ -1,4 +1,8 @@
 2.1
+	make clean/distclean was missing some files
+
+	make sure do-diffs cleans up after itself if it exits prematurely
+
 	ignore case when cvs delete'g removed routers
 
 	francid/rrancid (foundry/redback) now strip snmp communities like

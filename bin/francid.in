@@ -289,8 +289,15 @@ sub WriteTerm {
 	/^ip nat (\S+) source static (\S+)/ &&
 	    ProcessHistory("IP NAT $1","ipsort","$2","$_") && next;
 
+	# filter ssh public key
+	if (/^(crypto key generate (rsa|dsa) public_key)/ &&
+		$filter_pwds >= 2) {
+	    ProcessHistory("","","","!$1 <removed>\n");
+	    next;
+	}
 	# filter ssh private key
-	if (/^(crypto key generate rsa private_key)/ && $filter_pwds >= 1) {
+	if (/^(crypto key generate (rsa|dsa) private_key)/ &&
+		$filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n");
 	    next;
 	}

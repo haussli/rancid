@@ -363,6 +363,7 @@ sub ShowVersion {
     while (<INPUT>) {
 	tr/\015//d;
 	last if(/^$prompt/);
+	next if(/^\s*$/);
 	next if(/^system (shutdown message from|going down )/i);
 	next if(/^\{(master|backup)}/);
 

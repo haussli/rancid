@@ -1,6 +1,6 @@
 #!@PERLV_PATH@
 ## The original original lookingglass s/w was written by Ed Kern.  it
-## is a single script and used to be available at http://nitrous.digex.net/ 
+## is a single script and used to be available at http://nitrous.digex.net/
 #
 ## Copyright (C) 1997-2001 by Henry Kilmer.
 ## All rights reserved.
@@ -69,7 +69,7 @@ sub dolog
 	    printf(STDERR $msg);
 	} else {
 	    printf(LOG $msg);
-	    close(LOG); 
+	    close(LOG);
 	}
     }
     return;
@@ -188,11 +188,13 @@ sub arraymember {
 
     return(0);
 }
-# run commands on the router
+# check reachability and lock file before attempting to connect to device
+# return non-zero on error.
 sub DoRsh
 {
     my ($router, $mfg, $cmd, $arg) = @_;
     my($ctime) = time();
+    my($val);
 
     my($lckobj) = LockFile::Simple->make(-delay => $lock_int,
 		-max => $max_lock_wait, -hold => $max_lock_hold);
@@ -203,15 +205,20 @@ sub DoRsh
 	`$pingcmd $router 56 1`;
     }
     if ($?) {
-	return ("$router is unreachable.  Try again later.\n");
+	push(@results, "$router is unreachable.  Try again later.\n");
+	print @results;
+	return(-1);
     }
     if (! $lckobj->lock("$cache_dir/$router")) {
-	return ("$router is busy.  Try again later.\n");
+	push(@results, "$router is busy.  Try again later.\n");
+	print @results;
+	return(-1);
     }
-    @results = &DoCmd($router, $mfg, $cmd, $arg);
+    $val = &DoCmd($router, $mfg, $cmd, $arg);
     $lckobj->unlock("$cache_dir/$router");
-    return (@results);
+    return ($val);
 }
+# run commands on the router.  return non-zero on error.
 sub DoCmd
 {
     my($rtr, $mfg, $cmd, $arg) = @_;
@@ -233,24 +240,32 @@ sub DoCmd
 	    dolog(LOG_ERR, $_);
 	    if ($LG_STRIP) { undef(@results); }
 	    push(@results, $_);
-	    return (@results);
+	    print @results;
+	    return(-1);
 	}
 	push(@results, $_);
 	if (/$cmd/) {
 	    ($prompt) = /^(\S*)[\#>]/;
 #        		push(@results, "prompt = $prompt\n\n");
-	    if ($LG_STRIP) { undef(@results); }
+	    if ($LG_STRIP) {
+		undef(@results);
+	    } else {
+		print @results;
+	    }
 	    last;
 	}
     }
+
     while (<CMD>) {
 	last if /^$prompt[\#>]/;
 	tr/\015//d;
+	print $_;
 	push(@results, $_);
     }
     while (<CMD>) {}
     close(CMD);
-    return @results;
+
+    return(0);
 }
 #  Subroutine:  Error
 #       Usage:  &Error("msg"));
@@ -294,8 +309,20 @@ sub mask2len {
 
     return($len);
 }
-# create the page and log the transaction...
-sub print_results {
+# end the page and exit.
+sub end_page {
+
+    print <<END ;
+	</pre>
+	<!--- end page content --->
+	</body>
+END
+
+    print $query->end_html;
+    exit(0);
+}
+# start the page and log the transaction...
+sub start_page {
     my($mfg) = @_;
     my($cmd);
 
@@ -335,27 +362,15 @@ HEAD
     if ($arg) { print "<b>Argument(s):</b> $arg\n"; }
     print "</center>\n";
 
-    print <<END ; 
+    print <<END ;
 	<!--$cached-->
 	</center>
 	<p>
 	<pre>
 END
 
-    if ($seconds) { print "<b>From cache (number of seconds old (max $max_time_diff)):</b> $seconds\n\n" ; }
-
-    print @results;
-
-    print <<END ; 
-	</pre>
-	<!--- end page content --->
-	</body>
-END
-
-    print $query->end_html;
-    exit(0);
-
-}  #end sub print_results
+    return;
+}  #end sub start_page
 
 
 # Main()
@@ -363,10 +378,10 @@ END
 readconf();
 
 ## The script will now cache the results as simple files in the $cache_dir,
-## named after the type of query (queries must, of course, be one word no 
+## named after the type of query (queries must, of course, be one word no
 ## spaces).  Modify $max_time_diff to set the lifetime for each cache.
 ## Currently, cache lifetime is the same for all queries.
-# for most web servers, cache_dir must be writable by uid nobody 
+# for most web servers, cache_dir must be writable by uid nobody
 if (defined($LG_CACHE_DIR)) {
     $cache_dir = $LG_CACHE_DIR;
 } else {
@@ -374,7 +389,7 @@ if (defined($LG_CACHE_DIR)) {
 }
 
 # read routers table to get @rtrlist
-readrouters();  
+readrouters();
 
 # when to display cache?  max time difference (in seconds)
 if (defined($LG_CACHE_TIME)) {
@@ -422,7 +437,7 @@ if (! arraymember(\@rtrlist, $router)) {
 }
 
 # conversion of command "type" passed from lgform.cgi to the vendor's syntax.
-%ciscoCmd = (	
+%ciscoCmd = (
 		#acl => "show access-list",
 		#aspath => "show ip as-path-access-list",
 		#communitylist => "show ip community-list",
@@ -444,7 +459,7 @@ if (! arraymember(\@rtrlist, $router)) {
 		summary => "show ip bgp summary",
 		trace => "traceroute"
 	);
-%foundryCmd = (	
+%foundryCmd = (
 		#acl => "show access-list",
 		#aspath => "show ip as-path-access-list",
 		#communitylist => "show ip community-list",
@@ -465,7 +480,7 @@ if (! arraymember(\@rtrlist, $router)) {
 		summary => "show ip bgp summary",
 		trace => "traceroute"
 	);
-%juniperCmd = (	
+%juniperCmd = (
 		#acl => "show access-list",
 		#aspath => "show ip as-path-access-list",
 		#communitylist => "show ip community-list",
@@ -486,7 +501,7 @@ if (! arraymember(\@rtrlist, $router)) {
 		summary => "show bgp summary",
 		trace => "traceroute"
 	);
-%cmdDisp = (	
+%cmdDisp = (
 		#acl => "show access-list",
 		#aspath => "show ip as-path-access-list",
 		#communitylist => "show ip community-list",
@@ -511,20 +526,24 @@ if (! arraymember(\@rtrlist, $router)) {
 # not all cmds/queries are implemented for junipers
 if ($mfg =~ /juniper/) {
     if (! defined($juniperCmd{$type})) {
-	$results[0] = "$cmdDisp{$type} not implemented for junipers.  sorry.\n";
-	&print_results($mfg);
+	Error("$cmdDisp{$type} not implemented for junipers.  sorry.\n");
     }
     $cmd = $juniperCmd{$type};
 } elsif ($mfg =~ /foundry/) {
     if(! defined($foundryCmd{$type})) {
-	$results[0] = "$cmdDisp{$type} not implemented for foundrys.  sorry.\n";
-	&print_results($mfg);
+	Error("$cmdDisp{$type} not implemented for foundrys.  sorry.\n");
     }
     $cmd = $foundryCmd{$type};
 } else {
+    if(! defined($ciscoCmd{$type})) {
+	Error("$cmdDisp{$type} not implemented for cisco.  sorry.\n");
+    }
     $cmd = $ciscoCmd{$type};
 }
 
+# make stdout unbuffered, so result page streams.
+$| = 1;
+start_page();
 
 if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
     if ($arg[0] !~ /^\d+\.\d+\.\d+\.\d+$/) {
@@ -722,45 +741,53 @@ if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
 }
 
 # cache the following
-if ($type eq "summary" || $type eq "mbgpsu" || $type eq "damp" || $type eq "log") {
+if ($type eq "summary" || $type eq "mbgpsu" || $type eq "damp"
+			|| $type eq "log") {
     if (!$arg) {
 	# cache requests with no addr/argument
 	local(*CACHE);
 
-	my($file) = "$cache_dir/$type" ; 
+	my($file) = "$cache_dir/$type" ;
 	$file =~ s/\s+/_/g;
 	$file .= "_$router";
 
 	if (-e $file) {
 	    # see if cache exists
-	    @stat = stat($file); 
-	    $ftime = $stat[9] ; 
-	    $dtime = time - $stat[9] ; 
+	    @stat = stat($file);
+	    $ftime = $stat[9];
+	    $dtime = time() - $stat[9];
 
-	    # see if we are within cache time 
+	    # see if we are within cache time
 	    if ($dtime <= $max_time_diff) {
-		open(CACHE,"$file") ; 
-		while (<CACHE>) { push(@results, $_); }
-		close CACHE ;
-		$seconds = $dtime;
-		&print_results($mfg); 
+		if (open(CACHE, "<$file") == 0) {
+		    dolog(LOG_ERR, "couldnt open cache file $file: $!\n");
+		} else {
+		    print "<b>From cache (number of seconds old (max " .
+			"$max_time_diff)):</b> $dtime\n\n";
+		    while (<CACHE>) { print $_; }
+		    close(CACHE);
+		    &end_page();
+		}
 	    }
 	}
 
 	# else, execute command and save to a new cache file
-	open(CACHE,">$file") || die "couldnt create cache file $file" ; 
-
-	@results = &DoRsh($router, $mfg, $cmd, $arg);
-
-	print CACHE "@results";
-	close CACHE ;
+	if (! &DoRsh($router, $mfg, $cmd, $arg)) {
+	    if (open(CACHE, ">$file") == 0) {
+		dolog(LOG_ERR, "couldnt create cache file $file: $!\n");
+		exit(1);
+	    } else {
+		printf(CACHE "@results");
+		close(CACHE);
+	    }
+	}
     } else {
-	@results = &DoRsh($router, $mfg, $cmd, $arg);
+	&DoRsh($router, $mfg, $cmd, $arg);
     }
-    &print_results($mfg); 
-} # end dampened-paths/flap-statistics
+    &end_page();
+} else {
+    &DoRsh($router, $mfg, $cmd, $arg);
+    &end_page();
+}
 
-@results = &DoRsh($router, $mfg, $cmd, $arg);
-&print_results($mfg);
-
-exit(0); 
+exit(0);

@@ -7,7 +7,7 @@ closely follow the standard path hierarchy, which is defined by the FHS
 standard and autoconf, and/or make these locations more easily configurable
 within rancid.
 
-The obvious advantage of this is making rancid more easily packagable; ie:
+The obvious advantage of this is making rancid more easily packagable; i.e.:
 NetBSD pkgsrc, FreeBSD port, Linux RPM, etc.
 
 Please please please please read the UPGRADING file for more information.
@@ -114,7 +114,7 @@ Quick Installation Guide (an example):
 
 2) make install
 
-3) Modify <sysconfdir>/rancid.conf (eg: <basedir>/etc/rancid.conf).  The
+3) Modify <sysconfdir>/rancid.conf (e.g.: <basedir>/etc/rancid.conf).  The
    variable LIST_OF_GROUPS is a space delimited list of router "groups".
    E.g.:
 	LIST_OF_GROUPS="backbone aggregation switches"
@@ -167,7 +167,7 @@ Quick Installation Guide (an example):
    cat5 is intended only for cisco catalyst switches running catalyst (not
    IOS) code.
 
-   eg <localstatedir>/<group>/router.db:
+   e.g.: <localstatedir>/<group>/router.db:
 	cisco-router.domain.com:cisco:up
 	adc-mux.domain.com:ezt3:up
 	foundry-switch-router.domain.com:foundry:up
@@ -194,7 +194,7 @@ Quick Installation Guide (an example):
     it can call id, telnet, ssh, and/or rsh.
 
     configure already makes sure that $PATH is set correctly in
-    etc/rancid.conf for rancid-run, so you could use the $PATH from there. eg:
+    etc/rancid.conf for rancid-run, so you could use the $PATH from there. e.g.:
 
 	50 23 * * * . /usr/local/rancid/etc/rancid.conf; clogin -c 'sh vers' router
 

@@ -214,7 +214,7 @@ proc doload { confghost routername config retry } {
 
 send_user "loading $router config from $confghost\n";
 
-# look for router hostname in prompt (ie: deal with fqdn)
+# look for router hostname in prompt (i.e.: deal with fqdn)
 send "\r"
 expect {
     timeout 	{

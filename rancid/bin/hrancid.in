@@ -336,7 +336,7 @@ sub WriteTerm {
 	    ProcessHistory("","","",";$_") && next;
 
 
-	# the rest are from rancid (ie: cisco), but suspect they will someday
+	# the rest are from rancid (i.e.: cisco), but suspect they will someday
 	# be applicable or close to it.
 
 	/^tftp-server flash /   && next; # kill any tftp remains

@@ -24,7 +24,7 @@
 # it expects the following variables via the -E option:
 #	reload_arg	='command argument' such as 'at 05:00' or 'cancel
 #
-# eg usage:
+# e.g. usage:
 # % clogin -s cisco-reload.exp -Ereload_arg='at 01:00' router
 # router
 #        Reload scheduled for 01:00:00 UTC Sat Jun 23 2001 (in 7 hours and 16 minutes)

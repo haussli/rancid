@@ -1,10 +1,13 @@
 1.6
-	Ignore "fan spinning at" noise on junipers.
-
-	merge tkennedy@verio.net's support for cisco 2900xl into rancid
+	Add support for ADC EZ T3 mux.  adapted from tkenndedy@verio.net's
+	contrib.
 
 	strip (try to) snmp community strings from cisco and juniper configs
 	if environment variable NOCOMMSTR is set.
+
+	merge tkennedy@verio.net's support for cisco 2900xl into rancid
+
+	Ignore "fan spinning at" noise on junipers.
 
 1.5
 	sync command-line option between clogin / jlogin.  jlogin modified:

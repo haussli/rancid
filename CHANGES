@@ -1,4 +1,6 @@
 2.2b9
+	allow a TCP port suffix to telnet in .cloginrc - Alex Bochannek
+
 	Fixed RANCID-CONTENT-TYPE to be more consistant.  Changes are
 		brancid		bay
 		cat5rancid	cisco-cat

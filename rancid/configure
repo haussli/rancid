@@ -1645,7 +1645,7 @@ rd_cv_rd_bin_datas=$RD_BIN_DATAS
 # RD_BIN_PROGS are bin/ .in's that need to be installed with execute perms.
 RD_BIN_PROGS="cat5rancid control_rancid \
 clogin create_cvs do-diffs elogin erancid \
-flogin francid jlogin jrancid par prancid rancid-fe \
+flogin francid jlogin jrancid par rancid-fe \
 rancid rename rrancid"
 
 rd_cv_rd_bin_progs=$RD_BIN_PROGS

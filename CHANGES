@@ -1,4 +1,6 @@
 1.5
+	Get info from show diag for 2600s as well.
+
 	Catch juniper "command is not valid on the olive" errors.
 
 	Catch juniper config mismatch between versions of JUNOS

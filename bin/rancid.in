@@ -568,17 +568,17 @@ sub ShowDiagbus {
     return(0);
 }
 
-# This routine parses "show diags" for the gsr, 7200, 3600
+# This routine parses "show diag" for the gsr, 7200, 3600, 2600.
 # This will create arrarys for hw info.
-sub ShowDiags {
+sub ShowDiag {
     # Skip if this is not a 12000.
-    print STDERR "    In ShowDiags: $_" if ($debug);
+    print STDERR "    In ShowDiag: $_" if ($debug);
 
     while (<INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if ($type !~ /^(120|720|36)/);
+	return(1) if ($type !~ /^(120|720|36|26)/);
 	/^$/ && next;
 	if (!defined($showdiags)) {$showdiags=1; ProcessHistory("SLOT","","","!\n");}
 	s/Port Packet Over SONET/POS/;
@@ -853,7 +853,7 @@ sub DoNothing {print STDOUT;}
 	'show controllers'	=> "ShowContAll",
 	'show controllers cbus'	=> "ShowContCbus",
 	'show diagbus'		=> "ShowDiagbus",
-	'show diag'		=> "ShowDiags",
+	'show diag'		=> "ShowDiag",
 	'show c7200'		=> "ShowC7200",
 	'write term'		=> "WriteTerm"
 );

@@ -93,6 +93,10 @@ Quick Installation Guide (an example):
    Note: the juniper user you use *must* log into a cli shell (which
    is the default on a juniper).
 
+   See the file cloginrc.sample, located in <basedir>, for examples and
+   good starting point.  Also take a look at the cloginrc manual page,
+   'man -M <basedir>/man cloginrc'.
+
 6) Modify /etc/aliases
    Rancid sends the diffs and other administrative emails to rancid-<GROUP>
    and problems to rancid-admin-<GROUP>, where <GROUP> is the "GROUP" of
@@ -112,7 +116,9 @@ Quick Installation Guide (an example):
 
 7) Run create_cvs.
    This creates all of the necessary directories and config files for
-   each of the groups in LIST_OF_GROUPS and imports them into CVS.
+   each of the groups in LIST_OF_GROUPS and imports them into CVS.  This
+   will also be run each time a new group is added.  Also see
+   'man -M <basedir>/man create_cvs'.
 
 8) For each "group", modify the router.db file in the group directory.
    The file is of the form "router:mfg:state" where "router" is

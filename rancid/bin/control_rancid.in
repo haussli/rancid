@@ -139,8 +139,18 @@ rename 's/.new$//' *.new
 # This has been different for different machines...
 # Diff the directory and then checkin.
 cd $DIR
+# Change the output of a unified diff to make it a bit more readable.
+cat > /tmp/sedf.$$ << EOF
+/^RCS file: /d
+#/^retrieving revision /d
+/^--- /d
+/^+++ /d
+s/^\([-+ ]\)/\1 /
+EOF
 #cvs diff -c3 >$TMP.diff
-cvs diff -C 3 >$TMP.diff
+#cvs diff -C 3 >$TMP.diff
+cvs diff -u -4 | sed -f /tmp/sedf.$$ >$TMP.diff
+rm -f /tmp/sedf.$$
 cvs commit -m updates
 
 # Mail out the diffs (if there are any).

@@ -1,13 +1,13 @@
 .\"
 .hys 50
-.TH "create_cvs" "1" "26 Nov 2003"
+.TH "rancid-cvs" "1" "7 Jan 2004"
 .SH NAME
-create_cvs \- initialize CVS and rancid group files and directories
+rancid-cvs \- initialize CVS and rancid group files and directories
 .SH SYNOPSIS
-.B create_cvs
+.B rancid-cvs
 [group [group ...]]
 .SH DESCRIPTION
-.B create_cvs
+.B rancid-cvs
 is a
 .IR sh (1)
 script to create the directories,
@@ -17,7 +17,7 @@ and
 directories necessary for a rancid group.
 .\"
 .PP
-.B create_cvs
+.B rancid-cvs
 reads
 .BR rancid.conf (5)
 to configure itself.  Then proceeds with the initialization first of the
@@ -31,7 +31,7 @@ if the argument is omitted.
 .\"
 .PP
 Running
-.B create_cvs
+.B rancid-cvs
 for groups which already exist will not cause problems.  If the group's
 directory already exists, the
 .BR cvs (1)
@@ -45,7 +45,7 @@ The best method for adding groups is add the group name to
 in
 .BR rancid.conf (5),
 then run
-.B create_cvs.  Do not create the directories manually, allow create_cvs
+.B rancid-cvs.  Do not create the directories manually, allow rancid-cvs
 to do it.
 .\"
 .SH SEE ALSO

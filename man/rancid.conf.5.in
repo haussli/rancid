@@ -1,16 +1,16 @@
 .\"
 .hys 50
-.TH "rancid.conf" "5" "22 Nov 2003"
+.TH "rancid.conf" "5" "7 Jan 2004"
 .SH NAME
 rancid.conf \- rancid environment configuration file
 .SH DESCRIPTION
 .B rancid.conf
 contains environment configuration information for
-.BR do-diffs (1)
+.BR rancid-run (1)
 and
 .BR rancid (1)
 including shell PATH, list of rancid groups, etc. and is read by
-.BR do-diffs (1)
+.BR rancid-run (1)
 at run-time.
 .PP
 The syntax of
@@ -38,7 +38,7 @@ Default: @prefix@
 .B CVSROOT
 .IR cvs (1)
 and
-.IR create_cvs (1)
+.IR rancid-cvs (1)
 use this environment variable to locate the CVS repository.  It should
 not be necessary to alter CVSROOT.
 .sp
@@ -69,7 +69,7 @@ are always filtered (eg: Alteon passwords).
 Defines a list of group names of routers separated by white-space.  These
 names become the directory names in $BASEDIR which contain the data
 for that set of devices.
-.BR do-diffs (1)
+.BR rancid-run (1)
 also uses this variable to determine which device groups it should collect.
 Choose these names to be descriptive of the set of devices and do not use
 spaces, unprintable characters, etc.
@@ -78,7 +78,7 @@ Example: LIST_OF_GROUPS="UofO USFS"
 .sp
 Two groups are defined; UofO (University of Oregon) and USFS (US Forest
 Service).  Each will have a directory created (see
-.IR create_cvs (1))
+.IR rancid-cvs (1))
 $BASEDIR/UofO and $BASEDIR/USFS respectively, which will contain their data.
 .sp
 Each group must also have aliases for the administrative and diff recipients
@@ -125,7 +125,9 @@ Specified as a number of hours, OLDTIME defines how many hours should pass
 since a successful collection of a device's configuration and when
 .IR control_rancid (1)
 should start complaining about failures.  The value should be greater than
-the number of hours between do-diffs cron runs.
+the number of hours between
+.B rancid-run
+cron runs.
 .sp
 Default: 4
 .\"
@@ -190,9 +192,9 @@ Configuration file described here.
 .\"
 .SH SEE ALSO
 .BR control_rancid (1),
-.BR create_cvs (1),
-.BR do-diffs (1),
-.BR rancid (1)
+.BR rancid (1),
+.BR rancid-cvs (1),
+.BR rancid-run (1)
 .\"
 .SH HISTORY
 In RANCID releases prior to 2.3,

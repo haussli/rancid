@@ -24,7 +24,7 @@
 # usage: rancid [-d] [-l] [-f filename | $host]
 #
 use Getopt::Std;
-getopts('dflm');
+getopts('dfl');
 $log = $opt_l;
 $debug = $opt_d;
 $file = $opt_f;

@@ -33,8 +33,8 @@ A. The directory was not imported into CVS properly or was not properly checked
 
 Q. I keep receiving the same diff for a (or set of) devices, but I know the
    data is not changing repeatedly.  Why?
-A. This is most likely either a CVS or filesystem permissions problem.  Check
-   the log file from the last run for that group first; it may provide the
+A. This is probably a CVS or filesystem permissions problem.  Check the log
+   file from the last run for that group for clues first; it may provide the
    exact cause.
 
    Note: It is very important the following be done as the user who normally
@@ -87,6 +87,16 @@ A. CVS does not provide a way (AFAIK) to rename files or to rename or delete
    If one wanted to move a device to a different group and maintain the
    history, the same procedure would work.  Substituting the new group name
    appropriately.
+
+Q. I am removing a group and would like to remove all traces of it from the
+   rancid directory and the CVS repository.  How is this done?
+A. As far as I know, CVS does not provide a way to remove directories.  First,
+   remove the group from /usr/local/rancid/bin/env.  If rancid is running,
+   wait for it to complete.  Then just recursively remove the directory.  For
+   example, a group named "fubar":
+	% su - rancid_user
+	% cd /usr/local/rancid
+	% rm -rf fubar CVS/fubar
 
 
 3) General

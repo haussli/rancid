@@ -1,3 +1,11 @@
+2.2b3
+	modify jlogin to grope the full prompt after login such that -x
+	can be used within configuration mode.
+
+	add -Evar=x option to pass variables to scripts.  eg:
+		clogin -Evariable=something router...
+		clogin -Evariable=a,b,c [ie: an array/list which user splits]
+
 2.2b2
 	fix jlogin's password/userpassword functionality which broke when
 	cmd-line options were made consistent.

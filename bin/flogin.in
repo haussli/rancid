@@ -30,10 +30,11 @@
 #
 
 # Usage line
-set usage "Usage: $argv0 \[-u user\] \[-p user-password\] \[-v vty-password\] \
-\[-w enable-username\] \[-e enable-password\] \[-noenable\] \
-\[-f cloginrc-file\] \[-y ssh_cypher_type\] \[-c command\] \[-s script-file\] \
-\[-autoenable\] \[-t timeout\] router \[router...\]\n"
+set usage "Usage: $argv0 \[-autoenable\] \[-noenable\] \
+\[-c command\] \[-Evar=x\] \[-e enable-password\] \[-p user-password\] \
+\[-f cloginrc-file\] \[-s script-file\] \[-t timeout\] \[-u user\] \
+\[-v vty-password\] \[-w enable-username\]\[-y ssh_cypher_type\] \
+router \[router...\]\n"
 
 # env(CLOGIN) may contain:
 #	x == do not set xterm banner or name
@@ -106,9 +107,20 @@ for {set i 0} {$i < $argc} {incr i} {
 		incr i
 		set enausername [ lindex $argv $i ]
 	    }
+	# Environment variable to pass to -s scripts
+	} -E*
+	{
+	    if {[ regexp .\[E\](.+)=(.+) $arg ignore varname varvalue]} {
+		incr i
+		set E$varname $varvalue
+		set enausername [ lindex $argv $i ]
+	    } else {
+		send_user "Error: invalid format for -E in $arg\n"
+		exit 1
+	    }
 	# Enable Password
-	} -e* -
-	-E* {
+	} -e*
+	{
 	    if {! [  regexp .\[eE\](.+) $arg ignore enapasswd]} {
 		incr i
 		set enapasswd [ lindex $argv $i ]

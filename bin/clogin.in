@@ -28,7 +28,7 @@
 
 # Usage line
 set usage "Usage: $argv0 \[-autoenable\] \[-noenable\] \[-c command\] \
-\[-e enable-password\] \[-f cloginrc-file\] \[-p user-password\] \
+\[-Evar=x\] \[-e enable-password\] \[-f cloginrc-file\] \[-p user-password\] \
 \[-s script-file\] \[-t timeout\] \[-u username\] \
 \[-v vty-password\] \[-w enable-username\] \[-x command-file\] \
 \[-y ssh_cypher_type\] router \[router...\]\n"
@@ -104,10 +104,21 @@ for {set i 0} {$i < $argc} {incr i} {
 		incr i
 		set enausername [ lindex $argv $i ]
 	    }
+	# Environment variable to pass to -s scripts
+	} -E*
+	{
+	    if {[ regexp .\[E\](.+)=(.+) $arg ignore varname varvalue]} {
+		incr i
+		set E$varname $varvalue
+		set enausername [ lindex $argv $i ]
+	    } else {
+		send_user "Error: invalid format for -E in $arg\n"
+		exit 1
+	    }
 	# Enable Password
-	} -e* -
-	-E* {
-	    if {! [  regexp .\[eE\](.+) $arg ignore enapasswd]} {
+	} -e*
+	{
+	    if {! [  regexp .\[e\](.+) $arg ignore enapasswd]} {
 		incr i
 		set enapasswd [ lindex $argv $i ]
 	    }

@@ -23,10 +23,10 @@
 #
 
 # Usage line
-set usage "Usage: $argv0 \[-c command\]\
-\[-f cloginrc-file\]\
-\[-s script-file\] \[-t timeout\] \[-u username\]\
-\[-v vty-password\] \[-x command-file\]\
+set usage "Usage: $argv0 \[-c command\] \
+\[-Evar=x\] \[-f cloginrc-file\] \
+\[-s script-file\] \[-t timeout\] \[-u username\] \
+\[-v vty-password\] \[-x command-file\] \
 \[-y ssh_cypher_type\] router \[router...\]\n"
 
 # env(CLOGIN) may contain:
@@ -88,9 +88,20 @@ for {set i 0} {$i < $argc} {incr i} {
 	} -w* -
 	-W* {
 	# ignore -w
+	# Environment variable to pass to -s scripts
+	} -E*
+	{
+	    if {[ regexp .\[E\](.+)=(.+) $arg ignore varname varvalue]} {
+		incr i
+		set E$varname $varvalue
+		set enausername [ lindex $argv $i ]
+	    } else {
+		send_user "Error: invalid format for -E in $arg\n"
+		exit 1
+	    }
 	# Enable Password
-	} -e* -
-	-E* {
+	} -e*
+	{
 	# ignore -e
 	# Command to run.
 	} -c* -

@@ -339,9 +339,9 @@ proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype } {
 	    catch {close};
 	    send_user "Error: Unknown host\n"; wait; return 1
 	}
-	-re "Host key not found .* \(yes\/no\)\?" {
+	-re "(Host key not found |The authenticity of host .* be established).*\(yes\/no\)\?" {
 	    send "yes\r"
-	    send_user "Host $router added to the list of known hosts.\n"
+	    send_user "\nHost $router added to the list of known hosts.\n"
 	    exp_continue }
 	-re "HOST IDENTIFICATION HAS CHANGED.* \(yes\/no\)\?"   {
 	    send "no\r"

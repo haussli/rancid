@@ -36,8 +36,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 subdir = share
 DIST_COMMON = $(dist_pkgdata_DATA) $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(srcdir)/downreport.in \
-	$(srcdir)/getipacctg.in $(srcdir)/rtrfilter.in
+	$(srcdir)/Makefile.in $(srcdir)/getipacctg.in \
+	$(srcdir)/rtrfilter.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/configure.in
@@ -45,7 +45,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES = rtrfilter downreport getipacctg
+CONFIG_CLEAN_FILES = rtrfilter getipacctg
 SOURCES =
 DIST_SOURCES =
 am__installdirs = $(DESTDIR)$(pkgdatadir) $(DESTDIR)$(pkgdatadir)
@@ -155,6 +155,20 @@ dist_pkgdata_DATA = README.misc cisco-load.exp cisco-reload.exp index.html \
 	lgnotes.html
 
 EXTRA_DIST = rtrfilter.in downreport.in getipacctg.in
+CLEANFILES = downreport
+
+# auto_edit does the autoconf variable substitution.  This allows the
+# substitution to have the full expansion of the variables, e.g.: $sysconfdir
+# will be /prefix/etc instead of ${prefix}/etc.
+#
+# This is a bit of a PITA, but is the method recommended by the autoconf
+# documentation.
+auto_edit = sed \
+	-e 's,@prefix\@,$(prefix),g' \
+	-e 's,@localstatedir\@,$(localstatedir),g' \
+	-e 's,@sysconfdir\@,$(sysconfdir),g' \
+	-e 's,@pkgdatadir\@,$(pkgdatadir),g'
+
 all: all-am
 
 .SUFFIXES:
@@ -188,8 +202,6 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 rtrfilter: $(top_builddir)/config.status $(srcdir)/rtrfilter.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-downreport: $(top_builddir)/config.status $(srcdir)/downreport.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 getipacctg: $(top_builddir)/config.status $(srcdir)/getipacctg.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
@@ -284,6 +296,7 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-rm -f $(CONFIG_CLEAN_FILES)
@@ -350,10 +363,13 @@ uninstall-am: uninstall-dist_pkgdataDATA uninstall-info-am \
 	uninstall-pkgdataDATA
 
 
-# no idea why automake doesnt clean these targets
-#CLEANFILES= y.tab.c y.tab.h lex.yy.c conf.h conf.c conflex.c
-
 all:
+
+downreport: Makefile $(srcdir)/downreport.in
+	rm -f downreport downreport.tmp; \
+	$(auto_edit) $(srcdir)/downreport.in >downreport.tmp; \
+	chmod +x downreport.tmp; \
+	mv downreport.tmp downreport
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

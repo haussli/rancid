@@ -2,6 +2,8 @@
 	jrancid: m160 measured chassis clock MHz fluctuates, trim the
 	decimal places.  from Mark A Gebert.
 
+	par: -x fix for log file monitoring killing xterms.  from rdrake.
+
 2.2b7
 	brancid: patch to filter community strings from Mark Cooper
 

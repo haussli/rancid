@@ -3,13 +3,14 @@
 ## $Id$
 ##
 ## Amazingly hacked version of Hank's rancid - this one tries to
-## deal with Cabletron, Riverstone and Enterasys routers/switches 
+## deal with Cabletron, Riverstone and Enterasys routers/switches
 ## 
-## Copyright (C) 1997-2001 by Henry Kilmer.
-## All rights reserved.
-##
 ## 10/23/2002 -- Initial changes for Riverstone/Cabletron support
 ##               Jim Meehan -- jmeehan@vpizza.org
+##
+## Copyright (C) 1997-2004 by Henry Kilmer, Pete Whiting, Andrew Partan,
+## and John Heasley.
+## All rights reserved.
 ##
 ## This software may be freely copied, modified and redistributed without
 ## fee for non-commerical purposes provided that this copyright notice is
@@ -20,7 +21,6 @@
 ## responsibility and liability with respect to this software's usage
 ## or its effect upon hardware, computer systems, other software, or
 ## anything else.
-##
 ##
 #
 #  RANCID - Really Awesome New Cisco confIg Differ
@@ -258,10 +258,10 @@ if ($file) {
     print STDERR "executing rivlogin -t $timeo -c\"$cisco_cmds\" $host\n" if ($debug);
     print STDOUT "executing rivlogin -t $timeo -c\"$cisco_cmds\" $host\n" if ($log);
     if (defined($ENV{NOPIPE})) {
-	system "rivlogin -t $timeo -c \"$cisco_cmds\" $host </dev/null > $host.raw 2>&1" || die "rscmd failed for $host: $!\n";
-	open(INPUT, "< $host.raw") || die "rscmd failed for $host: $!\n";
+	system "rivlogin -t $timeo -c \"$cisco_cmds\" $host </dev/null > $host.raw 2>&1" || die "rivlogin failed for $host: $!\n";
+	open(INPUT, "< $host.raw") || die "rivlogin failed for $host: $!\n";
     } else {
-	open(INPUT,"rivlogin -t $timeo -c \"$cisco_cmds\" $host </dev/null |") || die "rscmd failed for $host: $!\n";
+	open(INPUT,"rivlogin -t $timeo -c \"$cisco_cmds\" $host </dev/null |") || die "rivlogin failed for $host: $!\n";
     }
 }
 
@@ -279,8 +279,8 @@ TOP: while(<INPUT>) {
     tr/\015//d;
     last if ($clean_run);
     if (/^Error:/) {
-	print STDOUT ("$host rscmd error: $_");
-	print STDERR ("$host rscmd error: $_") if ($debug);
+	print STDOUT ("$host rivlogin error: $_");
+	print STDERR ("$host rivlogin error: $_") if ($debug);
 	$clean_run=0;
 	last;
     }

@@ -325,10 +325,8 @@ cvs -f @DIFF_CMD@ | sed -e '/^RCS file: /d' -e '/^--- /d' \
 	-e '/^+++ /d' -e 's/^\([-+ ]\)/\1 /' >$TMP.diff
 
 if [ $alt_mailrcpt -eq 1 ] ; then
-    cvs commit -m "updates - courtesy of $mailrcpt"
     subject="router config diffs - courtesy of $mailrcpt"
 else
-    cvs commit -m updates
     subject="router config diffs"
 fi
 if [ "X$device" != "X" ] ; then

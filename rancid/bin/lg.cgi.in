@@ -424,7 +424,7 @@ $arg =~ s/["'`]//g;			# these are BS in any arg for any query
 ($router, $mfg) = split(':', $router_param);
 if (!defined($type) || !defined($router)) {
     $results[0] = "You must at least choose a Query and a router.  Try buying a clue.\n";
-    &Error($mfg);
+    &Error("You must at least choose a Query and a router.  Try buying a clue.\n");
 }
 
 if (! arraymember(\@rtrlist, $router)) {

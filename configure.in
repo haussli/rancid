@@ -215,7 +215,7 @@ ac_cv_env_path=$ENV_PATH
 AC_SUBST(ENV_PATH)
 
 AC_OUTPUT(Makefile \
-	man/Makefile man/env.5)
+	man/Makefile man/env.5 man/lg.conf.5)
 
 # fix permissions on scripts.
 for file in $progs; do chmod a+x $file; done

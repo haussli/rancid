@@ -193,48 +193,66 @@ sub ShowVersion {
 	    my($cpu) = $2;
 	    my($mem) = $3;
 	    my($device) = "router";
-	    if ( $1 eq "CSC") {
+
+	    # the next line ought to be the more specific cpu info, grab it.
+	    # yet, some boards/IOS vers have a processor ID line between these
+	    # two.  grrr.  make sure we dont grab the "software" junk that
+	    # follows these lines by looking for "CPU at " or the 2600s
+	    # "processor: " unique string.  there are undoubtedly many other
+	    # incantations.  for a slave, we dont get this info and its just a
+	    # blank line.
+	    $_ = <INPUT>;
+	    $_ = <INPUT> if (/processor board id/i);
+	    $_ = "" if (! /(cpu at |processor: )/i);
+	    tr/\015//d;
+	    s/implementation/impl/i;
+	    if ($_ !~ /^\s*$/) {
+		chomp;
+		s/^/, /;
+	    }
+
+	    if ( $proc eq "CSC") {
 		$type = "AGS";
-	    } elsif ( $1 eq "CSC4") {
+	    } elsif ( $proc eq "CSC4") {
 		$type = "AGS+";
-	    } elsif ( $1 eq "2511" || $1 eq "2524" || $1 eq "AS2511-RJ") {
+	    } elsif ( $proc =~ /^(AS)?25[12][12]/) {
 		$type = "2500";
-	    } elsif ( $1 =~ /261[01]/ || $1 =~ /262[01]/ ) {
+	    } elsif ( $proc =~ /261[01]/ || $proc =~ /262[01]/ ) {
 		$type = "2600";
-	    } elsif ( $1 eq "3620" || $1 eq "3640") {
+	    } elsif ( $proc =~ /^36[0246][0-9]/) {
 		$type = "3600";
-	    } elsif ( $1 eq "RSP7000") {
+	    } elsif ( $proc eq "RSP7000") {
 		$type = "7500";
-	    } elsif ( $1 =~ /RSP\d/) {
+	    } elsif ( $proc =~ /RSP\d/) {
 		$type = "7500";
-	    } elsif ( $1 eq "RP1") {
+	    } elsif ( $proc eq "RP1") {
 		$type = "7000";
-	    } elsif ( $1 eq "RP") {
+	    } elsif ( $proc eq "RP") {
 		$type = "7000";
-	    } elsif ( $1 =~ /720[246]/) {
+	    } elsif ( $proc =~ /720[246]/) {
 		$type = "7200";
-	    } elsif ( $1 =~ /1200[48]\/GRP/ || $1 =~ /1201[26]\/GRP/) {
+	    } elsif ( $proc =~ /1200[48]\/GRP/ || $proc =~ /1201[26]\/GRP/) {
 		$type = "12000";
-	    } elsif ( $1 =~ /1201[26]-8R\/GRP/) {
+	    } elsif ( $proc =~ /1201[26]-8R\/GRP/) {
 		$type = "12000";
-	    } elsif ( $1 =~ /WS-C29/) {
+	    } elsif ( $proc =~ /WS-C29/) {
 		$type = "2900XL";
 		$device = "switch";
-	    } elsif ( $1 =~ /WS-C35/) {
+	    } elsif ( $proc =~ /WS-C35/) {
 		$type = "3500XL";
 		$device = "switch";
-	    } elsif ( $1 =~ /6000/) {
+	    } elsif ( $proc =~ /6000/) {
 		$type = "6000";
 		$device = "switch";
 	    } else {
-		$type = $1;
+		$type = $proc;
 	    }
 	    print STDERR "TYPE = $type\n" if ($debug);
 	    ProcessHistory("COMMENTS","keysort","A1",
 		"!Chassis type:$slave $proc - a $type $device\n");
 	    ProcessHistory("COMMENTS","keysort","B1",
 		"!Memory:$slave main $mem\n");
-	    ProcessHistory("COMMENTS","keysort","A3","!CPU:$slave $cpu\n");
+	    ProcessHistory("COMMENTS","keysort","A3","!CPU:$slave $cpu$_\n");
 	    next;
 	}
 	if (/(\S+) Silicon\s*Switch Processor/) {

@@ -1,4 +1,6 @@
 2.1
+	Escape regex meta-chars found in device prompts in *rancid
+
 	Add "include" directive to include other pwd files via .cloginrc
 
 	Add "show port ifindex" for the cat5s.

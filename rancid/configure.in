@@ -72,8 +72,22 @@ fi],
 [AC_MSG_RESULT(yes)
     enable_mk_localstatedir="yes"
 ])
-#rd_cv_ADMINMAILPLUS=$ADMINMAILPLUS
 AM_CONDITIONAL([MK_LCLSTATEDIR], [test "${enable_mk_localstatedir}" = yes])
+
+# Check if user wants us to create LOCALSTATEDIR.  If it's a package-system,
+# they might create it themselves for book-keeping sake; eg: NetBSD
+AC_MSG_CHECKING([whether to install sample .conf files in sysconfdir])
+AC_ARG_ENABLE(conf-install,
+	AS_HELP_STRING([--enable-conf-install], [enable install of sample .conf files in sysconfdir (default: yes)]),
+[if test "$enable_conf_install" = yes; then
+    AC_MSG_RESULT(yes)
+else
+    AC_MSG_RESULT(no)
+fi],
+[AC_MSG_RESULT(yes)
+    enable_conf_install="yes"
+])
+AM_CONDITIONAL([CONF_INSTALL], [test "${enable_conf_install}" = yes])
 
 # Check for a preference for using mail addresses like rancid+group
 # instead of the standard rancid-group

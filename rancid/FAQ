@@ -15,6 +15,8 @@ A. Check if 'write term' produces output.  Some IOS combined with large
 
 2) CVS and filesystem permissions
 
+   WARNING: Be careful when mucking around with the repository!
+
 Q. I am new to CVS, where can I find additional information?
 A. The manual page for CVS is quite complete, but can be be overwhelming even
    for someone familiar with RCS.  There are some excellent resources on the

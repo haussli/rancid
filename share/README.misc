@@ -18,7 +18,7 @@ rancid-foo:	engineering,
 		customer-ops-foo
 #
 # only send diffs for the SJC routers (aka. *.sjc.shrubbery.net)
-customer-ops-foo:	"| /home/rancid/util/rtrfilter -i '\.sjc\.' -s 'sjc router diffs' customer-ops"
+customer-ops-foo:	"| /usr/local/rancid/share/rancid/rtrfilter -i '\.sjc\.' -s 'sjc router diffs' customer-ops"
 #
 customer-ops:	jimbob,
 		sally

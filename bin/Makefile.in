@@ -23,7 +23,7 @@ distclean: clean
 	rm -f config.log config.status
 
 distdir:
-	for file in Makefile.in $(BIN_DATA:=.in) ; do \
+	for file in Makefile.in $(BIN_DATAS:=.in) ; do \
 	    $(INSTALL_DATA) $$file $(distdir); \
 	done
 	for file in configure $(BIN_PROGS:=.in) ; do \

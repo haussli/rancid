@@ -12,14 +12,4 @@
         - enctype is 0|7
 	it has to be reversible, so it can be used to encrypt pkts
 
-  ip vrrp authentication simple key <key1>
-        key1 is reversible
-
-  interface xx
-   router vrrp
-    authentication simple key <key1>
-        key1 is reversible
-	- got there interface bits...doesnt appear to be a 'router vrrp',
-	  need to look closer.
-
 - lots of GC'ing to be done

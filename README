@@ -68,12 +68,12 @@ expect		http://expect.nist.gov/  we highly suggest that you stick to
 		you have to have the accompanying tcl &/ tk.
 tcl		required by expect.
 
-Bill Fenner has a cgi script for interacting with CVS repositories via
-a web interface.  This provides a great way to view rancid diffs and
-full configs, especially for those unfamiliar with cvs.  The package is
-not included, but can be found here:
+Bill Fenner (now maintained by others) has a cgi script for interacting
+with CVS repositories via a web interface.  This provides a great way to
+view rancid diffs and full configs, especially for those unfamiliar with
+cvs.  The package is not included, but can be found here:
 
-	http://www.freebsd.org/~fenner/cvsweb/cvsweb-1.0.tar.gz
+	http://www.freebsd.org/projects/cvsweb.html
 
 
 Quick Installation Guide (an example):

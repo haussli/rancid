@@ -100,7 +100,9 @@ format.  It lists the devices that should be available to the looking glass
 users.  Only those devices of supported types and with state 'up' are made
 available.  If not defined and the default file does not exist, the looking
 glass will compile a list from the router.db files of all the groups present
-in rancid, that is, the list will be a concatenation of $BASEDIR/*/router.db.
+in rancid, that is, the list will be a concatenation of the available
+.IR router.db (5)
+files.
 .sp
 Default: @prefix@/util/lg/router.db
 .sp

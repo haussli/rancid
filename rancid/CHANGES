@@ -1,4 +1,6 @@
 2.3.eft
+	rancid: order all 'ip host' commands.
+
 	rancid: collect show rsp chassis-info
 
 	rancid: filter HSRP auth and SSA key-string reversable passwords

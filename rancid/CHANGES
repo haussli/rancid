@@ -2,6 +2,9 @@
 	bin/par - rewrite in C, add -p, -f, and -e options
 
 2.2.2.eft
+	control_rancid: report devices added to router.db - from Fredrik Thulin
+	also eliminate empty up/down lists.
+
 	rancid/jrancid: filter isis passwords - partial from Janos Mohacsi
 
 	lg: make o/p from the lg stream and unbuffered, so one doesnt have

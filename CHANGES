@@ -1,4 +1,6 @@
 2.2
+	rancid: filter vpdn passwords on PIX - from eric greenwood
+
 	*rancid: handle variable amounts of spaces in front of
 	' password' correctly.
 

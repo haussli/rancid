@@ -340,7 +340,7 @@ proc login { router user userpswd passwd enapasswd prompt cyphertype } {
 	"$prompt"	{ }
 	denied		{ send_user "Error: Check your passwd for $router\n"
 			    if { $do_command || $do_script } {
-			      send "quit"
+			      send "exit\r"
 			      wait
 			      return 1
 			  } else {

@@ -189,9 +189,9 @@ sub ShowVersion {
 		$type = "7000";
 	    } elsif ( $1 eq "RP") {
 		$type = "7000";
-	    } elsif ( $1 eq "7202" || $1 eq "7204" || $1 eq "7204VXR" || $1 eq "7206" || $1 eq "7206VXR") {
+	    } elsif ( $1 =~ /720[246]/) {
 		$type = "7200";
-	    } elsif ($1 eq "12004/GRP" || $1 eq "12008/GRP" || $1 eq "12012/GRP" || $1 eq "12016/GRP") {
+	    } elsif ($1 =~ /1200[48]\/GRP/ || $1 =~ /1201[26]\/GRP/) {
 		$type = "12000";
 	    } else {
 		$type = $1;
@@ -247,6 +247,21 @@ sub ShowVersion {
 	    $config_register=$1;
 	    next;
 	}
+    }
+    return(0);
+}
+
+# This routine parses "show install active"
+sub ShowInstallActive {
+    print STDERR "    In ShowInstallActive: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /^\s*\^\s*$/;
+	return(1) if /Invalid input detected/;
+	ProcessHistory("COMMENTS","keysort","F5","!Image: $_") && next;
     }
     return(0);
 }
@@ -378,6 +393,7 @@ sub DirSlotN {
 	return(1) if ($type !~ /^(120|7|36)/);
 	return(1) if /^\s*\^\s*$/;
 	return(1) if /Invalid input detected/;
+	return(1) if /\%Error: No such file or directory/;
 	return(1) if /No space information available/;
 	return(-1) if /\%Error calling/;
 	return(-1) if /: device being squeezed/; # Flash is busy
@@ -408,10 +424,15 @@ sub ShowContAll {
 	/(Media Type is \S+),/ &&
 	    ProcessHistory("INT","","","!\t$1\n");
 	    if (/(M\dT:) show controller:$/) {
+		my($ctlr) = $1;
+		$_ = <INPUT>; tr/\015//d; s/ subunit \d,//;
+		ProcessHistory("INT","","","!Interface: $ctlr $_");
+	    }
+	if (/^(\S+) : show controller:$/) {
 	    my($ctlr) = $1;
 	    $_ = <INPUT>; tr/\015//d; s/ subunit \d,//;
-	    ProcessHistory("INT","","","!Interface: $ctlr $_");
-	    }
+	    ProcessHistory("INT","","","!Interface: $ctlr: $_");
+	}
 	/^(HD unit \d), idb/ &&
 	    ProcessHistory("INT","","","!Interface: $1\n") && next;
 	/^HD unit \d, NIM/ &&
@@ -723,7 +744,7 @@ sub WriteTerm {
 	/^enable password / &&
 	    ProcessHistory("ENABLE","","","!enable password <removed>\n") &&
 	    next;
-	/^(username .*) password \d *(\S)\s*(.*)/ &&
+	/^(username .*) password /&&
 	    ProcessHistory("USER","","","!$1 password <removed>\n") && next;
 	/^\s*password / &&
 	    ProcessHistory("LINE-PASS","","","! password <removed>\n") && next;
@@ -848,6 +869,7 @@ sub DoNothing {print STDOUT;}
 # Main
 %commands=(
 	'show version'		=> "ShowVersion",
+	'show install active'	=> "ShowInstallActive",
 	'show env all'		=> "ShowEnv",
 	'show gsr chassis'	=> "ShowGSR",
 	'show boot'		=> "ShowBoot",
@@ -869,6 +891,7 @@ sub DoNothing {print STDOUT;}
 # cmds is important (show version first and write term last). pita
 @commands=(
 	"show version",
+	"show install active",
 	"show env all",
 	"show gsr chassis",
 	"show boot",

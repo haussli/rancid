@@ -30,7 +30,7 @@ $file = $opt_f;
 $host = $ARGV[0];
 $clean_run = 0;
 $found_end = 0;
-$timeo = 90;			# clogin timeout in seconds
+$timeo = 90;			# flogin timeout in seconds
 
 # This routine is used to print out the router configuration
 sub ProcessHistory {

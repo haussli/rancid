@@ -1,4 +1,6 @@
 .\"
+.\" $Id$
+.\"
 .hys 50
 .TH "rancid_intro" "1" "7 Jan 2004"
 .SH NAME
@@ -20,13 +22,13 @@ unwanted or security related data such as chassis temperature and easily
 reverse-able passwords.
 .PP
 Named after the device's name in the group's configuration file (\c
-.B router.db\c
-), the resulting files are saved in the directory <group>/configs.  Except for
+.IR router.db ),
+the resulting files are saved in the directory <group>/configs.  Except for
 the data filtered from the configuration file for security reasons, such as
 reversable passwords, these files are suitable for loading directly to restore
 a lost configuration.  See
 .BR rancid.conf (5)
-for more information on <group>'s.
+for more information on <group>s.
 .PP
 After filtering, a uni-diff (see 
 .BR diff (1))
@@ -79,14 +81,12 @@ the router, it could just as easily be that the card crashed so the RP
 can not communicate with it to collect information.
 .SH "GETTING STARTED"
 Installation instructions are included in the distribution's top-level
-directory in the README file.  Once the installation is complete, start
-by reading the man pages listed below or follow the basic instructions
-included in the README file.
+directory in the README file (which will be installed in share/rancid).
+Once the installation is complete, start by reading the man pages listed
+below or follow the basic instructions included in the README file.
 .PP
 See http://www.shrubbery.net/rancid for information on new versions,
 mail lists, etc.
-.B rancid
-can be retrieved from ftp://ftp.shrubbery.net/pub/rancid.
 .SH "ADDING NEW GROUPS"
 Follow this procdure for adding new groups:
 .TP

@@ -452,17 +452,13 @@ foreach router [lrange $argv $i end] {
       # command line passwd
       set passwd $userpasswd
     } else {
-      set userpswd [lindex [find userpassword $loginname@$router] 0]
-      if { "$userpswd" == "" } {
-        set userpswd [lindex [find userpassword $router] 0]
-      }
-      if { "$userpswd" == "" } {
-        set passwd [lindex [find password $loginname@$router] 0]
+      set passwd [lindex [find userpassword $loginname] 0]
+      if { "$passwd" == "" } {
+        set passwd [lindex [find password $router] 0]
         if { "$passwd" == "" } {
-          set passwd [lindex [find password $router] 0]
+	  send_user "Error: no password for $router in $password_file.\n"
+	  continue
         }
-      } else {
-        set passwd $userpswd
       }
     }
 

@@ -1,4 +1,6 @@
 2.3.2
+	jerancid: fix check for slave RE sync in DirSlotN - from Mark Lovely
+
 	rancid: collect 6500's sub-module info from show modules
 
 	jrancid: collect license info & RE Model.

@@ -1,9 +1,12 @@
 #!@PERLV_PATH@
 ##
+## $Id$
+##
 ## Amazingly hacked version of Hank's rancid - this one tries to
 ## deal with foundrys and foundrys OEM'd by HP as Procurves.
 ##
-## Copyright (C) 1997-2001 by Henry Kilmer.
+## Copyright (C) 1997-2004 by Henry Kilmer, Pete Whiting, Andrew Partan,
+## and John Heasley.
 ## All rights reserved.
 ##
 ## This software may be freely copied, modified and redistributed without
@@ -15,7 +18,6 @@
 ## responsibility and liability with respect to this software's usage
 ## or its effect upon hardware, computer systems, other software, or
 ## anything else.
-##
 ##
 #
 #  RANCID - Really Awesome New Cisco confIg Differ

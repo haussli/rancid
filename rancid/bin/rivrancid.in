@@ -5,11 +5,12 @@
 ## Amazingly hacked version of Hank's rancid - this one tries to
 ## deal with Cabletron and Riverstone routers/switches 
 ## 
-## Copyright (C) 1997-2001 by Henry Kilmer.
-## All rights reserved.
-##
 ## 10/23/2002 -- Initial changes for Riverstone/Cabletron support
 ##               Jim Meehan -- jmeehan@vpizza.org
+##
+## Copyright (C) 1997-2004 by Henry Kilmer, Pete Whiting, Andrew Partan,
+## and John Heasley.
+## All rights reserved.
 ##
 ## This software may be freely copied, modified and redistributed without
 ## fee for non-commerical purposes provided that this copyright notice is
@@ -20,7 +21,6 @@
 ## responsibility and liability with respect to this software's usage
 ## or its effect upon hardware, computer systems, other software, or
 ## anything else.
-##
 ##
 #
 #  RANCID - Really Awesome New Cisco confIg Differ

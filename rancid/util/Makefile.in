@@ -17,10 +17,11 @@ install: all
 	cd lg; $(MAKE) -e install
 
 clean:
+	cd lg; $(MAKE) -e clean; \
 	rm -f Makefile $(UTIL_PROGS)
 
 distclean: clean
-	cd lg; $(MAKE) -e install; \
+	cd lg; $(MAKE) -e distclean; \
 	rm -f config.log config.status
 
 distdir:

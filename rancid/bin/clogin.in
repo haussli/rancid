@@ -384,7 +384,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	    exp_continue
 	}
 	"$prompt"	{ break; }
-	denied		{ send_user "\nError: Check your passwd for $router\n"
+	-re "(denied|Sorry)"	{ send_user "\nError: Check your passwd for $router\n"
 			    if { $do_command || $do_script } {
 			      send "exit\r"
 			      wait

@@ -447,7 +447,7 @@ proc run_commands { prompt command } {
 	    expect {
 		-re "^\[^\n\r *]*$reprompt"	{}
 		-re "^\[^\n\r]*$reprompt."	{ exp_continue }
-		-re "^<--- More --->"		{ send " "
+		-re "^<-+ More -+>\[^\n\r]*"	{ send " "
 						  exp_continue }
 		-re "\[\n\r]"			{ exp_continue }
 	    }
@@ -459,7 +459,7 @@ proc run_commands { prompt command } {
 	expect {
 		-re "^\[^\n\r *]*$reprompt"	{}
 		-re "^\[^\n\r]*$reprompt."	{ exp_continue }
-		-re "^<--- More --->"		{ send " "
+		-re "^<-+ More -+>\[^\n\r]*"	{ send " "
 						  exp_continue }
 		-re "\[\n\r]"			{ exp_continue }
 	}

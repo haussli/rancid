@@ -1,3 +1,7 @@
+- deal w/ this openssh prompt
+  Matching host key in /home/heas/.ssh/known_hosts:328
+  Offending key for IP in /home/heas/.ssh/known_hosts:167
+  Are you sure you want to continue connecting (yes/no)? 
 - extreme collections lose when the config on the switch is in an unsaved
   state, probably due to the prompt changing or rather how clogin formulates
   the prompt used by expect{ -re }'s.

@@ -135,6 +135,7 @@ sub sortbyipaddr {
 # This routine parses "show version"
 sub ShowVersion {
     print STDERR "    In ShowVersion: $_" if ($debug);
+    my($slaveslot);
 
     while (<INPUT>) {
 	tr/\015//d;
@@ -146,7 +147,7 @@ sub ShowVersion {
 	s/^<-+ More -+>\s*//;
 	if (/^Slave in slot (\d+) is running/) {
 	    $slave = " Slave:";
-	    #ProcessHistory("COMMENTS","keysort","A4", "!CPU: Slave: slot$1\n");
+	    $slaveslot = ", slot $1";
 	    next;
 	}
 	/^Cisco Secure PIX /i &&
@@ -255,7 +256,7 @@ sub ShowVersion {
 		"!Chassis type:$slave $proc - a $type $device\n");
 	    ProcessHistory("COMMENTS","keysort","B1",
 		"!Memory:$slave main $mem\n");
-	    ProcessHistory("COMMENTS","keysort","A3","!CPU:$slave $cpu$_\n");
+	    ProcessHistory("COMMENTS","keysort","A3","!CPU:$slave $cpu$_$slaveslot\n");
 	    next;
 	}
 	if (/(\S+) Silicon\s*Switch Processor/) {

@@ -147,7 +147,7 @@ print <<QTYPES ;
 <dd><input type=radio name="query" value="route">show ip route &lt;prefix&gt; [netmask]</DD>
 <dd><input type=radio name="query" value="mbgp">show ip mbgp &lt;prefix&gt; [netmask]</dd>
 <dd><input type=radio name="query" value="mbgpsum">show ip mbgp summary</dd>
-<dd><input type=radio name="query" value="log">show logging [| &lt;match_string&gt;]</DD>
+<dd><input type=radio name="query" value="log">show logging [ | &lt;match_string&gt;]</DD>
 <dd><input type=radio name="query" value="ping">ping &lt;IP_addr | FQDN&gt;</dd>
 <dd><input type=radio name="query" value="trace">traceroute &lt;IP_addr | FQDN&gt;</DD>
 

@@ -1,4 +1,7 @@
 2.2b2
+	fix jlogin's password/userpassword functionality which broke when
+	cmd-line options were made consistent.
+
 	add check for config/* files missing from the cvs repository.
 
 	add 2 juniper config checks to avoid truncation. 1) config should

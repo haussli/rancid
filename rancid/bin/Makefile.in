@@ -51,8 +51,7 @@ DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/jlogin.in $(srcdir)/jrancid.in $(srcdir)/mrancid.in \
 	$(srcdir)/nlogin.in $(srcdir)/nrancid.in $(srcdir)/nslogin.in \
 	$(srcdir)/nsrancid.in $(srcdir)/par.in $(srcdir)/prancid.in \
-	$(srcdir)/rancid-cvs.in $(srcdir)/rancid-fe.in \
-	$(srcdir)/rancid-run.in $(srcdir)/rancid.in \
+	$(srcdir)/rancid-fe.in $(srcdir)/rancid.in \
 	$(srcdir)/rivlogin.in $(srcdir)/rivrancid.in \
 	$(srcdir)/rrancid.in $(srcdir)/tntlogin.in \
 	$(srcdir)/tntrancid.in $(srcdir)/xrancid.in \
@@ -64,12 +63,12 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES = control_rancid par rancid-cvs rancid-fe \
-	rancid-run alogin arancid blogin brancid cat5rancid clogin \
-	rancid cssrancid elogin erancid f10rancid flogin francid \
-	fnrancid jlogin jrancid jerancid hlogin hrancid htlogin \
-	htrancid mrancid nlogin nrancid nslogin nsrancid prancid \
-	rivlogin rivrancid rrancid tntlogin tntrancid xrancid zrancid
+CONFIG_CLEAN_FILES = control_rancid par rancid-fe alogin arancid \
+	blogin brancid cat5rancid clogin rancid cssrancid elogin \
+	erancid f10rancid flogin francid fnrancid jlogin jrancid \
+	jerancid hlogin hrancid htlogin htrancid mrancid nlogin \
+	nrancid nslogin nsrancid prancid rivlogin rivrancid rrancid \
+	tntlogin tntrancid xrancid zrancid
 am__installdirs = $(DESTDIR)$(bindir) $(DESTDIR)$(bindir)
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
@@ -200,12 +199,12 @@ bin_SCRIPTS = cat5rancid control_rancid \
 	jlogin jrancid jerancid \
 	hlogin hrancid htlogin htrancid \
 	mrancid nlogin nrancid nslogin nsrancid par prancid \
-	rancid rancid-cvs rancid-fe rancid-run rivlogin rivrancid rrancid \
+	rancid rancid-fe rivlogin rivrancid rrancid \
 	tntlogin tntrancid xrancid zrancid\
-lg.cgi lgform.cgi
-EXTRA_DIST = lg.cgi.in lgform.cgi.in
+lg.cgi lgform.cgi rancid-cvs rancid-run
+EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-run.in
 #dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
-CLEANFILES = lg.cgi lgform.cgi
+CLEANFILES = lg.cgi lgform.cgi rancid-cvs rancid-run
 #CLEANFILES= $(bin_SCRIPTS)
 hpuifilter_SOURCES = hpuifilter.c
 YFLAGS = -d
@@ -225,6 +224,7 @@ YFLAGS = -d
 # documentation.
 auto_edit = sed \
 	-e 's,@prefix\@,$(prefix),g' \
+	-e 's,@localstatedir\@,$(localstatedir),g' \
 	-e 's,@sysconfdir\@,$(sysconfdir),g' \
 	-e 's,@EXPECT_PATH\@,$(EXPECT_PATH),g' \
 	-e 's,@PERLV_PATH\@,$(PERLV_PATH),g' \
@@ -267,11 +267,7 @@ control_rancid: $(top_builddir)/config.status $(srcdir)/control_rancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 par: $(top_builddir)/config.status $(srcdir)/par.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rancid-cvs: $(top_builddir)/config.status $(srcdir)/rancid-cvs.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 rancid-fe: $(top_builddir)/config.status $(srcdir)/rancid-fe.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rancid-run: $(top_builddir)/config.status $(srcdir)/rancid-run.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 alogin: $(top_builddir)/config.status $(srcdir)/alogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
@@ -589,6 +585,18 @@ lgform.cgi: Makefile $(srcdir)/lgform.cgi.in
 	$(auto_edit) $(srcdir)/lgform.cgi.in >lgform.cgi.tmp; \
 	chmod +x lgform.cgi.tmp; \
 	mv lgform.cgi.tmp lgform.cgi
+
+rancid-cvs: Makefile $(srcdir)/rancid-cvs.in
+	rm -f rancid-cvs rancid-cvs.tmp; \
+	$(auto_edit) $(srcdir)/rancid-cvs.in >rancid-cvs.tmp; \
+	chmod +x rancid-cvs.tmp; \
+	mv rancid-cvs.tmp rancid-cvs
+
+rancid-run: Makefile $(srcdir)/rancid-run.in
+	rm -f rancid-run rancid-run.tmp; \
+	$(auto_edit) $(srcdir)/rancid-run.in >rancid-run.tmp; \
+	chmod +x rancid-run.tmp; \
+	mv rancid-run.tmp rancid-run
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

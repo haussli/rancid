@@ -27,14 +27,14 @@ bin_SCRIPTS = cat5rancid control_rancid \
 	jlogin jrancid jerancid \
 	hlogin hrancid htlogin htrancid \
 	mrancid nlogin nrancid nslogin nsrancid par prancid \
-	rancid rancid-cvs rancid-fe rancid-run rivlogin rivrancid rrancid \
+	rancid rancid-fe rivlogin rivrancid rrancid \
 	tntlogin tntrancid xrancid zrancid
 
-bin_SCRIPTS += lg.cgi lgform.cgi
-EXTRA_DIST= lg.cgi.in lgform.cgi.in
+bin_SCRIPTS += lg.cgi lgform.cgi rancid-cvs rancid-run
+EXTRA_DIST= lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-run.in
 #dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
 
-CLEANFILES= lg.cgi lgform.cgi
+CLEANFILES= lg.cgi lgform.cgi rancid-cvs rancid-run
 #CLEANFILES= $(bin_SCRIPTS)
 
 hpuifilter_SOURCES = hpuifilter.c
@@ -63,6 +63,7 @@ YFLAGS = -d
 # documentation.
 auto_edit = sed \
 	-e 's,@prefix\@,$(prefix),g' \
+	-e 's,@localstatedir\@,$(localstatedir),g' \
 	-e 's,@sysconfdir\@,$(sysconfdir),g' \
 	-e 's,@EXPECT_PATH\@,$(EXPECT_PATH),g' \
 	-e 's,@PERLV_PATH\@,$(PERLV_PATH),g' \
@@ -79,3 +80,15 @@ lgform.cgi: Makefile $(srcdir)/lgform.cgi.in
 	$(auto_edit) $(srcdir)/lgform.cgi.in >lgform.cgi.tmp; \
 	chmod +x lgform.cgi.tmp; \
 	mv lgform.cgi.tmp lgform.cgi
+
+rancid-cvs: Makefile $(srcdir)/rancid-cvs.in
+	rm -f rancid-cvs rancid-cvs.tmp; \
+	$(auto_edit) $(srcdir)/rancid-cvs.in >rancid-cvs.tmp; \
+	chmod +x rancid-cvs.tmp; \
+	mv rancid-cvs.tmp rancid-cvs
+
+rancid-run: Makefile $(srcdir)/rancid-run.in
+	rm -f rancid-run rancid-run.tmp; \
+	$(auto_edit) $(srcdir)/rancid-run.in >rancid-run.tmp; \
+	chmod +x rancid-run.tmp; \
+	mv rancid-run.tmp rancid-run

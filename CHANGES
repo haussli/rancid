@@ -2,6 +2,7 @@
 	The following files have been moved to make rancid more
 	install/pkg/port/rpm friendly.
 		*** bin/env has been moved to etc/rancid.conf ***
+		*** bin/hpfilter has been rename hpuifilter ***
 		*** util/lg/lg.conf has been moved to etc/lg.conf ***
 
 	rancid: IOS show version changes w/ 12.3 - from Yuval Ben-Ari

@@ -136,170 +136,35 @@ sub sortbyipaddr {
 # This routine parses "show version"
 sub ShowVersion {
     print STDERR "    In ShowVersion: $_" if ($debug);
-    my($slaveslot);
+    my($slots);
 
     while (<INPUT>) {
 	tr/\015//d;
 	last if(/^$prompt/);
 	next if(/^(\s*|\s*$cmd\s*)$/);
 	return(-1) if (/command authorization failed/i);
-	# the pager can not be disabled per-session on the PIX
-	s/^<-+ More -+>\s*//;
-	if (/^Slave in slot (\d+) is running/) {
-	    $slave = " Slave:";
-	    $slaveslot = ", slot $1";
-	    next;
-	}
-	/^Cisco Secure PIX /i &&
-	    ProcessHistory("COMMENTS","keysort","F1", "!Image: $_") && next;
-	/^IOS .* Software \(([A-Za-z-0-9]*)\), .*Version\s+(.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","F1",
-		"!Image:$slave Software: $1, $2\n") && next;
-	/^([A-Za-z-0-9_]*) Synced to mainline version: (.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","F2",
-		"!Image:$slave $1 Synced to mainline version: $2\n") && next;
-	/^Compiled (.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","F3",
-		"!Image:$slave Compiled: $1\n") && next;
-	/^ROM: (IOS \S+ )?(System )?Bootstrap.*(Version.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","G1",
-		"!ROM Bootstrap: $3\n") && next;
-	if (/^Hardware:\s+(.*), (.* RAM), CPU (.*)$/) {
-	    ProcessHistory("COMMENTS","keysort","A1",
-		"!Chassis type: $1 - a PIX\n");
-	    ProcessHistory("COMMENTS","keysort","A2",
-		"!CPU: $3\n");
-	    ProcessHistory("COMMENTS","keysort","B1", "!Memory: $2\n");
-	}
-	/^Serial Number:\s+(.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","C1", "!$_") && next;
-	/^Activation Key:\s+(.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","C2", "!$_") && next;
-	/^ROM: \d+ Bootstrap .*(Version.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","G2",
-		"!ROM Image: Bootstrap $1\n!\n") && next;
-	/^ROM: .*(Version.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","G3","!ROM Image: $1\n") && next;
-	/^BOOTFLASH: .*(Version.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","G4","!BOOTFLASH: $1\n") && next;
-	/^BOOTLDR: .*(Version.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","G4","!BOOTLDR: $1\n") && next;
-	/^System image file is "([^\"]*)", booted via (\S*)/ &&
-# removed the booted source due to
-# CSCdk28131: cycling info in 'sh ver'
-#	ProcessHistory("COMMENTS","keysort","F4","!Image: booted via $2, $1\n") &&
-	    ProcessHistory("COMMENTS","keysort","F4","!Image: booted $1\n") &&
-	    next;
-	/^System image file is "([^\"]*)"$/ &&
-	    ProcessHistory("COMMENTS","keysort","F5","!Image: $1\n") && next;
-	if (/(\S+)\s+\((\S+)\)\s+processor.*with (\S+[kK]) bytes/) {
-	    my($proc) = $1;
-	    my($cpu) = $2;
-	    my($mem) = $3;
-	    my($device) = "router";
 
-	    # the next line ought to be the more specific cpu info, grab it.
-	    # yet, some boards/IOS vers have a processor ID line between these
-	    # two.  grrr.  make sure we dont grab the "software" junk that
-	    # follows these lines by looking for "CPU at " or the 2600s
-	    # "processor: " unique string.  there are undoubtedly many other
-	    # incantations.  for a slave, we dont get this info and its just a
-	    # blank line.
-	    $_ = <INPUT>;
-	    $_ = <INPUT> if (/processor board id/i);
-	    $_ = "" if (! /(cpu at |processor: )/i);
-	    tr/\015//d;
-	    s/implementation/impl/i;
-	    if ($_ !~ /^\s*$/) {
-		chomp;
-		s/^/, /;
-	    }
+	/^Juniper Edge .* (\S+)$/ &&
+		ProcessHistory("COMMENTS","keysort","A1",
+				"!Chassis type: $1 - a $_") && next;
+	/^System Release: / &&
+		ProcessHistory("COMMENTS","keysort","B1", "!$_") && next;
+	/^\s+(Version: .*)$/ &&
+		ProcessHistory("COMMENTS","keysort","B1", "!System $1\n") &&
+		next;
 
-	    if ( $proc eq "CSC") {
-		$type = "AGS";
-	    } elsif ( $proc eq "CSC4") {
-		$type = "AGS+";
-	    } elsif ( $proc =~ /^(AS)?25[12][12]/) {
-		$type = "2500";
-	    } elsif ( $proc =~ /261[01]/ || $proc =~ /262[01]/ ) {
-		$type = "2600";
-	    } elsif ( $proc =~ /^36[0246][0-9]/) {
-		$type = "3600";
-	    } elsif ( $proc eq "RSP7000") {
-		$type = "7500";
-	    } elsif ( $proc =~ /RSP\d/) {
-		$type = "7500";
-	    } elsif ( $proc eq "RP1") {
-		$type = "7000";
-	    } elsif ( $proc eq "RP") {
-		$type = "7000";
-	    } elsif ( $proc =~ /720[246]/) {
-		$type = "7200";
-	    } elsif ( $proc =~ /1200[48]\/GRP/ || $proc =~ /1201[26]\/GRP/) {
-		$type = "12000";
-	    } elsif ( $proc =~ /1201[26]-8R\/GRP/) {
-		$type = "12000";
-	    } elsif ( $proc =~ /WS-C29/) {
-		$type = "2900XL";
-		$device = "switch";
-	    } elsif ( $proc =~ /WS-C35/) {
-		$type = "3500XL";
-		$device = "switch";
-	    } elsif ( $proc =~ /6000/) {
-		$type = "6000";
-		$device = "switch";
-	    } elsif ( $proc =~ /1900/) {
-		$type = "1900";
-		$device = "switch";
-	    } else {
-		$type = $proc;
+	if (/^(slot .*)\s+slot uptime/i) {
+	    ($slots++);
+	    ProcessHistory("COMMENTS","keysort","B2", "!\n! $1\n");
+	    next;
+	}
+	/^(--.*) --+$/ && $slots &&
+		ProcessHistory("COMMENTS","keysort","B2", "! $1\n") && next;
+	if (/^(\d+ +\S+ +(\S+).*) \S+$/ && $slots) {
+	    my($line) = $1;
+	    if ($2 != /--+/) {
+		ProcessHistory("COMMENTS","keysort","B3", "! $line\n");
 	    }
-	    print STDERR "TYPE = $type\n" if ($debug);
-	    ProcessHistory("COMMENTS","keysort","A1",
-		"!Chassis type:$slave $proc - a $type $device\n");
-	    ProcessHistory("COMMENTS","keysort","B1",
-		"!Memory:$slave main $mem\n");
-	    ProcessHistory("COMMENTS","keysort","A3","!CPU:$slave $cpu$_$slaveslot\n");
-	    next;
-	}
-	if (/(\S+) Silicon\s*Switch Processor/) {
-	    if (!defined($C0)) {
-		$C0=1; ProcessHistory("COMMENTS","keysort","C0","!\n");
-	    }
-	    ProcessHistory("COMMENTS","keysort","C2","!SSP: $1\n");
-	    $ssp = 1;
-	    $sspmem = $1;
-	    next;
-	}
-	/^(\d+[kK]) bytes of multibus/ &&
-	    ProcessHistory("COMMENTS","keysort","B2",
-		"!Memory: multibus $1\n") && next;
-	/^(\d+[kK]) bytes of non-volatile/ &&
-	    ProcessHistory("COMMENTS","keysort","B3",
-		"!Memory: nvram $1\n") && next;
-	/^(\d+[kK]) bytes of flash memory/ &&
-	    ProcessHistory("COMMENTS","keysort","B5","!Memory: flash $1\n") &&
-	    next;
-	/^(\d+[kK]) bytes of .*flash partition/ &&
-	    ProcessHistory("COMMENTS","keysort","B6",
-		"!Memory: flash partition $1\n") && next;
-	/^(\d+[kK]) bytes of Flash internal/ &&
-	    ProcessHistory("COMMENTS","keysort","B4",
-		"!Memory: bootflash $1\n") && next;
-	if(/^(\d+[kK]) bytes of (Flash|ATA)?.*PCMCIA .*(slot|disk) ?(\d)/i) {
-	    ProcessHistory("COMMENTS","keysort","B7",
-		"!Memory: pcmcia $2 $3$4 $1\n");
-	    next;
-	}
-	if(/^WARNING/) {
-	    if (!defined($I0)) {
-		$I0=1;
-		ProcessHistory("COMMENTS","keysort","I0","!\n");
-	    }
-	    ProcessHistory("COMMENTS","keysort","I1","! $_");
-	}
-	if (/^Configuration register is (.*)$/) {
-	    $config_register=$1;
 	    next;
 	}
     }
@@ -314,16 +179,10 @@ sub ShowRedundancy {
 	tr/\015//d;
 	last if(/^$prompt/);
 	next if(/^(\s*|\s*$cmd\s*)$/);
-	# the pager can not be disabled per-session on the PIX
-	s/^<-+ More -+>\s*//;
 
-	/^IOS .* Software \(([A-Za-z-0-9]*)\), .*Version\s+(.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","F1",
-		"!Image:$slave Software: $1, $2\n") && next;
-	/^Compiled (.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","F3",
-		"!Image:$slave Compiled: $1\n") && next;
+	ProcessHistory("","","","! $_");
     }
+    ProcessHistory("","","","!\n");
     return(0);
 }
 
@@ -336,9 +195,10 @@ sub ShowEnv {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
-	#return(1) if ($type !~ /^7/);
 	return(-1) if (/command authorization failed/i);
-	# the pager can not be disabled per-session on the PIX
+
+	ProcessHistory("","","","! $_");
+next;
 	s/^<-+ More -+>\s*//;
 	if (!defined($E0)) {
 	    $E0=1;
@@ -367,8 +227,6 @@ sub ShowEnv {
 
 # This routine parses "show boot"
 sub ShowBoot {
-    # Pick up boot variables if 7000/7200/7500/12000/2900/3500;
-    # otherwise pick up bootflash.
     print STDERR "    In ShowBoot: $_" if ($debug);
 
     while (<INPUT>) {
@@ -378,10 +236,9 @@ sub ShowBoot {
 	return(1) if /^\s*\^\s*$/;
 	return(-1) if (/command authorization failed/i);
 	return(1) if /Ambiguous command/i;
-	return(1) if /(Invalid input detected|Type help or )/;
-	return(1) if /(Open device \S+ failed|Error opening \S+:)/;
-	# the pager can not be disabled per-session on the PIX
-	s/^<-+ More -+>\s*//;
+	ProcessHistory("","","","! $_");
+next;
+
 	next if /CONFGEN variable/;
 	if (!defined($H0)) {
 	    $H0=1; ProcessHistory("COMMENTS","keysort","H0","!\n");
@@ -402,7 +259,6 @@ sub ShowBoot {
 
 # This routine parses "dir"
 sub DirSlotN {
-    # Skip if this is not a 3600, 7000, 7200, 7500, or 12000.
     print STDERR "    In DirSlotN: $_" if ($debug);
 
     my($dev) = (/\s([^\s]+):/);
@@ -410,20 +266,11 @@ sub DirSlotN {
     while (<INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
+	next if (/^Please wait/i);
 	next if (/^(\s*|\s*$cmd\s*)$/);
-	# return(1) if ($type !~ /^(12[40]|7|36)/);
-	return(1) if /^\s*\^\s*$/;
-	return(1) if /(Invalid input detected|Type help or )/;
-	return(1) if /(No such device|Error Sending Request)/i;
-	return(1) if /\%Error: No such file or directory/;
-	return(1) if /No space information available/;
-	return(-1) if /\%Error calling/;
-	return(-1) if /(: device being squeezed|ATA_Status time out)/i; # busy
-	return(-1) if (/command authorization failed/i);
-	return(1) if /(Open device \S+ failed|Error opening \S+:)/;
-	# the pager can not be disabled per-session on the PIX
-	s/^<-+ More -+>\s*//;
-	ProcessHistory("FLASH","","","!Flash: $dev: $_");
+	next if (/^system\.log/);
+
+	ProcessHistory("FLASH","","","!Flash: $_");
     }
     ProcessHistory("","","","!\n");
     return(0);
@@ -432,7 +279,7 @@ sub DirSlotN {
 # This routine parses "show hardware"
 sub ShowHardware {
     # Skip if this is a 70[01]0, 7500, or 12000.
-    print STDERR "    In ShowContAll: $_" if ($debug);
+    print STDERR "    In ShowHardware: $_" if ($debug);
 
     while (<INPUT>) {
 	tr/\015//d;
@@ -757,10 +604,11 @@ sub WriteTerm {
 
 	# catch anything that wasnt matched above.
 	ProcessHistory("","","","$_");
-	# end of config.  the ": " game is for the PIX
-	if (/^(: +)?end$/) {
+	# end of config...is a comment.
+	if (/^! end of /i) {
 	    $found_end = 1;
 	    return(1);
+printf(STDERR "fooo\n");
 	}
     }
     return(0);

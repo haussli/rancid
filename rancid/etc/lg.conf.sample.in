@@ -117,7 +117,8 @@ $LG_STRIP=1;
 #		of each variable is the string which will appear in the
 #		(lgform.cgi) menu.  Mind the ,'s within hash assignments.
 #
-#		The double-commented queries are not implemented.
+#		The double-commented (##) queries are not implemented or have
+#		not been tested.
 #
 $queries = {};
 #
@@ -131,25 +132,25 @@ $queries->{"interface"} = {
 $queries->{"routing"} = {
 	damp => "show ip bgp dampened-paths",
 	neighbor => "show ip bgp neighbor <IP_addr>",
-	prefix => "show ip bgp prefix <prefix> [netmask]",
+	prefix => "show ip bgp <prefix> [netmask]",
 	prefixlist => "show ip prefix-list <list_name>",
 	regex => "show ip bgp regex <regex>",
 	route => "show ip route <prefix> [netmask]",
-	## routemap => "Show Routing Policy Actions <policy_name/number>",
+	routemap => "show route-map <policy_name/number>",
 	summary => "show ip bgp summary"
 };
 #
 # Debug queries
 $queries->{"debug"} = {
-	## log => "Show Logs [ | <match_string>]",
+	log => "Show Logs [ | <match_string>]",
 	ping => "ping <IP_addr | FQDN>",
 	trace => "traceroute <IP_addr | FQDN>"
 };
 #
 # Multicast queries
 $queries->{"multicast"} = {
-	## mbgp => "Show Multicast Route (MBGP) <prefix> [netmask]",
-	## mbgpsum => "Show MBGP Peering Status",
+	mbgp => "Show ip mbgp <prefix> [netmask]",
+	mbgpsum => "Show ip mbgp summary",
 	# show ip pim interface/show pim interface
 	## pim_interface => "Show PIM Interfaces",
 	# ???/show pim join (extensive)

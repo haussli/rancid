@@ -11,8 +11,6 @@
 - Also, need to allow 12012s, and force 700s to not be treated like 7Ks.
 - flogin (for foundry) needs more testing and should be integrated with
   clogin when foundry fixes their UI.
-- do-diffs (or something in the proc path) should make sure that all
-  the CVS'd files are up to date with respect to the repository.
 - missing man pages for lg.conf.5 ??, rtrfilter.1 ??, lgform.cgi.1 ???,
   lg.cgi.1 ???
 - Can you poke at the enableprompt stuff for .cloginrc?  In teh

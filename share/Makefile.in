@@ -36,7 +36,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 subdir = share
 DIST_COMMON = $(dist_pkgdata_DATA) $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in
+	$(srcdir)/Makefile.in $(srcdir)/downreport.in \
+	$(srcdir)/getipacctg.in $(srcdir)/rtrfilter.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/configure.in
@@ -44,12 +45,13 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES =
+CONFIG_CLEAN_FILES = rtrfilter downreport getipacctg
 SOURCES =
 DIST_SOURCES =
-am__installdirs = $(DESTDIR)$(pkgdatadir)
+am__installdirs = $(DESTDIR)$(pkgdatadir) $(DESTDIR)$(pkgdatadir)
 dist_pkgdataDATA_INSTALL = $(INSTALL_DATA)
-DATA = $(dist_pkgdata_DATA)
+pkgdataDATA_INSTALL = $(INSTALL_DATA)
+DATA = $(dist_pkgdata_DATA) $(pkgdata_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMDEP_FALSE = @AMDEP_FALSE@
@@ -148,7 +150,11 @@ target_alias = @target_alias@
 
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS = foreign
-dist_pkgdata_DATA = cisco-load.exp cisco-reload.exp index.html lgnotes.html
+pkgdata_DATA = rtrfilter downreport getipacctg
+dist_pkgdata_DATA = README.misc cisco-load.exp cisco-reload.exp index.html \
+	lgnotes.html
+
+EXTRA_DIST = rtrfilter.in downreport.in getipacctg.in
 all: all-am
 
 .SUFFIXES:
@@ -181,6 +187,12 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
+rtrfilter: $(top_builddir)/config.status $(srcdir)/rtrfilter.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+downreport: $(top_builddir)/config.status $(srcdir)/downreport.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+getipacctg: $(top_builddir)/config.status $(srcdir)/getipacctg.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 uninstall-info-am:
 install-dist_pkgdataDATA: $(dist_pkgdata_DATA)
 	@$(NORMAL_INSTALL)
@@ -195,6 +207,23 @@ install-dist_pkgdataDATA: $(dist_pkgdata_DATA)
 uninstall-dist_pkgdataDATA:
 	@$(NORMAL_UNINSTALL)
 	@list='$(dist_pkgdata_DATA)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(pkgdatadir)/$$f"; \
+	  rm -f $(DESTDIR)$(pkgdatadir)/$$f; \
+	done
+install-pkgdataDATA: $(pkgdata_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkdir_p) $(DESTDIR)$(pkgdatadir)
+	@list='$(pkgdata_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(pkgdataDATA_INSTALL) $$d$$p $(DESTDIR)$(pkgdatadir)/$$f"; \
+	  $(pkgdataDATA_INSTALL) $$d$$p $(DESTDIR)$(pkgdatadir)/$$f; \
+	done
+
+uninstall-pkgdataDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(pkgdata_DATA)'; for p in $$list; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
 	  echo " rm -f $(DESTDIR)$(pkgdatadir)/$$f"; \
 	  rm -f $(DESTDIR)$(pkgdatadir)/$$f; \
@@ -237,7 +266,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(DATA)
 installdirs:
-	$(mkdir_p) $(DESTDIR)$(pkgdatadir)
+	$(mkdir_p) $(DESTDIR)$(pkgdatadir) $(DESTDIR)$(pkgdatadir)
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -280,7 +309,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-dist_pkgdataDATA
+install-data-am: install-dist_pkgdataDATA install-pkgdataDATA
 
 install-exec-am:
 
@@ -306,20 +335,20 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-dist_pkgdataDATA uninstall-info-am
+uninstall-am: uninstall-dist_pkgdataDATA uninstall-info-am \
+	uninstall-pkgdataDATA
 
 .PHONY: all all-am check check-am clean clean-generic distclean \
 	distclean-generic distdir dvi dvi-am html html-am info info-am \
 	install install-am install-data install-data-am \
 	install-dist_pkgdataDATA install-exec install-exec-am \
-	install-info install-info-am install-man install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
-	pdf-am ps ps-am uninstall uninstall-am \
-	uninstall-dist_pkgdataDATA uninstall-info-am
+	install-info install-info-am install-man install-pkgdataDATA \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-generic pdf pdf-am ps ps-am uninstall uninstall-am \
+	uninstall-dist_pkgdataDATA uninstall-info-am \
+	uninstall-pkgdataDATA
 
-
-#EXTRA_DIST = README cisco-load.exp cisco-reload.exp rtrfilter.README
 
 # no idea why automake doesnt clean these targets
 #CLEANFILES= y.tab.c y.tab.h lex.yy.c conf.h conf.c conflex.c

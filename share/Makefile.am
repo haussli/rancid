@@ -21,9 +21,11 @@
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS=foreign
 
-dist_pkgdata_DATA=cisco-load.exp cisco-reload.exp index.html lgnotes.html
+pkgdata_DATA= rtrfilter downreport getipacctg
+dist_pkgdata_DATA=README.misc cisco-load.exp cisco-reload.exp index.html \
+	lgnotes.html
 
-#EXTRA_DIST = README cisco-load.exp cisco-reload.exp rtrfilter.README
+EXTRA_DIST = rtrfilter.in downreport.in getipacctg.in
 
 # no idea why automake doesnt clean these targets
 #CLEANFILES= y.tab.c y.tab.h lex.yy.c conf.h conf.c conflex.c

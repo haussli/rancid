@@ -427,7 +427,7 @@ $max_lock_hold = 300;
 if (defined($LG_CLOGINRC)) {
     $cloginrc = $LG_CLOGINRC;
 } else {
-    $cloginrc = "$BASEDIR/.cloginrc";
+    $cloginrc = "$ENV(HOME)/.cloginrc";
 }
 
 $query = new CGI;

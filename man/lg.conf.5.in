@@ -53,7 +53,7 @@ Defines the location of the
 that the looking glass should use.  The path may be relative to the directory
 where the CGI scripts run in the server's document root.
 .sp
-Default: @prefix@/.cloginrc
+Default: $HOME/.cloginrc
 .sp
 Note that the .cloginrc must be readable by the user or group that will be
 running the CGI and that
@@ -103,8 +103,6 @@ glass will compile a list from the router.db files of all the groups present
 in rancid, that is, the list will be a concatenation of the available
 .IR router.db (5)
 files.
-.sp
-Default: @prefix@/util/lg/router.db
 .sp
 Note that if the concatenation method is used, it may be necessary to alter
 the mode of the router.db files in the rancid group directories, since rancid's

@@ -1,5 +1,5 @@
 .\"
-.na
+.hys 50
 .TH "lg.conf" "5" "22 Jan 2001"
 .SH NAME
 lg.conf \- looking glass configuration file

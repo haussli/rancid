@@ -15,7 +15,9 @@ use LockFile::Simple qw(lock trylock unlock);
 my($BASEDIR) = "@prefix@";
 my($pingcmd) = "@LG_PING_CMD@";
 
-my($query, @results);
+my($query, $max_time_diff, $cache_dir, $cloginrc, @results);
+
+if (!defined($ENV{HOME})) { $ENV{HOME} = "."; }
 
 # read LG configuration file
 sub readconf
@@ -55,27 +57,32 @@ sub DoRsh
     my($lckobj) = LockFile::Simple->make(-delay => $lock_int,
 		-max => $max_lock_wait, -hold => $max_lock_hold);
 
-    `/usr/sbin/ping $router 1`;
+    if ($pingcmd =~ /\d$/) {
+	`$pingcmd $router`;
+    } else {
+	`$pingcmd $router 1`;
+    }
     if ($?) {
 	return ("$router is unreachable.  Try again later.\n");
     }
     if (! $lckobj->lock("$cache_dir/$router")) {
 	return ("$router is busy.  Try again later.\n");
     }
-    @results = &DoCmd($CLOGIN, $router, $mfg, $type, $arg);
+    @results = &DoCmd($router, $mfg, $type, $arg);
     $lckobj->unlock("$cache_dir/$router");
     return (@results);
 }
 sub DoCmd
 {
-    my($program, $rtr, $mfg, $type, $arg) = @_;
+    my($rtr, $mfg, $type, $arg) = @_;
     local(*CMD);
+printf STDERR "in do CMD $rtr, $mfg, $type, $arg\n";
 
     if ($mfg =~ /juniper/i) {
-	open(CMD, "$JLOGIN -f $CLOGINRC -c \'$juniperCmd{$type} $arg\' $rtr |");
+	open(CMD, "/home/heas/rancid/bin/jlogin -f $cloginrc -c \'$juniperCmd{$type} $arg\' $rtr |");
 	$cmd = $juniperCmd{$type};
     } else {
-	open(CMD, "$CLOGIN -noenable -f $CLOGINRC -c \'$ciscoCmd{$type} $arg\' $rtr |");
+	open(CMD, "/home/heas/rancid/bin/clogin -noenable -f $cloginrc -c \'$ciscoCmd{$type} $arg\' $rtr |");
 	$cmd = $ciscoCmd{$type};
     }
     while (<CMD>) {
@@ -180,17 +187,18 @@ exit;
 # read the configuration file if it exists.
 readconf();
 
-$TOP = "/www/docs/lookingglass";
-
 ## The script will now cache the results as simple files in the $cache_dir,
 ## named after the type of query (queries must, of course, be one word no 
 ## spaces).  Modify $max_time_diff to set the lifetime for each cache.
 ## Currently, cache lifetime is the same for all queries.
 # for most web servers, cache_dir must be writable by uid nobody 
-$cache_dir = $TOP . "/tmp" ; 
+if (defined($LG_CACHE_DIR)) {
+    $cache_dir = $LG_CACHE_DIR;
+} else {
+    $cache_dir = "./tmp";
+}
 
 # when to display cache?  max time difference (in seconds)
-my($max_time_diff);
 if (defined($LG_CACHE_TIME)) {
     $max_time_diff = $LG_CACHE_TIME;
 } else {
@@ -202,10 +210,12 @@ $max_lock_wait = 30;
 $lock_int = 5;
 $max_lock_hold = 300;
 
-# clogin
-$CLOGINRC = $TOP . "/.cloginrc";
-$CLOGIN = $TOP . "/clogin";
-$JLOGIN = $TOP . "/jlogin";
+# clogin setup
+if (defined($LG_CLOGINRC)) {
+    $cloginrc = $LG_CLOGINRC;
+} else {
+    $cloginrc = "$BASEDIR/.cloginrc";
+}
 
 $query = new CGI;
 

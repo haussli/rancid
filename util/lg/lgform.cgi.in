@@ -1,12 +1,12 @@
-#!@PARLV_PATH@
+#!@PERLV_PATH@
 # lgform.cgi - Looking glass front-end
 # produces html form for calling lg.cgi
 
 use CGI qw/:standard/;
 
+my(@rtrlist, %rtrlabels);
 my($BASEDIR) = "@prefix@";
 
-my(@rtrlist, %rtrlabels);
 
 # read LG configuration file
 sub readconf
@@ -50,7 +50,41 @@ sub readrouters
     }
 
     if (! -f $rtrdb) {
-	
+	my(@dirs, $dir);
+	# if the router.db file does not exist, try to compile from
+	# the rancid group's router.db files.
+	local(*DIR);
+	if (! opendir(DIR, $BASEDIR)) {
+	    printf(STDERR "ERROR: couldn\'t read $BASEDIR: $!\n");
+	} else {
+	    while ($dir = readdir(DIR)) {
+		next if ($dir =~ /^(\.|\.\.|CVS|bin|logs|util)$/);
+		push(@dirs, $dir) if (-d "$BASEDIR/$dir");
+	    }
+	    closedir(DIR);
+
+	    foreach $dir (@dirs) {
+		if (! opendir(DIR, "$BASEDIR/$dir")) {
+		    printf(STDERR "ERROR: couldn\'t read $BASEDIR/$dir: $!\n");
+		    next;
+		}
+		closedir(DIR);
+		next if (! -f "$BASEDIR/$dir/router.db");
+		if (open(RTR, "< $BASEDIR/$dir/router.db")) {
+		    while (<RTR>) {
+			next if (/^\s*(#|$)/);
+			# fqdn:mfg:state
+			@record = split('\:', $_);
+			next if ($record[2] !~ /up/i || $record[1] !~ /(cisco|juniper)/);
+			push(@rtrlist, join(':', ($record[0], $record[1])));
+			$rtrlabels{join(':', ($record[0], $record[1]))} = $record[0];
+		    }
+		    close(RTR);
+		} else {
+		    printf(STDERR "ERROR: couldn\'t open the router.db file: $BASEDIR/$dir/router.db: $!\n");
+		}
+	    }
+	}
     } else {
 	if (open(RTR, "< $rtrdb")) {
 	    while (<RTR>) {

@@ -276,6 +276,7 @@ $router_param = ($query->param('router'))[0];
 $remote_user = $ENV{REMOTE_USER};
 $arg = ($query->param('args'))[0];
 # handle multiple args
+$arg =~ s/["'`]//g;			# these are BS in any arg for any query
 @arg = split(' ', $arg);
 
 # verify commands, arguments, etc.

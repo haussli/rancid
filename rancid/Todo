@@ -1,3 +1,5 @@
+- could the cloginrc match function do a longest-match search instead of
+  first match?
 - look at Andreas Dahl's Brocade switch collection scripts
 - make log file dir configurable
 - noenable should handle a value properly.  ie: 1 == noenable, 0 == enable or

@@ -212,7 +212,7 @@ sub ShowVersion {
 # This routine parses "show configuration"
 sub ShowConfiguration {
     print STDERR "    In ShowConfiguration: $_" if ($debug);
-    /authentication-key / && return;
+    s/(\s*authentication-key ).*$/#$1 <removed>;/;
     ProcessHistory("","","","$_") && return;
     return;
 }

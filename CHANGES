@@ -1,4 +1,6 @@
-2.2.2.eft
+2.2.2
+	rancid: filter tty line speed when configured for auto-configure
+
 	flogin: bring login() and do_enable() in-line with [cj]login.  also
 	match "telnet server disabled" - from brad volz.
 

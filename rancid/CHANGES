@@ -1,6 +1,8 @@
 2.3.eft
 	*** bin/env has been moved to etc/rancid.conf ***
 
+	also check LOGNAME for default username - from Fredrik Thulin
+
 	add matches for "Please wait" to all functions - reported by Dave Mack
 
 	nlogin: Fix prompt groveling when running a cluster - from D. Pfleger

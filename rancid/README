@@ -83,8 +83,8 @@ Quick Installation Guide (an example):
 	LIST_OF_GROUPS="backbone aggregation switches"
 
 4) Put .cloginrc in the home directory of the user who will run rancid.
-   .cloginrc must be not be readable/writable/executable by "others", ie:
-   mode 0600 or 0640.
+   .cloginrc must be not be readable/writable/executable by "others",
+   i.e.: .cloginrc must be mode 0600 or 0640.
 
 5) Modify .cloginrc.
 

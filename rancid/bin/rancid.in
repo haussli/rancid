@@ -194,6 +194,8 @@ sub ShowVersion {
 		$type = "AGS+";
 	    } elsif ( $1 eq "2511" || $1 eq "2524" || $1 eq "AS2511-RJ") {
 		$type = "2500";
+	    } elsif ( $1 =~ /261[01]/ || $1 =~ /262[01]/ ) {
+		$type = "2600";
 	    } elsif ( $1 eq "3620" || $1 eq "3640") {
 		$type = "3600";
 	    } elsif ( $1 eq "RSP7000") {
@@ -207,6 +209,8 @@ sub ShowVersion {
 	    } elsif ( $1 =~ /720[246]/) {
 		$type = "7200";
 	    } elsif ( $1 =~ /1200[48]\/GRP/ || $1 =~ /1201[26]\/GRP/) {
+		$type = "12000";
+	    } elsif ( $1 =~ /1201[26]-8R\/GRP/) {
 		$type = "12000";
 	    } elsif ( $1 =~ /WS-C29/) {
 		$type = "2900XL";

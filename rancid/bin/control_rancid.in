@@ -236,15 +236,15 @@ then
 
 fi
 mv -f routers.all.new routers.all
-if [ $? -eq 0 ]; then
+if [ $? -ne 0 ]; then
     echo "Error: could not rename routers.all.new"
 fi
 mv -f routers.down.new routers.down
-if [ $? -eq 0 ]; then
+if [ $? -ne 0 ]; then
     echo "Error: could not rename routers.down.new"
 fi
 mv -f routers.up.new routers.up
-if [ $? -eq 0 ]; then
+if [ $? -ne 0 ]; then
     echo "Error: could not rename routers.up.new"
 fi
 rm -f routers.db

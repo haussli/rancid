@@ -697,12 +697,43 @@ sub ShowDiag {
 	/number\s+(\S+)\s+Part number\s+(\S+)/ &&
 	    ProcessHistory("SLOT","","","!Slot $slot$WIC: part $2, serial $1\n!\n") &&
 	    next;
+    }
+    return(0);
 }
+
+# This routine parses "show vtp status"
+sub ShowModule {
+    print STDERR "    In One4One: $_" if ($debug);
+
+    my(@lines);
+    my($slot);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	return if (/^\s*\^$/);
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+
+	# match slot info line, slot info then the rev info (the two are split)
+	if (/^ ?(\d+)\s+(\d+)\s+(.*)\s+(\S+)\s+(\S+)\s*$/) {
+	    $lines[$1] .= "!Slot $1: type $3, $2 ports\n!Slot $1: part $4, serial $5\n";
+	    $lines[$1] =~ s/\s+,/,/g;
+	}
+	if (/^ ?(\d+)\s+\S+\s+to\s+\S+\s+(\S+)\s+(.*)\s+(\S+)\s*$/) {
+	    $lines[$1] .= "!Slot $1: hvers $2, firmware $3, sw $4\n";
+	    $lines[$1] =~ s/\s+,/,/g;
+	}
+    }
+    foreach $slot (@lines) {
+	next if ($slot =~ /^\s*$/);
+	ProcessHistory("Module","","","$slot!\n");
+    }
+	
     return(0);
 }
 
 # This routine parses "show c7200" for the 7200
-# This will create arrarys for hw info.
+# This will create arrays for hw info.
 sub ShowC7200 {
     # Skip if this is not a 7200.
     print STDERR "    In ShowC7200: $_" if ($debug);
@@ -747,6 +778,7 @@ sub ShowVTP {
 	ProcessHistory("COMMENTS","keysort","I0","!VTP: $_");
     }
     ProcessHistory("COMMENTS","keysort","I0","!\n");
+    return(0);
 }
 
 # This routine processes a "write term"
@@ -762,7 +794,7 @@ sub WriteTerm {
 	# skip the crap
 	if (/^(##+$|Building configuration...)/i) {
 	    while (<INPUT>) {
-		next if (/^Current configuration:/i);
+		next if (/^Current configuration\s*:/i);
 		next if (/^:/);
 		next if (/^([%!].*|\s*)$/);
 		next if (/^ip add.*ipv4:/);	# band-aid for 3620 12.0S
@@ -964,6 +996,7 @@ sub DoNothing {print STDOUT;}
 	'show controllers cbus'	=> "ShowContCbus",
 	'show diagbus'		=> "ShowDiagbus",
 	'show diag'		=> "ShowDiag",
+	'show module'		=> "ShowModule",	# cat 6500-ios
 	'show c7200'		=> "ShowC7200",
 	'show vtp status'	=> "ShowVTP",
 	'write term'		=> "WriteTerm"
@@ -988,6 +1021,7 @@ sub DoNothing {print STDOUT;}
 	"show controllers cbus",
 	"show diagbus",
 	"show diag",
+	"show module",
 	"show c7200",
 	"show vtp status",
 	"write term"

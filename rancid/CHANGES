@@ -1,4 +1,6 @@
 2.2.1
+	*login: match openssh prompt for host key to ip key mismatch
+
 	rancid: add disk/slot2
 
 	rancid: 12.2 show c7200 o/p for midplane changed

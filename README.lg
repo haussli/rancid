@@ -17,7 +17,7 @@ lgnotes.html    user info for the looking glass
 The looking glass requires the CGI and LockFile-Simple perl modules.
 these can be retrieved from CPAN, http://www.cpan.org/.  CGI's home is
 ftp://ftp-genome.wi.mit.edu/pub/software/WWW/.  It also requires
-the POSIX module (for strftime) and Sys::Syslog, which i believe comes
+the POSIX module (for strftime) and Sys::Syslog, which I believe comes
 with perl5 and/or are converted with h2ph(1).
 
 basic installation instructions:

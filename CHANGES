@@ -7,6 +7,10 @@
 		*** util/lg/lg*.cgi has been moved to bin/lg*cgi ***
 	Note: existing configuration files are *NOT* copied/moved for you
 
+	The Extreme does not have an 'enable' level, so make sure
+	you have 'set autoenable' for it in your .cloginrc so clogin
+	will work.
+
 	add Cisco CSS support - from Wedge Martin
 
 	*login: add cloginrc sshcmd directive - idea from steve neighorn

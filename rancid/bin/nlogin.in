@@ -36,8 +36,7 @@ set do_command 0
 set do_script 0
 set enable 0
 set autoenable 1
-# The default is to look in the password file to find the passwords.
-This
+# The default is to look in the password file to find the passwords.  This
 # tracks if we receive them on the command line.
 set do_passwd 1
 set do_enapasswd 1

@@ -83,9 +83,18 @@ output it would normally collect from the device (
 .BR clogin (1),
 .BR env (5)
 .\"
-.SH "NOTES"
+.SH "CAVEATS"
 For Catalyst switches running CatOS, type
 .B cat5,
 the prompt must end with '>'.
 .BR clogin (1)
-looks for '>' to determine when a login is successful.
+looks for '>' to determine when a login is successful.  For example:
+.sp
+.in +1i
+.nf
+cat5k>
+cat5k> enable
+Password: 
+cat5k> (enable) 
+.fi
+.in -1i

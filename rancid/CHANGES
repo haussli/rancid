@@ -1,4 +1,7 @@
 2.2.2
+	*login: fix handling of userprompt et al so that {}'s are used in
+	.cloginrc as they are with every other .cloginrc directive.
+
 	f10rancid: Fix to pick up new info in show version output.
 
 	jrancid: Ignore Timecounter "TSC" in show system boot-messages output.

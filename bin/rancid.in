@@ -808,7 +808,7 @@ sub ShowDiag {
     print STDERR "    In ShowDiag: $_" if ($debug);
 
     while (<INPUT>) {
-	tr/\015//d;
+REDUX:	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	# return(1) if ($type !~ /^(12[40]|720|36|26)/);
@@ -824,8 +824,28 @@ sub ShowDiag {
 	    ProcessHistory("SLOT","keysort","A","!Slot $slot: $3\n");
 	    next;
 	}
+	if (/^\s*NODE\s+(\S+) : (.*)/) {
+	    $slot = $1;
+	    ProcessHistory("SLOT","","","!\n");
+	    ProcessHistory("SLOT","keysort","A","!Slot $slot: $2\n");
+	    next;
+	}
+	if (/^\s*RACK\s+(\S+) : (.*)/) {
+	    $slot = "Rack/" . $1;
+	    ProcessHistory("SLOT","","","!\n");
+	    ProcessHistory("SLOT","keysort","A","!Slot $slot: $2\n");
+	    next;
+	}
 	if (/^\s+MAIN:\s* type \d+,\s+(.*)/) {
-	    ProcessHistory("SLOT","keysort","AM","!Slot $slot/MAIN: part $1\n");
+	    local($part) = $1;
+	    $_ = <INPUT>;
+	    if (/^\s+HW version (\S+)\s+S\/N (\S+)/i) {
+		ProcessHistory("SLOT","keysort","AM","!Slot $slot/MAIN: part $part, serial $2\n");
+		ProcessHistory("SLOT","keysort","AM","!Slot $slot/MAIN: hvers $1\n");
+	    } else {
+		ProcessHistory("SLOT","keysort","AM","!Slot $slot/MAIN: part $part\n");
+		goto REDUX;
+	    }
 	    next;
 	}
 	if (/^c3700\s+(io-board|mid-plane)/i) {
@@ -844,9 +864,13 @@ sub ShowDiag {
 	if (/^\s+PCA:\s+(.*)/) {
 	    local($part) = $1;
 	    $_ = <INPUT>;
-	    /^\s+(HW version|design release) (\S+)\s+S\/N (\S+)/i &&
-		ProcessHistory("SLOT","keysort","C1","!Slot $slot/PCA: part $part, serial $3\n") &&
+	    if (/^\s+(HW version|design release) (\S+)\s+S\/N (\S+)/i) {
+		ProcessHistory("SLOT","keysort","C1","!Slot $slot/PCA: part $part, serial $3\n");
 		ProcessHistory("SLOT","keysort","C2","!Slot $slot/PCA: hvers $2\n");
+	    } else {
+		ProcessHistory("SLOT","keysort","C1","!Slot $slot/PCA: part $part\n");
+		goto REDUX;
+	    }
 	    next;
 	}
 	if (/^\s+MBUS: .*\)\s+(.*)/) {
@@ -861,8 +885,20 @@ sub ShowDiag {
 	    ProcessHistory("SLOT","keysort","MB3","!Slot $slot/MBUS: software $1\n");
 	    next;
 	}
+	if (/^\s+PLD: (.*)/) {
+	    ProcessHistory("SLOT","keysort","P","!Slot $slot/PLD: $1\n");
+	    next;
+	}
+	if (/^\s+MONLIB: (.*)/) {
+	    ProcessHistory("SLOT","keysort","Q","!Slot $slot/MONLIB: $1\n");
+	    next;
+	}
 	if (/^\s+ROM Monitor version (.*)/) {
 	    ProcessHistory("SLOT","keysort","R","!Slot $slot/ROM Monitor: version $1\n");
+	    next;
+	}
+	if (/^\s+ROMMON: Version (.*)/) {
+	    ProcessHistory("SLOT","keysort","R","!Slot $slot/ROMMON: version $1\n");
 	    next;
 	}
 	if (/^\s+Fabric Downloader version used (.*)/) {
@@ -877,6 +913,7 @@ sub ShowDiag {
 			   . $1 / 1024 . " Kbytes SDRAM\n");
 	    } else {
 		ProcessHistory("SLOT","keysort","MB4","!Slot $slot/MBUS: $dram Mbytes DRAM\n");
+		goto REDUX;
 	    }
 	    next;
 	}

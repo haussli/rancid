@@ -28,6 +28,7 @@ jlogin -    Expect script that logs into juniper routers similarly to
 par -       Parallel processing of commands - any commands.
 rename -    Perl script to rename files.
 create_cvs -Creates all of the CVS and config directories.
+util -      utilities / contribs
 
 rancid will also need to have the following packages:
 cvs	- code revision system available from prep.ai.mit.edu:/pub/gnu
@@ -38,9 +39,10 @@ perl5	- perl version 5 or greater available from www.cpan.org
 expect	- http://expect.nist.gov/
 tcl	- required by expect.
 
-Bill Fenner has a cgi script for interacting with CVS repositories.
-This provides a great interface to viewing rancid diffs and full
-configs.  The package is not included here, but can be found here:
+Bill Fenner has a cgi script for interacting with CVS repositories via
+a web interface.  This provides a great way to view rancid diffs and
+full configs, especially for those unfamiliar with cvs.  The package is
+not included here, but can be found here:
 
 	http://www.freebsd.org/~fenner/cvsweb/cvsweb-1.0.tar.gz
 

@@ -20,6 +20,7 @@ AM_MAINTAINER_MODE()
 
 AC_PATH_PROG(MAKE,gmake,no)
 if test $MAKE = no; then
+    unset ac_cv_path_MAKE
     AC_PATH_PROG(MAKE,make,no)
     if test $MAKE = no; then
         AC_MSG_ERROR([can't locate a make.])

@@ -4,9 +4,10 @@ juniper, uses rancid's [cj]login to login (so rcmd is not necessary,
 it can use telnet, ssh, or rsh), and has some additional commands
 implemented.
 
-the looking glass requires the CGI perl module.  this can be
-retrieved from CPAN, http://www.cpan.org/ or
-ftp://ftp-genome.wi.mit.edu/pub/software/WWW/.
+the looking glass requires the CGI and LockFile-Simple perl modules.
+these can be retrieved from CPAN, http://www.cpan.org/.  CGI's home is
+ftp://ftp-genome.wi.mit.edu/pub/software/WWW/.  it also requires
+the POSIX module (for strftime), which i believe comes with perl5.
 
 basic installation instructions:
 
@@ -30,3 +31,9 @@ and install bits in /usr/local/rancid/util (or <prefix>/util).
 	% cat /usr/local/www/data/lg/.htaccess
 	Options FollowSymLinks ExecCGI
 
+
+
+
+
+N) finally, search lg.cgi for '^#customize:' for some things you can
+   customize.

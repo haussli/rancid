@@ -271,51 +271,11 @@ sub ShowHardware {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	# return(1) if ($type =~ /^(12[40]|7[05])/);
 	return(-1) if (/command authorization failed/i);
-	# the pager can not be disabled per-session on the PIX
-	s/^<-+ More -+>\s*//;
-	if (/^Interface ([^ \n(]*)/) { $INT = "$1, "; next; }
-	/^(BRI unit \d)/ &&
-	    ProcessHistory("INT","","","!Interface: $1\n") && next;
-	/^LANCE unit \d, NIM/ &&
-	    ProcessHistory("INT","","","!Interface: $_") && next;
-	/^(LANCE unit \d)/ &&
-	    ProcessHistory("INT","","","!Interface: $1\n") && next;
-	/(Media Type is \S+),/ &&
-	    ProcessHistory("INT","","","!\t$1\n");
-	    if (/(M\dT[^ :]*:) show controller:$/) {
-		my($ctlr) = $1;
-		$_ = <INPUT>; tr/\015//d; s/ subunit \d,//;
-		ProcessHistory("INT","","","!Interface: $ctlr $_");
-	    }
-	if (/^(\S+) : show controller:$/) {
-	    my($ctlr) = $1;
-	    $_ = <INPUT>; tr/\015//d; s/ subunit \d,//;
-	    ProcessHistory("INT","","","!Interface: $ctlr: $_");
-	}
-	/^(HD unit \d), idb/ &&
-	    ProcessHistory("INT","","","!Interface: $1\n") && next;
-	/^HD unit \d, NIM/ &&
-	    ProcessHistory("INT","","","!Interface: $_") && next;
-	/^buffer size \d+  HD unit \d, (.*)/ &&
-	    ProcessHistory("INT","","","!\t$1\n") && next;
-	/^AM79970 / && ProcessHistory("INT","","","!Interface: $_") && next;
-	/^buffer size \d+  (Universal Serial: .*)/ &&
-	    ProcessHistory("INT","","","!\t$1\n") && next;
-	/^Hardware is (.*)/ &&
-	    ProcessHistory("INT","","","!Interface: $INT$1\n") && next;
-	/^(QUICC Serial unit \d),/ &&
-	    ProcessHistory("INT","","","!$1\n") && next;
-	/^QUICC Ethernet .*/ &&
-	    ProcessHistory("INT","","","!$_") && next;
-	/^DTE .*\.$/ &&
-	    ProcessHistory("INT","","","!\t$_") && next;
-	/^(cable type :.*),/ &&
-	    ProcessHistory("INT","","","!\t$1\n") && next;
-	/^(.* cable.*), received clockrate \d+$/ &&
-	    ProcessHistory("INT","","","!\t$1\n") && next;
-	/^.* cable.*$/ &&
-	    ProcessHistory("INT","","","!\t$_") && next;
+
+	# wow...a clean table
+	ProcessHistory("","","","!$_");
     }
+    ProcessHistory("","","","!\n");
     return(0);
 }
 
@@ -328,27 +288,10 @@ sub WriteTerm {
 	tr/\015//d;
 	last if(/^$prompt/);
 	return(-1) if (/command authorization failed/i);
-	# the pager can not be disabled per-session on the PIX
-	s/^<-+ More -+>\s*//;
 	/Non-Volatile memory is in use/  && return(-1); # NvRAM is locked
 	$lineauto = 0 if (/^[^ ]/);
 	# skip the crap
-	if (/^(##+$|(Building|Current) configuration)/i) {
-	    while (<INPUT>) {
-		next if (/^Current configuration\s*:/i);
-		next if (/^:/);
-		next if (/^([%!].*|\s*)$/);
-		next if (/^ip add.*ipv4:/);	# band-aid for 3620 12.0S
-		last;
-	    }
-	    if (defined($config_register)) {
-		ProcessHistory("","","","!\nconfig-register $config_register\n");
-	    }
-	    tr/\015//d;
-	}
-	# some versions have other crap mixed in with the bits in the
-	# block above
-	/^! (Last configuration|NVRAM config last)/ && next;
+	/^! Configuration script /i && next;
 
 	# skip consecutive comment lines to avoid oscillating extra comment
 	# line on some access servers.  grrr.

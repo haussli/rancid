@@ -22,3 +22,6 @@ track.
 - this doesnt make sense: lg.conf.5.in:Default: @prefix@/.cloginrc
 			lg.conf.5.in:Default: @prefix@/util/lg/router.db
 - man/rancid.db.5 needs BASEDIR fixing
+- weird stuff wrt NWO
+  bin/lg.cgi.in:          next if ($dir =~ /^(\.|\.\.|CVS|bin|etc|logs|util)$/);  
+  bin/lgform.cgi.in:              next if ($dir =~ /^(\.|\.\.|CVS|bin|logs|util)$/);

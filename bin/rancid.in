@@ -209,7 +209,7 @@ sub ShowVersion {
 	    # blank line.
 	    $_ = <INPUT>;
 	    $_ = <INPUT> if (/processor board id/i);
-	    $_ = "" if (! /(cpu at |processor: )/i);
+	    $_ = "" if (! /(cpu at |processor: |$cpu processor,)/i);
 	    tr/\015//d;
 	    s/implementation/impl/i;
 	    if ($_ !~ /^\s*$/) {

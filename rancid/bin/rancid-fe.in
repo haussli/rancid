@@ -34,6 +34,7 @@ elsif ($vendor =~ /^ezt3$/i)	{ exec('erancid', $router); }
 elsif ($vendor =~ /^foundry$/i)	{ exec('francid', $router); }
 elsif ($vendor =~ /^hp$/i)	{ exec('hrancid', $router); }
 elsif ($vendor =~ /^juniper$/i)	{ exec('jrancid', $router); }
+elsif ($vendor =~ /^mrtd$/i)	{ exec('mrancid', $router); }
 elsif ($vendor =~ /^redback$/i)	{ exec('rrancid', $router); }
 
 printf(STDERR "unknown router manufacturer for $router: $vendor\n");

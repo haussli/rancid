@@ -1,6 +1,7 @@
 # configuration file for the looking glass
 #
-# note: these are perl statements!  mind the syntax
+# note: these are perl statements!  Mind the syntax.  "perl -c lg.conf"
+#       should succeed.
 #
 # adjust the path to find [cfj]login, telnet, ssh, rsh, etc.
 #
@@ -114,7 +115,7 @@ $LG_STRIP=1;
 #		Un-comment/Comment the commands that are desired/not desired.
 #		The Commands are separated into a few categories.  The value
 #		of each variable is the string which will appear in the
-#		(lgform.cgi) menu.
+#		(lgform.cgi) menu.  Mind the ,'s within hash assignments.
 #
 #		The double-commented queries are not implemented.
 #

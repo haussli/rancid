@@ -29,7 +29,6 @@ require 5;
 elsif ($vendor =~ /^baynet$/i)		{ exec('brancid', $router); }
 elsif ($vendor =~ /^cat5$/i)		{ exec('cat5rancid', $router); }
 elsif ($vendor =~ /^cisco$/i)		{ exec('rancid', $router); }
-elsif ($vendor =~ /^dell$/i)		{ exec('drancid', $router); }
 elsif ($vendor =~ /^erx$/i)		{ exec('jerancid', $router); }
 elsif ($vendor =~ /^extreme$/i)		{ exec('xrancid', $router); }
 elsif ($vendor =~ /^ezt3$/i)		{ exec('erancid', $router); }

@@ -21,7 +21,7 @@ fi
 for GROUP in $LIST_OF_GROUPS
 do
 
-	LOCKFILE=/tmp/.$GROUP.run.lock
+	LOCKFILE=$TMPDIR/.$GROUP.run.lock
 
 	(
 		echo starting: `date`

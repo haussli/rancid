@@ -701,9 +701,9 @@ sub ShowDiag {
     return(0);
 }
 
-# This routine parses "show vtp status"
+# This routine parses "show module".
 sub ShowModule {
-    print STDERR "    In One4One: $_" if ($debug);
+    print STDERR "    In ShowModule: $_" if ($debug);
 
     my(@lines);
     my($slot);
@@ -728,7 +728,7 @@ sub ShowModule {
 	next if ($slot =~ /^\s*$/);
 	ProcessHistory("Module","","","$slot!\n");
     }
-	
+
     return(0);
 }
 
@@ -926,8 +926,6 @@ sub WriteTerm {
 	# order/prune tacacs/radius server statements
 	/^(tacacs-server|radius-server) key / &&
 	    ProcessHistory("","","","!$1 key <removed>\n") && next;
-	/^(tacacs-server|radius-server) host (\d+\.\d+\.\d+\.\d+)/ &&
-	    ProcessHistory("TAC","ipsort","$2","$_") && next;
 	# order clns host statements
 	/^clns host \S+ (\S+)/ &&
 	    ProcessHistory("CLNS","keysort","$1","$_") && next;

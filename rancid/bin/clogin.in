@@ -530,7 +530,7 @@ foreach router [lrange $argv $i end] {
 
     # Figure out prompts
     set u_prompt [find userprompt $router]
-    if { "$u_prompt" == "" } { set u_prompt "(Username|login):" }
+    if { "$u_prompt" == "" } { set u_prompt "(Username|login|user name):" }
     set p_prompt [find passprompt $router]
     if { "$p_prompt" == "" } { set p_prompt "(\[Pp]assword|passwd):" }
     set e_prompt [find enableprompt $router]

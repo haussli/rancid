@@ -219,7 +219,7 @@ cvs commit -m updates
 # Mail out the diffs (if there are any).
 if [ -s $TMP.diff ]; then
     sendmail -t <<EMAIL
-To: @MAILPLUS@GROUP
+To: @MAILPLUS@$GROUP
 Subject: $GROUP router config diffs
 Precedence: bulk
 

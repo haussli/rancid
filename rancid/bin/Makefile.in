@@ -12,7 +12,7 @@ install: all
 	@for prog in $(BIN_PROGS) ; do \
 	    $(INSTALL) $$prog $(PREFIX)/bin; \
 	done; \
-	if test -e $(PREFIX)/bin/env ; then \
+	if test -f $(PREFIX)/bin/env ; then \
 	    echo "WARNING: $(PREFIX)/bin/env exists: not installing."; \
 	else \
 	    $(INSTALL_DATA) env $(PREFIX)/bin; \

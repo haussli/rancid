@@ -1,4 +1,7 @@
 2.3b
+	lg: use table inet.0 terse for sh ip route on juniper instead of
+	forwarding-table destination
+
 	rancid: 12.0S(21) added "FRU" field in show diagbus o/p
 	Also look for a couple more things in some show diag output.
 

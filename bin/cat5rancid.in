@@ -846,6 +846,7 @@ sub WriteTerm {
 	# some versions have other crap mixed in with the bits in the
 	# block above
 	/^! (Last configuration|NVRAM config last)/ && next;
+	/^#Time: / && next;
 
 	# Dog gone Cool matches to process the rest of the config
 	/^#time: /              && next; # kill time:

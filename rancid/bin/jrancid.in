@@ -215,6 +215,7 @@ sub ShowVersion {
 # This routine parses "show configuration"
 sub ShowConfiguration {
     print STDERR "    In ShowConfiguration: $_" if ($debug);
+    /^database header mismatch: / && return(-1);
     s/(\s*authentication-key ).*$/#$1<removed>;/;
     ProcessHistory("","","","$_") && return;
     return;

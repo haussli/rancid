@@ -1,4 +1,7 @@
 2.3.2
+	flogin: older foundry o/s has misc spaces preceeding : in username
+	prompt - from mike ethridge
+
 	A better nlogin & nrancid for NetScreens - help from Stephen Gill
 
 	jerancid: case fluctuates in "active/standby" - from David Gethings

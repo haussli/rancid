@@ -319,6 +319,8 @@ sub ShowSystemBootMessages {
 	/Unrecognized command/ && return;
 	/^\s+\^/ && return;
 	/syntax error/ && return;
+	/^JUNOS / && <INPUT> && next;
+	/^\/dev\// && next;
 	ProcessHistory("","","","# $_");
     }
     return;

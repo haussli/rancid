@@ -1,4 +1,6 @@
-2.3b
+2.2.1
+	rancid: 12.2 show c7200 o/p for midplane changed
+
 	lg: use table inet.0 terse for sh ip route on juniper instead of
 	forwarding-table destination
 

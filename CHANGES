@@ -2,9 +2,11 @@
 	lg: use table inet.0 terse for sh ip route on juniper instead of
 	forwarding-table destination
 
-	rancid: 12.0S(21) added "FRU" field in show diagbus o/p
+	rancid: 12.0S(21) added "FRU" field in show diagbus output.
 	Also look for a couple more things in some show diag output
-	and sort the output a bit better.
+	and sort the output a bit better.  Also look for 'controler'
+	(cisco can't always spell - thanks to Terry Kennedy for
+	spotting the misspelling).
 
 	lg: filter ["`'] from args
 

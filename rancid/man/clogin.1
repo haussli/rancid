@@ -11,6 +11,9 @@ clogin \- Cisco/Foundry login script
 .BI \-c\ 
 command]
 [\c
+.BI \-E\ 
+var=x]
+[\c
 .BI \-e\ 
 enable-password]
 [\c
@@ -72,6 +75,12 @@ The command-line options are as follows:
 Command to be run on each router list on the command-line.  Multiple
 commands maybe listed by separating them with semi-colons (;).  The argument
 should be quoted to avoid shell expansion.
+.\"
+.TP
+.B \-E
+Specifies a variable to pass through to scripts (\-s).  For example, the
+command-line option \-Efoo=bar will produce a global variable by the name
+Efoo with the initial value "foo".
 .\"
 .TP
 .B \-e

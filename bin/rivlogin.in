@@ -60,7 +60,7 @@ set do_script  0
 set log_user   0
 
 # The default CLI mode to login to is "enable" mode
-set enable	1
+set avenable	1
 
 # The default is to look in the password file to find the passwords.  This
 # tracks if we receive them on the command line.
@@ -839,7 +839,7 @@ for {set idx 0} {$idx < $argc} {incr idx} {
             set timeout [ lindex $argv $idx ]
 
         } -noenable {
-            set enable 0
+            set avenable 0
         } -* {
             puts "ERROR:unkown argument passed: $arg\n"
             puts $usage
@@ -867,6 +867,13 @@ set router [string tolower $router]
     if {$verbose == 1} {
 	puts "DEBUG: do_passwd = $do_passwd\n"
 	puts "DEBUG: do_enablepasswd = $do_enapasswd\n"
+    }
+
+    # look for noenable option in .cloginrc
+    if { [find noenable $router] != "" } {
+	set enable 0
+    } else {
+	set enable $avenable
     }
 
     if { $do_passwd || $do_enapasswd } {

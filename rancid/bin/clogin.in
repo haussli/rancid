@@ -480,6 +480,7 @@ proc run_commands { prompt command } {
 	for {set i 0} {$i < $num_commands} { incr i} {
 	    send "[subst -nocommands [lindex $commands $i]]\r"
 	    expect {
+		-re "\b+"			{ exp_continue }
 		-re "^\[^\n\r *]*$reprompt"	{ send_user -- "$expect_out(buffer)"
 						}
 		-re "^\[^\n\r]*$reprompt."	{ send_user -- "$expect_out(buffer)"
@@ -494,9 +495,10 @@ proc run_commands { prompt command } {
 						  }
 						  exp_continue
 						}
-		-re "^<-+ More -+>\[^\n\r]*"	{ send " "
+		-re "^<-+ More -+>\[^\n\r]*"	{
+						  send_user -- "$expect_out(buffer)"
+						  send " "
 						  exp_continue }
-		-re "\b+"			{ exp_continue }
 	    }
 	}
     } else {
@@ -505,6 +507,7 @@ proc run_commands { prompt command } {
 	# global switch in the config.
 	send "[subst -nocommands $command]\r"
 	expect {
+		-re "\b+"			{ exp_continue }
 		-re "^\[^\n\r *]*$reprompt"	{ send_user -- "$expect_out(buffer)"
 						}
 		-re "^\[^\n\r]*$reprompt."	{ send_user -- "$expect_out(buffer)"
@@ -515,9 +518,10 @@ proc run_commands { prompt command } {
 						  send " "
 						  exp_continue
 						}
-		-re "^<-+ More -+>\[^\n\r]*"	{ send " "
+		-re "^<-+ More -+>\[^\n\r]*"	{
+						  send_user -- "$expect_out(buffer)"
+						  send " "
 						  exp_continue }
-		-re "\b+"			{ exp_continue }
 	}
     }
     log_user 1

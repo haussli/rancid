@@ -244,12 +244,21 @@ sub WriteTerm {
 	# order logging statements
 	/^logging (\d+\.\d+\.\d+\.\d+)/ &&
 	    ProcessHistory("LOGGING","ipsort","$1","$_") && next;
-	# order snmp-server host statements
-	/^snmp-server host (\d+\.\d+\.\d+\.\d+)/  &&
-	    ProcessHistory("SNMPSERVERHOST","ipsort","$1","$_") && next;
-	/^snmp-server community /  &&
-	    ProcessHistory("SNMPSERVERCOMM","keysort","$_","$_") && next;
-
+	# order/prune snmp-server host/community statements
+	if (/^(snmp-server host )(\d+\.\d+\.\d+\.\d+)/) {
+	    if (defined($ENV{'NOCOMMSTR'})) {
+		ProcessHistory("SNMPSERVERHOST","ipsort","$2","!$1 $2 <removed>\n") && next;
+	    } else {
+		ProcessHistory("SNMPSERVERHOST","ipsort","$2","$_") && next;
+	    }
+	}
+	if (/^(snmp-server community )(\S+)/) {
+	    if (defined($ENV{'NOCOMMSTR'})) {
+		ProcessHistory("SNMPSERVERCOMM","keysort","$_","!$1<removed>$'") && next;
+	    } else {
+		ProcessHistory("SNMPSERVERCOMM","keysort","$_","$_") && next;
+	    }
+	}
 	# order tacacs server statements
 	/^(tacacs-server key )/ &&
 	    ProcessHistory("","","","! $1<removed>\n") && next;

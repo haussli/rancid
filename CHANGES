@@ -1,4 +1,7 @@
 2.1
+	francid/rrancid (foundry/redback) now strip snmp communities like
+	the others, via NOCOMMSTR var in bin/env.
+
 	collect 'sh vlan' on cat 6000 - afort@staff.webcentral.com.au
 
 	Add 'show vtp status' for the 3500XLs as well.

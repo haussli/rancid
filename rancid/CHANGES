@@ -1,5 +1,5 @@
 1.5
-	Delete the cisco ospf authentication password.
+	Delete the cisco ospf authentication and ftp passwords.
 
 	Get both (juniper) show chassis ssb and scb but only process
 	them once.

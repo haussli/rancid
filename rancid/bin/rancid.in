@@ -730,12 +730,13 @@ sub WriteTerm {
 	/^\s*neighbor (\S*) password / &&
 	    ProcessHistory("","","","! neighbor $1 password <removed>\n") &&
 	    next;
-	/fair-queue individual-limit/ && next;
-	# delete ospf auth password
+	/^(ip ftp password) / &&
+	    ProcessHistory("","","","!$1 <removed>\n") && next;
 	/^( ip ospf authentication-key) / &&
 	    ProcessHistory("","","","!$1 <removed>\n") && next;
 	/^( ip ospf message-digest-key \d+ md5) / &&
 	    ProcessHistory("","","","!$1 <removed>\n") && next;
+	/fair-queue individual-limit/ && next;
 	# sort ip explicit-paths.
 	if (/^ip explicit-path name (\S+)/) {
 	    my($key) = $1;

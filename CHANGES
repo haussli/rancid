@@ -1,5 +1,7 @@
 2.3.2
-	rancid: : filter multiple-fs file - from Yuval Ben-Ari
+	lgform: need strftime from POSIX - from Joao Frade
+
+	rancid: filter multiple-fs file - from Yuval Ben-Ari
 
 	cssrancid: make this parse the collected output properly 
 

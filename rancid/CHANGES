@@ -1,4 +1,6 @@
 2.3.eft
+	add manpage note about log_user with -s, from mail list discussion
+
 	xrancid: Handle end of ssh connection a bit better.
 
 	jrancid: skip master/backup re msgs

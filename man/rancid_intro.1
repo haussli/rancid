@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "rancid_intro" "1" "11 Nov 2003"
+.TH "rancid_intro" "1" "26 Nov 2003"
 .SH NAME
 rancid_intro \- introduction to the Really Awesome New Cisco confIg Differ
 .SH INTRODUCTION
@@ -25,7 +25,7 @@ Named after the device's name in the group's configuration file (\c
 the data filtered from the configuration file for security reasons, such as
 reversable passwords, these files are suitable for loading directly to restore
 a lost configuration.  See
-.BR env (5)
+.BR rancid.conf (5)
 for more information on <group>'s.
 .PP
 After filtering, a uni-diff (see diff(1)) of the result is produced
@@ -92,9 +92,9 @@ o
 Update the
 .IR LIST_OF_GROUPS
 variable in
-.IR bin/env
+.IR etc/rancid.conf
 (see
-.BR env (5)).
+.BR rancid.conf (5)).
 .TP
 o
 Run
@@ -104,14 +104,14 @@ o
 Update the system's mail aliases file
 .IR /etc/aliases
 (see 
-.BR env (5)).
+.BR rancid.conf (5)).
 .\"
 .SH "SEE ALSO"
-.BR cloginrc (5),
 .BR clogin (1),
+.BR cloginrc (5),
 .BR control_rancid (1),
-.BR env (5),
 .BR do-diffs (1),
 .BR lg_intro (1),
-.BR router.db (5) ,
-.BR rancid (1)
+.BR rancid (1),
+.BR rancid.conf (5),
+.BR router.db (5)

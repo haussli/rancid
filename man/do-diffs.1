@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "do-diffs" "1" "13 Jan 2001"
+.TH "do-diffs" "1" "26 Nov 2003"
 .SH NAME
 do-diffs \- run rancid for each of the groups
 .SH SYNOPSIS
@@ -22,7 +22,7 @@ for a set of rancid group(s).
 .PP
 .B do-diffs
 reads
-.BR env (5)
+.BR rancid.conf (5)
 to configure itself, then uses
 .IR control_rancid (1)
 to run
@@ -31,7 +31,7 @@ for each rancid group.  The set of rancid groups can either be provided
 as command-line arguments or via the
 .I LIST_OF_GROUPS
 variable in
-.BR env (5),
+.BR rancid.conf (5),
 if the group argument is omitted.
 .PP
 A lock file is maintained per-group to prevent simultaneous runs for a given
@@ -84,7 +84,7 @@ with <group name>/<device name> rather than just the group name alone.
 .SH ENVIRONMENT
 .B do-diffs
 utilizes the following environment variables from
-.BR env (5).
+.BR rancid.conf (5).
 .\"
 .TP
 .B BASEDIR
@@ -114,11 +114,11 @@ device with 'clogin hostname', and so on.
 .BR 
 .SH FILES
 .TP
-.B $BASEDIR/bin/env
+.B $BASEDIR/etc/rancid.conf
 .B do-diffs
 configuration file.
 .El
 .SH SEE ALSO
 .BR control_rancid (1),
-.BR router.db (5),
-.BR env (5)
+.BR rancid.conf (5),
+.BR router.db (5)

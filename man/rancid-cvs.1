@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "create_cvs" "1" "13 Jan 2001"
+.TH "create_cvs" "1" "26 Nov 2003"
 .SH NAME
 create_cvs \- initialize CVS and rancid group files and directories
 .SH SYNOPSIS
@@ -19,14 +19,14 @@ directories necessary for a rancid group.
 .PP
 .B create_cvs
 reads
-.BR env (5)
+.BR rancid.conf (5)
 to configure itself.  Then proceeds with the initialization first of the
 .BR cvs (1)
 repository, if necessary, and then for each of the rancid groups listed on
 the command-line or those in the variable
 .I LIST_OF_GROUPS
 from
-.BR env (5),
+.BR rancid.conf (5),
 if the argument is omitted.
 .\"
 .PP
@@ -43,12 +43,12 @@ already exists, it will be left as-is.
 The best method for adding groups is add the group name to
 .I LIST_OF_GROUPS
 in
-.BR env (5),
+.BR rancid.conf (5),
 then run
 .B create_cvs.  Do not create the directories manually, allow create_cvs
 to do it.
 .\"
 .SH SEE ALSO
 .BR cvs (1),
-.BR env (5),
+.BR rancid.conf (5),
 .BR router.db (5)

@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "lg.conf" "5" "30 Sep 2002"
+.TH "lg.conf" "5" "26 Nov 2003"
 .SH NAME
 lg.conf \- looking glass configuration file
 .SH DESCRIPTION
@@ -155,7 +155,7 @@ is interpreted directly by
 so its syntax follows that of perl.  Syntax errors may produce quite unexpected
 results.
 .SH FILES
-.Bl -tag -width .BASEDIR/etc/ENV -compact
+.Bl -tag -width .BASEDIR/etc/rancid.conf -compact
 .TP
 .B $BASEDIR/util/lg/lg.conf
 Configuration file described here, where $BASEDIR is set at the time that

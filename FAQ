@@ -34,7 +34,7 @@ A. This may be due to your prompt.  CatOS does not include an implicit '>' in
 Q. Polling a ZebOS box fails from cron, but it successful from the command-
    line.
 A. This is the tty/pty handling of either your O/S or ZebOS.  Supposedly,
-   changing the TERM in <BASEDIR>/bin/env to the following will fix it.
+   changing the TERM in <BASEDIR>/etc/rancid.conf to the following will fix it.
 	TERM=vt100;export TERM
 	COLUMNS=160; LINES=48; export COLUMNS LINES
 
@@ -94,8 +94,9 @@ A. This is probably a CVS or filesystem permissions problem.  Check the log
    should be owned by the user who runs do-diffs from cron.  At the very least,
    the directory and files should be writable by the rancid user.  Group and
    world permissions will determined by the umask (default 027), which is set
-   in /usr/local/rancid/bin/env.  Likely the easiest way to fix the ownership
-   on the cvs repository is chown -R <rancid user> /usr/local/rancid/CVS
+   in /usr/local/rancid/etc/rancid.conf.  Likely the easiest way to fix the
+   ownership on the cvs repository is
+	chown -R <rancid user> /usr/local/rancid/CVS
 
 Q. I am renaming a device but would like the retain the history in CVS.  How
    is this done?
@@ -119,9 +120,9 @@ A. CVS does not provide a way (AFAIK) to rename files or to rename or delete
 Q. I am removing a group and would like to remove all traces of it from the
    rancid directory and the CVS repository.  How is this done?
 A. As far as I know, CVS does not provide a way to remove directories.  First,
-   remove the group from /usr/local/rancid/bin/env.  If rancid is running,
-   wait for it to complete.  Then just recursively remove the directory.  For
-   example, a group named "fubar":
+   remove the group from /usr/local/rancid/etc/rancid.conf.  If rancid is
+   running, wait for it to complete.  Then just recursively remove the
+   directory.  For example, a group named "fubar":
 	% su - rancid_user
 	% cd /usr/local/rancid
 	% rm -rf fubar CVS/fubar

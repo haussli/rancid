@@ -150,6 +150,7 @@ sub ShowVersion {
 	if (/(lynxos|kernel) Version: .* (\S+)/i) {
 	    $platform = $2;
 	}
+	/Procket/ && ProcessHistory("COMMENTS","keysort","B0", "! $_") && next;
 	/System Uptime:/ && next;
 	/Protocol Uptime:/ && next;
 	ProcessHistory("COMMENTS","keysort","B0", "!$_") && next;

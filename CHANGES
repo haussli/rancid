@@ -7,6 +7,9 @@
 		*** util/lg/lg*.cgi has been moved to bin/lg*cgi ***
 	Note: existing configuration files are *NOT* copied/moved for you
 
+	rancid: add show spe version and parse FRU show diag output
+	- from Yuval Ben-Ari.
+
 	bin/rename is no longer shipped with rancid
 
 	rancid.conf: add LOGDIR variable - see rancid.conf(5)

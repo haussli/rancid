@@ -1,4 +1,6 @@
 2.3.2
+	rancid: collect 6500's sub-module info from show modules
+
 	jrancid: collect license info & RE Model.
 
 	rancid: erroneous space in shared-secret match - from Blaz Zupan

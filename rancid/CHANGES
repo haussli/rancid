@@ -1,6 +1,8 @@
 2.3.eft
 	*** bin/env has been moved to etc/rancid.conf ***
 
+	support for hitachi routers - from Mohacsi Janos
+
 	strip WS around router.db fields - from Alastair Galloway
 
 	add goveling of 2600 mainboard port adapter info

@@ -113,11 +113,14 @@
 
 #define BUF_SZ		LINE_MAX	/* (increments of) size of bufs */
 
-#if HAVE_UNISTD_H       
-# include <unistd.h>    
+#if HAVE_STDLIB_H
+# include <stdlib.h>
 #endif
 
-#if HAVE_SYS_TYPES_H 
+#if HAVE_UNISTD_H       
+# include <unistd.h>    
+# include <sys/types.h>
+#elif HAVE_SYS_TYPES_H 
 # include <sys/types.h>
 #endif  
 

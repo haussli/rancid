@@ -1,4 +1,6 @@
 2.3.1.eft
+	lg.cgi: allow :s in arguments for sub-interface from Richard Doty
+
 	jrancid: filter some more secrets
 
 	rancid: filter some more secrets

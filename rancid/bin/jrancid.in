@@ -146,6 +146,10 @@ sub ShowChassisClocks {
 	last if(/^$prompt/);
 
 	/error: the chassis subsystem is not running/ && return;
+	/Couldn\'t initiate connection/ && return;
+	/Unrecognized command/ && return;
+	/^\s+\^/ && return;
+	/syntax error/ && return;
 	ProcessHistory("","","","# $_");
     }
     return;
@@ -163,7 +167,10 @@ sub ShowChassisEnvironment {
 
 	/error: the chassis subsystem is not running/ && return;
 	/Couldn\'t initiate connection/ && return;
-	/ backplane temperature/ && return;
+	/Unrecognized command/ && return;
+	/^\s+\^/ && return;
+	/syntax error/ && return;
+	/ backplane temperature/ && next;
 	/(\s*Power supply.*), temperature/ &&
 		ProcessHistory("","","","# $1\n") && next;
 	/(\s*.+) +\d+ degrees C.*$/ &&
@@ -184,6 +191,10 @@ sub ShowChassisFirmware {
 	last if(/^$prompt/);
 
 	/error: the chassis subsystem is not running/ && return;
+	/Couldn\'t initiate connection/ && return;
+	/Unrecognized command/ && return;
+	/^\s+\^/ && return;
+	/syntax error/ && return;
 	ProcessHistory("","","","# $_");
     }
     return;
@@ -200,9 +211,13 @@ sub ShowChassisFpcDetail {
 	last if(/^$prompt/);
 
 	/error: the chassis subsystem is not running/ && return;
-	/ Temperature:/ && next;
-	/ Start time:/ && next;
-	/ Uptime:/ && next;
+	/Couldn\'t initiate connection/ && return;
+	/Unrecognized command/ && return;
+	/^\s+\^/ && return;
+	/syntax error/ && return;
+	/ Temperature/ && next;
+	/ Start time/ && next;
+	/ Uptime/ && next;
 	ProcessHistory("","","","# $_");
     }
     return;
@@ -219,12 +234,17 @@ sub ShowChassisHardware {
 	last if(/^$prompt/);
 
 	/error: the chassis subsystem is not running/ && return;
+	/Couldn\'t initiate connection/ && return;
+	/Unrecognized command/ && return;
+	/^\s+\^/ && return;
+	/syntax error/ && return;
 	ProcessHistory("","","","# $_");
     }
     return;
 }
 
 # This routine parses "show chassis routing-engine"
+# Most output is ignored.
 sub ShowChassisRoutingEngine {
     print STDERR "    In ShowChassisRoutingEngine: $_" if ($debug);
 
@@ -234,8 +254,17 @@ sub ShowChassisRoutingEngine {
 	tr/\015//d;
 	last if(/^$prompt/);
 
+	/error: the chassis subsystem is not running/ && return;
+	/Couldn\'t initiate connection/ && return;
+	/Unrecognized command/ && return;
+	/^\s+\^/ && return;
+	/syntax error/ && return;
 	/^Routing Engine status:/ && ProcessHistory("","","","# $_") && next;
-	/ DRAM:/ && ProcessHistory("","","","# $_") && next;
+	/ Slot / && ProcessHistory("","","","# $_") && next;
+	/ Current state/ && ProcessHistory("","","","# $_") && next;
+	/ Election priority/ && ProcessHistory("","","","# $_") && next;
+	/ DRAM/ && ProcessHistory("","","","# $_") && next;
+	/ Serial ID/ && ProcessHistory("","","","# $_") && next;
 	/^\s*$/ && ProcessHistory("","","","# $_") && next;
     }
     return;
@@ -252,9 +281,14 @@ sub ShowChassisSCB {
 	last if(/^$prompt/);
 
 	/error: the chassis subsystem is not running/ && return;
-	/ Temperature:/ && next;
-	/ utilization:/ && next;
-	/time:/ && next;
+	/Couldn\'t initiate connection/ && return;
+	/Unrecognized command/ && return;
+	/^\s+\^/ && return;
+	/syntax error/ && return;
+	/ Temperature/ && next;
+	/ utilization/ && next;
+	/ Start time/ && next;
+	/ Uptime/ && next;
 	/ (IP|MLPS) routes:/ && next;
 	/ used:/ && next;
 	ProcessHistory("","","","# $_");
@@ -262,9 +296,9 @@ sub ShowChassisSCB {
     return;
 }
 
-# This routine parses "show version"
-sub ShowVersion {
-    print STDERR "    In ShowVersionAndBlame: $_" if ($debug);
+# This routine parses "show system boot-messages"
+sub ShowSystemBootMessages {
+    print STDERR "    In ShowSystemBootMessages: $_" if ($debug);
 
     s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
@@ -272,7 +306,25 @@ sub ShowVersion {
 	tr/\015//d;
 	last if(/^$prompt/);
 
-	/^Juniper Networks is:/ && ProcessHistory("","","","\n$_") && return;
+	/Unrecognized command/ && return;
+	/^\s+\^/ && return;
+	/syntax error/ && return;
+	ProcessHistory("","","","# $_");
+    }
+    return;
+}
+
+# This routine parses "show version"
+sub ShowVersion {
+    print STDERR "    In ShowVersion: $_" if ($debug);
+
+    s/^[a-z]+@//;
+    ProcessHistory("","","","# $_");
+    while (<INPUT>) {
+	tr/\015//d;
+	last if(/^$prompt/);
+
+	/^Juniper Networks is:/ && ProcessHistory("","","","# \n# $_") && next;
 	ProcessHistory("","","","# $_");
     }
     return;
@@ -292,6 +344,7 @@ sub ShowConfiguration {
 	/^database header mismatch: / && return(-1);
 	s/(\s*authentication-key ).*$/#$1<removed>;/;
 	s/^(.*\ssecret \")\$9\$.*(\".*)$/#$1<removed>$2/;
+	s/ # SECRET-DATA$//;
 	ProcessHistory("","","","$_");
     }
     return;
@@ -313,6 +366,7 @@ sub DoNothing {print STDOUT;}
 	"show chassis hardware"		=> "ShowChassisHardware",
 	"show chassis routing-engine"	=> "ShowChassisRoutingEngine",
 	"show chassis scb"		=> "ShowChassisSCB",
+	"show system boot-messages"	=> "ShowSystemBootMessages",
 	"show version"			=> "ShowVersion",
 	"show configuration"		=> "ShowConfiguration"
 );
@@ -324,6 +378,7 @@ sub DoNothing {print STDOUT;}
 	"show chassis hardware",
 	"show chassis routing-engine",
 	"show chassis scb",
+	"show system boot-messages",
 	"show version",
 	"show configuration"
 );

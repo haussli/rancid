@@ -11,7 +11,7 @@ install: all
 	for file in $(UTIL_LG_PROGS) ; do \
 	    $(INSTALL) $$file $(PREFIX)/util/lg; \
 	done; \
-	for file in *README*; do \
+	for file in *README* *.html; do \
 	    $(INSTALL_DATA) $$file $(PREFIX)/util/lg; \
 	done
 

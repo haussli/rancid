@@ -13,7 +13,8 @@ install: all
 	done; \
 	for file in *README*; do \
 	    $(INSTALL_DATA) $$file $(PREFIX)/util; \
-	done
+	done; \
+	cd lg; $(MAKE) -e install
 
 clean:
 	rm -f Makefile $(UTIL_PROGS)

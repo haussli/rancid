@@ -1,4 +1,6 @@
 2.2b9
+	add merit MRTd support
+
 	add -r <device> option to do-diffs and control_rancid
 
 	brancid: handle []'s in bay prompts and drop lock-address from config

@@ -207,7 +207,7 @@ may produce quite unexpected results.
 Configuration file described here.
 .El
 .\"
-.SH SEE ALSO
+.SH "SEE ALSO"
 .BR control_rancid (1),
 .BR rancid (1),
 .BR rancid-cvs (1),

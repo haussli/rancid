@@ -1,6 +1,6 @@
-# Makefile.in generated automatically by automake 1.4-p5 from Makefile.am
+# Makefile.in generated automatically by automake 1.4 from Makefile.am
 
-# Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
+# Copyright (C) 1994, 1995-8, 1999 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -291,7 +291,7 @@ distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
-	    cp -pr $$d/$$file $(distdir)/$$file; \
+	    cp -pr $$/$$file $(distdir)/$$file; \
 	  else \
 	    test -f $(distdir)/$$file \
 	    || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
@@ -407,12 +407,12 @@ install: all
 	for prog in $(BIN_PROGS) ; do \
 	    $(INSTALL) $$prog $(bindir); \
 	done; \
-	if test -f $(bindir)/bin/env ; then \
+	if test -f $(bindir)/env ; then \
 	    echo "WARNING: *** $(bindir)/env exists: installing as env.new."; \
 	    echo "         *** review env.new for new/deprecated switches"; \
 	    $(INSTALL_DATA) env $(bindir)/env.new; \
 	else \
-	    $(INSTALL_DATA) env $(bindir)/bin; \
+	    $(INSTALL_DATA) env $(bindir); \
 	fi
 # BIN_DATAS are empty at the moment.
 #       for prog in $(BIN_DATAS) ; do \

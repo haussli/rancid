@@ -12,12 +12,3 @@ track.
 	starting: Fri Nov 14 22:08:32 GMT 2003
 
 	override rw-r-----  root/wheel for routers.all? 
-
-- god damn foundry....flogin does recognize when enable pwd is wrong, like:
-	telnet@s01.enwdco01.us.ra>enable
-	User Name:eng
-	Password:
-	
-	Error - Incorrect username or password.
-	telnet@s01.enwdco01.us.ra>		<---- hang here
-

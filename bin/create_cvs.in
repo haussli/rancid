@@ -65,7 +65,7 @@ do
 	cvs co $GROUP
     fi
     cd $DIR
-    if [ -d configs ]; then
+    if [ ! -d configs ]; then
 	mkdir configs
 	cvs add configs
 	cvs commit -m 'new' configs

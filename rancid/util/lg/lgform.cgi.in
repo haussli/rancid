@@ -1,4 +1,4 @@
-#!@PERLV_PATH@
+#! @PERLV_PATH@
 ## Copyright (C) 1997-2001 by Henry Kilmer.
 ## All rights reserved.
 ##
@@ -61,8 +61,8 @@ sub readconf
 {
     my($conffile, $cmds);
     local(*CONF);
-    if (defined($env{LG_CONF})) {
-	$conffile = $env{LG_CONF};
+    if (defined($ENV{LG_CONF})) {
+	$conffile = $ENV{LG_CONF};
     } elsif (-e "lg.conf") {
 	$conffile = "lg.conf";
     } else {
@@ -200,29 +200,12 @@ print <<TABLEHEAD ;
 <tr><td>
 TABLEHEAD
 
-if (defined(%i_qrtype)) {
-    print $query->radio_group (-name => 'query', -values => \%i_qrtype,
-					-default => '-', -linebreak => 'true');
-    print $query->hr;
-}
-if (defined(%r_qrtype)) {
-    print $query->radio_group (-name => 'query', -values => \%r_qrtype,
-					-default => '-', -linebreak => 'true');
-    print $query->hr;
-}
-if (defined(%d_qrtype)) {
-    print $query->radio_group (-name => 'query', -values => \%d_qrtype,
-					-default => '-', -linebreak => 'true');
-    print $query->hr;
-}
-if (defined(%m_qrtype)) {
-    print $query->radio_group (-name => 'query', -values => \%m_qrtype,
-					-default => '-', -linebreak => 'true');
-    print $query->hr;
-}
-if (defined(%v6_qrtype)) {
-    print $query->radio_group (-name => 'query', -values => \%v6_qrtype,
-					-default => '-', -linebreak => 'true');
+foreach $sub_type (sort keys(%$queries)) {
+    next if (! scalar(%{$queries->{$sub_type}}));
+    print $query->radio_group (-name => 'query',
+				-values => $queries->{$sub_type},
+				-default => '-', -linebreak => 'true');
+    print "\n" . $query->hr . "\n";
 }
 
 print <<QTYPES ;

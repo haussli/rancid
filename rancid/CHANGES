@@ -1,4 +1,6 @@
 2.0
+	Better formatting for cisco catalyst [non-ios] switches.
+
 	Better support the cisco 3500 switches.
 
 	Get some info out of "show version" for the cat5ks.

@@ -28,7 +28,9 @@ $file = $opt_f;
 $host = $ARGV[0];
 $clean_run = 0;
 $found_end = 0;
-$timeo = 90;			# clogin timeout in seconds
+$timeo = 90;		# clogin timeout in seconds
+
+my(%modules);		# module info (part from sh ver, part from sh module)
 
 # This routine is used to print out the router configuration
 sub ProcessHistory {
@@ -155,6 +157,47 @@ sub ShowVersion {
 		"!Chassis type: $proc - a $type switch\n");
 	    ProcessHistory("COMMENTS","keysort","C1", "!Serial Number: $3\n");
 	    ProcessHistory("COMMENTS","keysort","C2", "!Hardware Version: $1\n");
+	    next;
+	}
+	# stuff module h/w, s/w, ports, etc into %module
+	if (/^Mod\s+Port\s+Model/) {
+	    <INPUT>;
+	    my($slot);
+	    while (<INPUT>) {
+		tr/\015//d;
+		last if (/^\s*$/);
+		if (/^(\d+)\s+(\d+)\s+(\S+)\s+(\S+)\s+(\S+)\s?:\s+(\S+)/) {
+		    $slot = $1;
+		    $modules{$slot}->{ports} = $2;
+		    $modules{$slot}->{model} = $3;
+		    $modules{$slot}->{serial} = $4;
+		    $modules{$slot}->{$5} = $6;		# revision info
+		}
+		/^\s+(\S+)\s?:\s+(\S+)/ &&
+		    ($modules{$slot}->{$1} = $2);
+	    }
+	    next;
+	}
+	# stuff module h/w, s/w, ports, etc into %module - yet another format
+	if (/^Module\s+Ports\s+Model/) {
+	    <INPUT>;
+	    my($slot);
+	    while (<INPUT>) {
+		tr/\015//d;
+		last if (/^\s*$/);
+		if (/^(\d+)\s+(\d+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+\s+)?(\S+)\s*$/) {
+		    $slot = $1;
+		    $modules{$slot}->{ports} = $2;
+		    $modules{$slot}->{model} = $3;
+		    $modules{$slot}->{serial} = $4;
+		    $modules{$slot}->{Hw} = $5;
+		    $modules{$slot}->{Fw} = $6;
+		    $modules{$slot}->{Sw} = $8;
+		    $modules{$slot}->{Fw1} = $7;
+		    $modules{$slot}->{Fw1} =~ s/\s*$//;
+		    if ($modules{$slot}->{Fw1} =~ /^$/) {delete($modules{$slot}->{Fw1});}
+		}
+	    }
 	    next;
 	}
 	if (/^       DRAM/) {
@@ -619,32 +662,97 @@ sub ShowDiag {
 
 # This routine parses "show module"
 sub ShowModule {
+    my($slot);
     print STDERR "    In ShowModule: $_" if ($debug);
 
-#    # eat the header lines
-#    $junk = <INPUT>;
-#    $junk = <INPUT>;
-    
-    while (<INPUT>) {
+OUTER:while (<INPUT>) {
         tr/\015//d;
         last if(/^$prompt/);
-#        last if(/^$/);
-#        $junk = $_;
-#        $slot = substr($junk, 0, 2) + 0;
-#        $port = substr($junk, 24, 3) + 0;
-#        $plu = "";
-#        $plu = "s" if $port > 1; 
-#        $type = substr($junk, 30, 21);
-#        $type =~ s/^\s+//;
-#        $type =~ s/\s+$//; 
-#        $board = substr($junk, 52, 9);
-#        $board =~ s/ //;
-#        $serial = substr($junk, 62,9) + 0;
-#        ProcessHistory("SLOT","","","!Slot $slot/$board: $type, $port port$plu, serial $serial\n");
-        ProcessHistory("SLOT","","","! $_");
+	# stuff module type into %module
+	if (/^Mod\s+Slot\s+Ports/) {
+	    <INPUT>;
+	    while (<INPUT>) {
+		tr/\015//d;
+		last if (/^\s*$/);
+		last OUTER if (/^$prompt/);
+		if (/^(\d+)\s+\d+\s+\d+\s+(.*)\s+\S+\s+\S+\s*$/) {
+		    $modules{$1}->{type} = $2;
+		    $modules{$1}->{type} =~ s/\s{2,}.*$//;
+		}
+	    }
+	    next;
+	}
+        # one does it one way... pita
+	if (/^Mod\s+Module-Name\s+Ports/) {
+	    <INPUT>;
+	    #my($slot);
+	    while (<INPUT>) {
+		tr/\015//d;
+		last if (/^\s*$/);
+		last OUTER if (/^$prompt/);
+		if (/^(\d+)\s+(\S+\s+)?\d+\s+(.*)\s+\S+\s+(\S+)\s+\S+\s*$/) {
+		    $modules{$1}->{serial} = $4;
+		    $modules{$1}->{type} = $3;
+		    #$modules{$1}->{type} =~ s/\s{2,}.*$//;
+		    $modules{$1}->{type} =~ s/\s*$//;
+		}
+	    }
+	    next;
+	}
+        # daughter boards
+	if (/^Mod\s+Sub-Type/) {
+	    <INPUT>;
+	    my($slot, $board);
+	    while (<INPUT>) {
+		tr/\015//d;
+		last if (/^\s*$/);
+		last OUTER if (/^$prompt/);
+		if (/^(\d+)\s+(\S+.*\s+)?(\S+)\s+(\S+)\s+(\S+)\s*$/) {
+		    $board = 0 if ($slot != $1);
+		    $slot = $1;
+		    $modules{$1}->{daughter}->{$board}->{model} = $3;
+		    $modules{$1}->{daughter}->{$board}->{serial} = $4;
+		    $modules{$1}->{daughter}->{$board}->{Hw} = $5;
+		    $modules{$1}->{daughter}->{$board}->{type} = $2;
+		    $modules{$1}->{daughter}->{$board}->{type} =~ s/\s*$//;
+		    $board++;
+		}
+	    }
+	    next;
+	}
     }
-    # The "write term" code gives us one of these, so skip it here
-    # ProcessHistory("SLOT","","","!\n");
+
+    # dump the module info
+    foreach $slot (sort numerically keys(%modules)) {
+	my($dboards);
+	ProcessHistory("MODS","","","!\n");
+	ProcessHistory("MODS","","",sprintf("!Slot $slot: type %s, %d ports\n", $modules{$slot}->{type}, $modules{$slot}->{ports}));
+	delete($modules{$slot}->{ports});
+	delete($modules{$slot}->{type});
+	my($model) = sprintf("!Slot $slot: part %s, serial %s\n", $modules{$slot}->{model}, $modules{$slot}->{serial});
+	delete($modules{$slot}->{model});
+	delete($modules{$slot}->{serial});
+	# deal with daughter boards before slot versions
+	if (defined($modules{$slot}->{daughter})) {
+	    my($board);
+	    foreach $board (sort numerically keys(%{$modules{$slot}->{daughter}})) {
+		$dboards .= sprintf("!Slot $slot/$board: type %s\n", $modules{$slot}->{daughter}->{$board}->{type});
+		$dboards .= sprintf("!Slot $slot/$board: hvers %s\n", $modules{$slot}->{daughter}->{$board}->{Hw});
+		$dboards .= sprintf("!Slot $slot/$board: part %s, serial %s\n", $modules{$slot}->{daughter}->{$board}->{model}, $modules{$slot}->{daughter}->{$board}->{serial});
+	    }
+	    delete($modules{$slot}->{daughter});
+	}
+	my($ver); my($i) = 0;
+	ProcessHistory("MODS","","","!Slot $slot:");
+	foreach $ver (sort keys(%{$modules{$slot}})) {
+	    if ($i) {ProcessHistory("MODS","","",",");}
+	    ProcessHistory("MODS","","",sprintf(" %s: %s", $ver, $modules{$slot}->{$ver}));
+	    $i++;
+	}
+	ProcessHistory("MODS","","","\n");
+	ProcessHistory("MODS","","",$model);
+	if ($dboards) {ProcessHistory("MODS","","",$dboards);}
+    }
 }   
 
 # This routine parses "show c7200" for the 7200
@@ -685,10 +793,11 @@ sub ShowC7200 {
 sub WriteTerm {
     print STDERR "    In WriteTerm: $_" if ($debug);
 
+    ProcessHistory("","","","!\n");
     while (<INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
-#heas	next if (/^\.+$/);
+	next if (/^\.+$/ | /^$/);
 	/Non-Volatile memory is in use/  && return(-1); # NvRAM is locked
 	# skip the crap
 	next if (/^This command shows non-default configurations only./i);
@@ -859,46 +968,24 @@ sub DoNothing {print STDOUT;}
 # Main
 %commands=(
 	'show version'		=> "ShowVersion",
-#	'show install active'	=> "ShowInstallActive",
-#	'show env all'		=> "ShowEnv",
-#	'show gsr chassis'	=> "ShowGSR",
 	'show boot'		=> "ShowBoot",
-#	'show bootvar'		=> "ShowBoot",
 	'show flash'		=> "ShowFlash",
 	'dir bootflash:'	=> "DirSlotN",
 	'dir slot0:'		=> "DirSlotN",
-#	'dir  /all disk0:'	=> "DirSlotN",
 	'dir slot1:'		=> "DirSlotN",
-#	'dir /all disk1:'	=> "DirSlotN",
-#	'show controllers'	=> "ShowContAll",
-#	'show controllers cbus'	=> "ShowContCbus",
-#	'show diagbus'		=> "ShowDiagbus",
-#	'show diag'		=> "ShowDiag",
 	'show module'		=> "ShowModule",
-#	'show c7200'		=> "ShowC7200",
 	'write term'		=> "WriteTerm"
 );
 # keys() doesnt return things in the order entered and the order of the
 # cmds is important (show version first and write term last). pita
 @commands=(
 	"show version",
-#	"show install active",
-#	"show env all",
-#	"show gsr chassis",
 	"show boot",
-#	"show bootvar",
 	"show flash",
 	"dir bootflash:",
 	"dir slot0:",
-#	"dir /all disk0:",
 	"dir slot1:",
-#	"dir /all disk1:",
-#	"show controllers",
-#	"show controllers cbus",
-#	"show diagbus",
-#	"show diag",
 	"show module",
-#	"show c7200",
 	"write term"
 );
 $cisco_cmds=join(";",@commands);
@@ -942,7 +1029,6 @@ TOP: while(<INPUT>) {
     }
     while (/> \(enable\)\s*($cmds_regexp)\s*$/) {
 	$cmd = $1;
-#	if (!defined($prompt)) {$prompt = ($_ =~ /^([^>]+> .enable.)/)[0]; }
 	if (!defined($prompt)) {$prompt = ($_ =~ /^([^>]+>)/)[0]; }
 	print STDERR ("HIT COMMAND:$_") if ($debug);
 	if (! defined($commands{$cmd})) {

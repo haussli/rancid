@@ -46,16 +46,6 @@ $routerdb = "routers.db";
 
 $query = new CGI;
 
-
-# check to be sure this user has access to the Verio neteng tools
-#if ($ENV{'HTTP_REFERER'} !~ /https:\/\/(eng0).verio.net\/lookingglass\/lgform\.(cgi|pl)/)
-#{
-#    $results[0] = "\nNo shortcuts allowed\n";
-#    $results[1] = "\nGo through the tools page the right way...\nWho knows, something might have changed since you made your copy.\n";
-#    &print_results;
-#    exit;
-#}
- 
 # get form data and validate
 $type = ($query->param('query'))[0];
 $router_param = ($query->param('router'))[0];

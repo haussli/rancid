@@ -92,7 +92,7 @@ main(int argc, char **argv)
 	close(child);
     if (pipe(s) || pipe(r)) {
 	fprintf(stderr, "%s: pipe() failed: %s\n", progname,
-		sys_errlist[errno]);
+		strerror(errno));
 	return(EX_TEMPFAIL);
     }
 
@@ -100,21 +100,21 @@ main(int argc, char **argv)
     if (isatty(0)) {
 	if (tcgetattr(0, &tios)) {
 	    fprintf(stderr, "%s: tcgetattr() failed: %s\n", progname,
-		sys_errlist[errno]);
+		strerror(errno));
 	    return(EX_OSERR);
 	}
 	tios.c_lflag &= ~ECHO;
 	tios.c_lflag &= ~ICANON;
 	if (tcsetattr(0, TCSANOW, &tios)) {
 	    fprintf(stderr, "%s: tcsetattr() failed: %s\n", progname,
-		sys_errlist[errno]);
+		strerror(errno));
 	    return(EX_OSERR);
 	}
     }
 
     if ((child = fork()) == -1) {
 	fprintf(stderr, "%s: fork() failed: %s\n", progname,
-		sys_errlist[errno]);
+		strerror(errno));
 	return(EX_TEMPFAIL);
     }
 
@@ -129,7 +129,7 @@ main(int argc, char **argv)
 	/* close stdin/out/err and attach them to the pipes */
 	if (dup2(s[0], 0) == -1 || dup2(r[1], 1) == -1 || dup2(r[1], 2) == -1) {
 	    fprintf(stderr, "%s: dup2() failed: %s\n", progname,
-		sys_errlist[errno]);
+		strerror(errno));
 	    return(EX_OSERR);
 	}
 	close(s[0]);
@@ -138,7 +138,7 @@ main(int argc, char **argv)
 	/*if (execlp("telnet", "telnet", argv[optind], NULL)) {*/
 	if (execvp(argv[optind], argv + optind)) {
 	    fprintf(stderr, "%s: execlp() failed: %s\n", progname,
-		sys_errlist[errno]);
+		strerror(errno));
 	    return(EX_TEMPFAIL);
 	}
 	/* not reached */

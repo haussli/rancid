@@ -174,7 +174,7 @@ sub WriteTerm {
 		defined($ENV{'NOCOMMSTR'})) {
 	    ProcessHistory("","","","\/\*\t$1$2\"<removed>\"\n") && next;
 	}
-	/^(\s+...pw )\S+/ &&
+	/^(\s+.{2,3}pw )\S+/ &&
 	    ProcessHistory("","","","\/\*$1<removed>\n") && next;
 
 	next if (/^\/\* Configuration dump taken/i);

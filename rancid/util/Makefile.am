@@ -35,8 +35,6 @@ CFLAGS = -g -O0
 YFLAGS = -d
 #LFLAGS = -i
 
-SUBDIRS = lg
-
 EXTRA_DIST = README cisco-load.exp cisco-reload.exp rtrfilter.README
 
 # no idea why automake doesnt clean these targets

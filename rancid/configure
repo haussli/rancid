@@ -5970,8 +5970,6 @@ ac_cv_env_path=$ENV_PATH
 
           ac_config_files="$ac_config_files util/Makefile"
 
-          ac_config_files="$ac_config_files util/lg/Makefile"
-
           ac_config_files="$ac_config_files include/version.h"
 	# this is not a header in the sense of
 					# AC_CONFIG_HEADERS will cause
@@ -6018,8 +6016,6 @@ ac_cv_env_path=$ENV_PATH
                     ac_config_files="$ac_config_files bin/xrancid bin/zrancid"
 
                               ac_config_files="$ac_config_files util/rtrfilter util/downreport util/getipacctg"
-
-                    ac_config_files="$ac_config_files util/lg/lg.cgi util/lg/lgform.cgi"
 
                               ac_config_files="$ac_config_files man/rancid.conf.5 man/lg.conf.5 man/lg_intro.1"
 
@@ -6579,7 +6575,6 @@ do
   "include/Makefile" ) CONFIG_FILES="$CONFIG_FILES include/Makefile" ;;
   "man/Makefile" ) CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
   "util/Makefile" ) CONFIG_FILES="$CONFIG_FILES util/Makefile" ;;
-  "util/lg/Makefile" ) CONFIG_FILES="$CONFIG_FILES util/lg/Makefile" ;;
   "include/version.h" ) CONFIG_FILES="$CONFIG_FILES include/version.h" ;;
   "etc/rancid.conf" ) CONFIG_FILES="$CONFIG_FILES etc/rancid.conf" ;;
   "etc/lg.conf" ) CONFIG_FILES="$CONFIG_FILES etc/lg.conf" ;;
@@ -6624,8 +6619,6 @@ do
   "util/rtrfilter" ) CONFIG_FILES="$CONFIG_FILES util/rtrfilter" ;;
   "util/downreport" ) CONFIG_FILES="$CONFIG_FILES util/downreport" ;;
   "util/getipacctg" ) CONFIG_FILES="$CONFIG_FILES util/getipacctg" ;;
-  "util/lg/lg.cgi" ) CONFIG_FILES="$CONFIG_FILES util/lg/lg.cgi" ;;
-  "util/lg/lgform.cgi" ) CONFIG_FILES="$CONFIG_FILES util/lg/lgform.cgi" ;;
   "man/rancid.conf.5" ) CONFIG_FILES="$CONFIG_FILES man/rancid.conf.5" ;;
   "man/lg.conf.5" ) CONFIG_FILES="$CONFIG_FILES man/lg.conf.5" ;;
   "man/lg_intro.1" ) CONFIG_FILES="$CONFIG_FILES man/lg_intro.1" ;;
@@ -7061,8 +7054,6 @@ s,@INSTALL@,$ac_INSTALL,;t t
     util/rtrfilter ) chmod a+x $ac_file ;;
     util/downreport ) chmod a+x $ac_file ;;
     util/getipacctg ) chmod a+x $ac_file ;;
-    util/lg/lg.cgi ) chmod a+x $ac_file ;;
-    util/lg/lgform.cgi ) chmod a+x $ac_file ;;
   esac
 done
 _ACEOF

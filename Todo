@@ -1,3 +1,8 @@
+- need to deal with this openssh prompt
+	user@jnx's password: foo
+
+	Permission denied, please try again.
+	user@jnx's password: ^Cguelah [5] 
 - rancid with zebra?  via vtysh?
 - rancid with mrt?
 - extreme collections loses when the config on the switch is in an unsaved

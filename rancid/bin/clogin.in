@@ -446,6 +446,7 @@ proc do_enable { enauser enapasswd } {
 	"#"		{ set prompt "#" }
 	"(enable)"	{ set prompt "> (enable) " }
 	"denied"	{
+			  # % Access denied - from local auth
 			  send_user "\nError: Check your Enable passwd\n";
 			  return 1
 			}

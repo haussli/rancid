@@ -116,6 +116,8 @@ $LG_STRIP=1;
 #		of each variable is the string which will appear in the
 #		(lgform.cgi) menu.
 #
+#		the double-commented queries are not implemented.
+#
 # Interface queries
 $i_qrtype{'framerelay'}="show frame-relay PVC [DLCI]";
 $i_qrtype{'interface'}="show interface [interface]";

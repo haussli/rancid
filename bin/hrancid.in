@@ -443,7 +443,7 @@ if ($file) {
     }
 }
 
-ProcessHistory("","","",";RANCID-CONTENT-TYPE: hp\n;\n");
+ProcessHistory("","","",";RANCID-CONTENT-TYPE: hp-procurve\n;\n");
 ProcessHistory("COMMENTS","keysort","B0",";\n");	# memory info
 ProcessHistory("COMMENTS","keysort","C0",";\n");	# showversion
 ProcessHistory("COMMENTS","keysort","D0",";\n");	# showflash

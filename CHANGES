@@ -1,6 +1,8 @@
 2.3.eft
 	*** bin/env has been moved to etc/rancid.conf ***
 
+	rancid: IOS show version changes w/ 12.3 - from Yuval Ben-Ari
+
 	support for hitachi routers - from Mohacsi Janos
 
 	strip WS around router.db fields - from Alastair Galloway

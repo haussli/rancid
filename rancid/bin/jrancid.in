@@ -276,7 +276,7 @@ sub ShowChassisRoutingEngine {
     return;
 }
 
-# This routine parses "show chassis scb"
+# This routine parses "show chassis scb" and "show chassis ssb"
 sub ShowChassisSCB {
     print STDERR "    In ShowChassisSCB: $_" if ($debug);
 
@@ -374,6 +374,7 @@ sub DoNothing {print STDOUT;}
 	"show chassis hardware"		=> "ShowChassisHardware",
 	"show chassis routing-engine"	=> "ShowChassisRoutingEngine",
 	"show chassis scb"		=> "ShowChassisSCB",
+	"show chassis ssb"		=> "ShowChassisSCB",
 	"show system boot-messages"	=> "ShowSystemBootMessages",
 	"show version"			=> "ShowVersion",
 	"show configuration"		=> "ShowConfiguration"
@@ -386,6 +387,7 @@ sub DoNothing {print STDOUT;}
 	"show chassis hardware",
 	"show chassis routing-engine",
 	"show chassis scb",
+	"show chassis ssb",
 	"show system boot-messages",
 	"show version",
 	"show configuration"

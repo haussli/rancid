@@ -12,3 +12,7 @@
 ## or its effect upon hardware, computer systems, other software, or
 ## anything else.
 ##
+
+# bin/rename	- is from CPAN by lwall.
+# util/lg	- the original looking glass is by Ed Kern, provided by
+#		  permission and modified beyond recognition of the original

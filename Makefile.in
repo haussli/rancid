@@ -90,7 +90,6 @@ SSH = @SSH@
 TAR = @TAR@
 TELNET = @TELNET@
 TOUCH = @TOUCH@
-UCBMAIL = @UCBMAIL@
 VERSION = @VERSION@
 
 AUTOMAKE_OPTIONS = foreign no-dependencies

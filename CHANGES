@@ -1,4 +1,6 @@
 2.3
+	xrancid: make xrancid work when the extreme has pending changes.
+
 	netscaler support - from Anshuman Kanwar.
 
 	netscreen firewall support - from Stephen Gill

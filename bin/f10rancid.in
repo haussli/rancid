@@ -743,21 +743,21 @@ sub ShowDiag {
 	    s/Fast-ethernet /100Base/; s/[)(]//g;
 
 	    /\s+(.*) port adapter,?\s+(\d+)\s+/i &&
-		ProcessHistory("SLOT","","","!Slot $slot: type $1, $2 ports\n");
+		ProcessHistory("SLOT","","","!\n!Slot $slot: type $1, $2 ports\n");
 	    # I/O controller with no interfaces
 	    /\s+(.*)\s+port adapter\s*$/i &&
-		ProcessHistory("SLOT","","","!Slot $slot: type $1, 0 ports\n");
+		ProcessHistory("SLOT","","","!\n!Slot $slot: type $1, 0 ports\n");
 	    /\s+(.*)\s+daughter card(.*)$/ &&
-		ProcessHistory("SLOT","","","!Slot $slot$WIC: type $1$2\n");
+		ProcessHistory("SLOT","","","!\n!Slot $slot$WIC: type $1$2\n");
 	    /\s+(FT1)$/ &&
-		ProcessHistory("SLOT","","","!Slot $slot$WIC: type $1\n");
+		ProcessHistory("SLOT","","","!\n!Slot $slot$WIC: type $1\n");
 	    next;
 	}
 	/revision\s+(\S+).*revision\s+(\S+)/ &&
 	    ProcessHistory("SLOT","","","!Slot $slot$WIC: hvers $1 rev $2\n") &&
 	    next;
 	/number\s+(\S+)\s+Part number\s+(\S+)/ &&
-	    ProcessHistory("SLOT","","","!Slot $slot$WIC: part $2, serial $1\n!\n") &&
+	    ProcessHistory("SLOT","","","!Slot $slot$WIC: part $2, serial $1\n") &&
 	    next;
     }
     ProcessHistory("SLOT","","","!\n");

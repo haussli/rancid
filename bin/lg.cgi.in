@@ -1,4 +1,7 @@
 #! @PERLV_PATH@
+##
+## $Id$
+##
 ## The original original lookingglass s/w was written by Ed Kern.  it was
 ## a single script that used to be available at http://nitrous.digex.net/
 #

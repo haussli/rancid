@@ -1,5 +1,7 @@
 #! /bin/sh
 #
+# $Id$
+#
 # getipacctg uses clogin to login to a cisco router, collect the o/p of
 # show ip accounting, and sort by the greatest number of bytes.  if a
 # second argument is supplied, it is a number indicating the top N producers.

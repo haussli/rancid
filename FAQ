@@ -1,9 +1,16 @@
 Frequently Asked Questions about rancid - last updated 20010730
 
 1) Platform specific
+
 Q. I have a Cisco Catalyst 6500 series switch running the IOS (NOT catOS)
    software, is the router.db device type cisco or cat5?
 A. A catalyst running IOS is type "cisco".  see the router.db(5) manual page.
+
+Q. I have a Cisco ??? on which collection stopped working, but clogin works
+   as expected.
+A. Check if 'write term' produces output.  Some IOS combinated with large
+   configs and low free memory produce zero 'write term' output.  The device
+   will have to be rebooted.
 
 
 2) CVS and filesystem permissions

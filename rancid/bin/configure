@@ -614,7 +614,9 @@ RD_BIN_DATAS=$rd_cv_rd_bin_datas
 RD_BIN_PROGS=$rd_cv_rd_bin_progs
 
 
+PERLV_PATH=$ac_cv_path_PERLV_PATH
 
+EXPECT_PATH=$ac_cv_path_EXPECT_PATH
 
 
 # locate tools to build $PATH for env.  order is significant.  want to be
@@ -623,7 +625,7 @@ unset ENV_PATH
 # Extract the first word of "diff", so it can be a program name with args.
 set dummy diff; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:627: checking for $ac_word" >&5
+echo "configure:629: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_DIFF'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -660,7 +662,7 @@ ENV_PATH=`dirname $ac_cv_path_DIFF`
 # Extract the first word of "Mail", so it can be a program name with args.
 set dummy Mail; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:664: checking for $ac_word" >&5
+echo "configure:666: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_UCBMAIL'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -697,7 +699,7 @@ ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_UCBMAIL`"
 # Extract the first word of "cvs", so it can be a program name with args.
 set dummy cvs; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:701: checking for $ac_word" >&5
+echo "configure:703: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_CVS'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -734,7 +736,7 @@ ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_CVS`"
 # Extract the first word of "comm", so it can be a program name with args.
 set dummy comm; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:738: checking for $ac_word" >&5
+echo "configure:740: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_COMM'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -771,7 +773,7 @@ ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_COMM`"
 # Extract the first word of "mkdir", so it can be a program name with args.
 set dummy mkdir; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:775: checking for $ac_word" >&5
+echo "configure:777: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_MKDIR'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -808,7 +810,7 @@ ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_MKDIR`"
 # Extract the first word of "dirname", so it can be a program name with args.
 set dummy dirname; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:812: checking for $ac_word" >&5
+echo "configure:814: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_DIRNAME'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -845,7 +847,7 @@ ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_DIRNAME`"
 # Extract the first word of "touch", so it can be a program name with args.
 set dummy touch; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:849: checking for $ac_word" >&5
+echo "configure:851: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_TOUCH'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -882,7 +884,7 @@ ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_TOUCH`"
 # Extract the first word of "sendmail", so it can be a program name with args.
 set dummy sendmail; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:886: checking for $ac_word" >&5
+echo "configure:888: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_SENDMAIL'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -919,7 +921,7 @@ ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_SENDMAIL`"
 # Extract the first word of "sort", so it can be a program name with args.
 set dummy sort; ac_word=$2
 echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
-echo "configure:923: checking for $ac_word" >&5
+echo "configure:925: checking for $ac_word" >&5
 if eval "test \"`echo '$''{'ac_cv_path_SORT'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -955,7 +957,7 @@ fi
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_SORT`"
 ENV_PATH="$ENV_PATH:/usr/local/bin:/usr/bin"
 
-ENV_PATH=`echo $ENV_PATH | perl -e 'foreach $x(split(":",<>)){next unless (length($x));push(@F, $x),$seen{$x}=1 unless (defined $seen{$x});}print join(":",@F);'`
+ENV_PATH=`echo $ENV_PATH | $PERLV_PATH -e 'foreach $x(split(":",<>)){next unless (length($x));push(@F, $x),$seen{$x}=1 unless (defined $seen{$x});}print join(":",@F);'`
 
 
 trap '' 1 2 15

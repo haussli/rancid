@@ -81,6 +81,27 @@ See http://www.shrubbery.net/rancid for information on new versions,
 mail lists, etc.
 .B rancid
 can be retrieved from ftp://ftp.shrubbery.net/pub/rancid.
+.SH "ADDING NEW GROUPS"
+Follow this procdure for adding new groups:
+.TP
+o
+Update the
+.IR LIST_OF_GROUPS
+variable in
+.IR bin/env
+(see
+.BR env (5)).
+.TP
+o
+Run
+.BR create_cvs (1).
+.TP
+o
+Update the system's mail aliases file
+.IR /etc/aliases (
+see 
+.BR env (5)).
+.\"
 .SH "SEE ALSO"
 .BR cloginrc (5),
 .BR clogin (1),

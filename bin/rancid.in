@@ -843,7 +843,7 @@ sub ShowDiag {
 	    }
 	    next;
 	}
-	# 7200 and 3600 stuff
+	# 7200, 3600, and 2600 stuff
 	if (/^(Slot)\s+(\d+(\/\d+)?):/ || /^\s+(WIC|VIC) Slot (\d):/) {
 	    if ($1 eq "WIC") {
 		$WIC = "/$2";
@@ -870,6 +870,10 @@ sub ShowDiag {
 		ProcessHistory("SLOT","keysort","B","!Slot $slot$WIC: type $1$2\n");
 	    /\s+(FT1)$/ &&
 		ProcessHistory("SLOT","keysort","B","!Slot $slot$WIC: type $1\n");
+	    # another WIC oddity - "Serial 2T (12in1)"
+	    if (/\s+(.*)\s+(12in1)$/ && defined($WIC)) {
+		ProcessHistory("SLOT","keysort","B","!Slot $slot$WIC: type $1\n");
+	    }
 	    next;
 	}
 	# yet another format.  seen on 2600s w/ 12.1, but appears to be all

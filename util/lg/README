@@ -14,63 +14,64 @@ lg.cgi          work horse of the looking glass
 lgform.cgi      front-end form for the looking glass engine
 lgnotes.html    user info for the looking glass
 
-the looking glass requires the CGI and LockFile-Simple perl modules.
+The looking glass requires the CGI and LockFile-Simple perl modules.
 these can be retrieved from CPAN, http://www.cpan.org/.  CGI's home is
-ftp://ftp-genome.wi.mit.edu/pub/software/WWW/.  it also requires
-the POSIX module (for strftime) and Sys::Syslog, which i believe come
+ftp://ftp-genome.wi.mit.edu/pub/software/WWW/.  It also requires
+the POSIX module (for strftime) and Sys::Syslog, which i believe comes
 with perl5 and/or are converted with h2ph(1).
 
 basic installation instructions:
 
 The configure and make install process will make variable substitutions
-and install bits in /usr/local/rancid/util/lg (or <prefix>/util/lg).  
+and install bits in /usr/local/rancid/etc/lg.conf and
+/usr/local/rancid/util/lg (or <prefix>/etc/lg.conf <prefix>/util/lg).  
 
-1) make the scripts/html available to your server (httpd) by
+1) Make the scripts/html available to your server (httpd) by
    creating a directory in your server's document root directory
-   (apache's httpd.conf "DocumentRoot" variable).
-   eg: assuming the default in freebsd's apache pkg
-	mkdir /usr/local/www/data/lg
+   (apache's httpd.conf "DocumentRoot" variable).  For example:
 
-   then either:
+	mkdir /usr/local/htdocs/lg
+
+   Then either:
 	- copy the files {index.html, lgnotes.html, lg.cgi, lgform.cgi} to
-	  /usr/local/www/data/lg
+	  /usr/local/htdocs/lg
      OR
-	- create symlinks from /usr/local/www/data/lg to each of {index.html,
-	  lgnotes.html, lg.cgi, lgform.cgi} in /usr/local/rancid/util/lg
+	- create symlinks from /usr/local/htdocs/lg to each of {index.html,
+	  lgnotes.html, lg.cgi, lgform.cgi} under /usr/local/rancid
 
-   note on links: if you use symlinks, you have to configure apache to
+   Note on links: if you use symlinks, you have to configure apache to
    allow following symlinks.  eg:
-	% cat /usr/local/www/data/lg/.htaccess
+	% cat /usr/local/htdocs/lg/.htaccess
 	Options FollowSymLinks ExecCGI
 
-   note on index.html: index.html is typically the default file loaded
+   Note on index.html: index.html is typically the default file loaded
    when a url ends with a '/'.  index.html can be used to redirect this
    to lgform.cgi using a netscape meta refresh.  Though this is supported
    by many browsers, it is supposedly netscape specific and non-standard.
    In apache, the same thing can be acheived by altering the default
    directory index like this:
 
-	% cat /usr/local/www/data/lg/.htaccess
+	% cat /usr/local/htdocs/lg/.htaccess
 	DirectoryIndex lgform.cgi
 
-2) the LG needs to be able to find and read lg.conf.  by default this
-   is installed as <PREFIX>/util/lg/lg.conf and the LG will first look in
-   its CWD (current working directory) and then <PREFIX>/util/lg/lg.conf if
-   it does not exist in the CWD.  However the LG_CONF environment variable can
-   be used to move it elsewhere.
+2) The looking glass scripts need to be able to find and read lg.conf.  By
+   default it is installed as <PREFIX>/etc/lg.conf and the scripts will first
+   look in its CWD (Current Working Directory) and then <PREFIX>/etc/lg.conf
+   if it does not exist in the CWD.  However, the LG_CONF environment variable
+   can be used to move it elsewhere.
 
-   to get LG_CONF into the enviroment, you can use SetEnvIf in apache's
-   httpd.conf.  for example:
-	SetEnvIf Request_URI "\/lg/.*.cgi" LG_CONF=/usr/local/util/lg/lg.conf
+   To get LG_CONF into the CGI enviroment, you can use SetEnvIf in apache's
+   httpd.conf.  For example:
+	SetEnvIf Request_URI "\/lg/.*.cgi" LG_CONF=/usr/local/htdocs/lg/lg.conf
 
-3) edit <PREFIX>/util/lg/lg.conf.
+3) Edit <PREFIX>/etc/lg.conf.
 
-4) set-up cron jobs to rotate the log file and clean out old cache files.
-   see LG_CACHE_DIR & LG_LOG in lg.conf.  something like (YMMV):
+4) Set-up cron jobs to rotate the log file and clean out old cache files.
+   see LG_CACHE_DIR & LG_LOG in lg.conf.  Something like (YMMV):
 
 	# rotate lookingglass log
-	#0 0 * * * cd /usr/local/www/data/lg/tmp; /usr/local/etc/savelog -m 666 -c14 lg.log
-	0 0 * * * cd /usr/local/www/data/lg/tmp; /bin/mv lg.log lg.log.0
+	#0 0 * * * cd /usr/local/htdocs/lg/tmp; /usr/local/etc/savelog -m 666 -c14 lg.log
+	0 0 * * * cd /usr/local/htdocs/lg/tmp; /bin/mv lg.log lg.log.0
 	# clean out the lookingglass cache
-	0 0 * * * cd /usr/local/www/data/lg/tmp; /usr/local/bin/find . -type f -maxdepth 1 \( \! -name lg.log\* \) -mtime +1 -exec rm -f {} \;
+	0 0 * * * cd /usr/local/htdocs/lg/tmp; /usr/local/bin/find . -type f -maxdepth 1 \( \! -name lg.log\* \) -mtime +1 -exec rm -f {} \;
 

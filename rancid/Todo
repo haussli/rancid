@@ -59,3 +59,7 @@
     > that should have mentioned that it is not necessary if the user is
     > autoenabled and there is a matching userpassword.  right?
     
+- include a few -s and -x type example scripts.
+- add -E to *login to pass through variables to scripts
+	clogin -Evariable=something router...
+	clogin -Evariable=a,b,c		[ie: an array/list which user splits]

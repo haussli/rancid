@@ -129,6 +129,15 @@ Defines, in order, the connection methods to use for a device from the
 set {ssh, telnet, rsh}.  Method telnet may have a suffix, indicating an
 alternate TCP port, of the form ":port".
 .sp
+Note: Different versions of telnet treat specification of a port differently.
+In particular, BSD derived telnets ommit option negotiation when a port is
+specified.  Some devices, Extreme switches for example, have undesirable
+defaults such as linemode.  In the BSD case, to enable negotiation when
+specifying a port the method may be "{telnet:-23}" or add "mode character"
+to .telnetrc.  See
+.BR telnet (1)
+for more information on telnet command-line syntax and .telnetrc.
+.sp
 Example: add method * {ssh} {telnet:3000} {rsh}
 .sp
 Which would cause

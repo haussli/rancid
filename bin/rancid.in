@@ -198,7 +198,8 @@ sub ShowVersion {
     if (/(\S+) Silicon\s*Switch Processor/) {
 	if (!defined($C0)) {$C0=1; ProcessHistory("COMMENTS","keysort","C0","!\n");}
 	ProcessHistory("COMMENTS","keysort","C2","!SSP: $1\n");
-	$sspmem = 1;
+	$ssp = 1;
+	$sspmem = $1;
 	return;
     }
     /^(\d+K) bytes of multibus/ &&
@@ -337,9 +338,9 @@ sub DirSlot1 {
 
 # This routine parses "show controllers"
 sub ShowContAll {
-    # Skip if this is a 70[01]0, 7200, 7500, or 12000.
+    # Skip if this is a 70[01]0, 7500, or 12000.
     print STDERR "    In ShowContAll: $_" if ($debug);
-    return if ($type =~ /^(1200|7)/);
+    return if ($type =~ /^(1200|7[05])/);
     if (/^Interface (\S*)$/) { $INT = "$1, "; return; }
     /^(BRI unit \d)/ &&
 	ProcessHistory("INT","","","!Interface: $1\n") && return;
@@ -372,6 +373,8 @@ sub ShowContAll {
     /^DTE .*\.$/ &&
 	ProcessHistory("INT","","","!\t$_") && return;
     /^(cable type :.*),/ &&
+	ProcessHistory("INT","","","!\t$1\n") && return;
+    /^(.* cable.*), received clockrate \d+$/ &&
 	ProcessHistory("INT","","","!\t$1\n") && return;
     /^.* cable.*$/ &&
 	ProcessHistory("INT","","","!\t$_") && return;

@@ -632,6 +632,7 @@ sub ShowDiag {
 	    ProcessHistory("SLOT","","","!Slot $slot: $3\n");
 	    # Here we look for boards that don't have DRAM.
 	    $board = "Other";
+	    $board = "PS" if (/Power Supply/);
 	    $board = "RP" if (/Route Processor/);
 	    $board = "CLK" if (/Clock Scheduler Card/);
 	    $board = "SFC" if (/Switch Fabric Card/);

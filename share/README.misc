@@ -1,4 +1,4 @@
-rancid/share includes some utilities that either don't seem to belong
+share/rancid includes some utilities that either don't seem to belong
 in <BINDIR> (i.e.: not part of the core pkg), contributed sources, or
 sources included for convenience/example.
 

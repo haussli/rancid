@@ -32,7 +32,7 @@ BASEDIR is the top-level directory where rancid is installed.  Its value
 is set by configure and should be modified if rancid is moved to a new
 location in the file system without re-installing from the distribution.
 .sp
-Default: /@prefix@/rancid
+Default: @prefix@
 .\"
 .TP
 .B CVSROOT

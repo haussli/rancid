@@ -1,4 +1,5 @@
 - better error loggin in the looking glass
+- why does 'make dist' fail on fbsd 3.3?
 - handle foundry and reback in the looking glass
 - implement the bits marked unimplemented in lg.conf
 - need to strip community strings from foundry, redback

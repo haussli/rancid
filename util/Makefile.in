@@ -29,4 +29,5 @@ distdir:
 	done; \
 	for file in configure $(UTIL_PROGS:=.in) ; do \
 	    $(INSTALL) $$file $(distdir); \
-	done
+	done; \
+	cd lg; $(MAKE) -e distdir

@@ -1,4 +1,6 @@
 2.0
+	collect 'show module' for 6500-ios.
+
 	revamp *login's use of .cloginrc's method directive. see
 	cloginrc.sample
 

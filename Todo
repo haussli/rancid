@@ -1,3 +1,4 @@
+- lg.conf(5) needs the query stuff documented.
 - could the cloginrc match function do a longest-match search instead of
   first match?
 - look at Andreas Dahl's Brocade switch collection scripts
@@ -93,3 +94,5 @@
 	Model number: WS-C2950-24
 	System serial number: FHK0619X2RN
 	Configuration register is 0xF
+- Why does nlogin use a gratuitiously different variable name for the device(s)
+  in the main loop?

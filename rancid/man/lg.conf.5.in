@@ -68,7 +68,7 @@ Defines a html image tag (<img>) which, if defined, will be included at
 the top of the looking glass pages.  It may contain any html as it is
 simply handed off to print().
 .sp
-Example: $LG_IMAGE="<img src=/icons/rancid.gif hspace=0>\n <font size=+2>FOO</font>";
+Example: $LG_IMAGE="<img src=/icons/rancid.gif hspace=0>\\n <font size=+2>FOO</font>";
 .\"
 .TP
 .B LG_INFO

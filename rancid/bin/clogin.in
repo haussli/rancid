@@ -346,7 +346,6 @@ proc run_commands { prompt command } {
                 -re "^\[^\n\r]*$prompt."	{ exp_continue }
 		-re "^\[^\n\r *]*$prompt"	{}
                 "\n"				{ exp_continue }
-		timeout				{}
             }
 	}
     } else {
@@ -360,8 +359,8 @@ proc run_commands { prompt command } {
     send "exit\r"
     expect {
 	"\n" { exp_continue }
-	eof { return 0 }
 	timeout { return 0 }
+	eof { return 0 }
     }
     set in_proc 0
 }

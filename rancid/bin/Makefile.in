@@ -9,12 +9,17 @@ BIN_DATAS = @RD_BIN_DATAS@
 all:
 
 install: all
-	for prog in $(BIN_PROGS) ; do \
+	@for prog in $(BIN_PROGS) ; do \
 	    $(INSTALL) $$prog $(PREFIX)/bin; \
-	done
+	done; \
 	for prog in $(BIN_DATAS) ; do \
 	    $(INSTALL_DATA) $$prog $(PREFIX)/bin; \
-	done
+	done; \
+	if test -e $(PREFIX)/bin/env ; then \
+	    echo "WARNING: $(PREFIX)/bin/env exists: not installing."; \
+	else \
+	    $(INSTALL_DATA) env $(PREFIX)/bin; \
+	fi  
 
 clean:
 	rm -f Makefile $(BIN_DATAS) $(BIN_PROGS)
@@ -23,7 +28,7 @@ distclean: clean
 	rm -f config.log config.status
 
 distdir:
-	for file in Makefile.in $(BIN_DATAS:=.in) ; do \
+	@for file in Makefile.in $(BIN_DATAS:=.in) ; do \
 	    $(INSTALL_DATA) $$file $(distdir); \
 	done
 	for file in configure $(BIN_PROGS:=.in) ; do \

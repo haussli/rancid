@@ -18,6 +18,14 @@ VERSION=2.0
 
 AM_MAINTAINER_MODE()
 
+AC_PATH_PROG(MAKE,gmake,no)
+if test $MAKE = no; then
+    AC_PATH_PROG(MAKE,make,no)
+    if test $MAKE = no; then
+        AC_MSG_ERROR([can't locate a make.])
+	exit 1
+    fi
+fi
 AC_PROG_MAKE_SET()
 
 # Find an appropriate tar for use in "dist" targets.  A "best guess"
@@ -53,7 +61,7 @@ AC_SUBST(EXPECT_PATH)
 
 # RD_BIN_DATAS are bin/ .in's that need to be installed without execute
 # perms.
-RD_BIN_DATAS="env"
+RD_BIN_DATAS=""
 AC_SUBST(RD_BIN_DATAS)
 rd_cv_rd_bin_datas=$RD_BIN_DATAS
 

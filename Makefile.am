@@ -2,6 +2,8 @@
 
 AUTOMAKE_OPTIONS=foreign no-dependencies
 
+@SET_MAKE@
+
 EXTRA_DIST = CHANGES Todo cloginrc.sample configure install-sh mkinstalldirs \
 	Makefile.in Todo
 DIST_COMMON = README

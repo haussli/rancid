@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "cloginrc" "5" "27 Dec 2003"
+.TH "cloginrc" "5" "6 Jan 2004"
 .SH NAME
  \.cloginrc \- clogin configuration file
 .SH DESCRIPTION
@@ -235,6 +235,16 @@ file that is shared among a group of folks.
 If <file> is not a full pathname, $HOME/ will be prepended.
 .sp
 Example: include {.cloginrc.group}
+.\"
+.TP
+.B sshcmd {<ssh>}
+<ssh> is the name of the ssh executable.  OpenSSH uses a command-line
+option to specify the protocol version, but other implementations use
+a separate binary such as "ssh1".
+.B sshcmd
+allows this to be adjusted as necessary for the local environment.
+.sp
+Default: ssh
 .El
 .SH FILES
 .br

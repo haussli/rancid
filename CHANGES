@@ -1,4 +1,6 @@
 2.2b9
+	Look for BOOTLDR: on ciscos.
+
 	add par.1 manpage
 
 	bin/par changes - add -p, -f, and -e options

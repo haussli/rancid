@@ -175,6 +175,8 @@ sub ShowVersion {
 	    ProcessHistory("COMMENTS","keysort","G3","!ROM Image: $1\n") && next;
 	/^BOOTFLASH: .*(Version.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","G4","!BOOTFLASH: $1\n") && next;
+	/^BOOTLDR: .*(Version.*)$/ &&
+	    ProcessHistory("COMMENTS","keysort","G4","!BOOTLDR: $1\n") && next;
 	/^System image file is "([^\"]*)", booted via (\S*)/ &&
 # removed the booted source due to
 # CSCdk28131: cycling info in 'sh ver'

@@ -5,19 +5,11 @@
 BEGIN {
 $me = $0;
 $me =~ s/.*\/(\S+)$/$1/;
-
-# Add path to libraries and include the neccessary ones
-#$RTRCFG_BASE = defined($ENV{'RTRCFG_BASE'}) ? $ENV{'RTRCFG_BASE'} : "$ENV{HOME}/
-config";
-
-#push(@INC, "$RTRCFG_BASE/tools/lib");
 }
 
 use CGI qw/:standard/;
 use POSIX qw(strftime);
-#use cfgtools;
-#use log;
-
+use Sys::Syslog;
 use LockFile::Simple qw(lock trylock unlock);
 
 $TOP = "/www/docs/lookingglass";

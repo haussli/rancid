@@ -14,3 +14,5 @@
 - add -E to *login to pass through variables to scripts
 	clogin -Evariable=something router...
 	clogin -Evariable=a,b,c		[ie: an array/list which user splits]
+- rancid seems to miss the controller info for mx 8 port v35 PA on 7200.
+  eg: a01.sktnca01.us.ra

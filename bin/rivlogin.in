@@ -380,12 +380,25 @@ proc do_enable { enauser enapasswd userpswd } {
     if { $verbose == 1 } {
 	puts "DEBUG: do_enable: my_prompt = $my_prompt ena_prompt = $enable_prompt"
     }
+
+    set uses_username 0;
  
     send "enable\r"
 
     expect {
-        Username:     { send "$enauser\r"; exp_continue }
-        Password:     { send "$userpswd\r"; exp_continue }
+        Username:     { 
+	    set uses_username 1;
+	    send "$enauser\r"; 
+	    exp_continue 
+	}
+        Password:     { 
+	    if {$uses_username == 1} {
+		send "$userpswd\r";
+	    } else {
+		send "$enapasswd\r";
+	    }
+	    exp_continue 
+	}
 
         "$my_prompt"    {
 	    puts "ERROR: do_enable failed to gain enable mode."

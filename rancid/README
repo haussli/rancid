@@ -23,8 +23,6 @@ flogin -    Expect script that logs into foundry switches.  once foundry
 jlogin -    Expect script that logs into juniper routers similarly to
 	    clogin.  it is not terribly robust, but mainly used for it's
 	    -c and -s options.
-cat5login - Expect script that logs into cat5 switches either interactively,
-	    runs a set of commands or runs another expect script.
 .cloginrc - TCL commands to set passwords, usernames etc. used by clogin and
 	    jlogin.
 par -       Parallel processing of commands - any commands.

@@ -383,6 +383,14 @@ sub WriteTerm {
 #	# order alias statements
 #	/^alias / && ProcessHistory("ALIAS","keysort","$_","$_") && next;
 
+	# prune vrrp password
+	if (/^( ip vrrp authentication .* key) / && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>\n"); next;
+	}
+	# prune isis password
+	if (/^( isis authentication-key) \d \S+ (\S+)/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed> $2\n"); next;
+	}
 	# prune msdp password
 	if (/^(ip msdp password \S+) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;

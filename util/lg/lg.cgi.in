@@ -1,4 +1,4 @@
-#!/usr/bin/perl5
+#!@PERLV_PATH@
 # Looking glass
 # vars: query, router, args
 
@@ -13,6 +13,8 @@ use Sys::Syslog;
 use LockFile::Simple qw(lock trylock unlock);
 
 my($BASEDIR) = "@prefix@";
+
+my($query, @results);
 
 # read LG configuration file
 sub readconf
@@ -43,6 +45,59 @@ sub readconf
 
     return;
 }
+# run commands on the router
+sub DoRsh
+{
+    my ($router, $mfg, $type, $arg) = @_;
+    my($ctime) = time();
+
+    my($lckobj) = LockFile::Simple->make(-delay => $lock_int,
+		-max => $max_lock_wait, -hold => $max_lock_hold);
+
+    `/usr/sbin/ping $router 1`;
+    if ($?) {
+	return ("$router is unreachable.  Try again later.\n");
+    }
+    if (! $lckobj->lock("$cache_dir/$router")) {
+	return ("$router is busy.  Try again later.\n");
+    }
+    @results = &DoCmd($CLOGIN, $router, $mfg, $type, $arg);
+    $lckobj->unlock("$cache_dir/$router");
+    return (@results);
+}
+sub DoCmd
+{
+    my($program, $rtr, $mfg, $type, $arg) = @_;
+    local(*CMD);
+
+    if ($mfg =~ /juniper/i) {
+	open(CMD, "$JLOGIN -f $CLOGINRC -c \'$juniperCmd{$type} $arg\' $rtr |");
+	$cmd = $juniperCmd{$type};
+    } else {
+	open(CMD, "$CLOGIN -noenable -f $CLOGINRC -c \'$ciscoCmd{$type} $arg\' $rtr |");
+	$cmd = $ciscoCmd{$type};
+    }
+    while (<CMD>) {
+	tr/\015//d;
+	if (/^error:/i) {
+	    return ($_);
+	}
+#		push(@results, $_);
+	if (/$cmd/) {
+	    ($prompt) = /^(\S*)[\#>]/;
+#        		push(@results, "prompt = $prompt\n\n");
+	    last;
+	}
+    }
+    while (<CMD>) {
+	last if /^$prompt[\#>]/;
+	tr/\015//d;
+	push(@results, $_);
+    }
+    while (<CMD>) {}
+    close(CMD);
+    return @results;
+}
 # convert a ipv4 address mask to prefix length
 sub mask2len {
     my($mask) = shift;
@@ -56,6 +111,70 @@ sub mask2len {
 
     return($len);
 }
+# create the page and log the transaction...
+sub print_results {
+
+#log_start($debug, $debugl, $cfgtools::log_facility, "lookingglass",
+#	$cfgtools::log_facility);
+#log_msg($debug, $debugl, undef, "user: $remote_user, query: $type, router: $router_param, arg: $arg");
+#log_end($debug, $debugl);
+
+#  log date, hostname, query, addr
+$date = `/bin/date` ; 
+chop $date ;
+open(LOG,">>$cache_dir/lg.log") ; 
+($ENV{REMOTE_HOST}) && ( print LOG "$ENV{'REMOTE_HOST'} ") ; 
+($ENV{REMOTE_ADDR}) && ( print LOG "$ENV{'REMOTE_ADDR'} ")  ; 
+($ENV{REMOTE_USER}) && ( print LOG "$ENV{'REMOTE_USER'} ")  ; 
+print LOG "- - [$date] $type $router $arg\n"  ; 
+close LOG ; 
+
+print $query->header;
+print $query->start_html("Looking Glass Results - $router");
+
+my($timestr) = strftime("%a %b %e %H:%M:%S %Y %Z", gmtime);
+
+# add the company image, LG_IMAGE
+print $LG_IMAGE;
+
+print <<HEAD ;
+    </b></font>
+    <font size=+3><b><h1>Looking Glass Results - $router
+    </b></h1></font>
+    <hr>
+
+    <center>
+    <b>Date:</b> $timestr
+    <p>
+    <b>Query:</b> $cmdDisp{$type}
+    <br>
+HEAD
+
+if ($arg) { print "<b>Argument(s):</b> $arg\n"; }
+print "</center>\n";
+
+print <<END ; 
+    <!--$cached-->
+    </center>
+    <p>
+    <pre>
+END
+
+if ($seconds) { print "<b>From cache (number of seconds old (max $max_time_diff)):</b> $seconds\n\n" ; }
+
+print @results;
+
+print <<END ; 
+    </pre>
+    <!--- end page content --->
+    </body>
+END
+
+print $query->end_html;
+exit;
+
+}  #end sub print_results
+
 
 # read the configuration file if it exists.
 readconf();
@@ -87,7 +206,7 @@ $CLOGINRC = $TOP . "/.cloginrc";
 $CLOGIN = $TOP . "/clogin";
 $JLOGIN = $TOP . "/jlogin";
 
-my($query) = new CGI;
+$query = new CGI;
 
 # get form data and validate
 my($type) = ($query->param('query'))[0];
@@ -97,7 +216,7 @@ my($arg) = ($query->param('args'))[0];
 # handle multiple args
 @arg = split(' ', $arg);
 
-# verify arguments
+# verify commands, arguments, etc.
 my($router, $mfg) = split(':', $router_param);
 if (!defined($type) || !defined($router)) {
     $results[0] = "You must at least choose a Query and a router.  Try buying a clue.\n";
@@ -169,120 +288,121 @@ if ($mfg =~ /juniper/ && ! defined($juniperCmd{$type})) {
 
 
 if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
-	if ($arg[0] !~ /^\d+\.\d+\.\d+\.\d+$/) {
-		$results[0] = "The IP address \"$arg[0]\" is not valid and lacking an address would over-burden our router.\n";
-		&print_results;
-	} elsif (defined($arg[1]) && $arg[1] !~ /^\d+\.\d+\.\d+\.\d+$/) {
-		$results[0] = "The IP netmask \"$arg[1]\" is not valid.\n";
-		&print_results;
-	}
-	if ($mfg =~ /juniper/i && defined($arg[1])) {
-		$arg = $arg[0] . "/" . mask2len($arg[1]);
-	}
+    if ($arg[0] !~ /^\d+\.\d+\.\d+\.\d+$/) {
+	$results[0] = "The IP address \"$arg[0]\" is not valid and lacking an address would over-burden our router.\n";
+	&print_results;
+    } elsif (defined($arg[1]) && $arg[1] !~ /^\d+\.\d+\.\d+\.\d+$/) {
+	$results[0] = "The IP netmask \"$arg[1]\" is not valid.\n";
+	&print_results;
+    }
+    if ($mfg =~ /juniper/i && defined($arg[1])) {
+	$arg = $arg[0] . "/" . mask2len($arg[1]);
+    }
 } elsif ($type eq "framerelay") {
-	if ($arg[0] > 15 && $arg[0] < 1024) {
-	    $arg = $arg[0];
-	} else {
-	    undef($arg);
-	}
-} elsif ($type eq "interface") {
-	if ($arg[1] =~ /[-\/0-9:.]+/) {
-	    $arg = $arg[0] . " " . $arg[1];
-	} else {
-	    if ($arg[0] =~ /^b/i && $mfg =~ /cisco/i) {
-		$type = "intbrief";
-		$arg = "brief";
-	    } else {
-		$arg = $arg[0];
-	    }
-	}
-} elsif ($type eq "log") {
-	$arg[0] =~ s/^\s*|//;
-	if ($arg[0] =~ /^\s*$/) {
-	    shift(@arg);
-	}
-	if ($arg[0] !~ /^\s*$/) {
-	    if ($mfg =~ /cisco/i) {
-		$arg = " | include " . join(' ', @arg);
-	    } elsif ($mfg =~ /juniper/i) {
-		$arg = " | match \"" . join(' ', @arg) . "\"";
-	    }
-	} else {
-	    undef($arg);
-	}
-} elsif ($type eq "ping" || $type eq "trace") {
-	if ($arg[0] !~ /^\d+\.\d+\.\d+\.\d+$/) {
-		if ($arg[0] !~ /([A-Za-z0-9-]*.)*[A-Za-z0-9-]*.(com|edu|net|org)/) {
-			$results[0] = "That argument ($arg[0]) is not valid.\n";
-			&print_results;
-		}
-	}
+    if ($arg[0] > 15 && $arg[0] < 1024) {
 	$arg = $arg[0];
-} elsif ($type eq "aspath" || $type eq "communitylist") {
-	if ($arg[0] !~ /^\d+$/ || ($arg[0] < 1 && $arg[0] > 199)) {
-		$results[0] = "That argument ($arg[0]) is not valid.\n";
-		&print_results;
-	}
-	$arg = $arg[0];
-} elsif ($type eq "acl") {
-	if ($arg[0] !~ /^\d+$/ || ($arg[0] < 100 && $arg[0] > 199) ||
-					($arg[0] < 1300 && $arg[0] > 2699)) {
-		$results[0] = "That argument ($arg[0]) is not valid.\n";
-		&print_results;
-	}
-	$arg = $arg[0];
-	# don't show the jewels
-	&print_results if ($arg == 98 || $arg == 99);
-} elsif ($type eq "prefixlist" || $type eq "routemap") {
-	if ($arg[0] !~ /^[A-Za-z][^\s\"]*$/) {
-		$results[0] = "That argument ($arg[0]) is not valid.\n";
-		&print_results;
-	}
-	$arg = $arg[0];
-} elsif ($type eq "regex") {
-	$arg = $arg[0];
-	if ($#arg > 1) {
-		for ($n = 1; $n <= $#arg - 1; $n++) { $arg .= " " . $arg[$n]; }
-	}
-	if ($arg !~ /^[0-9_ ^.*+?[\])\(-]*\$?$/ || $arg =~ /^\s*$/) {
-		$results[0] = "That argument ($arg[0]) is not valid.\n";
-		&print_results;
-	}
-	# pathetic excuses for lookups
-	if ($arg =~ /^[_.* ^]*(\*|1|701|1239|1280|1740|3561|5462|10303)+[_\$]*$/ ||
-	$arg =~ /^[_.* ^]*(1|701|1239|1280|1740|3561|5462|10303)+[_ .]*[\[*.]/) {
-		$results[0] = "Get real.  Such a query has potential to over-burden our router.\nLook that up on your own router.\n";
-		&print_results;
-	}
-	# escape any ()
-	$arg =~ s/([\(\)])/\\$1/g;
-} elsif ($type eq "damp" || $type eq "summary" || $type eq "mbgpsum") {
+    } else {
 	undef($arg);
+    }
+} elsif ($type eq "interface") {
+    if ($arg[1] =~ /[-\/0-9:.]+/) {
+	$arg = $arg[0] . " " . $arg[1];
+    } else {
+	if ($arg[0] =~ /^b/i && $mfg =~ /cisco/i) {
+	    $type = "intbrief";
+	    $arg = "brief";
+	} else {
+	    $arg = $arg[0];
+	}
+    }
+} elsif ($type eq "log") {
+    $arg[0] =~ s/^\s*|//;
+    if ($arg[0] =~ /^\s*$/) {
+	shift(@arg);
+    }
+    if ($arg[0] !~ /^\s*$/) {
+	if ($mfg =~ /cisco/i) {
+	    $arg = " | include " . join(' ', @arg);
+	} elsif ($mfg =~ /juniper/i) {
+	    $arg = " | match \"" . join(' ', @arg) . "\"";
+	}
+    } else {
+	undef($arg);
+    }
+} elsif ($type eq "ping" || $type eq "trace") {
+    if ($arg[0] !~ /^\d+\.\d+\.\d+\.\d+$/) {
+	if ($arg[0] !~ /([A-Za-z0-9-]*.)*[A-Za-z0-9-]*.(com|edu|net|org)/) {
+	    $results[0] = "That argument ($arg[0]) is not valid.\n";
+	    &print_results;
+	}
+    }
+    $arg = $arg[0];
+} elsif ($type eq "aspath" || $type eq "communitylist") {
+    if ($arg[0] !~ /^\d+$/ || ($arg[0] < 1 && $arg[0] > 199)) {
+	$results[0] = "That argument ($arg[0]) is not valid.\n";
+	&print_results;
+    }
+    $arg = $arg[0];
+} elsif ($type eq "acl") {
+    if ($arg[0] !~ /^\d+$/ || ($arg[0] < 100 && $arg[0] > 199) ||
+					($arg[0] < 1300 && $arg[0] > 2699)) {
+	$results[0] = "That argument ($arg[0]) is not valid.\n";
+	&print_results;
+    }
+    $arg = $arg[0];
+    # don't show the jewels
+    &print_results if ($arg == 98 || $arg == 99);
+} elsif ($type eq "prefixlist" || $type eq "routemap") {
+    if ($arg[0] !~ /^[A-Za-z][^\s\"]*$/) {
+	$results[0] = "That argument ($arg[0]) is not valid.\n";
+	&print_results;
+    }
+    $arg = $arg[0];
+} elsif ($type eq "regex") {
+    $arg = $arg[0];
+    if ($#arg > 1) {
+	for ($n = 1; $n <= $#arg - 1; $n++) { $arg .= " " . $arg[$n]; }
+    }
+    if ($arg !~ /^[0-9_ ^.*+?[\])\(-]*\$?$/ || $arg =~ /^\s*$/) {
+	$results[0] = "That argument ($arg[0]) is not valid.\n";
+	&print_results;
+    }
+    # pathetic excuses for lookups
+    if ($arg =~ /^[_.* ^]*(\*|1|701|1239|1280|1740|3561|5462|10303)+[_\$]*$/ ||
+	$arg =~ /^[_.* ^]*(1|701|1239|1280|1740|3561|5462|10303)+[_ .]*[\[*.]/) {
+	$results[0] = "Get real.  Such a query has potential to over-burden our router.\nLook that up on your own router.\n";
+	&print_results;
+    }
+    # escape any ()
+    $arg =~ s/([\(\)])/\\$1/g;
+} elsif ($type eq "damp" || $type eq "summary" || $type eq "mbgpsum") {
+    undef($arg);
 }
 
 # cache the following
-if ($type eq "summary" || $type eq "mbgpsu" || $type eq "damp" ||
-	$type eq "log") {
-  if (!$arg) {  # cache requests with no addr/argument
+if ($type eq "summary" || $type eq "mbgpsu" || $type eq "damp" || $type eq "log") {
+    if (!$arg) {
+	# cache requests with no addr/argument
+	local(*CACHE);
 
-	$file = "$cache_dir/$type" ; 
+	my($file) = "$cache_dir/$type" ; 
 	$file =~ s/\s+/_/g;
 	$file .= "_$router";
 
-	if (-e $file)
-	{ # see if cache exists
-		@stat = stat($file); 
-		$ftime = $stat[9] ; 
-		$dtime = time - $stat[9] ; 
+	if (-e $file) {
+	    # see if cache exists
+	    @stat = stat($file); 
+	    $ftime = $stat[9] ; 
+	    $dtime = time - $stat[9] ; 
 
-		# see if we are within cache time 
-		if ($dtime <= $max_time_diff) {
-			open(CACHE,"$file") ; 
-			while (<CACHE>) { push(@results, $_); }
-			close CACHE ;
-			$seconds = $dtime;
-			&print_results ; 
-		}
+	    # see if we are within cache time 
+	    if ($dtime <= $max_time_diff) {
+		open(CACHE,"$file") ; 
+		while (<CACHE>) { push(@results, $_); }
+		close CACHE ;
+		$seconds = $dtime;
+		&print_results ; 
+	    }
 	}
 
 	# else, execute command and save to a new cache file
@@ -292,139 +412,13 @@ if ($type eq "summary" || $type eq "mbgpsu" || $type eq "damp" ||
 
 	print CACHE "@results";
 	close CACHE ;
-	} else {
-		@results = &DoRsh($router, $mfg, $type, $arg);
-	}
-	&print_results ; 
+    } else {
+	@results = &DoRsh($router, $mfg, $type, $arg);
+    }
+    &print_results ; 
 } # end dampened-paths/flap-statistics
 
 @results = &DoRsh($router, $mfg, $type, $arg);
 &print_results ;
 
 exit ; 
-
-
-
-# create the page and log the transaction...
-sub print_results {
-
-#log_start($debug, $debugl, $cfgtools::log_facility, "lookingglass",
-#	$cfgtools::log_facility);
-#log_msg($debug, $debugl, undef, "user: $remote_user, query: $type, router: $router_param, arg: $arg");
-#log_end($debug, $debugl);
-
-#  log date, hostname, query, addr
-$date = `/bin/date` ; 
-chop $date ;
-open(LOG,">>$cache_dir/lg.log") ; 
-($ENV{REMOTE_HOST}) && ( print LOG "$ENV{'REMOTE_HOST'} ") ; 
-($ENV{REMOTE_ADDR}) && ( print LOG "$ENV{'REMOTE_ADDR'} ")  ; 
-($ENV{REMOTE_USER}) && ( print LOG "$ENV{'REMOTE_USER'} ")  ; 
-print LOG "- - [$date] $type $router $arg\n"  ; 
-close LOG ; 
-
-print $query->header;
-print $query->start_html("Looking Glass Results - $router");
-
-my($timestr) = strftime("%a %b %e %H:%M:%S %Y %Z", gmtime);
-
-# add the company image, LG_IMAGE
-print $LG_IMAGE;
-
-print <<HEAD ;
-</b></font>
-<font size=+3><b><h1>Looking Glass Results - $router
-</b></h1></font>
-<hr>
-
-<center>
-<b>Date:</b> $timestr
-<p>
-<b>Query:</b> $cmdDisp{$type}
-<br>
-HEAD
-
-if ($arg) { print "<b>Argument(s):</b> $arg\n"; }
-print "</center>\n";
-
-print <<END ; 
-<!--$cached-->
-</center>
-<p>
-
-<pre>
-
-END
-
-if ($seconds) { print "<b>From cache (number of seconds old (max $max_time_diff)):</b> $seconds\n\n" ; }
-
-print "@results";
-
-print <<END ; 
-</pre>
-
-<!--- end page content --->
-
-</body>
-END
-
-print $query->end_html;
-exit;
-
-}  #end sub print_results
-
-sub DoRsh
-{
-	my ($router, $mfg, $type, $arg)=@_;
-	local(@results);
-	my($ctime) = time();
-
-	my($lckobj) = LockFile::Simple->make(-delay => $lock_int,
-		-max => $max_lock_wait, -hold => $max_lock_hold);
-
-	`/usr/sbin/ping $router 1`;
-	if ($?) {
-		return ("$router is unreachable.  Try again later.\n");
-	}
-	if (! $lckobj->lock("$cache_dir/$router")) {
-		return ("$router is busy.  Try again later.\n");
-	}
-	@results = &DoCmd($CLOGIN, $router, $mfg, $type, $arg);
-	$lckobj->unlock("$cache_dir/$router");
-	return (@results);
-}
-
-sub DoCmd
-{
-	my ($program, $rtr, $mfg, $type, $arg) = @_;
-
-	local (@results);
-
-	if ($mfg =~ /juniper/i) {
-		open(CMD, "$JLOGIN -f $CLOGINRC -c \'$juniperCmd{$type} $arg\' $rtr |");
-		$cmd = $juniperCmd{$type};
-	} else {
-		open(CMD, "$CLOGIN -noenable -f $CLOGINRC -c \'$ciscoCmd{$type} $arg\' $rtr |");
-		$cmd = $ciscoCmd{$type};
-	}
-	while (<CMD>) {
-		tr/\015//d;
-		if (/^error:/i) {
-			return ($_);
-		}
-#		push(@results, $_);
-		if (/$cmd/) {
-			($prompt) = /^(\S*)[\#>]/;
-#        		push(@results, "prompt = $prompt\n\n");
-			last;
-		}
-	}
-	while (<CMD>) {
-		last if /^$prompt[\#>]/;
-		tr/\015//d;
-		push(@results, $_);
-	}
-	while (<CMD>) {}
-	close(CMD);
-	return @results;
-}

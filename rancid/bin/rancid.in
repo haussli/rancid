@@ -1079,6 +1079,14 @@ sub WriteTerm {
 	    }
 	    next;
 	}
+	if (/^( set session-key (in|out)bound ah \d+ )/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1<removed>\n");
+	    next;
+	}
+	if (/^( set session-key (in|out)bound esp \d+ (authenticator|cypher) )/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1<removed>\n");
+	    next;
+	}
 	if (/^(\s*)password / && $filter_pwds >= 1) {
 	    ProcessHistory("LINE-PASS","","","!$1password <removed>\n");
 	    next;
@@ -1400,7 +1408,7 @@ if ($file) {
 }
 
 # determine password filtering mode
-if ($ENV{"FILTER_PWDS"} =~ /no/i) {  
+if ($ENV{"FILTER_PWDS"} =~ /no/i) {
 	$filter_pwds = 0;
 } elsif ($ENV{"FILTER_PWDS"} =~ /all/i) {
 	$filter_pwds = 2;

@@ -1,6 +1,8 @@
 2.3.eft
 	add Procket Networks support, "prancid"
 
+	filter ipsec keys in rancid & jrancid.
+
 	rancid: collect show idprom backplane (6500 cmd); this could collect
 	more - request from jared mauch
 

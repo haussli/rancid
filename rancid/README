@@ -48,7 +48,7 @@ mkinstalldirs	shell script to make installation directories
 rancid will also need to have the following packages:
 cvs		code revision system available from prep.ai.mit.edu:/pub/gnu
 gnudiff		gnudiff provides the uni-diff (-u) option.  if you do not have
-		gnudiff, configure will use 'diff -c' of 'diff -C'.
+		gnudiff, configure will use 'diff -c' or 'diff -C'.
 perl5		perl version 5 or greater available from www.cpan.org
 expect		http://expect.nist.gov/  we highly suggest that you stick to
 		expect 5.24.1 (or so).  this seems to work best.  note that

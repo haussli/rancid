@@ -8,8 +8,8 @@ lg_intro \- introduction to the looking glass
 The
 .B looking glass
 offers a web based interface to routers to users without their needing
-permission to login to the router.  A perfect interface for customer
-support or less savvy folks and many have given public access to such
+permission to login to the router.  This may be a perfect interface for customer
+support or less savvy folks, and many ISPs have given public access to such
 an interface as a "route server."
 .\"
 .SH DESCRIPTION
@@ -24,7 +24,7 @@ and the
 configuration file.
 .PP
 Both of these scripts begin with reading the configuration file.  If
-there is an error in it's syntax or the file can not be found, error
+there is an error in the file's syntax or if the file can not be found, error
 messages will be displayed on standard-error.  The Apache http server
 redirects standard-error to its error log file by default.
 .PP

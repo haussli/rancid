@@ -4,7 +4,6 @@
 	All routers not listed as 'up' in router.db are considered down.
 	This allows values other than down to mean 'not up'.  for use
 	by util/downreport.
-- need a -discuss mail list archive
 - a format such as {<user>} as the pwd in .cloginrc to indicate *login should
   prompt the user for the password
 - handle reback in the looking glass

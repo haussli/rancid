@@ -37,7 +37,7 @@ $ENV{PATH}="@prefix@/bin:@ENV_PATH@";
 # LG_IMAGE	is the filename of an image you wish to appear at the top
 #		of the LG pages.  it can also be other html goo, like
 #		the first example.  this is just handed to print, so \n and
-#		the like will work.
+#		the like will work and mind the character escapes (backslashes).
 #
 #$LG_IMAGE="<img src=/icons/rancid.gif hspace=0>\n <font size=+2>FOO</font>";
 #$LG_IMAGE="<img src=rancid.gif hspace=0>\n";

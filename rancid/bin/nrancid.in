@@ -183,6 +183,8 @@ sub GetConf {
 	tr/\015//d;
 	next if /^\s*$/;
 	last if(/$prompt/);
+	# throw away the pager lines
+	next if /^--- more ---/;
 
  	if (/^set admin name "(\S+)"$/ && $filter_pwds >= 1) {
             ProcessHistory("ADMIN","","","!set admin name <removed>\n");
@@ -243,11 +245,11 @@ if ($file) {
 
 # determine password filtering mode
 if ($ENV{"FILTER_PWDS"} =~ /no/i) {
-	$filter_pwds = 0;  
+    $filter_pwds = 0;  
 } elsif ($ENV{"FILTER_PWDS"} =~ /all/i) {
-	$filter_pwds = 2;
+    $filter_pwds = 2;
 } else {
-	$filter_pwds = 1;
+    $filter_pwds = 1;
 }
 
 ProcessHistory("","","","!RANCID-CONTENT-TYPE: netscreen\n!\n");
@@ -261,7 +263,8 @@ TOP: while(<INPUT>) {
     while (/>\s*($cmds_regexp)\s*$/) {
 	$cmd = $1;
 	if (!defined($prompt)) {
-	    $prompt = "\-\>\s*";
+	    $prompt = ($_ =~ /^([^>]+->)/)[0];
+	    $prompt =~ s/([][}{)(\\])/\\$1/g;
 	    print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
 	}
 	print STDERR ("HIT COMMAND:$_") if ($debug);

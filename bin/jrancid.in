@@ -281,13 +281,13 @@ sub ShowChassisRoutingEngine {
 sub ShowChassisSCB {
     print STDERR "    In ShowChassisSCB: $_" if ($debug);
 
-    return if ($ShowChassisSCB);
     s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
     while (<INPUT>) {
 	tr/\015//d;
 	last if(/^$prompt/);
 
+	return if ($ShowChassisSCB);
 	/error: the chassis subsystem is not running/ && return;
 	/Couldn\'t initiate connection/ && return;
 	/Unrecognized command/ && return;

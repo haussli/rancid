@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "lg.conf" "5" "4 Jan 2004"
+.TH "lg.conf" "5" "7 Jan 2004"
 .SH NAME
 lg.conf \- looking glass configuration file
 .SH DESCRIPTION
@@ -155,19 +155,23 @@ is interpreted directly by
 so its syntax follows that of perl.  Syntax errors may produce quite unexpected
 results.
 .SH FILES
-.Bl -tag -width .BASEDIR/etc/rancid.conf -compact
+.Bl -tag -width @sysconfdir@/rancid.conf -compact
 .TP
-.B $BASEDIR/etc/lg.conf
-Configuration file described here, where $BASEDIR is set at the time that
-the rancid package was configured.  In this installation, $BASEDIR is
-.IR @prefix@ .
+.B @sysconfdir@/lg.conf
+Configuration file described here.
 .sp
 .B lg.conf
 is located by the value of the environment variable LG_CONF, in the CWD
-(current working directory), or rancid install directory ($BASEDIR/etc),
-in that order.
+(current working directory), or the sysconfdir defined when rancid was
+installed, in that order.
 .El
 .SH SEE ALSO
 .BR cloginrc (5),
 .BR lg_intro (1),
 .BR router.db (5)
+.\"
+.SH HISTORY
+In RANCID releases prior to 2.3,
+.B lg.conf
+was located in the util/lg sub-directory of the install path.  This was
+changed to be more consistent with common file location practices.

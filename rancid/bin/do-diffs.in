@@ -37,7 +37,7 @@ do
 			/bin/rm -f $LOCKFILE
 		fi
 
-		echo ending: `date`
 		echo
+		echo ending: `date`
 	) >$BASEDIR/logs/$GROUP.`date +%Y%m%d.%H%M%S` 2>&1 
 done

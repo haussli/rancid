@@ -21,7 +21,8 @@
 	controllers.  M8T-V.35 was being missed.
 
 	modify jlogin to grope the full prompt after login such that -x
-	can be used within configuration mode.
+	can be used within configuration mode.  note: this turns $prompt into
+	a regexp, WRT -s scripts and -re option for expect's.
 
 	add -Evar=x option to pass variables to scripts.  eg:
 		clogin -Evariable=something router...

@@ -139,7 +139,6 @@ sub ShowVersion {
 
     while (<INPUT>) {
 	tr/\015//d;
-	study;
 	last if(/^$prompt/);
 	next if(/^(\s*|\s*$cmd\s*)$/);
 	return(-1) if (/command authorization failed/i);
@@ -320,7 +319,6 @@ sub ShowRedundancy {
 
     while (<INPUT>) {
 	tr/\015//d;
-	study;
 	last if(/^$prompt/);
 	next if(/^(\s*|\s*$cmd\s*)$/);
 	# the pager can not be disabled per-session on the PIX
@@ -344,7 +342,6 @@ sub ShowIDprom {
 
     while (<INPUT>) {
 	tr/\015//d;
-	study;
 	last if(/^$prompt/);
 	next if(/^(\s*|\s*$cmd\s*)$/);
 	# the pager can not be disabled per-session on the PIX
@@ -582,7 +579,6 @@ sub ShowContAll {
 
     while (<INPUT>) {
 	tr/\015//d;
-	study;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	# return(1) if ($type =~ /^(12[40]|7[05])/);
@@ -690,7 +686,6 @@ sub ShowDiagbus {
 
     while (<INPUT>) {
 	tr/\015//d;
-	study;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	#return(1) if ($type !~ /^7[05]/);
@@ -779,7 +774,6 @@ sub ShowDiag {
 
     while (<INPUT>) {
 	tr/\015//d;
-	study;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	# return(1) if ($type !~ /^(12[40]|720|36|26)/);
@@ -1013,7 +1007,6 @@ sub WriteTerm {
 
     while (<INPUT>) {
 	tr/\015//d;
-	study;
 	last if(/^$prompt/);
 	return(-1) if (/command authorization failed/i);
 	# the pager can not be disabled per-session on the PIX

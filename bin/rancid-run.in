@@ -43,11 +43,16 @@ do
 			if [ -s $TMPDIR/.$GROUP.old ]
 			then
 				(
-					cat <<END
+				  echo "To: @MAILPLUS@admin-$GROUP"
+				  echo "Subject: rancid hung - $GROUP"
+				  echo "Precedence: bulk"
+				  echo ""
+
+				  cat <<END
 rancid $GROUP hung on `hostname`?  Old lockfile still exists:
 `ls -l $LOCKFILE`
 END
-				) | Mail -s "rancid hung - $GROUP" @MAILPLUS@admin-$GROUP
+				) | sendmail -t
 			fi
 			rm -f $TMPDIR/.$GROUP.old
 

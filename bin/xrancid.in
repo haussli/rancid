@@ -293,7 +293,7 @@ sub WriteTerm {
 
 	# Dog gone Cool matches to process the rest of the config
 	# some chassis report their chassis type in show diag...oh, but
-	# other noooo.  grab it here, if available.  so, nothing else
+	# others do not.  grab it here, if available.  so, nothing else
 	# can change the keysort key until this is grabbed.  sigh.
 	/# (\S+) configuration generated/i &&
 	    ProcessHistory("COMMENTS","keysort","A0","#Chassis type: $1\n") &&

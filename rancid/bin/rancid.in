@@ -159,9 +159,9 @@ sub ShowVersion {
 	/^Compiled (.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","F3",
 		"!Image:$slave Compiled: $1\n") && next;
-	/^ROM: (System )?Bootstrap.*(Version.*)$/ &&
+	/^ROM: (IOS \S+ )?(System )?Bootstrap.*(Version.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","G1",
-		"!ROM Bootstrap: $2\n") && next;
+		"!ROM Bootstrap: $3\n") && next;
 	if (/^Hardware:\s+(.*), (.* RAM), CPU (.*)$/) {
 	    ProcessHistory("COMMENTS","keysort","A1",
 		"!Chassis type: $1 - a PIX\n");

@@ -243,7 +243,7 @@ AC_OUTPUT([ Makefile include/Makefile bin/Makefile util/Makefile \
 	man/Makefile man/env.5 man/lg.conf.5 man/lg_intro.1 \
 	include/version.h \
 	util/rtrfilter util/downreport ], \
-	[ chmod a+x bin/*login bin/*rancid ]
+	[ chmod a+x bin/*login bin/*rancid bin/par ]
 	)
 
 # fix permissions on scripts.

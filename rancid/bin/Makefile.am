@@ -72,6 +72,7 @@ auto_edit = sed \
 	-e 's,@PERLV\@,$(PERLV),g' \
 	-e 's,@PERLV_PATH\@,$(PERLV_PATH),g' \
 	-e 's,@LG_PING_CMD\@,$(LG_PING_CMD),g' \
+	-e 's,@ADMINMAILPLUS\@,$(ADMINMAILPLUS),g' \
 	-e 's,@MAILPLUS\@,$(MAILPLUS),g'
 
 lg.cgi: Makefile $(srcdir)/lg.cgi.in

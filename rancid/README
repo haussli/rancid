@@ -88,6 +88,6 @@ Quick Installation Guide (an example):
 	# clean out hourly differ logs
 	50 23 * * * /usr/bin/find $BASEDIR/logs -mtime +2 -exec rm {} \;
 
-13) Send me any bugs, suggestions or updates (hank@terrapin.net).
+13) Send me any bugs, suggestions or updates (rancid@shrubbery.net).
 
 -Hank

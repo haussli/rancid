@@ -144,9 +144,14 @@ sub ShowVersion {
 	/^(\S+) Power Supply ([^:]+):\s+(.*)/i &&
 	    ProcessHistory("COMMENTS","keysort","B0","#Power: $1 $2 $3\n")
 	    && next;
-	/^Image\s*:\s*(.*)/i &&
+	#/^image\s*:\s*(.*)/i && s/\s+by\s+.*$// && /^image\s*:\s*(.*)/i &&
+	/^image\s*:\s*(.*)\s+by\s+/i &&
 	    ProcessHistory("COMMENTS","keysort","C0","#Image: $1\n")
 	    && next;
+	/^bootrom\s+:\s+(.*)/i &&
+	    ProcessHistory("COMMENTS","keysort","C1","#\n#Bootrom: $1\n")
+	    && next;
+
 #heas: need to collect this from show vers for ShowSlot where rev #s are excluded
 #SLOT 1 :  702005-06  0025S-00877 CPLD Rev <FF>
 #SLOT 2 :  702005-06  0021S-00131 CPLD Rev 02
@@ -166,12 +171,37 @@ sub ShowMemory {
 	next if(/^(\s*|\s*$cmd\s*)$/);
 
 	/^Total DRAM Size: (.*)/ &&
-	    ProcessHistory("COMMENTS","keysort","A0","#\n#Memory: $1\n")
+	    ProcessHistory("COMMENTS","keysort","A1","#\n#Memory: $1\n")
     }
     return(0);
 }
 
-# This routine parses "show install active"
+# This routine parses "show diagnostics"
+sub ShowDiag {
+    print STDERR "    In ShowDiag: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+
+	/platform\s+:\s+(.*)$/i &&
+	    ProcessHistory("COMMENTS","keysort","A0","#Chassis type: $1\n") &&
+	    next;
+	/(\S+) part no\s+:\s+(.*)$/i &&
+	    ProcessHistory("COMMENTS","keysort","D0","#$1 PN: $2\n") &&
+	    next;
+	/(\S+ \S+) no\s+:\s+(.*)$/i &&
+	    ProcessHistory("COMMENTS","keysort","D0","#$1 PN: $2\n") &&
+	    next;
+	/(mac address)\s+:\s+(.*)$/i &&
+	    ProcessHistory("COMMENTS","keysort","A0","#$1: $2\n") &&
+	    next;
+    }
+    return(0);
+}
+
+# This routine parses "show slot"
 sub ShowSlot {
     print STDERR "    In ShowSlot: $_" if ($debug);
 
@@ -202,6 +232,34 @@ sub ShowSlot {
     return(0);
 }
 
+# This routine parses "show switch"
+sub ShowSwitch {
+    print STDERR "    In ShowSwitch: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if(/^$prompt/);
+	next if(/^(\s*|\s*$cmd\s*)$/);
+
+	/^\s*$/i && next;
+	/^(primary|secondary) configuration:/i && next;
+	/^(boot |next reboot)/i && next;
+	/^(auto |qos mode|sys\S*:|temperature|time)/i && next;
+
+	/^power supply: (.*)/i &&
+		ProcessHistory("COMMENTS","keysort","B0","#$1") && next;
+	/^license/i && ProcessHistory("COMMENTS","keysort","C0","#Image: $_")
+		&& next;
+	s/^software image (\S+):/Image: $1:/i &&
+		ProcessHistory("COMMENTS","keysort","C0","#$_") && next;
+	/^\S+ software version:/i &&
+		ProcessHistory("COMMENTS","keysort","C0","#Image: $_") && next;
+	/^(\S+ )?software/i && ProcessHistory("COMMENTS","keysort","C0","# $_");
+
+    }
+    return(0);
+}
+
 # This routine processes a "write term"
 sub WriteTerm {
     print STDERR "    In WriteTerm: $_" if ($debug);
@@ -214,11 +272,14 @@ sub WriteTerm {
 	s/^<-+ More -+>\s*//;
 
 	# Dog gone Cool matches to process the rest of the config
-	/^(# \S+ Configuration) generated/i &&
-	    ProcessHistory("","","","$1\n") && next;
+	/configuration generated/i && next;
+	/# system name/i && next;
+	/# software version/i && next;
+
 	/^(config bgp (neighbor|peer-group) \S+ password encrypted)/i &&
 	    ProcessHistory("","","","# $1 <removed>\n") &&
 	    next;
+
 #	/^( ip ospf authentication-key) / &&
 #	    ProcessHistory("","","","!$1 <removed>\n") && next;
 #	/^( ip ospf message-digest-key \d+ md5) / &&
@@ -306,6 +367,8 @@ sub DoNothing {print STDOUT;}
 %commands=(
 	'show version'		=> "ShowVersion",
 	'show memory'		=> "ShowMemory",
+	'show diagnostics'	=> "ShowDiag",
+	'show switch'		=> "ShowSwitch",
 	'show slot'		=> "ShowSlot",
 	'show configuration'	=> "WriteTerm"
 );
@@ -314,6 +377,8 @@ sub DoNothing {print STDOUT;}
 @commands=(
 	"show version",
 	"show memory",
+	"show diagnostics",
+	"show switch",
 	"show slot",
 	"show configuration"
 );
@@ -343,10 +408,11 @@ if ($file) {
 ProcessHistory("","","","#RANCID-CONTENT-TYPE: extreme\n#\n");
 ProcessHistory("COMMENTS","keysort","B0","#\n");	# power supply info
 ProcessHistory("COMMENTS","keysort","C0","#\n");	# image name
-#ProcessHistory("COMMENTS","keysort","G0","#\n");
+ProcessHistory("COMMENTS","keysort","D0","#\n");	# h/w info
+ProcessHistory("COMMENTS","keysort","X0","#\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
-    # note: this match sucks rocks, but the currently the extreme bits are
+    # note: this match sucks rocks, but currently the extreme bits are
     # unreliable about echoing the 'exit\n' command.  this match might really
     # be a bad idea, but instead rely upon WriteTerm's found_end?
     if (/$prompt\s?(exit$|Connection closed)/ && $found_end) {
@@ -396,7 +462,9 @@ if (defined($ENV{NOPIPE})) {
 if (scalar(%commands) || !$clean_run || !$found_end) {
     if (scalar(%commands)) {
 	printf(STDOUT "missed cmd(s): %s\n", join(',', keys(%commands)));
-	printf(STDERR "missed cmd(s): %s\n", join(',', keys(%commands))) if ($debug);
+	if ($debug) {
+	    printf(STDERR "missed cmd(s): %s\n", join(',', keys(%commands)))
+	}
     }
     if (!$clean_run || !$found_end) {
 	print STDOUT "End of run not found\n";

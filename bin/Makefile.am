@@ -52,7 +52,7 @@ install: all
 # BIN_DATAS are empty at the moment.
 #       for prog in $(BIN_DATAS) ; do \
 #           $(INSTALL_DATA) $$prog $(PREFIX)/bin; \
-#       done; \
+#       done;
 
 #clean:
 #	rm -f Makefile env $(BIN_DATAS) $(BIN_PROGS)

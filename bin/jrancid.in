@@ -360,6 +360,11 @@ sub ShowConfiguration {
 
 	/^database header mismatch: / && return(-1);
 	/^version .*;\d+$/ && return(-1);
+	if (/(\s*)(community |trap-group )[^ ;]+(\s+[;{])$/) {
+		if (defined(ENV{"NOCOMMSTR"})) {
+		    $_ = "#$1<removed>$2";
+		}
+	}
 	s/(\s*)(community |trap-group )[^ ;]*(.*)$/#$1<removed>$2/;
 	s/(\s*authentication-key ).*$/#$1<removed>;/;
 	s/^(.*\ssecret \")\$9\$.*(\".*)$/#$1<removed>$2/;

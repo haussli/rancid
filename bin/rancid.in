@@ -733,6 +733,8 @@ sub WriteTerm {
 	/^snmp-server community /  &&
 	    ProcessHistory("SNMPSERVERCOMM","keysort","$_","$_") && next;
 	# order tacacs server statements
+	/^(tacacs-server key )/ &&
+	    ProcessHistory("","","","! $1<removed>\n") && next;
 	/^tacacs-server host (\d+\.\d+\.\d+\.\d+)/ &&
 	    ProcessHistory("TAC","ipsort","$1","$_") && next;
 	# order clns host statements
@@ -795,7 +797,7 @@ sub DoNothing {print STDOUT;}
 	'write term'		=> "WriteTerm"
 );
 # keys() doesnt return things in the order entered and the order of the
-# cmds is important. pita
+# cmds is important (show version first and write term last). pita
 @commands=(
 	"show version",
 	"show env all",

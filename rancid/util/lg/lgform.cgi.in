@@ -1,4 +1,4 @@
-#!/usr/bin/perl5
+#!@PARLV_PATH@
 # lgform.cgi - Looking glass front-end
 # produces html form for calling lg.cgi
 

@@ -1021,6 +1021,7 @@ sub WriteTerm {
 	# the pager can not be disabled per-session on the PIX
 	s/^<-+ More -+>\s*//;
 	/Non-Volatile memory is in use/  && return(-1); # NvRAM is locked
+	return(0) if ($found_end);		# Only do this routine once
 	$linecnt++;
 	$lineauto = 0 if (/^[^ ]/);
 	# skip the crap
@@ -1346,6 +1347,7 @@ sub DoNothing {print STDOUT;}
 	'show c7200'		=> "ShowC7200",
 	'show vtp status'	=> "ShowVTP",
 	'show vlan'		=> "ShowVLAN",
+	'show running-config'	=> "WriteTerm",
 	'write term'		=> "WriteTerm"
 );
 # keys() doesnt return things in the order entered and the order of the
@@ -1396,6 +1398,7 @@ sub DoNothing {print STDOUT;}
 	"show c7200",
 	"show vtp status",
 	"show vlan",
+	"show running-config",
 	"write term"
 );
 $cisco_cmds=join(";",@commands);

@@ -1,4 +1,8 @@
 2.3.eft
+	rancid: do both 'write term' and 'show running-config' and
+	keep the output from the first one that works.  As cisco
+	phases out 'write term', this will keep things working.
+
 	Dell PowerConnect switch support - Dan Pfleger
 
 	jerancid: filter host ... ftp, encrypted passwords oscillate - reported

@@ -1,4 +1,6 @@
 2.2
+	fix typo in jlogin.  from richard doty.
+
 	add 2 example expect script for clogin -s
 
 	handle foundrys and more juniper bits in the lookingglass

@@ -351,39 +351,33 @@ sub WriteTerm {
 	if (/^( ip ospf authentication-key) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
-	# isis passwords appear to be completely plain-text
-	if (/^\s+isis password (\S+)( .*)?/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!isis password <removed>$2\n"); next;
+	# isis interface passwords
+	if (/^(\s+isis authentication-key \S+)( \d)? \S+/ &&
+							$filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>$'\n"); next;
 	}
-	if (/^\s+(domain-password|area-password) (\S+)( .*)?/
-							&& $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 <removed>$3\n"); next;
+	if (/^(\s+isis message-digest-key \d+ hmac-md5)( \d)?( \S+)/ &&
+							$filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>$'"); next;
 	}
+
 	# this is reversable, despite 'md5' in the cmd
+	if (/^(\s+ip ospf authentication-key \S+)( \d)? \S+/ &&
+							$filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>$'\n"); next;
+	}
+	if (/^(\s+ip ospf message-digest-key \d+ hmac-md5)( \d)?( \S+)/ &&
+							$filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>$'"); next;
+	}
 	if (/^( ip ospf message-digest-key \d+ md5) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
-	if (/^((crypto )?isakmp key) \S+ / && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 <removed> $'"); next;
-	}
-	# filter HSRP passwords
-	if (/^(\s+standby \d authentication) / && $filter_pwds >= 1) {
+
+	# filter VRRP passwords
+	if (/^(\s+ip vrrp authentication-key \d+)( \d)? \s+ / &&
+							$filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
-	}
-	# this appears in "measurement/sla" images
-	if (/^(\s+key-string \d?)/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 <removed>\n"); next;
-	}
-	if (/^( l2tp tunnel \S+ password)/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 <removed>\n"); next;
-	}
-	# i am told these are plain-text on the PIX
-	if (/^(vpdn username \S+ password)/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 <removed>\n"); next;
-	}
-	if (/^( cable shared-secret ) / && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 <removed>\n");
-	    next;
 	}
 
 	# sort ip explicit-paths.
@@ -513,7 +507,6 @@ sub WriteTerm {
 	if (/^! end of /i) {
 	    $found_end = 1;
 	    return(1);
-printf STDERR "foo\n";
 	}
     }
     return(0);

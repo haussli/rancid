@@ -1,3 +1,6 @@
+2.2b7
+	do-diffs: trap'ing SEGV (11) causes error on solaris.
+
 2.2b6
 	baynetworks/nortel support from Mark Cooper.  thanks mark!
 

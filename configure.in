@@ -92,6 +92,31 @@ if test $EXPECT_PATH = no; then
 fi
 AC_SUBST(EXPECT_PATH)
 
+# locate ping and it's syntax
+AC_PATH_PROG(PING_PATH,ping,no)
+if test $PING_PATH = no; then
+    AC_MSG_ERROR([can't locate ping.])
+    exit 1
+fi
+# ping seems to take one of two formats for count (N)
+# BSD: ping -c N host
+# SVR: ping host N
+$PING_PATH -c 1 127.0.0.1 > /dev/null 2>&1
+if test $? -ne 0 ; then
+    $PING_PATH 127.0.0.1 1 > /dev/null 2>&1
+    if test $? -ne 0 ; then
+        AC_MSG_ERROR([can't figure out how to pass count == 1 to $PING_PATH.])
+	exit 1
+    else
+	LG_PING_CMD="$PING_PATH"
+	AC_SUBST(LG_PING_CMD)
+    fi
+else
+    LG_PING_CMD="$PING_PATH -c 1"
+    AC_SUBST(LG_PING_CMD)
+fi
+rd_cv_lg_ping_cmd=$LG_PING_CMD
+
 # RD_BIN_DATAS are bin/ .in's that need to be installed without execute
 # perms.
 RD_BIN_DATAS=""

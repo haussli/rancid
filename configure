@@ -1576,6 +1576,66 @@ if test $EXPECT_PATH = no; then
 fi
 
 
+# locate ping and it's syntax
+# Extract the first word of "ping", so it can be a program name with args.
+set dummy ping; ac_word=$2
+echo $ac_n "checking for $ac_word""... $ac_c" 1>&6
+echo "configure:1584: checking for $ac_word" >&5
+if eval "test \"`echo '$''{'ac_cv_path_PING_PATH'+set}'`\" = set"; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  case "$PING_PATH" in
+  /*)
+  ac_cv_path_PING_PATH="$PING_PATH" # Let the user override the test with a path.
+  ;;
+  ?:/*)			 
+  ac_cv_path_PING_PATH="$PING_PATH" # Let the user override the test with a dos path.
+  ;;
+  *)
+  IFS="${IFS= 	}"; ac_save_ifs="$IFS"; IFS=":"
+  ac_dummy="$PATH"
+  for ac_dir in $ac_dummy; do 
+    test -z "$ac_dir" && ac_dir=.
+    if test -f $ac_dir/$ac_word; then
+      ac_cv_path_PING_PATH="$ac_dir/$ac_word"
+      break
+    fi
+  done
+  IFS="$ac_save_ifs"
+  test -z "$ac_cv_path_PING_PATH" && ac_cv_path_PING_PATH="no"
+  ;;
+esac
+fi
+PING_PATH="$ac_cv_path_PING_PATH"
+if test -n "$PING_PATH"; then
+  echo "$ac_t""$PING_PATH" 1>&6
+else
+  echo "$ac_t""no" 1>&6
+fi
+
+if test $PING_PATH = no; then
+    { echo "configure: error: can't locate ping." 1>&2; exit 1; }
+    exit 1
+fi
+# ping seems to take one of two formats for count (N)
+# BSD: ping -c N host
+# SVR: ping host N
+$PING_PATH -c 1 127.0.0.1 > /dev/null 2>&1
+if test $? -ne 0 ; then
+    $PING_PATH 127.0.0.1 1 > /dev/null 2>&1
+    if test $? -ne 0 ; then
+        { echo "configure: error: can't figure out how to pass count == 1 to $PING_PATH." 1>&2; exit 1; }
+	exit 1
+    else
+	LG_PING_CMD="$PING_PATH"
+	
+    fi
+else
+    LG_PING_CMD="$PING_PATH -c 1"
+    
+fi
+rd_cv_lg_ping_cmd=$LG_PING_CMD
+
 # RD_BIN_DATAS are bin/ .in's that need to be installed without execute
 # perms.
 RD_BIN_DATAS=""
@@ -1778,6 +1838,8 @@ s%@MAKE@%$MAKE%g
 s%@TAR@%$TAR%g
 s%@PERLV_PATH@%$PERLV_PATH%g
 s%@EXPECT_PATH@%$EXPECT_PATH%g
+s%@PING_PATH@%$PING_PATH%g
+s%@LG_PING_CMD@%$LG_PING_CMD%g
 s%@RD_BIN_DATAS@%$RD_BIN_DATAS%g
 s%@RD_BIN_PROGS@%$RD_BIN_PROGS%g
 s%@RD_UTIL_PROGS@%$RD_UTIL_PROGS%g

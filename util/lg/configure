@@ -618,6 +618,9 @@ RD_UTIL_LG_PROGS=$rd_cv_rd_util_lg_progs
 PERLV_PATH=$ac_cv_path_PERLV_PATH
 
 
+LG_PING_CMD=$rd_cv_lg_ping_cmd
+
+
 trap '' 1 2 15
 cat > confcache <<\EOF
 # This file is a shell script that caches the results of configure
@@ -769,6 +772,7 @@ s%@INSTALL_SCRIPT@%$INSTALL_SCRIPT%g
 s%@INSTALL_DATA@%$INSTALL_DATA%g
 s%@RD_UTIL_LG_PROGS@%$RD_UTIL_LG_PROGS%g
 s%@PERLV_PATH@%$PERLV_PATH%g
+s%@LG_PING_CMD@%$LG_PING_CMD%g
 
 CEOF
 EOF

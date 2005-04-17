@@ -1,4 +1,6 @@
-2.3.2a
+2.3.2
+	control_rancid: fix adminmailrcpt default - Danny Thomas
+
 	rancid: correct handling of SNMPv3 host configs - Patrick Adlam
 
 	rancid: filter nv_hdr file seen on sup720 - Bill Ouchark

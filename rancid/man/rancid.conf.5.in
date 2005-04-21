@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid.conf" "5" "12 Mar 2004"
+.TH "rancid.conf" "5" "21 April 2005"
 .SH NAME
 rancid.conf \- rancid environment configuration file
 .SH DESCRIPTION
@@ -121,6 +121,11 @@ The value of this variable is simply appended to the normal mail addresses.
 For example @MAILPLUS@usfs@example.com, if
 .B MAILDOMAIN
 had been set to "@example.com".
+.\"
+.TP
+.B MAX_ROUNDS
+Defines how many times rancid should retry collection of devices that fail.
+The minimum is 1.  The default is 4.
 .\"
 .TP
 .B NOCOMMSTR

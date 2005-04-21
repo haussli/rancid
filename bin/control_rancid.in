@@ -88,6 +88,12 @@ export adminmailrcpt
 
 # Number of things par should run in parallel.
 PAR_COUNT=${PAR_COUNT:-5}
+# Number of times failed collections should be retried.  Minimum 1.
+MAX_ROUNDS=${MAX_ROUNDS:-4}
+if [ $MAX_ROUNDS -lt 1 ] ; then
+    echo "Error: MAX_ROUNDS must be at least 1."
+    MAX_ROUNDS=1
+fi
 
 # Bail if we do not have the necessary info to run
 if [ ! -d $DIR ]
@@ -309,7 +315,7 @@ par -q -n $PAR_COUNT -c "rancid-fe \{}" $devlistfile
 # This section will generate a list of missed routers
 # and try to grab them again.  It will run through
 # $pass times.
-pass=4
+pass=$MAX_ROUNDS
 round=1
 if [ -f $DIR/routers.up.missed ]; then
     rm -f $DIR/routers.up.missed

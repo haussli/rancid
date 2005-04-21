@@ -1,4 +1,6 @@
 2.3.2
+	add MAX_ROUNDS rancid.conf knob - Mardechai Abzug
+
 	control_rancid: fix adminmailrcpt default - Danny Thomas
 
 	rancid: correct handling of SNMPv3 host configs - Patrick Adlam

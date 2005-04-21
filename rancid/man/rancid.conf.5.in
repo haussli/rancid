@@ -125,7 +125,9 @@ had been set to "@example.com".
 .TP
 .B MAX_ROUNDS
 Defines how many times rancid should retry collection of devices that fail.
-The minimum is 1.  The default is 4.
+The minimum is 1.
+.sp
+Default: 4.
 .\"
 .TP
 .B NOCOMMSTR

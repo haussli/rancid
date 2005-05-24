@@ -617,10 +617,10 @@ foreach router [lrange $argv $i end] {
     set router [string tolower $router]
     send_user "$router\n"
 
-    # Figure out prompt.
-    # Since autoenable is off by default, if we have it defined, it
-    # was done on the command line. If it is not specifically set on the
-    # command line, check the password file.
+    # Figure out the prompt.
+    # autoenable is off by default.  If we have it defined, it was done
+    # on the command line.  If it is not specifically set on the command
+    # line, check the password file.
     if $avautoenable {
 	set autoenable 1
 	set enable 0

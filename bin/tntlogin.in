@@ -48,7 +48,7 @@ set avautoenable 1
 set do_passwd 1
 
 # Find the user in the ENV, or use the unix userid.
-if {[ info exists env(CISCO_USER) ] } {
+if {[ info exists env(CISCO_USER) ]} {
     set default_user $env(CISCO_USER)
 } elseif {[ info exists env(USER) ]} {
     set default_user $env(USER)

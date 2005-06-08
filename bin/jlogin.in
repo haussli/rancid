@@ -269,7 +269,7 @@ proc login { router user passwd cmethod cyphertype identfile} {
 	    }
 	    if { $retval } {
 		send_user "\nError: telnet failed: $reason\n"
-		exit 1
+		return 1
 	    }
 	} elseif ![string compare $prog "ssh"] {
 	    # ssh to the router & try to login with or without an identfile.
@@ -278,18 +278,18 @@ proc login { router user passwd cmethod cyphertype identfile} {
 	    if {$identfile != ""} {
 		if [ catch {spawn $sshcmd -c $cyphertype -x -l $user -i $identfile $router} reason ] {
 		    send_user "\nError: failed to $sshcmd: $reason\n"
-		    exit 1
+		    return 1
 		}
 	    } else {
 		if [ catch {spawn $sshcmd -c $cyphertype -x -l $user $router} reason ] {
 		    send_user "\nError: failed to $sshcmd: $reason\n"
-		    exit 1
+		    return 1
 		}
 	    }
 	} elseif ![string compare $prog "rsh"] {
 	    if [ catch {spawn rsh -l $user $router} reason ] {
 		send_user "\nError: rsh failed: $reason\n"
-		exit 1
+		return 1
 	    }
 	} else {
 	    send_user "\nError: unknown connection method: $prog\n"

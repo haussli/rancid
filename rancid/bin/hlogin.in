@@ -59,7 +59,7 @@ set do_enapasswd 1
 set platform ""
 
 # Find the user in the ENV, or use the unix userid.
-if {[ info exists env(CISCO_USER) ] } {
+if {[ info exists env(CISCO_USER) ]} {
     set default_user $env(CISCO_USER)
 } elseif {[ info exists env(USER) ]} {
     set default_user $env(USER)

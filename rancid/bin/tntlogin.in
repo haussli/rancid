@@ -278,17 +278,17 @@ proc login { router user userpswd passwd prompt cmethod cyphertype } {
 	    }
 	    if { $retval } {
 		send_user "\nError: telnet failed: $reason\n"
-		exit 1
+		return 1
 	    }
         } elseif ![string compare $prog "ssh"] {
             if [ catch {spawn $sshcmd -c $cyphertype -x -l $user $router} reason ] {
                 send_user "\nError: $sshcmd failed: $reason\n"
-                exit 1
+                return 1
             }
         } elseif ![string compare $prog "rsh"] {
             if [ catch {spawn rsh -l $user $router} reason ] {
                 send_user "\nError: rsh failed: $reason\n"
-                exit 1
+                return 1
             }
         } else {
             send_user "\nError: unknown connection method: $prog\n"

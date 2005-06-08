@@ -295,7 +295,7 @@ proc login { router user userpswd passwd prompt cmethod cyphertype } {
                 exit 1
             }
         } else {
-            puts "\nError: unknown connection method: $prog"
+            send_user "\nError: unknown connection method: $prog\n"
             return 1
         }
         incr progs -1

@@ -1,4 +1,7 @@
 2.3.2
+	*login: ignore rsh on platforms that do not support it and on those
+	that do (eg: cisco), skip rsh for interactive and script (-s) logins.
+
 	add MAX_ROUNDS rancid.conf knob - Mardechai Abzug
 
 	control_rancid: fix adminmailrcpt default - Danny Thomas

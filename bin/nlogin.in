@@ -247,6 +247,7 @@ proc source_password_file { password_file } {
 }
 
 # Log into the firewall.
+# returns: 0 on success, 1 on failure
 proc login { firewall user userpswd passwd enapasswd prompt cmethod
 cyphertype } {
     global spawn_id in_proc do_command do_script sshcmd
@@ -256,6 +257,7 @@ cyphertype } {
     # Telnet to the firewall & try to login.
     set progs [llength $cmethod]
     foreach prog [lrange $cmethod 0 end] {
+	incr progs -1
 	if [string match "telnet*" $prog] {
 	    regexp {telnet(:([^[:space:]]+))*} $prog command suffix port
 	    if {"$port" == ""} {
@@ -273,15 +275,15 @@ cyphertype } {
 		return 1 
 	    }  
 	} elseif ![string compare $prog "rsh"] {
-	    if [ catch {spawn rsh -l $user $firewall} reason ] {
-		send_user "\nError: rsh failed: $reason\n"
+	    send_error "\nError: unsupported method: rsh\n"
+	    if { $progs == 0 } {
 		return 1
 	    }
+	    continue;
 	} else {
 	    send_user "\nError: unknown connection method: $prog\n"
 	    return 1
 	}
-	incr progs -1
 
     sleep 0.3
 

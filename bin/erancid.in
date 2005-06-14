@@ -38,8 +38,8 @@ my(%filter_pwds);		# password filtering mode
 # This routine is used to print out the router configuration
 sub ProcessHistory {
     my($new_hist_tag,$new_command,$command_string,@string)=(@_);
-    if((($new_hist_tag ne $hist_tag) || ($new_command ne $command))
-       && defined %history) {
+    if ((($new_hist_tag ne $hist_tag) || ($new_command ne $command))
+	&& defined %history) {
 	print eval "$command \%history";
 	undef %history;
     }
@@ -168,8 +168,8 @@ sub ShowModule {
 
     # now just copy it verbatim to the history file
     while (<INPUT>) {
-        tr/\015//d;
-        last if(/Active\) >/);
+	tr/\015//d;
+	last if(/Active\) >/);
 	last if(/^$/);
 	chop;
 	ProcessHistory("SLOT","","","-$_\n");
@@ -186,8 +186,8 @@ sub WriteTerm {
 
     # now just copy it verbatim to the history file
     while (<INPUT>) {
-        tr/\015//d;
-        last if(/Active\) >/);
+	tr/\015//d;
+	last if(/Active\) >/);
 	chop;
 	if (/^\s*snmp/ && defined($ENV{'NOCOMMSTR'})) {
 	    /snmp (getcomm|setcomm|trapcomm)(\s+)(\S*)/ &&

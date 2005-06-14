@@ -140,7 +140,7 @@ fi
 cd $DIR
 trap 'rm -fr routers.db routers.all.new routers.down.new routers.up.new \
 	routers.mail routers.added routers.deleted $TMP;' 1 2 15
-sed -e '/^#/d' -e 's/^ *//' -e 's/ *$//' -e 's/ *: */:/g' router.db | 
+sed -e '/^#/d' -e 's/^ *//' -e 's/ *$//' -e 's/ *: */:/g' router.db |
 	sort -u > routers.db
 cut -d: -f1,2 routers.db > routers.all.new
 if [ ! -f routers.all ] ; then touch routers.all; fi
@@ -353,10 +353,10 @@ echo
 # Make sure that no empty configs are accepted.  Those that are non-empty
 # are renamed from device_name.new -> device_name.
 for router in `cat $devlistfile`
-do 
+do
     OFS=$IFS
     IFS=':'
-    set $router 
+    set $router
     IFS=$OFS
     router=$1;
 

@@ -145,35 +145,31 @@ sub sortbyipaddr {
 # This routine processes a "save con"
 sub SaveConf {
     print STDERR "    In SaveConf: $_" if ($debug);
-    my($comment) = 1;	# strip extra comments, esp to preserve chassis type
 
     while (<INPUT>) {
 	tr/\015//d;
 	last if(/^$prompt/);
-#	next if(/^\s*$/);
 
-###	s/^\s*$/;/;
-
-# Leave software revision, but strip out saved date,
-# which causes rancid to think it changes each poll
-
+	# Leave software revision, but strip out saved date,
+	# which causes rancid to think it changes each poll
 	if (/^; saved from /) {
-		 ProcessHistory("","","","$_");
-		next;
+	    ProcessHistory("","","","$_");
+	    next;
 	}
 	/^; saved / && next;
 
 	# catch anything that wasnt match above.
 	ProcessHistory("","","","$_");
+
 	# end of config
-#	if (/^# End of configuration file/i) {
 	if (/; profiles saved$/) {
 	    printf STDERR "    End SaveConf: $_" if ($debug);
 	    $found_end = 1;
 	    print STDOUT "$found_end = found_end within test\n";
-       	    return(1);
+	    return(1);
 	}
-    $found_end = 1;
+	# XXX what is the purpose of this?
+	$found_end = 1;
 ####    print STDOUT "$found_end = found_end at test\n";
     }
     $found_end = 1;

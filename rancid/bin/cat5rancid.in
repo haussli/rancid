@@ -39,8 +39,8 @@ my(%modules);		# module info (part from sh ver, part from sh module)
 # This routine is used to print out the router configuration
 sub ProcessHistory {
     my($new_hist_tag,$new_command,$command_string,@string)=(@_);
-    if((($new_hist_tag ne $hist_tag) || ($new_command ne $command))
-       && defined %history) {
+    if ((($new_hist_tag ne $hist_tag) || ($new_command ne $command))
+	&& defined %history) {
 	print eval "$command \%history";
 	undef %history;
     }
@@ -671,8 +671,8 @@ sub ShowModule {
     print STDERR "    In ShowModule: $_" if ($debug);
 
 OUTER:while (<INPUT>) {
-        tr/\015//d;
-        last if(/^$prompt/);
+	tr/\015//d;
+	last if(/^$prompt/);
 	# stuff module type into %module
 	if (/^Mod\s+Slot\s+Ports/) {
 	    <INPUT>;
@@ -696,7 +696,7 @@ OUTER:while (<INPUT>) {
 	    }
 	    next;
 	}
-        # one does it one way... pita
+	# one does it one way... pita
 	if (/^Mod\s+Module-Name\s+Ports/) {
 	    <INPUT>;
 	    #my($slot);
@@ -713,7 +713,7 @@ OUTER:while (<INPUT>) {
 	    }
 	    next;
 	}
-        # daughter boards
+	# daughter boards
 	if (/^Mod\s+Sub-Type/) {
 	    <INPUT>;
 	    my($slot, $board);
@@ -822,9 +822,9 @@ sub WriteTerm {
 	/^#Time: / && next;
 
 	# Dog gone Cool matches to process the rest of the config
-	/^#time: /              && next; # kill time:
-	/^tftp-server flash /   && next; # kill any tftp remains
-	/^ntp clock-period /    && next; # kill ntp clock-period
+	/^#time: /		&& next; # kill time:
+	/^tftp-server flash /	&& next; # kill any tftp remains
+	/^ntp clock-period /	&& next; # kill ntp clock-period
 	/^ length /		&& next; # kill length on serial lines
 	/^ width /		&& next; # kill width on serial lines
 	if (/^enable password / && $filter_pwds >= 1) {
@@ -925,9 +925,9 @@ sub WriteTerm {
 	# order logging statements
 	/^set logging server (\d+\.\d+\.\d+\.\d+)/ &&
 	    ProcessHistory("LOGGING","ipsort","$1","$_") && next;
-        # order/prune snmp-server host statements
-        # we only prune lines of the form
-        # snmp-server host a.b.c.d <community>
+	# order/prune snmp-server host statements
+	# we only prune lines of the form
+	# snmp-server host a.b.c.d <community>
 	if (/^set snmp trap (\d+\.\d+\.\d+\.\d+) /) {
 	    if (defined($ENV{'NOCOMMSTR'})) {
 		ProcessHistory("SNMPSERVERHOST","ipsort","$1","!set snmp trap $1 <removed>\n");

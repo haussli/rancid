@@ -181,10 +181,10 @@ then
 		WCDOWN=`comm -13 routers.down routers.down.new | wc -l | \
 			sed -e 's/^ *\([^ ]*\)/\1/'`
 		if [ $WCDOWN -eq 1 ] ; then
-	            echo Routers changed to down:
-	            comm -13 routers.down routers.down.new | \
+		    echo Routers changed to down:
+		    comm -13 routers.down routers.down.new | \
 			sed -e 's/^/        /'
-	            echo
+		    echo
 		fi
 	    fi
 	fi
@@ -199,14 +199,14 @@ then
 
 	    if [ $WCADDED -gt 0 ]
 	    then
-	        echo Added routers:
-	        cat routers.added
+		echo Added routers:
+		cat routers.added
 		echo
 	    fi
 	    if [ $WCDELETED -gt 0 ]
 	    then
-	        echo Deleted routers:
-	        cat routers.deleted
+		echo Deleted routers:
+		cat routers.deleted
 		echo
 	    fi
 

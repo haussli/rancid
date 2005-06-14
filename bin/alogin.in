@@ -24,7 +24,7 @@
 # alogin - Alteon WebOS switch login
 #
 # afort@choqolat.org is responsible for this particular mess
-# (andrew fort) 
+# (andrew fort)
 #
 
 # Usage line
@@ -65,9 +65,9 @@ if {[ info exists env(CISCO_USER) ]} {
     if [ catch {exec id} reason ] {
 	send_error "\nError: could not exec id: $reason\n"
 	exit 1
-    } 
+    }
     regexp {\(([^)]*)} "$reason" junk default_user
-}   
+}
 
 # Sometimes routers take awhile to answer (the default is 10 sec)
 set timeout 45

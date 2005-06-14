@@ -64,9 +64,9 @@ if {[ info exists env(CISCO_USER) ]} {
     if [ catch {exec id} reason ] {
 	send_error "\nError: could not exec id: $reason\n"
 	exit 1
-    } 
+    }
     regexp {\(([^)]*)} "$reason" junk default_user
-}   
+}
 
 # Sometimes firewall take awhile to answer (the default is 10 sec)
 set timeout 45
@@ -208,9 +208,9 @@ proc include {args} {
     regsub -all "(^{|}$)" $args {} args
     if { [ regexp "^/" $args ignore ] == 0 } {
 	set args $env(HOME)/$args
-    } 
+    }
     source_password_file $args
-}   
+}
 
 proc find {var firewall} {
     upvar int_$var list
@@ -228,7 +228,7 @@ proc find {var firewall} {
 # it is sourced, the user better know what to put in there, as it
 # could install more than just password info...  I will assume however,
 # that a "bad guy" could just as easy put such code in the clogin
-# script, so I will leave .cloginrc as just an extention of that script 
+# script, so I will leave .cloginrc as just an extention of that script
 proc source_password_file { password_file } {
     global env
     if { ! [file exists $password_file] } {
@@ -272,8 +272,8 @@ cyphertype } {
 	} elseif ![string compare $prog "ssh"] {
 	    if [ catch {spawn $sshcmd -c $cyphertype -x -l $user $firewall} reason ] {
 		send_user "\nError: $sshcmd failed: $reason\n"
-		return 1 
-	    }  
+		return 1
+	    }
 	} elseif ![string compare $prog "rsh"] {
 	    send_error "\nError: unsupported method: rsh\n"
 	    if { $progs == 0 } {
@@ -316,10 +316,10 @@ cyphertype } {
     # then it will just send the passwd.
     # if telnet fails with connection refused, try ssh
     expect {
-	"Connection refused" { 
+	"Connection refused" {
 	    send_user "\nError: Connection Refused\n"; wait; return 1
         } eof { send_user "\nError: Couldn't login\n"; wait; return 1
-	} "Unknown host\r\n" { 
+	} "Unknown host\r\n" {
 	    expect eof
 	    send_user "\nError: Unknown host\n"; wait; return 1
 	} "Host is unreachable" {
@@ -345,7 +345,7 @@ cyphertype } {
 	    send "no\r"
 	    send_user "\nError: host key mismatch for $firewall.  Update the SSH known_hosts file accordingly.\n"
 	    return 1 }
-	denied		{ send_user "\nError: Check your passwd for $firewall\n" 
+	denied		{ send_user "\nError: Check your passwd for $firewall\n"
 	                  catch {close}; wait; return 1
 	                }
 	" ### Login failed" {send_user "\nError: Check your passwd for $firewall\n"; return 1 }
@@ -446,19 +446,19 @@ foreach firewall [lrange $argv $i end] {
       if { [llength $pswd] == 0 } {
         send_user "\nError: no password for $firewall in $password_file.\n"
         continue
-      } 
+      }
      set passwd [join [lindex $pswd 0] ""]
      set enapasswd [join [lindex $pswd 1]  ""]
     }
 
     # Figure out username
-    if {[info exists username]} {  
+    if {[info exists username]} {
       # command line username
       set ruser $username
     } else {
       set ruser [join [find user $firewall] ""]
       if { "$ruser" == "" } { set ruser $default_user }
-    } 
+    }
 
     # Figure out username's password (if different from the vty password)
     if {[info exists userpasswd]} {
@@ -466,9 +466,9 @@ foreach firewall [lrange $argv $i end] {
       set userpswd $userpasswd
     } else {
       set userpswd [join [find userpassword $firewall] ""]
-      if { "$userpswd" == "" } { set userpswd $passwd } 
-    } 
-    
+      if { "$userpswd" == "" } { set userpswd $passwd }
+    }
+
 
     # Figure out cypher type
     if {[info exists cypher]} {
@@ -483,9 +483,9 @@ foreach firewall [lrange $argv $i end] {
     set cmethod [find method $firewall]
     if { "$cmethod" == "" } { set cmethod {{telnet} {ssh}} }
 
-    # Figure out the SSH executable name  
-    set sshcmd [find sshcmd $firewall]  
-    if { "$sshcmd" == "" } { set sshcmd {ssh} }  
+    # Figure out the SSH executable name
+    set sshcmd [find sshcmd $firewall]
+    if { "$sshcmd" == "" } { set sshcmd {ssh} }
 
     # Login to the firewall
     if {[login $firewall $ruser $userpswd $passwd $enapasswd $prompt $cmethod $cyphertype]} {
@@ -513,7 +513,7 @@ foreach firewall [lrange $argv $i end] {
 	source $sfile
 	close
     } else {
-	label $firewall 
+	label $firewall
 	log_user 1
 	interact
     }

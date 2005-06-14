@@ -323,7 +323,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	} elseif ![string compare $prog "rsh"] {
 	    if { ! $do_command } {
 		if { $progs == 0 } {
-		    return 1 
+		    return 1
 		}
 		continue;
 	    }

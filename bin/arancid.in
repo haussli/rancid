@@ -2,7 +2,7 @@
 ##
 ## $Id$
 ##
-## Hacked version of rancid for Alteon WebOS switches 
+## Hacked version of rancid for Alteon WebOS switches
 ## tested with: ad3 v8.1.18
 ## afort@choqolat.org (andrew fort)
 ##
@@ -24,7 +24,7 @@
 ##
 #
 #  RANCID - Really Awesome New Cisco confIg Differ
-#           
+#
 # arancid - Alteon WebOS plugin for rancid
 #
 # usage: arancid [-d] [-l] [-f filename | $host]
@@ -147,16 +147,16 @@ sub ShowVersion {
 	while (<INPUT>)  {
 	    tr/\015//d;
 	    last if (/^>>.*$prompt/);
-	    next if(/^(\s*|\s*$cmd\s*)$/);  
-		
-	/^(ACEdirector.*|ACEswitch.*|Alteon.*)/i && 
+	    next if(/^(\s*|\s*$cmd\s*)$/);
+
+	/^(ACEdirector.*|ACEswitch.*|Alteon.*)/i &&
 	  ProcessHistory("COMMENTS","keysort","A1", "\/\*Model: $1\n") && next;
 	/^Software Version\s+(.*?)\s\((.*)\)/i &&
 	  ProcessHistory("COMMENTS","keysort","B1", "\/\*Image: Software: $1 ($2)\n") && next;
 	/^Hardware Part No:\s+(.*?)\s+/i &&
 	  ProcessHistory("COMMENTS","keysort","A2", "\/\*Hardware part no: $1\n") && next;
 	/^MAC address:\s+([0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2})/i &&
-	  ProcessHistory("COMMENTS","keysort","C1", "\/\*Base MAC address: $1\n") && next; 
+	  ProcessHistory("COMMENTS","keysort","C1", "\/\*Base MAC address: $1\n") && next;
 	}
 	return(0);
 }
@@ -173,7 +173,7 @@ sub WriteTerm {
         tr/\015//d;
         last if(/^>>.*$prompt/);
 	chop;
-	if (/(rcomm|wcomm|t1com|t2com)(\s+)(.*)/ && 
+	if (/(rcomm|wcomm|t1com|t2com)(\s+)(.*)/ &&
 		defined($ENV{'NOCOMMSTR'})) {
 	    ProcessHistory("","","","\/\*\t$1$2\"<removed>\"\n") && next;
 	}
@@ -183,8 +183,8 @@ sub WriteTerm {
 	next if (/^\/\* Configuration dump taken/i);
 	next if (/^\/\* Version.*Base MAC.*/i);
 
-		if (/^\/?script end/) { 
-		$found_end = 1; 
+		if (/^\/?script end/) {
+		$found_end = 1;
 		ProcessHistory("","","","$_\n");
 		return(1);
 		}

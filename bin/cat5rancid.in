@@ -767,7 +767,7 @@ OUTER:while (<INPUT>) {
 	ProcessHistory("MODS","","",$model);
 	if ($dboards) {ProcessHistory("MODS","","",$dboards);}
     }
-}   
+}
 
 # This routine processes a "show port ifindex"
 sub ShowPortIfindex {
@@ -933,7 +933,7 @@ sub WriteTerm {
 		ProcessHistory("SNMPSERVERHOST","ipsort","$1","!set snmp trap $1 <removed>\n");
 	    } else {
 		ProcessHistory("SNMPSERVERHOST","ipsort","$1","$_");
-	    } 
+	    }
 	    next;
 	}
 	if (/^(set snmp community) (\S+) (\S+)/) {

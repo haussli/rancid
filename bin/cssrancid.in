@@ -588,7 +588,7 @@ if ($file) {
 }
 
 # determine password filtering mode
-if ($ENV{"FILTER_PWDS"} =~ /no/i) {  
+if ($ENV{"FILTER_PWDS"} =~ /no/i) {
 	$filter_pwds = 0;
 } elsif ($ENV{"FILTER_PWDS"} =~ /all/i) {
 	$filter_pwds = 2;

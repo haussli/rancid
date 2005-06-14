@@ -43,7 +43,7 @@
 #
 # exclusion takes precedence and defaults to nothing.  inclusion defaults to
 # everything.
-#	
+#
 # this program requires the Mail::Mailer module which can be found on CPAN.
 ##
 BEGIN {

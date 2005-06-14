@@ -495,9 +495,9 @@ foreach router [lrange $argv $i end] {
     set cmethod [find method $router]
     if { "$cmethod" == "" } { set cmethod {{telnet} {ssh}} }
 
-    # Figure out the SSH executable name  
-    set sshcmd [find sshcmd $router]  
-    if { "$sshcmd" == "" } { set sshcmd {ssh} }  
+    # Figure out the SSH executable name
+    set sshcmd [find sshcmd $router]
+    if { "$sshcmd" == "" } { set sshcmd {ssh} }
 
     # Login to the router
     if {[login $router $loginname $passwd $cmethod $cyphertype $identfile]} {

@@ -50,9 +50,8 @@ for GROUP in $LIST_OF_GROUPS; do
     DIR=$BASEDIR/$GROUP
     if [ -s $DIR/routers.down ]; then
       (
-  
-      cat  << EOM
-  
+	cat  << EOM
+
 	The following $GROUP routers are listed as other than up.
 
 	Routers listed as "up" in rancid's router.db are polled several
@@ -61,20 +60,17 @@ not polled.
 
 EOM
 
-      cat $DIR/routers.down;
-
+	cat $DIR/routers.down;
       )
-
     else
       (
+	cat  << EOM
 
-      cat  << EOM
-
-        No routers are down/ticketed for router group $GROUP (yay).
+	No routers are down/ticketed for router group $GROUP (yay).
 
 EOM
 
-      ) 
+      )
     fi
   ) | sendmail -t
 

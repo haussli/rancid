@@ -1,3 +1,4 @@
+- jrancid doesnt use $timeo
 - lg.conf(5) needs the query stuff documented.
 - subversion support in addition to CVS
 - configure OLDTIME per-group

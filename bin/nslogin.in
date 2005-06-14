@@ -304,8 +304,8 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 		send_user "\nError: $sshcmd failed: $reason\n"
 		return 1
 	    }
-	} elseif ![string compare $prog "ssh"] {
-	    send_error "\nError: unsupported method: ssh\n"
+	} elseif ![string compare $prog "telnet"] {
+	    send_error "\nError: unsupported method: telnet\n"
 	    if { $progs == 0 } {
 		return 1
 	    }

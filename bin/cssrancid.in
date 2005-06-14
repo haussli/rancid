@@ -38,8 +38,8 @@ my(%filter_pwds);		# password filtering mode
 # This routine is used to print out the router configuration
 sub ProcessHistory {
     my($new_hist_tag,$new_command,$command_string,@string)=(@_);
-    if((($new_hist_tag ne $hist_tag) || ($new_command ne $command))
-       && defined %history) {
+    if ((($new_hist_tag ne $hist_tag) || ($new_command ne $command))
+	&& defined %history) {
 	print eval "$command \%history";
 	undef %history;
     }
@@ -293,9 +293,9 @@ sub ShowBoot {
 	}
 	if ($type !~ /^(12[04]|7)/) {
 	    if ($type !~ /^(29|35)00/) {
-	        ProcessHistory("COMMENTS","keysort","H2","!BootFlash: $_");
+		ProcessHistory("COMMENTS","keysort","H2","!BootFlash: $_");
 	    } else {
-	        ProcessHistory("COMMENTS","keysort","H1","!Variable: $_");
+		ProcessHistory("COMMENTS","keysort","H1","!Variable: $_");
 	    }
 	} elsif (/variable/) {
 	    ProcessHistory("COMMENTS","keysort","H1","!Variable: $_");

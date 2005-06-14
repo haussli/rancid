@@ -23,7 +23,7 @@
 # deal with Cabletron, Riverstone and Enterasys routers/switches
 #
 # 10/23/2002 -- Initial changes for Riverstone/Cabletron support
-#               Jim Meehan -- jmeehan@vpizza.org
+#		Jim Meehan -- jmeehan@vpizza.org
 #
 #  RANCID - Really Awesome New Cisco confIg Differ
 #
@@ -44,8 +44,8 @@ my(%filter_pwds);		# password filtering mode
 # This routine is used to print out the router configuration
 sub ProcessHistory {
     my($new_hist_tag,$new_command,$command_string,@string)=(@_);
-    if((($new_hist_tag ne $hist_tag) || ($new_command ne $command))
-       && defined %history) {
+    if ((($new_hist_tag ne $hist_tag) || ($new_command ne $command))
+	&& defined %history) {
 	print eval "$command \%history";
 	undef %history;
     }
@@ -100,8 +100,8 @@ sub valsort{
     local($i) = 0;
     local(@sorted_lines);
     foreach $key (sort values %lines) {
-        $sorted_lines[$i] = $key;
-        $i++;
+	$sorted_lines[$i] = $key;
+	$i++;
     }
     @sorted_lines;
 }
@@ -179,7 +179,7 @@ sub ShowUptime {
     tr/\015//d;
 	last if(/^$prompt/);
 	next if /^\s*$/;
-        next if /System up/;
+	next if /System up/;
 	ProcessHistory("UPTIME","","","!UPTIME: $_");
     }
     ProcessHistory("","","","!\n");
@@ -197,13 +197,13 @@ sub ShowActive {
 	s/^\s*(\d+\D: )*//;
 
 	# Riverstone/Cabletron doesn't have an "end" line, so
-        # we need to set $clean_run here
+	# we need to set $clean_run here
 	if (/^$prompt/) {
-            $clean_run = 1;
-            last;
-        }
+	    $clean_run = 1;
+	    last;
+	}
 
-        next if (/Running system configuration/);
+	next if (/Running system configuration/);
 
 	# filter out any RCS/CVS tags to avoid confusing local CVS storage
 	s/\$(Revision|Id):/ $1:/;

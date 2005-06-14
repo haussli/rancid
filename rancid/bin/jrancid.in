@@ -41,8 +41,8 @@ my(%filter_pwds);		# password filtering mode
 # This routine is used to print out the router configuration
 sub ProcessHistory {
     my($new_hist_tag,$new_command,$command_string,@string)=(@_);
-    if((($new_hist_tag ne $hist_tag) || ($new_command ne $command))
-       && defined %history) {
+    if ((($new_hist_tag ne $hist_tag) || ($new_command ne $command))
+	&& defined %history) {
 	print eval "$command \%history";
 	undef %history;
     }
@@ -97,8 +97,8 @@ sub valsort{
     local($i) = 0;
     local(@sorted_lines);
     foreach $key (sort values %lines) {
-        $sorted_lines[$i] = $key;
-        $i++;
+	$sorted_lines[$i] = $key;
+	$i++;
     }
     @sorted_lines;
 }
@@ -488,7 +488,7 @@ sub ShowConfiguration {
     while (<INPUT>) {
 	tr/\015//d;
 	next if (/^\s*$/);
-        # end of config - hopefully.  juniper does not have a reliable
+	# end of config - hopefully.  juniper does not have a reliable
 	# end-of-config tag.  appears to end with "\nPROMPT>", but not sure.
 	if(/^$prompt/) {
 	    $found_end++;

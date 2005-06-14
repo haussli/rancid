@@ -46,8 +46,8 @@ my(%filter_pwds);		# password filtering mode
 # This routine is used to print out the router configuration
 sub ProcessHistory {
     my($new_hist_tag,$new_command,$command_string,@string)=(@_);
-    if((($new_hist_tag ne $hist_tag) || ($new_command ne $command))
-       && defined %history) {
+    if ((($new_hist_tag ne $hist_tag) || ($new_command ne $command))
+	&& defined %history) {
 	print eval "$command \%history";
 	undef %history;
     }
@@ -165,9 +165,9 @@ sub ShowConfig {
     }
 
     if (/exit$/) {
-        $found_end = 1;
-        $clean_run = 1;
-        return(1);
+	$found_end = 1;
+	$clean_run = 1;
+	return(1);
     }
     return(0);
 }
@@ -261,7 +261,7 @@ TOP: while(<INPUT>) {
 
   # if ( (/netscaler#/) || $found_end ) {
 #print STDOUT "\n\nhere1\n";
-#        $clean_run=1;
+#	$clean_run=1;
 #	last;
 #    }
 

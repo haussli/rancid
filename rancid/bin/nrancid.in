@@ -42,8 +42,8 @@ my(%filter_pwds);		# password filtering mode
 # This routine is used to print out the firewall configuration
 sub ProcessHistory {
     my($new_hist_tag,$new_command,$command_string,@string)=(@_);
-    if((($new_hist_tag ne $hist_tag) || ($new_command ne $command))
-       && defined %history) {
+    if ((($new_hist_tag ne $hist_tag) || ($new_command ne $command))
+	&& defined %history) {
 	print eval "$command \%history";
 	undef %history;
     }
@@ -98,8 +98,8 @@ sub valsort{
     local($i) = 0;
     local(@sorted_lines);
     foreach $key (sort values %lines) {
-        $sorted_lines[$i] = $key;
-        $i++;
+	$sorted_lines[$i] = $key;
+	$i++;
     }
     @sorted_lines;
 }
@@ -150,20 +150,20 @@ sub GetSystem {
 	# throw away the pager lines
 	next if /^--- more ---/;
 
-        /^Serial Number: (\d+), Control Number: \d+$/ &&
-                ProcessHistory("SYSTEM","","", "!SN: $1\n") && next;
-        /^Product Name: (\S+)$/ &&
-                ProcessHistory("SYSTEM","","", "!Product: $1\n") && next;
-        /^Hardware Version: (\S+), / &&
-                ProcessHistory("SYSTEM","","", "!HW: $1\n") && next;
-        /^Software Version: (\S+), Type: (\S+)$/ &&
-                ProcessHistory("SYSTEM","","", "!Netscreen Type: $2\n!Software Version: $1\n") && next;
-        /^Image: (\S+), / &&
-                ProcessHistory("SYSTEM","","", "!Image: $1\n") && next;
-        /^Feature: (\S+)$/ &&
-                ProcessHistory("SYSTEM","","", "!Feature: $1\n") && next;
-        /^File Name: (\S+), Checksum: (\S+)$/ &&
-                ProcessHistory("SYSTEM","","", "!File Name: $1, Checksum: $2\n") && next;
+	/^Serial Number: (\d+), Control Number: \d+$/ &&
+		ProcessHistory("SYSTEM","","", "!SN: $1\n") && next;
+	/^Product Name: (\S+)$/ &&
+		ProcessHistory("SYSTEM","","", "!Product: $1\n") && next;
+	/^Hardware Version: (\S+), / &&
+		ProcessHistory("SYSTEM","","", "!HW: $1\n") && next;
+	/^Software Version: (\S+), Type: (\S+)$/ &&
+		ProcessHistory("SYSTEM","","", "!Netscreen Type: $2\n!Software Version: $1\n") && next;
+	/^Image: (\S+), / &&
+		ProcessHistory("SYSTEM","","", "!Image: $1\n") && next;
+	/^Feature: (\S+)$/ &&
+		ProcessHistory("SYSTEM","","", "!Feature: $1\n") && next;
+	/^File Name: (\S+), Checksum: (\S+)$/ &&
+		ProcessHistory("SYSTEM","","", "!File Name: $1, Checksum: $2\n") && next;
 
     }
     ProcessHistory("SYSTEM","","","!\n");
@@ -190,18 +190,18 @@ sub GetConf {
 	next if /^--- more ---/;
 
  	if (/^set admin name "(\S+)"$/ && $filter_pwds >= 1) {
-            ProcessHistory("ADMIN","","","!set admin name <removed>\n");
-            next;
-        }
+	    ProcessHistory("ADMIN","","","!set admin name <removed>\n");
+	    next;
+	}
  	if (/^set admin password (\S+)$/ && $filter_pwds >= 1) {
-            ProcessHistory("ADMIN","","","!set admin password <removed>\n");
-            next;
-        }
+	    ProcessHistory("ADMIN","","","!set admin password <removed>\n");
+	    next;
+	}
  	if (/^set admin user (\S+) password (\S+) privilege (\S+)$/ &&
 							$filter_pwds >= 1) {
-            ProcessHistory("ADMIN","","",
+	    ProcessHistory("ADMIN","","",
 		"!set admin user $1 password <removed> privilege $3\n");
-            next;
+	    next;
 	}
 	ProcessHistory("","","","$_");
     }

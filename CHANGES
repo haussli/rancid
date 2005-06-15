@@ -1,4 +1,7 @@
 2.3.2
+	*rancid: collapse the two command list definitions to an array of
+	hashrefs and build the lists from it - Ed Ravin
+
 	*login: ignore rsh on platforms that do not support it and on those
 	that do (eg: cisco), skip rsh for interactive and script (-s) logins.
 

@@ -31,9 +31,10 @@ $file = $opt_f;
 $host = $ARGV[0];
 $clean_run = 0;
 $found_end = 0;
-$timeo = 90;			# clogin timeout in seconds
+$timeo = 90;				# clogin timeout in seconds
 
-my(%filter_pwds);		# password filtering mode
+my(@commandtable, %commands, @commands);# command lists
+my(%filter_pwds);			# password filtering mode
 
 # This routine is used to print out the router configuration
 sub ProcessHistory {
@@ -548,22 +549,18 @@ sub ShowRun {
 sub DoNothing {print STDOUT;}
 
 # Main
-%commands=(
-	'term length 65535'		=> "TermLength",
-	'copy profile user-profile'	=> "CopyProfile",
-	'show version'			=> "ShowVersion",
-	'show boot'			=> "ShowBoot",
-	'show run'			=> "ShowRun"
+@commandtable = (
+	{'term length 65535'		=> 'TermLength'},
+	{'copy profile user-profile'	=> 'CopyProfile'},
+	{'show version'			=> 'ShowVersion'},
+	{'show boot'			=> 'ShowBoot'},
+	{'show run'			=> 'ShowRun'}
 );
-# keys() doesnt return things in the order entered and the order of the
-# cmds is important (show version first and show run last). pita
-@commands=(
-	"term length 65535",
-	"copy profile user-profile",
-	"show version",
-	"show boot",
-	"show run"
-);
+# Use an array to preserve the order of the commands and a hash for mapping
+# commands to the subroutine and track commands that have been completed.
+@commands = map(keys(%$_), @commandtable);
+%commands = map {keys(%$_) => values(%$_)} @commandtable;
+
 $cisco_cmds=join(";",@commands);
 $cmds_regexp=join("|",@commands);
 

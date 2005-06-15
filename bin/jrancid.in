@@ -36,7 +36,8 @@ $host = $ARGV[0];
 $clean_run = 0;
 $found_end = 0;
 
-my(%filter_pwds);		# password filtering mode
+my(@commandtable, %commands, @commands);# command lists
+my(%filter_pwds);			# password filtering mode
 
 # This routine is used to print out the router configuration
 sub ProcessHistory {
@@ -559,46 +560,30 @@ sub ShowConfiguration {
 sub DoNothing {print STDOUT;}
 
 # Main
-%commands=(
-	"show chassis clocks"		=> "ShowChassisClocks",
-	"show chassis environment"	=> "ShowChassisEnvironment",
-	"show chassis firmware"		=> "ShowChassisFirmware",
-	"show chassis fpc detail"	=> "ShowChassisFpcDetail",
-	"show chassis hardware detail"	=> "ShowChassisHardware",
-	"show chassis routing-engine"	=> "ShowChassisRoutingEngine",
-	"show chassis scb"		=> "ShowChassisSCB",
-	"show chassis sfm detail"	=> "ShowChassisSCB",
-	"show chassis ssb"		=> "ShowChassisSCB",
-	"show chassis feb"		=> "ShowChassisSCB",
-	"show chassis cfeb"		=> "ShowChassisSCB",
-	"show chassis alarms"		=> "ShowChassisAlarms",
-#	"show system autoinstallation status" => "ShowSystemAutoinstall",
-	"show system license"		=> "ShowSystemLicense",
-#	"show system license keys"	=> "ShowSystemLicenseKeys",
-	"show system boot-messages"	=> "ShowSystemBootMessages",
-	"show version detail"		=> "ShowVersion",
-	"show configuration"		=> "ShowConfiguration"
+@commandtable = (
+	{'show chassis clocks'		=> 'ShowChassisClocks'},
+	{'show chassis environment'	=> 'ShowChassisEnvironment'},
+	{'show chassis firmware'	=> 'ShowChassisFirmware'},
+	{'show chassis fpc detail'	=> 'ShowChassisFpcDetail'},
+	{'show chassis hardware detail'	=> 'ShowChassisHardware'},
+	{'show chassis routing-engine'	=> 'ShowChassisRoutingEngine'},
+	{'show chassis scb'		=> 'ShowChassisSCB'},
+	{'show chassis sfm detail'	=> 'ShowChassisSCB'},
+	{'show chassis ssb'		=> 'ShowChassisSCB'},
+	{'show chassis feb'		=> 'ShowChassisSCB'},
+	{'show chassis cfeb'		=> 'ShowChassisSCB'},
+	{'show chassis alarms'		=> 'ShowChassisAlarms'},
+#	{'show system autoinstallation status' => 'ShowSystemAutoinstall'},
+	{'show system license'		=> 'ShowSystemLicense'},
+#	{'show system license keys'	=> 'ShowSystemLicenseKeys'},
+	{'show system boot-messages'	=> 'ShowSystemBootMessages'},
+	{'show version detail'		=> 'ShowVersion'},
+	{'show configuration'		=> 'ShowConfiguration'}
 );
-@commands=(
-	"show chassis clocks",
-	"show chassis environment",
-	"show chassis firmware",
-	"show chassis fpc detail",
-	"show chassis hardware detail",
-	"show chassis routing-engine",
-	"show chassis scb",
-	"show chassis sfm detail",
-	"show chassis ssb",
-	"show chassis feb",
-	"show chassis cfeb",
-	"show chassis alarms",
-#	"show system autoinstallation status",
-	"show system license",
-#	"show system license keys",
-	"show system boot-messages",
-	"show version detail",
-	"show configuration"
-);
+# Use an array to preserve the order of the commands and a hash for mapping
+# commands to the subroutine and track commands that have been completed.
+@commands = map(keys(%$_), @commandtable);
+%commands = map {keys(%$_) => values(%$_)} @commandtable;
 
 $jnx_commands=join(";",@commands);
 $cmds_regexp=join("|",@commands);

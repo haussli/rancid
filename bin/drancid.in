@@ -29,8 +29,10 @@ $debug = $opt_d;
 $file = $opt_f;
 $host = $ARGV[0];
 $found_end = 0;
-$timeo = 90;			# hlogin timeout in seconds
-my(%filter_pwds);		# password filtering mode
+$timeo = 90;				# hlogin timeout in seconds
+
+my(@commandtable, %commands, @commands);# command lists
+my(%filter_pwds);			# password filtering mode
 
 # This routine is used to print out the router configuration
 sub ProcessHistory {
@@ -216,18 +218,16 @@ sub ShowRun {
 sub DoNothing {print STDOUT;}
 
 # Main
-%commands=(
-	'show system'			=> "ShowSys",
-	'show version'			=> "ShowVer",
-	'show running-config'		=> "ShowRun"
+@commandtable = (
+	{'show system'			=> 'ShowSys'},
+	{'show version'			=> 'ShowVer'},
+	{'show running-config'		=> 'ShowRun'}
 );
-# keys() doesnt return things in the order entered and the order of the
-# cmds is important. pita
-@commands=(
-	"show system",
-	"show version",
-	"show running-config"
-);
+# Use an array to preserve the order of the commands and a hash for mapping
+# commands to the subroutine and track commands that have been completed.
+@commands = map(keys(%$_), @commandtable);
+%commands = map {keys(%$_) => values(%$_)} @commandtable;
+
 $cisco_cmds=join(";",@commands);
 $cmds_regexp=join("|",@commands);
 

@@ -33,9 +33,10 @@ $file = $opt_f;
 $host = $ARGV[0];
 $clean_run = 0;
 $found_end = 0;
-$timeo = 90;			# clogin timeout in seconds
+$timeo = 90;				# clogin timeout in seconds
 
-my(%filter_pwds);		# password filtering mode
+my(@commandtable, %commands, @commands);# command lists
+my(%filter_pwds);			# password filtering mode
 
 # This routine is used to print out the router configuration
 sub ProcessHistory {
@@ -1109,62 +1110,38 @@ sub WriteTerm {
 sub DoNothing {print STDOUT;}
 
 # Main
-%commands=(
-	'show version'		=> "ShowVersion",
-	'show install active'	=> "ShowInstallActive",
-	'show env all'		=> "ShowEnv",
-	'show gsr chassis'	=> "ShowGSR",
-	'show boot'		=> "ShowBoot",
-	'show bootvar'		=> "ShowBoot",
-	'show variables boot'	=> "ShowBoot",
-	'show flash'		=> "ShowFlash",
-	'dir /all nvram:'	=> "DirSlotN",
-	'dir /all bootflash:'	=> "DirSlotN",
-	'dir /all slot0:'	=> "DirSlotN",
-	'dir /all disk0:'	=> "DirSlotN",
-	'dir /all slot1:'	=> "DirSlotN",
-	'dir /all disk1:'	=> "DirSlotN",
-	"dir /all sup-bootflash:"=> "DirSlotN",		# cat 6500-ios
-	"dir /all sup-microcode:"=> "DirSlotN",		# cat 6500-ios
-	'show controllers'	=> "ShowContAll",
-	'show controllers cbus'	=> "ShowContCbus",
-	'show diagbus'		=> "ShowDiagbus",
-	'show diag'		=> "ShowDiag",
-	'show module'		=> "ShowModule",	# cat 6500-ios
-	'show c7200'		=> "ShowC7200",
-	'show vtp status'	=> "ShowVTP",
-	'show vlan'		=> "ShowVLAN",
-	'show running'		=> "WriteTerm"
+@commandtable = (
+	{'show version'			=> 'ShowVersion'},
+	{'show install active'		=> 'ShowInstallActive'},
+	{'show env all'			=> 'ShowEnv'},
+	{'show gsr chassis'		=> 'ShowGSR'},
+	{'show boot'			=> 'ShowBoot'},
+	{'show bootvar'			=> 'ShowBoot'},
+	{'show variables boot'		=> 'ShowBoot'},
+	{'show flash'			=> 'ShowFlash'},
+	{'dir /all nvram:'		=> 'DirSlotN'},
+	{'dir /all bootflash:'		=> 'DirSlotN'},
+	{'dir /all slot0:'		=> 'DirSlotN'},
+	{'dir /all disk0:'		=> 'DirSlotN'},
+	{'dir /all slot1:'		=> 'DirSlotN'},
+	{'dir /all disk1:'		=> 'DirSlotN'},
+	{'dir /all sup-bootflash:'	=> 'DirSlotN'},
+	{'dir /all sup-microcode:'	=> 'DirSlotN'},
+	{'show controllers'		=> 'ShowContAll'},
+	{'show controllers cbus'	=> 'ShowContCbus'},
+	{'show diagbus'			=> 'ShowDiagbus'},
+	{'show diag'			=> 'ShowDiag'},
+	{'show module'			=> 'ShowModule'},
+	{'show c7200'			=> 'ShowC7200'},
+	{'show vtp status'		=> 'ShowVTP'},
+	{'show vlan'			=> 'ShowVLAN'},
+	{'show running'			=> 'WriteTerm'}
 );
-# keys() doesnt return things in the order entered and the order of the
-# cmds is important (show version first and write term last). pita
-@commands=(
-	"show version",
-	"show install active",
-	"show env all",
-	"show gsr chassis",
-	"show boot",
-	"show bootvar",
-	"show variables boot",
-	"show flash",
-	"dir /all nvram:",
-	"dir /all bootflash:",
-	"dir /all slot0:",
-	"dir /all disk0:",
-	"dir /all slot1:",
-	"dir /all disk1:",
-	"dir /all sup-bootflash:",
-	"dir /all sup-microcode:",
-	"show controllers",
-	"show controllers cbus",
-	"show diagbus",
-	"show diag",
-	"show module",
-	"show c7200",
-	"show vtp status",
-	"show vlan",
-	"show running"
-);
+# Use an array to preserve the order of the commands and a hash for mapping
+# commands to the subroutine and track commands that have been completed.
+@commands = map(keys(%$_), @commandtable);
+%commands = map {keys(%$_) => values(%$_)} @commandtable;
+
 $cisco_cmds=join(";",@commands);
 $cmds_regexp=join("|",@commands);
 

@@ -33,9 +33,10 @@ $file = $opt_f;
 $host = $ARGV[0];
 $clean_run = 0;
 $found_end = 0;
-$timeo = 90;			# clogin timeout in seconds
+$timeo = 90;				# clogin timeout in seconds
 
-my(%filter_pwds);		# password filtering mode
+my(@commandtable, %commands, @commands);# command lists
+my(%filter_pwds);			# password filtering mode
 
 # This routine is used to print out the router configuration
 sub ProcessHistory {
@@ -283,26 +284,20 @@ sub FlailHelplessly {
 }
 
 # Main
-%commands=(
-	'show version'		=> "ShowVersion",
-	"dir /flash"		=> "DirFlash",
-	"dir /pcmcia0"		=> "DirFlash",
-	"dir /pcmcia1"		=> "DirFlash",
-	'show hardware'		=> "ShowHardware",
-	'show chassis'		=> "ShowChassis",
-	'show slot table'	=> "ShowSlotTable",
-	'show config'		=> "WriteTerm"
+@commandtable = (
+	{'show version'		=> 'ShowVersion'},
+	{'dir /flash'		=> 'DirFlash'},
+	{'dir /pcmcia0'		=> 'DirFlash'},
+	{'dir /pcmcia1'		=> 'DirFlash'},
+	{'show hardware'	=> 'ShowHardware'},
+	{'show chassis'		=> 'ShowChassis'},
+	{'show slot table'	=> 'ShowSlotTable'},
+	{'show config'		=> 'WriteTerm'}
 );
-@commands=(
-	"show version",
-	"dir /flash",
-	"dir /pcmcia0",
-	"dir /pcmcia1",
-	"show hardware",
-	"show chassis",
-	"show slot table",
-	"show config"
-);
+# Use an array to preserve the order of the commands and a hash for mapping
+# commands to the subroutine and track commands that have been completed.
+@commands = map(keys(%$_), @commandtable);
+%commands = map {keys(%$_) => values(%$_)} @commandtable;
 
 $redback_cmds=join(";",@commands);
 $cmds_regexp=join("|",@commands);

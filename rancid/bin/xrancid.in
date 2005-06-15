@@ -31,9 +31,10 @@ $file = $opt_f;
 $host = $ARGV[0];
 $clean_run = 0;
 $found_end = 0;
-$timeo = 90;			# clogin timeout in seconds
+$timeo = 90;				# clogin timeout in seconds
 
-my(%filter_pwds);		# password filtering mode
+my(@commandtable, %commands, @commands);# command lists
+my(%filter_pwds);			# password filtering mode
 
 # This routine is used to print out the router configuration
 sub ProcessHistory {
@@ -373,26 +374,20 @@ sub WriteTerm {
 sub DoNothing {print STDOUT;}
 
 # Main
-%commands=(
-	'show version'			=> "ShowVersion",
-	'show memory'			=> "ShowMemory",
-	'show diag'			=> "ShowDiag",
-	'show switch'			=> "ShowSwitch",
-	'show slot'			=> "ShowSlot",
-	'show configuration detail'	=> "WriteTerm",
-	'show configuration'		=> "WriteTerm"
+@commandtable = (
+	{'show version'			=> 'ShowVersion'},
+	{'show memory'			=> 'ShowMemory'},
+	{'show diag'			=> 'ShowDiag'},
+	{'show switch'			=> 'ShowSwitch'},
+	{'show slot'			=> 'ShowSlot'},
+	{'show configuration detail'	=> 'WriteTerm'},
+	{'show configuration'		=> 'WriteTerm'},
 );
-# keys() doesnt return things in the order entered and the order of the
-# cmds is important (show version first and write term last). pita
-@commands=(
-	"show version",
-	"show memory",
-	"show diag",
-	"show switch",
-	"show slot",
-	"show configuration detail",
-	"show configuration"
-);
+# Use an array to preserve the order of the commands and a hash for mapping
+# commands to the subroutine and track commands that have been completed.
+@commands = map(keys(%$_), @commandtable);
+%commands = map {keys(%$_) => values(%$_)} @commandtable;
+
 $cisco_cmds=join(";",@commands);
 $cmds_regexp=join("|",@commands);
 

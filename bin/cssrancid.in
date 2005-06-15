@@ -559,7 +559,7 @@ sub DoNothing {print STDOUT;}
 # Use an array to preserve the order of the commands and a hash for mapping
 # commands to the subroutine and track commands that have been completed.
 @commands = map(keys(%$_), @commandtable);
-%commands = map {keys(%$_) => values(%$_)} @commandtable;
+%commands = map(%$_, @commandtable);
 
 $cisco_cmds=join(";",@commands);
 $cmds_regexp=join("|",@commands);

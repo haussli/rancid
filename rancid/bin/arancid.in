@@ -42,7 +42,7 @@ $timeo = 90;			# clogin timeout in seconds
 
 # This routine is used to print out the router configuration
 sub ProcessHistory {
-    my($new_hist_tag,$new_command,$command_string,@string)=(@_);
+    my($new_hist_tag,$new_command,$command_string,@string) = (@_);
     if ((($new_hist_tag ne $hist_tag) || ($new_command ne $command))
 	&& defined %history) {
 	print eval "$command \%history";
@@ -66,10 +66,10 @@ sub ProcessHistory {
 
 sub numerically { $a <=> $b; }
 
-# This is a sort routing that will sort numerically on the
+# This is a sort routine that will sort numerically on the
 # keys of a hash as if it were a normal array.
 sub keynsort {
-    local(%lines)=@_;
+    local(%lines) = @_;
     local($i) = 0;
     local(@sorted_lines);
     foreach $key (sort numerically keys(%lines)) {
@@ -79,10 +79,10 @@ sub keynsort {
     @sorted_lines;
 }
 
-# This is a sort routing that will sort on the
+# This is a sort routine that will sort on the
 # keys of a hash as if it were a normal array.
 sub keysort {
-    local(%lines)=@_;
+    local(%lines) = @_;
     local($i) = 0;
     local(@sorted_lines);
     foreach $key (sort keys(%lines)) {
@@ -92,10 +92,10 @@ sub keysort {
     @sorted_lines;
 }
 
-# This is a sort routing that will sort on the
+# This is a sort routine that will sort on the
 # values of a hash as if it were a normal array.
 sub valsort{
-    local(%lines)=@_;
+    local(%lines) = @_;
     local($i) = 0;
     local(@sorted_lines);
     foreach $key (sort values %lines) {
@@ -105,9 +105,9 @@ sub valsort{
     @sorted_lines;
 }
 
-# This is a numerical sort routing (ascending).
+# This is a numerical sort routine (ascending).
 sub numsort {
-    local(%lines)=@_;
+    local(%lines) = @_;
     local($i) = 0;
     local(@sorted_lines);
     foreach $num (sort {$a <=> $b} keys %lines) {
@@ -121,7 +121,7 @@ sub numsort {
 # ip address when the ip address is anywhere in
 # the strings.
 sub ipsort {
-    local(%lines)=@_;
+    local(%lines) = @_;
     local($i) = 0;
     local(@sorted_lines);
     foreach $addr (sort sortbyipaddr keys %lines) {
@@ -134,7 +134,7 @@ sub ipsort {
 # These two routines will sort based upon IP addresses
 sub ipaddrval {
     my(@a) = ($_[0] =~ m#^(\d+)\.(\d+)\.(\d+)\.(\d+)$#);
-    $a[3]+256*($a[2]+256*($a[1]+256*$a[0]));
+    $a[3] + 256 * ($a[2] + 256 * ($a[1] +256 * $a[0]));
 }
 sub sortbyipaddr {
     &ipaddrval($a) <=> &ipaddrval($b);
@@ -142,12 +142,12 @@ sub sortbyipaddr {
 
 # This routine parses "/info/sys" (cf. show version)
 sub ShowVersion {
-	print STDERR "    In ShowVersion: $_" if ($debug);
+    print STDERR "    In ShowVersion: $_" if ($debug);
 
-	while (<INPUT>)  {
-	    tr/\015//d;
-	    last if (/^>>.*$prompt/);
-	    next if(/^(\s*|\s*$cmd\s*)$/);
+    while (<INPUT>)  {
+	tr/\015//d;
+	last if (/^>>.*$prompt/);
+	next if(/^(\s*|\s*$cmd\s*)$/);
 
 	/^(ACEdirector.*|ACEswitch.*|Alteon.*)/i &&
 	  ProcessHistory("COMMENTS","keysort","A1", "\/\*Model: $1\n") && next;
@@ -157,8 +157,8 @@ sub ShowVersion {
 	  ProcessHistory("COMMENTS","keysort","A2", "\/\*Hardware part no: $1\n") && next;
 	/^MAC address:\s+([0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2})/i &&
 	  ProcessHistory("COMMENTS","keysort","C1", "\/\*Base MAC address: $1\n") && next;
-	}
-	return(0);
+    }
+    return(0);
 }
 
 # This routine processes a "/cfg/dump"

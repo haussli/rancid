@@ -34,9 +34,10 @@ $found_end = 0;
 $found_version = 0;
 $found_env = 0;
 $found_diag = 0;
-$timeo = 90;			# clogin timeout in seconds
+$timeo = 90;				# clogin timeout in seconds
 
-my(%filter_pwds);		# password filtering mode
+my(@commandtable, %commands, @commands);# command lists
+my(%filter_pwds);			# password filtering mode
 
 # This routine is used to print out the router configuration
 sub ProcessHistory {
@@ -1499,122 +1500,68 @@ sub WriteTerm {
 sub DoNothing {print STDOUT;}
 
 # Main
-%commands=(
-	'admin show version'	=> "ShowVersion",
-	'show version'		=> "ShowVersion",
-	'show redundancy secondary'	=> "ShowRedundancy",
-	'show idprom backplane',	=> "ShowIDprom",
-	'show install active'	=> "ShowInstallActive",
-	'admin show env all'	=> "ShowEnv",
-	'show env all'		=> "ShowEnv",
-	'show rsp chassis-info',=> "ShowRSP",
-	'show gsr chassis'	=> "ShowGSR",
-	'show boot'		=> "ShowBoot",
-	'show bootvar'		=> "ShowBoot",
-	'show variables boot'	=> "ShowBoot",
-	'show flash'		=> "ShowFlash",
-	'dir /all nvram:'	=> "DirSlotN",
-	'dir /all bootflash:'	=> "DirSlotN",
-	'dir /all slot0:'	=> "DirSlotN",
-	'dir /all disk0:'	=> "DirSlotN",
-	'dir /all slot1:'	=> "DirSlotN",
-	'dir /all disk1:'	=> "DirSlotN",
-	'dir /all slot2:'	=> "DirSlotN",
-	'dir /all disk2:'	=> "DirSlotN",
-	'dir /all harddisk:'	=> "DirSlotN",
-	'dir /all harddiska:'	=> "DirSlotN",
-	'dir /all harddiskb:'	=> "DirSlotN",
-	"dir /all sup-bootflash:"=> "DirSlotN",		# cat 6500-ios
-	"dir /all sup-microcode:"=> "DirSlotN",		# cat 6500-ios
-	'dir /all slavenvram:'	=> "DirSlotN",
-	'dir /all slavebootflash:'	=> "DirSlotN",
-	'dir /all slaveslot0:'	=> "DirSlotN",
-	'dir /all slavedisk0:'	=> "DirSlotN",
-	'dir /all slaveslot1:'	=> "DirSlotN",
-	'dir /all slavedisk1:'	=> "DirSlotN",
-	'dir /all slaveslot2:'	=> "DirSlotN",
-	'dir /all slavedisk2:'	=> "DirSlotN",
-	"dir /all slavesup-bootflash:"=> "DirSlotN",	# cat 7609
-	'dir /all sec-nvram:'	=> "DirSlotN",
-	'dir /all sec-bootflash:'	=> "DirSlotN",
-	'dir /all sec-slot0:'	=> "DirSlotN",
-	'dir /all sec-disk0:'	=> "DirSlotN",
-	'dir /all sec-slot1:'	=> "DirSlotN",
-	'dir /all sec-disk1:'	=> "DirSlotN",
-	'dir /all sec-slot2:'	=> "DirSlotN",
-	'dir /all sec-disk2:'	=> "DirSlotN",
-	'show controllers'	=> "ShowContAll",
-	'show controllers cbus'	=> "ShowContCbus",
-	'show diagbus'		=> "ShowDiagbus",
-	'admin show diag'	=> "ShowDiag",
-	'show diag'		=> "ShowDiag",
-	'show module'		=> "ShowModule",	# cat 6500-ios
-	'show spe version'	=> "ShowSpeVersion",
-	'show c7200'		=> "ShowC7200",
-	'show vtp status'	=> "ShowVTP",
-	'show vlan'		=> "ShowVLAN",
-	'show running-config'	=> "WriteTerm",
-	'write term'		=> "WriteTerm"
+@commandtable = (
+	{'admin show version'		=> 'ShowVersion'},
+	{'show version'			=> 'ShowVersion'},
+	{'show redundancy secondary'	=> 'ShowRedundancy'},
+	{'show idprom backplane',	=> 'ShowIDprom'},
+	{'show install active'		=> 'ShowInstallActive'},
+	{'admin show env all'		=> 'ShowEnv'},
+	{'show env all'			=> 'ShowEnv'},
+	{'show rsp chassis-info',	=> 'ShowRSP'},
+	{'show gsr chassis'		=> 'ShowGSR'},
+	{'show boot'			=> 'ShowBoot'},
+	{'show bootvar'			=> 'ShowBoot'},
+	{'show variables boot'		=> 'ShowBoot'},
+	{'show flash'			=> 'ShowFlash'},
+	{'dir /all nvram:'		=> 'DirSlotN'},
+	{'dir /all bootflash:'		=> 'DirSlotN'},
+	{'dir /all slot0:'		=> 'DirSlotN'},
+	{'dir /all disk0:'		=> 'DirSlotN'},
+	{'dir /all slot1:'		=> 'DirSlotN'},
+	{'dir /all disk1:'		=> 'DirSlotN'},
+	{'dir /all slot2:'		=> 'DirSlotN'},
+	{'dir /all disk2:'		=> 'DirSlotN'},
+	{'dir /all harddisk:'		=> 'DirSlotN'},
+	{'dir /all harddiska:'		=> 'DirSlotN'},
+	{'dir /all harddiskb:'		=> 'DirSlotN'},
+	{'dir /all sup-bootflash:'	=> 'DirSlotN'},		# cat 6500-ios
+	{'dir /all sup-microcode:'	=> 'DirSlotN'},		# cat 6500-ios
+	{'dir /all slavenvram:'		=> 'DirSlotN'},
+	{'dir /all slavebootflash:'	=> 'DirSlotN'},
+	{'dir /all slaveslot0:'		=> 'DirSlotN'},
+	{'dir /all slavedisk0:'		=> 'DirSlotN'},
+	{'dir /all slaveslot1:'		=> 'DirSlotN'},
+	{'dir /all slavedisk1:'		=> 'DirSlotN'},
+	{'dir /all slaveslot2:'		=> 'DirSlotN'},
+	{'dir /all slavedisk2:'		=> 'DirSlotN'},
+	{'dir /all slavesup-bootflash:'	=> 'DirSlotN'},		# cat 7609
+	{'dir /all sec-nvram:'		=> 'DirSlotN'},
+	{'dir /all sec-bootflash:'	=> 'DirSlotN'},
+	{'dir /all sec-slot0:'		=> 'DirSlotN'},
+	{'dir /all sec-disk0:'		=> 'DirSlotN'},
+	{'dir /all sec-slot1:'		=> 'DirSlotN'},
+	{'dir /all sec-disk1:'		=> 'DirSlotN'},
+	{'dir /all sec-slot2:'		=> 'DirSlotN'},
+	{'dir /all sec-disk2:'		=> 'DirSlotN'},
+	{'show controllers'		=> 'ShowContAll'},
+	{'show controllers cbus'	=> 'ShowContCbus'},
+	{'show diagbus'			=> 'ShowDiagbus'},
+	{'admin show diag'		=> 'ShowDiag'},
+	{'show diag'			=> 'ShowDiag'},
+	{'show module'			=> 'ShowModule'},	# cat 6500-ios
+	{'show spe version'		=> 'ShowSpeVersion'},
+	{'show c7200'			=> 'ShowC7200'},
+	{'show vtp status'		=> 'ShowVTP'},
+	{'show vlan'			=> 'ShowVLAN'},
+	{'show running-config'		=> 'WriteTerm'},
+	{'write term'			=> 'WriteTerm'},
 );
-# keys() doesnt return things in the order entered and the order of the
-# cmds is important (show version first and write term last). pita
-@commands=(
-	"admin show version",
-	"show version",
-	"show redundancy secondary",
-	"show idprom backplane",
-	"show install active",
-	"admin show env all",
-	"show env all",
-	"show rsp chassis-info",
-	"show gsr chassis",
-	"show boot",
-	"show bootvar",
-	"show variables boot",
-	"show flash",
-	"dir /all nvram:",
-	"dir /all bootflash:",
-	"dir /all slot0:",
-	"dir /all disk0:",
-	"dir /all slot1:",
-	"dir /all disk1:",
-	"dir /all slot2:",
-	"dir /all disk2:",
-	"dir /all harddisk:",
-	"dir /all harddiska:",
-	"dir /all harddiskb:",
-	"dir /all sup-bootflash:",
-	"dir /all sup-microcode:",
-	"dir /all slavenvram:",
-	"dir /all slavebootflash:",
-	"dir /all slaveslot0:",
-	"dir /all slavedisk0:",
-	"dir /all slaveslot1:",
-	"dir /all slavedisk1:",
-	"dir /all slaveslot2:",
-	"dir /all slavedisk2:",
-	"dir /all slavesup-bootflash:",
-	"dir /all sec-nvram:",
-	"dir /all sec-bootflash:",
-	"dir /all sec-slot0:",
-	"dir /all sec-disk0:",
-	"dir /all sec-slot1:",
-	"dir /all sec-disk1:",
-	"dir /all sec-slot2:",
-	"dir /all sec-disk2:",
-	"show controllers",
-	"show controllers cbus",
-	"show diagbus",
-	"admin show diag",
-	"show diag",
-	"show module",
-	"show spe version",
-	"show c7200",
-	"show vtp status",
-	"show vlan",
-	"show running-config",
-	"write term"
-);
+# Use an array to preserve the order of the commands and a hash for mapping
+# commands to the subroutine and track commands that have been completed.
+@commands = map(keys(%$_), @commandtable);
+%commands = map {keys(%$_) => values(%$_)} @commandtable;
+
 $cisco_cmds=join(";",@commands);
 $cmds_regexp=join("|",@commands);
 

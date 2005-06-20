@@ -791,7 +791,10 @@ sub ShowPortIfindex {
 sub WriteTerm {
     print STDERR "    In WriteTerm: $_" if ($debug);
 
-    ProcessHistory("","","","!\n");
+    if (! $found_end) {
+	ProcessHistory("","","","!\n");
+    }
+
     while (<INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);

@@ -1,4 +1,6 @@
 2.3.2
+	nrancid: filter radius secrest - Jee Kay
+
 	*rancid: collapse the two command list definitions to an array of
 	hashrefs and build the lists from it - Ed Ravin
 

@@ -204,6 +204,11 @@ sub GetConf {
 		"!set admin user $1 password <removed> privilege $3\n");
 	    next;
 	}
+	if (/^set auth-server (\S+) radius secret / && $filter_pwds >= 1 ) {
+	    ProcessHistory("ADMIN","","",
+			   "!set auth-server $1 radius secret <removed>\n");
+	    next;
+	}
 	ProcessHistory("","","","$_");
     }
     $found_end=1;

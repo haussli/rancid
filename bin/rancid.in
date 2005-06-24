@@ -1316,7 +1316,7 @@ sub WriteTerm {
 	    ProcessHistory("","","","!$1 <removed> $'"); next;
 	}
 	# filter HSRP passwords
-	if (/^(\s+standby \d authentication) / && $filter_pwds >= 1) {
+	if (/^(\s+standby \d+ authentication) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
 	# this appears in "measurement/sla" images

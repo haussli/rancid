@@ -1,4 +1,6 @@
 2.3.2
+	rancid: match HSRP group numbers greater than 1 char wide - Ed Ravin
+
 	nrancid: filter radius secrest - Jee Kay
 
 	*rancid: collapse the two command list definitions to an array of

@@ -1,4 +1,6 @@
 2.3.2
+	Add a MAILHEADERS configuration variable for user-defined mail headers 
+
 	rancid: match HSRP group numbers greater than 1 char wide - Ed Ravin
 
 	nrancid: filter radius secrest - Jee Kay

@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid.conf" "5" "21 April 2005"
+.TH "rancid.conf" "5" "5 July 2005"
 .SH NAME
 rancid.conf \- rancid environment configuration file
 .SH DESCRIPTION
@@ -121,6 +121,16 @@ The value of this variable is simply appended to the normal mail addresses.
 For example @MAILPLUS@usfs@example.com, if
 .B MAILDOMAIN
 had been set to "@example.com".
+.\"
+.TP
+.B MAILHEADERS
+Define additional mail headers to be added to rancid mail, such as Precedence
+or X- style headers.
+Individual headers must be separated by a \\n (new line).
+.sp
+Default: Precedence: bulk
+.sp
+Example: Precedence: bulk\\nX-clamation: beef cake
 .\"
 .TP
 .B MAX_ROUNDS

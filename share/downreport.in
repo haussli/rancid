@@ -40,12 +40,17 @@ elif [ "$LIST_OF_GROUPS" = "" ] ; then
     exit 1
 fi
 
+# mail variables
+set | grep MAILHEADERS= > /dev/null 2>&1
+if [ $? -ne 0 ] ; then
+    MAILHEADERS="Precedence: bulk\n"; export MAILHEADERS
+fi
 
 for GROUP in $LIST_OF_GROUPS; do
   (
     echo "To: @MAILPLUS@admin-$GROUP"
     echo "Subject: Down router report - $GROUP"
-    echo "Precedence: bulk"
+    echo "$MAILHEADERS" | awk '{gsub(/\\n/,"\n");print;}'
     echo ""
     DIR=$BASEDIR/$GROUP
     if [ -s $DIR/routers.down ]; then

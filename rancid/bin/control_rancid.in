@@ -379,7 +379,7 @@ done
 # Diff the directory and then checkin.
 trap 'rm -fr $TMP $TMP.diff $DIR/routers.single;' 1 2 15
 cd $DIR
-cvs -f @DIFF_CMD@ | sed -e '/^RCS file: /d' -e '/^--- /d' \
+cvs -f @DIFF_CMD@ -ko | sed -e '/^RCS file: /d' -e '/^--- /d' \
 	-e '/^+++ /d' -e 's/^\([-+ ]\)/\1 /' >$TMP.diff
 
 if [ $alt_mailrcpt -eq 1 ] ; then

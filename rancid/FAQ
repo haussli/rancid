@@ -1,4 +1,4 @@
-Frequently Asked Questions about rancid - last updated 20050801.
+Frequently Asked Questions about rancid - last updated 20050813.
 
 This FAQ contains information that may not apply directly to versions of
 rancid prior to 2.3.  It also contains paths containing tags such as
@@ -240,7 +240,8 @@ Q. For approximately X hosts (configs) what size server should we be
 A. On modern machines it is unlikely you will have issues with disk space or
    memory - A heavily laden access router with a complex config won't consume
    more than a few megabytes of disk space for its configs over several
-   years time.
+   years time (roughly 3 times the sum of all the config or */configs/* over
+   2 years is a decent approximation).
 
    Rancid is typically CPU bound if you have adequate network bandwidth.
    Experience shows rancid takes around 50 Mhz * minutes / device of processing

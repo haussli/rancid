@@ -1,4 +1,6 @@
 2.3.2
+	clogin: support rsh method - partly from James Stahr
+
 	collect show inventory raw on rancid and cat5rancid
 
 	add -ko to cvs diff commands - Michael Shields

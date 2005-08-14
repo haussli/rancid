@@ -348,7 +348,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 
 		# rcmd does not get a pager and no prompts, so we just have to
 		# look for failures & lines.
-		expect {                              
+		expect {
 		  "Connection refused"	{ catch {close}; wait;
 					  send_user "\nError: Connection\
 						    Refused ($prog): $router\n"
@@ -372,7 +372,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 					  set rshfail 1
 					}
 		  -re "\b+"		{ exp_continue }
-		  -re "\[\n\r]+"	{ send_user -- "$expect_out(buffer)"    
+		  -re "\[\n\r]+"	{ send_user -- "$expect_out(buffer)"
 					  exp_continue
 					}
 		}

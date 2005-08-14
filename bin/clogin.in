@@ -375,6 +375,10 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 		  -re "\[\n\r]+"	{ send_user -- "$expect_out(buffer)"
 					  exp_continue
 					}
+		  timeout		{ catch {close}; wait
+					  send_user "\nError: TIMEOUT reached\n"
+					  return 1
+					}
 		}
 		log_user 1
 	    }
@@ -385,6 +389,8 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 		    continue
 		}
 	    }
+	    # fake the end of the session for rancid.
+	    send_user "$router# exit\n"
 	    # return rsh "success"
 	    return -1
 	} else {

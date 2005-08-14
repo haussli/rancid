@@ -4997,8 +4997,7 @@ else
 fi
 
 
-# Check if user wants us to create LOCALSTATEDIR.  If it's a package-system,
-# they might create it themselves for book-keeping sake; eg: NetBSD
+# Check if user wants us to install sample configurations into the sysconfdir.
 echo "$as_me:$LINENO: checking whether to install sample .conf files in sysconfdir" >&5
 echo $ECHO_N "checking whether to install sample .conf files in sysconfdir... $ECHO_C" >&6
 # Check whether --enable-conf-install or --disable-conf-install was given.

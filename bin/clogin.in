@@ -377,8 +377,9 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 					}
 		  timeout		{ catch {close}; wait
 					  send_user "\nError: TIMEOUT reached\n"
-					  return 1
+					  set rshfail 1
 					}
+		  eof			{ catch {close}; wait }
 		}
 		log_user 1
 	    }

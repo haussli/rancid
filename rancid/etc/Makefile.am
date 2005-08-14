@@ -70,7 +70,8 @@ auto_edit = sed \
 	-e 's,@sysconfdir\@,$(sysconfdir),g' \
 	-e 's,@EXPECT_PATH\@,$(EXPECT_PATH),g' \
 	-e 's,@PERLV_PATH\@,$(PERLV_PATH),g' \
-	-e 's,@ENV_PATH\@,$(ENV_PATH),g'
+	-e 's,@ENV_PATH\@,$(ENV_PATH),g' \
+	-e 's,@RCSSYS\@,$(RCSSYS),g'
 
 lg.conf.sample: Makefile $(srcdir)/lg.conf.sample.in
 	rm -f lg.conf.sample lg.conf.sample.tmp; \

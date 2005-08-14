@@ -1059,7 +1059,7 @@ sub ShowInventory {
 
 	ProcessHistory("INVENTORY","","","!$_");
     }
-    ProcessHistory("INVENTORY","","","");
+    ProcessHistory("INVENTORY","","","!\n");
 
     return(0);
 }

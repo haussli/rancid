@@ -1022,6 +1022,38 @@ PerlSucks:
     return(0);
 }
 
+# This routine parses "show inventory".
+sub ShowInventory {
+    print STDERR "    In ShowInventory: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	return if (/^\s*\^$/);
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(-1) if (/command authorization failed/i);
+	# the pager can not be disabled per-session on the PIX
+	s/^<-+ More -+>\s*//;
+
+	chomp;
+
+	# split PID/VID line
+	if (/^(NAME: ".*,) (DESCR: .*)/) {
+	    ProcessHistory("INVENTORY","","", sprintf("!%-30s%s\n", $1, $2));
+	    next;
+	}
+	if (/^(PID: \w?) *, (VID: .*), (SN: .*)$/) {
+	    ProcessHistory("INVENTORY","","", "!$1\n!$2\n!$3\n");
+	    next;
+	}
+
+	ProcessHistory("INVENTORY","","","!$_");
+    }
+    ProcessHistory("INVENTORY","","","");
+
+    return(0);
+}
+
 # This routine parses "show module".
 sub ShowModule {
     print STDERR "    In ShowModule: $_" if ($debug);
@@ -1552,6 +1584,7 @@ sub DoNothing {print STDOUT;}
 	{'show module'			=> 'ShowModule'},	# cat 6500-ios
 	{'show spe version'		=> 'ShowSpeVersion'},
 	{'show c7200'			=> 'ShowC7200'},
+	{'show inventory raw'		=> 'ShowInventory'},
 	{'show vtp status'		=> 'ShowVTP'},
 	{'show vlan'			=> 'ShowVLAN'},
 	{'show running-config'		=> 'WriteTerm'},

@@ -1,4 +1,6 @@
 2.3.2
+	collect show inventory raw on rancid and cat5rancid
+
 	add -ko to cvs diff commands - Michael Shields
 
 	Add a MAILHEADERS configuration variable for user-defined mail headers 

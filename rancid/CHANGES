@@ -1,4 +1,6 @@
 2.3.2
+	add subversion support - mostly from Justin Grote
+
 	clogin: support rsh method - partly from James Stahr
 
 	collect show inventory raw on rancid and cat5rancid

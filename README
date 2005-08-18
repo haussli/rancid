@@ -79,6 +79,8 @@ bin/
 man/		man pages
 share/		Readmes, samples, utilities, contribs, etc
 
+Also see rancid_intro(1), rancid(1), and clogin(1).
+
 The following (non-exhaustive list) are included as part of the installation
 and configuration tools:
 

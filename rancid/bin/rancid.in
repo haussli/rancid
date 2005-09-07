@@ -1580,12 +1580,9 @@ sub WriteTerm {
 	    }
 	}
 	# prune tacacs/radius server keys
-	if (/^(tacacs-server|radius-server) key / && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 key <removed>\n"); next;
-	}
-	if (/^((tacacs-server|radius-server) host \S+ key) / &&
-							$filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 <removed>\n"); next;
+	if (/^((tacacs-server|radius-server)\s(\w*[-\s(\s\S+])*\s?key) \d \w+/
+							&& $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>$'\n"); next;
 	}
 	# order clns host statements
 	/^clns host \S+ (\S+)/ &&

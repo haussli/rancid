@@ -1,4 +1,6 @@
 2.3.2
+	rancid: better filtering of PIX pager prompt - Aaron Gee-clough
+
 	rancid: collect show debug - Ed Ravin
 
 	add subversion support - mostly from Justin Grote

@@ -31,10 +31,9 @@
 #include <stdio.h>
 #include <limits.h>
 #include <fcntl.h>
+#include <regex.h>
 #include <signal.h>
 #include <sys/time.h>
-#include <regex.h>
-
 #include <termios.h>
 
 #define	BUFSZ	(LINE_MAX * 2)
@@ -271,12 +270,11 @@ main(int argc, char **argv)
 		break;
 	    }
 	}
-	/* close */
+
 	close(0);
 	close(1);
 	close(s[1]);
 	close(r[0]);
-
     }
 
     if (! kill(child, SIGQUIT))

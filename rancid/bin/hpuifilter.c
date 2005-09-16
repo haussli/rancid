@@ -289,7 +289,7 @@ filter(buf, len)
     int		len;
 {
     static regmatch_t	pmatch[1];
-#define	N_REG		11		/* number of regexes in reg[][] */
+#define	N_REG		13		/* number of regexes in reg[][] */
     static regex_t	preg[N_REG];
     static char		reg[N_REG][50] = {	/* vt100/220 escape codes */
 				"\e7\e\\[1;24r\e8",		/* ds */
@@ -305,7 +305,9 @@ filter(buf, len)
 				"\e\\[\\?7l",			/* RA */
 				"\e\\[\\?25h",			/* ve */
 				"\e\\[\\?25l",			/* vi */
+				"\e\\[K",			/* ce */
 
+				"\e\\[0m",			/* me */
 				"\eE",			/* replace w/ CR */
 			};
     char		ebuf[256];
@@ -317,7 +319,7 @@ filter(buf, len)
     if (index(buf, 0x1b) == 0 || len == 0)
 	return(len);
 
-    for (x = 0; x < N_REG - 1; x++) {
+    for (x = 0; x < N_REG - 2; x++) {
 	if (! init) {
 	    if ((err = regcomp(&preg[x], reg[x], REG_EXTENDED))) {
 		regerror(err, &preg[x], ebuf, 256);
@@ -340,27 +342,28 @@ filter(buf, len)
 
     /* replace \eE w/ CR NL */
     if (! init++) {
-	if ((err = regcomp(&preg[N_REG - 1], reg[N_REG - 1], REG_EXTENDED))) {
-	    regerror(err, &preg[N_REG - 1], ebuf, 256);
-	    fprintf(stderr, "%s: regex compile failed: %s\n", progname,
-		ebuf);
-	    abort();
-	}
+	for (x = N_REG - 2; x < N_REG; x++)
+	    if ((err = regcomp(&preg[x], reg[x], REG_EXTENDED))) {
+		regerror(err, &preg[x], ebuf, 256);
+		fprintf(stderr, "%s: regex compile failed: %s\n", progname,
+			ebuf);
+		abort();
+	    }
     }
-    while (1)
-	if ((err = regexec(&preg[N_REG - 1], buf, nmatch, pmatch, 0))) {
+    for (x = N_REG - 2; x < N_REG; x++) {
+	if ((err = regexec(&preg[x], buf, nmatch, pmatch, 0))) {
 	    if (err != REG_NOMATCH) {
-		regerror(err, &preg[N_REG - 1], ebuf, 256);
+		regerror(err, &preg[x], ebuf, 256);
 		fprintf(stderr, "%s: regexec failed: %s\n", progname, ebuf);
 		abort();
-	    } else
-		break;
+	    }
 	} else {
-	    *(buf + pmatch[0].rm_so) = '\n';
-	    strcpy(buf + pmatch[0].rm_so + 1, buf + pmatch[0].rm_eo);
-	    x = 0;
+	    *(buf + pmatch[0].rm_so) = '\r';
+	    *(buf + pmatch[0].rm_so + 1) = '\n';
+	    strcpy(buf + pmatch[0].rm_so + 2, buf + pmatch[0].rm_eo);
+	    x = N_REG - 2;
 	}
-
+    }
     return(strlen(buf));
 }
 

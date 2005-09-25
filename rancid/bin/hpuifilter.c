@@ -293,7 +293,7 @@ main(int argc, char **argv)
     if (! kill(child, SIGQUIT))
 	reapchild();
 
-    return(EX_OK);
+    return(rval);
 }
 
 int

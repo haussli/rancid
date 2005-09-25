@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <limits.h>
 #include <fcntl.h>
+#include <poll.h>
 #include <regex.h>
 #include <signal.h>
 #include <sys/time.h>
@@ -58,13 +59,12 @@ main(int argc, char **argv)
 			*tbufp;
     int			bytes,			/* bytes read/written */
 			child,
+			rval = EX_OK,
 			r[2],			/* recv pipe */
 			s[2];			/* send pipe */
     ssize_t		hlen = 0,		/* len of hbuf */
 			tlen = 0;		/* len of tbuf */
-    struct timeval	to = { DFLT_TO, 0 };
-    fd_set		rfds,			/* select() */
-			wfds;
+    struct pollfd	pfds[4];
     struct termios	tios;
 
     /* get just the basename() of our exec() name and strip a .* off the end */
@@ -138,8 +138,8 @@ main(int argc, char **argv)
     }
 
     /* zero the buffers */
-    bzero(hbuf, BUFSZ);
-    bzero(tbuf, BUFSZ);
+    memset(hbuf, 0, BUFSZ);
+    memset(tbuf, 0, BUFSZ);
 
     if (child == 0) {
 	/* close the parent's side of the pipes; we write r[1], read s[0] */
@@ -153,13 +153,12 @@ main(int argc, char **argv)
 	}
 	close(s[0]);
 	close(r[1]);
+
 	/* exec telnet/ssh */
-	if (execvp(argv[optind], argv + optind)) {
-	    fprintf(stderr, "%s: execlp() failed: %s\n", progname,
-		strerror(errno));
-	    return(EX_TEMPFAIL);
-	}
-	/* not reached */
+	execvp(argv[optind], argv + optind);
+	fprintf(stderr, "%s: execvp() failed: %s\n", progname, strerror(errno));
+	return(EX_TEMPFAIL);
+	/*NOTREACHED*/
     } else {
 	/* parent */
 	if (debug)
@@ -180,94 +179,108 @@ main(int argc, char **argv)
 	}
 
 	/* loop to read on stdin and r[0] */
-	FD_ZERO(&rfds); FD_ZERO(&wfds);
 	hbufp = hbuf; tbufp = tbuf;
 
-	while (1) {
-	    FD_SET(0, &rfds); FD_SET(r[0], &rfds);
-	    /* if we have stuff in our buffer(s), we select on writes too */
-	    FD_ZERO(&wfds);
-	    if (hlen) {
-		 FD_SET(s[1], &wfds);
-	    }
-	    if (tlen) {
-		 FD_SET(1, &wfds);
-	    }
+#define	POLLEXP	(POLLERR | POLLHUP | POLLNVAL)
+	pfds[0].fd = fileno(stdin);
+	pfds[0].events = POLLIN | POLLEXP;
+	pfds[1].fd = fileno(stdout);
+	pfds[2].fd = r[0];
+	pfds[2].events = POLLIN | POLLEXP;
+	pfds[3].fd = s[1];
 
-	    switch (select(r[1], &rfds, &wfds, NULL, &to)) {
-	    case 0:
+	while (1) {
+	    /* if we have stuff in our buffer(s), we select on writes too */
+	    if (hlen)
+	         pfds[3].events = POLLOUT | POLLEXP;
+	    else
+	         pfds[3].events = POLLEXP;
+
+	    if (tlen)
+	         pfds[1].events = POLLOUT | POLLEXP;
+	    else
+	         pfds[1].events = POLLEXP;
+
+	    bytes = poll(pfds, 4, (DFLT_TO * 1000));
+	    if (bytes == 0)
 		/* timeout */
-			/* XXX what do i do here? */
-		break;
-	    case -1:
+		continue;
+	    if (bytes == -1) {
 		switch (errno) {
-		case EINTR:		/* interrupted syscall */
+		case EINTR:
 		    break;
 		default:
-		    exit(EX_IOERR);
+		    rval = EX_IOERR;
+		    break;
 		}
-		break;
-	    default:
-		/* check exceptions first */
+		continue;
+	    }
 
-		/* which FD is ready?  write our buffers asap. */
-		/* write hbuf (stdin) -> s[1] */
-		if (FD_ISSET(s[1], &wfds) && hlen) {
-		    if ((hlen = write(s[1], hbuf, hlen)) < 0) {
+	    /* write buffers first */
+	    /* write hbuf (stdin) -> s[1] */
+	    if ((pfds[3].revents & POLLOUT) && hlen) {
+		    if ((bytes = write(s[1], hbuf, hlen)) < 0) {
 			fprintf(stderr, "%s: write() failed: %s\n", progname,
 				strerror(errno));
 			close(s[1]);
-		    } else
-			strcpy(hbuf, hbuf + hlen);
-
-		    hlen = strlen(hbuf);
-		}
-		/* write tbuf -> stdout */
-		if (FD_ISSET(1, &wfds) && tlen) {
-		    /* if there is an escape char that didnt get filter()'d,
-		     * we need to only write up to that point and wait for
-		     * the bits that complete the escape sequence
-		     */
-		    if ((tbufp = index(tbuf, 0x1b)) != NULL)
-			tlen = tbufp - tbuf;
-
-		    if ((tlen = write(1, tbuf, tlen)) < 0) {
-			fprintf(stderr, "%s: write() failed: %s\n", progname,
-				strerror(errno));
-			close(1);
-		    } else
-			strcpy(tbuf, tbuf + tlen);
-
-		    tlen = strlen(tbuf);
-		}
-		if (FD_ISSET(0, &rfds)) {
-		    /* read stdin into hbuf */
-		    if (BUFSZ - hlen > 1) {
-			hlen += read(0, hbuf + hlen, (BUFSZ - 1) - hlen);
-			if (hlen > 0) {
-			    hbuf[hlen] = '\0';
-			} else if (hlen == 0 || errno != EAGAIN)
-			    /* EOF or read error */
-			    close(0);
-
-			hlen = strlen(hbuf);
+		    } else if (bytes > 0) {
+			strcpy(hbuf, hbuf + bytes);
+			hlen -= bytes;
 		    }
-		} else if (FD_ISSET(r[0], &rfds)) {
-		    /* read telnet/ssh into tbuf, then filter */
-		    if (BUFSZ - tlen > 1) {
-			tlen += read(r[0], tbuf + tlen, (BUFSZ - 1) - tlen);
-			if (tlen > 0) {
-			    tbuf[tlen] = '\0';
-			    tlen = filter(tbuf, tlen);
-			} else if (tlen == 0 || errno != EAGAIN)
-			    /* EOF or read error */
-			    close(r[0]);
-
-			tlen = strlen(tbuf);
-		    }
-		}
-
+	    } else if (pfds[3].revents & POLLEXP)
 		break;
+
+	    /* write tbuf -> stdout */
+	    if ((pfds[1].revents & POLLOUT) && tlen) {
+		/* if there is an escape char that didnt get filter()'d,
+		 * we need to write only up to that point and wait for
+		 * the bits that complete the escape sequence.  if at least
+		 * two bytes follow it, write it anyway as filter() didnt
+		 * match it.
+		 */
+		bytes = tlen;
+		if ((tbufp = index(tbuf, 0x1b)) != NULL)
+		    if (tlen - (tbufp - tbuf) < 2)
+			bytes = tbufp - tbuf;
+
+		if ((bytes = write(pfds[1].fd, tbuf, bytes)) < 0) {
+		    fprintf(stderr, "%s: write() failed: %s\n", progname,
+			    strerror(errno));
+		    close(1);
+		} else if (bytes > 0) {
+		    strcpy(tbuf, tbuf + bytes);
+		    tlen -= bytes;
+		}
+	    } else if (pfds[1].revents & POLLEXP)
+		break;
+
+	    if (pfds[0].revents & POLLIN) {
+		/* read stdin into hbuf */
+		if (BUFSZ - hlen > 1) {
+		    bytes = read(pfds[0].fd, hbuf + hlen, (BUFSZ - 1) - hlen);
+		    if (bytes > 0) {
+			hlen += bytes;
+			hbuf[hlen] = '\0';
+		    } else if (bytes == 0 && errno != EAGAIN) {
+			/* EOF or read error */
+			pfds[0].events = 0;
+			close(0);
+		    }
+		}
+	    }
+	    if (pfds[2].revents & POLLIN) {
+		/* read telnet/ssh into tbuf, then filter */
+		if (BUFSZ - tlen > 1) {
+		    bytes = read(r[0], tbuf + tlen, (BUFSZ - 1) - tlen);
+		    if (bytes > 0) {
+			tbuf[tlen + bytes] = '\0';
+			tlen = filter(tbuf, tlen + bytes);
+		    } else if (bytes == 0 && errno != EAGAIN) {
+			/* EOF or read error */
+			pfds[2].events = 0;
+			close(r[0]);
+		    }
+		}
 	    }
 	}
 

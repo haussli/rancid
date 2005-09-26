@@ -112,8 +112,8 @@ main(int argc, char **argv)
     /* if a tty, make it raw as the hp echos _everything_, including
      * passwords.
      */
-    if (isatty(0)) {
-	if (tcgetattr(0, &tios)) {
+    if (isatty(fileno(stdin))) {
+	if (tcgetattr(fileno(stdin), &tios)) {
 	    fprintf(stderr, "%s: tcgetattr() failed: %s\n", progname,
 		strerror(errno));
 	    return(EX_OSERR);
@@ -124,22 +124,22 @@ main(int argc, char **argv)
 	tios.c_cc[VMIN] = 1;
 	tios.c_cc[VTIME] = 0;
 #endif
-	if (tcsetattr(0, TCSANOW, &tios)) {
+	if (tcsetattr(fileno(stdin), TCSANOW, &tios)) {
 	    fprintf(stderr, "%s: tcsetattr() failed: %s\n", progname,
 		strerror(errno));
 	    return(EX_OSERR);
 	}
     }
 
+    /* zero the buffers */
+    memset(hbuf, 0, BUFSZ);
+    memset(tbuf, 0, BUFSZ);
+
     if ((child = fork()) == -1) {
 	fprintf(stderr, "%s: fork() failed: %s\n", progname,
 		strerror(errno));
 	return(EX_TEMPFAIL);
     }
-
-    /* zero the buffers */
-    memset(hbuf, 0, BUFSZ);
-    memset(tbuf, 0, BUFSZ);
 
     if (child == 0) {
 	/* close the parent's side of the pipes; we write r[1], read s[0] */
@@ -148,7 +148,7 @@ main(int argc, char **argv)
 	/* close stdin/out/err and attach them to the pipes */
 	if (dup2(s[0], 0) == -1 || dup2(r[1], 1) == -1 || dup2(r[1], 2) == -1) {
 	    fprintf(stderr, "%s: dup2() failed: %s\n", progname,
-		strerror(errno));
+		    strerror(errno));
 	    return(EX_OSERR);
 	}
 	close(s[0]);
@@ -170,9 +170,9 @@ main(int argc, char **argv)
 
 	/* make FDs non-blocking */
 	if (fcntl(s[1], F_SETFL, O_NONBLOCK) ||
-		fcntl(r[0], F_SETFL, O_NONBLOCK) ||
-		fcntl(0, F_SETFL, O_NONBLOCK) ||
-		fcntl(1, F_SETFL, O_NONBLOCK)) {
+	    fcntl(r[0], F_SETFL, O_NONBLOCK) ||
+	    fcntl(0, F_SETFL, O_NONBLOCK) ||
+	    fcntl(1, F_SETFL, O_NONBLOCK)) {
 	    fprintf(stderr, "%s: fcntl(NONBLOCK) failed: %s\n", progname,
 		strerror(errno));
 	    exit(EX_OSERR);
@@ -192,14 +192,14 @@ main(int argc, char **argv)
 	while (1) {
 	    /* if we have stuff in our buffer(s), we select on writes too */
 	    if (hlen)
-	         pfds[3].events = POLLOUT | POLLEXP;
+	        pfds[3].events = POLLOUT | POLLEXP;
 	    else
-	         pfds[3].events = POLLEXP;
+	        pfds[3].events = POLLEXP;
 
 	    if (tlen)
-	         pfds[1].events = POLLOUT | POLLEXP;
+	        pfds[1].events = POLLOUT | POLLEXP;
 	    else
-	         pfds[1].events = POLLEXP;
+	        pfds[1].events = POLLEXP;
 
 	    bytes = poll(pfds, 4, (DFLT_TO * 1000));
 	    if (bytes == 0)
@@ -219,14 +219,14 @@ main(int argc, char **argv)
 	    /* write buffers first */
 	    /* write hbuf (stdin) -> s[1] */
 	    if ((pfds[3].revents & POLLOUT) && hlen) {
-		    if ((bytes = write(s[1], hbuf, hlen)) < 0) {
-			fprintf(stderr, "%s: write() failed: %s\n", progname,
-				strerror(errno));
-			close(s[1]);
-		    } else if (bytes > 0) {
-			strcpy(hbuf, hbuf + bytes);
-			hlen -= bytes;
-		    }
+		if ((bytes = write(s[1], hbuf, hlen)) < 0) {
+		    fprintf(stderr, "%s: write() failed: %s\n", progname,
+			    strerror(errno));
+		    close(s[1]);
+		} else if (bytes > 0) {
+		    strcpy(hbuf, hbuf + bytes);
+		    hlen -= bytes;
+		}
 	    } else if (pfds[3].revents & POLLEXP)
 		break;
 

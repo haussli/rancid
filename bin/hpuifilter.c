@@ -290,7 +290,7 @@ main(int argc, char **argv)
 	close(r[0]);
     }
 
-    if (! kill(child, SIGQUIT))
+    if (! kill(child, SIGINT))
 	reapchild();
 
     return(rval);

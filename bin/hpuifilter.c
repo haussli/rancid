@@ -222,7 +222,7 @@ main(int argc, char **argv)
 		if ((bytes = write(s[1], hbuf, hlen)) < 0) {
 		    fprintf(stderr, "%s: write() failed: %s\n", progname,
 			    strerror(errno));
-		    close(s[1]);
+		    close(pfds[3].fd);
 		} else if (bytes > 0) {
 		    strcpy(hbuf, hbuf + bytes);
 		    hlen -= bytes;
@@ -246,7 +246,7 @@ main(int argc, char **argv)
 		if ((bytes = write(pfds[1].fd, tbuf, bytes)) < 0) {
 		    fprintf(stderr, "%s: write() failed: %s\n", progname,
 			    strerror(errno));
-		    close(1);
+		    close(pfds[1].fd);
 		} else if (bytes > 0) {
 		    strcpy(tbuf, tbuf + bytes);
 		    tlen -= bytes;
@@ -264,21 +264,21 @@ main(int argc, char **argv)
 		    } else if (bytes == 0 && errno != EAGAIN) {
 			/* EOF or read error */
 			pfds[0].events = 0;
-			close(0);
+			close(pfds[0].fd);
 		    }
 		}
 	    }
 	    if (pfds[2].revents & POLLIN) {
 		/* read telnet/ssh into tbuf, then filter */
 		if (BUFSZ - tlen > 1) {
-		    bytes = read(r[0], tbuf + tlen, (BUFSZ - 1) - tlen);
+		    bytes = read(pfds[2].fd, tbuf + tlen, (BUFSZ - 1) - tlen);
 		    if (bytes > 0) {
 			tbuf[tlen + bytes] = '\0';
 			tlen = filter(tbuf, tlen + bytes);
 		    } else if (bytes == 0 && errno != EAGAIN) {
 			/* EOF or read error */
 			pfds[2].events = 0;
-			close(r[0]);
+			close(pfds[2].fd);
 		    }
 		}
 	    }

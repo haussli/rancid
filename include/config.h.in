@@ -1,14 +1,9 @@
 /* include/config.h.in.  Generated from configure.in by autoheader.  */
-#ifndef CONFIG_H
-#define CONFIG_H        1
 
 
+#ifndef	CONFIG_H
+#define	CONFIG_H	1
 
-/* Define to 1 if you have the `bcopy' function. */
-#undef HAVE_BCOPY
-
-/* Define to 1 if you have the `bzero' function. */
-#undef HAVE_BZERO
 
 /* Define to 1 if you have the <errno.h> header file. */
 #undef HAVE_ERRNO_H
@@ -36,6 +31,12 @@
 
 /* Define to 1 if you have the `memset' function. */
 #undef HAVE_MEMSET
+
+/* Define to 1 if you have the `openpty' function. */
+#undef HAVE_OPENPTY
+
+/* Define to 1 if you have the <pty.h> header file. */
+#undef HAVE_PTY_H
 
 /* Define to 1 if you have the `rindex' function. */
 #undef HAVE_RINDEX
@@ -91,6 +92,9 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
+/* Define to 1 if you have the `unsetenv' function. */
+#undef HAVE_UNSETENV
+
 /* Define to the address where bug reports for this package should be sent. */
 #undef PACKAGE_BUGREPORT
 
@@ -130,6 +134,13 @@
 /* Define to `unsigned' if <sys/types.h> does not define. */
 #undef size_t
 
+
+
+/* damned linux... */
+#ifdef LINUX
+# define _GNU_SOURCE
+#endif
+
 #ifndef __P
 # if STDC_HEADERS
 #  define __P(a)	a
@@ -137,8 +148,6 @@
 #  define __P(a)	()
 # endif
 #endif
-
-#define BUF_SZ		LINE_MAX	/* (increments of) size of bufs */
 
 #if HAVE_STDLIB_H
 # include <stdlib.h>
@@ -200,4 +209,5 @@ extern int		errno;
 # define EX_CONFIG	78		/* configuration error */
 #endif
 
-#endif /* CONFIG_H */
+#endif	/* CONFIG_H */
+

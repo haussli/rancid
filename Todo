@@ -5,6 +5,7 @@
   Host key verification failed.
 
   Error: Couldn't login
+  This happens on solaris only; linux and netbsd seem to be ok.
 - jrancid doesnt use $timeo
 - lg.conf(5) needs the query stuff documented.
 - configure OLDTIME per-group

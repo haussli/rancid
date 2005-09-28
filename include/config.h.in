@@ -20,6 +20,9 @@
 /* Define to 1 if you have the <limits.h> header file. */
 #undef HAVE_LIMITS_H
 
+/* Define to 1 if you have the <malloc.h> header file. */
+#undef HAVE_MALLOC_H
+
 /* Define to 1 if you have the `memcpy' function. */
 #undef HAVE_MEMCPY
 
@@ -65,6 +68,9 @@
 /* Define to 1 if you have the <string.h> header file. */
 #undef HAVE_STRING_H
 
+/* Define to 1 if you have the <stropts.h> header file. */
+#undef HAVE_STROPTS_H
+
 /* Define to 1 if you have the `strrchr' function. */
 #undef HAVE_STRRCHR
 
@@ -94,6 +100,9 @@
 
 /* Define to 1 if you have the `unsetenv' function. */
 #undef HAVE_UNSETENV
+
+/* Define to 1 if you have the <util.h> header file. */
+#undef HAVE_UTIL_H
 
 /* Define to the address where bug reports for this package should be sent. */
 #undef PACKAGE_BUGREPORT

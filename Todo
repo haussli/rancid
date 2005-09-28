@@ -1,3 +1,10 @@
+- why does hlogin fail when the host key is not yet known?  eg:
+  unix% ./hlogin procurve
+  procurve
+  spawn hpuifilter -- ssh -c 3des -x -l user procurve
+  Host key verification failed.
+
+  Error: Couldn't login
 - jrancid doesnt use $timeo
 - lg.conf(5) needs the query stuff documented.
 - configure OLDTIME per-group

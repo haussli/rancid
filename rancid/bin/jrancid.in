@@ -35,6 +35,7 @@ $host = $ARGV[0];
 
 $clean_run = 0;
 $found_end = 0;
+$timeo = 120;				# clogin timeout in seconds
 
 my(@commandtable, %commands, @commands);# command lists
 my(%filter_pwds);			# password filtering mode
@@ -607,14 +608,14 @@ if ($file) {
     print STDOUT "opening file $host\n" if ($log);
     open(INPUT,"< $host") || die "open failed for $host: $!\n";
 } else {
-    print(STDERR "executing echo jlogin -c\"$jnx_commands\" $host\n") if ($debug);
-    print(STDOUT "executing echo jlogin -c\"$jnx_commands\" $host\n") if ($debug);
+    print(STDERR "executing echo jlogin -t $timeo -c\"$jnx_commands\" $host\n") if ($debug);
+    print(STDOUT "executing echo jlogin -t $timeo -c\"$jnx_commands\" $host\n") if ($debug);
 
     if (defined($ENV{NOPIPE})) {
-	system "jlogin -c \"$jnx_commands\" $host </dev/null > $host.raw" || die "jlogin failed for $host: $!\n";
+	system "jlogin -t $timeo -c \"$jnx_commands\" $host </dev/null > $host.raw" || die "jlogin failed for $host: $!\n";
 	open(INPUT, "< $host.raw") || die "jlogin failed for $host: $!\n";
     } else {
-	open(INPUT,"jlogin -c \"$jnx_commands\" $host </dev/null |") || die "jlogin failed for $host: $!\n";
+	open(INPUT,"jlogin -t $timeo -c \"$jnx_commands\" $host </dev/null |") || die "jlogin failed for $host: $!\n";
     }
 
 }

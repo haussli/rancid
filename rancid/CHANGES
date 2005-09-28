@@ -1,4 +1,14 @@
 2.3.2
+	hlogin: look for the 'press any key' prompt after ssh authentication,
+	unlike telnet, where it appears before authentication.
+
+	hpuifilter: allocate a pty to interact with ssh/telnet, so that we
+	interact with ssh for the password exchange.
+	WARNING: repeated ssh login failures to HP Procurves cause the switch's
+	management interface to lock-up (this includes snmp, ping) and sometimes
+	it will crash.  This is with the latest firmware; 5.33 at the time of
+	this writing.
+
 	*rancid: check hostname, or filename, before opening the output file.
 
 	rancid: better filtering of {tacacs,radius}-server - Patrick Adlam

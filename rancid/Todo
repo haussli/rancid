@@ -21,7 +21,6 @@
 - fix varargs for knf in util.c
 - isis filtering for foundry?
 - hlogin hangs when the procurve does not ask for passwords
-- hlogin does not work with ssh, needs to alloc a pty?
 - share/ tool to prune cvs versions, excluding those with tags, by (all but
   latest | keep N versions | keep N days/months/years)
 - extreme collection fails for tacacs-enabled boxen due to diffs in UI - blech!

@@ -49,13 +49,44 @@ AC_CHECK_HEADERS(sysexits.h)
 # check functions
 AC_CHECK_FUNCS(memcpy memmove memset strerror strchr \
 		strrchr strstr strtok strrtok index rindex unsetenv)
-AC_CHECK_FUNCS(openpty)
-if test $ac_cv_func_openlog+set != set; then
-  # openlog is not in the default libraries.  See if it is in some other lib.
+AC_CHECK_FUNCS(openpty, openpty=1, openpty=0)
+# openlog() is not in the default libraries.  See if it is in some other lib.
+if test $openpty = 0; then
   for lib in util; do
     AC_CHECK_LIB($lib, openpty, [AC_DEFINE(HAVE_OPENPTY)
-		 LIBS="$LIBS -l$lib"; break])
+		 LIBS="$LIBS -l$lib"; openpty=1; break])
   done
+fi
+# If we dont have openpty, then look for /dev/ptmx for use by our own
+# openpty().
+if test $openpty = 0; then
+    # This check (partially) comes from expect's configure
+    AC_MSG_CHECKING([for SVR4 style pty allocation])
+    AH_TEMPLATE(HAVE_PTMX, "define this if your o/s has /dev/ptmx")
+    if test -r /dev/ptmx ; then
+	AC_MSG_RESULT(yes)
+	AC_DEFINE(HAVE_PTMX)
+	# Some systems need libpt.a to use /dev/ptmx
+	AC_CHECK_FUNCS(ptsname)
+	if test $ac_cv_func_ptsname+set != set; then
+	    # ptsname is not in the default libraries.
+	    for lib in pt; do
+		AC_CHECK_LIB($lib, ptsname, [LIBS="$LIBS -l$lib"; break])
+	    done
+	fi
+    else
+	AC_MSG_RESULT(no)
+    fi
+    # In OSF/1 case, SVR4 are somewhat different.
+    # Gregory Depp <depp@osf.org> 17Aug93
+    AC_MSG_CHECKING([for OSF/1 style pty allocation])
+    AH_TEMPLATE(HAVE_PTMX_OSF, "define this for OSF/1 ptmx")
+    if test -r /dev/ptmx_bsd ; then
+	AC_DEFINE(HAVE_PTMX_OSF) 
+	AC_MSG_RESULT(yes)
+    else
+	AC_MSG_RESULT(no)
+    fi  
 fi
 
 dnl AC_FUNC_VPRINTF

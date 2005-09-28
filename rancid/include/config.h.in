@@ -38,6 +38,15 @@
 /* Define to 1 if you have the `openpty' function. */
 #undef HAVE_OPENPTY
 
+/* "define this if your o/s has /dev/ptmx" */
+#undef HAVE_PTMX
+
+/* "define this for OSF/1 ptmx" */
+#undef HAVE_PTMX_OSF
+
+/* Define to 1 if you have the `ptsname' function. */
+#undef HAVE_PTSNAME
+
 /* Define to 1 if you have the <pty.h> header file. */
 #undef HAVE_PTY_H
 

@@ -477,8 +477,9 @@ filter(buf, len)
 				"\e\\[\\?25l",			/* vi */
 				"\e\\[K",			/* ce */
 
+				/* replace these with CR */
 				"\e\\[0m",			/* me */
-				"\eE",			/* replace w/ CR */
+				"\eE",
 			};
     char		ebuf[256];
     size_t		nmatch = 1;

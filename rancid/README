@@ -240,7 +240,7 @@ Quick Installation Guide (an example):
 Problem with clogin/telnet hanging within rancid or scripts?
 
 If you have experienced rancid (or more precisely, telnet) hanging on a
-solaris 2.6 box; check to be sure you have the following two patches
+solaris 2.6 box; check to be sure you have the following two o/s patches
 installed (see showrev -p).  There may be more recent versions of these
 patches and they are likely included with 2.7 and 2.8: 
 
@@ -252,16 +252,15 @@ Patch-ID# 105786-11
 Keywords: security ip tcp_priv_stream routing ip_enable_group_ifs ndd
 Synopsis: SunOS 5.6: /kernel/drv/ip patch
 
-Another possibile contributor is expect/tcl.  We've noticed that expect
-5.24.1 (possibly 5.28.*) and whatever tcl happens to compile with it, 
-seems to not exhibit this problem, while 5.32.* appears to on linux and
-solaris but not on netbsd 1.5.
+Another contributor to rancid "hanging", with or without the o/s patches
+mentioned about, is a bug in expect/tcl.  We've noticed that expect (from
+5.24.1 forward), and whatever tcl happens to compile with it, exhibits a
+problem on Linux and Solaris where rancid's scripts hang waiting for input
+from the device.  Patches to expect are available on the rancid web page.
 
 Also, for rancid 2.3 and later, changes were made to the login scripts
 which use some more elaborate regexes that have failed with expect versions
 prior to 5.40.  While 5.40 works, it still seems to need the patch offered
-on the rancid web page.
+on the rancid web page for Linux and Solaris.
 
 See www.shrubbery.net/rancid for additional notes on this.
-
--Hank

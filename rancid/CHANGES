@@ -1,4 +1,6 @@
 2.3.2
+	nrancid: fix config comment character & more filtering - Stoned Elipot
+
 	hlogin: look for the 'press any key' prompt after ssh authentication,
 	unlike telnet, where it appears before authentication.
 

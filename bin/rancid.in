@@ -171,7 +171,7 @@ sub ShowVersion {
 	# PIX fail-over license
 	/^This PIX has an?\s+(.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","C1", "!$_") && next;
-	/^(Cisco )?IOS .* Software,? \(([A-Za-z-0-9]*)\), .*Version\s+(.*)$/ &&
+	/^(Cisco )?IOS .* Software,? \(([A-Za-z-0-9_]*)\), .*Version\s+(.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","F1",
 		"!Image:$slave Software: $2, $3\n") && next;
 	/^([A-Za-z-0-9_]*) Synced to mainline version: (.*)$/ &&

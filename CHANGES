@@ -1,4 +1,6 @@
 2.3.2
+	rancid: also match _ in software image names - Stafford A. Rau
+
 	nrancid: fix config comment character & more filtering - Stoned Elipot
 
 	hlogin: look for the 'press any key' prompt after ssh authentication,

@@ -1,4 +1,6 @@
 2.3.2
+	lg: fix quoting of juniper command arguments - Richard Doty
+
 	rancid: also match _ in software image names - Stafford A. Rau
 
 	nrancid: fix config comment character & more filtering - Stoned Elipot

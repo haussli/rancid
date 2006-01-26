@@ -355,7 +355,7 @@ cyphertype } {
 					  set uprompt_seen 1
 					  exp_continue
 					}
-	"@\[^\r\n]+\[Pp]assword:"	{
+	-re "@\[^\r\n]+\[Pp]assword:"	{
 					  # ssh pwd prompt
 					  sleep 1
 					  send "$userpswd\r"

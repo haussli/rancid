@@ -1,4 +1,6 @@
 2.3.2
+	nlogin: fix missing -re option for password matching - Jee Kay
+
 	lg: fix quoting of juniper command arguments - Richard Doty
 
 	rancid: also match _ in software image names - Stafford A. Rau

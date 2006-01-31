@@ -1,4 +1,6 @@
 2.3.2
+	rancid: more support for HFRs
+
 	nlogin: fix missing -re option for password matching - Jee Kay
 
 	lg: fix quoting of juniper command arguments - Richard Doty

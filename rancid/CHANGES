@@ -1,4 +1,6 @@
 2.3.2
+	hlogin: fix ssh hanging on press any key prompt - Ryan Mooney
+
 	rancid: more support for HFRs
 
 	nlogin: fix missing -re option for password matching - Jee Kay

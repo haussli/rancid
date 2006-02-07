@@ -400,6 +400,10 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 		"Login invalid"		{ send_user "\nError: Invalid login\n"; vatch {close}; wait; return 1 }
 		-re "$p_prompt"		{ send "$userpswd\r" }
 		"$prompt"		{ set in_proc 0; return 0 }
+		"Press any key to continue" {
+					  send " "
+					  exp_continue
+					}
 	    }
 	    exp_continue
 	}

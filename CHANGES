@@ -1,4 +1,8 @@
 2.3.2
+	clogin: reduce the number of leading prompt characters used in
+		run_commands to accomodate change seen in cat6500
+		12.1(13)E14 - Charles Aresenault
+
 	hlogin: fix ssh hanging on press any key prompt - Ryan Mooney
 
 	rancid: more support for HFRs

@@ -137,6 +137,7 @@ rm -f $TMP
 
 if [ ! -f $DIR/router.db ]
 then
+    echo "$DIR/router.db does not exist."
     (
 	echo "To: $adminmailrcpt"
 	echo "Subject: no $GROUP/router.db file"
@@ -310,7 +311,7 @@ cd $DIR
 if [ ! -s routers.up ]
 then
     # commit router.db
-    $RCSSYS commit -m updates router.db > /dev/null
+    $RCSSYS commit -m updates router.db
     exit;
 fi
 

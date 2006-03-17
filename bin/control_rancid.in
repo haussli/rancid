@@ -455,5 +455,5 @@ then
 fi
 
 # Cleanup
-rm -f $TMP.diff $DIR/routers.single
+rm -f $TMP.diff $DIR/routers.single $DIR/routers.failed
 trap '' 1 2 15

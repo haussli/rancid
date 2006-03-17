@@ -144,6 +144,16 @@ A. As far as I know, CVS does not provide a way to remove directories.  First,
 	% cd <LOCALSTATEDIR>
 	% rm -rf fubar CVS/fubar
 
+Q. I would like to place my CVS repository on a remote machine.  How do I do
+   that?
+A. Assuming that you're starting fresh, its quite simply.  Before running
+   rancid-cvs for the first time, adjust CVS_RSH & CVSROOT in rancid.conf
+   similar to the following:
+	CVS_RSH=ssh; export CVS_RSH
+	CVSROOT="myhost:/fqpn/CVS"; export CVSROOT
+   Note that CVS_RSH is not found in the rancid.conf sample that is distributed
+   with rancid.
+
 Q. I need a web interface to the rancid CVS repository, for the CVS unsavvy.
 A. cvsweb works with rancid.  Other similar software may as well.
 	http://www.freebsd.org/projects/cvsweb.html
@@ -151,6 +161,7 @@ A. cvsweb works with rancid.  Other similar software may as well.
 	@CVSrepositories = (
 		'rancid' => ['RANCID CVS, '/full_path_to_the_RANCID_CVS'],
    where the path will be <LOCALSTATEDIR>/CVS.
+
 
 3) General
 

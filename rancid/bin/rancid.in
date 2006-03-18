@@ -377,7 +377,7 @@ sub ShowRedundancy {
 	    s/^$1\s{$len}//;
 	}
 
-	/^IOS .* Software \(([A-Za-z-0-9]*)\), .*Version\s+(.*)$/ &&
+	/^IOS .* Software \(([A-Za-z-0-9_]*)\), .*Version\s+(.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","F1",
 		"!Image:$slave Software: $1, $2\n") && next;
 	/^Compiled (.*)$/ &&

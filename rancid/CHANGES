@@ -1,4 +1,6 @@
 2.3.2
+	rancid: include _ in IOS version strings
+
 	clogin: reduce the number of leading prompt characters used in
 		run_commands to accomodate change seen in cat6500
 		12.1(13)E14 - Charles Aresenault

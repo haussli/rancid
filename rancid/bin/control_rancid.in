@@ -121,9 +121,21 @@ then
     ) | sendmail -t
     exit 1
 fi
+cd $DIR
+
+# create a .cvsignore
+rm -f .cvsignore
+cat >.cvsignore <<EOF
+.cvsignore
+routers.all
+routers.down
+routers.up
+EOF
+if [ $RCSSYS = svn ] ; then
+    svn propset svn:ignore -F .cvsignore .
+fi
 
 # do cvs update of router.db in case anyone has fiddled.
-cd $DIR
 $RCSSYS update router.db > $TMP 2>&1
 grep "^C" $TMP > /dev/null
 if [ $? -eq 0 ] ; then

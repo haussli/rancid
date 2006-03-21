@@ -1,4 +1,7 @@
 2.3.2
+	User a .cvsignore file to prevent non-cvs'd control files from appearing
+	in cvs update output.
+
 	rancid: include _ in IOS version strings
 
 	clogin: reduce the number of leading prompt characters used in

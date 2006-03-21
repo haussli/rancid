@@ -147,7 +147,7 @@ sub ShowVersion {
     while (<INPUT>) {
 	tr/\015//d;
 	if (/^$prompt/) { $found_version=1; last};
-	next if(/^(\s*|\s*$cmd\s*)$/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/command authorization failed/i);
@@ -337,12 +337,12 @@ sub ShowVersion {
 	/^(\d+[kK]) bytes of Flash internal/ &&
 	    ProcessHistory("COMMENTS","keysort","B4",
 		"!Memory: bootflash $1\n") && next;
-	if(/^(\d+[kK]) bytes of (Flash|ATA)?.*PCMCIA .*(slot|disk) ?(\d)/i) {
+	if (/^(\d+[kK]) bytes of (Flash|ATA)?.*PCMCIA .*(slot|disk) ?(\d)/i) {
 	    ProcessHistory("COMMENTS","keysort","B7",
 		"!Memory: pcmcia $2 $3$4 $1\n");
 	    next;
 	}
-	if(/^WARNING/) {
+	if (/^WARNING/) {
 	    if (!defined($I0)) {
 		$I0=1;
 		ProcessHistory("COMMENTS","keysort","I0","!\n");
@@ -367,8 +367,8 @@ sub ShowRedundancy {
 
     while (<INPUT>) {
 	tr/\015//d;
-	last if(/^$prompt/);
-	next if(/^(\s*|\s*$cmd\s*)$/);
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
 	# the pager can not be disabled per-session on the PIX
@@ -395,8 +395,8 @@ sub ShowIDprom {
 
     while (<INPUT>) {
 	tr/\015//d;
-	last if(/^$prompt/);
-	next if(/^(\s*|\s*$cmd\s*)$/);
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
 	# the pager can not be disabled per-session on the PIX
@@ -1376,7 +1376,7 @@ sub WriteTerm {
 
     while (<INPUT>) {
 	tr/\015//d;
-	last if(/^$prompt/);
+	last if (/^$prompt/);
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/command authorization failed/i);

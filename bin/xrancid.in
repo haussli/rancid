@@ -457,7 +457,7 @@ TOP: while(<INPUT>) {
 	if (!defined($prompt)) {
 	    $prompt = ($_ =~ /^([^#]+#)/)[0];
 	    $prompt =~ s/([][}{)(\\])/\\$1/g;
-	    $prompt =~ s/:(\d+ ?)#/:\\d+ ?#/;
+	    $prompt =~ s/[:.](\d+ ?)#/:\\d+ ?#/;
 	    $prompt =~ s/\*/\\\*/;
 	    print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
 	}

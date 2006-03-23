@@ -1,4 +1,6 @@
 2.3.2
+	clogin & xrancid: Extreme XOS prompt format changed - Tore Anderson
+
 	User a .cvsignore file to prevent non-cvs'd control files from appearing
 	in cvs update output.
 

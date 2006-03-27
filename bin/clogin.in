@@ -601,6 +601,9 @@ proc run_commands { prompt command } {
 						}
 		-re "^\[^\n\r]*$reprompt."	{ send_user -- "$expect_out(buffer)"
 						  exp_continue }
+		-re "^--More--\r\n"		{ # specific match c1900 pager
+						  send " "
+						  exp_continue }
 		-re "\[\n\r]+"			{ send_user -- "$expect_out(buffer)"
 						  exp_continue }
 		-re "\[^\r\n]*Press <SPACE> to cont\[^\r\n]*"	{
@@ -630,6 +633,9 @@ proc run_commands { prompt command } {
 		-re "^\[^\n\r *]*$reprompt"	{ send_user -- "$expect_out(buffer)"
 						}
 		-re "^\[^\n\r]*$reprompt."	{ send_user -- "$expect_out(buffer)"
+						  exp_continue }
+		-re "^--More--\r\n"		{ # specific match c1900 pager
+						  send " "
 						  exp_continue }
 		-re "\[\n\r]+"			{ send_user -- "$expect_out(buffer)"
 						  exp_continue }

@@ -1,4 +1,6 @@
 2.3.2
+	clogin: older CatOS for 1900s has a CR after the pager prompt
+
 	clogin & xrancid: Extreme XOS prompt format changed - Tore Anderson
 
 	User a .cvsignore file to prevent non-cvs'd control files from appearing

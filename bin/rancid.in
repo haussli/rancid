@@ -168,9 +168,10 @@ sub ShowVersion {
 	    ProcessHistory("COMMENTS","keysort","F1", "!Image: $_") && next;
 	/^Cisco Secure PIX /i &&
 	    ProcessHistory("COMMENTS","keysort","F1", "!Image: $_") && next;
-	# PIX fail-over license
-	/^This PIX has an?\s+(.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","C1", "!$_") && next;
+	# PIX 6 fail-over license, as in "This PIX has an Unrestricted (UR)
+	# license."  PIX 7 as "his platform has ..."
+	/^This (PIX|platform) has an?\s+(.*)$/ &&
+	    ProcessHistory("COMMENTS","keysort","D1", "!$_") && next;
 	/^(Cisco )?IOS .* Software,? \(([A-Za-z-0-9_]*)\), .*Version\s+(.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","F1",
 		"!Image:$slave Software: $2, $3\n") && next;
@@ -192,6 +193,16 @@ sub ShowVersion {
 	}
 	/^Serial Number:\s+(.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","C1", "!$_") && next;
+	# More PIX stuff
+	/^Encryption hardware device\s+:\s+(.*)/ &&
+	    ProcessHistory("COMMENTS","keysort","A3", "!Encryption: $1\n") &&
+	    next;
+	/^Flash\s+\S+ \@ 0x\S+,\s+(\S+)/ &&
+	    ProcessHistory("COMMENTS","keysort","B2", "!Memory: Flash $1\n") &&
+	    next;
+	/^running activation key\s*:\s+(.*)/i &&
+	    ProcessHistory("COMMENTS","keysort","D2", "!Key: $1\n") &&
+	    next;
 	# CatOS 3500xl stuff
 	/^System serial number(:\s+.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","C1", "!Serial Number$1\n") &&
@@ -1166,6 +1177,8 @@ sub ShowInventory {
 	return if (/^\s*\^$/);
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /Line has invalid autocommand /;
+	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/command authorization failed/i);
 	# the pager can not be disabled per-session on the PIX
 	if (/^(<-+ More -+>)/) {

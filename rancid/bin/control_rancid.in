@@ -114,7 +114,7 @@ then
     (
 	echo "To: $adminmailrcpt"
 	echo "Subject: no $GROUP directory"
-	echo "$MAILHEADERS" | awk '{gsub(/\\n/,"\n");print;}'
+	echo "$MAILHEADERS" | awk '{L = "";LN = $0;while (LN ~ /\\n/) { I = index(LN,"\\n");L = L substr(LN,0,I-1) "\n";LN = substr(LN,I+2,length(LN)-I-1);}print L LN;}'
 	echo ""
 	echo "$DIR does not exist."
 	echo "Run bin/rancid-cvs $GROUP to make all of the needed directories."
@@ -157,7 +157,7 @@ then
     (
 	echo "To: $adminmailrcpt"
 	echo "Subject: no $GROUP/router.db file"
-	echo "$MAILHEADERS" | awk '{gsub(/\\n/,"\n");print;}'
+	echo "$MAILHEADERS" | awk '{L = "";LN = $0;while (LN ~ /\\n/) { I = index(LN,"\\n");L = L substr(LN,0,I-1) "\n";LN = substr(LN,I+2,length(LN)-I-1);}print L LN;}'
 	echo ""
 	echo "$DIR/router.db does not exist."
     ) | sendmail -t
@@ -246,7 +246,7 @@ then
 	(
 	  echo "To: $adminmailrcpt"
 	  echo "Subject: changes in $GROUP routers"
-	  echo "$MAILHEADERS" | awk '{gsub(/\\n/,"\n");print;}'
+	  echo "$MAILHEADERS" | awk '{L = "";LN = $0;while (LN ~ /\\n/) { I = index(LN,"\\n");L = L substr(LN,0,I-1) "\n";LN = substr(LN,I+2,length(LN)-I-1);}print L LN;}'
 	  echo ""
 	  cat routers.mail
 	) | sendmail -t
@@ -441,7 +441,7 @@ then
 	(
 	  echo "To: $mailrcpt"
 	  echo "Subject: $subject"
-	  echo "$MAILHEADERS" | awk '{gsub(/\\n/,"\n");print;}'
+	  echo "$MAILHEADERS" | awk '{L = "";LN = $0;while (LN ~ /\\n/) { I = index(LN,"\\n");L = L substr(LN,0,I-1) "\n";LN = substr(LN,I+2,length(LN)-I-1);}print L LN;}'
 	  echo ""
 	  cat $TMP.diff
 	) | sendmail -t
@@ -461,7 +461,7 @@ then
 	(
 	  echo "To: $adminmailrcpt"
 	  echo "Subject: config fetcher problems - $GROUP"
-	  echo "$MAILHEADERS" | awk '{gsub(/\\n/,"\n");print;}'
+	  echo "$MAILHEADERS" | awk '{L = "";LN = $0;while (LN ~ /\\n/) { I = index(LN,"\\n");L = L substr(LN,0,I-1) "\n";LN = substr(LN,I+2,length(LN)-I-1);}print L LN;}'
 	  echo ""
 	  echo "The following routers have not been successfully contacted for"
 	  echo "more than $OLDTIME hours."

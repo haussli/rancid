@@ -1,4 +1,6 @@
 2.3.2
+	convert rancid-fe vendor list to a hash - suggested by Ed Ravin.
+
 	rancid: new format for PIX 7.0 license string - Aaron Gee-clough
 
 	clogin: older CatOS for 1900s has a CR after the pager prompt

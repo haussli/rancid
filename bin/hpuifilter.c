@@ -228,6 +228,17 @@ main(int argc, char **argv, char **ev)
     }
 
     if (child == 0) {
+	struct winsize ws;
+
+	/*
+	 * Make sure our terminal length and width are something greater
+	 * than 1, for pagers on stupid boxes.
+	 */
+	ioctl(ptys, TIOCGWINSZ, &ws);
+	ws.ws_row = 24;
+	ws.ws_col = 132;
+	ioctl(ptys, TIOCSWINSZ, &ws);
+
 	signal(SIGCHLD, SIG_DFL);
 	/* close the master pty & std* inherited from the parent */
 	close(ptym);

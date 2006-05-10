@@ -454,9 +454,7 @@ main(int argc, char **argv, char **ev)
 }
 
 int
-filter(buf, len)
-    char	*buf;
-    int		len;
+filter(char *buf, int len)
 {
     static regmatch_t	pmatch[1];
 #define	N_REG		13		/* number of regexes in reg[][] */

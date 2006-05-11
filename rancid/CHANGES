@@ -1,4 +1,6 @@
 2.3.2
+	francid: filter tempurature o/p on the SuperX - Bradv
+
 	convert rancid-fe vendor list to a hash - suggested by Ed Ravin.
 
 	rancid: new format for PIX 7.0 license string - Aaron Gee-clough

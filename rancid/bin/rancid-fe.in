@@ -27,6 +27,7 @@
 require 5;
 
 ($router, $vendor) = split('\:', $ARGV[0]);
+$vendor =~ tr/[A-Z]/[a-z]/;
 
 %vendortable = (
     'alteon'		=> 'arancid',

@@ -192,6 +192,15 @@ sub ShowChassis {
 	if (/(POWERS|TEMPERATURE READINGS)/) {
 	    $skip = 1;
 	}
+	if (/fan controlled temperature:/i) {
+	    $skip = 1; 
+	}
+	if (/THERMAL PLANE\): \d\d.\d deg-C/) { 
+	    $skip = 1;
+	}
+	if (/slot \d temperature:/) {
+	    $skip = 1;
+	}
 	next if $skip;
 
 	ProcessHistory("CHASSIS","","","! $_");

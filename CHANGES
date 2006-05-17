@@ -1,5 +1,7 @@
 2.3.2
-	francid: filter tempurature o/p on the SuperX - Bradv
+	francid: sort intf "secure" MACs, order fluctuates - noted by Brad Volz
+
+	francid: filter tempurature o/p on the SuperX - Brad Volz
 
 	convert rancid-fe vendor list to a hash - suggested by Ed Ravin.
 

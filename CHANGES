@@ -1,4 +1,6 @@
 2.3.2
+	f10rancid: "Current Conf" begins with ! in recent code - Colin Corbett
+
 	francid: sort intf "secure" MACs, order fluctuates - noted by Brad Volz
 
 	francid: filter tempurature o/p on the SuperX - Brad Volz

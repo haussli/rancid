@@ -891,7 +891,7 @@ sub WriteTerm {
 	# skip the crap
 	if (/^(##+$|(Building|Current) configuration)/i) {
 	    while (<INPUT>) {
-		next if (/^Current configuration\s*:/i);
+		next if (/^!?Current configuration\s*:/i);
 		next if (/^:/);
 		next if (/^([%!].*|\s*)$/);
 		next if (/^ip add.*ipv4:/);	# band-aid for 3620 12.0S

@@ -1,4 +1,6 @@
 2.3.2
+	clogin: Answer F10's "unsaved changes" logout prompt - Colin Corbett
+
 	f10rancid: "Current Conf" begins with ! in recent code - Colin Corbett
 
 	francid: sort intf "secure" MACs, order fluctuates - noted by Brad Volz

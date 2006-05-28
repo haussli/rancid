@@ -671,6 +671,10 @@ proc run_commands { prompt command } {
 						  send "exit\r"
 						  exp_continue;
 						}
+	"Would you like to save them now"	{ # Force10
+						  send "n\r"
+						  exp_continue
+						}
 	"Do you wish to save your configuration changes" {
 						  send "n\r"
 						  exp_continue

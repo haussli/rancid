@@ -815,7 +815,7 @@ foreach router [lrange $argv $i end] {
     send "\r"
     expect {
 	-re "\[\r\n]+"		{ exp_continue; }
-	-re "^(.+\[:.])1 $prompt" { # stoopid extreme cmd-line numbers and
+	-re "^(.+\[:.])1 ($prompt)" { # stoopid extreme cmd-line numbers and
 				  # prompt based on state of config changes,
 				  # which may have an * at the beginning.
 				  set junk $expect_out(1,string)

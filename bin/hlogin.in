@@ -57,6 +57,8 @@ set do_passwd 1
 set do_enapasswd 1
 # attempt at platform switching.
 set platform ""
+#
+set send_human {.4 .4 .7 .3 5}
 
 # Find the user in the ENV, or use the unix userid.
 if {[ info exists env(CISCO_USER) ]} {
@@ -535,7 +537,7 @@ proc run_commands { prompt command } {
 	}
     }
     log_user 1
-    send "exit\r"
+    send -h "exit\r"
     expect {
 	"Do you want to save current configuration"	{
 						  send "n\r"
@@ -551,7 +553,7 @@ proc run_commands { prompt command } {
 						}
 	-re "\[\r\n]+"				{ exp_continue }
 	-re "^.+>"				{
-						  send "exit\r"
+						  send -h "exit\r"
 						  exp_continue
 						}
 	timeout					{ return 0 }

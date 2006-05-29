@@ -55,6 +55,8 @@ set avautoenable 0
 # tracks if we receive them on the command line.
 set do_passwd 1
 set do_enapasswd 1
+#
+set send_human {.4 .4 .7 .3 5}
 
 # Find the user in the ENV, or use the unix userid.
 if {[ info exists env(CISCO_USER) ]} {
@@ -659,16 +661,16 @@ proc run_commands { prompt command } {
     log_user 1
 
     if { [ string compare "extreme" "$platform" ] } {
-	send "exit\r"
+	send -h "exit\r"
     } else {
-	send "quit\r"
+	send -h "quit\r"
     }
     expect {
 	-re "^\[^\n\r *]*$reprompt"		{
 						  # the Cisco CE and Jnx ERX
 						  # return to non-enabled mode
 						  # on exit in enabled mode.
-						  send "exit\r"
+						  send -h "exit\r"
 						  exp_continue;
 						}
 	"Would you like to save them now"	{ # Force10

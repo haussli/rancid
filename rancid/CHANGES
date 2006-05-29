@@ -1,4 +1,6 @@
 2.3.2
+	clogin/hlogin: use send -h for exit command - Michael Stefaniuc
+
 	clogin: Answer F10's "unsaved changes" logout prompt - Colin Corbett
 
 	f10rancid: "Current Conf" begins with ! in recent code - Colin Corbett

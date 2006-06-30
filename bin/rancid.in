@@ -1365,6 +1365,7 @@ sub ShowVLAN {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
+	return(1) if /Ambiguous command/i;
 	# newer releases (~12.1(9)) place the vlan config in the normal
 	# configuration (write term).
 	return(1) if ($type =~ /^(3550|4500|7600)$/);
@@ -1761,6 +1762,7 @@ sub DoNothing {print STDOUT;}
 	{'show inventory raw'		=> 'ShowInventory'},
 	{'show vtp status'		=> 'ShowVTP'},
 	{'show vlan'			=> 'ShowVLAN'},
+	{'show vlan-switch'		=> 'ShowVLAN'},
 	{'show debug'			=> 'ShowDebug'},
 	{'show running-config'		=> 'WriteTerm'},
 	{'write term'			=> 'WriteTerm'},

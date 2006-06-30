@@ -1,4 +1,6 @@
 2.3.2
+	rancid: fix Cisco 3825,3845 show version parsing - Michael Stefaniuc
+
 	clogin/hlogin: use send -h for exit command - Michael Stefaniuc
 
 	clogin: Answer F10's "unsaved changes" logout prompt - Colin Corbett

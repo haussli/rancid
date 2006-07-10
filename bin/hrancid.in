@@ -189,8 +189,14 @@ sub ShowSystem {
 	return(-1) if (/command authorization failed/i);
 	return(-1) if /^(Invalid|Ambiguous) input:/i;
 
-	/memory\s+-\s+total\s+:\s+(\S+)/i &&
-	    ProcessHistory("COMMENTS","keysort","B0",";Memory: $1\n");
+	if (/memory\s+-\s+total\s+:\s+(\S+)/i) {
+	    my($mem) = $1;
+	    $mem =~ s/,//g;
+	    $mem /= (1024 * 1024);
+	    ProcessHistory("COMMENTS","keysort","B0",";Memory: " . int($mem) .
+			   "M\n");
+	    next;
+	}
 	/serial\s+number\s+:\s+(\S+)/i &&
 	    ProcessHistory("COMMENTS","keysort","A1",";Serial Number: $1\n");
 	/firmware\s+revision\s+:\s+(\S+)/i &&

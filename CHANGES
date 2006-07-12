@@ -1,4 +1,7 @@
 2.3.2
+	francid: Fix temperature/show chassis filtering for newer Foundry boxes
+		 - noted and tested by Gary Roberts
+
 	rancid: fix Cisco 3825,3845 show version parsing - Michael Stefaniuc
 
 	clogin/hlogin: use send -h for exit command - Michael Stefaniuc

@@ -186,7 +186,7 @@ sub ShowChassis {
 	next if (/ from /);
 	next if (/current temperature/i);
 
-	if (/^---/) { # next section reached
+	if (/^---/ || /^$/) { # next section reached
 	    $skip = 0;
 	}
 	if (/(POWERS|TEMPERATURE READINGS)/) {
@@ -195,10 +195,10 @@ sub ShowChassis {
 	if (/fan controlled temperature:/i) {
 	    $skip = 1; 
 	}
-	if (/THERMAL PLANE\): \d\d.\d deg-C/) { 
+	if (/THERMAL PLANE/) { 
 	    $skip = 1;
 	}
-	if (/slot \d temperature:/) {
+	if (/temperature:/i) {
 	    $skip = 1;
 	}
 	next if $skip;

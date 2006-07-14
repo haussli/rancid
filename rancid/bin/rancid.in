@@ -197,11 +197,12 @@ sub ShowVersion {
 	/^Encryption hardware device\s+:\s+(.*)/ &&
 	    ProcessHistory("COMMENTS","keysort","A3", "!Encryption: $1\n") &&
 	    next;
-	/^Flash\s+\S+ \@ 0x\S+,\s+(\S+)/ &&
-	    ProcessHistory("COMMENTS","keysort","B2", "!Memory: Flash $1\n") &&
-	    next;
 	/^running activation key\s*:\s+(.*)/i &&
 	    ProcessHistory("COMMENTS","keysort","D2", "!Key: $1\n") &&
+	    next;
+	# Flash on the PIX or FWSM (FireWall Switch Module)
+	/^Flash(\s+\S+)+ \@ 0x\S+,\s+(\S+)/ &&
+	    ProcessHistory("COMMENTS","keysort","B2", "!Memory: Flash $2\n") &&
 	    next;
 	# CatOS 3500xl stuff
 	/^System serial number(:\s+.*)$/ &&

@@ -1,4 +1,6 @@
 2.3.2
+	rancid: collect flash size on the FWSM - from Aaron Gee-clough
+
 	francid: Fix temperature/show chassis filtering for newer Foundry boxes
 		 - noted and tested by Gary Roberts
 

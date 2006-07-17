@@ -393,38 +393,36 @@ proc run_commands { prompt command } {
 	for {set i 0} {$i < $num_commands} { incr i} {
 	    send "[subst [lindex $commands $i]]\r"
 	    expect {
-		-re "\[\n\r]+"		{ exp_continue }
-                -re "$prompt"		{}
-		-gl "--- more ---"	{
-					  send " "
-					  exp_continue
-					}
+		-re "\[\n\r]+"			{ exp_continue }
+                -re "$prompt"			{}
+		-gl "--- more ---"		{ send " "
+						  exp_continue
+						}
             }
 	}
     } else {
 	send "[subst $command]\r"
 	expect {
-		-re "\[\n\r]+"		{ exp_continue }
-                -re "$prompt"		{}
-		-gl "--- more ---"	{
-					  send " "
-					  exp_continue
-					}
+		-re "\[\n\r]+"			{ exp_continue }
+                -re "$prompt"			{}
+		-gl "--- more ---"		{ send " "
+						  exp_continue
+						}
 	}
     }
     send "exit\r"
     expect {
-	-re "$prompt"			{
-					  send "exit\r"
-					  exp_continue
-					}
-	-re "\[\n\r]+"			{ exp_continue }
-	-gl "Configuration modified, save?" {
-					  send "n\r"
-					  exp_continue
-					}
-	timeout				{ return 0 }
-	eof				{ return 0 }
+	-re "$prompt"				{
+						  send "exit\r"
+						  exp_continue
+						}
+	-re "\[\n\r]+"				{ exp_continue }
+	-gl "Configuration modified, save?"	{
+						  send "n\r"
+						  exp_continue
+						}
+	timeout					{ return 0 }
+	eof					{ return 0 }
     }
     set in_proc 0
 }

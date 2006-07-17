@@ -468,9 +468,9 @@ proc run_commands { prompt command } {
     }
     send "logout\r"
     expect {
-	"\n" { exp_continue }
-	timeout { return 0 }
-	eof { return 0 }
+	"\n"					{ exp_continue }
+	timeout					{ return 0 }
+	eof					{ return 0 }
     }
     set in_proc 0
 }

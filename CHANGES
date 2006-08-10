@@ -1,4 +1,8 @@
 2.3.2
+	*login: If we timeout while trying to quit in run_commands(), close the
+	connection (ie: file descriptor/tty) gracefully.  - from Ed Ravin,
+	adjusted to catch the close.
+
 	jrancid: Adapt M160 PCG freq rounding to new format - noted by Mark
 		 Davis
 

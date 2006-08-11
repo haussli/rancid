@@ -44,6 +44,7 @@ $vendor =~ tr/[A-Z]/[a-z]/;
     'hitachi'		=> 'htrancid',
     'hp'		=> 'hrancid',
     'juniper'		=> 'jrancid',
+    'motorola'		=> 'motorancid',
     'mrtd'		=> 'mrancid',
     'netscaler'		=> 'nsrancid',
     'netscreen'		=> 'nrancid',
@@ -58,7 +59,7 @@ if ($vendortable{$vendor} eq "") {
     printf(STDERR "unknown router manufacturer for $router: $vendor\n");
     exit(-1);
 } else {
-    exec($vendortable{$vendor});
+    exec($vendortable{$vendor} . " $router");
 }
 
 printf(STDERR "exec failed router manufacturer $vendor: $!\n");

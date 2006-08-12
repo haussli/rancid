@@ -29,7 +29,7 @@ bin_SCRIPTS = cat5rancid control_rancid \
 	elogin erancid f10rancid flogin francid fnrancid \
 	jlogin jrancid jerancid \
 	hlogin hrancid htlogin htrancid \
-	mrancid nlogin nrancid nslogin nsrancid par prancid \
+	motorancid mrancid nlogin nrancid nslogin nsrancid par prancid \
 	rancid rancid-fe rivlogin rivrancid rrancid \
 	tntlogin tntrancid xrancid zrancid
 

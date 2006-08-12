@@ -44,7 +44,6 @@ $vendor =~ tr/[A-Z]/[a-z]/;
     'hitachi'		=> 'htrancid',
     'hp'		=> 'hrancid',
     'juniper'		=> 'jrancid',
-    'motorola'		=> 'motorancid',
     'mrtd'		=> 'mrancid',
     'netscaler'		=> 'nsrancid',
     'netscreen'		=> 'nrancid',

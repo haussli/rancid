@@ -203,10 +203,9 @@ AUTOMAKE_OPTIONS = foreign
 bin_SCRIPTS = cat5rancid control_rancid alogin arancid clogin blogin \
 	brancid cssrancid elogin erancid f10rancid flogin francid \
 	fnrancid jlogin jrancid jerancid hlogin hrancid htlogin \
-	htrancid motorancid mrancid nlogin nrancid nslogin nsrancid \
-	par prancid rancid rancid-fe rivlogin rivrancid rrancid \
-	tntlogin tntrancid xrancid zrancid lg.cgi lgform.cgi \
-	rancid-cvs rancid-run
+	htrancid mrancid nlogin nrancid nslogin nsrancid par prancid \
+	rancid rancid-fe rivlogin rivrancid rrancid tntlogin tntrancid \
+	xrancid zrancid lg.cgi lgform.cgi rancid-cvs rancid-run
 EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-run.in
 #dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
 CLEANFILES = lg.cgi lgform.cgi rancid-cvs rancid-run

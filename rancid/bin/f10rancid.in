@@ -810,7 +810,6 @@ sub ShowVLAN {
 # This routine processes a "write term"
 sub WriteTerm {
     print STDERR "    In WriteTerm: $_" if ($debug);
-    my($linecnt) = 0;
 
     while (<INPUT>) {
 	tr/\015//d;
@@ -833,7 +832,6 @@ sub WriteTerm {
 	    }
 	    tr/\015//d;
 	}
-	$linecnt++;
 	# some versions have other crap mixed in with the bits in the
 	# block above
 	/^! (Last configuration|NVRAM config last)/ && next;
@@ -1034,14 +1032,6 @@ sub WriteTerm {
 	    $found_end = 1;
 	    return(1);
 	}
-    }
-
-    # The Force10 S-50 lacks a definitive "end of config" marker.  If we have
-    # seen at least 5 lines of write term o/p, we can be reasonably sure that
-    # we got the config.  
-    if ($linecnt > 5) {
-	$found_end = 1;
-	return(1);
     }
     return(0);
 }

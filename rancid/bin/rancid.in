@@ -267,53 +267,53 @@ sub ShowVersion {
 		s/^/, /;
 	    }
 
-	    if ( $proc eq "CSC") {
+	    if ($proc eq "CSC") {
 		$type = "AGS";
-	    } elsif ( $proc eq "CSC4") {
+	    } elsif ($proc eq "CSC4") {
 		$type = "AGS+";
-	    } elsif ( $proc =~ /^(AS)?25[12][12]/) {
+	    } elsif ($proc =~ /^(AS)?25[12][12]/) {
 		$type = "2500";
-	    } elsif ( $proc =~ /261[01]/ || $proc =~ /262[01]/ ) {
+	    } elsif ($proc =~ /261[01]/ || $proc =~ /262[01]/ ) {
 		$type = "2600";
-	    } elsif ( $proc =~ /^36[0246][0-9]/) {
+	    } elsif ($proc =~ /^36[0246][0-9]/) {
 		$type = "3600";
-	    } elsif ( $proc =~ /^37/) {
+	    } elsif ($proc =~ /^37/) {
 		$type = "3700";
-	    } elsif ( $proc =~ /^38/) {
+	    } elsif ($proc =~ /^38/) {
 		$type = "3800";
-	    } elsif ( $proc eq "RSP7000") {
+	    } elsif ($proc eq "RSP7000") {
 		$type = "7500";
-	    } elsif ( $proc =~ /RSP\d/) {
+	    } elsif ($proc =~ /RSP\d/) {
 		$type = "7500";
-	    } elsif ( $proc eq "RP1") {
+	    } elsif ($proc eq "RP1") {
 		$type = "7000";
-	    } elsif ( $proc eq "RP") {
+	    } elsif ($proc eq "RP") {
 		$type = "7000";
-	    } elsif ( $proc =~ /720[246]/) {
+	    } elsif ($proc =~ /720[246]/) {
 		$type = "7200";
-	    } elsif ( $proc =~ /1200[48]\/GRP/ || $proc =~ /1201[26]\/GRP/) {
+	    } elsif ($proc =~ /1200[48]\/GRP/ || $proc =~ /1201[26]\/GRP/) {
 		$type = "12000";
-	    } elsif ( $proc =~ /1201[26]-8R\/GRP/) {
+	    } elsif ($proc =~ /1201[26]-8R\/GRP/) {
 		$type = "12000";
-	    } elsif ( $proc =~ /WS-C29/) {
+	    } elsif ($proc =~ /WS-C29/) {
 		$type = "2900XL";
 		$device = "switch";
-	    } elsif ( $proc =~ /WS-C355/) {
+	    } elsif ($proc =~ /WS-C355/) {
 		$type = "3550";
 		$device = "switch";
-	    } elsif ( $proc =~ /WS-C35/) {
+	    } elsif ($proc =~ /WS-C35/) {
 		$type = "3500XL";
 		$device = "switch";
-	    } elsif ( $proc =~ /WS-C45/) {
+	    } elsif ($proc =~ /WS-C45/) {
 		$type = "4500";
 		$device = "switch";
-	    } elsif ( $proc =~ /6000/) {
+	    } elsif ($proc =~ /6000/) {
 		$type = "6000";
 		$device = "switch";
-	    } elsif ( $proc =~ /CISCO76/) {
+	    } elsif ($proc =~ /CISCO76/) {
 		$type = "7600";
 		$device = "router";
-	    } elsif ( $proc =~ /1900/) {
+	    } elsif ($proc =~ /1900/) {
 		$type = "1900";
 		$device = "switch";
 	    } else {

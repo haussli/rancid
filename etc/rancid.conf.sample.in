@@ -5,7 +5,7 @@
 #
 TERM=network;export TERM
 #
-# Create files w/o world read/write/exec permissins, but read/exec permissions
+# Create files w/o world read/write/exec permissions, but read/exec permissions
 # for group.
 umask 027
 #

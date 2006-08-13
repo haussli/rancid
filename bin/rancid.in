@@ -234,7 +234,7 @@ sub ShowVersion {
 	    next;
 	/^System image file is "([^\"]*)"$/ &&
 	    ProcessHistory("COMMENTS","keysort","F5","!Image: $1\n") && next;
-	if (/(\S+)\s+(?:\((\S+)\)\s+processor\s+)?\(revision[^)]+\).*with (\S+[kK]) bytes/) {
+	if (/(\S+)\s+(?:\((\S+)\)\s+processor)?(?:\s+\(revision[^)]+\))?\s+with (\S+[kK]) bytes/) {
 	    my($proc) = $1;
 	    my($cpu) = $2;
 	    my($mem) = $3;

@@ -39,6 +39,7 @@ $timeo = 120;				# clogin timeout in seconds
 
 my(@commandtable, %commands, @commands);# command lists
 my(%filter_pwds);			# password filtering mode
+my($ShowChassisSCB);			# Only run ShowChassisSCB() once
 
 # This routine is used to print out the router configuration
 sub ProcessHistory {
@@ -583,6 +584,7 @@ sub DoNothing {print STDOUT;}
 	{'show chassis scb'		=> 'ShowChassisSCB'},
 	{'show chassis sfm detail'	=> 'ShowChassisSCB'},
 	{'show chassis ssb'		=> 'ShowChassisSCB'},
+	{'show chassis feb detail'	=> 'ShowChassisSCB'},
 	{'show chassis feb'		=> 'ShowChassisSCB'},
 	{'show chassis cfeb'		=> 'ShowChassisSCB'},
 	{'show chassis alarms'		=> 'ShowChassisAlarms'},

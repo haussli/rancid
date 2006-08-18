@@ -293,7 +293,6 @@ sub WriteTerm {
 	    ProcessHistory("IPHOST","numsort","$1","$_") && next;
 
 	# end of config
-	#if (/^end(\n\[OK])?$/) {
 	if (/^(: )?end$/) {
 	    $found_end = 1;
 	    return(1);

@@ -160,8 +160,6 @@ sub ShowVersion {
 
 # This routine parses "show flash"
 sub ShowFlash {
-    # skip if this is 7000, 7200, 7500, or 12000; else we end up with
-    # redundant data from dir /all slot0:
     print STDERR "    In ShowFlash: $_" if ($debug);
 
     while (<INPUT>) {

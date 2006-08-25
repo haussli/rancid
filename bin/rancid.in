@@ -1196,9 +1196,13 @@ sub ShowInventory {
 	    ProcessHistory("INVENTORY","","", sprintf("!%-30s %s\n", $1, $2));
 	    next;
 	}
-	# split PID/VID line
-	if (/^(PID: \S*)\s*, (VID: \S*)\s*, (SN: \S*)\s*$/) {
-	    ProcessHistory("INVENTORY","","", "!$1\n!$2\n!$3\n");
+	# split PID/VID/SN line
+	if (/^PID: (\S*)\s*, VID: (\S*)\s*, SN: (\S*)\s*$/) {
+	    my($entries) = "";
+	    $entries .= "!PID: $1\n" if ($1);
+	    $entries .= "!VID: $2\n" if ($2);
+	    $entries .= "!SN: $3\n" if ($3);
+	    ProcessHistory("INVENTORY","","", "$entries");
 	    next;
 	}
 	ProcessHistory("INVENTORY","","","!$_");

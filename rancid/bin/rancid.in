@@ -316,6 +316,8 @@ sub ShowVersion {
 	    } elsif ($proc =~ /1900/) {
 		$type = "1900";
 		$device = "switch";
+	    } elsif ( $proc =~ /^73/) {
+		$type = "7300";
 	    } else {
 		$type = $proc;
 	    }

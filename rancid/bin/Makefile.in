@@ -199,12 +199,13 @@ target_alias = @target_alias@
 
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS = foreign
-bin_SCRIPTS = cat5rancid control_rancid alogin arancid clogin blogin \
-	brancid cssrancid elogin erancid f10rancid flogin francid \
-	fnrancid jlogin jrancid jerancid hlogin hrancid htlogin \
-	htrancid mrancid nlogin nrancid nslogin nsrancid par prancid \
-	rancid rancid-fe rivlogin rivrancid rrancid tntlogin tntrancid \
-	xrancid zrancid lg.cgi lgform.cgi rancid-cvs rancid-run
+bin_SCRIPTS = cat5rancid control_rancid alogin arancid blogin brancid \
+	clogin cssrancid drancid elogin erancid f10rancid flogin \
+	francid fnrancid hlogin hrancid htlogin htrancid jlogin \
+	jrancid jerancid mrancid nlogin nrancid nslogin nsrancid par \
+	prancid rancid rancid-fe rivlogin rivrancid rrancid tntlogin \
+	tntrancid xrancid zrancid lg.cgi lgform.cgi rancid-cvs \
+	rancid-run
 EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-run.in
 #dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
 CLEANFILES = lg.cgi lgform.cgi rancid-cvs rancid-run

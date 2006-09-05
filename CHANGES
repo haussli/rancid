@@ -24,11 +24,13 @@
 
 	francid: sort intf "secure" MACs, order fluctuates - noted by Brad Volz
 
-	francid: filter tempurature o/p on the SuperX - Brad Volz
+	francid: filter temperature o/p on the SuperX - Brad Volz
 
 	convert rancid-fe vendor list to a hash - suggested by Ed Ravin.
 
 	rancid: new format for PIX 7.0 license string - Aaron Gee-clough
+
+	rancid: check for 7300 type of routers
 
 	clogin: older CatOS for 1900s has a CR after the pager prompt
 

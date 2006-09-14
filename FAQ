@@ -155,12 +155,12 @@ A. As far as I know, CVS does not provide a way to remove directories.  First,
 
 Q. I would like to place my CVS repository on a remote machine.  How do I do
    that?
-A. Assuming that you're starting fresh, its quite simply.  Before running
+A. Assuming that you're starting fresh, its quite simple.  Before running
    rancid-cvs for the first time, adjust CVS_RSH & CVSROOT in rancid.conf
    similar to the following:
 	CVS_RSH=ssh; export CVS_RSH
 	CVSROOT="myhost:/fqpn/CVS"; export CVSROOT
-   Note that CVS_RSH is not found in the rancid.conf sample that is distributed
+   Note that CVS_RSH is not found in the sample rancid.conf that is distributed
    with rancid.
 
 
@@ -225,7 +225,7 @@ A. The trickiest part about clogin (et al) is recognizing the prompt
 
 
 Q. I use <BINDIR>/*login -c to run commands on multiple boxes.  Sometimes
-   these are commands that take secondary input, like a filename.  How can
+   these are commands that take secondary input, like a filename.  How can I
    enter the data for that secondary prompt?
 A. Two methods will work.  Write an expect script to be used with clogin's
    -s option, for which a few examples come with rancid like cisco-load.exp.

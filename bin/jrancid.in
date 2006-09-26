@@ -400,6 +400,25 @@ sub ShowSystemAutoinstall {
     return;
 }
 
+sub ShowSystemCoreDumps {
+    print STDERR "    In ShowSystemCoreDumps: $_" if ($debug);
+
+    s/^[a-z]+@//;
+    ProcessHistory("","","","# $_");
+    while (<INPUT>) {
+	tr/\015//d;
+	last if(/^$prompt/);
+
+	/Unrecognized command/ && return;
+	/^\s+\^/ && return;
+	/syntax error/ && return;
+	/^JUNOS / && <INPUT> && next;
+	/No such file or directory$/ && next;
+	ProcessHistory("","","","# $_");
+    }
+    return;
+}
+
 # This routine parses "show system license"
 sub ShowSystemLicense {
     print STDERR "    In ShowSystemLicense: $_" if ($debug);
@@ -592,6 +611,7 @@ sub DoNothing {print STDOUT;}
 	{'show system license'		=> 'ShowSystemLicense'},
 #	{'show system license keys'	=> 'ShowSystemLicenseKeys'},
 	{'show system boot-messages'	=> 'ShowSystemBootMessages'},
+	{'show system core-dumps'	=> 'ShowSystemCoreDumps'},
 	{'show version detail'		=> 'ShowVersion'},
 	{'show configuration'		=> 'ShowConfiguration'}
 );

@@ -407,13 +407,14 @@ sub ShowSystemCoreDumps {
     ProcessHistory("","","","# $_");
     while (<INPUT>) {
 	tr/\015//d;
-	last if(/^$prompt/);
+	last if (/^$prompt/);
 
-	/Unrecognized command/ && return;
-	/^\s+\^/ && return;
-	/syntax error/ && return;
+	/Unrecognized command/ && return(1);
+	/^\s+\^/ && return(1);
+	/syntax error/ && return(1);
 	/^JUNOS / && <INPUT> && next;
 	/No such file or directory$/ && next;
+
 	ProcessHistory("","","","# $_");
     }
     return(0);

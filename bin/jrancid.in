@@ -416,7 +416,7 @@ sub ShowSystemCoreDumps {
 	/No such file or directory$/ && next;
 	ProcessHistory("","","","# $_");
     }
-    return;
+    return(0);
 }
 
 # This routine parses "show system license"

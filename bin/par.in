@@ -2,6 +2,7 @@
 ##
 ## $Id$
 ##
+## @PACKAGE@ @VERSION@
 ## Copyright (C) 1997-2006 by Terrapin Communications, Inc.
 ## All rights reserved.
 ##
@@ -44,7 +45,11 @@
 # line is assumed to be a command to be run.
 #
 use Getopt::Std;
-getopts('p:n:l:c:fixedq');
+getopts('p:n:l:c:fixedqV');
+if (!$opt_V) {
+    print "@PACKAGE@ @VERSION@\n";
+    exit(0);
+}
 $procs=$opt_n;  $procs=3 if(!$procs);
 $command=$opt_c;   #$command="{}" if(!$command);
 $parlog=$opt_l; $parlog="par.log.".time() if(!$parlog);

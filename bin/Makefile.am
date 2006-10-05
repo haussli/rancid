@@ -29,7 +29,7 @@ bin_SCRIPTS = cat5rancid control_rancid \
 	elogin erancid f10rancid flogin francid fnrancid \
 	hlogin hrancid htlogin htrancid \
 	jerancid jlogin jrancid \
-	motorancid mrancid nlogin nrancid nslogin nsrancid par prancid \
+	mrancid nlogin nrancid nslogin nsrancid par prancid \
 	rancid rancid-fe rivlogin rivrancid rrancid \
 	tntlogin tntrancid xrancid zrancid
 
@@ -73,7 +73,9 @@ auto_edit = sed \
 	-e 's,@PERLV_PATH\@,$(PERLV_PATH),g' \
 	-e 's,@LG_PING_CMD\@,$(LG_PING_CMD),g' \
 	-e 's,@ADMINMAILPLUS\@,$(ADMINMAILPLUS),g' \
-	-e 's,@MAILPLUS\@,$(MAILPLUS),g'
+	-e 's,@MAILPLUS\@,$(MAILPLUS),g' \
+	-e 's,@PACKAGE\@,$(PACKAGE),g' \
+	-e 's,@VERSION\@,$(VERSION),g'
 
 lg.cgi: Makefile $(srcdir)/lg.cgi.in
 	rm -f lg.cgi lg.cgi.tmp; \

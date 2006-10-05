@@ -2,6 +2,7 @@
 ##
 ## $Id$
 ##
+## @PACKAGE@ @VERSION@
 ## Copyright (C) 1997-2006 by Terrapin Communications, Inc.
 ## All rights reserved.
 ##
@@ -105,6 +106,10 @@ for {set i 0} {$i < $argc} {incr i} {
 		set userpasswd [ lindex $argv $i ]
 	    }
 	    set do_passwd 0
+	# Version string
+	} -V* {
+	    send_user "@PACKAGE@ @VERSION@\n"
+	    exit 0
 	# passphrase
 	} -r* -
 	-R* {

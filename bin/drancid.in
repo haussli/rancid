@@ -3,6 +3,7 @@
 ## Pretty huge hack to take care of Dell Switch configs
 ## d_pfleger@juniper.net
 ##
+## @PACKAGE@ @VERSION@
 ## Copyright (C) 1997-2006 by Henry Kilmer.
 ## All rights reserved.
 ##
@@ -20,10 +21,14 @@
 #
 #  RANCID - Really Awesome New Cisco confIg Differ
 #
-# usage: rancid [-d] [-l] [-f filename | hostname]
+# usage: rancid [-dV] [-l] [-f filename | hostname]
 #
 use Getopt::Std;
-getopts('dflm');
+getopts('dflV');
+if ($opt_V) {
+    print "@PACKAGE@ @VERSION@\n";
+    exit(0);
+}
 $log = $opt_l;
 $debug = $opt_d;
 $file = $opt_f;

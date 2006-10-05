@@ -677,6 +677,10 @@ proc run_commands { prompt command } {
 						  send "n\r"
 						  exp_continue
 						}
+	"Configuration changes have occurred.*"	{ # Cisco CSS
+						  send "n\r"
+						  exp_continue
+						}
 	"Do you wish to save your configuration changes" {
 						  send "n\r"
 						  exp_continue

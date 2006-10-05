@@ -1,4 +1,6 @@
 2.3.2
+	clogin: match Cisco CSS's "save config?" prompt - Lance Vermilion
+
 	jrancid: include show system core-dumps - Michael Lyngbol
 
 	rancid: filter empty 'show inventory' fields - from Michael Stefaniuc at

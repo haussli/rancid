@@ -2,6 +2,7 @@
 ##
 ## $Id$
 ##
+## @PACKAGE@ @VERSION@
 ## Copyright (C) 1997-2006 by Terrapin Communications, Inc.
 ## All rights reserved.
 ##
@@ -85,13 +86,16 @@ for {set i 0} {$i < $argc} {incr i} {
 		set username [ lindex $argv $i ]
 	    }
 	# VTY Password
-	} -v* -
-	-v* {
+	} -v* {
 	    if {! [  regexp .\[vV\](.+) $arg ignore passwd]} {
 		incr i
 		set passwd [ lindex $argv $i ]
 	    }
 	    set do_passwd 0
+	# Version string
+	} -V* {
+	    send_user "@PACKAGE@ @VERSION@\n"
+	    exit 0
 	# Enable Username
 	} -w* -
 	-W* {

@@ -1,4 +1,4 @@
-#
+# @PACKAGE@ @VERSION@
 # This file sets up the environment used for rancid.  see rancid.conf(5)
 #
 # This will be site specific

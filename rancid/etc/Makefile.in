@@ -184,7 +184,9 @@ auto_edit = sed \
 	-e 's,@EXPECT_PATH\@,$(EXPECT_PATH),g' \
 	-e 's,@PERLV_PATH\@,$(PERLV_PATH),g' \
 	-e 's,@ENV_PATH\@,$(ENV_PATH),g' \
-	-e 's,@RCSSYS\@,$(RCSSYS),g'
+	-e 's,@RCSSYS\@,$(RCSSYS),g' \
+	-e 's,@PACKAGE\@,$(PACKAGE),g' \
+	-e 's,@VERSION\@,$(VERSION),g'
 
 all: all-am
 

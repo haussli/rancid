@@ -46,8 +46,7 @@ DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/flogin.in $(srcdir)/fnrancid.in $(srcdir)/francid.in \
 	$(srcdir)/hlogin.in $(srcdir)/hrancid.in $(srcdir)/htlogin.in \
 	$(srcdir)/htrancid.in $(srcdir)/jerancid.in \
-	$(srcdir)/jlogin.in $(srcdir)/jrancid.in \
-	$(srcdir)/motorancid.in $(srcdir)/mrancid.in \
+	$(srcdir)/jlogin.in $(srcdir)/jrancid.in $(srcdir)/mrancid.in \
 	$(srcdir)/nlogin.in $(srcdir)/nrancid.in $(srcdir)/nslogin.in \
 	$(srcdir)/nsrancid.in $(srcdir)/par.in $(srcdir)/prancid.in \
 	$(srcdir)/rancid-fe.in $(srcdir)/rancid.in \
@@ -65,9 +64,9 @@ CONFIG_HEADER = $(top_builddir)/include/config.h
 CONFIG_CLEAN_FILES = control_rancid par rancid-fe alogin arancid \
 	blogin brancid cat5rancid clogin rancid cssrancid elogin \
 	erancid f10rancid flogin francid fnrancid jlogin jrancid \
-	jerancid hlogin hrancid htlogin htrancid motorancid mrancid \
-	nlogin nrancid nslogin nsrancid prancid rivlogin rivrancid \
-	rrancid tntlogin tntrancid xrancid zrancid
+	jerancid hlogin hrancid htlogin htrancid mrancid nlogin \
+	nrancid nslogin nsrancid prancid rivlogin rivrancid rrancid \
+	tntlogin tntrancid xrancid zrancid
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
@@ -203,10 +202,9 @@ AUTOMAKE_OPTIONS = foreign
 bin_SCRIPTS = cat5rancid control_rancid alogin arancid blogin brancid \
 	clogin cssrancid elogin erancid f10rancid flogin francid \
 	fnrancid hlogin hrancid htlogin htrancid jerancid jlogin \
-	jrancid motorancid mrancid nlogin nrancid nslogin nsrancid par \
-	prancid rancid rancid-fe rivlogin rivrancid rrancid tntlogin \
-	tntrancid xrancid zrancid lg.cgi lgform.cgi rancid-cvs \
-	rancid-run
+	jrancid mrancid nlogin nrancid nslogin nsrancid par prancid \
+	rancid rancid-fe rivlogin rivrancid rrancid tntlogin tntrancid \
+	xrancid zrancid lg.cgi lgform.cgi rancid-cvs rancid-run
 EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-run.in
 #dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
 CLEANFILES = lg.cgi lgform.cgi rancid-cvs rancid-run
@@ -236,7 +234,9 @@ auto_edit = sed \
 	-e 's,@PERLV_PATH\@,$(PERLV_PATH),g' \
 	-e 's,@LG_PING_CMD\@,$(LG_PING_CMD),g' \
 	-e 's,@ADMINMAILPLUS\@,$(ADMINMAILPLUS),g' \
-	-e 's,@MAILPLUS\@,$(MAILPLUS),g'
+	-e 's,@MAILPLUS\@,$(MAILPLUS),g' \
+	-e 's,@PACKAGE\@,$(PACKAGE),g' \
+	-e 's,@VERSION\@,$(VERSION),g'
 
 all: all-am
 
@@ -318,8 +318,6 @@ hrancid: $(top_builddir)/config.status $(srcdir)/hrancid.in
 htlogin: $(top_builddir)/config.status $(srcdir)/htlogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 htrancid: $(top_builddir)/config.status $(srcdir)/htrancid.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-motorancid: $(top_builddir)/config.status $(srcdir)/motorancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 mrancid: $(top_builddir)/config.status $(srcdir)/mrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

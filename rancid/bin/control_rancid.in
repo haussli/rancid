@@ -2,6 +2,7 @@
 ##
 ## $Id$
 ##
+## @PACKAGE@ @VERSION@
 ## Copyright (C) 1997-2006 by Terrapin Communications, Inc.
 ## All rights reserved.
 ##
@@ -24,10 +25,11 @@
 
 # print a usage message to stderr
 pr_usage() {
-    echo "usage: $0 [-r device_name] [-m mail rcpt] [group [group ...]]" >&2;
+    echo "usage: $0 [-V] [-r device_name] [-m mail rcpt] [group [group ...]]" >&2;
 }
 
 # command-line options
+# -V print version string
 # -m <mail recipients>
 # -r <device name>
 alt_mailrcpt=0
@@ -35,6 +37,10 @@ if [ $# -ge 1 ] ; then
 
     while [ 1 ] ; do
 	case $1 in
+	-V)
+	    echo "@PACKAGE@ @VERSION@"
+	    exit 0
+	    ;;
 	-m)
 	    shift
 	    # next arg is the mail recipient

@@ -2,6 +2,7 @@
 ##
 ## $Id$
 ##
+## @PACKAGE@ @VERSION@
 ## Copyright (C) 1997-2006 by Terrapin Communications, Inc.
 ## All rights reserved.
 ##
@@ -794,6 +795,10 @@ for {set idx 0} {$idx < $argc} {incr idx} {
             }
 
             set do_script 1
+	# Version string
+	} -V* {
+	    send_user "@PACKAGE@ @VERSION@\n"
+	    exit 0
         # Command file
         } -x* -
         -X {

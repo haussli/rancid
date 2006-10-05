@@ -2,6 +2,7 @@
 ##
 ## $Id$
 ##
+## @PACKAGE@ @VERSION@
 ## Copyright (C) 1997-2006 by Terrapin Communications, Inc.
 ## All rights reserved.
 ##
@@ -24,10 +25,14 @@
 #
 #  RANCID - Really Awesome New Cisco confIg Differ
 #
-# usage: jrancid [-d] [-l] [-f filename | hostname]
+# usage: jrancid [-dV] [-l] [-f filename | hostname]
 #
 use Getopt::Std;
-getopts('dfl');
+getopts('dflV');
+if ($opt_V) {
+    print "@PACKAGE@ @VERSION@\n";
+    exit(0);
+}
 $debug = $opt_d;
 $log = $opt_l;
 $file = $opt_f;

@@ -825,22 +825,21 @@ for {set idx 0} {$idx < $argc} {incr idx} {
 		    puts "DEBUG: output file: $output_file"
 		}
             }
-
-        } -t* -
-        -T* {
-            incr idx
-            set timeout [ lindex $argv $idx ]
-
-        } -noenable {
-            set avenable 0
-        } -* {
-            puts "ERROR:unkown argument passed: $arg\n"
-            puts $usage
+	# Timeout
+	} -t* -
+	-T* {
+	    incr idx
+	    set timeout [ lindex $argv $idx ]
+	# Do we enable?
+	} -noenable {
+	    set avenable 0
+	} -* {
+	    send_user "Error: Unkown argument! $arg\n"
+	    send_user $usage
 	    exit 1
-
-        } default {
+	} default {
 	    break
-        }
+	}
     }
 }
 

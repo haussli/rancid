@@ -153,7 +153,7 @@ sub ShowVersion {
     while (<INPUT>) {
 	tr/\015//d;
 	next if /^\s*$/;
-	last if(/^$prompt/);
+	last if (/^$prompt/);
 
 	next if (/^(The system |Crash time)/);
 	next if (/^((Active|Standby) Management|LP Slot \d+) uptime is/);
@@ -220,8 +220,8 @@ sub ShowFlash {
 
     while (<INPUT>) {
     tr/\015//d;
-	last if(/^$prompt/);
-	next if /^\s*$/;
+	last if (/^$prompt/);
+	next if (/^\s*$/);
 	ProcessHistory("FLASH","","","!Flash: $_");
     }
     ProcessHistory("","","","!\n");
@@ -234,9 +234,10 @@ sub ShowModule {
 
     while (<INPUT>) {
 	tr/\015//d;
-	last if(/^$prompt/);
-	next if /^\s*$/;
-	next if /:\s*$/;
+	last if (/^$prompt/);
+	return(1) if (/Invalid input ->/);
+	next if (/^\s*$/);
+	next if (/:\s*$/);
 	ProcessHistory("MODULE","","","!Module: $_");
     }
     ProcessHistory("","","","!\n");
@@ -249,7 +250,7 @@ sub WriteTerm {
 
     while (<INPUT>) {
 	tr/\015//d;
-	last if(/^$prompt/);
+	last if (/^$prompt/);
 
 	/Current configuration:/i && next;
 	/^ver \d+\.\d+/ && next;

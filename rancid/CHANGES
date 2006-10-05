@@ -1,10 +1,11 @@
 2.3.2
+	francid: drop fan speed o/p from show chassis - John Adams
+
 	clogin: match Cisco CSS's "save config?" prompt - Lance Vermilion
 
 	jrancid: include show system core-dumps - Michael Lyngbol
 
-	rancid: filter empty 'show inventory' fields - from Michael Stefaniuc at
-		Red Hat
+	rancid: filter empty 'show inventory' fields - from Michael Stefaniuc
 
 	*login: If we timeout while trying to quit in run_commands(), close the
 		connection (ie: file descriptor/tty) gracefully. - from Ed

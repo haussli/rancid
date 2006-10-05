@@ -206,6 +206,10 @@ sub ShowChassis {
 	if (/temperature:/i) {
 	    $skip = 1;
 	}
+	s/(Fan \d+ \S+), speed .*/$1/;
+	if (/speed/i) {
+	    $skip = 1;
+	}
 	next if $skip;
 
 	ProcessHistory("CHASSIS","","","! $_");

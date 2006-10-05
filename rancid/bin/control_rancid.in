@@ -28,19 +28,13 @@ pr_usage() {
 }
 
 # command-line options
-# -r <device name>
 # -m <mail recipients>
+# -r <device name>
 alt_mailrcpt=0
 if [ $# -ge 1 ] ; then
 
     while [ 1 ] ; do
 	case $1 in
-	-r)
-	    shift
-	    # next arg is the device name
-	    device="$1"
-	    shift
-	    ;;
 	-m)
 	    shift
 	    # next arg is the mail recipient
@@ -50,6 +44,12 @@ if [ $# -ge 1 ] ; then
 	    else
 		mailrcpt="$mailrcpt,$1"
 	    fi
+	    shift
+	    ;;
+	-r)
+	    shift
+	    # next arg is the device name
+	    device="$1"
 	    shift
 	    ;;
 	--)

@@ -37,31 +37,33 @@ pr_usage() {
 }
 
 # command-line options
+# -f <config file name>
+# -m <mailto address>
 # -r <device name>
 if [ $# -ge 1 ] ; then
 
     while [ 1 ] ; do
 	case $1 in
-      -f)
-          shift
-          # next arg is the device name
-          ENVFILE="$1"
-          if [ -z $ENVFILE ]; then
-              pr_usage
-              exit 1
-          fi
-          shift
-          ;;
-	-r)
+	-f)
 	    shift
-	    # next arg is the device name
-	    CR_ARGV="$CR_ARGV -r $1"; export CR_ARGV
+	    # next arg is the alternate config file name
+	    ENVFILE="$1"
+	    if [ -z $ENVFILE ]; then
+		pr_usage
+		exit 1
+	    fi
 	    shift
 	    ;;
 	-m)
 	    shift
 	    # next arg is the mailto name
 	    CR_ARGV="$CR_ARGV -m $1"; export CR_ARGV
+	    shift
+	    ;;
+	-r)
+	    shift
+	    # next arg is the device name
+	    CR_ARGV="$CR_ARGV -r $1"; export CR_ARGV
 	    shift
 	    ;;
 	--)

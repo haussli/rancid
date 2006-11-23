@@ -493,14 +493,17 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 				  # Catalyst 1900s have some lame menu.  Enter
 				  # K to reach a command-line.
 				  send "K\r"
-				  exp_continue;
+				  exp_continue
+				}
+	-re "Last login:"	{
+				  exp_continue
 				}
 	-re "@\[^\r\n]+ $p_prompt"	{
-					  # ssh pwd prompt
-					  sleep 1
-					  send "$userpswd\r"
-					  exp_continue
-					}
+				  # ssh pwd prompt
+				  sleep 1
+				  send "$userpswd\r"
+				  exp_continue
+				}
 	-re "$u_prompt"		{
 				  send "$user\r"
 				  set uprompt_seen 1

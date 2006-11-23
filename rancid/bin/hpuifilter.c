@@ -468,7 +468,7 @@ int
 filter(char *buf, int len)
 {
     static regmatch_t	pmatch[1];
-#define	N_REG		13		/* number of regexes in reg[][] */
+#define	N_REG		14		/* number of regexes in reg[][] */
     static regex_t	preg[N_REG];
     static char		reg[N_REG][50] = {	/* vt100/220 escape codes */
 				"\e7\e\\[1;24r\e8",		/* ds */
@@ -485,6 +485,7 @@ filter(char *buf, int len)
 				"\e\\[\\?25h",			/* ve */
 				"\e\\[\\?25l",			/* vi */
 				"\e\\[K",			/* ce */
+				"\e\\[7m",			/* mr - ansi */
 
 				/* replace these with CR */
 				"\e\\[0m",			/* me */

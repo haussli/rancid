@@ -6401,6 +6401,8 @@ ac_cv_env_path=$ENV_PATH
 
                               ac_config_files="$ac_config_files bin/control_rancid bin/par bin/rancid-fe"
 
+          ac_config_files="$ac_config_files bin/agmrancid"
+
                     ac_config_files="$ac_config_files bin/alogin bin/arancid"
 
                     ac_config_files="$ac_config_files bin/blogin bin/brancid"
@@ -7015,6 +7017,7 @@ do
   "bin/control_rancid" ) CONFIG_FILES="$CONFIG_FILES bin/control_rancid" ;;
   "bin/par" ) CONFIG_FILES="$CONFIG_FILES bin/par" ;;
   "bin/rancid-fe" ) CONFIG_FILES="$CONFIG_FILES bin/rancid-fe" ;;
+  "bin/agmrancid" ) CONFIG_FILES="$CONFIG_FILES bin/agmrancid" ;;
   "bin/alogin" ) CONFIG_FILES="$CONFIG_FILES bin/alogin" ;;
   "bin/arancid" ) CONFIG_FILES="$CONFIG_FILES bin/arancid" ;;
   "bin/blogin" ) CONFIG_FILES="$CONFIG_FILES bin/blogin" ;;
@@ -7453,6 +7456,7 @@ s,@INSTALL@,$ac_INSTALL,;t t
     bin/control_rancid ) chmod a+x $ac_file ;;
     bin/par ) chmod a+x $ac_file ;;
     bin/rancid-fe ) chmod a+x $ac_file ;;
+    bin/agmrancid ) chmod a+x $ac_file ;;
     bin/alogin ) chmod a+x $ac_file ;;
     bin/arancid ) chmod a+x $ac_file ;;
     bin/blogin ) chmod a+x $ac_file ;;

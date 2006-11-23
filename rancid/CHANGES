@@ -1,4 +1,6 @@
 2.3.2
+	agmrancid: Cisco AGM/Anomaly Guard Module
+
 	francid: drop fan speed o/p from show chassis - John Adams
 
 	clogin: match Cisco CSS's "save config?" prompt - Lance Vermilion

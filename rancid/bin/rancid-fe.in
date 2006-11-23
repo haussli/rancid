@@ -31,6 +31,7 @@ require 5;
 $vendor =~ tr/[A-Z]/[a-z]/;
 
 %vendortable = (
+    'agm'		=> 'agmrancid',
     'alteon'		=> 'arancid',
     'baynet'		=> 'brancid',
     'cat5'		=> 'cat5rancid',

@@ -253,7 +253,7 @@ main(int argc, char **argv, char **ev)
 	if (ioctl(ptys, TIOCSCTTY, NULL) == -1) {
 	    snprintf(ptyname, FILENAME_MAX, "%s: could not set controlling "
 		     "tty: %s\n", progname, strerror(errno));
-	    write(ptys, ptyname, strlen(ptyname));
+	    write(0, ptyname, strlen(ptyname));
 	    return(EX_OSERR);
 	}
 #endif
@@ -262,7 +262,7 @@ main(int argc, char **argv, char **ev)
 	if (dup2(ptys, 0) == -1 || dup2(ptys, 1) == -1 || dup2(ptys, 2) == -1) {
 	    snprintf(ptyname, FILENAME_MAX, "%s: dup2() failed: %s\n", progname,
 		     strerror(errno));
-	    write(ptys, ptyname, strlen(ptyname));
+	    write(0, ptyname, strlen(ptyname));
 	    return(EX_OSERR);
 	}
 	if (ptys > 2)
@@ -272,7 +272,7 @@ main(int argc, char **argv, char **ev)
 	execvp(argv[optind], argv + optind);
 	snprintf(ptyname, FILENAME_MAX, "%s: execvp() failed: %s\n", progname,
 		 strerror(errno));
-	write(ptys, ptyname, strlen(ptyname));
+	write(0, ptyname, strlen(ptyname));
 	return(EX_TEMPFAIL);
 	/*NOTREACHED*/
     }

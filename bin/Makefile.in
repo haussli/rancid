@@ -38,13 +38,14 @@ POST_UNINSTALL = :
 bin_PROGRAMS = hpuifilter$(EXEEXT)
 subdir = bin
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(srcdir)/alogin.in $(srcdir)/arancid.in $(srcdir)/blogin.in \
-	$(srcdir)/brancid.in $(srcdir)/cat5rancid.in \
-	$(srcdir)/clogin.in $(srcdir)/control_rancid.in \
-	$(srcdir)/cssrancid.in $(srcdir)/elogin.in \
-	$(srcdir)/erancid.in $(srcdir)/f10rancid.in \
-	$(srcdir)/flogin.in $(srcdir)/fnrancid.in $(srcdir)/francid.in \
-	$(srcdir)/hlogin.in $(srcdir)/hrancid.in $(srcdir)/htlogin.in \
+	$(srcdir)/agmrancid.in $(srcdir)/alogin.in \
+	$(srcdir)/arancid.in $(srcdir)/blogin.in $(srcdir)/brancid.in \
+	$(srcdir)/cat5rancid.in $(srcdir)/clogin.in \
+	$(srcdir)/control_rancid.in $(srcdir)/cssrancid.in \
+	$(srcdir)/elogin.in $(srcdir)/erancid.in \
+	$(srcdir)/f10rancid.in $(srcdir)/flogin.in \
+	$(srcdir)/fnrancid.in $(srcdir)/francid.in $(srcdir)/hlogin.in \
+	$(srcdir)/hrancid.in $(srcdir)/htlogin.in \
 	$(srcdir)/htrancid.in $(srcdir)/jerancid.in \
 	$(srcdir)/jlogin.in $(srcdir)/jrancid.in $(srcdir)/mrancid.in \
 	$(srcdir)/nlogin.in $(srcdir)/nrancid.in $(srcdir)/nslogin.in \
@@ -61,12 +62,12 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES = control_rancid par rancid-fe alogin arancid \
-	blogin brancid cat5rancid clogin rancid cssrancid elogin \
-	erancid f10rancid flogin francid fnrancid jlogin jrancid \
-	jerancid hlogin hrancid htlogin htrancid mrancid nlogin \
-	nrancid nslogin nsrancid prancid rivlogin rivrancid rrancid \
-	tntlogin tntrancid xrancid zrancid
+CONFIG_CLEAN_FILES = control_rancid par rancid-fe agmrancid alogin \
+	arancid blogin brancid cat5rancid clogin rancid cssrancid \
+	elogin erancid f10rancid flogin francid fnrancid jlogin \
+	jrancid jerancid hlogin hrancid htlogin htrancid mrancid \
+	nlogin nrancid nslogin nsrancid prancid rivlogin rivrancid \
+	rrancid tntlogin tntrancid xrancid zrancid
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
@@ -199,12 +200,13 @@ target_alias = @target_alias@
 
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS = foreign
-bin_SCRIPTS = cat5rancid control_rancid alogin arancid blogin brancid \
-	clogin cssrancid elogin erancid f10rancid flogin francid \
-	fnrancid hlogin hrancid htlogin htrancid jerancid jlogin \
-	jrancid mrancid nlogin nrancid nslogin nsrancid par prancid \
-	rancid rancid-fe rivlogin rivrancid rrancid tntlogin tntrancid \
-	xrancid zrancid lg.cgi lgform.cgi rancid-cvs rancid-run
+bin_SCRIPTS = cat5rancid control_rancid agmrancid alogin arancid \
+	blogin brancid clogin cssrancid elogin erancid f10rancid \
+	flogin francid fnrancid hlogin hrancid htlogin htrancid \
+	jerancid jlogin jrancid mrancid nlogin nrancid nslogin \
+	nsrancid par prancid rancid rancid-fe rivlogin rivrancid \
+	rrancid tntlogin tntrancid xrancid zrancid lg.cgi lgform.cgi \
+	rancid-cvs rancid-run
 EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-run.in
 #dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
 CLEANFILES = lg.cgi lgform.cgi rancid-cvs rancid-run
@@ -276,6 +278,8 @@ control_rancid: $(top_builddir)/config.status $(srcdir)/control_rancid.in
 par: $(top_builddir)/config.status $(srcdir)/par.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 rancid-fe: $(top_builddir)/config.status $(srcdir)/rancid-fe.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+agmrancid: $(top_builddir)/config.status $(srcdir)/agmrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 alogin: $(top_builddir)/config.status $(srcdir)/alogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

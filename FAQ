@@ -122,7 +122,7 @@ A. This is probably a CVS or filesystem permissions problem.  Check the log
 	chown -R <rancid user> <LOCALSTATEDIR>/CVS <LOCALSTATEDIR>/<GROUPS>
 
 
-Q. I am renaming a device but would like the retain the history in CVS.  How
+Q. I am renaming a device but would like to retain the history in CVS.  How
    is this done?
 A. CVS does not provide a way (AFAIK) to rename files or to rename or delete
    directories.  The best way is to copy the CVS repository file manually
@@ -236,7 +236,9 @@ A. Two methods will work.  Write an expect script to be used with clogin's
 
 	clogin -c 'clear counters\n'
    The specific return (\n) will be entered after 'clear counters' followed
-   by the normal return after the command.
+   by the normal return after the command.  Some devices apparently eat the
+   linefeed of the typical Unix \r\n sequence and require that a carriage-
+   return be used instead (\r).
 
 
 Q. I would like to collect device configurations every hour, but only receive
@@ -257,7 +259,7 @@ A. Certainly, but rancid does not provide such a mechanism natively.  Two
 	   and passes this to the -D option of CVS.
 
    Obviously, the first option is the cleanest and most featureful, which is
-   why the script mention in the second option is not provided.
+   why the script mentioned in the second option is not provided.
 
 
 Q. I'd like to have RANCID automatically begin collection when someone
@@ -339,7 +341,8 @@ Q. How can I run rancid to make the most efficient use of resources (i.e.
 A. You can adjust PAR_COUNT in rancid.conf to achieve maximum efficiency
    during polling. You can watch the output of the standard unix command
    vmstat command during polling to determine whether or not the cpu is being
-   wholly utilized - there should be little idle time and no process blocking.
+   wholly utilized - there should be little idle time and no process blocking
+   (see vmstat).
 
    Another simpler method is to look at the time stamps on the rancid log
    files, and adjust PAR_COUNT until the least amount of time is taken

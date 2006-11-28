@@ -46,7 +46,7 @@
 #
 use Getopt::Std;
 getopts('p:n:l:c:fixedqV');
-if (!$opt_V) {
+if ($opt_V) {
     print "@PACKAGE@ @VERSION@\n";
     exit(0);
 }

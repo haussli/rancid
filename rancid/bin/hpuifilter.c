@@ -166,9 +166,10 @@ main(int argc, char **argv, char **ev)
 
     unsetenv("DISPLAY");
 
-    /* allocate pty for telnet/ssh, then fork and exec */
     for (child = 3; child < 10; child++)
 	close(child);
+
+    /* allocate pty for telnet/ssh, then fork and exec */
     if (openpty(&ptym, &ptys, ptyname, NULL, NULL)) {
 	fprintf(stderr, "%s: could not allocate pty: %s\n", progname,
 		strerror(errno));
@@ -242,7 +243,6 @@ main(int argc, char **argv, char **ev)
 	signal(SIGCHLD, SIG_DFL);
 	/* close the master pty & std* inherited from the parent */
 	close(ptym);
-	setsid();
 	if (ptys != 0)
 	    close(0);
 	if (ptys != 1)
@@ -250,6 +250,7 @@ main(int argc, char **argv, char **ev)
 	if (ptys != 2)
 	    close(2);
 #ifdef TIOCSCTTY
+	setsid();
 	if (ioctl(ptys, TIOCSCTTY, NULL) == -1) {
 	    snprintf(ptyname, FILENAME_MAX, "%s: could not set controlling "
 		     "tty: %s\n", progname, strerror(errno));
@@ -630,7 +631,7 @@ openpty(int *amaster, int *aslave, char *name, struct termios *term,
     static char		line[] = "/dev/XtyXX";
     const char		*cp1, *cp2, *cp, *linep;
     int			master, slave;
-	gid_t ttygid;
+    gid_t		ttygid;
     mode_t		mode;
     struct group	*gr;
 
@@ -645,6 +646,9 @@ openpty(int *amaster, int *aslave, char *name, struct termios *term,
 	linep = ptsname(master);
 	grantpt(master);
 	unlockpt(master);
+#ifndef TIOCSCTTY
+	setsid();
+#endif
 	if ((slave = open(linep, O_RDWR)) < 0) {
 	    slave = errno;
 	    (void) close(master);

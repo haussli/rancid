@@ -73,6 +73,9 @@ if {[ info exists env(CISCO_USER) ]} {
     }
     regexp {\(([^)]*)} "$reason" junk default_user
 }
+if {[ info exists env(CLOGINRC) ]} {
+    set password_file $env(CLOGINRC)
+}
 
 # Sometimes routers take awhile to answer (the default is 10 sec)
 set timeout 45

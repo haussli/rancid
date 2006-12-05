@@ -31,7 +31,11 @@
 #
 # Returned to the RANCID crowd by andrew fort
 
-# Global vars section
+# Usage line
+set usage "Error: Usage: $argv0 \[-noenable\] \
+\[-f cloginrc-file\] \[-c command\] \[-Evar=x\] \[-s script-file\] \
+\[-x command-file\] \[-t timeout\] \[-o output-file\] \
+router \[router...\]\n"
 
 # program diagnostics
 set verbose  0
@@ -67,12 +71,26 @@ set avenable	1
 # tracks if we receive them on the command line.
 set do_passwd    1
 set do_enapasswd 1
+#
+set send_human {.4 .4 .7 .3 5}
 
-# cmd usage
-set usage "Error: Usage: $argv0 \[-noenable\] \
-\[-f cloginrc-file\] \[-c command\] \[-Evar=x\] \[-s script-file\] \
-\[-x command-file\] \[-t timeout\] \[-o output-file\] \
-router \[router...\]\n"
+# Find the user in the ENV, or use the unix userid.
+if {[ info exists env(CISCO_USER) ]} {
+    set default_user $env(CISCO_USER)
+} elseif {[ info exists env(USER) ]} {
+    set default_user $env(USER)
+} elseif {[ info exists env(LOGNAME) ]} {
+    set default_user $env(LOGNAME)
+} else {
+    # This uses "id" which I think is portable.  At least it has existed
+    # (without options) on all machines/OSes I've been on recently -
+    # unlike whoami or id -nu.
+    if [ catch {exec id} reason ] {
+	send_error "\nError: could not exec id: $reason\n"
+	exit 1
+    }
+    regexp {\(([^)]*)} "$reason" junk default_user
+}
 
 # Procedures Section
 

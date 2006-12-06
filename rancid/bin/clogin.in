@@ -822,7 +822,7 @@ foreach router [lrange $argv $i end] {
 
     # Login to the router
     if {[login $router $ruser $userpswd $passwd $enapasswd $cmethod $cyphertype]} {
-	# if login failed or rsh was successful, move on to the next device
+	# if login failed or rsh was unsuccessful, move on to the next device
 	continue
     }
     if { $enable } {

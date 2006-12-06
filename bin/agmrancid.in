@@ -43,6 +43,9 @@ $found_env = 0;
 $found_diag = 0;
 $timeo = 90;				# clogin timeout in seconds
 
+# the AGM kicks us off if it does not know our terminal type
+$ENV{'TERM'} = "dumb";
+
 my(@commandtable, %commands, @commands);# command lists
 my(%filter_pwds);			# password filtering mode
 

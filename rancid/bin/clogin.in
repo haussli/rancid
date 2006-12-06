@@ -828,7 +828,7 @@ foreach router [lrange $argv $i end] {
     if { $enable } {
 	if {[do_enable $enauser $enapasswd]} {
 	    if { $do_command || $do_script } {
-		close; wait
+		catch {close}; wait
 		continue
 	    }
 	}

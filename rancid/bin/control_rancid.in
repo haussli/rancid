@@ -87,6 +87,9 @@ DIR=$BASEDIR/$GROUP
 TMP=${TMPDIR:=/tmp}/rancid.$GROUP.$$
 trap 'rm -fr $TMP;' 1 2 15
 
+# disable noclobber
+unset noclobber > /dev/null 2>&1
+
 # RCS system
 RCSSYS=${RCSSYS:=cvs};
 if [ $RCSSYS != "cvs" -a $RCSSYS != "svn" ] ; then

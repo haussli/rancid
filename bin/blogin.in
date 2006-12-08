@@ -532,6 +532,9 @@ foreach router [lrange $argv $i end] {
       }
       set passwd [join [lindex $pswd 0] ""]
       set enapasswd [join [lindex $pswd 1] ""]
+    } else {
+	set passwd $userpasswd
+	set enapasswd $enapasswd
     }
 
     # Figure out username

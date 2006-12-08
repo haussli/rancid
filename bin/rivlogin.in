@@ -906,6 +906,9 @@ set router [string tolower $router]
 
 	set passwd [join [lindex $pswd 0] ""]
 	set enapasswd [join [lindex $pswd 1] ""]
+    } else {
+	set passwd $userpasswd
+	set enapasswd $enapasswd
     }
 
     # Figure out user to login with if necessary

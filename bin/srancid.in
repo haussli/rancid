@@ -150,10 +150,6 @@ sub Dir {
 	last if(/$prompt/);
 	# pager remnants like: ^H^H^H    ^H^H^H content
 	s/[\b]+\s*[\b]*//g;
-#	/(\cH.*\cH)(.*)/ &&
-#		ProcessHistory("COMMENTS","keysort","B1", "! $2\n") && next;
-#	# Ikkk, still have some backspace ^H garbage.
-#	$_ =~ s/\cH//g;
 
 	ProcessHistory("COMMENTS","keysort","C1","! $_");
     }
@@ -171,11 +167,6 @@ sub ShowVer {
 	# pager remnants like: ^H^H^H    ^H^H^H content
 	s/[\b]+\s*[\b]*//g;
 
-#	/(\cH.*\cH)(.*)/ &&
-#		ProcessHistory("COMMENTS","keysort","A1", "! $2\n") && next;
-#	#Ikkk, still have some backspace ^H garbage.
-#	$_ =~ s/\cH//g;
-#	print STDERR "$_";
 	ProcessHistory("COMMENTS","keysort","A1","! $_");
     }
     return(0);
@@ -191,14 +182,9 @@ sub ShowSys {
 	last if(/$prompt/);
 	# pager remnants like: ^H^H^H    ^H^H^H content
 	s/[\b]+\s*[\b]*//g;
-#	/(\cH.*\cH)(.*)/ &&
-#		ProcessHistory("COMMENTS","keysort","B1", "! $2\n") && next;
-#	# Ikkk, still have some backspace ^H garbage.
-#	$_ =~ s/\cH//g;
 
 	# Remove Uptime
 	/ Up time/ && next;
-# 	print STDERR "$_";
 	ProcessHistory("COMMENTS","keysort","B1","! $_");
     }
     return(0);
@@ -214,14 +200,9 @@ sub ShowVlan {
 	last if(/$prompt/);
 	# pager remnants like: ^H^H^H    ^H^H^H content
 	s/[\b]+\s*[\b]*//g;
-#	/(\cH.*\cH)(.*)/ &&
-#		ProcessHistory("COMMENTS","keysort","B1", "! $2\n") && next;
-#	# Ikkk, still have some backspace ^H garbage.
-#	$_ =~ s/\cH//g;
 
 	# Remove Uptime
 	/ Up time/ && next;
-# 	print STDERR "$_";
 	ProcessHistory("COMMENTS","keysort","B1","! $_");
     }
     return(0);
@@ -272,11 +253,6 @@ sub WriteTerm {
 	    next;
 	}
 
-#	/(\cH.*\cH)(.*)/ &&
-#		ProcessHistory("","","", "$2\n") && next;
-#	# Ikkk, still have some backspace ^H garbage.
-#	$_ =~ s/\cH//g;
-#	print STDERR "$_";
 	ProcessHistory("","","","$_");
     }
     $found_end = 1;

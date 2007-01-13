@@ -253,6 +253,27 @@ sub WriteTerm {
 	    next;
 	}
 
+	# order/prune snmp-server host statements
+	# we only prune lines of the form
+	# snmp-server host a.b.c.d <community>
+	if (/^(snmp-server host) (\d+\.\d+\.\d+\.\d+) (\S+)/) {
+	    if (defined($ENV{'NOCOMMSTR'})) {
+		ProcessHistory("SNMPSERVERHOST","ipsort",
+			       "$2","!$1 $2 <removed>$'");
+	    } else {
+		ProcessHistory("SNMPSERVERHOST","ipsort","$2","$_");
+	    }
+	    next;
+	}
+	if (/^(snmp-server community) (\S+)/) {
+	    if (defined($ENV{'NOCOMMSTR'})) {
+		ProcessHistory("SNMPSERVERCOMM","keysort",
+			       "$_","!$1 <removed>$'") && next;      
+	    } else {
+		ProcessHistory("SNMPSERVERCOMM","keysort","$2","$_") && next;
+	    }
+	}
+
 	ProcessHistory("","","","$_");
     }
     $found_end = 1;

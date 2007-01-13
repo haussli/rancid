@@ -30,7 +30,7 @@ bin_SCRIPTS = cat5rancid control_rancid \
 	hlogin hrancid htlogin htrancid \
 	jerancid jlogin jrancid \
 	mrancid nlogin nrancid nslogin nsrancid par prancid \
-	rancid rancid-fe rivlogin rivrancid rrancid \
+	rancid rancid-fe rivlogin rivrancid rrancid srancid \
 	tntlogin tntrancid xrancid zrancid
 
 bin_SCRIPTS += lg.cgi lgform.cgi rancid-cvs rancid-run

@@ -151,7 +151,7 @@ sub Dir {
 	# pager remnants like: ^H^H^H    ^H^H^H content
 	s/[\b]+\s*[\b]*//g;
 
-	ProcessHistory("COMMENTS","keysort","C1","! $_");
+	ProcessHistory("COMMENTS","keysort","D1","! $_");
     }
     return(0);
 }
@@ -167,7 +167,7 @@ sub ShowVer {
 	# pager remnants like: ^H^H^H    ^H^H^H content
 	s/[\b]+\s*[\b]*//g;
 
-	ProcessHistory("COMMENTS","keysort","A1","! $_");
+	ProcessHistory("COMMENTS","keysort","B1","! $_");
     }
     return(0);
 }
@@ -185,7 +185,12 @@ sub ShowSys {
 
 	# Remove Uptime
 	/ Up time/ && next;
-	ProcessHistory("COMMENTS","keysort","B1","! $_");
+
+	/system description: (.*)/i &&
+	    ProcessHistory("COMMENTS","keysort","A1", "!Chassis type: $1\n") &&
+	    next;
+
+	ProcessHistory("COMMENTS","keysort","C1","! $_");
     }
     return(0);
 }
@@ -203,7 +208,7 @@ sub ShowVlan {
 
 	# Remove Uptime
 	/ Up time/ && next;
-	ProcessHistory("COMMENTS","keysort","B1","! $_");
+	ProcessHistory("COMMENTS","keysort","D1","! $_");
     }
     return(0);
 }
@@ -345,6 +350,7 @@ ProcessHistory("","","","!RANCID-CONTENT-TYPE: dell\n!\n");
 ProcessHistory("COMMENTS","keysort","A0","!\n");
 ProcessHistory("COMMENTS","keysort","B0","!\n");
 ProcessHistory("COMMENTS","keysort","C0","!\n");
+ProcessHistory("COMMENTS","keysort","D0","!\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
     if (/^Error:/) {

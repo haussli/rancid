@@ -274,6 +274,11 @@ sub WriteTerm {
 	    }
 	}
 
+	# prune tacacs/radius server keys
+	if (/^(tacacs-server|radius-server) key \w+/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>$'"); next;
+	}
+
 	ProcessHistory("","","","$_");
     }
     $found_end = 1;

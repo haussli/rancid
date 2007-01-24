@@ -1,4 +1,18 @@
 2.3.2
+	Changes so the RANCID-CONTENT-TYPE is the same as the
+	documented entry in router.db.5 and the same as the call
+	in rancid-fe.  These RANCID-CONTENT-TYPEs changed:
+		brancid 	from bay to baynet
+		cat5rancid 	from cisco-cat to cat5
+		cssrancid 	from cisco-css to css
+		erancid 	from adc-ezt3 to ezt3
+		fnrancid 	from Fortigate to fortigate
+		hrancid 	from hp-procurve to hp
+		jerancid 	from Juniper_ERX to erx
+		srancid 	from dell to smc
+
+	f5rancid: F5 BigIPs
+
 	srancid: SMC/Dell switch support - loaner from Randy Bush
 
 	*login: Set variables for do_login when both -e and -p/-v are specified

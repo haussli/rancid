@@ -244,7 +244,7 @@ if ($ENV{"FILTER_PWDS"} =~ /no/i) {
 	$filter_pwds = 1;
 }
 
-ProcessHistory("","","","!RANCID-CONTENT-TYPE: bay\n!\n");
+ProcessHistory("","","","!RANCID-CONTENT-TYPE: baynet\n!\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
     if ( (/\>\s?logout$/) || $found_end ) {

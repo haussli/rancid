@@ -346,7 +346,7 @@ if ($ENV{"FILTER_PWDS"} =~ /no/i) {
     $filter_pwds = 1;
 }
 
-ProcessHistory("","","","!RANCID-CONTENT-TYPE: dell\n!\n");
+ProcessHistory("","","","!RANCID-CONTENT-TYPE: smc\n!\n");
 ProcessHistory("COMMENTS","keysort","A0","!\n");
 ProcessHistory("COMMENTS","keysort","B0","!\n");
 ProcessHistory("COMMENTS","keysort","C0","!\n");

@@ -204,13 +204,13 @@ top_srcdir = @top_srcdir@
 
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS = foreign
-bin_SCRIPTS = cat5rancid control_rancid agmrancid alogin arancid \
-	blogin brancid clogin cssrancid elogin erancid f10rancid \
-	flogin francid fnrancid hlogin hrancid htlogin htrancid \
-	jerancid jlogin jrancid mrancid nlogin nrancid nslogin \
-	nsrancid par prancid rancid rancid-fe rivlogin rivrancid \
-	rrancid srancid tntlogin tntrancid xrancid zrancid lg.cgi \
-	lgform.cgi rancid-cvs rancid-run
+bin_SCRIPTS = agmrancid alogin arancid blogin brancid cat5rancid \
+	clogin control_rancid cssrancid elogin erancid f10rancid \
+	f5rancid flogin fnrancid francid hlogin hrancid htlogin \
+	htrancid jerancid jlogin jrancid mrancid nlogin nrancid \
+	nslogin nsrancid par prancid rancid-fe rancid rivlogin \
+	rivrancid rrancid srancid tntlogin tntrancid xrancid zrancid \
+	lg.cgi lgform.cgi rancid-cvs rancid-run
 EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-run.in
 #dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
 CLEANFILES = lg.cgi lgform.cgi rancid-cvs rancid-run

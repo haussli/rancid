@@ -286,6 +286,12 @@ sub ShowVersion {
 		$type = "3700";
 	    } elsif ($proc =~ /^38/) {
 		$type = "3800";
+	    } elsif ( $proc =~ /^AS5300/) {
+		$type = "AS5300";
+	    } elsif ( $proc =~ /^AS5350/) {
+		$type = "AS5350";
+	    } elsif ( $proc =~ /^AS5400/) {
+		$type = "AS5400";
 	    } elsif ($proc eq "RSP7000") {
 		$type = "7500";
 	    } elsif ($proc =~ /RSP\d/) {
@@ -1119,14 +1125,26 @@ REDUX:	tr/\015//d;
 
 	    ProcessHistory("SLOT","","","!\n");
 	    /\s+(.*) port adapter,?\s+(\d+)\s+/i &&
-		ProcessHistory("SLOT","keysort","B","!Slot $slot: type $1, $2 ports\n") && next;
+		ProcessHistory("SLOT","keysort","B",
+			       "!Slot $slot: type $1, $2 ports\n") && next;
 	    # I/O controller with no interfaces
 	    /\s+(.*)\s+port adapter\s*$/i &&
-		ProcessHistory("SLOT","keysort","B","!Slot $slot: type $1, 0 ports\n") && next;
+		ProcessHistory("SLOT","keysort","B",
+			       "!Slot $slot: type $1, 0 ports\n") && next;
 	    /\s+(.*)\s+daughter card(.*)$/ &&
-		ProcessHistory("SLOT","keysort","B","!Slot $slot$WIC: type $1$2\n") && next;
+		ProcessHistory("SLOT","keysort","B",
+			       "!Slot $slot$WIC: type $1$2\n") && next;
 	    /\s+(FT1)$/ &&
-		ProcessHistory("SLOT","keysort","B","!Slot $slot$WIC: type $1\n") && next;
+		ProcessHistory("SLOT","keysort","B",
+			       "!Slot $slot$WIC: type $1\n") && next;
+	    # AS5300/5400 handling
+	    /^Hardware is\s+(.*)$/i &&
+		ProcessHistory("SLOT","keysort","B","!Slot $slot: type $1\n")
+		&& next;
+	    /^DFC type is\s+(.*)$/i &&
+		ProcessHistory("SLOT","keysort","B","!Slot $slot: type $1\n")
+		&& next;
+	    #
 	    # handle WICs lacking "daughter card" in the 2nd line of their
 	    # show diag o/p
 	    if (defined($WIC)) {
@@ -1165,8 +1183,18 @@ REDUX:	tr/\015//d;
 		if (/part number\s+:\s+(\S+)/i) { $pn = $1; }
 		if (/board revision\s+:\s+(\S+)/i) { $rev = $1; }
 		if (/pcb serial number\s+:\s+(\S+)/i) { $sn = $1; }
+		# fru/pid bits, true Cisco evolving "standard", hopefully
+		# "show inventory" will be "the way" soon.
+		#
+		if (/product \(fru\) number\s+:\s+(\S+)/i) { $fn = $1; }
+		if (/product number\s+:\s+(\S+)/i) { $fn = $1; }
+		if (/product\s+identifier\s+\(PID\)\s+:\s+(\S+)/i) { $fn = $1; }
+		if (/fru\s+part\s+number\s+(\S+)/i) { $fn = $1; }
 	    }
 PerlSucks:
+	    # fru/pid bits
+	    ProcessHistory("SLOT","keysort","AG","!Slot $slot$WIC: fru $fn\n");
+	    #
 	    ProcessHistory("SLOT","keysort","B","!Slot $slot$WIC: hvers $hw rev $rev\n");
 	    ProcessHistory("SLOT","keysort","C","!Slot $slot$WIC: part $pn, serial $sn\n");
 	}
@@ -1176,6 +1204,17 @@ PerlSucks:
 	/number\s+(\S+)\s+Part number\s+(\S+)/ &&
 	    ProcessHistory("SLOT","keysort","D","!Slot $slot$WIC: part $2, serial $1\n") &&
 	    next;
+	# AS5x00 bits
+	/^\ Board Revision\s+(\S+),\s+Serial Number\s+(\S+),/ &&
+	    ProcessHistory("SLOT","keysort","D",
+			   "!Slot $slot$WIC: rev $1, serial $2\n") && next;
+	/^\ Board Hardware Version\s+(\S+),\s+Item Number\s+(\S+),/ &&
+	    ProcessHistory("SLOT","keysort","D",
+			   "!Slot $slot$WIC: hvers $1, part $2\n") && next;
+	/^Motherboard Info:/ &&
+	    ProcessHistory("SLOT","keysort","D",
+			   "!Slot $slot$WIC: Motherboard\n") && next;
+	#
     }
     ProcessHistory("SLOT","","","!\n");
     return(0);

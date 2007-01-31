@@ -1,4 +1,6 @@
 2.3.2
+	rancid: Add AS5xxx support from Andre van der Merwe.
+
 	Changes so the RANCID-CONTENT-TYPE is the same as the
 	documented entry in router.db.5 and the same as the call
 	in rancid-fe.  These RANCID-CONTENT-TYPEs changed:

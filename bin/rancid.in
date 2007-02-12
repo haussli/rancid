@@ -1699,9 +1699,9 @@ sub WriteTerm {
 	    }
 	}
 	# prune tacacs/radius server keys
-	if (/^((tacacs-server|radius-server)\s(\w*[-\s(\s\S+])*\s?key) \d \w+/
-							&& $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 <removed>$'"); next;
+	if (/^((tacacs|radius)-server\s(\w*[-\s(\s\S+])*\s?key) (\d )?\w+/
+	    && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1-server <removed>$'"); next;
 	}
 	# order clns host statements
 	/^clns host \S+ (\S+)/ &&

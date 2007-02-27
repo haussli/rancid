@@ -187,14 +187,17 @@ sub ShowDiag {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
+	return(-1) if (/general error/i);
 	return(-1) if (/command authorization failed/i);
 	return(0) if ($found_diag);		# Only do this routine once
+	return(-1) if (/failed to get counters/i);
 	/^$/ && next;
 	# the pager can not be disabled per-session on the PIX
 	if (/^(-+More-+)/i) {
 	    my($len) = length($1);
 	    s/^$1\s{$len}//;
 	}
+
 
 	/^Cisco Anomaly Guard Image /i && next;
 	/^... ... \d+ \d+:\d+:\d+ \w \d+$/ && next;

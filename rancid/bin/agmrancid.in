@@ -198,7 +198,6 @@ sub ShowDiag {
 	    s/^$1\s{$len}//;
 	}
 
-
 	/^Cisco Anomaly Guard Image /i && next;
 	/^... ... \d+ \d+:\d+:\d+ \w \d+$/ && next;
 	/^Copyright /i && next;

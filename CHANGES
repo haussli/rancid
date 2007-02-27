@@ -1,4 +1,6 @@
 2.3.2
+	agmrancid: show diag can fail shortly after boot
+
 	rancid: radius/tacacs key filtering on old IOS - from Michael Stefaniuc
 
 	rancid: Add AS5xxx support from Andre van der Merwe.

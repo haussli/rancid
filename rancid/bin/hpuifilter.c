@@ -557,7 +557,8 @@ filter(char *buf, int len)
 	    }
 	} else {
 	    strcpy(buf + pmatch[0].rm_so, buf + pmatch[0].rm_eo);
-	    x = 0;
+	    /* start over with the first regex */
+	    x = -1;
 	}
     }
 
@@ -582,7 +583,8 @@ filter(char *buf, int len)
 	    *(buf + pmatch[0].rm_so) = '\r';
 	    *(buf + pmatch[0].rm_so + 1) = '\n';
 	    strcpy(buf + pmatch[0].rm_so + 2, buf + pmatch[0].rm_eo);
-	    x = N_REG - 2;
+	    /* start over with the first CR regex */
+	    x = N_REG - 3;
 	}
     }
 

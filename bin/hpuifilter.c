@@ -98,6 +98,7 @@ int		child,
 		drain,
 		timeo = 5;				/* default timeout */
 
+int		expectmore __P((char *buf, int len));
 int		filter __P((char *, int));
 RETSIGTYPE	reapchild __P((void));
 #if !HAVE_OPENPTY
@@ -307,6 +308,7 @@ main(int argc, char **argv, char **ev)
     pfds[2].fd = ptym;
     pfds[2].events = POLLIN | POLLEXP;
 
+    /* shuffle data across the pipes until we see EOF or a read/write error */
     while (1) {
 	bytes = poll(pfds, 3, (timeo * 1000));
 	if (bytes == 0) {
@@ -361,13 +363,16 @@ main(int argc, char **argv, char **ev)
 	     * if there is an escape char that didnt get filter()'d,
 	     * we need to write only up to that point and wait for
 	     * the bits that complete the escape sequence.  if at least
-	     * two bytes follow it, write it anyway as filter() didnt
-	     * match it.
+	     * two bytes follow it and it doesn't look like we should expect
+	     * more data, write it anyway as filter() didnt match it.
 	     */
 	    bytes = tlen;
-	    if ((tbufp = index(tbuf, ESC)) != NULL)
-		if (tlen - (tbufp - tbuf) < 2)
+	    if ((tbufp = index(tbuf, ESC)) != NULL) {
+		if (tlen - (tbufp - tbuf) < 2 ||
+		    expectmore(tbufp, tlen - (tbufp - tbuf))) {
 		    bytes = tbufp - tbuf;
+		}
+	    }
 
 	    if ((bytes = write(pfds[1].fd, tbuf, bytes)) < 0 &&
 		errno != EINTR && errno != EAGAIN) {
@@ -440,7 +445,7 @@ main(int argc, char **argv, char **ev)
 	    pfds[2].events = 0;
 	}
     }
-    /* try to flush buffers */
+    /* try to flush any remaining data from our buffers */
     if (hlen) {
 	(void) write(pfds[2].fd, hbuf, hlen);
 	hlen = 0;
@@ -466,6 +471,39 @@ main(int argc, char **argv, char **ev)
     return(rval);
 }
 
+/*
+ * return non-zero if the escape sequence beginning with buf appears to be
+ * incomplete (and the caller should wait for more data).
+ */
+int
+expectmore(char *buf, int len)
+{
+    int	i;
+
+    if (buf[1] == '[' || isdigit((int)buf[1])) {
+	/* look for a char that ends the sequence */
+	for (i = 2; i < len; i++) {
+	    if (isalpha((int)buf[i]))
+		return(0);
+	}
+	return(1);
+    }
+    if (buf[1] == '#') {
+	/* look for terminating digit */
+	for (i = 2; i < len; i++) {
+	    if (isdigit((int)buf[i]))
+		return(0);
+	}
+	return(1);
+    }
+
+    return(0);
+}
+
+/*
+ * Remove/replace vt100/220 screen manipulation escape sequences so they do
+ * not litter the output.
+ */
 int
 filter(char *buf, int len)
 {
@@ -523,7 +561,7 @@ filter(char *buf, int len)
 	}
     }
 
-    /* replace \eE w/ CR NL */
+    /* no the CR NL replacements */
     if (! init++) {
 	for (x = N_REG - 2; x < N_REG; x++)
 	    if ((err = regcomp(&preg[x], reg[x], REG_EXTENDED))) {
@@ -547,6 +585,7 @@ filter(char *buf, int len)
 	    x = N_REG - 2;
 	}
     }
+
     return(strlen(buf));
 }
 

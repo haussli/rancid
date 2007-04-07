@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (C) 1997-2006 by Terrapin Communications, Inc.
+ * Copyright (C) 1997-2007 by Terrapin Communications, Inc.
  * All rights reserved.
  *
  * This software may be freely copied, modified and redistributed
@@ -89,6 +89,7 @@
 #endif
 
 #define	BUFSZ	(LINE_MAX * 2)
+#define	ESC	0x1b
 
 char		**environ,
 		*progname;
@@ -364,7 +365,7 @@ main(int argc, char **argv, char **ev)
 	     * match it.
 	     */
 	    bytes = tlen;
-	    if ((tbufp = index(tbuf, 0x1b)) != NULL)
+	    if ((tbufp = index(tbuf, ESC)) != NULL)
 		if (tlen - (tbufp - tbuf) < 2)
 		    bytes = tbufp - tbuf;
 
@@ -498,7 +499,7 @@ filter(char *buf, int len)
 			x;
     static int		init = 0;
 
-    if (index(buf, 0x1b) == 0 || len == 0)
+    if (index(buf, ESC) == 0 || len == 0)
 	return(len);
 
     for (x = 0; x < N_REG - 2; x++) {

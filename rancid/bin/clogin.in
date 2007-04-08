@@ -305,7 +305,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
     foreach prog [lrange $cmethod 0 end] {
 	incr progs -1
 	if [string match "telnet*" $prog] {
-	    regexp {telnet(:([^[:space:]]+))*} $prog command suffix port
+	    regexp {telnet(:([^[:space:]]+))*} $prog methcmd suffix port
 	    if {"$port" == ""} {
 		set retval [ catch {spawn telnet $router} reason ]
 	    } else {
@@ -316,7 +316,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 		return 1
 	    }
 	} elseif [string match "ssh*" $prog] {
-	    regexp {ssh(:([^[:space:]]+))*} $prog command suffix port
+	    regexp {ssh(:([^[:space:]]+))*} $prog methcmd suffix port
 	    if {"$port" == ""} {
 		set retval [ catch {spawn $sshcmd -c $cyphertype -x -l $user $router} reason ]
 

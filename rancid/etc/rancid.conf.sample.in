@@ -30,6 +30,9 @@ LOGDIR=$BASEDIR/logs; export LOGDIR
 # requires manual conversions.
 RCSSYS=@RCSSYS@; export RCSSYS
 #
+# if ACLSORT is NO, access-lists will NOT be sorted.
+#ACLSORT=YES; export ACLSORT
+#
 # if NOPIPE is set, temp files will be used instead of a cmd pipe during
 # collection from the router(s).
 #NOPIPE=YES; export NOPIPE

@@ -46,6 +46,7 @@ $prompt = "#";
 $timeo = 90;				# alogin timeout in seconds
 
 my(@commandtable, %commands, @commands);# command lists
+my($aclsort) = ("ipsort");		# ACL sorting mode
 my(%filter_pwds);			# password filtering mode
 
 # This routine is used to print out the router configuration
@@ -247,6 +248,10 @@ if ($file) {
     }
 }
 
+# determine ACL sorting mode
+if ($ENV{"ACLSORT"} =~ /no/i) {
+    $aclsort = "";
+}
 # determine password filtering mode
 if ($ENV{"FILTER_PWDS"} =~ /no/i) {
     $filter_pwds = 0;
@@ -255,7 +260,6 @@ if ($ENV{"FILTER_PWDS"} =~ /no/i) {
 } else {
     $filter_pwds = 1;
 }
-
 ProcessHistory("","","","\/\*RANCID-CONTENT-TYPE: alteon\n\/\*\n");
 ProcessHistory("COMMENTS","keysort","B0","\/\*\n");
 ProcessHistory("COMMENTS","keysort","F0","\/\*\n");

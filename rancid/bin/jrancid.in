@@ -43,6 +43,7 @@ $found_end = 0;
 $timeo = 120;				# clogin timeout in seconds
 
 my(@commandtable, %commands, @commands);# command lists
+my($aclsort) = ("ipsort");		# ACL sorting mode
 my(%filter_pwds);			# password filtering mode
 my($ShowChassisSCB);			# Only run ShowChassisSCB() once
 
@@ -660,6 +661,10 @@ if ($file) {
 
 }
 
+# determine ACL sorting mode
+if ($ENV{"ACLSORT"} =~ /no/i) {
+    $aclsort = "";
+}
 # determine password filtering mode
 if ($ENV{"FILTER_PWDS"} =~ /no/i) {
     $filter_pwds = 0;

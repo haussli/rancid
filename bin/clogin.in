@@ -295,7 +295,7 @@ proc source_password_file { password_file } {
 # Log into the router.
 # returns: 0 on success, 1 on failure, -1 if rsh was used successfully
 proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
-    global spawn_id in_proc do_command do_script platform
+    global command spawn_id in_proc do_command do_script platform
     global prompt u_prompt p_prompt e_prompt sshcmd
     set in_proc 1
     set uprompt_seen 0
@@ -328,8 +328,6 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 		return 1
 	    }
 	} elseif ![string compare $prog "rsh"] {
-	    global command
-
 	    if { ! $do_command } {
 		if { [llength $cmethod] == 1 } {
 		    send_user "\nError: rsh is an invalid method for -x and "

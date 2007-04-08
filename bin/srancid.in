@@ -17,7 +17,7 @@
 ## anything else.
 ##
 ##
-# Pretty huge hack to take care of Dell Switch configs
+# Pretty huge hack to take care of Dell (aka. SMC) Switch configs; started by
 # d_pfleger@juniper.net
 #
 #  RANCID - Really Awesome New Cisco confIg Differ
@@ -38,6 +38,7 @@ $found_end = 0;
 $timeo = 90;				# hlogin timeout in seconds
 
 my(@commandtable, %commands, @commands);# command lists
+my($aclsort) = ("ipsort");		# ACL sorting mode
 my(%filter_pwds);			# password filtering mode
 
 # This routine is used to print out the router configuration
@@ -338,6 +339,10 @@ if ($file) {
     }
 }
 
+# determine ACL sorting mode
+if ($ENV{"ACLSORT"} =~ /no/i) {
+    $aclsort = "";
+}
 # determine password filtering mode
 if ($ENV{"FILTER_PWDS"} =~ /no/i) {
     $filter_pwds = 0;

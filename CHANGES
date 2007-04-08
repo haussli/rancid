@@ -1,4 +1,6 @@
 2.3.2
+	Add ACLSORT configuration knob - mostly from Michael Stefaniuc
+
 	cat5rancid: permit missing CRLF on exit - Michael Stefaniuc
 
 	cat5rancid: skip show inventory for those without - Michael Stefaniuc

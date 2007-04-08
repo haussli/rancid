@@ -681,6 +681,7 @@ sub ShowInventory {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(-1) if (/command authorization failed/i);
+	return(1) if (/Unknown command/);
 	# the pager can not be disabled per-session on the PIX
 	s/^<-+ More -+>\s*//;
 

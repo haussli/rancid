@@ -254,7 +254,7 @@ sub WriteTerm {
 	if (/^(enable )?(password|passwd)( level \w+)? encrypted ((.)\S+)/) {
 	    if ($filter_pwds >= 2) {
 		ProcessHistory("USER","keysort","$1",
-			       "!$1$2$3 encrypted <removed>\n"); 
+			       "!$1$2$3 encrypted <removed>\n");
 	    } elsif ($filter_pwds >= 1 && $5 ne "\$") {
 		ProcessHistory("USER","keysort","$1",
 			        "!$1$2$3 encrypted <removed>\n");

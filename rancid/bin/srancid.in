@@ -1,10 +1,9 @@
 #! @PERLV_PATH@
 ##
-## Pretty huge hack to take care of Dell Switch configs
-## d_pfleger@juniper.net
+## $Id$
 ##
 ## @PACKAGE@ @VERSION@
-## Copyright (C) 1997-2006 by Henry Kilmer.
+## Copyright (C) 1997-2007 by Terrapin Communications, Inc.
 ## All rights reserved.
 ##
 ## This software may be freely copied, modified and redistributed
@@ -18,6 +17,8 @@
 ## anything else.
 ##
 ##
+# Pretty huge hack to take care of Dell Switch configs
+# d_pfleger@juniper.net
 #
 #  RANCID - Really Awesome New Cisco confIg Differ
 #

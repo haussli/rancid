@@ -2,7 +2,7 @@
 ## $Id$
 ##
 ##
-## Copyright (C) 1997-2006 by Terrapin Communications, Inc.
+## Copyright (C) 1997-2007 by Terrapin Communications, Inc.
 ## All rights reserved.
 ##
 ## This software may be freely copied, modified and redistributed
@@ -19,16 +19,16 @@
 ## Henry Kilmer, John Heasley, Andrew Partan, Pete Whiting, and Austin Schutz.
 ##
 #
-# this expect snipit is sourced by clogin (-s option) to load a configuration
-# file (named <routername>-confg into nvram from an rcp/tftp host.  this is an
+# This expect snippet is sourced by clogin (-s option) to load a configuration
+# file (named <routername>-confg into nvram from an rcp/tftp host.  This is an
 # _example_ as it not guaranteed to work for all applications.  PLEASE test
 # for your environment.
 #
-# it expects the following variables via the -E option:
+# It expects the following variables via the -E option:
 #	rcphost		='host to rcp from' such as 'foo.org' or '192.168.0.1'
 #	confgpath	='path under /tftpboot where configs are held'
 #
-# the config file is expected to be routername-confg, where routername is the
+# The config file is expected to be routername-confg, where routername is the
 # name as grok'd from the router's cmd-line prompt
 #
 # example usage:
@@ -36,16 +36,18 @@
 # router
 # loading router config from foo.shrubbery.net
 #
-# keep in mind that it is important to NOT polute the global variable space.
-# particularly, do not use variables used within clogin.  this may result in
-# indeterministic results.  an easy way to avoid this is to use a variable
+# exit is called at the end, so only one router can be handled per clogin.
+#
+# Keep in mind that it is important to NOT polute the global variable space.
+# Particularly, do not use variables used within clogin.  This may result in
+# indeterministic results.  An easy way to avoid this is to use a variable
 # name prefix (like 'E' or '_').
 #
-# useful variables from clogin global space:
+# Useful variables from clogin global space:
 #	router		router name as provided on the cmd-line
 #	prompt		cmd-line prompt as determined by clogin
 #
-# note: the tcl/expect parser is extremely stoopid.  comment lines are NOT
+# note: the tcl/expect parser is extremely stoopid.  Comment lines are NOT
 #	completely ignored!!  so, a '{' or '}' in a comment might produce
 #	unexpected results.
 ##

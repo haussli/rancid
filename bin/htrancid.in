@@ -42,7 +42,7 @@ $timeo = 90;				# htlogin timeout in seconds
 
 my(@commandtable, %commands, @commands);# command lists
 my($aclsort) = ("ipsort");		# ACL sorting mode
-my(%filter_pwds);			# password filtering mode
+my($filter_pwds);			# password filtering mode
 
 # This routine is used to print out the router configuration
 sub ProcessHistory {

@@ -1,4 +1,6 @@
 2.3.2
+	accept NO & YES for NOCOMMSTR in rancid.conf
+
 	Add ACLSORT configuration knob - mostly from Michael Stefaniuc
 
 	cat5rancid: permit missing CRLF on exit - Michael Stefaniuc

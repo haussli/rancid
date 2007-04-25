@@ -39,6 +39,7 @@ $timeo = 90;				# hlogin timeout in seconds
 
 my(@commandtable, %commands, @commands);# command lists
 my($aclsort) = ("ipsort");		# ACL sorting mode
+my($filter_commstr);			# SNMP community string filtering
 my($filter_pwds);			# password filtering mode
 
 # This routine is used to print out the router configuration
@@ -264,7 +265,7 @@ sub WriteTerm {
 	# we only prune lines of the form
 	# snmp-server host a.b.c.d <community>
 	if (/^(snmp-server host) (\d+\.\d+\.\d+\.\d+) (\S+)/) {
-	    if (defined($ENV{'NOCOMMSTR'})) {
+	    if ($filter_commstr) {
 		ProcessHistory("SNMPSERVERHOST","ipsort",
 			       "$2","!$1 $2 <removed>$'");
 	    } else {
@@ -273,7 +274,7 @@ sub WriteTerm {
 	    next;
 	}
 	if (/^(snmp-server community) (\S+)/) {
-	    if (defined($ENV{'NOCOMMSTR'})) {
+	    if ($filter_commstr) {
 		ProcessHistory("SNMPSERVERCOMM","keysort",
 			       "$_","!$1 <removed>$'") && next;
 	    } else {
@@ -342,6 +343,13 @@ if ($file) {
 # determine ACL sorting mode
 if ($ENV{"ACLSORT"} =~ /no/i) {
     $aclsort = "";
+}
+# determine community string filtering mode
+if (defined($ENV{"NOCOMMSTR"}) &&
+    ($ENV{"NOCOMMSTR"} =~ /yes/i || $ENV{"NOCOMMSTR"} =~ /^$/)) {
+    $filter_commstr = 1;
+} else {
+    $filter_commstr = 0;
 }
 # determine password filtering mode
 if ($ENV{"FILTER_PWDS"} =~ /no/i) {

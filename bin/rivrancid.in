@@ -46,6 +46,7 @@ $timeo = 90;				# rivlogin timeout in seconds
 
 my(@commandtable, %commands, @commands);# command lists
 my($aclsort) = ("ipsort");		# ACL sorting mode
+my($filter_commstr);			# SNMP community string filtering
 my($filter_pwds);			# password filtering mode
 
 # This routine is used to print out the router configuration
@@ -220,7 +221,7 @@ sub ShowActive {
 	    next;
 	}
 
-	if (/^(snmp set community )\S+/ && defined($ENV{'NOCOMMSTR'})) {
+	if (/^(snmp set community )\S+/ && $filter_commstr) {
 	    ProcessHistory("","","","! $1<removed>$'");
 	    next;
 	}
@@ -280,6 +281,13 @@ if ($file) {
 # determine ACL sorting mode
 if ($ENV{"ACLSORT"} =~ /no/i) {
     $aclsort = "";
+}
+# determine community string filtering mode
+if (defined($ENV{"NOCOMMSTR"}) &&
+    ($ENV{"NOCOMMSTR"} =~ /yes/i || $ENV{"NOCOMMSTR"} =~ /^$/)) {
+    $filter_commstr = 1;
+} else {
+    $filter_commstr = 0;
 }
 # determine password filtering mode
 if ($ENV{"FILTER_PWDS"} =~ /no/i) {

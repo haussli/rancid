@@ -549,7 +549,7 @@ sub ShowConfiguration {
 	/^snmp/ && $snmp++;
 	/^}/ && ($snmp = 0);
 	if ($snmp && /^(\s*)(community|trap-group) [^ ;]+(\s?[;{])$/) {
-		if (defined($ENV{'NOCOMMSTR'})) {
+		if ($filter_commstr) {
 		    $_ = "$1$2 \"<removed>\"$3\n";
 		}
 	}

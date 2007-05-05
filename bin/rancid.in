@@ -34,6 +34,7 @@ $log = $opt_l;
 $debug = $opt_d;
 $file = $opt_f;
 $host = $ARGV[0];
+$ios = "IOS";
 $clean_run = 0;
 $found_end = 0;
 $found_version = 0;
@@ -170,6 +171,7 @@ sub ShowVersion {
 	    $slaveslot = ", slot $1";
 	    next;
 	}
+	if (/cisco ios xr /i) { $ios = "XR"; }
 	if (/^Application and Content Networking Software/) { $type="CE"; }
 	/^Application and Content Networking Software Release /i &&
 	    ProcessHistory("COMMENTS","keysort","F1", "!Image: $_") && next;
@@ -686,6 +688,10 @@ sub DirSlotN {
 	return(-1) if /(: device being squeezed|ATA_Status time out)/i; # busy
 	return(-1) if (/command authorization failed/i);
 	return(1) if /(Open device \S+ failed|Error opening \S+:)/;
+	if (/.*\((\d+) bytes free\)/ && $ios == "XR") {
+	    my($tmp) = int($1 / (1024 * 1024));
+	    s/$1 bytes free/$tmp MB free/;
+	}
 	# the pager can not be disabled per-session on the PIX
 	if (/^(<-+ More -+>)/) {
 	    my($len) = length($1);

@@ -1,4 +1,6 @@
 2.3.2
+	rancid: Convert disk/flash free space to MB (from bytes) for IOX/IOS XR
+
 	accept NO & YES for NOCOMMSTR in rancid.conf
 
 	Add ACLSORT configuration knob - mostly from Michael Stefaniuc

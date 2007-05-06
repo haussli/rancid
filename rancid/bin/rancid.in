@@ -688,7 +688,7 @@ sub DirSlotN {
 	return(-1) if /(: device being squeezed|ATA_Status time out)/i; # busy
 	return(-1) if (/command authorization failed/i);
 	return(1) if /(Open device \S+ failed|Error opening \S+:)/;
-	if (/.*\((\d+) bytes free\)/ && $ios == "XR") {
+	if (/.*\((\d+) bytes free\)/ && $ios eq "XR") {
 	    my($tmp) = int($1 / (1024 * 1024));
 	    s/$1 bytes free/$tmp MB free/;
 	}

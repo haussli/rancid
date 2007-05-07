@@ -263,7 +263,8 @@ sub ShowChassis {
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/command authorization failed/i);
 
-	ProcessHistory("COMMENTS","keysort","CHASSIS","!CHASSIS: $_");
+	/-----------------------------/ && next;
+	ProcessHistory("COMMENTS","keysort","CHASSIS","! $_");
     }
     ProcessHistory("COMMENTS","keysort","CHASSIS","!\n");
     return(0);
@@ -294,31 +295,10 @@ sub DirSlotN {
 	    my($tmp) = int($1 / (1024 * 1024));
 	    s/$1 bytes free/$tmp MB free/;
 	}   
+	s/ +$//g;
 	ProcessHistory("FLASH","","","!Flash: $dev: $_");
     }
     ProcessHistory("","","","!\n");
-    return(0);
-}
-
-# This routine parses "show vtp status"
-sub ShowVTP {
-    print STDERR "    In ShowVTP: $_" if ($debug);
-
-    while (<INPUT>) {
-	tr/\015//d;
-	last if (/^$prompt/);
-	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if /^\s*\^\s*$/;
-	return(1) if /(Invalid input detected|Type help or )/;
-	#return(1) if ($type !~ /^(2900XL|3500XL|6000)$/);
-	return(-1) if (/command authorization failed/i);
-	next if (/^Configuration last modified by/);
-	if (/^VTP Operating Mode\s+:\s+(Transparent|Server)/) {
-	    $DO_SHOW_VLAN = 1;
-	}
-	ProcessHistory("COMMENTS","keysort","I0","!VTP: $_");
-    }
-    ProcessHistory("COMMENTS","keysort","I0","!\n");
     return(0);
 }
 
@@ -333,7 +313,7 @@ sub ShowInventory {
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/command authorization failed/i);
 
-	ProcessHistory("COMMENTS","keysort","INVENTORY","!INVENTORY: $_");
+	ProcessHistory("COMMENTS","keysort","INVENTORY","! $_");
     }
     ProcessHistory("COMMENTS","keysort","INVENTORY","!\n");
     return(0);
@@ -350,7 +330,6 @@ sub ShowVLAN {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /(Invalid input detected|Type help or )/;
-	#return(1) if ($type !~ /^(2900XL|3500XL|6000)$/);
 	return(-1) if (/command authorization failed/i);
 	ProcessHistory("COMMENTS","keysort","IO","!VLAN: $_");
     }

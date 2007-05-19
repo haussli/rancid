@@ -1,4 +1,6 @@
 2.3.2
+	f10rancid: E-series support updated - loaner & clues from Greg Hankins
+
 	rancid: Convert disk/flash free space to MB (from bytes) for IOX/IOS XR
 
 	accept NO & YES for NOCOMMSTR in rancid.conf

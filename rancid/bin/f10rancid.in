@@ -406,9 +406,6 @@ sub WriteTerm {
 	    ProcessHistory("","","","! neighbor $1 password <removed>\n");
 	    next;
 	}
-	if (/^(ppp .* password) 7 .*/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 <removed>\n"); next;
-	}
 	if (/^(ip ftp password) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
@@ -418,32 +415,6 @@ sub WriteTerm {
 	# this is reversable, despite 'md5' in the cmd
 	if (/^( ip ospf message-digest-key \d+ md5) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
-	}
-	if (/^((crypto )?isakmp key) \S+ / && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 <removed> $'"); next;
-	}
-	# i am told these are plain-text on the PIX
-	if (/^(vpdn username \S+ password)/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 <removed>\n"); next;
-	}
-	/fair-queue individual-limit/ && next;
-	# sort ip explicit-paths.
-	if (/^ip explicit-path name (\S+)/) {
-	    my($key) = $1;
-	    my($expath) = $_;
-	    while (<INPUT>) {
-		tr/\015//d;
-		last if (/^$prompt/);
-		last if (/^$prompt/ || ! /^(ip explicit-path name |[ !])/);
-		if (/^ip explicit-path name (\S+)/) {
-		    ProcessHistory("EXPATH","keysort","$key","$expath");
-		    $key = $1;
-		    $expath = $_;
-		} else  {
-		    $expath .= $_;
-		}
-	    }
-	    ProcessHistory("EXPATH","keysort","$key","$expath");
 	}
 	# sort route-maps
 	if (/^route-map (\S+)/) {
@@ -522,8 +493,6 @@ sub WriteTerm {
 	# order clns host statements
 	/^clns host \S+ (\S+)/ &&
 	    ProcessHistory("CLNS","keysort","$1","$_") && next;
-	# order alias statements
-	/^alias / && ProcessHistory("ALIAS","keysort","$_","$_") && next;
 	# delete ntp auth password - this md5 is a reversable too
 	if (/^(ntp authentication-key \d+ md5) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
@@ -537,31 +506,12 @@ sub WriteTerm {
 	# order ip host line statements
 	/^ip host line(\d+)/ &&
 	    ProcessHistory("IPHOST","numsort","$1","$_") && next;
-	# order ip nat source static statements
-	/^ip nat (\S+) source static (\S+)/ &&
-	    ProcessHistory("IP NAT $1","ipsort","$2","$_") && next;
 	# order atm map-list statements
 	/^\s+ip\s+(\d+\.\d+\.\d+\.\d+)\s+atm-vc/ &&
 	    ProcessHistory("ATM map-list","ipsort","$1","$_") && next;
-	# order ip rcmd lines
-	/^ip rcmd/ && ProcessHistory("RCMD","keysort","$_","$_") && next;
-
-	# system controller
-	/^syscon address (\S*) (\S*)/ &&
-	    ProcessHistory("","","","!syscon address $1 <removed>\n") &&
-	    next;
-	if (/^syscon password (\S*)/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!syscon password <removed>\n");
-	    next;
-	}
 
 	# catch anything that wasnt matched above.
 	ProcessHistory("","","","$_");
-	# end of config.  the ": " game is for the PIX
-	if (/^(: +)?end$/) {
-	    $found_end = 1;
-	    return(1);
-	}
     }
     return(0);
 }

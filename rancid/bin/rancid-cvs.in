@@ -77,7 +77,7 @@ if [ ! -d $CVSROOT ]; then
     if [ $RCSSYS = cvs ]; then
 	cvs -d $CVSROOT init
     else
-	svnadmin create $CVSROOT
+	svnadmin create $CVSROOT @SVN_FSTYPE@
     fi
 fi
 

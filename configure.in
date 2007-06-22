@@ -127,20 +127,38 @@ fi],
 AM_CONDITIONAL([CONF_INSTALL], [test "${enable_conf_install}" = yes])
 
 # Configure for subversion revision control system instead of CVS.
+SVN_FSTYPE="--fs-type fsfs"
 AC_MSG_CHECKING([whether subversion])
-AC_ARG_ENABLE(svn,
-	AS_HELP_STRING([--enable-svn], [enable use of subversion instead of cvs]),
-[if test "$enable_svn" = yes; then
-    AC_MSG_RESULT(yes)
-    RCSSYS="svn"
-else
-    AC_MSG_RESULT(no)
-    RCSSYS="cvs"
-fi],
-[AC_MSG_RESULT(no)
+AC_ARG_WITH(svn,
+	AS_HELP_STRING([--with-svn=fstype],
+			[use subversion instead of cvs, with optional svn fstype (fsfs|bdb)]),
+[ case "$withval" in
+  yes)
+	AC_MSG_RESULT(yes)
+	RCSSYS="svn"
+	;;
+  fsfs)
+	AC_MSG_RESULT([yes fstype fsfs])
+	RCSSYS="svn"
+	SVN_FSTYPE="--fs-type fsfs"
+	;;
+  bdb)
+	AC_MSG_RESULT([yes fstype bdb])
+	RCSSYS="svn"
+	SVN_FSTYPE="--fs-type bdb"
+	;;
+  no)
+	AC_MSG_RESULT(no)
+	RCSSYS="cvs"
+	;;
+  *)
+	AC_MSG_ERROR([unknown svn fs-type $withval])
+  esac
+], [AC_MSG_RESULT(no)
     RCSSYS="cvs"
 ])
 AC_SUBST(RCSSYS)
+AC_SUBST(SVN_FSTYPE)
 rd_cv_RCSSYS=$RCSSYS
 
 # Check for a preference for using mail addresses like rancid+group

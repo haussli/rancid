@@ -1,4 +1,6 @@
 2.3.2
+	configure: make svn fs-type configurable with --with-svn=fstype
+
 	xrancid: Correct the $prompt regex mangling for XOS - from Tore Anderson
 
 	f10rancid: E-series support updated - loaner & clues from Greg Hankins

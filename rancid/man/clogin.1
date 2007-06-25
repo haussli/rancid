@@ -1,13 +1,13 @@
 .\"
 .hys 50
-.TH "clogin" "1" "24 January 2007"
+.TH "clogin" "1" "24 June 2007"
 .SH NAME
 clogin \- Cisco/Foundry login script
 .SH SYNOPSIS
 .B clogin
 [\fB\-autoenable\fP]
 [\fB\-noenable\fP]
-[\fB\-V\fR]
+[\fB\-dV\fR]
 [\c
 .BI \-c\ 
 command]
@@ -93,11 +93,16 @@ The command-line options are as follows:
 .TP
 .B \-V
 Prints package name and version strings.
+.\"
 .TP
 .B \-c
 Command to be run on each router list on the command-line.  Multiple
 commands maybe listed by separating them with semi-colons (;).  The argument
 should be quoted to avoid shell expansion.
+.\"
+.TP
+.B \-d
+Enable expect debugging.
 .\"
 .TP
 .B \-E

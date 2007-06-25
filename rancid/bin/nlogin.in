@@ -32,8 +32,8 @@
 #	users permissions can not change.
 
 # Usage line
-set usage "Usage: $argv0 \[-c command\] \[-Evar=x\] \[-f cloginrc-file\] \
-\[-p user-password\] \
+set usage "Usage: $argv0 \[-dV\] \[-c command\] \[-Evar=x\] \
+\[-f cloginrc-file\] \[-p user-password\] \
 \[-s script-file\] \[-t timeout\] \[-u username\] \
 \[-v vty-password\] \[-x command-file\] \
 \[-y ssh_cypher_type\] router \[router...\]\n"
@@ -80,8 +80,11 @@ for {set i 0} {$i < $argc} {incr i} {
     set arg [lindex $argv $i]
 
     switch  -glob -- $arg {
+	# Expect debug mode
+	-d* {
+	    exp_internal 1
 	# Username
-	-u* -
+	} -u* -
 	-U* {
 	    if {! [  regexp .\[uU\](.+) $arg ignore user]} {
 		incr i

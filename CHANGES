@@ -1,4 +1,6 @@
 2.3.2
+	*login:	add -d to enable expect's debugging
+
 	configure: make svn fs-type configurable with --with-svn=fstype
 
 	xrancid: Correct the $prompt regex mangling for XOS - from Tore Anderson

@@ -36,7 +36,7 @@
 #
 
 # Usage line
-set usage "Usage: $argv0 \[-autoenable\] \[-noenable\] \
+set usage "Usage: $argv0 \[-dV\] \[-autoenable\] \[-noenable\] \
 \[-c command\] \[-Evar=x\] \[-e enable-password\] \[-p user-password\] \
 \[-f cloginrc-file\] \[-s script-file\] \[-t timeout\] \[-u user\] \
 \[-v vty-password\] \[-w enable-username\]\[-y ssh_cypher_type\] \
@@ -89,8 +89,11 @@ for {set i 0} {$i < $argc} {incr i} {
     set arg [lindex $argv $i]
 
     switch  -glob -- $arg {
+	# Expect debug mode
+	-d* {
+	    exp_internal 1
 	# Username
-	-u* -
+	} -u* -
 	-U* {
 	    if {! [  regexp .\[uU\](.+) $arg ignore user]} {
 		incr i

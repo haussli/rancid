@@ -25,7 +25,7 @@
 # Modified by P B Matthews.
 
 # Usage line
-set usage "Usage: $argv0 \[-c command\] \
+set usage "Usage: $argv0 \[-dV\] \[-c command\] \
 \[-Evar=x\] \[-f cloginrc-file\] \
 \[-s script-file\] \[-t timeout\] \[-u username\] \
 \[-v vty-password\] \[-x command-file\] \
@@ -77,8 +77,11 @@ for {set i 0} {$i < $argc} {incr i} {
     set arg [lindex $argv $i]
 
     switch  -glob -- $arg {
+	# Expect debug mode
+	-d* {
+	    exp_internal 1
 	# Username
-	-u* -
+	} -u* -
 	-U* {
 	    if {! [  regexp .\[uU\](.+) $arg ignore user]} {
 		incr i

@@ -32,7 +32,7 @@
 # Returned to the RANCID crowd by andrew fort
 
 # Usage line
-set usage "Error: Usage: $argv0 \[-noenable\] \
+set usage "Error: Usage: $argv0 \[-dV\] \[-noenable\] \
 \[-f cloginrc-file\] \[-c command\] \[-Evar=x\] \[-s script-file\] \
 \[-x command-file\] \[-t timeout\] \[-o output-file\] \
 router \[router...\]\n"
@@ -781,7 +781,6 @@ for {set idx 0} {$idx < $argc} {incr idx} {
     set arg [lindex $argv $idx]
 
     switch  -glob -- $arg {
-
         -c* -
         -C* {
             if {! [  regexp .\[cC\](.+) $arg ignore command]} {
@@ -789,6 +788,9 @@ for {set idx 0} {$idx < $argc} {incr idx} {
                 set command [ lindex $argv $idx ]
             }
             set do_command 1
+	# Expect debug mode
+	} -d* {
+	    exp_internal 1
         # Environment variable to pass to -s scripts
         } -E*
         {

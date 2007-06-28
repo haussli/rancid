@@ -1,4 +1,7 @@
 2.3.2
+	rancid: ignore author failure for some data that are collected by
+	different commands and succeeded the first time - from David Luyer
+
 	*login:	add -d to enable expect's debugging
 
 	configure: make svn fs-type configurable with --with-svn=fstype

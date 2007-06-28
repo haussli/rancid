@@ -158,8 +158,8 @@ sub ShowVersion {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
-	return(-1) if (/command authorization failed/i);
 	return(0) if ($found_version);		# Only do this routine once
+	return(-1) if (/command authorization failed/i);
 	# the pager can not be disabled per-session on the PIX
 	if (/^(<-+ More -+>)/) {
 	    my($len) = length($1);
@@ -490,8 +490,8 @@ sub ShowEnv {
 	#return(1) if ($type !~ /^7/);
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
-	return(-1) if (/command authorization failed/i);
 	return(0) if ($found_env);		# Only do this routine once
+	return(-1) if (/command authorization failed/i);
 	# the pager can not be disabled per-session on the PIX
 	if (/^(<-+ More -+>)/) {
 	    my($len) = length($1);
@@ -953,8 +953,8 @@ REDUX:	tr/\015//d;
 	# return(1) if ($type !~ /^(12[40]|720|36|26)/);
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
-	return(-1) if (/command authorization failed/i);
 	return(0) if ($found_diag);		# Only do this routine once
+	return(-1) if (/command authorization failed/i);
 	/^$/ && next;
 	# the pager can not be disabled per-session on the PIX
 	if (/^(<-+ More -+>)/) {
@@ -1458,6 +1458,7 @@ sub WriteTerm {
 	last if (/^$prompt/);
 	return(1) if /Line has invalid autocommand /;
 	return(1) if (/(Invalid input detected|Type help or )/i);
+	return(0) if ($found_end);		# Only do this routine once
 	return(-1) if (/command authorization failed/i);
 	# the pager can not be disabled per-session on the PIX
 	if (/^(<-+ More -+>)/) {
@@ -1466,7 +1467,6 @@ sub WriteTerm {
 	}
 
 	/Non-Volatile memory is in use/  && return(-1); # NvRAM is locked
-	return(0) if ($found_end);		# Only do this routine once
 	$linecnt++;
 	$lineauto = 0 if (/^[^ ]/);
 	# skip the crap

@@ -1752,7 +1752,7 @@ sub WriteTerm {
 	# end of config.  the ": " game is for the PIX
 	if (/^(: +)?end$/) {
 	    $found_end = 1;
-	    return(1);
+	    return(0);
 	}
     }
     # The ContentEngine lacks a definitive "end of config" marker.  If we
@@ -1760,7 +1760,7 @@ sub WriteTerm {
     # o/p, we can be reasonably sure that we got the config.
     if ($type =~ /^CE$/ && $linecnt > 5) {
 	$found_end = 1;
-	return(1);
+	return(0);
     }
 
     return(0);

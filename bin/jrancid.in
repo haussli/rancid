@@ -183,6 +183,11 @@ sub ShowChassisClocks {
 	    $x = sprintf(" MHz%".length($2)."s", " ");
 	    substr($_, $leadlen, length($2)+4, $x);
 	}
+	# filter timestamps
+	next if (/selected for/i);
+	next if (/selected since/i);
+
+	next if (/deviation/i);
 	ProcessHistory("","","","# $_");
     }
     return(0);

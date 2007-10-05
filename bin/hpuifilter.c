@@ -462,11 +462,11 @@ main(int argc, char **argv, char **ev)
     if ((bytes = read(pfds[2].fd, tbuf, (BUFSZ - 1))) > 0) {
 	tbuf[bytes] = '\0';
 	tlen = filter(tbuf, bytes);
-	(void) write(pfds[1].fd, tbuf, tlen);
+	(void)write(pfds[1].fd, tbuf, tlen);
     }
     tcdrain(pfds[1].fd);
     if ((hlen = read(pfds[0].fd, hbuf, (BUFSZ - 1))) > 0) {
-	(void) write(pfds[2].fd, hbuf, hlen);
+	(void)write(pfds[2].fd, hbuf, hlen);
     }
     tcdrain(pfds[2].fd);
 

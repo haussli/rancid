@@ -96,7 +96,7 @@ char		**environ,
 int		child,
 		debug,
 		drain,
-		timeo = 5;				/* default timeout */
+		timeo = 5;				/* default timeout   */
 
 int		expectmore __P((char *buf, int len));
 int		filter __P((char *, int));
@@ -312,9 +312,9 @@ main(int argc, char **argv, char **ev)
     while (1) {
 	bytes = poll(pfds, 3, (timeo * 1000));
 	if (bytes == 0) {
+	    /* timeout */
 	    if (drain)
 		break;
-		/* timeout */
 	    continue;
 	}
 	if (bytes == -1) {
@@ -342,7 +342,6 @@ main(int argc, char **argv, char **ev)
 		hlen = 0;
 		drain = 1;
 		pfds[2].events &= ~POLLOUT;
-
 		break;
 	    } else if (bytes > 0) {
 		strcpy(hbuf, hbuf + bytes);
@@ -379,6 +378,7 @@ main(int argc, char **argv, char **ev)
 		fprintf(stderr, "%s: write() failed: %s\n", progname,
 			strerror(errno));
 		break;
+		/* XXX GC? */
 		tbuf[0] = '\0';
 		tlen = 0;
 		drain = 1;
@@ -391,6 +391,7 @@ main(int argc, char **argv, char **ev)
 	    }
 	} else if (pfds[1].revents & POLLEXP) {
 	    break;
+		/* XXX GC */
 	    tbuf[0] = '\0';
 	    tlen = 0;
 	    pfds[1].fd = devnull;
@@ -407,6 +408,7 @@ main(int argc, char **argv, char **ev)
 		    pfds[2].events |= POLLOUT;
 		} else if (bytes == 0 && errno != EAGAIN && errno != EINTR) {
 		    break;
+			/* XXX GC? */
 		    /* EOF or read error */
 		    drain = 1;
 		    pfds[0].fd = devnull;
@@ -415,6 +417,7 @@ main(int argc, char **argv, char **ev)
 	    }
 	} else if (pfds[0].revents & POLLEXP) {
 	    break;
+		/* XXX GC */
 	    drain = 1;
 	    pfds[0].fd = devnull;
 	    pfds[0].events = 0;
@@ -433,6 +436,7 @@ main(int argc, char **argv, char **ev)
 		} else if (bytes == 0 && errno != EAGAIN && errno != EINTR) {
 		    /* EOF or read error */
 		    break;
+			/* XXX GC? */
 		    drain = 1;
 		    pfds[2].fd = devnull;
 		    pfds[2].events = 0;
@@ -440,6 +444,7 @@ main(int argc, char **argv, char **ev)
 	    }
 	} else if (pfds[2].revents & POLLEXP) {
 	    break;
+		/* XXX GC? */
 	    drain = 1;
 	    pfds[2].fd = devnull;
 	    pfds[2].events = 0;
@@ -733,11 +738,11 @@ openpty(int *amaster, int *aslave, char *name, struct termios *term,
 	    line[9] = *cp2;
 	    if ((master = open(line, O_RDWR, 0)) == -1) {
 		if (errno != ENOENT)
-				continue;	/* busy */
+			continue;	/* busy */
 		if (cp2 - cp + 1 < sizeof(TTY_OLD_SUFFIX))
-				return -1; /* out of ptys */
+			return -1;	/* out of ptys */
 		else	
-				break;	/* out of ptys in this group */
+			break;		/* out of ptys in this group */
 	    }
 	    line[5] = 't';
 	    linep = line;

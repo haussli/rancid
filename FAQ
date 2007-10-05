@@ -143,10 +143,11 @@ A. CVS does not provide a way (AFAIK) to rename files or to rename or delete
    history, the same procedure would work, substituting the new group name
    appropriately, of course.
 
-   SVN provide a rename function; but we suggest that you instead use it's
-   copy function, then leave the clean-up of the old name to rancid.  So,
-   you would use the copy function (proper substitutions, of course) in
-   place of the cp in the CVS example, then commit the new file.
+   SVN provides a rename function; but we suggest that you use it's
+   copy function instead, and leave the clean-up of the old name
+   to rancid.  So, you would use the copy function (proper
+   substitutions, of course) in place of the cp in the CVS example,
+   then commit the new file.
 
 
 Q. I am removing a group and would like to remove all traces of it from the

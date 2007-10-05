@@ -181,7 +181,7 @@ sub ShowVersion {
 	# license."  PIX 7 as "his platform has ..."
 	/^This (PIX|platform) has an?\s+(.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","D1", "!$_") && next;
-	/^(Cisco )?IOS .* Software,? \(([A-Za-z-0-9_]*)\), .*Version\s+(.*)$/ &&
+	/^(Cisco )?IOS .* Software,? \(([A-Za-z0-9_-]*)\), .*Version\s+(.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","F1",
 		"!Image:$slave Software: $2, $3\n") && next;
 	/^([A-Za-z-0-9_]*) Synced to mainline version: (.*)$/ &&
@@ -280,36 +280,13 @@ sub ShowVersion {
 		$type = "AGS";
 	    } elsif ($proc eq "CSC4") {
 		$type = "AGS+";
+	    } elsif ($proc =~ /1900/) {
+		$type = "1900";
+		$device = "switch";
 	    } elsif ($proc =~ /^(AS)?25[12][12]/) {
 		$type = "2500";
 	    } elsif ($proc =~ /261[01]/ || $proc =~ /262[01]/ ) {
 		$type = "2600";
-	    } elsif ($proc =~ /^36[0246][0-9]/) {
-		$type = "3600";
-	    } elsif ($proc =~ /^37/) {
-		$type = "3700";
-	    } elsif ($proc =~ /^38/) {
-		$type = "3800";
-	    } elsif ( $proc =~ /^AS5300/) {
-		$type = "AS5300";
-	    } elsif ( $proc =~ /^AS5350/) {
-		$type = "AS5350";
-	    } elsif ( $proc =~ /^AS5400/) {
-		$type = "AS5400";
-	    } elsif ($proc eq "RSP7000") {
-		$type = "7500";
-	    } elsif ($proc =~ /RSP\d/) {
-		$type = "7500";
-	    } elsif ($proc eq "RP1") {
-		$type = "7000";
-	    } elsif ($proc eq "RP") {
-		$type = "7000";
-	    } elsif ($proc =~ /720[246]/) {
-		$type = "7200";
-	    } elsif ($proc =~ /1200[48]\/GRP/ || $proc =~ /1201[26]\/GRP/) {
-		$type = "12000";
-	    } elsif ($proc =~ /1201[26]-8R\/GRP/) {
-		$type = "12000";
 	    } elsif ($proc =~ /WS-C29/) {
 		$type = "2900XL";
 		$device = "switch";
@@ -319,23 +296,52 @@ sub ShowVersion {
 	    } elsif ($proc =~ /WS-C35/) {
 		$type = "3500XL";
 		$device = "switch";
+	    } elsif ($proc =~ /^36[0246][0-9]/) {
+		$type = "3600";
+	    } elsif ($proc =~ /^37/) {
+		$type = "3700";
+	    } elsif ($proc =~ /^38/) {
+		$type = "3800";
 	    } elsif ($proc =~ /WS-C45/) {
 		$type = "4500";
 		$device = "switch";
+	    } elsif ( $proc =~ /^AS5300/) {
+		$type = "AS5300";
+	    } elsif ( $proc =~ /^AS5350/) {
+		$type = "AS5350";
+	    } elsif ( $proc =~ /^AS5400/) {
+		$type = "AS5400";
 	    } elsif ($proc =~ /6000/) {
 		$type = "6000";
 		$device = "switch";
-	    } elsif ($proc =~ /CISCO76/) {
-		$type = "7600";
-		$device = "router";
-	    } elsif ($proc =~ /1900/) {
-		$type = "1900";
-		$device = "switch";
+	    } elsif ($proc eq "WK-C65") {
+		$type = "6500";
+	    } elsif ($proc eq "RP") {
+		$type = "7000";
+	    } elsif ($proc eq "RP1") {
+		$type = "7000";
+	    } elsif ($proc =~ /720[246]/) {
+		$type = "7200";
 	    } elsif ( $proc =~ /^73/) {
 		$type = "7300";
+	    } elsif ($proc eq "RSP7000") {
+		$type = "7500";
+	    } elsif ($proc =~ /RSP\d/) {
+		$type = "7500";
+	    } elsif ($proc =~ /OSR-76/) {
+		$type = "7600";
+	    } elsif ($proc =~ /CISCO76/) {
+		$type = "7600";
+	    } elsif ($proc =~ /1200[48]\/(GRP|PRP)/ || $proc =~ /1201[26]\/(GRP|PRP)/) {
+		$type = "12000";
+	    } elsif ($proc =~ /1201[26]-8R\/(GRP|PRP)/) {
+		$type = "12000";
+	    } elsif ($proc =~ /1240[48]\/(GRP|PRP)/ || $proc =~ /1241[06]\/(GRP|PRP)/) {
+		$type = "12400";
 	    } else {
 		$type = $proc;
 	    }
+
 	    print STDERR "TYPE = $type\n" if ($debug);
 	    ProcessHistory("COMMENTS","keysort","A1",
 		"!Chassis type:$slave $proc - a $type $device\n");
@@ -411,7 +417,13 @@ sub ShowRedundancy {
 	    s/^$1\s{$len}//;
 	}
 
-	/^IOS .* Software \(([A-Za-z-0-9_]*)\), .*Version\s+(.*)$/ &&
+	if (/^Version information for secondary in slot (\d+):/) {
+	    $slave = " Slave:";
+	    $slaveslot = ", slot $1";
+	    next;
+	}
+
+	/^IOS .* Software \(([A-Za-z0-9_-]*)\), .*Version\s+(.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","F1",
 		"!Image:$slave Software: $1, $2\n") && next;
 	/^Compiled (.*)$/ &&
@@ -630,7 +642,7 @@ sub ShowBoot {
 	    } else {
 		ProcessHistory("COMMENTS","keysort","H1","!Variable: $_");
 	    }
-	} elsif (/variable/) {
+	} elsif (/(variable|register)/) {
 	    ProcessHistory("COMMENTS","keysort","H1","!Variable: $_");
 	}
     }
@@ -1433,7 +1445,7 @@ sub ShowVLAN {
 	return(1) if /Ambiguous command/i;
 	# newer releases (~12.1(9)) place the vlan config in the normal
 	# configuration (write term).
-	return(1) if ($type =~ /^(3550|4500|7600)$/);
+	return(1) if ($type =~ /^(3550|4500)$/);
 	#return(1) if ($type !~ /^(2900XL|3500XL|6000)$/);
 	return(-1) if (/command authorization failed/i);
 	# the pager can not be disabled per-session on the PIX

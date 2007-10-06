@@ -406,10 +406,13 @@ main(int argc, char **argv, char **ev)
 		    hlen += bytes;
 		    hbuf[hlen] = '\0';
 		    pfds[2].events |= POLLOUT;
-		} else if (bytes == 0 && errno != EAGAIN && errno != EINTR) {
+		} else if (bytes == 0) {
+		    /* EOF */
+		    break;
+		} else if (bytes < 0 && errno != EAGAIN && errno != EINTR) {
+		    /* read error */
 		    break;
 			/* XXX GC? */
-		    /* EOF or read error */
 		    drain = 1;
 		    pfds[0].fd = devnull;
 		    pfds[0].events = 0;
@@ -433,8 +436,11 @@ main(int argc, char **argv, char **ev)
 		    tlen = filter(tbuf, tlen);
 		    if (tlen > 0)
 			pfds[1].events |= POLLOUT;
-		} else if (bytes == 0 && errno != EAGAIN && errno != EINTR) {
-		    /* EOF or read error */
+		} else if (bytes == 0) {
+		    /* EOF */
+		    break;
+		} else if (bytes < 0 && errno != EAGAIN && errno != EINTR) {
+		    /* read error */
 		    break;
 			/* XXX GC? */
 		    drain = 1;

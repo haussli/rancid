@@ -331,7 +331,7 @@ main(int argc, char **argv, char **ev)
 
 	/*
 	 * write buffers first
-	 * write hbuf (stdin) -> ptym
+	 * write hbuf (aka hlogin/stdin/pfds[0]) -> telnet (aka ptym/pfds[2])
 	 */
 	if ((pfds[2].revents & POLLOUT) && hlen) {
 	    if ((bytes = write(pfds[2].fd, hbuf, hlen)) < 0 &&
@@ -356,7 +356,7 @@ main(int argc, char **argv, char **ev)
 	    break;
 	}
 
-	/* write tbuf -> stdout */
+	/* write tbuf (aka telnet/ptym/pfds[2]) -> hlogin (stdout/pfds[1]) */
 	if ((pfds[1].revents & POLLOUT) && tlen) {
 	    /*
 	     * if there is an escape char that didnt get filter()'d,
@@ -398,7 +398,7 @@ main(int argc, char **argv, char **ev)
 	    pfds[1].events = 0;
 	}
 
-	/* read stdin -> hbuf */
+	/* read hlogin (aka stdin/pfds[0]) -> hbuf */
 	if (pfds[0].revents & POLLIN) {
 	    if (BUFSZ - hlen > 1) {
 		bytes = read(pfds[0].fd, hbuf + hlen, (BUFSZ - 1) - hlen);
@@ -426,7 +426,7 @@ main(int argc, char **argv, char **ev)
 	    pfds[0].events = 0;
 	}
 
-	/* read telnet/ssh -> tbuf, then filter */
+	/* read telnet/ssh (aka ptym/pfds[2]) -> tbuf, then filter */
 	if (pfds[2].revents & POLLIN) {
 	    if (BUFSZ - tlen > 1) {
 		bytes = read(pfds[2].fd, tbuf + tlen, (BUFSZ - 1) - tlen);

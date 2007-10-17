@@ -347,7 +347,8 @@ main(int argc, char **argv, char **ev)
 		if (hlen < 1)
 		     pfds[2].events &= ~POLLOUT;
 	    }
-	} else if (pfds[2].revents & POLLEXP) {
+	}
+	if (pfds[2].revents & POLLEXP) {
 	    hlen = 0;
 	    hbuf[0] = '\0';
 	    break;
@@ -384,7 +385,8 @@ main(int argc, char **argv, char **ev)
 		if (tlen < 1)
 		    pfds[1].events &= ~POLLOUT;
 	    }
-	} else if (pfds[1].revents & POLLEXP) {
+	}
+	if (pfds[1].revents & POLLEXP) {
 	    /* dont bother trying to flush tbuf */
 	    tlen = 0;
 	    tbuf[0] = '\0';
@@ -399,15 +401,13 @@ main(int argc, char **argv, char **ev)
 		    hlen += bytes;
 		    hbuf[hlen] = '\0';
 		    pfds[2].events |= POLLOUT;
-		} else if (bytes == 0) {
-		    /* EOF / non-blocking no data in buffer */
-		    break;
 		} else if (bytes < 0 && errno != EAGAIN && errno != EINTR) {
 		    /* read error */
 		    break;
 		}
 	    }
-	} else if (pfds[0].revents & POLLEXP)
+	}
+	if (pfds[0].revents & POLLEXP)
 	    break;
 
 	/* read telnet/ssh (aka ptym/pfds[2]) -> tbuf, then filter */
@@ -420,15 +420,13 @@ main(int argc, char **argv, char **ev)
 		    tlen = filter(tbuf, tlen);
 		    if (tlen > 0)
 			pfds[1].events |= POLLOUT;
-		} else if (bytes == 0) {
-		    /* EOF */
-		    break;
 		} else if (bytes < 0 && errno != EAGAIN && errno != EINTR) {
 		    /* read error */
 		    break;
 		}
 	    }
-	} else if (pfds[2].revents & POLLEXP)
+	}
+	if (pfds[2].revents & POLLEXP)
 	    break;
     }
     /* try to flush any remaining data from our buffers */

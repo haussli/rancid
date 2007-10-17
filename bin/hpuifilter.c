@@ -95,7 +95,7 @@ char		**environ,
 		*progname;
 int		child,
 		debug,
-		drain,
+		sigrx,
 		timeo = 5;				/* default timeout   */
 
 int		expectmore __P((char *buf, int len));
@@ -312,9 +312,9 @@ main(int argc, char **argv, char **ev)
     while (1) {
 	bytes = poll(pfds, 3, (timeo * 1000));
 	if (bytes == 0) {
-	    /* timeout */
-	    if (drain)
+	    if (sigrx)
 		break;
+	    /* timeout */
 	    continue;
 	}
 	if (bytes == -1) {
@@ -338,10 +338,8 @@ main(int argc, char **argv, char **ev)
 		errno != EINTR && errno != EAGAIN) {
 		fprintf(stderr, "%s: write() failed: %s\n", progname,
 			strerror(errno));
-		hbuf[0] = '\0';
 		hlen = 0;
-		drain = 1;
-		pfds[2].events &= ~POLLOUT;
+		hbuf[0] = '\0';
 		break;
 	    } else if (bytes > 0) {
 		strcpy(hbuf, hbuf + bytes);
@@ -350,9 +348,8 @@ main(int argc, char **argv, char **ev)
 		     pfds[2].events &= ~POLLOUT;
 	    }
 	} else if (pfds[2].revents & POLLEXP) {
-	    hbuf[0] = '\0';
 	    hlen = 0;
-	    pfds[2].events &= POLLIN;
+	    hbuf[0] = '\0';
 	    break;
 	}
 
@@ -377,12 +374,10 @@ main(int argc, char **argv, char **ev)
 		errno != EINTR && errno != EAGAIN) {
 		fprintf(stderr, "%s: write() failed: %s\n", progname,
 			strerror(errno));
-		break;
-		/* XXX GC? */
-		tbuf[0] = '\0';
+		/* dont bother trying to flush tbuf */
 		tlen = 0;
-		drain = 1;
-		pfds[1].events = 0;
+		tbuf[0] = '\0';
+		break;
 	    } else if (bytes > 0) {
 		strcpy(tbuf, tbuf + bytes);
 		tlen -= bytes;
@@ -390,12 +385,10 @@ main(int argc, char **argv, char **ev)
 		    pfds[1].events &= ~POLLOUT;
 	    }
 	} else if (pfds[1].revents & POLLEXP) {
-	    break;
-		/* XXX GC */
-	    tbuf[0] = '\0';
+	    /* dont bother trying to flush tbuf */
 	    tlen = 0;
-	    pfds[1].fd = devnull;
-	    pfds[1].events = 0;
+	    tbuf[0] = '\0';
+	    break;
 	}
 
 	/* read hlogin (aka stdin/pfds[0]) -> hbuf */
@@ -407,24 +400,15 @@ main(int argc, char **argv, char **ev)
 		    hbuf[hlen] = '\0';
 		    pfds[2].events |= POLLOUT;
 		} else if (bytes == 0) {
-		    /* EOF */
+		    /* EOF / non-blocking no data in buffer */
 		    break;
 		} else if (bytes < 0 && errno != EAGAIN && errno != EINTR) {
 		    /* read error */
 		    break;
-			/* XXX GC? */
-		    drain = 1;
-		    pfds[0].fd = devnull;
-		    pfds[0].events = 0;
 		}
 	    }
-	} else if (pfds[0].revents & POLLEXP) {
+	} else if (pfds[0].revents & POLLEXP)
 	    break;
-		/* XXX GC */
-	    drain = 1;
-	    pfds[0].fd = devnull;
-	    pfds[0].events = 0;
-	}
 
 	/* read telnet/ssh (aka ptym/pfds[2]) -> tbuf, then filter */
 	if (pfds[2].revents & POLLIN) {
@@ -442,19 +426,10 @@ main(int argc, char **argv, char **ev)
 		} else if (bytes < 0 && errno != EAGAIN && errno != EINTR) {
 		    /* read error */
 		    break;
-			/* XXX GC? */
-		    drain = 1;
-		    pfds[2].fd = devnull;
-		    pfds[2].events = 0;
 		}
 	    }
-	} else if (pfds[2].revents & POLLEXP) {
+	} else if (pfds[2].revents & POLLEXP)
 	    break;
-		/* XXX GC? */
-	    drain = 1;
-	    pfds[2].fd = devnull;
-	    pfds[2].events = 0;
-	}
     }
     /* try to flush any remaining data from our buffers */
     if (hlen) {
@@ -623,7 +598,7 @@ sighdlr(int sig)
 {
     if (debug)
 	fprintf(stderr, "GOT SIGNAL %d\n", sig);
-    drain = 1;
+    sigrx = 1;
     return;
 }
 

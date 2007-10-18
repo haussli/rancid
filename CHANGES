@@ -1,4 +1,7 @@
 2.3.2
+	jrancid: don't look for passwords in
+		system login class XX permissions []
+
 	jrancid: additional filter for M320
 
 	rancid: ignore author failure for some data that are collected by

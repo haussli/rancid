@@ -570,6 +570,11 @@ sub ShowConfiguration {
 	    ProcessHistory("","","","#$1<removed>$'");
 	    next;
 	}
+	# don't filter this one - there is no secret here.
+	if (/^\s*permissions .* secret /) {
+	    ProcessHistory("","","","$_");
+	    next;
+	}
 	if (/^(.*\ssecret )[^ ;]+/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","#$1<removed>$'");
 	    next;

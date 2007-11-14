@@ -7025,11 +7025,11 @@ ac_config_files="$ac_config_files bin/flogin bin/francid"
 
 ac_config_files="$ac_config_files bin/fnrancid"
 
-ac_config_files="$ac_config_files bin/jlogin bin/jrancid bin/jerancid"
-
 ac_config_files="$ac_config_files bin/hlogin bin/hrancid"
 
 ac_config_files="$ac_config_files bin/htlogin bin/htrancid"
+
+ac_config_files="$ac_config_files bin/jlogin bin/jrancid bin/jerancid"
 
 ac_config_files="$ac_config_files bin/mrancid"
 
@@ -7047,7 +7047,9 @@ ac_config_files="$ac_config_files bin/srancid"
 
 ac_config_files="$ac_config_files bin/tntlogin bin/tntrancid"
 
-ac_config_files="$ac_config_files bin/xrancid bin/zrancid"
+ac_config_files="$ac_config_files bin/xrancid"
+
+ac_config_files="$ac_config_files bin/zrancid"
 
 ac_config_files="$ac_config_files share/rtrfilter"
 
@@ -7670,13 +7672,13 @@ do
     "bin/flogin") CONFIG_FILES="$CONFIG_FILES bin/flogin" ;;
     "bin/francid") CONFIG_FILES="$CONFIG_FILES bin/francid" ;;
     "bin/fnrancid") CONFIG_FILES="$CONFIG_FILES bin/fnrancid" ;;
-    "bin/jlogin") CONFIG_FILES="$CONFIG_FILES bin/jlogin" ;;
-    "bin/jrancid") CONFIG_FILES="$CONFIG_FILES bin/jrancid" ;;
-    "bin/jerancid") CONFIG_FILES="$CONFIG_FILES bin/jerancid" ;;
     "bin/hlogin") CONFIG_FILES="$CONFIG_FILES bin/hlogin" ;;
     "bin/hrancid") CONFIG_FILES="$CONFIG_FILES bin/hrancid" ;;
     "bin/htlogin") CONFIG_FILES="$CONFIG_FILES bin/htlogin" ;;
     "bin/htrancid") CONFIG_FILES="$CONFIG_FILES bin/htrancid" ;;
+    "bin/jlogin") CONFIG_FILES="$CONFIG_FILES bin/jlogin" ;;
+    "bin/jrancid") CONFIG_FILES="$CONFIG_FILES bin/jrancid" ;;
+    "bin/jerancid") CONFIG_FILES="$CONFIG_FILES bin/jerancid" ;;
     "bin/mrancid") CONFIG_FILES="$CONFIG_FILES bin/mrancid" ;;
     "bin/nlogin") CONFIG_FILES="$CONFIG_FILES bin/nlogin" ;;
     "bin/nrancid") CONFIG_FILES="$CONFIG_FILES bin/nrancid" ;;
@@ -8494,13 +8496,13 @@ done
     "bin/flogin":F) chmod a+x $ac_file ;;
     "bin/francid":F) chmod a+x $ac_file ;;
     "bin/fnrancid":F) chmod a+x $ac_file ;;
-    "bin/jlogin":F) chmod a+x $ac_file ;;
-    "bin/jrancid":F) chmod a+x $ac_file ;;
-    "bin/jerancid":F) chmod a+x $ac_file ;;
     "bin/hlogin":F) chmod a+x $ac_file ;;
     "bin/hrancid":F) chmod a+x $ac_file ;;
     "bin/htlogin":F) chmod a+x $ac_file ;;
     "bin/htrancid":F) chmod a+x $ac_file ;;
+    "bin/jlogin":F) chmod a+x $ac_file ;;
+    "bin/jrancid":F) chmod a+x $ac_file ;;
+    "bin/jerancid":F) chmod a+x $ac_file ;;
     "bin/mrancid":F) chmod a+x $ac_file ;;
     "bin/nlogin":F) chmod a+x $ac_file ;;
     "bin/nrancid":F) chmod a+x $ac_file ;;

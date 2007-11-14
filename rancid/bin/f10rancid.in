@@ -154,79 +154,38 @@ sub ShowVersion {
 	last if(/^$prompt/);
 	next if(/^(\s*|\s*$cmd\s*)$/);
 	return(-1) if (/command authorization failed/i);
-	/Chassis Type: / && chomp &&
-	    ProcessHistory("COMMENTS","keysort","A1",
-		"!$_ - a force10\n");
 
-	/^([A-Za-z-0-9_]*) Synced to mainline version: (.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","F2",
-		"!Image:$slave $1 Synced to mainline version: $2\n") && next;
-	/^Compiled (.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","F3",
-		"!Image:$slave Compiled: $1\n") && next;
-	/^ROM: (System )?Bootstrap.*(Version.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","G1",
-		"!ROM Bootstrap: $2\n") && next;
-
-	/^Serial Number:\s+(.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","C1", "!$_") && next;
+	/ Type: / && chop && chop &&
+	    ProcessHistory("COMMENTS","keysort","A1","!$_\n");
 
 	/^.* Version.*$/ &&
-	    ProcessHistory("COMMENTS","keysort","F1", "!Image: $_") && next;
+	    ProcessHistory("COMMENTS","keysort","F1","!Image: $_") && next;
 
 	/^Build .*$/ &&
-	    ProcessHistory("COMMENTS","keysort","F1", "!Image: $_") && next;
+	    ProcessHistory("COMMENTS","keysort","F1","!Image: $_") && next;
 
 	/^System image file is "([^\"]*)"$/ &&
 	    ProcessHistory("COMMENTS","keysort","F5","!Image: $1\n") && next;
 
-
 	if (/^(.*\s+Processor)( \d)?:(.*) with (\d+[kK]?) bytes/) {
 	    my($cpu) = "$1$2:$3";
-	    my($mem) = $4;
+	    my($mem) = int($4 / (1024 * 1024));
 	    my($device) = "Force10";
 	    ProcessHistory("COMMENTS","keysort","B1",
-		"!Memory: $1 $mem\n");
+		"!Memory: $1$2: $mem" . "M\n");
 	    ProcessHistory("COMMENTS","keysort","A3","!CPU: $cpu\n");
 	    next;
 	}
-	/^(\S+)\s+processor: part number (\S+), mask (\S+)/ &&
-	    ProcessHistory("COMMENTS","keysort","A4","!CPU: $_") && next;
-	if (/(\S+) Silicon\s*Switch Processor/) {
-	    if (!defined($C0)) {
-		$C0=1; ProcessHistory("COMMENTS","keysort","C0","!\n");
-	    }
-	    ProcessHistory("COMMENTS","keysort","C2","!SSP: $1\n");
-	    $ssp = 1;
-	    $sspmem = $1;
-	    next;
-	}
 
+	# E-Series and C-Series use NVRAM
 	/^(\d+[kK]) bytes of non-volatile/ &&
-	    ProcessHistory("COMMENTS","keysort","B3",
-		"!Memory: nvram $1\n") && next;
-	/^(\d+[kK]) bytes of flash memory/ &&
-	    ProcessHistory("COMMENTS","keysort","B5","!Memory: flash $1\n") &&
+	    ProcessHistory("COMMENTS","keysort","B3","!Memory: NVRAM $1\n") &&
+	    next;
+        # S-Series uses boot flash
+	/^(\d+[mM]) bytes of .oot..lash/ &&
+	    ProcessHistory("COMMENTS","keysort","B3","!Memory: Flash $1\n") &&
 	    next;
     }
-    return(0);
-}
-
-# This routine parses "show env all"
-sub ShowEnv {
-    print STDERR "    In ShowEnv: $_" if ($debug);
-
-    while (<INPUT>) {
-	tr/\015//d;
-	last if (/^$prompt/);
-	next if (/^(\s*|\s*$cmd\s*)$/);
-	#return(1) if ($type !~ /^7/);
-	return(-1) if (/command authorization failed/i);
-
-	s/Temp( +)?//;
-	s/\d+C( +)?//;
-    }
-    ProcessHistory("COMMENTS","","","!\n");
     return(0);
 }
 
@@ -238,15 +197,10 @@ sub ShowBoot {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if /^\s*\^\s*$/;
-	return(-1) if (/command authorization failed/i);
-	return(1) if /Ambiguous command/i;
 	return(1) if /(Invalid input detected|Type help or )/;
-	return(1) if /(Open device \S+ failed|Error opening \S+:)/;
-	next if /CONFGEN variable/;
-	if (!defined($H0)) {
-	    $H0=1; ProcessHistory("COMMENTS","keysort","H0","!\n");
-	}
+	return(-1) if (/command authorization failed/i);
+	
+	ProcessHistory("COMMENTS","keysort","H0","!Boot Variables: $_");
     }
     ProcessHistory("COMMENTS","","","!\n");
     return(0);
@@ -264,7 +218,27 @@ sub ShowChassis {
 	return(-1) if (/command authorization failed/i);
 
 	/-----------------------------/ && next;
-	ProcessHistory("COMMENTS","keysort","CHASSIS","! $_");
+	# general stuff that changes
+	/Next Boot/ && next;
+	/Up Time/ && next;
+	/Last Restart/ && next;
+	/Switch Fabric State/ && next;
+	/active / && next;
+	/online / && next;
+	/offline / && next;
+	# E600 AC PSMs
+	/Status        : up/ && next;
+	/High line/ && next;
+	# E600 fan speed
+	/Status  Temp/ && next;
+	s/(.*)\d\dC.*/ $1/;
+	# E1200 fan speed
+	s/Tray  Status.*/Tray Status/;
+	s/ (\d.*)<.*/$1/;
+	# C300 fan speed
+	s/FanNumber    Speed    Status/FanNumber    Status/;
+	s/(.*\d).*\d\d\d\d(.*)/$1 $2/;
+	ProcessHistory("COMMENTS","keysort","CHASSIS","!Chassis: $_");
     }
     ProcessHistory("COMMENTS","keysort","CHASSIS","!\n");
     return(0);
@@ -291,10 +265,18 @@ sub DirSlotN {
 	return(1) if /No space information available/;
 	return(-1) if (/command authorization failed/i);
 	return(1) if /(Open device \S+ failed|Error opening \S+:)/;
+
+	/Directory of/ && next;
+
+	# clean up totals line
+	if (/.* (\d+) bytes total/) {
+	    my($tmp) = int($1 / (1024 * 1024));
+	    s/.* $1 bytes total/$tmp\M total/;
+	}
 	if (/.*\((\d+) bytes free\)/) {
 	    my($tmp) = int($1 / (1024 * 1024));
-	    s/$1 bytes free/$tmp MB free/;
-	}   
+	    s/$1 bytes free/$tmp\M free/;
+	}
 	s/ +$//g;
 	ProcessHistory("FLASH","","","!Flash: $dev: $_");
     }
@@ -313,7 +295,8 @@ sub ShowInventory {
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/command authorization failed/i);
 
-	ProcessHistory("COMMENTS","keysort","INVENTORY","! $_");
+	/-----------------------------/ && next;
+	ProcessHistory("COMMENTS","keysort","INVENTORY","!Inventory: $_");
     }
     ProcessHistory("COMMENTS","keysort","INVENTORY","!\n");
     return(0);
@@ -323,17 +306,15 @@ sub ShowInventory {
 sub ShowVLAN {
     print STDERR "    In ShowVLAN: $_" if ($debug);
 
-    ($_=<INPUT>,return(1)) if (!$DO_SHOW_VLAN);
-
     while (<INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/command authorization failed/i);
-	ProcessHistory("COMMENTS","keysort","IO","!VLAN: $_");
+	ProcessHistory("COMMENTS","keysort","VLAN","!VLAN: $_");
     }
-    ProcessHistory("COMMENTS","keysort","IO","!\n");
+    ProcessHistory("COMMENTS","keysort","VLAN","!\n");
     return(0);
 }
 
@@ -345,26 +326,8 @@ sub WriteTerm {
 	tr/\015//d;
 	last if(/^$prompt/);
 	return(-1) if (/command authorization failed/i);
-	# the pager can not be disabled per-session on the PIX
-	s/^<-+ More -+>\s*//;
-	/Non-Volatile memory is in use/  && return(-1); # NvRAM is locked
-	# skip the crap
-	if (/^(##+$|(Building|Current) configuration)/i) {
-	    while (<INPUT>) {
-		next if (/^!?Current configuration\s*:/i);
-		next if (/^:/);
-		next if (/^([%!].*|\s*)$/);
-		next if (/^ip add.*ipv4:/);	# band-aid for 3620 12.0S
-		last;
-	    }
-	    if (defined($config_register)) {
-		ProcessHistory("","","","!\nconfig-register $config_register\n");
-	    }
-	    tr/\015//d;
-	}
-	# some versions have other crap mixed in with the bits in the
-	# block above
-	/^! (Last configuration|NVRAM config last)/ && next;
+	# skip crap
+ 	/^Current Configuration/ && next;
 
 	# Dog gone Cool matches to process the rest of the config
 	/^tftp-server flash /   && next; # kill any tftp remains
@@ -527,7 +490,6 @@ sub DoNothing {print STDOUT;}
 # Main
 @commandtable = (
 	{'show version'			=> 'ShowVersion'},
-	{'show env all'			=> 'ShowEnv'},
 	{'show bootvar'			=> 'ShowBoot'},
 	{'dir flash:'			=> 'DirSlotN'},
 	{'dir slot0:'			=> 'DirSlotN'},

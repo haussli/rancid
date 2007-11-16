@@ -35,13 +35,14 @@ bin_PROGRAMS = hpuifilter$(EXEEXT)
 subdir = bin
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/agmrancid.in $(srcdir)/alogin.in \
-	$(srcdir)/arancid.in $(srcdir)/blogin.in $(srcdir)/brancid.in \
-	$(srcdir)/cat5rancid.in $(srcdir)/clogin.in \
-	$(srcdir)/control_rancid.in $(srcdir)/cssrancid.in \
-	$(srcdir)/elogin.in $(srcdir)/erancid.in \
-	$(srcdir)/f10rancid.in $(srcdir)/flogin.in \
-	$(srcdir)/fnrancid.in $(srcdir)/francid.in $(srcdir)/hlogin.in \
-	$(srcdir)/hrancid.in $(srcdir)/htlogin.in \
+	$(srcdir)/arancid.in $(srcdir)/avologin.in \
+	$(srcdir)/avorancid.in $(srcdir)/blogin.in \
+	$(srcdir)/brancid.in $(srcdir)/cat5rancid.in \
+	$(srcdir)/clogin.in $(srcdir)/control_rancid.in \
+	$(srcdir)/cssrancid.in $(srcdir)/elogin.in \
+	$(srcdir)/erancid.in $(srcdir)/f10rancid.in \
+	$(srcdir)/flogin.in $(srcdir)/fnrancid.in $(srcdir)/francid.in \
+	$(srcdir)/hlogin.in $(srcdir)/hrancid.in $(srcdir)/htlogin.in \
 	$(srcdir)/htrancid.in $(srcdir)/jerancid.in \
 	$(srcdir)/jlogin.in $(srcdir)/jrancid.in $(srcdir)/mrancid.in \
 	$(srcdir)/nlogin.in $(srcdir)/nrancid.in $(srcdir)/nslogin.in \
@@ -59,11 +60,12 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
 CONFIG_CLEAN_FILES = control_rancid par rancid-fe agmrancid alogin \
-	arancid blogin brancid cat5rancid clogin rancid cssrancid \
-	elogin erancid f10rancid flogin francid fnrancid hlogin \
-	hrancid htlogin htrancid jlogin jrancid jerancid mrancid \
-	nlogin nrancid nslogin nsrancid prancid rivlogin rivrancid \
-	rrancid srancid tntlogin tntrancid xrancid zrancid
+	arancid avologin avorancid blogin brancid cat5rancid clogin \
+	rancid cssrancid elogin erancid f10rancid flogin francid \
+	fnrancid hlogin hrancid htlogin htrancid jlogin jrancid \
+	jerancid mrancid nlogin nrancid nslogin nsrancid prancid \
+	rivlogin rivrancid rrancid srancid tntlogin tntrancid xrancid \
+	zrancid
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
@@ -290,6 +292,10 @@ agmrancid: $(top_builddir)/config.status $(srcdir)/agmrancid.in
 alogin: $(top_builddir)/config.status $(srcdir)/alogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 arancid: $(top_builddir)/config.status $(srcdir)/arancid.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+avologin: $(top_builddir)/config.status $(srcdir)/avologin.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+avorancid: $(top_builddir)/config.status $(srcdir)/avorancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 blogin: $(top_builddir)/config.status $(srcdir)/blogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

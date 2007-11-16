@@ -7011,6 +7011,8 @@ ac_config_files="$ac_config_files bin/agmrancid"
 
 ac_config_files="$ac_config_files bin/alogin bin/arancid"
 
+ac_config_files="$ac_config_files bin/avologin bin/avorancid"
+
 ac_config_files="$ac_config_files bin/blogin bin/brancid"
 
 ac_config_files="$ac_config_files bin/cat5rancid bin/clogin bin/rancid"
@@ -7660,6 +7662,8 @@ do
     "bin/agmrancid") CONFIG_FILES="$CONFIG_FILES bin/agmrancid" ;;
     "bin/alogin") CONFIG_FILES="$CONFIG_FILES bin/alogin" ;;
     "bin/arancid") CONFIG_FILES="$CONFIG_FILES bin/arancid" ;;
+    "bin/avologin") CONFIG_FILES="$CONFIG_FILES bin/avologin" ;;
+    "bin/avorancid") CONFIG_FILES="$CONFIG_FILES bin/avorancid" ;;
     "bin/blogin") CONFIG_FILES="$CONFIG_FILES bin/blogin" ;;
     "bin/brancid") CONFIG_FILES="$CONFIG_FILES bin/brancid" ;;
     "bin/cat5rancid") CONFIG_FILES="$CONFIG_FILES bin/cat5rancid" ;;
@@ -8484,6 +8488,8 @@ done
     "bin/agmrancid":F) chmod a+x $ac_file ;;
     "bin/alogin":F) chmod a+x $ac_file ;;
     "bin/arancid":F) chmod a+x $ac_file ;;
+    "bin/avologin":F) chmod a+x $ac_file ;;
+    "bin/avorancid":F) chmod a+x $ac_file ;;
     "bin/blogin":F) chmod a+x $ac_file ;;
     "bin/brancid":F) chmod a+x $ac_file ;;
     "bin/cat5rancid":F) chmod a+x $ac_file ;;

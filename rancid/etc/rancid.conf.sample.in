@@ -72,7 +72,7 @@ OLDTIME=4; export OLDTIME
 # be sure to read ../README regarding aliases.
 #
 # If your MTA configuration is broken or you want mail to be forwarded to a
-# domain not the same the local one, define that domain here.  "@" must be
+# domain not the same as the local one, define that domain here.  "@" must be
 # included, as this is simply appended to the usual recipients.  It is NOT
 # appended to recipients specified in rancid-run's -m option.
 #MAILDOMAIN="@example.com"; export MAILDOMAIN

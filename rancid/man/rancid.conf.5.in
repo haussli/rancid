@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid.conf" "5" "8 April 2007"
+.TH "rancid.conf" "5" "18 December 2007"
 .SH NAME
 rancid.conf \- rancid environment configuration file
 .SH DESCRIPTION
@@ -179,7 +179,7 @@ the number of hours between
 .B rancid-run
 cron runs.
 .sp
-Default: 4
+Default: 24
 .\"
 .TP
 .B PAR_COUNT

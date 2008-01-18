@@ -503,7 +503,8 @@ proc run_commands { prompt command } {
 
     # Turn off the pager and escape regex meta characters in the $prompt
     send "no page\r"
-    regsub -all "\[)(]" $prompt {\\&} reprompt
+    regsub -all {[)(]} $prompt {\\&} reprompt
+    regsub -all {^(.{1,11}).*([#>])$} $reprompt {\1([^#>\r\n]+)?[#>](\\([^)\\r\\n]+\\))?} reprompt
     expect {
 	-re $reprompt	{}
 	-re "\[\n\r]+"	{ exp_continue }

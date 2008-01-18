@@ -1,4 +1,7 @@
 2.3.2
+	hlogin: reformat the prompt matching in run_commands() like cisco, which
+		fixes -x and -c usage in configure mode.
+
 	avorancid: Avocent (Cyclades) module - from Stephen Griffin
 
 	f10rancid: updated support for all devices running FTOS: E-Series,

@@ -1,4 +1,6 @@
 2.3.2
+	nslogin: password prompt change in newer code - from Derek Andree
+
 	hlogin: reformat the prompt matching in run_commands() like cisco, which
 		fixes -x and -c usage in configure mode.
 

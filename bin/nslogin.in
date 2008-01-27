@@ -421,7 +421,9 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 				  send_user "\nError: Check your passwd for $router\n"
 				  return 1
 				}
-	-re "@\[^\r\n]+ $p_prompt"	{
+	# newer netscaler code (NS8.0: Build 47.8) the password prompt is
+	# "Password:" not "user@hosts's password:"
+	-re "(@\[^\r\n]+ )?$p_prompt"	{
 					  # ssh pwd prompt
 					  sleep 1
 					  send "$userpswd\r"

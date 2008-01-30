@@ -515,9 +515,8 @@ proc run_commands { prompt command } {
     if [ string match "*\;*" "$command" ] {
 	set commands [split $command \;]
 	set num_commands [llength $commands]
-	# the pager can not be turned off on the PIX, so we have to look
-	# for the "More" prompt.  the extreme is equally obnoxious, with a
-	# global switch in the config.
+	# if the pager can not be turned off, we have to look for the "More"
+	# prompt.
 	for {set i 0} {$i < $num_commands} { incr i} {
 	    send "[subst -nocommands [lindex $commands $i]]\r"
 	    expect {
@@ -545,9 +544,8 @@ proc run_commands { prompt command } {
 	    }
 	}
     } else {
-	# the pager can not be turned off on the PIX, so we have to look
-	# for the "More" prompt.  the extreme is equally obnoxious, with a
-	# global switch in the config.
+	# if the pager can not be turned off, we have to look for the "More"
+	# prompt.
 	send "[subst -nocommands $command]\r"
 	expect {
 		-re "^\[^\n\r *]*$reprompt"	{ send_user -- "$expect_out(buffer)"

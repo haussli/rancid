@@ -67,7 +67,7 @@ set usage "Usage: $argv0 \[-dV\] \[-autoenable\] \[-noenable\] \[-c command\] \
 # Password file
 set password_file $env(HOME)/.cloginrc
 # Default is to login to the router
-set do_command 1
+set do_command 0
 set do_script 0
 # The default is to automatically enable
 set avenable 0

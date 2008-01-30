@@ -536,9 +536,9 @@ proc run_commands { prompt command } {
 	    -re "^<-+ More -+>\[^\n\r]*" { send " "
 					  exp_continue }
 	    -re "^-+ MORE -+\[^\n\r]*"	{ send " "
-						  exp_continue }
+					  exp_continue }
 	    -re "^-+More-+\[^\n\r]*"	{ send " "
-						  exp_continue }
+					  exp_continue }
 	    -re "\b+"			{ exp_continue }
 	}
     }

@@ -4892,9 +4892,10 @@ fi
 
 
 
-for ac_header in errno.h fcntl.h limits.h pty.h malloc.h memory.h siginfo.h \
-		 string.h strings.h stropts.h sys/types.h sys/wait.h unistd.h \
-		 util.h
+
+for ac_header in ctype.h errno.h fcntl.h limits.h pty.h malloc.h memory.h \
+		 siginfo.h string.h strings.h stropts.h sys/types.h \
+		 sys/wait.h unistd.h util.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
 if { as_var=$as_ac_Header; eval "test \"\${$as_var+set}\" = set"; }; then

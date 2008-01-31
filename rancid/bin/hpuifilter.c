@@ -118,19 +118,19 @@ int		child,
 		sigrx,
 		timeo = 5;				/* default timeout   */
 
-int		expectmore __P((char *buf, int len));
-int		filter __P((char *, int));
-RETSIGTYPE	reapchild __P((void));
+int		expectmore(char *buf, int len);
+int		filter(char *, int);
+RETSIGTYPE	reapchild(void);
 #if !HAVE_OPENPTY
 int		openpty(int *, int *, char *, struct termios *,
 			struct winsize *);
 #endif
-RETSIGTYPE	sighdlr __P((int));
+RETSIGTYPE	sighdlr(int);
 #if !HAVE_UNSETENV
-int		unsetenv __P((const char *));
+int		unsetenv(const char *);
 #endif
-void		usage __P((void));
-void		vers __P((void));
+void		usage(void);
+void		vers(void);
 
 int
 main(int argc, char **argv, char **ev)

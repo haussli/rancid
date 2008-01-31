@@ -515,25 +515,25 @@ filter(char *buf, int len)
 #define	N_REG		14		/* number of regexes in reg[][] */
     static regex_t	preg[N_REG];
     static char		reg[N_REG][50] = {	/* vt100/220 escape codes */
-				"\e7\e\\[1;24r\e8",		/* ds */
-				"\e8",				/* fs */
+				"\x1B""7\x1B\\[1;24r\x1B""8",	/* ds */
+				"\x1B""8",			/* fs */
 
-				"\e\\[2J",
-				"\e\\[2K",			/* kE */
+				"\x1B\\[2J",
+				"\x1B\\[2K",			/* kE */
 
-				"\e\\[[0-9]+;[0-9]+r",		/* cs */
-				"\e\\[[0-9]+;[0-9]+H",		/* cm */
+				"\x1B\\[[0-9]+;[0-9]+r",	/* cs */
+				"\x1B\\[[0-9]+;[0-9]+H",	/* cm */
 
-				"\e\\[\\?6l",
-				"\e\\[\\?7l",			/* RA */
-				"\e\\[\\?25h",			/* ve */
-				"\e\\[\\?25l",			/* vi */
-				"\e\\[K",			/* ce */
-				"\e\\[7m",			/* mr - ansi */
+				"\x1B\\[\\?6l",
+				"\x1B\\[\\?7l",			/* RA */
+				"\x1B\\[\\?25h",		/* ve */
+				"\x1B\\[\\?25l",		/* vi */
+				"\x1B\\[K",			/* ce */
+				"\x1B\\[7m",			/* mr - ansi */
 
 				/* replace these with CR */
-				"\e\\[0m",			/* me */
-				"\eE",
+				"\x1B\\[0m",			/* me */
+				"\x1B""E",
 			};
     char		ebuf[256];
     size_t		nmatch = 1;

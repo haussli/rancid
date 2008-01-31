@@ -120,7 +120,7 @@ int		child,
 
 int		expectmore(char *buf, int len);
 int		filter(char *, int);
-RETSIGTYPE	reapchild(void);
+RETSIGTYPE	reapchild(int);
 #if !HAVE_OPENPTY
 int		openpty(int *, int *, char *, struct termios *,
 			struct winsize *);
@@ -243,7 +243,7 @@ main(int argc, char **argv, char **ev)
     memset(tbuf, 0, BUFSZ);
 
     /* reap our children, must be set-up *after* openpty() */
-    signal(SIGCHLD, (void *) reapchild);
+    signal(SIGCHLD, reapchild);
 
     if ((child = fork()) == -1) {
 	fprintf(stderr, "%s: fork() failed: %s\n", progname, strerror(errno));
@@ -304,7 +304,7 @@ main(int argc, char **argv, char **ev)
     if (debug)
 	fprintf(stderr, "child %d\n", child);
 
-    signal(SIGHUP, (void *) sighdlr);
+    signal(SIGHUP, sighdlr);
 
     /* close the slave pty */
     close(ptys);
@@ -470,7 +470,7 @@ main(int argc, char **argv, char **ev)
     tcdrain(pfds[2].fd);
 
     if (child && ! kill(child, SIGINT))
-	reapchild();
+	reapchild(SIGCHLD);
 
     return(rval);
 }
@@ -596,7 +596,7 @@ filter(char *buf, int len)
 }
 
 RETSIGTYPE
-reapchild(void)
+reapchild(int sig)
 {
     int         status;
     pid_t       pid;

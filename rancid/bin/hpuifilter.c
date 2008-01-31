@@ -76,6 +76,9 @@
 # include <unistd.h>
 #endif
 
+#if HAVE_CTYPE_H
+# include <ctype.h>
+#endif
 #include <stdio.h>
 #include <limits.h>
 #include <fcntl.h>

@@ -113,10 +113,10 @@
 
 char		**environ,
 		*progname;
-int		child,
-		debug,
+int		debug,
 		sigrx,
 		timeo = 5;				/* default timeout   */
+pid_t		child;
 
 int		expectmore(char *buf, int len);
 int		filter(char *, int);
@@ -188,8 +188,8 @@ main(int argc, char **argv, char **ev)
 
     unsetenv("DISPLAY");
 
-    for (child = 3; child < 10; child++)
-	close(child);
+    for (sigrx = 3; sigrx < 10; sigrx++)
+	close(sigrx);
 
     /* allocate pty for telnet/ssh, then fork and exec */
     if (openpty(&ptym, &ptys, ptyname, NULL, NULL)) {
@@ -330,6 +330,7 @@ main(int argc, char **argv, char **ev)
     pfds[2].events = POLLIN | POLLEXP;
 
     /* shuffle data across the pipes until we see EOF or a read/write error */
+    sigrx = 0;
     while (1) {
 	bytes = poll(pfds, 3, (timeo * 1000));
 	if (bytes == 0) {
@@ -605,7 +606,7 @@ reapchild(int sig)
     /* XXX this needs to deal with/without wait3 via HAVE_WAIT3 */
     while ((pid = wait3(&status, WNOHANG, 0)) > 0)
 	if (debug)
-            fprintf(stderr, "reap child %d\n", pid);
+            fprintf(stderr, "reap child %d\n", (int)pid);
     if (pid == child)
 	child = 0;
 

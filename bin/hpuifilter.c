@@ -302,7 +302,7 @@ main(int argc, char **argv, char **ev)
 
     /* parent */
     if (debug)
-	fprintf(stderr, "child %d\n", child);
+	fprintf(stderr, "child %d\n", (int)child);
 
     signal(SIGHUP, sighdlr);
 

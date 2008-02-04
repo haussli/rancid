@@ -325,6 +325,7 @@ main(int argc, char **argv, char **ev)
     pfds[0].fd = fileno(stdin);
     pfds[0].events = POLLIN | POLLEXP;
     pfds[1].fd = fileno(stdout);
+    pfds[1].events = POLLEXP;
     pfds[2].fd = ptym;
     pfds[2].events = POLLIN | POLLEXP;
 

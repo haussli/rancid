@@ -550,7 +550,7 @@ foreach firewall [lrange $argv $i end] {
     }
 
     # End of for each firewall
-    wait
+    catch {wait};
     sleep 0.3
 }
 exit 0

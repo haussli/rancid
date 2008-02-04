@@ -39,7 +39,7 @@
 ## CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ## ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 ## POSSIBILITY OF SUCH DAMAGE.
-# 
+#
 #  The expect login scripts were based on Erik Sherk's gwtn, by permission.
 #
 # rivlogin - Riverstone (and Enterasys SSR) login
@@ -900,7 +900,8 @@ if { $idx == $argc } {
 
 # main loop
 foreach router [lrange $argv $idx end] {
-set router [string tolower $router]
+    set router [string tolower $router]
+    send_user -- "$router\n"
 
     # Figure out passwords
     if {$verbose == 1} {
@@ -1032,6 +1033,10 @@ set router [string tolower $router]
 	log_file
 	strip_log $output_file $router
     }
+
+    # End of for each router
+    catch {wait};
+    sleep 0.3
 }
 
 # puts "\n"

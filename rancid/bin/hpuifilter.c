@@ -603,13 +603,18 @@ reapchild(int sig)
     int         status;
     pid_t       pid;
 
-    /* XXX this needs to deal with/without wait3 via HAVE_WAIT3 */
-    while ((pid = wait3(&status, WNOHANG, 0)) > 0)
+    if (debug)
+	fprintf(stderr, "GOT SIGNAL %d\n", sig);
+
+    while ((pid = wait3(&status, WNOHANG, NULL)) > 0) {
 	if (debug)
             fprintf(stderr, "reap child %d\n", (int)pid);
-    if (pid == child)
-	child = 0;
-
+	if (pid == child) {
+	    child = 0;
+	    sigrx = 0;
+	    break;
+	}
+    }
     return;
 }
 

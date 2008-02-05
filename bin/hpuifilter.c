@@ -141,13 +141,14 @@ main(int argc, char **argv, char **ev)
 			hbuf[BUFSZ],		/* hlogin buffer */
 			ptyname[FILENAME_MAX + 1],
 			tbuf[BUFSZ],		/* telnet/ssh buffer */
-			*tbufp;
+			tbufstr[4] = {ESC, '\r', '\n', '\0'};
     int			bytes,			/* bytes read/written */
 			devnull,
 			rval = EX_OK,
 			ptym,			/* master pty */
 			ptys;			/* slave pty */
-    ssize_t		hlen = 0,		/* len of hbuf */
+    ssize_t		idx,			/* strcspan span */
+			hlen = 0,		/* len of hbuf */
 			tlen = 0;		/* len of tbuf */
     struct pollfd	pfds[3];
     struct termios	tios;
@@ -386,10 +387,28 @@ main(int argc, char **argv, char **ev)
 	     * more data, write it anyway as filter() didnt match it.
 	     */
 	    bytes = tlen;
-	    if ((tbufp = index(tbuf, ESC)) != NULL) {
-		if (tlen - (tbufp - tbuf) < 2 ||
-		    expectmore(tbufp, tlen - (tbufp - tbuf))) {
-		    bytes = tbufp - tbuf;
+	    idx = strcspn(tbuf, tbufstr);
+	    if (idx) {
+		if (tbuf[idx] == ESC) {
+		    if (tlen - idx < 2 || expectmore(&tbuf[idx], tlen - idx)) {
+			bytes = idx;
+		    }
+		}
+		if (tbuf[idx] == '\r' || tbuf[idx] == '\n') {
+		    bytes = ++idx;
+		    if (tbuf[idx] == '\r' || tbuf[idx] == '\n')
+			bytes++;
+		}
+	    } else {
+		if (tbuf[0] == ESC) {
+		    if (tlen < 2 || expectmore(tbuf, tlen)) {
+			bytes = 0;
+		    }
+		}
+		if (tbuf[0] == '\r' || tbuf[0] == '\n') {
+		    bytes = 1;
+		    if (tbuf[1] == '\r' || tbuf[1] == '\n')
+			bytes++;
 		}
 	    }
 

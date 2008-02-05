@@ -453,11 +453,11 @@ main(int argc, char **argv, char **ev)
     }
     /* try to flush any remaining data from our buffers */
     if (hlen) {
-	(void) write(pfds[2].fd, hbuf, hlen);
+	(void)write(pfds[2].fd, hbuf, hlen);
 	hlen = 0;
     }
     if (tlen) {
-	(void) write(pfds[1].fd, tbuf, tlen);
+	(void)write(pfds[1].fd, tbuf, tlen);
 	tlen = 0;
     }
     if ((bytes = read(pfds[2].fd, tbuf, (BUFSZ - 1))) > 0) {

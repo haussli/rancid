@@ -222,6 +222,7 @@ sub ShowChassisEnvironment {
     while (<INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
+	return 1 if (/^aborted!/i);
 	next if (/^system (shutdown message from|going down )/i);
 	next if (/^\{(master|backup)}/);
 
@@ -255,6 +256,7 @@ sub ShowChassisFirmware {
     while (<INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
+	return 1 if (/^aborted!/i);
 	next if (/^system (shutdown message from|going down )/i);
 	next if (/^\{(master|backup)}/);
 
@@ -279,6 +281,7 @@ sub ShowChassisFpcDetail {
     while (<INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
+	return 1 if (/^aborted!/i);
 	next if (/^system (shutdown message from|going down )/i);
 	next if (/^\{(master|backup)}/);
 
@@ -306,6 +309,7 @@ sub ShowChassisHardware {
     while (<INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
+	return 1 if (/^aborted!/i);
 	next if (/^system (shutdown message from|going down )/i);
 	next if (/^\{(master|backup)}/);
 

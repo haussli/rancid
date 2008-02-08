@@ -178,11 +178,14 @@ sub ShowVersion {
 	/^(ACEdirector.*|ACEswitch.*|Alteon.*)/i &&
 	  ProcessHistory("COMMENTS","keysort","A1", "\/\*Model: $1\n") && next;
 	/^Software Version\s+(.*?)\s\((.*)\)/i &&
-	  ProcessHistory("COMMENTS","keysort","B1", "\/\*Image: Software: $1 ($2)\n") && next;
+	  ProcessHistory("COMMENTS","keysort","B1",
+			 "\/\*Image: Software: $1 ($2)\n") && next;
 	/^Hardware Part No:\s+(.*?)\s+/i &&
-	  ProcessHistory("COMMENTS","keysort","A2", "\/\*Hardware part no: $1\n") && next;
+	  ProcessHistory("COMMENTS","keysort","A2",
+			 "\/\*Hardware part no: $1\n") && next;
 	/^MAC address:\s+([0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2})/i &&
-	  ProcessHistory("COMMENTS","keysort","C1", "\/\*Base MAC address: $1\n") && next;
+	  ProcessHistory("COMMENTS","keysort","C1",
+			 "\/\*Base MAC address: $1\n") && next;
     }
     return(0);
 }

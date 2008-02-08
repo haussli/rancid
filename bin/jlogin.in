@@ -335,7 +335,7 @@ proc login { router user passwd cmethod cyphertype identfile} {
 	expect_after {
 	    timeout {
 		send_user "\nError: TIMEOUT reached\n"
-		catch {close}; wait
+		catch {close}; catch {wait};
 		if { $in_proc} {
 	            return 1
 		} else {
@@ -343,7 +343,7 @@ proc login { router user passwd cmethod cyphertype identfile} {
 		}
             } eof {
 		send_user "\nError: EOF received\n"
-		catch {close}; wait
+		catch {close}; catch {wait};
 		if { $in_proc} {
 	            return 1
 		} else {
@@ -360,25 +360,25 @@ proc login { router user passwd cmethod cyphertype identfile} {
 	# then it will just send the passwd.
 	expect {
 	    -re "(Connection refused|Secure connection \[^\n\r]+ refused|Connection closed by)" {
-		catch {close}; wait
+		catch {close}; catch {wait};
 		if !$progs {
 		   send_user "\nError: Connection Refused ($prog)\n"; return 1
 		}
 	    }
             eof { send_user "\nError: Couldn't login\n"; wait; return 1
 	    } -nocase "unknown host\r\n" {
-		catch {close};
+		catch {close}; catch {wait};
 		send_user "\nError: Unknown host\n"; wait; return 1
 	    } "Host is unreachable" {
-		catch {close};
+		catch {close}; catch {wait};
 		send_user "\nError: Host Unreachable!\n"; wait; return 1
 	    } "No address associated with name" {
-		catch {close};
+		catch {close}; catch {wait};
 		send_user "\nError: Unknown host\n"; wait; return 1
 	    }
 	    "Login incorrect" {
 			  send_user "\nError: Check your password for $router\n"
-			  catch {close}; wait; return 1
+			  catch {close}; catch {wait}; return 1
 			}
 	    -re "Enter passphrase.*: " {
 		# sleep briefly to allow time for stty -echo
@@ -407,7 +407,7 @@ proc login { router user passwd cmethod cyphertype identfile} {
 						}
 	    -re "$prompt"		{ break; }
 	    denied	{ send_user "\nError: Check your password for $router\n"
-	                  catch {close}; wait; return 1
+	                  catch {close}; catch {wait}; return 1
 	                }
 	}
     }
@@ -459,7 +459,7 @@ proc run_commands { prompt command } {
     send "quit\r"
     expect {
 	"\n"					{ exp_continue }
-	timeout					{ catch {close}; wait
+	timeout					{ catch {close}; catch {wait};
 						  return 0
 						}
 	eof					{ return 0 }
@@ -547,7 +547,7 @@ foreach router [lrange $argv $i end] {
 	send "set cli screen-length 0\r"
 	expect -re $prompt	{}
 	source $sfile
-	close
+	catch {close};
     } else {
 	label $router
 	log_user 1

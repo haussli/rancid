@@ -366,7 +366,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	expect_after {
 	    timeout {
 		send_user "\nError: TIMEOUT reached\n"
-		catch {close}; wait
+		catch {close}; catch {wait};
 		if { $in_proc} {
 		    return 1
 		} else {
@@ -374,7 +374,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 		}
 	    } eof {
 		send_user "\nError: EOF received\n"
-		catch {close}; wait
+		catch {close}; catch {wait};
 		if { $in_proc} {
 		    return 1
 		} else {
@@ -396,17 +396,17 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	    exp_continue
 	}
 	-re "(Connection refused|Secure connection \[^\n\r]+ refused|Connection closed by)" {
-	    catch {close}; wait
+	    catch {close}; catch {wait};
 	    if !$progs {
 		send_user "\nError: Connection Refused ($prog)\n"; return 1
 	    }
 	}
 	"Host is unreachable" {
-	    catch {close};
+	    catch {close}; catch {wait};
 	    send_user "\nError: Host Unreachable!\n"; wait; return 1
 	}
 	"No address associated with name" {
-	    catch {close};
+	    catch {close}; catch {wait};
 	    send_user "\nError: Unknown host\n"; wait; return 1
 	}
 	-re "(Host key not found |The authenticity of host .* be established).*\(yes\/no\)\?" {
@@ -423,13 +423,15 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	    return 1 }
 	eof { send_user "\nError: Couldn't login\n"; wait; return 1 }
 	-nocase "unknown host\r" {
-	    catch {close};
+	    catch {close}; catch {wait};
 	    send_user "\nError: Unknown host\n"; wait; return 1
 	}
 	-re "$u_prompt"	{ send "$user\r"
 	    expect {
 		eof			{ send_user "\nError: Couldn't login\n"; wait; return 1 }
-		"Login invalid"		{ send_user "\nError: Invalid login\n"; vatch {close}; wait; return 1 }
+		"Login invalid"		{ send_user "\nError: Invalid login\n";
+					  catch {close}; catch {wait};
+					  return 1 }
 		-re "$p_prompt"		{ send "$userpswd\r" }
 		"$prompt"		{ set in_proc 0; return 0 }
 		"Press any key to continue" {
@@ -463,7 +465,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	}
 	"$prompt"	{ break; }
 	denied		{ send_user "\nError: Check your passwd for $router\n"
-			  catch {close}; wait; return 1
+			  catch {close}; catch {wait}; return 1
 			}
 	"% Bad passwords" {send_user "\nError: Check your passwd for $router\n"; return 1 }
      }
@@ -569,7 +571,7 @@ proc run_commands { prompt command } {
 						  send -h "exit\r"
 						  exp_continue
 						}
-	timeout					{ catch {close}; wait
+	timeout					{ catch {close}; catch {wait};
 						  return 0
 						}
 	eof					{ return 0 }
@@ -728,7 +730,7 @@ foreach router [lrange $argv $i end] {
 	send "no page\r"
 	expect -re $prompt	{}
 	source $sfile
-	close
+	catch {close};
     } else {
 	label $router
 	log_user 1

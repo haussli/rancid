@@ -211,11 +211,11 @@ sub WriteTerm {
 	next if (/^\/\* Configuration dump taken/i);
 	next if (/^\/\* Version.*Base MAC.*/i);
 
-		if (/^\/?script end/) {
-		$found_end = 1;
-		ProcessHistory("","","","$_\n");
-		return(1);
-		}
+	if (/^\/?script end/) {
+	    $found_end = 1;
+	    ProcessHistory("","","","$_\n");
+	    return(1);
+	}
 
 	ProcessHistory("","","","$_\n");
     }

@@ -508,7 +508,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 				  send_user "\nError: Check your passwd for $router\n"
 				  return 1
 				}
-	"Press any key to continue." {
+	"Press any key to continue" {
 				  # send_user "Pressing the ANY key\n"
 				  send "\r"
 				  exp_continue

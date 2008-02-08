@@ -147,17 +147,18 @@ sub sortbyipaddr {
 }
 
 # This routine parses "cat"
-sub CatFiles {
-    print STDERR "    In CatFiles: $_" if ($debug);
+sub CatFile {
+    print STDERR "    In CatFile: $_" if ($debug);
 
     $catfile = $1;
-    $catfile = ~s/cat //;
+    $catfile =~ s/cat //;
     ProcessHistory("COMMENTS","","","! $catfile\n");
     while (<INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 #	return(1) if /Line has invalid autocommand /;
+	return(-1) if /: Permission denied/;
 	ProcessHistory("COMMENTS","","","$_");
     }
     ProcessHistory("COMMENTS","","","!\n");
@@ -170,15 +171,15 @@ sub DoNothing {print STDOUT;}
 
 # Main
 @commandtable = (
-	{'cat /etc/hostname'		=> 'CatFiles'},
-	{'cat /etc/domainname.conf'	=> 'CatFiles'},
-	{'cat /etc/resolv.conf'		=> 'CatFiles'},
-	{'cat /etc/portslave/pslave.conf' => 'CatFiles'},
-	{'cat /etc/passwd'		=> 'CatFiles'},
-	{'cat /etc/snmp/snmpd.conf'	=> 'CatFiles'},
-	{'cat /etc/network/ifcfg_eth0'	=> 'CatFiles'},
-	{'cat /etc/network/st_routes'	=> 'CatFiles'},
-	{'cat /etc/security.opts'	=> 'CatFiles'},
+	{'cat /etc/hostname'		=> 'CatFile'},
+	{'cat /etc/domainname.conf'	=> 'CatFile'},
+	{'cat /etc/resolv.conf'		=> 'CatFile'},
+	{'cat /etc/portslave/pslave.conf' => 'CatFile'},
+	{'cat /etc/passwd'		=> 'CatFile'},
+	{'cat /etc/snmp/snmpd.conf'	=> 'CatFile'},
+	{'cat /etc/network/ifcfg_eth0'	=> 'CatFile'},
+	{'cat /etc/network/st_routes'	=> 'CatFile'},
+	{'cat /etc/security.opts'	=> 'CatFile'},
 );
 # Use an array to preserve the order of the commands and a hash for mapping
 # commands to the subroutine and track commands that have been completed.

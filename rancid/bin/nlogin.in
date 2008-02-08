@@ -462,6 +462,7 @@ proc run_commands { prompt command } {
 #
 source_password_file $password_file
 set in_proc 0
+set exitval 0
 foreach firewall [lrange $argv $i end] {
     set firewall [string tolower $firewall]
     send_user "$firewall\n"
@@ -520,6 +521,7 @@ foreach firewall [lrange $argv $i end] {
 
     # Login to the firewall
     if {[login $firewall $ruser $userpswd $passwd $enapasswd $prompt $cmethod $cyphertype]} {
+	incr exitval
 	continue
     }
 
@@ -536,6 +538,7 @@ foreach firewall [lrange $argv $i end] {
 
     if { $do_command } {
 	if {[run_commands $prompt $command]} {
+	    incr exitval
 	    continue
 	}
     } elseif { $do_script } {
@@ -553,4 +556,4 @@ foreach firewall [lrange $argv $i end] {
     catch {wait};
     sleep 0.3
 }
-exit 0
+exit $exitval

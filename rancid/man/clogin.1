@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "clogin" "1" "15 November 2007"
+.TH "clogin" "1" "7 February 2008"
 .SH NAME
 clogin \- Cisco/Foundry login script
 .SH SYNOPSIS
@@ -85,7 +85,7 @@ respectively.
 .B clogin
 reads the
 .IR .cloginrc
-file for its configuration, then connects and logins into each of the
+file for its configuration, then connects and logs into each of the
 routers specified on the command line in the order listed.  Command-line
 options exist to override some of the directives found in the
 .IR .cloginrc
@@ -202,6 +202,12 @@ Specifies the encryption algorithm for use with the
 .BR ssh (1)
 man page for details.  The default is 3des.
 .El
+.\"
+.SH RETURNS
+If the login script fails for any of the devices on the command-line, the
+exit value of the script will be non-zero and the value will be the number
+of failures.
+.\"
 .SH ENVIRONMENT
 .B clogin
 recognizes the following environment variables.

@@ -1038,6 +1038,4 @@ foreach router [lrange $argv $idx end] {
     catch {wait};
     sleep 0.3
 }
-
-# puts "\n"
 exit 0

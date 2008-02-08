@@ -174,7 +174,7 @@ sub ShowVersion {
 
     while (<INPUT>) {
 	tr/\015//d;
-	if (/^$prompt/) { $found_version=1; last};
+	if (/^$prompt/) { $found_version = 1; last};
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
@@ -192,7 +192,7 @@ sub ShowVersion {
 	    next;
 	}
 	if (/cisco ios xr /i) { $ios = "XR"; }
-	if (/^Application and Content Networking Software/) { $type="CE"; }
+	if (/^Application and Content Networking Software/) { $type = "CE"; }
 	/^Application and Content Networking Software Release /i &&
 	    ProcessHistory("COMMENTS","keysort","F1", "!Image: $_") && next;
 	/^Cisco Secure PIX /i &&
@@ -375,7 +375,7 @@ sub ShowVersion {
 	}
 	if (/(\S+) Silicon\s*Switch Processor/) {
 	    if (!defined($C0)) {
-		$C0=1; ProcessHistory("COMMENTS","keysort","C0","!\n");
+		$C0 = 1; ProcessHistory("COMMENTS","keysort","C0","!\n");
 	    }
 	    ProcessHistory("COMMENTS","keysort","C2","!SSP: $1\n");
 	    $ssp = 1;
@@ -404,17 +404,17 @@ sub ShowVersion {
 	}
 	if (/^WARNING/) {
 	    if (!defined($I0)) {
-		$I0=1;
+		$I0 = 1;
 		ProcessHistory("COMMENTS","keysort","I0","!\n");
 	    }
 	    ProcessHistory("COMMENTS","keysort","I1","! $_");
 	}
 	if (/^Configuration register is (.*)$/) {
-	    $config_register=$1;
+	    $config_register = $1;
 	    next;
 	}
 	if (/^Configuration register on node \S+ is (.*)$/) {
-	    $config_register=$1 if $config_register eq "";
+	    $config_register = $1 if $config_register eq "";
 	    next;
 	}
     }
@@ -517,7 +517,7 @@ sub ShowEnv {
 
     while (<INPUT>) {
 	tr/\015//d;
-	if (/^$prompt/) { $found_env=1; last};
+	if (/^$prompt/) { $found_env = 1; last};
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	#return(1) if ($type !~ /^7/);
 	return(1) if /Line has invalid autocommand /;
@@ -531,12 +531,12 @@ sub ShowEnv {
 	}
 
 	if (!defined($E0)) {
-	    $E0=1;
+	    $E0 = 1;
 	    ProcessHistory("COMMENTS","keysort","E0","!\n");
 	}
 	if (/^Arbiter type (\d), backplane type (\S+)/) {
 	    if (!defined($C0)) {
-		$C0=1; ProcessHistory("COMMENTS","keysort","C0","!\n");
+		$C0 = 1; ProcessHistory("COMMENTS","keysort","C0","!\n");
 	    }
 	    ProcessHistory("COMMENTS","keysort","C1",
 		"!Enviromental Arbiter Type: $1\n");
@@ -656,7 +656,7 @@ sub ShowBoot {
 
 	next if /CONFGEN variable/;
 	if (!defined($H0)) {
-	    $H0=1; ProcessHistory("COMMENTS","keysort","H0","!\n");
+	    $H0 = 1; ProcessHistory("COMMENTS","keysort","H0","!\n");
 	}
 	if ($type !~ /^(12[04]|7)/) {
 	    if ($type !~ /^(29|35)00/) {
@@ -984,7 +984,7 @@ sub ShowDiag {
 
     while (<INPUT>) {
 REDUX:	tr/\015//d;
-	if (/^$prompt/) { $found_diag=1; last};
+	if (/^$prompt/) { $found_diag = 1; last};
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	# return(1) if ($type !~ /^(12[40]|720|36|26)/);
 	return(1) if /Line has invalid autocommand /;
@@ -1061,7 +1061,7 @@ REDUX:	tr/\015//d;
 	    next;
 	}
 	if (/^c3700\s+(io-board|mid-plane)/i) {
-	    $slot=$1;
+	    $slot = $1;
 	    ProcessHistory("SLOT","","","!\n");
 	    ProcessHistory("SLOT","keysort","A","!Slot $slot: part $1\n");
 	    next;
@@ -1874,8 +1874,8 @@ sub DoNothing {print STDOUT;}
 @commands = map(keys(%$_), @commandtable);
 %commands = map(%$_, @commandtable);
 
-$cisco_cmds=join(";",@commands);
-$cmds_regexp=join("|",@commands);
+$cisco_cmds = join(";",@commands);
+$cmds_regexp = join("|",@commands);
 
 if (length($host) == 0) {
     if ($file) {
@@ -1934,13 +1934,13 @@ ProcessHistory("COMMENTS","keysort","G0","!\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
     if (/[>#]\s?exit$/) {
-	$clean_run=1;
+	$clean_run = 1;
 	last;
     }
     if (/^Error:/) {
 	print STDOUT ("$host clogin error: $_");
 	print STDERR ("$host clogin error: $_") if ($debug);
-	$clean_run=0;
+	$clean_run = 0;
 	last;
     }
     while (/#\s*($cmds_regexp)\s*$/) {

@@ -425,8 +425,8 @@ sub DoNothing {print STDOUT;}
 @commands = map(keys(%$_), @commandtable);
 %commands = map(%$_, @commandtable);
 
-$cisco_cmds=join(";",@commands);
-$cmds_regexp=join("|",@commands);
+$cisco_cmds = join(";",@commands);
+$cmds_regexp = join("|",@commands);
 
 if (length($host) == 0) {
     if ($file) {
@@ -491,13 +491,13 @@ TOP: while(<INPUT>) {
     # unreliable about echoing the 'exit\n' command.  this match might really
     # be a bad idea, but instead rely upon WriteTerm's found_end?
     if (/$prompt\s?(quit|exit|Connection( to \S+)? closed)/ && $found_end) {
-	$clean_run=1;
+	$clean_run = 1;
 	last;
     }
     if (/^Error:/) {
 	print STDOUT ("$host clogin error: $_");
 	print STDERR ("$host clogin error: $_") if ($debug);
-	$clean_run=0;
+	$clean_run = 0;
 	last;
     }
     while (/$prompt\s*($cmds_regexp)\s*$/) {

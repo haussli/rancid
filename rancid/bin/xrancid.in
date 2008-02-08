@@ -402,6 +402,7 @@ sub WriteTerm {
 	$found_end = 0;
 	return(-1);
     }
+    $found_end = 1;
 
     return(0);
 }

@@ -150,8 +150,8 @@ sub sortbyipaddr {
 sub CatFiles {
     print STDERR "    In CatFiles: $_" if ($debug);
 
-    $catfile=$1;
-    $catfile=~s/cat //;
+    $catfile = $1;
+    $catfile = ~s/cat //;
     ProcessHistory("COMMENTS","","","! $catfile\n");
     while (<INPUT>) {
 	tr/\015//d;
@@ -161,7 +161,7 @@ sub CatFiles {
 	ProcessHistory("COMMENTS","","","$_");
     }
     ProcessHistory("COMMENTS","","","!\n");
-    if ( $catfile == "/etc/security.opts" ) { $found_end=1;$clean_run=1;};
+    if ( $catfile == "/etc/security.opts" ) { $found_end = 1;$clean_run = 1;};
     return(0);
 }
 
@@ -171,22 +171,22 @@ sub DoNothing {print STDOUT;}
 # Main
 @commandtable = (
 	{'cat /etc/hostname'		=> 'CatFiles'},
-	{'cat /etc/domainname.conf'		=> 'CatFiles'},
+	{'cat /etc/domainname.conf'	=> 'CatFiles'},
 	{'cat /etc/resolv.conf'		=> 'CatFiles'},
-	{'cat /etc/portslave/pslave.conf'		=> 'CatFiles'},
+	{'cat /etc/portslave/pslave.conf' => 'CatFiles'},
 	{'cat /etc/passwd'		=> 'CatFiles'},
-	{'cat /etc/snmp/snmpd.conf'		=> 'CatFiles'},
-	{'cat /etc/network/ifcfg_eth0'		=> 'CatFiles'},
-	{'cat /etc/network/st_routes'		=> 'CatFiles'},
-	{'cat /etc/security.opts'		=> 'CatFiles'},
+	{'cat /etc/snmp/snmpd.conf'	=> 'CatFiles'},
+	{'cat /etc/network/ifcfg_eth0'	=> 'CatFiles'},
+	{'cat /etc/network/st_routes'	=> 'CatFiles'},
+	{'cat /etc/security.opts'	=> 'CatFiles'},
 );
 # Use an array to preserve the order of the commands and a hash for mapping
 # commands to the subroutine and track commands that have been completed.
 @commands = map(keys(%$_), @commandtable);
 %commands = map(%$_, @commandtable);
 
-$cisco_cmds=join(";",@commands);
-$cmds_regexp=join("|",@commands);
+$cisco_cmds = join(";",@commands);
+$cmds_regexp = join("|",@commands);
 
 open(OUTPUT,">$host.new") || die "Can't open $host.new for writing: $!\n";
 select(OUTPUT);
@@ -236,13 +236,13 @@ ProcessHistory("COMMENTS","keysort","G0","!\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
     if (/[>#]\s?exit$/) {
-	$clean_run=1;
+	$clean_run = 1;
 	last;
     }
     if (/^Error:/) {
 	print STDOUT ("$host avologin error: $_");
 	print STDERR ("$host avologin error: $_") if ($debug);
-	$clean_run=0;
+	$clean_run = 0;
 	last;
     }
     while (/#\s*($cmds_regexp)\s*$/) {

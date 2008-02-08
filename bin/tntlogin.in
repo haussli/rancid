@@ -464,6 +464,7 @@ proc run_commands { prompt command } {
 #
 source_password_file $password_file
 set in_proc 0
+set exitval 0
 foreach router [lrange $argv $i end] {
     set router [string tolower $router]
     send_user "$router\n"
@@ -536,12 +537,14 @@ foreach router [lrange $argv $i end] {
 
     # Login to the router
     if {[login $router $ruser $userpswd $passwd $prompt $cmethod $cyphertype]} {
+	incr exitval
 	continue
     }
 
     if { $do_command } {
 	if {[run_commands $prompt $command]} {
-	continue
+	    incr exitval
+	    continue
 	}
     } elseif { $do_script } {
 	expect -re $prompt	{}
@@ -558,4 +561,4 @@ foreach router [lrange $argv $i end] {
     catch {wait};
     sleep 0.3
 }
-exit 0
+exit $exitval

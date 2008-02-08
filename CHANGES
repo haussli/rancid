@@ -1,4 +1,7 @@
 2.3.2
+	*login: Return/exit non-zero if there are failures for any of the
+		devices on the cmd-line. 
+
 	nslogin: password prompt change in newer code - from Derek Andree
 
 	hlogin: reformat the prompt matching in run_commands() like cisco, which

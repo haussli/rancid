@@ -899,6 +899,7 @@ if { $idx == $argc } {
 }
 
 # main loop
+set exitval 0
 foreach router [lrange $argv $idx end] {
     set router [string tolower $router]
     send_user -- "$router\n"
@@ -963,6 +964,7 @@ foreach router [lrange $argv $idx end] {
 
     # Login to the router, set my_prompt to router's cmd prompt
     if {[login $router $user $userpswd $passwd $enapasswd ]} {
+	incr exitval
 	if { $verbose == 1 } {
 	    puts "DEBUG: login to $router failed\n"
 	}
@@ -975,6 +977,7 @@ foreach router [lrange $argv $idx end] {
 
     if { $enable == 1 } {
 	if { [do_enable $enauser $enapasswd $userpswd] == 1} {
+	    incr exitval
 	    if { $verbose == 1 } {
 		puts "DEBUG: switch to enable mode on $router failed\n"
 	    }
@@ -992,7 +995,8 @@ foreach router [lrange $argv $idx end] {
 	}
 
 	if {[ run_commands $my_prompt $command ]} {
-	    log_file
+	    incr exitval
+    	    log_file
 	    exit 1
 	} else {
 	    logout $my_prompt
@@ -1038,4 +1042,4 @@ foreach router [lrange $argv $idx end] {
     catch {wait};
     sleep 0.3
 }
-exit 0
+exit $exitval

@@ -51,6 +51,7 @@ require 5;
 $vendor =~ tr/[A-Z]/[a-z]/;
 
 %vendortable = (
+    'agm'		=> 'agmrancid',
     'alteon'		=> 'arancid',
     'avocent'		=> 'avorancid',
     'baynet'		=> 'brancid',
@@ -73,7 +74,6 @@ $vendor =~ tr/[A-Z]/[a-z]/;
     'netscreen'		=> 'nrancid',
     'procket'		=> 'prancid',
     'redback'		=> 'rrancid',
-    'riverhead'		=> 'agmrancid',
     'riverstone'	=> 'rivrancid',
     'smc'		=> 'srancid',
     'tnt'		=> 'tntrancid',

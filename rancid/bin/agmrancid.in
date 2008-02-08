@@ -520,7 +520,6 @@ if (scalar(%commands) || !$clean_run || !$found_end) {
 	printf(STDERR "$host: missed cmd(s): %s\n", join(',', keys(%commands))) if ($debug);
     }
     if (!$clean_run || !$found_end) {
-print STDOUT $clean_run . " " . $found_end . "\n";
 	print STDOUT "$host: End of run not found\n";
 	print STDERR "$host: End of run not found\n" if ($debug);
 	system("/usr/bin/tail -1 $host.new");

@@ -453,12 +453,16 @@ proc do_enable { enauser enapasswd } {
     global u_prompt e_prompt
     set in_proc 1
 
-    send "enable\r"
+    send "/bin/su\r"
     expect {
 	-re "$u_prompt"	{ send "$enauser\r"; exp_continue}
 	-re "$e_prompt"	{ send "$enapasswd\r"; exp_continue}
 	"#"		{ set prompt "#" }
-	-re "(denied|Sorry|Incorrect)"	{
+	-re "su: User not allowed access" {
+			  send_user "\nError: Enable access not allowed\n";
+			  return 1
+			}
+	-re "(denied|Sorry|Incorrect)" {
 			  # % Access denied - from local auth and poss. others
 			  send_user "\nError: Check your Enable passwd\n";
 			  return 1
@@ -696,6 +700,7 @@ foreach router [lrange $argv $i end] {
 	    continue
 	}
     } elseif { $do_script } {
+	# XXX
 	# If the prompt is (enable), then we are on a switch and the
 	# command is "set length 0"; otherwise its "term length 0".
 	if [regexp -- ".*> .*enable" "$prompt"] {

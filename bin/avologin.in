@@ -489,17 +489,6 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 				  send_user "\nError: Check your passwd for $router\n"
 				  return 1
 				}
-	"Press any key to continue." {
-				  # send_user "Pressing the ANY key\n"
-				  send "\r"
-				  exp_continue
-				}
-	-re "Enter Selection: " {
-				  # Catalyst 1900s have some lame menu.  Enter
-				  # K to reach a command-line.
-				  send "K\r"
-				  exp_continue;
-				}
 	-re "@\[^\r\n]+ $p_prompt"	{
 					  # ssh pwd prompt
 					  sleep 1
@@ -543,7 +532,6 @@ proc do_enable { enauser enapasswd } {
 	-re "$u_prompt"	{ send "$enauser\r"; exp_continue}
 	-re "$e_prompt"	{ send "$enapasswd\r"; exp_continue}
 	"#"		{ set prompt "#" }
-	"(enable)"	{ set prompt "> (enable) " }
 	-re "(denied|Sorry|Incorrect)"	{
 			  # % Access denied - from local auth and poss. others
 			  send_user "\nError: Check your Enable passwd\n";

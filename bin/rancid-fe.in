@@ -63,6 +63,7 @@ $vendor =~ tr/[A-Z]/[a-z]/;
     'erx'		=> 'jerancid',
     'extreme'		=> 'xrancid',
     'ezt3'		=> 'erancid',
+    'f5'		=> 'f5rancid',
     'force10'		=> 'f10rancid',
     'fortigate'		=> 'fnrancid',
     'foundry'		=> 'francid',

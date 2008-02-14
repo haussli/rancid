@@ -603,8 +603,6 @@ proc run_commands { prompt command } {
 	    set command "set logging session disable;$command"
 	} else {
 	    send "term length 0\r"
-	    expect -re $prompt  {}
-	    send "term width 80\r"
 	}
 	# escape any parens in the prompt, such as "(enable)"
 	regsub -all {[)(]} $prompt {\\&} reprompt
@@ -699,10 +697,6 @@ proc run_commands { prompt command } {
 	send -h "quit\r"
     }
     expect {
-	-re "(Connection closed by|Connection to \[^\n\r]+ closed)" {
-						  send_user -- "$expect_out(buffer)"
-						  return 0
-						}
 	-re "^\[^\n\r *]*$reprompt"		{
 						  # the Cisco CE and Jnx ERX
 						  # return to non-enabled mode
@@ -900,8 +894,6 @@ foreach router [lrange $argv $i end] {
 	    send "set logging session disable\r"
 	} else {
 	    send "term length 0\r"
-	    expect -re $prompt  {}
-	    send "term width 80\r"
 	}
 	expect -re $prompt	{}
 	source $sfile

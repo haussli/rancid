@@ -299,7 +299,7 @@ sub ShowPlatform {
     return(0);
 }
 
-# This routine parses "bigpipe version show"
+# This routine parses "bigpipe version"
 sub ShowVersion {
     print STDERR "    In ShowVersion: $_" if ($debug);
 
@@ -438,7 +438,7 @@ sub DoNothing {print STDOUT;}
 
 # Main
 @commandtable = (
-	{'bigpipe version show'		=> 'ShowVersion'},
+	{'bigpipe version'		=> 'ShowVersion'},
 	{'bigpipe platform'		=> 'ShowPlatform'},
 	{'cat /config/bigip.license'	=> 'ShowLicense'},
 	{'bigpipe monitor list all'	=> 'ShowMonitor'},

@@ -299,6 +299,40 @@ sub ShowPlatform {
     return(0);
 }
 
+# This routine parses "bigpipe profile list"
+sub ShowProfile {
+    print STDERR "    In ShowProfile: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /^\s*\^\s*$/;
+	return(1) if /(Invalid input detected|Type help or )/;
+	return(-1) if (/command authorization failed/i);
+
+	ProcessHistory("PROFILE","",""," $_") && next;
+    }
+    return(0);
+}
+
+# This routine parses "bigpipe route static show"
+sub ShowRouteStatic {
+    print STDERR "    In ShowRouteStatic: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /^\s*\^\s*$/;
+	return(1) if /(Invalid input detected|Type help or )/;
+	return(-1) if (/command authorization failed/i);
+
+	ProcessHistory("ROUTE","",""," $_") && next;
+    }
+    return(0);
+}
+
 # This routine parses "bigpipe version"
 sub ShowVersion {
     print STDERR "    In ShowVersion: $_" if ($debug);
@@ -442,8 +476,10 @@ sub DoNothing {print STDOUT;}
 	{'bigpipe platform'		=> 'ShowPlatform'},
 	{'cat /config/bigip.license'	=> 'ShowLicense'},
 	{'bigpipe monitor list all'	=> 'ShowMonitor'},
+	{'bigpipe profile list'		=> 'ShowProfile'},
 	{'bigpipe base list'		=> 'ShowBaseRun'},
 	{'bigpipe db show'		=> 'ShowDb'},
+	{'bigpipe route static show'	=> 'ShowRouteStatic'},
 	{'bigpipe list'			=> 'WriteTerm'}
 );
 # Use an array to preserve the order of the commands and a hash for mapping

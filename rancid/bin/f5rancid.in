@@ -258,7 +258,7 @@ sub ShowMonitor {
 	if (!$line++) {
 	    ProcessHistory("MONITOR","","","#\n");
 	}
-	if (/^(\s+community) (.+)/i) {
+	if (/^(snmp\.[^ ]+\.community) = (.+)/i) {
 	    if ($filter_commstr) {
 		ProcessHistory("SHOWDB","","","# $1 <removed>\n") && next;
 	    } else {

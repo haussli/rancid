@@ -277,6 +277,8 @@ sub WriteTerm {
 
     while (<INPUT>) {
 	tr/\015//d;
+	return(1) if (/Invalid input ->/);
+	return(0) if ($found_end);		# Only do this routine once
 	last if (/^$prompt/);
 
 	/Current configuration:/i && next;
@@ -401,7 +403,8 @@ sub DoNothing {print STDOUT;}
 	{'show chassis'		=> 'ShowChassis'},
 	{'show module'		=> 'ShowModule'},
 	{'show flash'		=> 'ShowFlash'},
-	{'write term'		=> 'WriteTerm'}
+	{'write term'		=> 'WriteTerm'},
+	{'show running-config'	=> 'WriteTerm'},
 );
 # Use an array to preserve the order of the commands and a hash for mapping
 # commands to the subroutine and track commands that have been completed.

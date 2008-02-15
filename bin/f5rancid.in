@@ -39,7 +39,7 @@
 ## CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ## ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 ## POSSIBILITY OF SUCH DAMAGE.
-# 
+#
 # This version of rancid tries to deal with F5 BigIPs.
 #
 #  RANCID - Really Awesome New Cisco confIg Differ
@@ -316,6 +316,44 @@ sub ShowProfile {
     return(0);
 }
 
+# This routine parses "ls --full-time --color=never /config/ssl/ssl.key"
+sub ShowSslKey {
+    print STDERR "    In ShowSslKey: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	# v9 software license does not have CR at EOF
+	s/^#-+($prompt.*)/$1/;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /^\s*\^\s*$/;
+	return(1) if /(Invalid input detected|Type help or )/;
+	return(-1) if (/command authorization failed/i);
+
+	ProcessHistory("SSLKEY","","","! $_") && next;
+    }
+    return(0);
+}
+
+# This routine parses "ls --full-time --color=never /config/ssl/ssl.crt"
+sub ShowSslCrt {
+    print STDERR "    In ShowSslCrt: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	# v9 software license does not have CR at EOF
+	s/^#-+($prompt.*)/$1/;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /^\s*\^\s*$/;
+	return(1) if /(Invalid input detected|Type help or )/;
+	return(-1) if (/command authorization failed/i);
+
+	ProcessHistory("SSLCRT","","","! $_") && next;
+    }
+    return(0);
+}
+
 # This routine parses "bigpipe route static show"
 sub ShowRouteStatic {
     print STDERR "    In ShowRouteStatic: $_" if ($debug);
@@ -480,6 +518,8 @@ sub DoNothing {print STDOUT;}
 	{'bigpipe base list'		=> 'ShowBaseRun'},
 	{'bigpipe db show'		=> 'ShowDb'},
 	{'bigpipe route static show'	=> 'ShowRouteStatic'},
+	{'ls --full-time --color=never /config/ssl/ssl.crt' => 'ShowSslCrt'},
+	{'ls --full-time --color=never /config/ssl/ssl.key' => 'ShowSslKey'},
 	{'bigpipe list'			=> 'WriteTerm'}
 );
 # Use an array to preserve the order of the commands and a hash for mapping

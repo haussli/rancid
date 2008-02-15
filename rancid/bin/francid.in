@@ -245,7 +245,7 @@ sub ShowFlash {
     print STDERR "    In ShowFlash: $_" if ($debug);
 
     while (<INPUT>) {
-    tr/\015//d;
+	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^\s*$/);
 	ProcessHistory("FLASH","","","!Flash: $_");
@@ -264,6 +264,7 @@ sub ShowModule {
 	return(1) if (/Invalid input ->/);
 	next if (/^\s*$/);
 	next if (/:\s*$/);
+
 	ProcessHistory("MODULE","","","!Module: $_");
     }
     ProcessHistory("","","","!\n");

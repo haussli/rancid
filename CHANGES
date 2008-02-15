@@ -1,4 +1,6 @@
 2.3.2
+	francid: filter SSL secret - From Jethro Binks
+
 	francid: privlvl 5 does not allow write term, also run show
 		 running-config - from Jethro Binks
 

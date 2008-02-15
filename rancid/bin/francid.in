@@ -39,7 +39,7 @@
 ## CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ## ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 ## POSSIBILITY OF SUCH DAMAGE.
-# 
+#
 # Amazingly hacked version of Hank's rancid - this one tries to
 # deal with foundrys and foundrys OEM'd by HP as Procurves.
 #
@@ -363,6 +363,12 @@ sub WriteTerm {
 	# filter ssh private key
 	if (/^(crypto key generate (rsa|dsa) private_key)/ &&
 		$filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>\n");
+	    next;
+	}
+	# filter ssl secret
+	if (/^(crypto-ssl certificate generate secret_data)/ &&
+	    $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n");
 	    next;
 	}

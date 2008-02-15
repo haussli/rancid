@@ -179,9 +179,9 @@ sub ShowBaseRun {
 	return(-1) if (/command authorization failed/i);
 
 	if (!$line++) {
-	    ProcessHistory("SHOWBASE","","","!\n!base:\n");
+	    ProcessHistory("SHOWBASE","","","#\n#base:\n");
 	}
-	ProcessHistory("SHOWBASE","","","! $_") && next;
+	ProcessHistory("SHOWBASE","","","# $_") && next;
     }
     return(0);
 }
@@ -200,7 +200,7 @@ sub ShowDb {
 	return(-1) if (/command authorization failed/i);
 
 	if (!$line++) {
-	    ProcessHistory("SHOWDB","","","!\n!database:\n");
+	    ProcessHistory("SHOWDB","","","#\n#database:\n");
 	}
 	/UCS.LoadTime/ && next;
 	/Configsync.LocalConfigTime/ && next;
@@ -208,13 +208,13 @@ sub ShowDb {
 
 	if (/^(snmp\..*\.community\..* =) (.+)/i) {
 	    if ($filter_commstr) {
-		ProcessHistory("SHOWDB","","","! $1 <removed>\n") && next;
+		ProcessHistory("SHOWDB","","","# $1 <removed>\n") && next;
 	    } else {
-		ProcessHistory("SHOWDB","","","! $1 $2\n") && next;
+		ProcessHistory("SHOWDB","","","# $1 $2\n") && next;
 	    }
 	}
 
-	ProcessHistory("SHOWDB","","","! $_") && next;
+	ProcessHistory("SHOWDB","","","# $_") && next;
     }
     return(0);
 }
@@ -235,9 +235,9 @@ sub ShowLicense {
 	return(-1) if (/command authorization failed/i);
 
 	if (!$line++) {
-	    ProcessHistory("LICENSE","","","!\n!/config/bigip.license:\n");
+	    ProcessHistory("LICENSE","","","#\n#/config/bigip.license:\n");
 	}
-	ProcessHistory("LICENSE","","","! $_") && next;
+	ProcessHistory("LICENSE","","","# $_") && next;
     }
     return(0);
 }
@@ -256,21 +256,21 @@ sub ShowMonitor {
 	return(-1) if (/command authorization failed/i);
 
 	if (!$line++) {
-	    ProcessHistory("MONITOR","","","!\n");
+	    ProcessHistory("MONITOR","","","#\n");
 	}
 	if (/^(\s+community) (.+)/i) {
 	    if ($filter_commstr) {
-		ProcessHistory("SHOWDB","","","!$1 <removed>\n") && next;
+		ProcessHistory("SHOWDB","","","#$1 <removed>\n") && next;
 	    } else {
-		ProcessHistory("SHOWDB","","","!$1 $2\n") && next;
+		ProcessHistory("SHOWDB","","","#$1 $2\n") && next;
 	    }
 	}
 	if (/^(\s*)password / && $filter_pwds >= 1) {
-	    ProcessHistory("LINE-PASS","","","!$1password <removed>\n");
+	    ProcessHistory("LINE-PASS","","","#$1password <removed>\n");
 	    next;
 	}
 
-	ProcessHistory("MONITOR","","","! $_") && next;
+	ProcessHistory("MONITOR","","","# $_") && next;
     }
     return(0);
 }
@@ -292,9 +292,9 @@ sub ShowPlatform {
 	/degC/ && next;
 	s/^\|//;
 	/Type: / && ProcessHistory("COMMENTS","keysort","A0",
-				   "!Chassis type: $'");
+				   "#Chassis type: $'");
 
-	ProcessHistory("COMMENTS","keysort","B1","!$_") && next;
+	ProcessHistory("COMMENTS","keysort","B1","#$_") && next;
     }
     return(0);
 }
@@ -330,7 +330,7 @@ sub ShowSslKey {
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/command authorization failed/i);
 
-	ProcessHistory("SSLKEY","","","! $_") && next;
+	ProcessHistory("SSLKEY","","","# $_") && next;
     }
     return(0);
 }
@@ -349,7 +349,7 @@ sub ShowSslCrt {
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/command authorization failed/i);
 
-	ProcessHistory("SSLCRT","","","! $_") && next;
+	ProcessHistory("SSLCRT","","","# $_") && next;
     }
     return(0);
 }
@@ -382,7 +382,7 @@ sub ShowVersion {
 	return(-1) if (/command authorization failed/i);
 
 	/^kernel:/i && ($_ = <INPUT>) &&
-	    ProcessHistory("COMMENTS","keysort","A3","!Image: Kernel: $_") &&
+	    ProcessHistory("COMMENTS","keysort","A3","#Image: Kernel: $_") &&
 	    next;
 	if (/^package:/i) {
 	    my($line);
@@ -395,13 +395,13 @@ sub ShowVersion {
 		$line .= " $_";
 	    }
 	    ProcessHistory("COMMENTS","keysort","A2",
-			   "!Image: Package:$line\n");
+			   "#Image: Package:$line\n");
 	}
 
 	if (/:/) {
-	    ProcessHistory("COMMENTS","keysort","C1","!$_");
+	    ProcessHistory("COMMENTS","keysort","C1","#$_");
 	} else {
-	    ProcessHistory("COMMENTS","keysort","C1","!\t$_");
+	    ProcessHistory("COMMENTS","keysort","C1","#\t$_");
 	}
     }
     return(0);
@@ -430,16 +430,16 @@ sub WriteTerm {
 	$lines++;
 
 	if (/^(enable )?(password|passwd) / && $filter_pwds >= 1) {
-	    ProcessHistory("ENABLE","","","!$1$2 <removed>\n");
+	    ProcessHistory("ENABLE","","","! $1$2 <removed>\n");
 	    next;
 	}
 	if (/^(enable secret) / && $filter_pwds >= 2) {
-	    ProcessHistory("ENABLE","","","!$1 <removed>\n");
+	    ProcessHistory("ENABLE","","","# $1 <removed>\n");
 	    next;
 	}
 	if (/^username (\S+)(\s.*)? secret /) {
 	    if ($filter_pwds >= 2) {
-		ProcessHistory("USER","keysort","$1","!username $1$2 secret <removed>\n");
+		ProcessHistory("USER","keysort","$1","# username $1$2 secret <removed>\n");
 	    } else {
 		ProcessHistory("USER","keysort","$1","$_");
 	    }
@@ -447,20 +447,20 @@ sub WriteTerm {
 	}
 	if (/^username (\S+)(\s.*)? password ((\d) \S+|\S+)/) {
 	    if ($filter_pwds == 2) {
-		ProcessHistory("USER","keysort","$1","!username $1$2 password <removed>\n");
+		ProcessHistory("USER","keysort","$1","# username $1$2 password <removed>\n");
 	    } elsif ($filter_pwds == 1 && $4 ne "5"){
-		ProcessHistory("USER","keysort","$1","!username $1$2 password <removed>\n");
+		ProcessHistory("USER","keysort","$1","# username $1$2 password <removed>\n");
 	    } else {
 		ProcessHistory("USER","keysort","$1","$_");
 	    }
 	    next;
 	}
 	if (/^(\s*)password / && $filter_pwds >= 1) {
-	    ProcessHistory("LINE-PASS","","","!$1password <removed>\n");
+	    ProcessHistory("LINE-PASS","","","# $1password <removed>\n");
 	    next;
 	}
 	if (/^\s*neighbor (\S*) password / && $filter_pwds >= 1) {
-	    ProcessHistory("","","","! neighbor $1 password <removed>\n");
+	    ProcessHistory("","","","# neighbor $1 password <removed>\n");
 	    next;
 	}
 	# order logging statements
@@ -468,7 +468,7 @@ sub WriteTerm {
 	    ProcessHistory("LOGGING","ipsort","$1","$_") && next;
 	# order/prune tacacs/radius server statements
 	if (/^(tacacs-server|radius-server) key / && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 key <removed>\n"); next;
+	    ProcessHistory("","","","# $1 key <removed>\n"); next;
 	}
 	# order clns host statements
 	/^clns host \S+ (\S+)/ &&
@@ -477,7 +477,7 @@ sub WriteTerm {
 	/^alias / && ProcessHistory("ALIAS","keysort","$_","$_") && next;
 	# delete ntp auth password - this md5 is a reversable too
 	if (/^(ntp authentication-key \d+ md5) / && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 <removed>\n"); next;
+	    ProcessHistory("","","","# $1 <removed>\n"); next;
 	}
 	# order ntp peers/servers
 	if (/^ntp (server|peer) (\d+)\.(\d+)\.(\d+)\.(\d+)/) {
@@ -579,10 +579,10 @@ if ($ENV{"FILTER_PWDS"} =~ /no/i) {
     $filter_pwds = 1;
 }
 
-ProcessHistory("","","","!RANCID-CONTENT-TYPE: bigip\n!\n");
-ProcessHistory("COMMENTS","keysort","A1","!\n");
-ProcessHistory("COMMENTS","keysort","B0","!\n");
-ProcessHistory("COMMENTS","keysort","C0","!\n");
+ProcessHistory("","","","#RANCID-CONTENT-TYPE: bigip\n#\n");
+ProcessHistory("COMMENTS","keysort","A1","#\n");
+ProcessHistory("COMMENTS","keysort","B0","#\n");
+ProcessHistory("COMMENTS","keysort","C0","#\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
     if (/^Error:/) {

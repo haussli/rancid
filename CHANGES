@@ -1,4 +1,7 @@
 2.3.2
+	francid: privlvl 5 does not allow write term, also run show
+		 running-config - from Jethro Binks
+
 	*login: Return/exit non-zero if there are failures for any of the
 		devices on the cmd-line. 
 

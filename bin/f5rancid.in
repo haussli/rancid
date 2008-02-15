@@ -260,13 +260,13 @@ sub ShowMonitor {
 	}
 	if (/^(\s+community) (.+)/i) {
 	    if ($filter_commstr) {
-		ProcessHistory("SHOWDB","","","#$1 <removed>\n") && next;
+		ProcessHistory("SHOWDB","","","# $1 <removed>\n") && next;
 	    } else {
-		ProcessHistory("SHOWDB","","","#$1 $2\n") && next;
+		ProcessHistory("SHOWDB","","","# $1 $2\n") && next;
 	    }
 	}
 	if (/^(\s*)password / && $filter_pwds >= 1) {
-	    ProcessHistory("LINE-PASS","","","#$1password <removed>\n");
+	    ProcessHistory("LINE-PASS","","","# $1password <removed>\n");
 	    next;
 	}
 

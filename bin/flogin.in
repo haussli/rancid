@@ -507,7 +507,7 @@ proc run_commands { prompt command } {
     set in_proc 1
 
     send "skip-page-display\r"
-    expect $prompt {}
+    expect -re "$prompt" {}
 
     # Is this a multi-command?
     set commands [split $command \;]
@@ -661,6 +661,15 @@ foreach router [lrange $argv $i end] {
 	    }
 	}
     }
+    # we are logged in, now figure out the full prompt
+    send "\r" 
+    expect {
+	-re "\[\r\n]+"		{ exp_continue; }
+	-re "^.+$prompt"	{ set junk $expect_out(0,string);
+				  regsub -all "\[\]\[ ]" $junk {\\&} prompt;
+				}
+    }
+
 
     if { $do_command } {
 	if {[run_commands $prompt $command]} {
@@ -670,7 +679,7 @@ foreach router [lrange $argv $i end] {
     } elseif { $do_script } {
 	# fucking foundry
 	send "skip-page-display\r"
-	expect $prompt	{}
+	expect -re $prompt	{}
 	source $sfile
 	catch {close};
     } else {

@@ -1,4 +1,7 @@
 2.3.2
+	flogin: handle strange characters like space in prompt w/ the method
+		from clogin for handling regex characters
+
 	francid: filter SSL secret - From Jethro Binks
 
 	francid: privlvl 5 does not allow write term, also run show

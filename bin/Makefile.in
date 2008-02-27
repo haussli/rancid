@@ -56,9 +56,9 @@ DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/nsrancid.in $(srcdir)/par.in $(srcdir)/prancid.in \
 	$(srcdir)/rancid-fe.in $(srcdir)/rancid.in \
 	$(srcdir)/rivlogin.in $(srcdir)/rivrancid.in \
-	$(srcdir)/rrancid.in $(srcdir)/srancid.in \
+	$(srcdir)/rrancid.in $(srcdir)/srancid.in $(srcdir)/tlogin.in \
 	$(srcdir)/tntlogin.in $(srcdir)/tntrancid.in \
-	$(srcdir)/xrancid.in $(srcdir)/zrancid.in
+	$(srcdir)/trancid.in $(srcdir)/xrancid.in $(srcdir)/zrancid.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/configure.in
@@ -71,8 +71,8 @@ CONFIG_CLEAN_FILES = control_rancid par rancid-fe agmrancid alogin \
 	rancid cssrancid elogin erancid f5rancid f10rancid flogin \
 	francid fnrancid hlogin hrancid htlogin htrancid jlogin \
 	jrancid jerancid mrancid nlogin nrancid nslogin nsrancid \
-	prancid rivlogin rivrancid rrancid srancid tntlogin tntrancid \
-	xrancid zrancid
+	prancid rivlogin rivrancid rrancid srancid tlogin tntlogin \
+	tntrancid trancid xrancid zrancid
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
@@ -219,8 +219,8 @@ bin_SCRIPTS = agmrancid alogin arancid avologin avorancid blogin \
 	erancid f10rancid flogin fnrancid francid hlogin hrancid \
 	htlogin htrancid jerancid jlogin jrancid mrancid nlogin \
 	nrancid nslogin nsrancid par prancid rancid-fe rancid rivlogin \
-	rivrancid rrancid srancid tntlogin tntrancid xrancid zrancid \
-	lg.cgi lgform.cgi rancid-cvs rancid-run
+	rivrancid rrancid srancid tlogin tntlogin tntrancid trancid \
+	xrancid zrancid lg.cgi lgform.cgi rancid-cvs rancid-run
 EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-run.in
 #dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
 CLEANFILES = lg.cgi lgform.cgi rancid-cvs rancid-run
@@ -364,9 +364,13 @@ rrancid: $(top_builddir)/config.status $(srcdir)/rrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 srancid: $(top_builddir)/config.status $(srcdir)/srancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+tlogin: $(top_builddir)/config.status $(srcdir)/tlogin.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 tntlogin: $(top_builddir)/config.status $(srcdir)/tntlogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 tntrancid: $(top_builddir)/config.status $(srcdir)/tntrancid.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+trancid: $(top_builddir)/config.status $(srcdir)/trancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 xrancid: $(top_builddir)/config.status $(srcdir)/xrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

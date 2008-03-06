@@ -193,6 +193,7 @@ sub ShowVersion {
 	}
 	if (/cisco ios xr /i) { $ios = "XR"; }
 	if (/^Application and Content Networking Software/) { $type = "CE"; }
+	if (/^Cisco Storage Area Networking Operating System/) { $type = "SAN";}
 	/^Application and Content Networking Software Release /i &&
 	    ProcessHistory("COMMENTS","keysort","F1", "!Image: $_") && next;
 	/^Cisco Secure PIX /i &&
@@ -1795,7 +1796,7 @@ sub WriteTerm {
     # The ContentEngine lacks a definitive "end of config" marker.  If we
     # know that it is a CE and we have seen at least 5 lines of write term
     # o/p, we can be reasonably sure that we got the config.
-    if ($type =~ /^CE$/ && $linecnt > 5) {
+    if (($type =~ /^CE$/ || $type =~ /^SAN$/) && $linecnt > 5) {
 	$found_end = 1;
 	return(0);
     }

@@ -1,4 +1,6 @@
 2.3.2
+	rancid.spec: Linux spec file - blame Steve Snodgrass
+
 	rancid: changes for cisco SAN - from Mark Favas
 
 	clogin: escape regex grouping atom '()' in the catalyst prompt - From

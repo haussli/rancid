@@ -114,21 +114,21 @@ for {set i 0} {$i < $argc} {incr i} {
 	# Username
 	} -u* -
 	-U* {
-	    if {! [  regexp .\[uU\](.+) $arg ignore user]} {
+	    if {! [regexp .\[uU\](.+) $arg ignore user]} {
 		incr i
 		set username [ lindex $argv $i ]
 	    }
 	# VTY Password
 	} -p* -
 	-P* {
-	    if {! [  regexp .\[pP\](.+) $arg ignore userpasswd]} {
+	    if {! [regexp .\[pP\](.+) $arg ignore userpasswd]} {
 		incr i
 		set userpasswd [ lindex $argv $i ]
 	    }
 	    set do_passwd 0
 	# VTY Password
 	} -v* {
-	    if {! [  regexp .\[vV\](.+) $arg ignore passwd]} {
+	    if {! [regexp .\[vV\](.+) $arg ignore passwd]} {
 		incr i
 		set passwd [ lindex $argv $i ]
 	    }
@@ -140,14 +140,14 @@ for {set i 0} {$i < $argc} {incr i} {
 	# Enable Username
 	} -w* -
 	-W* {
-	    if {! [  regexp .\[wW\](.+) $arg ignore enauser]} {
+	    if {! [regexp .\[wW\](.+) $arg ignore enauser]} {
 		incr i
 		set enausername [ lindex $argv $i ]
 	    }
 	# Environment variable to pass to -s scripts
 	} -E*
 	{
-	    if {[ regexp .\[E\](.+)=(.+) $arg ignore varname varvalue]} {
+	    if {[regexp .\[E\](.+)=(.+) $arg ignore varname varvalue]} {
 		set E$varname $varvalue
 	    } else {
 		send_user "\nError: invalid format for -E in $arg\n"
@@ -156,7 +156,7 @@ for {set i 0} {$i < $argc} {incr i} {
 	# Enable Password
 	} -e*
 	{
-	    if {! [  regexp .\[e\](.+) $arg ignore enapasswd]} {
+	    if {! [regexp .\[e\](.+) $arg ignore enapasswd]} {
 		incr i
 		set enapasswd [ lindex $argv $i ]
 	    }
@@ -164,7 +164,7 @@ for {set i 0} {$i < $argc} {incr i} {
 	# Command to run.
 	} -c* -
 	-C* {
-	    if {! [  regexp .\[cC\](.+) $arg ignore command]} {
+	    if {! [regexp .\[cC\](.+) $arg ignore command]} {
 		incr i
 		set command [ lindex $argv $i ]
 	    }
@@ -172,7 +172,7 @@ for {set i 0} {$i < $argc} {incr i} {
 	# Expect script to run.
 	} -s* -
 	-S* {
-	    if {! [  regexp .\[sS\](.+) $arg ignore sfile]} {
+	    if {! [regexp .\[sS\](.+) $arg ignore sfile]} {
 		incr i
 		set sfile [ lindex $argv $i ]
 	    }
@@ -184,28 +184,28 @@ for {set i 0} {$i < $argc} {incr i} {
 	# 'ssh -c' cypher type
 	} -y* -
 	-Y* {
-	    if {! [  regexp .\[eE\](.+) $arg ignore cypher]} {
+	    if {! [regexp .\[eE\](.+) $arg ignore cypher]} {
 		incr i
 		set cypher [ lindex $argv $i ]
 	    }
 	# alternate cloginrc file
 	} -f* -
 	-F* {
-	    if {! [ regexp .\[fF\](.+) $arg ignore password_file]} {
+	    if {! [regexp .\[fF\](.+) $arg ignore password_file]} {
 		incr i
 		set password_file [ lindex $argv $i ]
 	    }
 	# Timeout
 	} -t* -
 	-T* {
-	    if {! [ regexp .\[tT\](.+) $arg ignore timeout]} {
+	    if {! [regexp .\[tT\](.+) $arg ignore timeout]} {
 		incr i
 	        set timeout [ lindex $argv $i ]
 	    }
 	# Command file
 	} -x* -
 	-X {
-	    if {! [  regexp .\[xX\](.+) $arg ignore cmd_file]} {
+	    if {! [regexp .\[xX\](.+) $arg ignore cmd_file]} {
 		incr i
 		set cmd_file [ lindex $argv $i ]
 	    }
@@ -259,7 +259,7 @@ proc label { host } {
     }
     # take host from ENV(TERM)
     if [info exists env(TERM)] {
-	if [regexp \^(xterm|vs) $env(TERM) ignore ] {
+	if [ regexp \^(xterm|vs) $env(TERM) ignore ] {
 	    send_user "\033]1;[lindex [split $host "."] 0]\a"
 	    send_user "\033]2;$host\a"
 	}

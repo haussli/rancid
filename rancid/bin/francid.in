@@ -281,7 +281,7 @@ sub WriteTerm {
 	return(0) if ($found_end);		# Only do this routine once
 	last if (/^$prompt/);
 
-	/Current configuration:/i && next;
+	/Current configuration\s*:/i && next;
 	/^ver \d+\.\d+/ && next;
 	/^module \d+ / && next;
 

@@ -427,6 +427,12 @@ sub WriteTerm {
 		ProcessHistory("","","","!$1 <removed>\n"); next;
 	    }
 	}
+	# mpls ldp encrypted password oscillates
+	if (/^(mpls ldp neighbor \S+ password)/) {
+	    if ($filter_pwds >= 1 || /^mpls ldp neighbor \S+ password \d /) {
+		ProcessHistory("","","","!$1 <removed>\n"); next;
+	    }
+	}
 
 	# sort ip explicit-paths.
 	if (/^ip explicit-path name (\S+)/) {

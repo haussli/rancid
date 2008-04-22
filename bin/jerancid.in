@@ -470,9 +470,9 @@ sub WriteTerm {
 	/^arp\s+(\d+\.\d+\.\d+\.\d+)\s+/ &&
 	    ProcessHistory("ARP","$aclsort","$1","$_") && next;
 
-	/^ip prefix-list\s+(\S+)\s+seq\s+(\d+)\s+(permit|deny)\s+(\d\S+)(\/.*)$/ &&
-	    ProcessHistory("PACL $1 $3","$aclsort","$4","ip prefix-list $1 $3 $4$5\n")
-	    && next;
+	/^ip prefix-list\s+(\S+)\s+seq\s+(\d+)\s+(permit|deny)\s+(\d\S+)(\/.*)$/
+	    && ProcessHistory("PACL $1 $3","$aclsort","$4",
+			      "ip prefix-list $1 $3 $4$5\n") && next;
 
 
 	# order/prune snmp-server host statements

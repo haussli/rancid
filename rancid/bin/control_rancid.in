@@ -419,8 +419,8 @@ do
 done
 echo
 
-# Make sure that no empty configs are accepted.  Those that are non-empty
-# are renamed from device_name.new -> device_name.
+# Make sure that no empty/truncated configs are accepted.  The remainder are
+# renamed from device_name.new -> device_name.
 for router in `cat $devlistfile`
 do
     OFS=$IFS
@@ -433,9 +433,19 @@ do
     then
 	rm -f $router.new
     else
-	mv $router.new $router
-	if [ $? -ne 0 ]; then
-	    echo "Error: could not rename $router.new to $router"
+	lines=`awk '{if (/^([-*!;#]|\/\*)/) { next; } lines++; \
+		if (lines > 10) { print "1"; exit;}} \
+		END { if (lines < 10) {print "0";}}' $router.new`
+
+	if [ ! $lines ]
+	then
+	    rm -f $router.new
+	else
+	    mv $router.new $router
+	    if [ $? -ne 0 ]; then
+		echo "Error: could not rename $router.new to $router"
+		rm -f $router.new
+	    fi
 	fi
     fi
 done

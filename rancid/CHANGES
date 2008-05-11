@@ -1,4 +1,6 @@
 2.3.2
+	rancid: corrupted flash is not a rancid failure - from John Payne
+
 	rancid.spec: Linux spec file - blame Steve Snodgrass
 
 	rancid: changes for cisco SAN - from Mark Favas

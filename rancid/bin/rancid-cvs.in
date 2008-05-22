@@ -128,9 +128,9 @@ do
 	    cd $BASEDIR
 	    cvs checkout $GROUP
 	else
-	    svn import -m "$GROUP" . file://$CVSROOT/$GROUP
+	    svn import -m "$GROUP" . file:///$CVSROOT/$GROUP
 	    cd $BASEDIR
-	    svn checkout file://$CVSROOT/$GROUP $GROUP
+	    svn checkout file:///$CVSROOT/$GROUP $GROUP
 	fi
     fi
     cd $DIR

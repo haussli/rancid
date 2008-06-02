@@ -66,6 +66,8 @@ my($aclsort) = ("ipsort");		# ACL sorting mode
 my($filter_commstr);			# SNMP community string filtering
 my($filter_pwds);			# password filtering mode
 
+my($systeminfo) = 0;			# show system-information
+
 # This routine is used to print out the router configuration
 sub ProcessHistory {
     my($new_hist_tag,$new_command,$command_string,@string) = (@_);
@@ -203,9 +205,13 @@ sub ShowFlash {
     return;
 }
 
-# This routine parses "show system-information"
+# This routine parses "show system-information" or "show system information"
 sub ShowSystem {
     print STDERR "    In ShowSystem: $_" if ($debug);
+
+    if ($systeminfo) {
+	return(0);
+    }
 
     while (<INPUT>) {
 	tr/\015//d;
@@ -229,6 +235,8 @@ sub ShowSystem {
 	/rom\s+version\s+:\s+(\S+)/i &&
 	    ProcessHistory("COMMENTS","keysort","C1",";Image: ROM $1\n");
     }
+    $systeminfo = 1;
+
     return(0);
 }
 
@@ -462,6 +470,7 @@ sub DoNothing {print STDOUT;}
 	{'show version'			=> 'ShowVersion'},
 	{'show flash'			=> 'ShowFlash'},
 	{'show system-information'	=> 'ShowSystem'},
+	{'show system information'	=> 'ShowSystem'},
 	{'show module'			=> 'ShowModule'},
 	{'show stack'			=> 'ShowStack'},
 	{'write term'			=> 'WriteTerm'}

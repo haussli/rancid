@@ -1,4 +1,6 @@
 2.3.2
+	hrancid: K.13 s/w changed cmd 'show system information' - Richard Golier
+
 	rancid: Spot yet another flash disk in show version output.
 
 	rancid: Some support for Cisco Nexus.

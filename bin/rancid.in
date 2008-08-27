@@ -1807,6 +1807,8 @@ sub WriteTerm {
 	    next;
 	}
 
+	/^Cryptochecksum:/ && next;
+
 	# catch anything that wasnt matched above.
 	ProcessHistory("","","","$_");
 	# end of config.  the ": " game is for the PIX

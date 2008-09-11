@@ -1,4 +1,6 @@
 2.3.2
+	nxrancid: add support for cisco Nexus boxes; use type cisco-nx
+
 	rancid: Skip "Cryptochecksum:" line on ASA, PIX, et al
 
 	hrancid: K.13 s/w changed cmd 'show system information' - Richard Golier

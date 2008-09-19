@@ -53,12 +53,13 @@ DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/htrancid.in $(srcdir)/jerancid.in \
 	$(srcdir)/jlogin.in $(srcdir)/jrancid.in $(srcdir)/mrancid.in \
 	$(srcdir)/nlogin.in $(srcdir)/nrancid.in $(srcdir)/nslogin.in \
-	$(srcdir)/nsrancid.in $(srcdir)/nxrancid.in $(srcdir)/par.in $(srcdir)/prancid.in \
-	$(srcdir)/rancid-fe.in $(srcdir)/rancid.in \
-	$(srcdir)/rivlogin.in $(srcdir)/rivrancid.in \
-	$(srcdir)/rrancid.in $(srcdir)/srancid.in $(srcdir)/tlogin.in \
-	$(srcdir)/tntlogin.in $(srcdir)/tntrancid.in \
-	$(srcdir)/trancid.in $(srcdir)/xrancid.in $(srcdir)/zrancid.in
+	$(srcdir)/nsrancid.in $(srcdir)/nxrancid.in $(srcdir)/par.in \
+	$(srcdir)/prancid.in $(srcdir)/rancid-fe.in \
+	$(srcdir)/rancid.in $(srcdir)/rivlogin.in \
+	$(srcdir)/rivrancid.in $(srcdir)/rrancid.in \
+	$(srcdir)/srancid.in $(srcdir)/tlogin.in $(srcdir)/tntlogin.in \
+	$(srcdir)/tntrancid.in $(srcdir)/trancid.in \
+	$(srcdir)/xrancid.in $(srcdir)/zrancid.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/configure.in
@@ -71,8 +72,8 @@ CONFIG_CLEAN_FILES = control_rancid par rancid-fe agmrancid alogin \
 	rancid cssrancid elogin erancid f5rancid f10rancid flogin \
 	francid fnrancid hlogin hrancid htlogin htrancid jlogin \
 	jrancid jerancid mrancid nlogin nrancid nslogin nsrancid \
-	nxrancid prancid rivlogin rivrancid rrancid srancid tlogin tntlogin \
-	tntrancid trancid xrancid zrancid
+	nxrancid prancid rivlogin rivrancid rrancid srancid tlogin \
+	tntlogin tntrancid trancid xrancid zrancid
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
@@ -218,9 +219,10 @@ bin_SCRIPTS = agmrancid alogin arancid avologin avorancid blogin \
 	brancid cat5rancid clogin control_rancid cssrancid elogin \
 	erancid f10rancid flogin fnrancid francid hlogin hrancid \
 	htlogin htrancid jerancid jlogin jrancid mrancid nlogin \
-	nrancid nslogin nsrancid nxrancid par prancid rancid-fe rancid rivlogin \
-	rivrancid rrancid srancid tlogin tntlogin tntrancid trancid \
-	xrancid zrancid lg.cgi lgform.cgi rancid-cvs rancid-run
+	nrancid nslogin nsrancid nxrancid par prancid rancid-fe rancid \
+	rivlogin rivrancid rrancid srancid tlogin tntlogin tntrancid \
+	trancid xrancid zrancid lg.cgi lgform.cgi rancid-cvs \
+	rancid-run
 EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-run.in
 #dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
 CLEANFILES = lg.cgi lgform.cgi rancid-cvs rancid-run

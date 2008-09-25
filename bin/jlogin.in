@@ -402,7 +402,7 @@ proc login { router user passwd cmethod cyphertype identfile} {
 						  exp_continue
 	    					}
 	    "\[Pp]assword:"			{
-						  sleep 1; send "$passwd\r"
+						  sleep 1; send -- "$passwd\r"
 						  exp_continue
 						}
 	    -re "$prompt"		{ break; }

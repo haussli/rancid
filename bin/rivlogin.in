@@ -255,7 +255,7 @@ proc login { router user userpswd passwd enapasswd } {
 
         "Password:"  {
             incr pass_attempt
-            send "$passwd\r"
+            send -- "$passwd\r"
             exp_continue
         }
 
@@ -270,9 +270,9 @@ proc login { router user userpswd passwd enapasswd } {
 
                     incr pattempt
                     if {$pattempt == 1} {
-                        send "$userpswd\r";
+                        send -- "$userpswd\r";
                     } else {
-                        send "$enapasswd\r";
+                        send -- "$enapasswd\r";
                     }
                     exp_continue
                 }
@@ -423,9 +423,9 @@ proc do_enable { enauser enapasswd userpswd } {
 	}
         Password:     {
 	    if {$uses_username == 1} {
-		send "$userpswd\r";
+		send -- "$userpswd\r";
 	    } else {
-		send "$enapasswd\r";
+		send -- "$enapasswd\r";
 	    }
 	    exp_continue
 	}
@@ -435,7 +435,7 @@ proc do_enable { enauser enapasswd userpswd } {
 	    return 1
 	}
 
-	"CONS-W-AUTH_PASSWD" { send "$enapasswd\r"; }
+	"CONS-W-AUTH_PASSWD" { send -- "$enapasswd\r"; }
 
         "$enable_prompt "  { }
         "%SYS-W-NOPASSWD*" { }

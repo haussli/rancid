@@ -388,9 +388,9 @@ proc login { router user userpswd passwd prompt cmethod cyphertype } {
 	-re "$p_prompt"			{
 					  sleep 1
 					  if {$uprompt_seen == 1} {
-						send "$userpswd\r"
+						send -- "$userpswd\r"
 					  } else {
-						send "$passwd\r"
+						send -- "$passwd\r"
 					  }
 					  exp_continue
 					}

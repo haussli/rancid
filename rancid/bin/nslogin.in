@@ -426,7 +426,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	-re "(@\[^\r\n]+ )?$p_prompt"	{
 					  # ssh pwd prompt
 					  sleep 1
-					  send "$userpswd\r"
+					  send -- "$userpswd\r"
 					  exp_continue
 					}
 

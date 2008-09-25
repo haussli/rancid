@@ -446,7 +446,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	-re "@\[^\r\n]+ $p_prompt"	{
 					  # ssh pwd prompt
 					  sleep 1
-					  send "$userpswd\r"
+					  send -- "$userpswd\r"
 					  exp_continue
 					}
 	-re "$u_prompt"		{
@@ -469,9 +469,9 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	-re "$p_prompt"		{
 				  sleep 1
 				  if {$uprompt_seen == 1} {
-					send "$userpswd\r"
+					send -- "$userpswd\r"
 				  } else {
-					send "$passwd\r"
+					send -- "$passwd\r"
 				  }
 				  exp_continue
 				}
@@ -509,7 +509,7 @@ proc do_enable { enauser enapasswd } {
 		exp_continue
 	}
 	-re "$u_prompt"	{ send "$enauser\r"; exp_continue}
-	-re "$e_prompt"	{ send "$enapasswd\r"; exp_continue}
+	-re "$e_prompt"	{ send -- "$enapasswd\r"; exp_continue}
 	"#"		{ set prompt "#" }
 	"(enable)"	{ set prompt "> (enable) " }
 	-re "(denied|Sorry|Incorrect)"	{

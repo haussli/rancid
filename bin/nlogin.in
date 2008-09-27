@@ -379,7 +379,7 @@ cyphertype } {
 	" ### Login failed" {send_user "\nError: Check your passwd for $firewall\n"; return 1 }
 	-re "(login:)"			{
 					  sleep 1;
-					  send "$user\r"
+					  send -- "$user\r"
 					  set uprompt_seen 1
 					  exp_continue
 					}
@@ -419,7 +419,7 @@ proc run_commands { prompt command } {
 	set num_commands [llength $commands]
 
 	for {set i 0} {$i < $num_commands} { incr i} {
-	    send "[subst [lindex $commands $i]]\r"
+	    send -- "[subst [lindex $commands $i]]\r"
 	    expect {
 		-re "\[\n\r]+"			{ exp_continue }
                 -re "$prompt"			{}
@@ -429,7 +429,7 @@ proc run_commands { prompt command } {
             }
 	}
     } else {
-	send "[subst $command]\r"
+	send -- "[subst $command]\r"
 	expect {
 		-re "\[\n\r]+"			{ exp_continue }
                 -re "$prompt"			{}

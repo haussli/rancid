@@ -327,7 +327,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 			sleep 0.3
 			foreach {i j} $usercmd_chat {
 				expect {
-					-re $i { eval send "\"$j\""}
+					-re $i { eval send -- "\"$j\""}
 					timeout { send "\r"; send_user "\nTimeout in usercmd_chat waiting for -re $i: punting with CR\n"; break }
 				}
 			}
@@ -437,7 +437,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 				}
 	-re "Netopia.*always start from this main screen" {
 		# send control-N to escape from the Playskool menu
-		send "\x0e"
+		send -- "\x0e"
 		set platform "netopia"
 		set prompt "#"
 		set autoenable 1
@@ -450,7 +450,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 					  exp_continue
 					}
 	-re "$u_prompt"		{
-				  send "$user\r"
+				  send -- "$user\r"
 				  set uprompt_seen 1
 				  exp_continue
 				}
@@ -508,7 +508,7 @@ proc do_enable { enauser enapasswd } {
 		}
 		exp_continue
 	}
-	-re "$u_prompt"	{ send "$enauser\r"; exp_continue}
+	-re "$u_prompt"	{ send -- "$enauser\r"; exp_continue}
 	-re "$e_prompt"	{ send -- "$enapasswd\r"; exp_continue}
 	"#"		{ set prompt "#" }
 	"(enable)"	{ set prompt "> (enable) " }
@@ -576,7 +576,7 @@ proc run_commands { prompt command } {
 	# for the "More" prompt.  the extreme is equally obnoxious, with a
 	# global switch in the config.
 	for {set i 0} {$i < $num_commands} { incr i} {
-	    send "[subst -nocommands [lindex $commands $i]]\r"
+	    send -- "[subst -nocommands [lindex $commands $i]]\r"
 	    expect {
 		-re "\b+"			{ exp_continue }
 		-re "^\[^\n\r *]*$reprompt"	{ send_user -- "$expect_out(buffer)"
@@ -606,7 +606,7 @@ proc run_commands { prompt command } {
 	# the pager can not be turned off on the PIX, so we have to look
 	# for the "More" prompt.  the extreme is equally obnoxious, with a
 	# global switch in the config.
-	send "[subst -nocommands $command]\r"
+	send -- "[subst -nocommands $command]\r"
 	expect {
 		-re "\b+"			{ exp_continue }
 		-re "^\[^\n\r *]*$reprompt"	{ send_user -- "$expect_out(buffer)"

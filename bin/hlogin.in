@@ -426,7 +426,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	    catch {close}; catch {wait};
 	    send_user "\nError: Unknown host\n"; wait; return 1
 	}
-	-re "$u_prompt"	{ send "$user\r"
+	-re "$u_prompt"	{ send -- "$user\r"
 	    expect {
 		eof			{ send_user "\nError: Couldn't login\n"; wait; return 1 }
 		"Login invalid"		{ send_user "\nError: Invalid login\n";
@@ -483,7 +483,7 @@ proc do_enable { enauser enapasswd } {
 
     send "enable\r"
     expect {
-	-re "$u_prompt"	{ send "$enauser\r"; exp_continue}
+	-re "$u_prompt"	{ send -- "$enauser\r"; exp_continue}
 	-re "$e_prompt"	{ send -- "$enapasswd\r"; exp_continue}
 	"#"		{ set prompt "#" }
 	"(enable)"	{ set prompt "> (enable) " }
@@ -519,7 +519,7 @@ proc run_commands { prompt command } {
     # if the pager can not be turned off, we have to look for the "More"
     # prompt.
     for {set i 0} {$i < $num_commands} { incr i} {
-	send "[subst -nocommands [lindex $commands $i]]\r"
+	send -- "[subst -nocommands [lindex $commands $i]]\r"
 	expect {
 	    -re "^\[^\n\r *]*$reprompt"	{ send_user -- "$expect_out(buffer)" }
 	    -re "^\[^\n\r]*$reprompt."	{ send_user -- "$expect_out(buffer)"

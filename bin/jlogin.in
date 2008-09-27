@@ -383,7 +383,7 @@ proc login { router user passwd cmethod cyphertype identfile} {
 	    -re "Enter passphrase.*: " {
 		# sleep briefly to allow time for stty -echo
 		sleep 1
-		send "$passphrase\r"
+		send -- "$passphrase\r"
 		exp_continue }
 	    -re "(Host key not found |The authenticity of host .* be established).*\(yes\/no\)\?" {
 		send "yes\r"
@@ -398,7 +398,7 @@ proc login { router user passwd cmethod cyphertype identfile} {
 		send_user "\nError: host key mismatch for $router.  Update the SSH known_hosts file accordingly.\n"
 		return 1 }
 	    -re "(Username|\[\r\n]login):"	{
-						  send "$user\r"
+						  send -- "$user\r"
 						  exp_continue
 	    					}
 	    "\[Pp]assword:"			{

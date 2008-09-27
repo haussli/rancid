@@ -422,7 +422,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 					  exp_continue
 					}
 	-re "$u_prompt"		{
-				  send "$user\r"
+				  send -- "$user\r"
 				  set uprompt_seen 1
 				  exp_continue
 				}
@@ -455,7 +455,7 @@ proc do_enable { enauser enapasswd } {
 
     send "/bin/su\r"
     expect {
-	-re "$u_prompt"	{ send "$enauser\r"; exp_continue}
+	-re "$u_prompt"	{ send -- "$enauser\r"; exp_continue}
 	-re "$e_prompt"	{ send -- "$enapasswd\r"; exp_continue}
 	"#"		{ set prompt "#" }
 	-re "su: User not allowed access" {
@@ -509,7 +509,7 @@ regsub -all {^(.{1,14}).*([#>])$} $reprompt {\1([^#>\r\n]+)?[#>](\\([^)\\r\\n]+\
     # for the "More" prompt.  the extreme is equally obnoxious, with a
     # global switch in the config.
     for {set i 0} {$i < $num_commands} { incr i} {
-	send "[subst -nocommands [lindex $commands $i]]\r"
+	send -- "[subst -nocommands [lindex $commands $i]]\r"
 	expect {
 	    -re "\b+"			{ exp_continue }
 	    -re "^\[^\n\r *]*$reprompt"	{ send_user -- "$expect_out(buffer)" }

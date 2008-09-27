@@ -1,4 +1,6 @@
 2.3.2
+	*login: add -- to other sends that take input from the user
+
 	*login: terminate send options with -- to avoid interpretation of -'s
 	in arguments - partly from Ric Anderson
 

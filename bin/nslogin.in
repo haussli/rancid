@@ -460,7 +460,7 @@ proc run_commands { prompt command } {
         # for the "More" prompt.  the extreme is equally obnoxious, with a
         # global switch in the config.
         for {set i 0} {$i < $num_commands} { incr i} {
-            send "[subst -nocommands [lindex $commands $i]]\r"
+            send -- "[subst -nocommands [lindex $commands $i]]\r"
             expect {
                 -re "\b+"                       { exp_continue }
                 -re "^\[^\n\r *]*$reprompt"     { send_user -- "$expect_out(buffer)"
@@ -490,7 +490,7 @@ proc run_commands { prompt command } {
         # the pager can not be turned off on the PIX, so we have to look
         # for the "More" prompt.  the extreme is equally obnoxious, with a
         # global switch in the config.
-        send "[subst -nocommands $command]\r"
+        send -- "[subst -nocommands $command]\r"
         expect {
                 -re "\b+"                       { exp_continue }
                 -re "^\[^\n\r *]*$reprompt"     { send_user -- "$expect_out(buffer)"

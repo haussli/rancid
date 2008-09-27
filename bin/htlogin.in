@@ -379,7 +379,7 @@ proc login { router user userpswd passwd prompt cmethod cyphertype } {
 	    send_user "\nError: Unknown host\n"; wait; return 1
 	}
 	-re "$u_prompt"			{
-					  send "$user\r"
+					  send -- "$user\r"
 					  set uprompt_seen 1
 					  exp_continue
 					}
@@ -417,7 +417,7 @@ proc run_commands { prompt command } {
 	set num_commands [llength $commands]
 
 	for {set i 0} {$i < $num_commands} { incr i} {
-	    send "[lindex $commands $i]\r"
+	    send -- "[lindex $commands $i]\r"
 	    expect {
 		-re "^\[^\n\r]*$prompt"		{}
 		-re "^\[^\n\r *]*$prompt"	{}
@@ -425,7 +425,7 @@ proc run_commands { prompt command } {
 	    }
 	}
     } else {
-	send "$command\r"
+	send -- "$command\r"
 	expect {
 		-re "^\[^\n\r]*$prompt"		{}
 		-re "^\[^\n\r *]*$prompt"	{}

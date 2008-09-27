@@ -385,7 +385,7 @@ proc login { router user userpswd passwd prompt cmethod cyphertype } {
 	    return 1 }
 
 	-re "$u_prompt"			{
-					  send "$user\r"
+					  send -- "$user\r"
 					  set uprompt_seen 1
 					  exp_continue
 					}
@@ -430,7 +430,7 @@ proc run_commands { prompt command } {
 	set commands [split $command \;]
 	set num_commands [llength $commands]
 	for {set i 0} {$i < $num_commands} { incr i} {
-	    send "[subst -nocommands [lindex $commands $i]]\r"
+	    send -- "[subst -nocommands [lindex $commands $i]]\r"
 	    expect {
 		-re "^\[^\n\r]*$reprompt"	{}
 		-re "^\[^\n\r ]*>>.*$reprompt"	{ exp_continue }
@@ -438,7 +438,7 @@ proc run_commands { prompt command } {
 	    }
 	}
     } else {
-	send "[subst -nocommands $command]\r"
+	send -- "[subst -nocommands $command]\r"
 	expect {
 		-re "^\[^\n\r]*$reprompt"	{}
 		-re "^\[^\n\r ]*>>.*$reprompt"	{ exp_continue }

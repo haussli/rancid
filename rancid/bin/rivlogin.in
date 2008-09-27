@@ -263,7 +263,7 @@ proc login { router user userpswd passwd enapasswd } {
 
             set pattempt 0
 
-            send "$user\r"
+            send -- "$user\r"
             expect {
 
                 "Password: "    {
@@ -418,7 +418,7 @@ proc do_enable { enauser enapasswd userpswd } {
     expect {
         Username:     {
 	    set uses_username 1;
-	    send "$enauser\r";
+	    send -- "$enauser\r";
 	    exp_continue
 	}
         Password:     {

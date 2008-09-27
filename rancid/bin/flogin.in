@@ -446,7 +446,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 					  exp_continue
 					}
 	-re "$u_prompt"		{
-				  send "$user\r"
+				  send -- "$user\r"
 				  set uprompt_seen 1
 				  exp_continue
 				}
@@ -480,7 +480,7 @@ proc do_enable { enauser enapasswd } {
     sleep 1;		# dont go too fast for it now...
     send "enable\r"
     expect {
-	-re "$u_prompt"	{ send "$enauser\r"; exp_continue}
+	-re "$u_prompt"	{ send -- "$enauser\r"; exp_continue}
 	-re "$e_prompt"	{ send -- "$enapasswd\r"; exp_continue}
 	"#"		{ set prompt "#" }
 	"(enable)"	{ set prompt "> (enable) " }
@@ -513,7 +513,7 @@ proc run_commands { prompt command } {
     set commands [split $command \;]
     set num_commands [llength $commands]
     for {set i 0} {$i < $num_commands} { incr i} {
-	send "[subst [lindex $commands $i]]\r"
+	send -- "[subst [lindex $commands $i]]\r"
 	expect {
 	    -re "^\[^\n\r]*$prompt."	{ exp_continue }
 	    -re "^\[^\n\r *]*$prompt"	{}

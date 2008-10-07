@@ -218,7 +218,7 @@ sub ShowSystem {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(-1) if (/command authorization failed/i);
-	return(-1) if /^(Invalid|Ambiguous) input:/i;
+	return if /^(Invalid|Ambiguous) input:/i;
 
 	if (/memory\s+-\s+total\s+:\s+(\S+)/i) {
 	    my($mem) = $1;

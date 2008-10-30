@@ -1365,9 +1365,9 @@ sub WriteTerm {
 	# Delete bgp passwords.
 	if (/^(\s*)password (\d) (\S+)(\s.*)?$/) {
 	    if ($filter_pwds >= 2) {
-		ProcessHistory("","","","!$1password <removed>$4\n");
+		ProcessHistory("","","","!$1password <removed>$4");
 	    } elsif ($filter_pwds >= 1 && $2 ne "5") {
-		ProcessHistory("","","","!$1password <removed>$4\n");
+		ProcessHistory("","","","!$1password <removed>$4");
 	    } else {
 		ProcessHistory("","","","$_");
 	    }
@@ -1614,6 +1614,19 @@ sub WriteTerm {
     return(0);
 }
 
+# This routine parses a single command that returns no required info.
+sub RunCommand {
+    print STDERR "    In RunCommand: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	return(1) if /Line has invalid autocommand /;
+	return(1) if (/(Invalid input detected|Type help or )/i);
+    }
+    return(0);
+}
+
 # dummy function
 sub DoNothing {print STDOUT;}
 
@@ -1630,6 +1643,7 @@ sub DoNothing {print STDOUT;}
 
 # Main
 @commandtable = (
+	{'term no monitor-force'	=> 'RunCommand'},
 	{'show version'			=> 'ShowVersion'},
 	{'show system redundancy status' => 'ShowRedundancy'},
 #	{'show idprom backplane',	=> 'ShowIDprom'},

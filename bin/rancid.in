@@ -1668,6 +1668,11 @@ sub WriteTerm {
 	    }
 	    next;
 	}
+	# ASA/PIX keys in more system:running-config
+	if (/^( pre-shared-key |failover key ).*/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed> $'"); next;
+	}
+	#
 	if (/^( cable shared-secret )/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n");
 	    next;
@@ -1893,6 +1898,7 @@ sub DoNothing {print STDOUT;}
 	{'show vlan'			=> 'ShowVLAN'},
 	{'show vlan-switch'		=> 'ShowVLAN'},
 	{'show debug'			=> 'ShowDebug'},
+	{'more system:running-config'	=> 'WriteTerm'},	# ASA/PIX
 	{'show running-config'		=> 'WriteTerm'},
 	{'write term'			=> 'WriteTerm'},
 );

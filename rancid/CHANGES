@@ -1,4 +1,6 @@
 2.3.2
+	clogin: new CSS configuration change prompt syntax - Kritian Larsson
+
 	*login: add -- to other sends that take input from the user
 
 	*login: terminate send options with -- to avoid interpretation of -'s

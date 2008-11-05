@@ -72,6 +72,7 @@ $vendor =~ tr/[A-Z]/[a-z]/;
     'hp'		=> 'hrancid',
     'juniper'		=> 'jrancid',
     'mrtd'		=> 'mrancid',
+    'mrv'		=> 'mrvrancid',
     'netopia'		=> 'trancid',
     'netscaler'		=> 'nsrancid',
     'netscreen'		=> 'nrancid',

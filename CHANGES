@@ -1,4 +1,6 @@
 2.3.2
+	mrvrancid: support for the MRV fiber switch
+
 	rancid: collect GSR linecard route memory - Kritian Larsson
 
 	clogin: new CSS configuration change prompt syntax - Kritian Larsson

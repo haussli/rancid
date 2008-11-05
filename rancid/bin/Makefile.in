@@ -52,6 +52,7 @@ DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/hrancid.in $(srcdir)/htlogin.in \
 	$(srcdir)/htrancid.in $(srcdir)/jerancid.in \
 	$(srcdir)/jlogin.in $(srcdir)/jrancid.in $(srcdir)/mrancid.in \
+	$(srcdir)/mrvlogin.in $(srcdir)/mrvrancid.in \
 	$(srcdir)/nlogin.in $(srcdir)/nrancid.in $(srcdir)/nslogin.in \
 	$(srcdir)/nsrancid.in $(srcdir)/nxrancid.in $(srcdir)/par.in \
 	$(srcdir)/prancid.in $(srcdir)/rancid-fe.in \
@@ -71,9 +72,9 @@ CONFIG_CLEAN_FILES = control_rancid par rancid-fe agmrancid alogin \
 	arancid avologin avorancid blogin brancid cat5rancid clogin \
 	rancid cssrancid elogin erancid f5rancid f10rancid flogin \
 	francid fnrancid hlogin hrancid htlogin htrancid jlogin \
-	jrancid jerancid mrancid nlogin nrancid nslogin nsrancid \
-	nxrancid prancid rivlogin rivrancid rrancid srancid tlogin \
-	tntlogin tntrancid trancid xrancid zrancid
+	jrancid jerancid mrancid mrvlogin mrvrancid nlogin nrancid \
+	nslogin nsrancid nxrancid prancid rivlogin rivrancid rrancid \
+	srancid tlogin tntlogin tntrancid trancid xrancid zrancid
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
@@ -218,11 +219,11 @@ AUTOMAKE_OPTIONS = foreign
 bin_SCRIPTS = agmrancid alogin arancid avologin avorancid blogin \
 	brancid cat5rancid clogin control_rancid cssrancid elogin \
 	erancid f10rancid flogin fnrancid francid hlogin hrancid \
-	htlogin htrancid jerancid jlogin jrancid mrancid nlogin \
-	nrancid nslogin nsrancid nxrancid par prancid rancid-fe rancid \
-	rivlogin rivrancid rrancid srancid tlogin tntlogin tntrancid \
-	trancid xrancid zrancid lg.cgi lgform.cgi rancid-cvs \
-	rancid-run
+	htlogin htrancid jerancid jlogin jrancid mrancid mrvlogin \
+	mrvrancid nlogin nrancid nslogin nsrancid nxrancid par prancid \
+	rancid-fe rancid rivlogin rivrancid rrancid srancid tlogin \
+	tntlogin tntrancid trancid xrancid zrancid lg.cgi lgform.cgi \
+	rancid-cvs rancid-run
 EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-run.in
 #dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
 CLEANFILES = lg.cgi lgform.cgi rancid-cvs rancid-run
@@ -347,6 +348,10 @@ jrancid: $(top_builddir)/config.status $(srcdir)/jrancid.in
 jerancid: $(top_builddir)/config.status $(srcdir)/jerancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 mrancid: $(top_builddir)/config.status $(srcdir)/mrancid.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+mrvlogin: $(top_builddir)/config.status $(srcdir)/mrvlogin.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+mrvrancid: $(top_builddir)/config.status $(srcdir)/mrvrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 nlogin: $(top_builddir)/config.status $(srcdir)/nlogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

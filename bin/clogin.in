@@ -715,7 +715,8 @@ proc run_commands { prompt command } {
 						  send "n\r"
 						  exp_continue
 						}
-	"Configuration changes have occurred.*"	{ # Cisco CSS
+	-re "(Profile|Configuration) changes have occurred.*"	{
+						  # Cisco CSS
 						  send "n\r"
 						  exp_continue
 						}

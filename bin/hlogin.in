@@ -521,32 +521,35 @@ proc run_commands { prompt command } {
     for {set i 0} {$i < $num_commands} { incr i} {
 	send -- "[subst -nocommands [lindex $commands $i]]\r"
 	expect {
-	    -re "^\[^\n\r *]*$reprompt"	{ send_user -- "$expect_out(buffer)" }
-	    -re "^\[^\n\r]*$reprompt."	{ send_user -- "$expect_out(buffer)"
+	    -re "^\[^\n\r *]*$reprompt"	{ catch {send_user -- "$expect_out(buffer)"} }
+	    -re "^\[^\n\r]*$reprompt."	{ catch {send_user -- "$expect_out(buffer)"}
 					  exp_continue }
-	    -re "\[\n\r]+"		{ send_user -- "$expect_out(buffer)"
+	    -re "\[\n\r]+"		{ catch {send_user -- "$expect_out(buffer)"}
 					  exp_continue }
 	    -re "\[^\r\n]*Press <SPACE> to cont\[^\r\n]*"	{
 					  send " "
 					  expect {
 						# gag, 2 more prompts
 						-re "\[\r\n]*\r" {}
-						-re "\[^\r\n]*Press <SPACE> to cont\[^\r\n]*"	{ send " "; exp_continue }
+						-re "\[^\r\n]*Press <SPACE> to cont\[^\r\n]*"	{
+						    catch {send " "};
+						    exp_continue
+						}
 					  }
 					  exp_continue
 					}
-	    -re "^<-+ More -+>\[^\n\r]*" { send " "
+	    -re "^<-+ More -+>\[^\n\r]*" { catch {send " "}
 					  exp_continue }
-	    -re "^-+ MORE -+\[^\n\r]*"	{ send " "
+	    -re "^-+ MORE -+\[^\n\r]*"	{ catch {send " "}
 					  exp_continue }
 	    # 3 flavours of the more prompt, first -More-, then --More-- (for
 	    # cisco/riverhead AGM), then with more dashes.
-	    -re "^-More-\[^\n\r-]*"	{ send " "
+	    -re "^-More-\[^\n\r-]*"	{ catch {send " "}
 					  exp_continue }
-	    -re "^--More--\[^\n\r-]*"	{ send " "
+	    -re "^--More--\[^\n\r-]*"	{ catch {send " "}
 					  exp_continue }
 	    -re "^---+More---+\[^\n\r]*" {
-					  send " "
+					  catch {send " "}
 					  exp_continue }
 	    -re "\b+"			{ exp_continue }
 	}
@@ -555,20 +558,20 @@ proc run_commands { prompt command } {
     send -h "exit\r"
     expect {
 	"Do you want to save current configuration"	{
-						  send "n\r"
+						  catch {send "n\r"}
 						  exp_continue
 						}
 	"Do you wish to save " {
-						  send "n\r"
+						  catch {send "n\r"}
 						  exp_continue
 						}
 	"Do you want to log out" 		{
-						  send "y\r"
+						  catch {send "y\r"}
 						  exp_continue
 						}
 	-re "\[\r\n]+"				{ exp_continue }
 	-re "^.+>"				{
-						  send -h "exit\r"
+						  catch {send -h "exit\r"}
 						  exp_continue
 						}
 	timeout					{ catch {close}; catch {wait};

@@ -39,7 +39,7 @@
 ## CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ## ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 ## POSSIBILITY OF SUCH DAMAGE.
-# 
+#
 #  RANCID - Really Awesome New Cisco confIg Differ
 #
 # usage: rancid [-dV] [-l] [-f filename | hostname]
@@ -1099,6 +1099,10 @@ REDUX:	tr/\015//d;
 	    ProcessHistory("SLOT","keysort","AF","!Slot $slot/FRU: Packet Memory: $1\n");
 	    next;
 	}
+	if (/\s+Route Memory:\s+(\S+)/) {
+	    ProcessHistory("SLOT","keysort","AF","!Slot $slot/FRU: Route Memory: $1\n");
+	    next;
+	}
 	if (/^\s+PCA:\s+(.*)/) {
 	    local($part) = $1;
 	    $_ = <INPUT>;
@@ -1602,7 +1606,7 @@ sub WriteTerm {
 	    ProcessHistory("","","","!$1<removed>\n");
 	    next;
 	}
-	if (/^( set session-key (in|out)bound esp \d+ (authenticator|cypher) )/ 
+	if (/^( set session-key (in|out)bound esp \d+ (authenticator|cypher) )/
 	    && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1<removed>\n");
 	    next;

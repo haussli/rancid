@@ -729,13 +729,13 @@ foreach router [lrange $argv $i end] {
     if $avautoenable {
 	set autoenable 1
 	set enable 0
-	set prompt "#\[^\[:digit:]]"
+	set prompt "#\[^\[:digit:]] "
     } else {
 	set ae [find autoenable $router]
 	if { "$ae" == "1" } {
 	    set autoenable 1
 	    set enable 0
-	    set prompt "#\[^\[:digit:]]"
+	    set prompt "#\[^\[:digit:]] "
 	} else {
 	    set autoenable 0
 	    set enable $avenable

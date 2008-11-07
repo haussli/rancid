@@ -458,16 +458,10 @@ ProcessHistory("COMMENTS","keysort","B0","!\n");
 ProcessHistory("COMMENTS","keysort","C0","!\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
-    if (/[>#]\s?exit$/) {
-	$clean_run = 1;
-print STDOUT "$host: $clean_run 1 \n";
-	last;
-    }
     if (/^Error:/) {
 	print STDOUT ("$host clogin error: $_");
 	print STDERR ("$host clogin error: $_") if ($debug);
 	$clean_run = 0;
-print STDOUT "$host: $clean_run 0 \n";
 	last;
     }
     while (/#\s*($cmds_regexp)\s*$/) {
@@ -481,16 +475,18 @@ print STDOUT "$host: $clean_run 0 \n";
 	if (! defined($commands{$cmd})) {
 	    print STDERR "$host: found unexpected command - \"$cmd\"\n";
 	    $clean_run = 0;
-print STDOUT "$host: $clean_run 0 \n";
 	    last TOP;
 	}
 	$rval = &{$commands{$cmd}};
 	delete($commands{$cmd});
 	if ($rval == -1) {
 	    $clean_run = 0;
-print STDOUT "$host: $clean_run -1 \n";
 	    last TOP;
 	}
+    }
+    if (/[>#]\s?exit$/) {
+	$clean_run = 1;
+	last;
     }
 }
 print STDOUT "Done $logincmd: $_\n" if ($log);

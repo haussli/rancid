@@ -64,6 +64,7 @@ $timeo = 90;				# clogin timeout in seconds
 
 my(@commandtable, %commands, @commands);# command lists
 my($aclsort) = ("ipsort");		# ACL sorting mode
+my($config_register);			# configuration register value
 my($filter_commstr);			# SNMP community string filtering
 my($filter_pwds);			# password filtering mode
 
@@ -423,7 +424,7 @@ sub ShowVersion {
 	    next;
 	}
 	if (/^Configuration register on node \S+ is (.*)$/) {
-	    $config_register = $1 if $config_register eq "";
+	    $config_register = $1 if (strlen($config_register) < 1);
 	    next;
 	}
     }
@@ -1524,21 +1525,21 @@ sub WriteTerm {
 	    my($len) = length($1);
 	    s/^$1\s{$len}//;
 	}
+	if (!$linecnt && defined($config_register)) {
+	    ProcessHistory("","","", "!\nconfig-register $config_register\n");
+	}
 
 	/Non-Volatile memory is in use/  && return(-1); # NvRAM is locked
 	$linecnt++;
 	$lineauto = 0 if (/^[^ ]/);
 	# skip the crap
-	if (/^(##+$|(Building|Current) configuration)/i) {
+	if (/^(##+|(building|current) configuration)/i) {
 	    while (<INPUT>) {
 		next if (/^Current configuration\s*:/i);
 		next if (/^:/);
 		next if (/^([%!].*|\s*)$/);
 		next if (/^ip add.*ipv4:/);	# band-aid for 3620 12.0S
 		last;
-	    }
-	    if (defined($config_register)) {
-		ProcessHistory("","","","!\nconfig-register $config_register\n");
 	    }
 	    tr/\015//d;
 	}

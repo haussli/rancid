@@ -1,5 +1,5 @@
 2.3.2
-	nsrancid: update command list for version 8 - Marco Schirrmeister
+	nsrancid/nslogin: updates for netscalar version 8 - Marco Schirrmeister
 
 	f10rancid: updated support for all devices running FTOS: E-Series,
 	C-Series and S-Series - Greg Hankins

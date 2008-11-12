@@ -277,23 +277,11 @@ if ($ENV{"FILTER_PWDS"} =~ /no/i) {
 ProcessHistory("","","","!RANCID-CONTENT-TYPE: netscaler\n!\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
-#print STDOUT " --IN--$_";
-  #  if ( (/exit/) || $found_end ) {
-#	$clean_run=1;
-#print STDOUT "\n\nhere11\n";
-#last;
-#    }
-
-  # if ( (/netscaler#/) || $found_end ) {
-#print STDOUT "\n\nhere1\n";
-#	$clean_run=1;
-#	last;
-#    }
 
     if (/^Error:/) {
 	print STDOUT ("$host nslogin error: $_");
 	print STDERR ("$host nslogin error: $_") if ($debug);
-	$clean_run=0;
+	$clean_run = 0;
 	last;
     }
     while (/$prompt\s*($cmds_regexp)\s*$/) {

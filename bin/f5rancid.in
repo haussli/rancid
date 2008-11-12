@@ -60,6 +60,9 @@ $clean_run = 0;
 $found_end = 0;
 $timeo = 90;				# clogin timeout in seconds
 
+# force a terminal type so as not to confuse the POS
+$ENV{'TERM'} = "vt100";
+
 my(@commandtable, %commands, @commands);# command lists
 my($aclsort) = ("ipsort");		# ACL sorting mode
 my($filter_commstr);			# SNMP community string filtering

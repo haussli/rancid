@@ -296,7 +296,7 @@ TOP: while(<INPUT>) {
 	$clean_run=0;
 	last;
     }
-    while (/#\s*($cmds_regexp)\s*$/) {
+    while (/$prompt\s*($cmds_regexp)\s*$/) {
 	$cmd = $1;
 	print STDERR ("HIT COMMAND:$_") if ($debug);
 	if (! defined($commands{$cmd})) {

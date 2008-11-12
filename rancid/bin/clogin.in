@@ -711,6 +711,10 @@ proc run_commands { prompt command } {
 						  send -h "exit\r"
 						  exp_continue;
 						}
+	"The system has unsaved changes"	{ # Force10 SFTOS
+						  send "n\r"
+						  exp_continue
+						}
 	"Would you like to save them now"	{ # Force10
 						  send "n\r"
 						  exp_continue
@@ -819,7 +823,7 @@ foreach router [lrange $argv $i end] {
     # Figure out prompts
     set u_prompt [find userprompt $router]
     if { "$u_prompt" == "" } {
-	set u_prompt "(Username|Login|login|user name):"
+	set u_prompt "(Username|Login|login|user name|User):"
     } else {
 	set u_prompt [join [lindex $u_prompt 0] ""]
     }

@@ -78,8 +78,6 @@ set avautoenable 0
 # tracks if we receive them on the command line.
 set do_passwd 1
 set do_enapasswd 1
-# attempt at platform switching.
-set platform ""
 
 # Find the user in the ENV, or use the unix userid.
 if {[ info exists env(CISCO_USER) ]} {
@@ -317,7 +315,7 @@ proc source_password_file { password_file } {
 # Log into the router.
 # returns: 0 on success, 1 on failure
 proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
-    global spawn_id in_proc do_command do_script platform
+    global spawn_id in_proc do_command do_script
     global prompt u_prompt p_prompt e_prompt sshcmd
     set in_proc 1
     set uprompt_seen 0
@@ -446,7 +444,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 # Run commands given on the command line.
 
 proc run_commands { prompt command } {
-    global in_proc platform
+    global in_proc
     set in_proc 1
 
     regsub -all "\[)(]" $prompt {\\&} reprompt
@@ -491,11 +489,7 @@ proc run_commands { prompt command } {
     }
     log_user 1
 
-    if { [ string compare "extreme" "$platform" ] } {
-        send "exit\r"
-    } else {
-        send "quit\r"
-    }
+    send "quit\r"
     expect {
         "Do you wish to save your configuration changes" {
                                                   send "n\r"

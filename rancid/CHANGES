@@ -1,4 +1,7 @@
 2.3.2
+	f10rancid: SFTOS config end marker has trailing space - Marcus
+	Stoegbauer
+
 	mrvrancid: support for the MRV fiber switch
 
 	rancid: collect GSR linecard route memory - Kritian Larsson

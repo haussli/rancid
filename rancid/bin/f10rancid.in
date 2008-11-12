@@ -496,7 +496,7 @@ sub WriteTerm {
 	# catch anything that wasnt matched above.
 	ProcessHistory("","","","$_");
 	# end of config.  the ": " game is for the PIX
-	if (/^end$/) {
+	if (/^end *$/) {
 	    $found_end = 1;
 	    return(0);
 	}

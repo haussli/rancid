@@ -1,4 +1,6 @@
 2.3.2
+	clogin: force10/SFTOS fixes for username & logout prompts - Doug Hughes
+
 	f10rancid: SFTOS config end marker has trailing space - Marcus
 	Stoegbauer
 

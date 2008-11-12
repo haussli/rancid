@@ -435,25 +435,14 @@ proc run_commands { prompt command } {
     send "set cli screen-length 0\r"
     expect -re $prompt	{}
 
-    # Is this a multi-command?
-    if [ string match "*\;*" "$command" ] {
-	set commands [split $command \;]
-	set num_commands [llength $commands]
-
-	for {set i 0} {$i < $num_commands} { incr i} {
-	    send "[lindex $commands $i]\r"
-	    expect {
-		-re "^\[^\n\r *]*$prompt $"	{}
-		-re "^\[^\n\r]*$prompt."	{ exp_continue }
-		-re "(\r\n|\n)"			{ exp_continue }
-            }
-	}
-    } else {
-	send "$command\r"
+    set commands [split $command \;]
+    set num_commands [llength $commands]
+    for {set i 0} {$i < $num_commands} { incr i} {
+	send "[lindex $commands $i]\r"
 	expect {
-		-re "^\[^\n\r *]*$prompt $"	{}
-		-re "^\[^\n\r]*$prompt."	{ exp_continue }
-		-re "(\r\n|\n)"			{ exp_continue }
+	    -re "^\[^\n\r *]*$prompt $"	{}
+	    -re "^\[^\n\r]*$prompt."	{ exp_continue }
+	    -re "(\r\n|\n)"			{ exp_continue }
 	}
     }
     send "quit\r"

@@ -502,7 +502,7 @@ regsub -all {^(.{1,14}).*([#>])$} $reprompt {\1([^#>\r\n]+)?[#>](\\([^)\\r\\n]+\
 
     # this is the only way i see to get rid of more prompts in o/p..grrrrr
     log_user 0
-    # Is this a multi-command?
+
     set commands [split $command \;]
     set num_commands [llength $commands]
     # the pager can not be turned off on the PIX, so we have to look

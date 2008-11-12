@@ -170,7 +170,7 @@ sub sortbyipaddr {
     &ipaddrval($a) <=> &ipaddrval($b);
 }
 
-# This routine parses "show config"
+# This routine parses "show ns ns.conf"
 sub ShowConfig {
     print STDERR "    In ShowConfig: $_" if ($debug);
 
@@ -199,23 +199,6 @@ sub ShowConfig {
     return(0);
 }
 
-# This routine parses "get log setting"
-sub GetLogSet {
-    print STDERR "    In GetLogSet: $_" if ($debug);
-
-    while (<INPUT>) {
-	tr/\015//d;
-	last if (/^$prompt/);
-	next if (/^(\s*|\s*$cmd\s*)$/);
-	next if (/^Reading configuration information/);
-	next if (/^Can\'t find object or class named \"\-all\"\s*$/);
-	return(1) if /(invalid command name)/;
-
-	ProcessHistory("","","","$_");
-    }
-    return(0);
-}
-
 # This routine parses single command's that return no required info
 sub RunCommand {
     print STDERR "    In RunCommand: $_" if ($debug);
@@ -233,8 +216,7 @@ sub DoNothing {print STDOUT;}
 
 # Main
 @commandtable = (
-	{'cat /etc/ns.conf'	=> 'ShowConfig'},
-	{'get log setting'	=> 'GetLogSet'}
+	{'show ns ns.conf'	=> 'ShowConfig'},
 );
 # Use an array to preserve the order of the commands and a hash for mapping
 # commands to the subroutine and track commands that have been completed.

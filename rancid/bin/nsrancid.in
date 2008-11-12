@@ -66,8 +66,6 @@ my($aclsort) = ("ipsort");		# ACL sorting mode
 my($filter_commstr);			# SNMP community string filtering
 my($filter_pwds);			# password filtering mode
 
-@temp1 = split (/\./,$host);
-$prompt = "$temp1[0]#";
 $prompt = "netscaler#";
 
 # This routine is used to print out the router configuration

@@ -610,60 +610,28 @@ proc run_commands { prompt command } {
 
     # this is the only way i see to get rid of more prompts in o/p..grrrrr
     log_user 0
-    # Is this a multi-command?
-    if [ string match "*\;*" "$command" ] {
-	set commands [split $command \;]
-	set num_commands [llength $commands]
-	# the pager can not be turned off on the PIX, so we have to look
-	# for the "More" prompt.  the extreme is equally obnoxious, with a
-	# global switch in the config.
-	for {set i 0} {$i < $num_commands} { incr i} {
-	    send -- "[subst -nocommands [lindex $commands $i]]\r"
-	    expect {
-		-re "\b+"			{ exp_continue }
-		-re "^\[^\n\r *]*$reprompt"	{ send_user -- "$expect_out(buffer)"
-						}
-		-re "^\[^\n\r]*$reprompt."	{ send_user -- "$expect_out(buffer)"
-						  exp_continue }
-		-re "^--More--\[\r\n]+"		{ # specific match c1900 pager
-						  send " "
-						  exp_continue }
-		-re "\[\n\r]+"			{ send_user -- "$expect_out(buffer)"
-						  exp_continue }
-		-re "\[^\r\n]*Press <SPACE> to cont\[^\r\n]*"	{
-						  send " "
-						  # bloody ^[[2K after " "
-						  expect {
-							-re "^\[^\r\n]*\r" {}
-							}
-						  exp_continue
-						}
-		-re "^ *--More--\[^\n\r]*"	{
-						  send " "
-						  exp_continue }
-		-re "^<-+ More -+>\[^\n\r]*"	{
-						  send_user -- "$expect_out(buffer)"
-						  send " "
-						  exp_continue }
-	    }
-	}
-    } else {
-	# the pager can not be turned off on the PIX, so we have to look
-	# for the "More" prompt.  the extreme is equally obnoxious, with a
-	# global switch in the config.
-	send -- "[subst -nocommands $command]\r"
+
+    set commands [split $command \;]
+    set num_commands [llength $commands]
+    # the pager can not be turned off on the PIX, so we have to look
+    # for the "More" prompt.  the extreme is equally obnoxious, with a
+    # global switch in the config.
+    # XXX I think the pager can be turned off and this is just an artifact of
+    #	  clogin
+    for {set i 0} {$i < $num_commands} { incr i} {
+	send -- "[subst -nocommands [lindex $commands $i]]\r"
 	expect {
-		-re "\b+"			{ exp_continue }
-		-re "^\[^\n\r *]*$reprompt"	{ send_user -- "$expect_out(buffer)"
+	    -re "\b+"				{ exp_continue }
+	    -re "^\[^\n\r *]*$reprompt"		{ send_user -- "$expect_out(buffer)"
 						}
-		-re "^\[^\n\r]*$reprompt."	{ send_user -- "$expect_out(buffer)"
+	    -re "^\[^\n\r]*$reprompt."		{ send_user -- "$expect_out(buffer)"
 						  exp_continue }
-		-re "^--More--\r\n"		{ # specific match c1900 pager
+	    -re "^--More--\[\r\n]+"		{ # specific match c1900 pager
 						  send " "
 						  exp_continue }
-		-re "\[\n\r]+"			{ send_user -- "$expect_out(buffer)"
+	    -re "\[\n\r]+"			{ send_user -- "$expect_out(buffer)"
 						  exp_continue }
-		-re "\[^\r\n]*Press <SPACE> to cont\[^\r\n]*"	{
+	    -re "\[^\r\n]*Press <SPACE> to cont\[^\r\n]*"	{
 						  send " "
 						  # bloody ^[[2K after " "
 						  expect {
@@ -671,10 +639,10 @@ proc run_commands { prompt command } {
 							}
 						  exp_continue
 						}
-		-re "^ *--More--\[^\n\r]*"	{
+	    -re "^ *--More--\[^\n\r]*"		{
 						  send " "
 						  exp_continue }
-		-re "^<-+ More -+>\[^\n\r]*"	{
+	    -re "^<-+ More -+>\[^\n\r]*"	{
 						  send_user -- "$expect_out(buffer)"
 						  send " "
 						  exp_continue }

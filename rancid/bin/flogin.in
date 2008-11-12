@@ -509,7 +509,6 @@ proc run_commands { prompt command } {
     send "skip-page-display\r"
     expect -re "$prompt" {}
 
-    # Is this a multi-command?
     set commands [split $command \;]
     set num_commands [llength $commands]
     for {set i 0} {$i < $num_commands} { incr i} {

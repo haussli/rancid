@@ -477,25 +477,14 @@ proc run_commands { prompt command } {
 
     regsub -all "\[)(]" $prompt {\\&} reprompt
 
-    # Is this a multi-command?
-    if [ string match "*\;*" "$command" ] {
-	set commands [split $command \;]
-	set num_commands [llength $commands]
-
-	for {set i 0} {$i < $num_commands} { incr i} {
-	    send -- "[subst -nocommands [lindex $commands $i]]\r"
-	    expect {
-		-re "^\[^\n\r *]*$reprompt"	{}
-		-re "^\[^\n\r]*$reprompt."	{ exp_continue }
-		-re "\[\n\r]+"			{ exp_continue }
-	    }
-	}
-    } else {
-	send -- "[subst -nocommands $command]\r"
+    set commands [split $command \;]
+    set num_commands [llength $commands]
+    for {set i 0} {$i < $num_commands} { incr i} {
+	send -- "[subst -nocommands [lindex $commands $i]]\r"
 	expect {
-		-re "^\[^\n\r *]*$reprompt"	{}
-		-re "^\[^\n\r]*$reprompt."	{ exp_continue }
-		-re "\[\n\r]+"			{ exp_continue }
+	    -re "^\[^\n\r *]*$reprompt"		{}
+	    -re "^\[^\n\r]*$reprompt."		{ exp_continue }
+	    -re "\[\n\r]+"			{ exp_continue }
 	}
     }
     send "logout\r"

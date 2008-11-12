@@ -424,7 +424,7 @@ sub ShowVersion {
 	    next;
 	}
 	if (/^Configuration register on node \S+ is (.*)$/) {
-	    $config_register = $1 if (strlen($config_register) < 1);
+	    $config_register = $1 if (length($config_register) < 1);
 	    next;
 	}
     }

@@ -192,7 +192,7 @@ sub ShowVersion {
 	    my($mem) = int($4 / (1024 * 1024));
 	    my($device) = "Force10";
 	    ProcessHistory("COMMENTS","keysort","B1",
-			   "Memory: $1$2: $mem" . "M\n");
+			   "!Memory: $1$2: $mem" . "M\n");
 	    ProcessHistory("COMMENTS","keysort","A3","!CPU: $cpu\n");
 	    next;
 	}

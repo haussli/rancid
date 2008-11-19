@@ -460,20 +460,20 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	-re "@\[^\r\n]+ $p_prompt"	{
 				  # ssh pwd prompt
 				  sleep 1
-				  send -- "$userpswd\r"
+				  send -h -- "$userpswd\r"
 				  exp_continue
 				}
 	-re "$u_prompt"		{
-				  send -- "$user\r"
+				  send -h -- "$user\r"
 				  set uprompt_seen 1
 				  exp_continue
 				}
 	-re "$p_prompt"		{
 				  sleep 1
 				  if {$uprompt_seen == 1} {
-					send -- "$userpswd\r"
+					send -h -- "$userpswd\r"
 				  } else {
-					send -- "$passwd\r"
+					send -h -- "$passwd\r"
 				  }
 				  exp_continue
 				}
@@ -496,10 +496,10 @@ proc do_enable { enauser enapasswd } {
     global u_prompt e_prompt
     set in_proc 1
 
-    send "enable\r"
+    send -h "enable\r"
     expect {
-	-re "$u_prompt"	{ send -- "$enauser\r"; exp_continue}
-	-re "$e_prompt"	{ send -- "$enapasswd\r"; exp_continue}
+	-re "$u_prompt"	{ send -h -- "$enauser\r"; exp_continue}
+	-re "$e_prompt"	{ send -h -- "$enapasswd\r"; exp_continue}
 	"#"		{ set prompt "#" }
 	-re "(denied|Sorry|Incorrect)"	{
 			  # % Access denied - from local auth and poss. others
@@ -526,7 +526,7 @@ proc run_commands { prompt command } {
     global in_proc
     set in_proc 1
 
-    send "terminal length 0\r"
+    send -h "terminal length 0\r"
     # escape any parens in the prompt, such as "(enable)"
     regsub -all {[)(]} $prompt {\\&} reprompt
     # match cisco config mode prompts too, such as router(config-if)#,
@@ -548,7 +548,7 @@ proc run_commands { prompt command } {
     # XXX I think the pager can be turned off and this is just an artifact of
     #	  clogin
     for {set i 0} {$i < $num_commands} { incr i} {
-	send -- "[subst -nocommands [lindex $commands $i]]\r"
+	send -h -- "[subst -nocommands [lindex $commands $i]]\r"
 	expect {
 	    -re "\b+"				{ exp_continue }
 	    -re "^\[^\n\r *]*$reprompt"		{ send_user -- "$expect_out(buffer)"
@@ -757,7 +757,7 @@ foreach router [lrange $argv $i end] {
 	    continue
 	}
     } elseif { $do_script } {
-	send "terminal length 0\r"
+	send -h "terminal length 0\r"
 	expect -re $prompt	{}
 	source $sfile
 	catch {close};

@@ -208,7 +208,14 @@ sub ShowChassis {
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/command authorization failed/i);
 
-	ProcessHistory("COMMENTS","keysort","C1","!$_");
+	if (/Chassis +Model/ || /=======/) {
+	    ProcessHistory("COMMENTS","keysort","C1","!$_");
+	    next;
+	}
+	# Trim the temp from the end of the slot line
+	chomp; s/\s+$//;
+	s/\S+$//;
+	ProcessHistory("COMMENTS","keysort","C1","!$_\n");
     }
     ProcessHistory("COMMENTS","","","!\n");
     return(0);
@@ -260,9 +267,6 @@ sub WriteTerm {
 	    }
 	    tr/\015//d;
 	}
-	# some versions have other crap mixed in with the bits in the
-	# block above
-#	/^! (Last configuration|NVRAM config last)/ && next;
 
 	# skip consecutive comment lines to avoid oscillating extra comment
 	# line on some access servers.  grrr.

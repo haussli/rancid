@@ -193,6 +193,7 @@ sub ShowVersion {
 	    next;
 	}
 	if (/cisco ios xr /i) { $ios = "XR"; }
+	if (/cisco ios .* IOS-XE/i) { $ios = "XE"; }
 	if (/^Application and Content Networking Software/) { $type = "CE"; }
 	# treat the ACE like the Content Engines for matching endofconfig
 	if (/^Cisco Application Control Software/) { $type = "CE"; }
@@ -740,7 +741,7 @@ sub DirSlotN {
 	    next if (/temp_cont\s*$/);
 	    next if (/uptime_cont\s*$/);
 	}
-	if (/.*\((\d+) bytes free\)/ && $ios eq "XR") {
+	if (($ios eq "XR" || $ios eq "XE")  && /.*\((\d+) bytes free\)/) {
 	    my($tmp) = int($1 / (1024 * 1024));
 	    s/$1 bytes free/$tmp MB free/;
 	}

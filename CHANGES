@@ -1,4 +1,6 @@
 2.3.2
+	rancid: summarize bytes free for IOS-XE like XR 
+
 	nsrancid/nslogin: updates for netscalar version 8 - Marco Schirrmeister
 
 	f10rancid: updated support for all devices running FTOS: E-Series,

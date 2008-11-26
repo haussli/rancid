@@ -630,7 +630,7 @@ reapchild(int sig)
             fprintf(stderr, "reap child %d\n", (int)pid);
 	if (pid == child) {
 	    child = 0;
-	    sigrx = 0;
+	    sigrx = 1;
 	    break;
 	}
     }

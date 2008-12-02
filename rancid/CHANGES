@@ -1,4 +1,6 @@
 2.3.2
+	nxrancid: add "show version build-info".  sort snmp-server user.
+
 	rancid: filter filesize and date of tracelogs dir on IOS-XE
 
 	rancid: summarize bytes free for IOS-XE like XR 

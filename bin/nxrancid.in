@@ -167,7 +167,6 @@ sub sortbyipaddr {
 # This routine parses "show version"
 sub ShowVersion {
     print STDERR "    In ShowVersion: $_" if ($debug);
-    my($slaveslot);
 
     while (<INPUT>) {
 	tr/\015//d;
@@ -225,6 +224,28 @@ EndHardware:
     print STDERR "TYPE = $type\n" if ($debug);
     ProcessHistory("COMMENTS","keysort","A1", "!Chassis type: $proc - a $type router\n");
 
+    return(0);
+}
+
+# This routine parses "show version build-info"
+sub ShowVersionBuild {
+    print STDERR "    In ShowVersionBuild: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	if (/^$prompt/) { last};
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /Line has invalid autocommand /;
+	return(1) if /(Invalid input detected|Type help or )/;
+	return(-1) if (/command authorization failed/i);
+
+	/^Built By / && ProcessHistory("Build","","", "!Build: $_");
+	/^On Date / && ProcessHistory("Build","","", "!Build: $_");
+	/^From Tree / && ProcessHistory("Build","","", "!Build: $_");
+	/^Base Tag / && ProcessHistory("Build","","", "!Build: $_");
+	/^Release for / && ProcessHistory("Build","","", "!Build: $_");
+    }
+    ProcessHistory("Build","","","!\n");
     return(0);
 }
 
@@ -1362,6 +1383,8 @@ sub WriteTerm {
 	    }
 	    next;
 	}
+	# Sort any other snmp user info.
+	/^snmp-server user (\S+) .*$/ && ProcessHistory("SNMP-USER","keysort","$1","$_") && next;
 	# Delete bgp passwords.
 	if (/^(\s*)password (\d) (\S+)(\s.*)?$/) {
 	    if ($filter_pwds >= 2) {
@@ -1645,6 +1668,7 @@ sub DoNothing {print STDOUT;}
 @commandtable = (
 	{'term no monitor-force'	=> 'RunCommand'},
 	{'show version'			=> 'ShowVersion'},
+	{'show version build-info all'	=> 'ShowVersionBuild'},
 	{'show system redundancy status' => 'ShowRedundancy'},
 #	{'show idprom backplane',	=> 'ShowIDprom'},
 	{'show environment clock'	=> 'ShowEnv'},

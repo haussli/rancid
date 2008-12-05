@@ -589,7 +589,7 @@ filter(char *buf, int len)
 	}
     }
 
-    /* no the CR NL replacements */
+    /* now the CR NL replacements */
     if (! init++) {
 	for (x = N_REG - 2; x < N_REG; x++)
 	    if ((err = regcomp(&preg[x], reg[x], REG_EXTENDED))) {

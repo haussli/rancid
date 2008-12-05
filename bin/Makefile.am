@@ -125,3 +125,5 @@ rancid-run: Makefile $(srcdir)/rancid-run.in
 	$(auto_edit) $(srcdir)/rancid-run.in >rancid-run.tmp; \
 	chmod +x rancid-run.tmp; \
 	mv rancid-run.tmp rancid-run
+
+$(bin_PROGRAMS) $(bin_SCRIPTS): ../include/version.h

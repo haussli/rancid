@@ -534,6 +534,7 @@ filter(char *buf, int len)
 {
     static regmatch_t	pmatch[1];
 #define	N_REG		15		/* number of regexes in reg[][] */
+#define	N_CRs		2		/* number of CR replacements */
     static regex_t	preg[N_REG];
     static char		reg[N_REG][50] = {	/* vt100/220 escape codes */
 				"\x1B""7\x1B\\[1;24r\x1B""8",	/* ds */
@@ -567,7 +568,7 @@ filter(char *buf, int len)
     if (len == 0 || (err = strcspn(buf, bufstr)) >= len)
 	return(len);
 
-    for (x = 0; x < N_REG - 2; x++) {
+    for (x = 0; x < N_REG - N_CRs; x++) {
 	if (! init) {
 	    if ((err = regcomp(&preg[x], reg[x], REG_EXTENDED))) {
 		regerror(err, &preg[x], ebuf, 256);
@@ -591,7 +592,7 @@ filter(char *buf, int len)
 
     /* now the CR NL replacements */
     if (! init++) {
-	for (x = N_REG - 2; x < N_REG; x++)
+	for (x = N_REG - N_CRs; x < N_REG; x++)
 	    if ((err = regcomp(&preg[x], reg[x], REG_EXTENDED))) {
 		regerror(err, &preg[x], ebuf, 256);
 		fprintf(stderr, "%s: regex compile failed: %s\n", progname,
@@ -599,7 +600,7 @@ filter(char *buf, int len)
 		abort();
 	    }
     }
-    for (x = N_REG - 2; x < N_REG; x++) {
+    for (x = N_REG - N_CRs; x < N_REG; x++) {
 	if ((err = regexec(&preg[x], buf, nmatch, pmatch, 0))) {
 	    if (err != REG_NOMATCH) {
 		regerror(err, &preg[x], ebuf, 256);

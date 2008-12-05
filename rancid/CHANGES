@@ -1,4 +1,7 @@
 2.3.2
+	hpuifilter: Filter \x07 (bell) from output, which the Cisco AGM suddenly
+	started inserting *sometimes*.
+
 	nxrancid: add "show version build-info".  sort snmp-server user.
 
 	rancid: filter filesize and date of tracelogs dir on IOS-XE

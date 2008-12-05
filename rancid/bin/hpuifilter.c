@@ -141,7 +141,7 @@ main(int argc, char **argv, char **ev)
 			hbuf[BUFSZ],		/* hlogin buffer */
 			ptyname[FILENAME_MAX + 1],
 			tbuf[BUFSZ],		/* telnet/ssh buffer */
-			tbufstr[4] = {ESC, '\r', '\n', '\0'};
+			tbufstr[5] = {ESC, '\x07', '\r', '\n', '\0'};
     int			bytes,			/* bytes read/written */
 			devnull,
 			rval = EX_OK,
@@ -533,7 +533,7 @@ int
 filter(char *buf, int len)
 {
     static regmatch_t	pmatch[1];
-#define	N_REG		14		/* number of regexes in reg[][] */
+#define	N_REG		15		/* number of regexes in reg[][] */
     static regex_t	preg[N_REG];
     static char		reg[N_REG][50] = {	/* vt100/220 escape codes */
 				"\x1B""7\x1B\\[1;24r\x1B""8",	/* ds */
@@ -551,18 +551,20 @@ filter(char *buf, int len)
 				"\x1B\\[\\?25l",		/* vi */
 				"\x1B\\[K",			/* ce */
 				"\x1B\\[7m",			/* mr - ansi */
+				"\x07",				/* bell */
 
 				/* replace these with CR */
 				"\x1B\\[0m",			/* me */
 				"\x1B""E",
 			};
-    char		ebuf[256];
+    char		bufstr[3] = {ESC, '\x07', '\0'},
+			ebuf[256];
     size_t		nmatch = 1;
     int			err,
 			x;
     static int		init = 0;
 
-    if (index(buf, ESC) == 0 || len == 0)
+    if (len == 0 || (err = strcspn(buf, bufstr)) >= len)
 	return(len);
 
     for (x = 0; x < N_REG - 2; x++) {

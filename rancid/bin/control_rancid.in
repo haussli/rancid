@@ -433,7 +433,7 @@ do
     then
 	rm -f $router.new
     else
-	lines=`awk '{if (/^([-*!;#]|\/\*)/) { next; } lines++; \
+	lines=`awk '{if ($0 ~ /^([-*!;#]|\/\*)/) { next; } lines++; \
 		if (lines > 10) { print "1"; exit;}} \
 		END { if (lines < 10) {print "0";}}' $router.new`
 

@@ -1,4 +1,6 @@
 2.3.2
+	rancid: correct/add some filtering for ASA's more system:running-config
+
 	srancid: filter temperature sensor info for Dell 6428 stacks
 
 	hpuifilter: Filter \x07 (bell) from output, which the Cisco AGM suddenly

@@ -1551,6 +1551,8 @@ sub WriteTerm {
 	# some versions have other crap mixed in with the bits in the
 	# block above
 	/^! (Last configuration|NVRAM config last)/ && next;
+	# and for the ASA
+	/^: (Written by \w+ at|Saved)/ && next;
 
 	# skip consecutive comment lines to avoid oscillating extra comment
 	# line on some access servers.  grrr.
@@ -1824,7 +1826,7 @@ sub WriteTerm {
 	    next;
 	}
 
-	/^Cryptochecksum:/ && next;
+	/^ *Cryptochecksum:/ && next;
 
 	# catch anything that wasnt matched above.
 	ProcessHistory("","","","$_");

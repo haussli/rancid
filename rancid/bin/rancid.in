@@ -1246,6 +1246,14 @@ REDUX:	tr/\015//d;
 	    while (<INPUT>) {
 		tr/\015//d;
 
+		# Sometimes "show diag" just ends while we are
+		# trying to process this pcb stuff.  Check for a
+		# prompt so we can get out.
+		if (/^$prompt/) {
+		    $found_diag=1;
+		    goto PerlSucks;
+		}
+
 		if (/0x..: / || /^$/) {
 		    # no effing idea why break does not work there
 		    goto PerlSucks;
@@ -1268,6 +1276,8 @@ PerlSucks:
 	    #
 	    ProcessHistory("SLOT","keysort","B","!Slot $slot$WIC: hvers $hw rev $rev\n");
 	    ProcessHistory("SLOT","keysort","C","!Slot $slot$WIC: part $pn, serial $sn\n");
+	    # If we saw the prompt, then we are done.
+	    last if $found_diag;
 	}
 	/revision\s+(\S+).*revision\s+(\S+)/ &&
 	    ProcessHistory("SLOT","keysort","C","!Slot $slot$WIC: hvers $1 rev $2\n") &&

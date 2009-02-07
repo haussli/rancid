@@ -214,6 +214,10 @@ for {set i 0} {$i < $argc} {incr i} {
 	    close $cmd_fd
 	    set command [join [split $cmd_text \n] \;]
 	    set do_command 1
+	# Version string
+	} -V* {
+	    send_user "@PACKAGE@ @VERSION@\n"
+	    exit 0
 	# Do we enable?
 	} -noenable {
 	    set avenable 0

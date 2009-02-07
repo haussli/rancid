@@ -1,4 +1,7 @@
 2.3.2
+	rancid: catch aborted 'show diag' output on some 7300s.
+	Bug found by Paul Vlaar.
+
 	rancid: correct/add some filtering for ASA's more system:running-config
 
 	srancid: filter temperature sensor info for Dell 6428 stacks

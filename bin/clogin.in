@@ -872,6 +872,7 @@ foreach router [lrange $argv $i end] {
 	# command is "set length 0"; otherwise its "terminal length 0".
 	if [ regexp -- ".*> .*enable" "$prompt" ] {
 	    send "set length 0\r"
+	    expect -re $prompt	{}
 	    send "set logging session disable\r"
 	} else {
 	    send "terminal length 0\r"

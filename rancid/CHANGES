@@ -1,4 +1,7 @@
 2.3.2
+	clogin: change "(enable)" and/or regex meta-char exscaping so that
+	catalyst logins work properly.
+
 	hlogin: run_commands exp_continueing when it shouldnt have
 
 	jerancid: summarize DirSlotN bytes to reduce diffs

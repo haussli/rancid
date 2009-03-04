@@ -572,7 +572,7 @@ proc do_enable { enauser enapasswd } {
 	-re "$u_prompt"	{ send -- "$enauser\r"; exp_continue}
 	-re "$e_prompt"	{ send -- "$enapasswd\r"; exp_continue}
 	"#"		{ set prompt "#" }
-	"(enable)"	{ set prompt "> (enable) " }
+	"(enable)"	{ set prompt "> \\(enable\\) " }
 	-re "(denied|Sorry|Incorrect)"	{
 			  # % Access denied - from local auth and poss. others
 			  send_user "\nError: Check your Enable passwd\n";
@@ -611,17 +611,15 @@ proc run_commands { prompt command } {
 	} else {
 	    send "terminal length 0\r"
 	}
-	# escape any parens in the prompt, such as "(enable)"
-	regsub -all {[)(]} $prompt {\\&} reprompt
 	# match cisco config mode prompts too, such as router(config-if)#,
 	# but catalyst does not change in this fashion.
-	regsub -all {^(.{1,11}).*([#>])$} $reprompt {\1([^#>\r\n]+)?[#>](\\([^)\\r\\n]+\\))?} reprompt
+	regsub -all {^(.{1,11}).*([#>])$} $prompt {\1([^#>\r\n]+)?[#>](\\([^)\\r\\n]+\\))?} reprompt
 	expect {
 	    -re $reprompt	{}
 	    -re "\[\n\r]+"	{ exp_continue }
 	}
     } else {
-	regsub -all "\[)(]" $prompt {\\&} reprompt
+	set reprompt $prompt
     }
 
     # this is the only way i see to get rid of more prompts in o/p..grrrrr
@@ -851,13 +849,10 @@ foreach router [lrange $argv $i end] {
 				  set junk $expect_out(1,string)
 				  regsub -all "^\\\* " $expect_out(1,string) {} junk
 				  set prompt ".? ?$junk\[0-9]+ $expect_out(2,string)";
+				  regsub -all "\[\]\[\(\)]" $prompt {\\&} prompt;
 				  set platform "extreme"
 				}
 	-re "^.+$prompt"	{ set junk $expect_out(0,string);
-				  regsub -all "\[\]\[]" $junk {\\&} prompt;
-				}
-	-re "^.+> \\\(enable\\\)"	{
-				  set junk $expect_out(0,string);
 				  regsub -all "\[\]\[\(\)]" $junk {\\&} prompt;
 				}
     }

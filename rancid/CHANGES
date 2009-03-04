@@ -1,4 +1,6 @@
 2.3.2
+	jerancid: summarize DirSlotN bytes to reduce diffs
+
 	rancid: catch aborted 'show diag' output on some 7300s.
 	Bug found by Paul Vlaar.
 

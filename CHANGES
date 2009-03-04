@@ -1,4 +1,6 @@
 2.3.2
+	hlogin: run_commands exp_continueing when it shouldnt have
+
 	jerancid: summarize DirSlotN bytes to reduce diffs
 
 	rancid: catch aborted 'show diag' output on some 7300s.

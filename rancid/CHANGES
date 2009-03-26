@@ -1,4 +1,6 @@
 2.3.2
+	nlogin: cloginrc method handling and login error path fixes
+
 	clogin: change "(enable)" and/or regex meta-char exscaping so that
 	catalyst logins work properly.
 

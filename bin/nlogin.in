@@ -244,11 +244,11 @@ proc include {args} {
     source_password_file $args
 }
 
-proc find {var firewall} {
+proc find {var router} {
     upvar int_$var list
     if { [info exists list] } {
 	foreach line $list {
-	    if { [string match [lindex $line 0] $firewall ] } {
+	    if { [string match [lindex $line 0] $router ] } {
 		return [lrange $line 1 end]
 	    }
 	}
@@ -462,17 +462,17 @@ proc run_commands { prompt command } {
 source_password_file $password_file
 set in_proc 0
 set exitval 0
-foreach firewall [lrange $argv $i end] {
-    set firewall [string tolower $firewall]
-    send_user "$firewall\n"
+foreach router [lrange $argv $i end] {
+    set router [string tolower $router]
+    send_user "$router\n"
 
     set prompt {-> }
 
     # Figure out passwords
     if { $do_passwd || $do_enapasswd } {
-      set pswd [find password $firewall]
+      set pswd [find password $router]
       if { [llength $pswd] == 0 } {
-        send_user "\nError: no password for $firewall in $password_file.\n"
+        send_user "\nError: no password for $router in $password_file.\n"
         continue
       }
      set passwd [join [lindex $pswd 0] ""]
@@ -487,7 +487,7 @@ foreach firewall [lrange $argv $i end] {
       # command line username
       set ruser $username
     } else {
-      set ruser [join [find user $firewall] ""]
+      set ruser [join [find user $router] ""]
       if { "$ruser" == "" } { set ruser $default_user }
     }
 
@@ -496,7 +496,7 @@ foreach firewall [lrange $argv $i end] {
       # command line username
       set userpswd $userpasswd
     } else {
-      set userpswd [join [find userpassword $firewall] ""]
+      set userpswd [join [find userpassword $router] ""]
       if { "$userpswd" == "" } { set userpswd $passwd }
     }
 
@@ -506,20 +506,20 @@ foreach firewall [lrange $argv $i end] {
       # command line cypher type
       set cyphertype $cypher
     } else {
-      set cyphertype [find cyphertype $firewall]
+      set cyphertype [find cyphertype $router]
       if { "$cyphertype" == "" } { set cyphertype "3des" }
     }
 
     # Figure out connection method
-    set cmethod [find method $firewall]
+    set cmethod [find method $router]
     if { "$cmethod" == "" } { set cmethod {{telnet} {ssh}} }
 
     # Figure out the SSH executable name
-    set sshcmd [find sshcmd $firewall]
+    set sshcmd [find sshcmd $router]
     if { "$sshcmd" == "" } { set sshcmd {ssh} }
 
-    # Login to the firewall
-    if {[login $firewall $ruser $userpswd $passwd $enapasswd $prompt $cmethod $cyphertype]} {
+    # Login to the router
+    if {[login $router $ruser $userpswd $passwd $enapasswd $prompt $cmethod $cyphertype]} {
 	incr exitval
 	continue
     }
@@ -546,7 +546,7 @@ foreach firewall [lrange $argv $i end] {
 	source $sfile
 	catch {close};
     } else {
-	label $firewall
+	label $router
 	log_user 1
 	interact
     }

@@ -1,6 +1,8 @@
 2.3.2
 	*login: accept -S for "save configuration if prompted"
 
+	*login: remove uppercase versions of lowercase options
+
 	tlogin: replace -debug with -d
 
 	nlogin: cloginrc method handling and login error path fixes

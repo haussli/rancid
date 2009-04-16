@@ -56,7 +56,7 @@
 #
 
 # Usage line
-set usage "Usage: $argv0 \[-dV\] \[-autoenable\] \[-noenable\] \
+set usage "Usage: $argv0 \[-dSV\] \[-autoenable\] \[-noenable\] \
 \[-c command\] \[-Evar=x\] \[-e enable-password\] \[-p user-password\] \
 \[-f cloginrc-file\] \[-s script-file\] \[-t timeout\] \[-u user\] \
 \[-v vty-password\] \[-w enable-username\]\[-y ssh_cypher_type\] \
@@ -79,6 +79,8 @@ set avautoenable 0
 # tracks if we receive them on the command line.
 set do_passwd 1
 set do_enapasswd 1
+# Save config, if prompted
+set do_saveconfig 0
 
 # Find the user in the ENV, or use the unix userid.
 if {[ info exists env(CISCO_USER) ]} {
@@ -171,8 +173,7 @@ for {set i 0} {$i < $argc} {incr i} {
 	    }
 	    set do_command 1
 	# Expect script to run.
-	} -s* -
-	-S* {
+	} -s* {
 	    if {! [  regexp .\[sS\](.+) $arg ignore sfile]} {
 		incr i
 		set sfile [ lindex $argv $i ]
@@ -182,7 +183,10 @@ for {set i 0} {$i < $argc} {incr i} {
 		exit 1
 	    }
 	    set do_script 1
-       # cypher type
+	# save config on exit
+	} -S* {
+	    set do_saveconfig 1
+	# cypher type
         } -y* -
         -Y* {
             if {! [  regexp .\[eE\](.+) $arg ignore cypher]} {

@@ -53,7 +53,7 @@
 #	users permissions can not change.
 
 # Usage line
-set usage "Usage: $argv0 \[-dV\] \[-c command\] \[-Evar=x\] \
+set usage "Usage: $argv0 \[-dSV\] \[-c command\] \[-Evar=x\] \
 \[-f cloginrc-file\] \[-p user-password\] \
 \[-s script-file\] \[-t timeout\] \[-u username\] \
 \[-v vty-password\] \[-x command-file\] \
@@ -71,6 +71,8 @@ set do_script 0
 # tracks if we receive them on the command line.
 set do_passwd 1
 set do_enapasswd 1
+# Save config, if prompted
+set do_saveconfig 0
 
 # Find the user in the ENV, or use the unix userid.
 if {[ info exists env(CISCO_USER) ]} {
@@ -137,8 +139,7 @@ for {set i 0} {$i < $argc} {incr i} {
 	    }
 	    set do_command 1
 	# Expect script to run.
-	} -s* -
-	-S* {
+	} -s* {
 	    if {! [  regexp .\[sS\](.+) $arg ignore sfile]} {
 		incr i
 		set sfile [ lindex $argv $i ]
@@ -148,7 +149,10 @@ for {set i 0} {$i < $argc} {incr i} {
 		exit 1
 	    }
 	    set do_script 1
-       # cypher type
+	# save config on exit
+	} -S* {
+	    set do_saveconfig 1
+	# cypher type
         } -y* -
         -Y* {
             if {! [  regexp .\[eE\](.+) $arg ignore cypher]} {

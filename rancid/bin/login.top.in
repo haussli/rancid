@@ -53,7 +53,7 @@
 #
 
 # Usage line
-set usage "Usage: $argv0 \[-dV\] \[-autoenable\] \[-noenable\] \[-c command\] \
+set usage "Usage: $argv0 \[-dSV\] \[-autoenable\] \[-noenable\] \[-c command\] \
 \[-Evar=x\] \[-e enable-password\] \[-f cloginrc-file\] \[-p user-password\] \
 \[-s script-file\] \[-t timeout\] \[-u username\] \
 \[-v vty-password\] \[-w enable-username\] \[-x command-file\] \
@@ -76,6 +76,8 @@ set avautoenable 0
 # tracks if we receive them on the command line.
 set do_passwd 1
 set do_enapasswd 1
+# Save config, if prompted
+set do_saveconfig 0
 # attempt at platform switching.
 set platform ""
 
@@ -112,8 +114,7 @@ for {set i 0} {$i < $argc} {incr i} {
 	-d* {
 	    exp_internal 1
 	# Environment variable to pass to -s scripts
-	} -u* -
-	-E* {
+	} -E* {
 	    if {[regexp .\[E\](.+)=(.+) $arg ignore varname varvalue]} {
 		set E$varname $varvalue
 	    } else {
@@ -121,23 +122,20 @@ for {set i 0} {$i < $argc} {incr i} {
 		exit 1
 	    }
 	# Username
-	} -u* -
-	-U* {
+	} -u* {
 	    if {! [regexp .\[uU\](.+) $arg ignore user]} {
 		incr i
 		set username [lindex $argv $i]
 	    }
 	# VTY Password
-	} -p* -
-	-P* {
+	} -p* {
 	    if {! [regexp .\[pP\](.+) $arg ignore userpasswd]} {
 		incr i
 		set userpasswd [lindex $argv $i]
 	    }
 	    set do_passwd 0
         # passphrase
-        } -r* -
-        -R* {
+        } -r* {
             if {! [regexp .\[rR\](.+) $arg ignore passphrase]} {
                 incr i
                 set avpassphrase [lindex $argv $i]
@@ -154,31 +152,27 @@ for {set i 0} {$i < $argc} {incr i} {
 	    send_user "@PACKAGE@ @VERSION@\n"
 	    exit 0
 	# Enable Username
-	} -w* -
-	-W* {
+	} -w* {
 	    if {! [regexp .\[wW\](.+) $arg ignore enauser]} {
 		incr i
 		set enausername [lindex $argv $i]
 	    }
 	# Enable Password
-	} -e*
-	{
+	} -e* {
 	    if {! [regexp .\[e\](.+) $arg ignore enapasswd]} {
 		incr i
 		set enapasswd [lindex $argv $i]
 	    }
 	    set do_enapasswd 0
 	# Command to run.
-	} -c* -
-	-C* {
+	} -c* {
 	    if {! [regexp .\[cC\](.+) $arg ignore command]} {
 		incr i
 		set command [lindex $argv $i]
 	    }
 	    set do_command 1
 	# Expect script to run.
-	} -s* -
-	-S* {
+	} -s* {
 	    if {! [regexp .\[sS\](.+) $arg ignore sfile]} {
 		incr i
 		set sfile [lindex $argv $i]
@@ -188,30 +182,29 @@ for {set i 0} {$i < $argc} {incr i} {
 		exit 1
 	    }
 	    set do_script 1
+	# save config on exit
+	} -S* {
+	    set do_saveconfig 1
 	# 'ssh -c' cypher type
-	} -y* -
-	-Y* {
+	} -y* {
 	    if {! [regexp .\[yY\](.+) $arg ignore cypher]} {
 		incr i
 		set cypher [lindex $argv $i]
 	    }
 	# alternate cloginrc file
-	} -f* -
-	-F* {
+	} -f* {
 	    if {! [regexp .\[fF\](.+) $arg ignore password_file]} {
 		incr i
 		set password_file [lindex $argv $i]
 	    }
 	# Timeout
-	} -t* -
-	-T* {
+	} -t* {
 	    if {! [regexp .\[tT\](.+) $arg ignore timeout]} {
 		incr i
 	        set timeout [lindex $argv $i]
 	    }
 	# Command file
-	} -x* -
-	-X* {
+	} -x* {
 	    if {! [regexp .\[xX\](.+) $arg ignore cmd_file]} {
 		incr i
 		set cmd_file [lindex $argv $i]

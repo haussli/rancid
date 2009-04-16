@@ -114,38 +114,33 @@ for {set i 0} {$i < $argc} {incr i} {
 	-d* {
 	    exp_internal 1
 	# Username
-	} -u* -
-	-U* {
+	} -u* {
 	    if {! [  regexp .\[uU\](.+) $arg ignore user]} {
 		incr i
 		set username [ lindex $argv $i ]
 	    }
 	# VTY Password
-	} -p* -
-	-P* {
+	} -p* {
 	    if {! [  regexp .\[pP\](.+) $arg ignore userpasswd]} {
 		incr i
 		set userpasswd [ lindex $argv $i ]
 	    }
 	    set do_passwd 0
 	# VTY Password
-	} -v* -
-	-v* {
+	} -v* {
 	    if {! [  regexp .\[vV\](.+) $arg ignore passwd]} {
 		incr i
 		set passwd [ lindex $argv $i ]
 	    }
 	    set do_passwd 0
 	# Enable Username
-	} -w* -
-	-W* {
+	} -w* {
 	    if {! [  regexp .\[wW\](.+) $arg ignore enauser]} {
 		incr i
 		set enausername [ lindex $argv $i ]
 	    }
 	# Environment variable to pass to -s scripts
-	} -E*
-	{
+	} -E* {
 	    if {[ regexp .\[E\](.+)=(.+) $arg ignore varname varvalue]} {
 		set E$varname $varvalue
 	    } else {
@@ -153,16 +148,14 @@ for {set i 0} {$i < $argc} {incr i} {
 		exit 1
 	    }
 	# Enable Password
-	} -e*
-	{
+	} -e* {
 	    if {! [  regexp .\[e\](.+) $arg ignore enapasswd]} {
 		incr i
 		set enapasswd [ lindex $argv $i ]
 	    }
 	    set do_enapasswd 0
 	# Command to run.
-	} -c* -
-	-C* {
+	} -c* {
 	    if {! [  regexp .\[cC\](.+) $arg ignore command]} {
 		incr i
 		set command [ lindex $argv $i ]
@@ -183,29 +176,25 @@ for {set i 0} {$i < $argc} {incr i} {
 	} -S* {
 	    set do_saveconfig 1
 	# 'ssh -c' cypher type
-	} -y* -
-	-Y* {
+	} -y* {
 	    if {! [  regexp .\[eE\](.+) $arg ignore cypher]} {
 		incr i
 		set cypher [ lindex $argv $i ]
 	    }
 	# alternate cloginrc file
-	} -f* -
-	-F* {
+	} -f* {
 	    if {! [ regexp .\[fF\](.+) $arg ignore password_file]} {
 		incr i
 		set password_file [ lindex $argv $i ]
 	    }
 	# Timeout
-	} -t* -
-	-T* {
+	} -t* {
 	    if {! [ regexp .\[tT\](.+) $arg ignore timeout]} {
 		incr i
 	        set timeout [ lindex $argv $i ]
 	    }
 	# Command file
-	} -x* -
-	-X {
+	} -x* {
 	    if {! [  regexp .\[xX\](.+) $arg ignore cmd_file]} {
 		incr i
 		set cmd_file [ lindex $argv $i ]

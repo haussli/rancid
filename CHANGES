@@ -1,4 +1,8 @@
 2.3.2
+	*login: accept -S for "save configuration if prompted"
+
+	tlogin: replace -debug with -d
+
 	nlogin: cloginrc method handling and login error path fixes
 
 	clogin: change "(enable)" and/or regex meta-char exscaping so that

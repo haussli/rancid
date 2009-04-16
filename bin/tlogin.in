@@ -47,8 +47,7 @@
 # Modified by Ed Ravin for Netopia.
 
 # Usage line
-set usage "Usage: $argv0 \[-autoenable\] \[-noenable\] \[-c command\] \
-\[-debug] \
+set usage "Usage: $argv0 \[-dSV\] \[-autoenable\] \[-noenable\] \[-c command\] \
 \[-Evar=x\] \[-e enable-password\] \[-f cloginrc-file\] \[-p user-password\] \
 \[-s script-file\] \[-t timeout\] \[-u username\] \
 \[-V\] \[-v vty-password\] \[-w enable-username\] \[-x command-file\] \
@@ -100,8 +99,10 @@ for {set i 0} {$i < $argc} {incr i} {
     set arg [lindex $argv $i]
 
     switch  -glob -- $arg {
+	} -d {
+	    exp_internal 1
 	# Username
-	-u* -
+	} -u* -
 	-U* {
 	    if {! [  regexp .\[uU\](.+) $arg ignore user]} {
 		incr i
@@ -156,8 +157,7 @@ for {set i 0} {$i < $argc} {incr i} {
 	    }
 	    set do_command 1
 	# Expect script to run.
-	} -s* -
-	-S* {
+	} -s* {
 	    if {! [  regexp .\[sS\](.+) $arg ignore sfile]} {
 		incr i
 		set sfile [ lindex $argv $i ]
@@ -167,6 +167,9 @@ for {set i 0} {$i < $argc} {incr i} {
 		exit 1
 	    }
 	    set do_script 1
+	# save config on exit
+	} -S* {
+	    set do_saveconfig 1
 	# 'ssh -c' cypher type
 	} -y* -
 	-Y* {
@@ -214,8 +217,6 @@ for {set i 0} {$i < $argc} {incr i} {
 	} -autoenable {
 	    set avautoenable 1
 	    set avenable 0
-	} -debug {
-		exp_internal 1
 	} -* {
 	    send_user "\nError: Unknown argument! $arg\n"
 	    send_user $usage

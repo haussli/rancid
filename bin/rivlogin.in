@@ -75,6 +75,8 @@ set output_file  ""
 set conf_prompt  "*\(config\)# "
 set logging 0
 set config_mode 0
+# Save config, if prompted
+set do_saveconfig 0
 
 # Password file for routers to access
 set password_file $env(HOME)/.cloginrc
@@ -759,8 +761,7 @@ for {set idx 0} {$idx < $argc} {incr idx} {
 		exit 1
 	    }
 	# Expect script to run
-	} -s* -
-	-S* {
+	} -s* {
 	    if {! [  regexp .\[sS\](.+) $arg ignore sfile]} {
 		incr idx
 		set sfile [ lindex $argv $idx ]
@@ -776,6 +777,9 @@ for {set idx 0} {$idx < $argc} {incr idx} {
 	    }
 
 	    set do_script 1
+	# save config on exit
+	} -S* {
+	    set do_saveconfig 1
 	# Version string
 	} -V* {
 	    send_user "@PACKAGE@ @VERSION@\n"

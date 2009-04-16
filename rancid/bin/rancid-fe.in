@@ -55,7 +55,6 @@ $vendor =~ tr/[A-Z]/[a-z]/;
     'alteon'		=> 'arancid',
     'avocent'		=> 'avorancid',
     'baynet'		=> 'brancid',
-    'bigip'		=> 'f5rancid',
     'cat5'		=> 'cat5rancid',
     'cisco'		=> 'rancid',
     'cisco-nx'		=> 'nxrancid',

@@ -1,4 +1,6 @@
 2.3.2
+	f5rancid: install the script and use the device type 'f5'
+
 	*login: accept -S for "save configuration if prompted"
 
 	*login: remove uppercase versions of lowercase options

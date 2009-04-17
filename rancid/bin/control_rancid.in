@@ -98,7 +98,7 @@ if [ $# -ge 1 ] ; then
 fi
 
 # Must specify a group on which to run rancid
-if [ $# -lt 1 ]; then
+if [ $# -lt 1 ] ; then
     echo 'must specify group'; exit 1
 else
     GROUP=$1
@@ -136,8 +136,7 @@ if [ $MAX_ROUNDS -lt 1 ] ; then
 fi
 
 # Bail if we do not have the necessary info to run
-if [ ! -d $DIR ]
-then
+if [ ! -d $DIR ] ; then
     echo "$DIR does not exist."
     echo "Run bin/rancid-cvs $GROUP to make all of the needed directories."
     (
@@ -153,8 +152,7 @@ fi
 cd $DIR
 
 # create a .cvsignore
-if [ ! -f .cvsignore ]
-then
+if [ ! -f .cvsignore ] ; then
     rm -f .cvsignore
     cat >.cvsignore <<EOF
 .cvsignore
@@ -162,8 +160,7 @@ routers.all
 routers.down
 routers.up
 EOF
-    if [ $RCSSYS = svn ]
-    then
+    if [ $RCSSYS = svn ] ; then
 	svn propset svn:ignore -F .cvsignore .
     fi
 fi
@@ -180,8 +177,7 @@ if [ $? -eq 0 ] ; then
 fi
 rm -f $TMP
 
-if [ ! -f $DIR/router.db ]
-then
+if [ ! -f $DIR/router.db ] ; then
     echo "$DIR/router.db does not exist."
     (
 	echo "To: $adminmailrcpt"
@@ -211,8 +207,7 @@ if [ ! -f routers.down ] ; then touch routers.down; fi
 if [ ! -f routers.up ] ; then touch routers.up; fi
 @DIFF_CMD@ routers.up routers.up.new > /dev/null 2>&1; RUP=$?
 
-if [ $RALL -ne 0 -o $RDOWN -ne 0 -o $RUP -ne 0 ]
-then
+if [ $RALL -ne 0 -o $RDOWN -ne 0 -o $RUP -ne 0 ] ; then
     (
 	if [ $RUP -ne 0 ] ; then
 	    if [ ! -s routers.up ] ; then
@@ -254,14 +249,12 @@ then
 	    WCADDED=`wc -l routers.added | sed -e 's/^ *\([^ ]*\) .*$/\1/'`
 	    WCDELETED=`wc -l routers.deleted | sed -e 's/^ *\([^ ]*\) .*$/\1/'`
 
-	    if [ $WCADDED -gt 0 ]
-	    then
+	    if [ $WCADDED -gt 0 ] ; then
 		echo Added routers:
 		cat routers.added
 		echo
 	    fi
-	    if [ $WCDELETED -gt 0 ]
-	    then
+	    if [ $WCDELETED -gt 0 ] ; then
 		echo Deleted routers:
 		cat routers.deleted
 		echo
@@ -307,15 +300,15 @@ then
 
 fi
 mv -f routers.all.new routers.all
-if [ $? -ne 0 ]; then
+if [ $? -ne 0 ] ; then
     echo "Error: could not rename routers.all.new"
 fi
 mv -f routers.down.new routers.down
-if [ $? -ne 0 ]; then
+if [ $? -ne 0 ] ; then
     echo "Error: could not rename routers.down.new"
 fi
 mv -f routers.up.new routers.up
-if [ $? -ne 0 ]; then
+if [ $? -ne 0 ] ; then
     echo "Error: could not rename routers.up.new"
 fi
 rm -f routers.db
@@ -329,7 +322,7 @@ for router in `cut -d: -f1 ../routers.up` ; do
     else
 	svn status $router | grep '^?' > /dev/null 2>&1
     fi
-    if [ $? -eq 0 ]; then
+    if [ $? -eq 0 ] ; then
 	touch $router
 	if [ $RCSSYS = cvs ] ; then
 	    cvs add -ko $router
@@ -343,7 +336,7 @@ echo
 # delete configs from RCS for routers not listed in routers.up.
 for router in `find . \( -name \*.new -prune -o -name CVS -prune -o -name .svn -prune \) -o -type f -print | sed -e 's/^.\///'` ; do
     grep -i "^$router:" ../router.db > /dev/null 2>&1
-    if [ $? -eq 1 ]; then
+    if [ $? -eq 1 ] ; then
 	rm -f $router
 	$RCSSYS delete $router
 	$RCSSYS commit -m 'deleted router' $router
@@ -386,7 +379,7 @@ par -q -n $PAR_COUNT -c "rancid-fe {}" $devlistfile
 # $pass times.
 pass=$MAX_ROUNDS
 round=1
-if [ -f $DIR/routers.up.missed ]; then
+if [ -f $DIR/routers.up.missed ] ; then
     rm -f $DIR/routers.up.missed
 fi
 while [ $round -le $pass ]
@@ -406,7 +399,7 @@ do
 	fi
     done
 
-    if [ -f $DIR/routers.up.missed ]; then
+    if [ -f $DIR/routers.up.missed ] ; then
 	echo "====================================="
 	echo "Getting missed routers: round $round."
 	par -q -n $PAR_COUNT -c "rancid-fe \{}" $DIR/routers.up.missed
@@ -429,20 +422,18 @@ do
     IFS=$OFS
     router=$1;
 
-    if [ ! -s $router.new ]
-    then
+    if [ ! -s $router.new ] ; then
 	rm -f $router.new
     else
 	lines=`awk '{if ($0 ~ /^([-*!;#]|\/\*)/) { next; } lines++; \
 		if (lines > 10) { print "1"; exit;}} \
 		END { if (lines < 10) {print "0";}}' $router.new`
 
-	if [ ! $lines ]
-	then
+	if [ ! $lines ] ; then
 	    rm -f $router.new
 	else
 	    mv $router.new $router
-	    if [ $? -ne 0 ]; then
+	    if [ $? -ne 0 ] ; then
 		echo "Error: could not rename $router.new to $router"
 		rm -f $router.new
 	    fi
@@ -475,8 +466,7 @@ else
 fi
 
 # Mail out the diffs (if there are any).
-if [ -s $TMP.diff ]
-then
+if [ -s $TMP.diff ] ; then
 	(
 	  echo "To: $mailrcpt"
 	  echo "Subject: $subject"
@@ -495,8 +485,7 @@ if [ "X$OLDTIME" = "X" ] ; then
 fi
 @PERLV@ -F: -ane "{\$t = (stat(\$F[0]))[9]; print \`ls -ld \$F[0]\`
 	if (time() - \$t >= $OLDTIME*60*60);}" $devlistfile | sort -u > $DIR/routers.failed
-if [ -s $DIR/routers.failed ]
-then
+if [ -s $DIR/routers.failed ] ; then
 	(
 	  echo "To: $adminmailrcpt"
 	  echo "Subject: config fetcher problems - $GROUP"

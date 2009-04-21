@@ -1338,6 +1338,8 @@ sub WriteTerm {
 #	$comment = 0;
 
 	# Dog gone Cool matches to process the rest of the config
+	/^!Command: show running-config/ && next; # kill this junk
+	/^!Time: /		&& next; # kill this junk
 #	/^tftp-server flash /   && next; # kill any tftp remains
 #	/^ntp clock-period /    && next; # kill ntp clock-period
 #	/^ length /		&& next; # kill length on serial lines

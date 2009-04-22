@@ -1,4 +1,6 @@
 2.3.2
+	clogin: fix for Extreme prompt handling
+
 	nxrancid: delete Command: and Time: output
 
 	f5rancid: install the script and use the device type 'f5'

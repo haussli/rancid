@@ -858,8 +858,8 @@ foreach router [lrange $argv $i end] {
 				  # which may have an * at the beginning.
 				  set junk $expect_out(1,string)
 				  regsub -all "^\\\* " $expect_out(1,string) {} junk
+				  regsub -all "\[\]\[\(\)]" $junk {\\&} junk;
 				  set prompt ".? ?$junk\[0-9]+ $expect_out(2,string)";
-				  regsub -all "\[\]\[\(\)]" $prompt {\\&} prompt;
 				  set platform "extreme"
 				}
 	-re "^.+$prompt"	{ set junk $expect_out(0,string);

@@ -337,7 +337,6 @@ sub ShowEnvTemp {
 }
 
 # This routine parses "show diag chassis-info"
-# This will create arrays for hw info.
 sub ShowDiagChassis {
     print STDERR "    In ShowDiagChassis: $_" if ($debug);
 
@@ -347,7 +346,6 @@ sub ShowDiagChassis {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/command authorization failed/i);
-	# return(1) if ($type !~ /^12[40]/);
 	# the pager can not be disabled per-session on the PIX
 	if (/^(<-+ More -+>)/) {
 	    my($len) = length($1);
@@ -501,6 +499,23 @@ sub ShowCores {
     if ($lines) {
 	ProcessHistory("COMMENTS","keysort","K0","!\n");
     }
+    return(0);
+}
+
+# This routine parses "show license *"
+sub ShowLicense {
+    print STDERR "    In ShowLicense: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /(Invalid input detected|Type help or )/;
+	return(-1) if (/command authorization failed/i);
+
+	ProcessHistory("COMMENTS","keysort","L1", "! $_") && next;
+    }
+    ProcessHistory("COMMENTS","","","!\n");
     return(0);
 }
 
@@ -1476,6 +1491,9 @@ sub DoNothing {print STDOUT;}
 	{'term no monitor-force'	=> 'RunCommand'},
 	{'show version'			=> 'ShowVersion'},
 	{'show version build-info all'	=> 'ShowVersionBuild'},
+	{'show license'			=> 'ShowLicense'},
+	{'show license usage'		=> 'ShowLicense'},
+	{'show license host-id'		=> 'ShowLicense'},
 	{'show system redundancy status' => 'ShowRedundancy'},
 	{'show environment clock'	=> 'ShowEnv'},
 	{'show environment fan'		=> 'ShowEnv'},
@@ -1567,6 +1585,7 @@ ProcessHistory("COMMENTS","keysort","B0","!\n");
 ProcessHistory("COMMENTS","keysort","D0","!\n");
 ProcessHistory("COMMENTS","keysort","F0","!\n");
 ProcessHistory("COMMENTS","keysort","G0","!\n");
+ProcessHistory("COMMENTS","keysort","L0","!\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
 

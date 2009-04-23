@@ -1,3 +1,6 @@
+2.4a
+	change zero-config check to avoid broken awks - from jim buchele
+
 2.3.2
 	clogin: fix for Extreme prompt handling
 

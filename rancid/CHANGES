@@ -1,4 +1,6 @@
 2.4a
+	nxrancid: collect license info
+
 	change zero-config check to avoid broken awks - from jim buchele
 
 2.3.2

@@ -425,9 +425,12 @@ do
     if [ ! -s $router.new ] ; then
 	rm -f $router.new
     else
-	lines=`awk '{if ($0 ~ /^([-*!;#]|\/\*)/) { next; } lines++; \
-		if (lines > 10) { print "1"; exit;}} \
-		END { if (lines < 10) {print "0";}}' $router.new`
+	notcomment=`egrep -v "^[-*\!\;#]|\/\*" $router.new | wc -l`
+	if [ $notcomment -gt 10 ]; then
+	    lines=1;
+	else
+	    lines=0;
+	fi
 
 	if [ ! $lines ] ; then
 	    rm -f $router.new

@@ -336,10 +336,10 @@ sub ShowEnvTemp {
     return(0);
 }
 
-# This routine parses "show diag chassis-info" for the gsr
+# This routine parses "show diag chassis-info"
 # This will create arrays for hw info.
-sub ShowGSR {
-    print STDERR "    In ShowDiag: $_" if ($debug);
+sub ShowDiagChassis {
+    print STDERR "    In ShowDiagChassis: $_" if ($debug);
 
     while (<INPUT>) {
 	tr/\015//d;
@@ -609,10 +609,9 @@ sub ShowDiagbus {
     return(0);
 }
 
-# This routine parses "show diag" for the gsr, 7200, 3700, 3600, 2600.
+# This routine parses "show diag"
 # This will create arrarys for hw info.
 sub ShowDiag {
-    # Skip if this is not a 12000.
     print STDERR "    In ShowDiag: $_" if ($debug);
 
     while (<INPUT>) {
@@ -1482,7 +1481,7 @@ sub DoNothing {print STDOUT;}
 	{'show environment fan'		=> 'ShowEnv'},
 	{'show environment temperature'	=> 'ShowEnvTemp'},
 	{'show environment power'	=> 'ShowEnv'},
-	{'show diag chassis-info'	=> 'ShowDiag'},
+	{'show diag chassis-info'	=> 'ShowDiagChassis'},
 	{'show boot'			=> 'ShowBoot'},
 	{'dir bootflash:'		=> 'DirSlotN'},
 	{'dir core:'			=> 'DirSlotN'},

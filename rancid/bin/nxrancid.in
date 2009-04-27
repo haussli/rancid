@@ -54,7 +54,6 @@ $log = $opt_l;
 $debug = $opt_d;
 $file = $opt_f;
 $host = $ARGV[0];
-$ios = "IOS";
 $clean_run = 0;
 $found_end = 0;
 $timeo = 90;				# clogin timeout in seconds
@@ -186,7 +185,7 @@ sub ShowVersion {
 		if (/^$/) {
 		    goto EndSoftware;
 		}
-		/\s*([^:]*:)\s*(.*)$/ && ProcessHistory("COMMENTS","keysort","F1", "!Software: $1 $2\n") && next;
+		/\s*([^:]*:)\s*(.*)$/ && ProcessHistory("COMMENTS","keysort","C1", "!Software: $1 $2\n") && next;
 	    }
 	}
 EndSoftware:
@@ -215,7 +214,7 @@ EndSoftware:
 EndHardware:
 	if (/^\s+(bootflash|slot0):\s+(\d+) kB(.*)$/) {
 	    my($tmp) = int($2 / 1024);
-	    ProcessHistory("COMMENTS","keysort","B2", "!Memory: $1: $tmp MB$3\n");
+	    ProcessHistory("COMMENTS","keysort","B1", "!Memory: $1: $tmp MB$3\n");
 	    next;
 	}
 
@@ -223,7 +222,9 @@ EndHardware:
 
     print STDERR "TYPE = $type\n" if ($debug);
     ProcessHistory("COMMENTS","keysort","A1", "!Chassis type: $proc - a $type router\n");
-
+    ProcessHistory("COMMENTS","keysort","B0", "!\n");
+    ProcessHistory("COMMENTS","keysort","C0", "!\n");
+    ProcessHistory("COMMENTS","","", "!\n");
     return(0);
 }
 
@@ -239,13 +240,32 @@ sub ShowVersionBuild {
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/command authorization failed/i);
 
-	/^Built By / && ProcessHistory("Build","","", "!Build: $_");
-	/^On Date / && ProcessHistory("Build","","", "!Build: $_");
-	/^From Tree / && ProcessHistory("Build","","", "!Build: $_");
-	/^Base Tag / && ProcessHistory("Build","","", "!Build: $_");
-	/^Release for / && ProcessHistory("Build","","", "!Build: $_");
+	/^Built By / && ProcessHistory("COMMENTS","","", "!Build: $_");
+	/^On Date / && ProcessHistory("COMMENTS","","", "!Build: $_");
+	/^From Tree / && ProcessHistory("COMMENTS","","", "!Build: $_");
+	/^Base Tag / && ProcessHistory("COMMENTS","","", "!Build: $_");
+	/^Release for / && ProcessHistory("COMMENTS","","", "!Build: $_");
     }
-    ProcessHistory("Build","","","!\n");
+    ProcessHistory("COMMENTS","","","!\n");
+    return(0);
+}
+
+# This routine parses "show license *"
+sub ShowLicense {
+    print STDERR "    In ShowLicense: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /(Invalid input detected|Type help or )/;
+	return(-1) if (/command authorization failed/i);
+
+	/^-+$/ && next;		# Skip lines of all dashes.
+	s/ Grace .+$/ Grace/;	# Drop anything after Grace.
+	ProcessHistory("COMMENTS","","", "!LIC: $_");
+    }
+    ProcessHistory("COMMENTS","","","!\n");
     return(0);
 }
 
@@ -261,9 +281,9 @@ sub ShowRedundancy {
 	return(1) if /(Invalid input detected|Type help or )/;
 
 	s/ +$//;	# Drop trailing ' '
-	ProcessHistory("Redundancy","","","!Red: $_");
+	ProcessHistory("COMMENTS","","","!Red: $_");
     }
-    ProcessHistory("Redundancy","","","!\n");
+    ProcessHistory("COMMENTS","","","!\n");
     return(0);
 }
 
@@ -370,7 +390,7 @@ sub ShowBoot {
 	return(-1) if (/command authorization failed/i);
 
 	s/ variable = / = /;
-	ProcessHistory("COMMENTS","keysort","H1","!Variable: $_");
+	ProcessHistory("COMMENTS","","","!Variable: $_");
     }
     ProcessHistory("COMMENTS","","","!\n");
     return(0);
@@ -403,141 +423,9 @@ sub DirSlotN {
 	    s/$1 bytes /$tmp MB /;
 	}
 
-	ProcessHistory("FLASH","","","!Flash: $dev: $_");
+	ProcessHistory("COMMENTS","","","!Flash: $dev: $_");
     }
-    ProcessHistory("","","","!\n");
-    return(0);
-}
-
-# This routine parses "show debug"
-sub ShowDebug {
-    print STDERR "    In ShowDebug: $_" if ($debug);
-    my($lines) = 0;
-
-    while (<INPUT>) {
-	tr/\015//d;
-	last if (/^$prompt/);
-	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if /Line has invalid autocommand /;
-	return(1) if /(Invalid input detected|Type help or )/;
-	return(-1) if (/command authorization failed/i);
-
-	/^No matching debug flags set$/ && next;
-	/^No debug flags set$/ && next;
-	ProcessHistory("COMMENTS","keysort","J1","!DEBUG: $_");
-	$lines++;
-    }
-    if ($lines) {
-	ProcessHistory("COMMENTS","keysort","J0","!\n");
-    }
-    return(0);
-}
-
-# This routine parses "show cores"
-sub ShowCores {
-    print STDERR "    In ShowCores: $_" if ($debug);
-    my($lines) = 0;
-
-    while (<INPUT>) {
-	tr/\015//d;
-	last if (/^$prompt/);
-	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if /Line has invalid autocommand /;
-	return(1) if /(Invalid input detected|Type help or )/;
-	return(-1) if (/command authorization failed/i);
-
-	ProcessHistory("COMMENTS","keysort","K1","!CORES: $_");
-	$lines++;
-    }
-    if ($lines) {
-	ProcessHistory("COMMENTS","keysort","K0","!\n");
-    }
-    return(0);
-}
-
-# This routine parses "show license *"
-sub ShowLicense {
-    print STDERR "    In ShowLicense: $_" if ($debug);
-
-    while (<INPUT>) {
-	tr/\015//d;
-	last if (/^$prompt/);
-	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if /(Invalid input detected|Type help or )/;
-	return(-1) if (/command authorization failed/i);
-
-	/^-+$/ && next;		# Skip lines of all dashes.
-	s/ Grace .+$/ Grace/;	# Drop anything after Grace.
-	ProcessHistory("License","","", "!LIC: $_") && next;
-    }
-    ProcessHistory("License","","","!\n");
-    return(0);
-}
-
-# This routine parses "show processes log"
-sub ShowProcLog {
-    print STDERR "    In ShowProcLog: $_" if ($debug);
-    my($lines) = 0;
-
-    while (<INPUT>) {
-	tr/\015//d;
-	last if (/^$prompt/);
-	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if /Line has invalid autocommand /;
-	return(1) if /(Invalid input detected|Type help or )/;
-	return(-1) if (/command authorization failed/i);
-
-	ProcessHistory("COMMENTS","keysort","L1","!PROC_LOGS: $_");
-	$lines++;
-    }
-    if ($lines) {
-	ProcessHistory("COMMENTS","keysort","L0","!\n");
-    }
-    return(0);
-}
-
-# This routine parses "show inventory".
-sub ShowInventory {
-    print STDERR "    In ShowInventory: $_" if ($debug);
-
-    while (<INPUT>) {
-	tr/\015//d;
-	return if (/^\s*\^$/);
-	last if (/^$prompt/);
-	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if /Line has invalid autocommand /;
-	return(1) if /(Invalid input detected|Type help or )/;
-	return(-1) if (/command authorization failed/i);
-
-	if (/^(NAME: "[^"]*",)\s+(DESCR: "[^"]+")/) {
-	    ProcessHistory("INVENTORY","","", sprintf("!%-30s %s\n", $1, $2));
-	    next;
-	}
-	# split PID/VID/SN line
-	if (/^PID: (\S*)\s*,\s+VID: (\S*)\s*,\s+SN: (\S*)\s*$/) {
-	    my($entries) = "";
-	    $entries .= "!PID: $1\n" if ($1);
-	    $entries .= "!VID: $2\n" if ($2);
-	    $entries .= "!SN: $3\n" if ($3);
-	    ProcessHistory("INVENTORY","","", "$entries");
-	    next;
-	}
-	# split broken PID/VID/SN lines.
-	if (/^PID: (\S*)\s*,\s+VID: (\S*)\s*$/) {
-	    my($entries) = "";
-	    $entries .= "!PID: $1\n" if ($1);
-	    $entries .= "!VID: $2\n" if ($2);
-	    <INPUT>;
-	    tr/\015//d;
-	    /^\s*,\s+SN: (\S*)\s*$/;
-	    $entries .= "!SN: $1\n" if ($1);
-	    ProcessHistory("INVENTORY","","", "$entries");
-	    next;
-	}
-	ProcessHistory("INVENTORY","","","!$_");
-    }
-    ProcessHistory("INVENTORY","","","!\n");
-
+    ProcessHistory("COMMENTS","","","!\n");
     return(0);
 }
 
@@ -556,9 +444,54 @@ sub ShowModule {
 	s/(.*) \*$/$1/;	# Drop a trailing '*'
 	/^\* this terminal session/ && next;
 	s/ +$//;	# Drop trailing ' '
-	ProcessHistory("Module","","","!Mod: $_");
+	ProcessHistory("COMMENTS","","","!Mod: $_");
     }
-    ProcessHistory("Module","","","!\n");
+    ProcessHistory("COMMENTS","","","!\n");
+
+    return(0);
+}
+
+# This routine parses "show inventory".
+sub ShowInventory {
+    print STDERR "    In ShowInventory: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	return if (/^\s*\^$/);
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /Line has invalid autocommand /;
+	return(1) if /(Invalid input detected|Type help or )/;
+	return(-1) if (/command authorization failed/i);
+
+	if (/^(NAME: "[^"]*",)\s+(DESCR: "[^"]+")/) {
+	    ProcessHistory("COMMENTS","","", sprintf("!%-30s %s\n", $1, $2));
+	    next;
+	}
+	# split PID/VID/SN line
+	if (/^PID: (\S*)\s*,\s+VID: (\S*)\s*,\s+SN: (\S*)\s*$/) {
+	    my($entries) = "";
+	    $entries .= "!PID: $1\n" if ($1);
+	    $entries .= "!VID: $2\n" if ($2);
+	    $entries .= "!SN: $3\n" if ($3);
+	    ProcessHistory("COMMENTS","","", "$entries");
+	    next;
+	}
+	# split broken PID/VID/SN lines.
+	if (/^PID: (\S*)\s*,\s+VID: (\S*)\s*$/) {
+	    my($entries) = "";
+	    $entries .= "!PID: $1\n" if ($1);
+	    $entries .= "!VID: $2\n" if ($2);
+	    <INPUT>;
+	    tr/\015//d;
+	    /^\s*,\s+SN: (\S*)\s*$/;
+	    $entries .= "!SN: $1\n" if ($1);
+	    ProcessHistory("COMMENTS","","", "$entries");
+	    next;
+	}
+	ProcessHistory("COMMENTS","","","!$_");
+    }
+    ProcessHistory("COMMENTS","","","!\n");
 
     return(0);
 }
@@ -586,9 +519,9 @@ sub ShowVTP {
 	if (/^VTP Operating Mode\s+:\s+(Transparent|Server)/) {
 	    $DO_SHOW_VLAN = 1;
 	}
-	ProcessHistory("COMMENTS","keysort","I0","!VTP: $_");
+	ProcessHistory("COMMENTS","","","!VTP: $_");
     }
-    ProcessHistory("COMMENTS","keysort","I0","!\n");
+    ProcessHistory("COMMENTS","","","!\n");
     return(0);
 }
 
@@ -617,9 +550,69 @@ sub ShowVLAN {
 	    s/^$1\s{$len}//;
 	}
 
-	ProcessHistory("COMMENTS","keysort","IO","!VLAN: $_");
+	ProcessHistory("COMMENTS","","","!VLAN: $_");
     }
-    ProcessHistory("COMMENTS","keysort","IO","!\n");
+    ProcessHistory("COMMENTS","","","!\n");
+    return(0);
+}
+
+# This routine parses "show debug"
+sub ShowDebug {
+    print STDERR "    In ShowDebug: $_" if ($debug);
+    my($lines) = 0;
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /Line has invalid autocommand /;
+	return(1) if /(Invalid input detected|Type help or )/;
+	return(-1) if (/command authorization failed/i);
+
+	/^No matching debug flags set$/ && next;
+	/^No debug flags set$/ && next;
+	ProcessHistory("COMMENTS","","","!DEBUG: $_");
+	$lines++;
+    }
+    if ($lines) {
+	ProcessHistory("COMMENTS","","","!\n");
+    }
+    return(0);
+}
+
+# This routine parses "show cores"
+sub ShowCores {
+    print STDERR "    In ShowCores: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /Line has invalid autocommand /;
+	return(1) if /(Invalid input detected|Type help or )/;
+	return(-1) if (/command authorization failed/i);
+
+	ProcessHistory("COMMENTS","","","!CORES: $_");
+    }
+    ProcessHistory("COMMENTS","","","!\n");
+    return(0);
+}
+
+# This routine parses "show processes log"
+sub ShowProcLog {
+    print STDERR "    In ShowProcLog: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /Line has invalid autocommand /;
+	return(1) if /(Invalid input detected|Type help or )/;
+	return(-1) if (/command authorization failed/i);
+
+	ProcessHistory("COMMENTS","","","!PROC_LOGS: $_");
+    }
+    ProcessHistory("COMMENTS","","","!\n");
     return(0);
 }
 
@@ -1084,11 +1077,7 @@ if ($ENV{"FILTER_PWDS"} =~ /no/i) {
     $filter_pwds = 1;
 }
 
-ProcessHistory("","","","!RANCID-CONTENT-TYPE: cisco\n!\n");
-ProcessHistory("COMMENTS","keysort","B0","!\n");
-ProcessHistory("COMMENTS","keysort","D0","!\n");
-ProcessHistory("COMMENTS","keysort","F0","!\n");
-ProcessHistory("COMMENTS","keysort","G0","!\n");
+ProcessHistory("","","","!RANCID-CONTENT-TYPE: cisco-nx\n!\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
 

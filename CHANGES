@@ -1,7 +1,8 @@
 2.4a
 	f10rancid: change fan status parsing to handle c300
 
-	nxrancid: collect license info
+	nxrancid: collect license info; fix 'show env temp' & 'show
+	env power' parsing; drop unused code.
 
 	change zero-config check to avoid broken awks - from jim buchele
 

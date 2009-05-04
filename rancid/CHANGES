@@ -1,3 +1,5 @@
+	clogin: run_commands() needs do_saveconfig
+
 2.3.2
 	clogin: fix for Extreme prompt handling
 

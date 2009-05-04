@@ -1,4 +1,6 @@
 2.4a
+	clogin: run_commands() needs do_saveconfig
+
 	f10rancid: change fan status parsing to handle c300
 
 	nxrancid: collect license info; fix 'show env temp' & 'show

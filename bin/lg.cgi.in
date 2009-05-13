@@ -246,12 +246,16 @@ sub DoRsh
 	print "$router is unreachable.  Try again later.\n";
 	return(-1);
     }
-    if (! $lckobj->lock("$cache_dir/$router")) {
-	print "$router is busy.  Try again later.\n";
-	return(-1);
+    if ($LG_SINGLE) {
+	if (! $lckobj->lock("$cache_dir/$router")) {
+	    print "$router is busy.  Try again later.\n";
+	    return(-1);
+	}
     }
     $val = &DoCmd($router, $mfg, $cmd, $arg);
-    $lckobj->unlock("$cache_dir/$router");
+    if ($LG_SINGLE) {
+	$lckobj->unlock("$cache_dir/$router");
+    }
     return($val);
 }
 
@@ -442,6 +446,11 @@ if (defined($LG_CACHE_TIME)) {
     $max_time_diff = $LG_CACHE_TIME;
 } else {
     $max_time_diff = "600" ;
+}
+
+# serialize queries?
+if (!defined($LG_SINGLE)) {
+    $LG_SINGLE = 1;
 }
 
 # max seconds to wait for a 'router' lock to free up

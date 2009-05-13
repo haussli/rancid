@@ -1,4 +1,6 @@
 2.4a
+	lg: add code for LG_SINGLE config knob
+
 	clogin: run_commands() needs do_saveconfig
 
 	f10rancid: change fan status parsing to handle c300

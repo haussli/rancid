@@ -1,4 +1,6 @@
 2.4a
+	jerancid: include standby slots in showversion o/p
+
 	lg: add code for LG_SINGLE config knob
 
 	clogin: run_commands() needs do_saveconfig

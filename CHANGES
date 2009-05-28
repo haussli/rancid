@@ -1,4 +1,8 @@
 2.4a
+	f5rancid: fileter HA peer status - from David Stipp
+
+	WTI scripts from Geert Jan de Groot with a few tweaks
+
 	jerancid: include standby slots in showversion o/p
 
 	lg: add code for LG_SINGLE config knob

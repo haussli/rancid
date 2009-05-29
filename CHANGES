@@ -1,4 +1,6 @@
 2.4a
+	rancid: filter coredumpinfo/coredump.cfg found on ASA - rancid-discuss@
+
 	f5rancid: fileter HA peer status - from David Stipp
 
 	WTI scripts from Geert Jan de Groot with a few tweaks

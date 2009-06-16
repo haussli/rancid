@@ -81,6 +81,8 @@ set do_passwd 1
 set do_enapasswd 1
 # Save config, if prompted
 set do_saveconfig 0
+#
+set send_human {.4 .4 .7 .3 5}
 
 # Find the user in the ENV, or use the unix userid.
 if {[ info exists env(CISCO_USER) ]} {
@@ -410,16 +412,16 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	    send_user "\nError: Unknown host $router\n"; wait; return 1
 	}
 	-re "(Host key not found |The authenticity of host .* be established).*\(yes\/no\)\?" {
-	    send "yes\r"
+	    send -h "yes\r"
 	    send_user "\nHost $router added to the list of known hosts.\n"
 	    exp_continue }
 	-re "HOST IDENTIFICATION HAS CHANGED.* \(yes\/no\)\?" {
-	    send "no\r"
+	    send -h "no\r"
 	    send_user "\nError: The host key for $router has changed.  Update the SSH known_hosts file accordingly.\n"
 	    return 1
 	}
 	-re "Offending key for .* \(yes\/no\)\?" {
-	    send "no\r"
+	    send -h "no\r"
 	    send_user "\nError: host key mismatch for $router.  Update the SSH known_hosts file accordingly.\n"
 	    return 1
 	}
@@ -438,20 +440,20 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	-re "@\[^\r\n]+ $p_prompt"	{
 					  # ssh pwd prompt
 					  sleep 1
-					  send -- "$userpswd\r"
+					  send -h -- "$userpswd\r"
 					  exp_continue
 					}
 	-re "$u_prompt"		{
-				  send -- "$user\r"
+				  send -h -- "$user\r"
 				  set uprompt_seen 1
 				  exp_continue
 				}
 	-re "$p_prompt"		{
 				  sleep 1
 				  if {$uprompt_seen == 1} {
-					send -- "$userpswd\r"
+					send -h -- "$userpswd\r"
 				  } else {
-					send -- "$passwd\r"
+					send -h -- "$passwd\r"
 				  }
 				  exp_continue
 				}
@@ -474,10 +476,10 @@ proc do_enable { enauser enapasswd } {
     set in_proc 1
 
     sleep 1;		# dont go too fast for it now...
-    send "enable\r"
+    send -h "enable\r"
     expect {
-	-re "$u_prompt"	{ send -- "$enauser\r"; exp_continue}
-	-re "$e_prompt"	{ send -- "$enapasswd\r"; exp_continue}
+	-re "$u_prompt"	{ send -h -- "$enauser\r"; exp_continue}
+	-re "$e_prompt"	{ send -h -- "$enapasswd\r"; exp_continue}
 	"#"		{ set prompt "#" }
 	"(enable)"	{ set prompt "> (enable) " }
 	denied		{ send_user "\nError: Check your Enable passwd\n";
@@ -502,23 +504,27 @@ proc run_commands { prompt command } {
     global in_proc
     set in_proc 1
 
-    send "skip-page-display\r"
+    send -h "skip-page-display\r"
     expect -re "$prompt" {}
 
     set commands [split $command \;]
     set num_commands [llength $commands]
     for {set i 0} {$i < $num_commands} { incr i} {
-	send -- "[subst [lindex $commands $i]]\r"
+	send -h -- "[subst [lindex $commands $i]]\r"
 	expect {
 	    -re "^\[^\n\r]*$prompt."	{ exp_continue }
 	    -re "^\[^\n\r *]*$prompt"	{}
 	    -re "\[\n\r]"		{ exp_continue }
+	    -- "---More---"		{ # EdgeIron cant disable pager
+					  send " "
+					  exp_continue
+					}
 	}
     }
-    send "exit\r"
+    send -h "exit\r"
     expect {
 	"\n"					{ exp_continue }
-	-re "^\[^ ]+>"				{ send "exit\r"
+	-re "^\[^ ]+>"				{ send -h "exit\r"
 						  exp_continue
 						}
 	timeout					{ catch {close}; catch {wait};
@@ -657,7 +663,7 @@ foreach router [lrange $argv $i end] {
 	}
     }
     # we are logged in, now figure out the full prompt
-    send "\r" 
+    send -h "\r" 
     expect {
 	-re "\[\r\n]+"		{ exp_continue; }
 	-re "^.+$prompt"	{ set junk $expect_out(0,string);
@@ -673,7 +679,7 @@ foreach router [lrange $argv $i end] {
 	}
     } elseif { $do_script } {
 	# fucking foundry
-	send "skip-page-display\r"
+	send -h "skip-page-display\r"
 	expect -re $prompt	{}
 	source $sfile
 	catch {close};

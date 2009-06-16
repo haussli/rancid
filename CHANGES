@@ -1,4 +1,7 @@
 2.4a
+	francid,flogin: edgeiron can not disable the pager and does not offer
+	some commands found on the bigirons
+
 	rancid: filter coredumpinfo/coredump.cfg found on ASA - rancid-discuss@
 
 	f5rancid: fileter HA peer status - from David Stipp

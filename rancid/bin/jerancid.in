@@ -232,7 +232,15 @@ sub ShowEnv {
 	next if (/^Please wait/i);
 	return(-1) if (/command authorization failed/i);
 	# fail if the RP is amid the auto-sync process
-	return(-1) if (/auto-sync enabled/ && !/in sync/);
+	if (/auto-sync enabled/ && !/in sync/) {
+	    $in_sync = <INPUT>;
+	    $in_sync =~ s/\015//;
+	    print STDERR $in_sync if ($debug);
+	    return(-1) if ( $in_sync !~ /in sync/);
+	    s/^    //;
+	    ProcessHistory("COMMENTS","keysort","D1","! $_");
+	    $_ = $in_sync;
+	}
 
 	# skip the temperature goop
 	if (/processor\s+processor/) {

@@ -1,4 +1,7 @@
 2.4a
+	jerancid: fix for 'show environment all' for filtering with auto-sync
+	on BRASes - from Christophe Fonteyne
+
 	francid,flogin: edgeiron can not disable the pager and does not offer
 	some commands found on the bigirons
 

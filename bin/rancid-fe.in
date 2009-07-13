@@ -53,6 +53,7 @@ $vendor =~ tr/[A-Z]/[a-z]/;
 %vendortable = (
     'agm'		=> 'agmrancid',
     'alteon'		=> 'arancid',
+    'arista'		=> 'arrancid',
     'avocent'		=> 'avorancid',
     'baynet'		=> 'brancid',
     'cat5'		=> 'cat5rancid',

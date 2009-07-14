@@ -7242,6 +7242,8 @@ ac_config_files="$ac_config_files bin/alogin bin/arancid"
 
 ac_config_files="$ac_config_files bin/avologin bin/avorancid"
 
+ac_config_files="$ac_config_files bin/arrancid"
+
 ac_config_files="$ac_config_files bin/blogin bin/brancid"
 
 ac_config_files="$ac_config_files bin/cat5rancid bin/clogin bin/rancid"
@@ -7943,6 +7945,7 @@ do
     "bin/arancid") CONFIG_FILES="$CONFIG_FILES bin/arancid" ;;
     "bin/avologin") CONFIG_FILES="$CONFIG_FILES bin/avologin" ;;
     "bin/avorancid") CONFIG_FILES="$CONFIG_FILES bin/avorancid" ;;
+    "bin/arrancid") CONFIG_FILES="$CONFIG_FILES bin/arrancid" ;;
     "bin/blogin") CONFIG_FILES="$CONFIG_FILES bin/blogin" ;;
     "bin/brancid") CONFIG_FILES="$CONFIG_FILES bin/brancid" ;;
     "bin/cat5rancid") CONFIG_FILES="$CONFIG_FILES bin/cat5rancid" ;;
@@ -8036,8 +8039,7 @@ $debug ||
 if test -n "$CONFIG_FILES"; then
 
 
-ac_cr='
-'
+ac_cr=`echo X | tr X '\015'`
 ac_cs_awk_cr=`$AWK 'BEGIN { print "a\rb" }' </dev/null 2>/dev/null`
 if test "$ac_cs_awk_cr" = "a${ac_cr}b"; then
   ac_cs_awk_cr='\\r'
@@ -8770,6 +8772,7 @@ done
     "bin/arancid":F) chmod a+x $ac_file ;;
     "bin/avologin":F) chmod a+x $ac_file ;;
     "bin/avorancid":F) chmod a+x $ac_file ;;
+    "bin/arrancid":F) chmod a+x $ac_file ;;
     "bin/blogin":F) chmod a+x $ac_file ;;
     "bin/brancid":F) chmod a+x $ac_file ;;
     "bin/cat5rancid":F) chmod a+x $ac_file ;;

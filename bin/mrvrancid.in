@@ -186,6 +186,7 @@ sub ShowVersion {
 	return(-1) if (/command authorization failed/i);
 
 	/copyright/i && next;
+	/^up/ && next;
 	/u-boot/i &&
 	    ProcessHistory("COMMENTS","keysort","C1", "!ROM: $_") && next;
 
@@ -367,7 +368,7 @@ sub WriteTerm {
 	    }
 	}
 	# prune tacacs/radius server keys
-	# radius-server host <1-5> IP SECRET [<ip port> [TIMEOUT [RETRY]]] 
+	# radius-server host <1-5> IP SECRET [<ip port> [TIMEOUT [RETRY]]]
 	if (/^((tacacs|radius)-server)\s(\d+\.\d+\.\d+\.\d+)\s(\w*)/
 	    && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 $2 <removed>$'"); next;

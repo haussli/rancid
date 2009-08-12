@@ -522,7 +522,7 @@ proc run_commands { prompt command } {
 	    -re "\[\n\r]+"		{ catch {send_user -- "$expect_out(buffer)"}
 					  exp_continue }
 	    -re "\[^\r\n]*Press <SPACE> to cont\[^\r\n]*"	{
-					  send " "
+					  catch {send " "};
 					  expect {
 						# gag, 2 more prompts
 						-re "\[\r\n]*\r" {}

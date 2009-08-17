@@ -290,7 +290,7 @@ sub ShowVersion {
 		    $sn = $1;
 		    $sn =~ s/,$//;
 		    ProcessHistory("COMMENTS","keysort","D9",
-							"!Processor ID: $sn\n");
+				   "!Processor ID: $sn\n");
 		}
 		$_ = <INPUT>;
 	    }
@@ -741,7 +741,7 @@ sub DirSlotN {
 	    next if (/temp_cont\s*$/);
 	    next if (/uptime_cont\s*$/);
 	}
-	if (($ios eq "XR" || $ios eq "XE")  && /.*\((\d+) bytes free\)/) {
+	if (($ios eq "XR" || $ios eq "XE") && /.*\((\d+) bytes free\)/) {
 	    my($tmp) = int($1 / (1024 * 1024));
 	    s/$1 bytes free/$tmp MB free/;
 	}

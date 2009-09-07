@@ -1,4 +1,6 @@
 2.3.3
+	rancid: Fail on error msg "% Configuration buffer full" seen on 6500
+
 	rancid: Dont filter 'show vlan' on Catalyst 3550/4500s - Jon Lewis
 
 	import Arista script - from Bill Fenner

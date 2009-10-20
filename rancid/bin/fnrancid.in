@@ -175,7 +175,6 @@ sub GetSystem {
 	next if /^\s*$/;
 	last if(/$prompt/);
 	ProcessHistory("","","","$_");
-	#print STDOUT "$_";
     }
     print STDOUT "Vendor: $vendor";
     ProcessHistory("SYSTEM","","","\n");
@@ -202,9 +201,8 @@ sub GetConf {
 	    next;
 	}
 	ProcessHistory("","","","$_");
-	#print STDOUT "$_";
     }
-    $found_end=1;
+    $found_end = 1;
     return(1);
 }
 
@@ -241,7 +239,8 @@ if ($debug) { $| = 1; }
 if ($file) {
     print STDERR "opening file $host\n" if ($debug);
     print STDOUT "opening file $host\n" if ($log);
-    open(INPUT,"<$host") || die "open failed for $host: $!\n"; } else {
+    open(INPUT,"<$host") || die "open failed for $host: $!\n";
+} else {
     print STDERR "executing nlogin -t $timeo -c\"$cisco_cmds\" $host\n" if ($debug);
     print STDOUT "executing nlogin -t $timeo -c\"$cisco_cmds\" $host\n" if ($log);
     if (defined($ENV{NOPIPE})) {

@@ -83,7 +83,7 @@ if [ $# -ge 1 ] ; then
 	    ;;
 	-h)
 	    pr_usage
-	    exit
+	    exit 0
 	    ;;
 	-*)
 	    echo "unknown option: $1" >&2
@@ -357,7 +357,7 @@ fi
 if [ "X$device" != "X" ] ; then
     trap 'rm -fr $TMP $DIR/routers.single;' 1 2 15
     devlistfile="$DIR/routers.single"
-    grep "^$device:" routers.up > $devlistfile
+    grep -i "^$device:" routers.up > $devlistfile
     if [ $? -eq 1 ] ; then
 	exit;
     fi

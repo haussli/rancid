@@ -1564,7 +1564,7 @@ sub WriteTerm {
 	# block above
 	/^! (Last configuration|NVRAM config last)/ && next;
 	# and for the ASA
-	/^: (Written by \w+ at|Saved)/ && next;
+	/^: (Written by \S+ at|Saved)/ && next;
 
 	# skip consecutive comment lines to avoid oscillating extra comment
 	# line on some access servers.  grrr.

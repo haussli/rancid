@@ -1,4 +1,6 @@
 2.3.3
+	rancid: match non-space for usernames in "Written by" line - James Davis
+
 	*rancid: quote meta characters - from Jeremy Singletary
 
 	rancid: Fail on error msg "% Configuration buffer full" seen on 6500

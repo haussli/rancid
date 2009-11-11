@@ -223,6 +223,17 @@ A. Our usual diagnostic procedure for this is:
    router.db file is correct and check the group's last log file for errors.
 
 
+Q. I am receiving persistent diffs for up/down/added/deleted devices in
+   router.db, but nothing has changed and the cvs repository is up to date.
+A. Check that the configure process run during the installation of rancid
+   determined the proper options for diff(1); look for diff in the
+   control_rancid script.
+   If you also run rancid from the command-line, be sure that your locale
+   environment variables are consistent between your interactive and non-
+   interactive (ie: cron) environments.  On some O/Ses, the locale will
+   affect the operation of sort(1).
+
+
 Q. Are there any characters in the banner that rancid has problems with OR
    I changed the device's command prompt and now collection is failing?
 A. The trickiest part about clogin (et al) is recognizing the prompt

@@ -194,7 +194,7 @@ cd $DIR
 trap 'rm -fr routers.db routers.all.new routers.down.new routers.up.new \
 	routers.mail routers.added routers.deleted $TMP;' 1 2 15
 sed -e '/^#/d' -e 's/^ *//' -e 's/ *$//' -e 's/ *: */:/g' router.db |
-	sort -u > routers.db
+	tr '[A-Z]' '[a-z]' | sort -u > routers.db
 cut -d: -f1,2 routers.db > routers.all.new
 if [ ! -f routers.all ] ; then touch routers.all; fi
 @DIFF_CMD@ routers.all routers.all.new > /dev/null 2>&1; RALL=$?

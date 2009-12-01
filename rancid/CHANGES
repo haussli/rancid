@@ -1,4 +1,6 @@
 2.3.3
+	rancid: remove ASA keys such as tacacs and radius - Michael Stefaniuc
+
 	rancid: match non-space for usernames in "Written by" line - James Davis
 
 	*rancid: quote meta characters - from Jeremy Singletary

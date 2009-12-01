@@ -1542,6 +1542,10 @@ sub WriteTerm {
 	    my($len) = length($1);
 	    s/^$1\s{$len}//;
 	}
+	# skip emtpy lines at the beginning
+	if (!$linecnt && /^\s*$/) {
+	    next;
+	}
 	if (!$linecnt && defined($config_register)) {
 	    ProcessHistory("","","", "!\nconfig-register $config_register\n");
 	}

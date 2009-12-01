@@ -1,4 +1,6 @@
 2.3.3
+	rancid: skip leading blank lines in config - Michael Stefaniuc
+
 	rancid: remove ASA keys such as tacacs and radius - Michael Stefaniuc
 
 	rancid: match non-space for usernames in "Written by" line - James Davis

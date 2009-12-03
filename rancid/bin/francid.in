@@ -220,7 +220,8 @@ sub ShowChassis {
 	if (/(POWERS|TEMPERATURE READINGS)/) {
 	    $skip = 1;
 	}
-	if (/fan controlled temperature:/i) {
+	if (/fan controlled temperature:/i ||
+	    /fan speed switching temperature thresholds/i) {
 	    $skip = 1;
 	}
 	if (/THERMAL PLANE/) {

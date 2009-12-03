@@ -286,7 +286,8 @@ sub WriteTerm {
 	return(0) if ($found_end);		# Only do this routine once
 	last if (/^$prompt/);
 
-	/Current configuration\s*:/i && next;
+	/current configuration\s*:/i && next;
+	/building configuration\.+\s*/i && next;
 	/building running-config, please wait/i && next;	# edgeiron
 	/^ver \d+\.\d+/ && next;
 	/^module \d+ / && next;

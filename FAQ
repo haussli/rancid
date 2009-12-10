@@ -154,6 +154,11 @@ A. CVS does not provide a way (AFAIK) to rename files or to rename or delete
    then commit the new file.
 
 
+Q. I am new to svn.  Where can I find more information?
+Q. The svn so-called "red book" is the definitive guide.
+   http://svnbook.red-bean.com/en/1.5/svn-book.html 
+
+
 Q. I am removing a group and would like to remove all traces of it from the
    rancid directory and the CVS repository.  How is this done?
 A. As far as I know, CVS does not provide a way to remove directories.  First,

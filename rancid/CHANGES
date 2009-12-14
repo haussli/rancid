@@ -1,4 +1,7 @@
 2.3.3
+	f5rancid: adjust fan rpm and config sync time filters for new f5
+	code - Ben O'Hara
+
 	rancid: ACE/SANOS report invalid input differently - Michael Stefaniuc
 
 	rancid: skip leading blank lines in config - Michael Stefaniuc

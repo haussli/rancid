@@ -206,7 +206,7 @@ sub ShowDb {
 	    ProcessHistory("SHOWDB","","","#\n#database:\n");
 	}
 	/UCS.LoadTime/ && next;
-	/Configsync.LocalConfigTime/ && next;
+	/Configsync\..*Time/ && next;
 	/Configsync.peerupdatedstatus/ && next;
 	/LTM.ConfigTime/ && next;
 
@@ -294,6 +294,7 @@ sub ShowPlatform {
 	/fan speed/i && next;
 	/chassis temperature/i && next;
 	/degC/ && next;
+	/rpm/i && next;
 	s/^\|//;
 	/Type: / && ProcessHistory("COMMENTS","keysort","A0",
 				   "#Chassis type: $'");

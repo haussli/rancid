@@ -294,7 +294,7 @@ sub ShowPlatform {
 	/fan speed/i && next;
 	/chassis temperature/i && next;
 	/degC/ && next;
-	/rpm/i && next;
+	s/\d+rpm//ig;
 	s/^\|//;
 	/Type: / && ProcessHistory("COMMENTS","keysort","A0",
 				   "#Chassis type: $'");

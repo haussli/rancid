@@ -706,8 +706,6 @@ sub ShowFlash {
 	}
 
 	/\s+(multiple-fs|nv_hdr|vlan\.dat)$/ && next;
-	# filter coredumpinfo/coredump.cfg found on ASA
-	/\s+oredumpinfo\/coredump.cfg$/ && next;
 	ProcessHistory("FLASH","","","!Flash: $_");
     }
     ProcessHistory("","","","!\n");

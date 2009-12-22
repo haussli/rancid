@@ -1,4 +1,7 @@
 2.3.3
+	rancid: remove ASA coredump* filter - Cisco Bug CSCsz85597, fixed in
+	8.2(1.2), 8.3(0.0), 100.3(0.3)M
+
 	f5rancid: adjust fan rpm and config sync time filters for new f5
 	code - Ben O'Hara
 

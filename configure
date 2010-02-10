@@ -5530,7 +5530,7 @@ else
 fi
 done
 
-# openlog() is not in the default libraries.  See if it is in some other lib.
+# openpty() is not in the default libraries.  See if it is in some other lib.
 if test $openpty = 0; then
   for lib in util; do
     as_ac_Lib=`$as_echo "ac_cv_lib_$lib''_openpty" | $as_tr_sh`
@@ -8039,7 +8039,8 @@ $debug ||
 if test -n "$CONFIG_FILES"; then
 
 
-ac_cr=`echo X | tr X '\015'`
+ac_cr='
+'
 ac_cs_awk_cr=`$AWK 'BEGIN { print "a\rb" }' </dev/null 2>/dev/null`
 if test "$ac_cs_awk_cr" = "a${ac_cr}b"; then
   ac_cs_awk_cr='\\r'

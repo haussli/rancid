@@ -78,6 +78,8 @@ set do_passwd 1
 set do_enapasswd 1
 # Save config, if prompted
 set do_saveconfig 0
+# Sometimes routers take awhile to answer (the default is 10 sec)
+set timeoutdflt 45
 
 # Find the user in the ENV, or use the unix userid.
 if {[info exists env(CISCO_USER)]} {
@@ -99,9 +101,6 @@ if {[info exists env(CISCO_USER)]} {
 if {[info exists env(CLOGINRC)]} {
     set password_file $env(CLOGINRC)
 }
-
-# Sometimes routers take awhile to answer (the default is 10 sec)
-set timeout 45
 
 # Process the command line
 for {set i 0} {$i < $argc} {incr i} {
@@ -193,7 +192,7 @@ for {set i 0} {$i < $argc} {incr i} {
 	} -t* {
 	    if {! [regexp .\[tT\](.+) $arg ignore timeout]} {
 		incr i
-	        set timeout [lindex $argv $i]
+	        set timeoutdflt [lindex $argv $i]
 	    }
 	# Command file
 	} -x* {
@@ -579,6 +578,12 @@ set exitval 0
 foreach router [lrange $argv $i end] {
     set router [string tolower $router]
     send_user "$router\n"
+
+    # device timeout
+    set timeout [find timeout $router]
+    if { [llength $timeout] == 0 } {
+	set timeout $timeoutdflt
+    }
 
     # Figure out the prompt.
     # autoenable is off by default.  If we have it defined, it was done

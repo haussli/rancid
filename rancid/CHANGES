@@ -1,4 +1,7 @@
 2.3.3
+	arancid: handle password filter for HP 1:10Gb Ethernet Blade Switch
+	5.0.4-Base, running AOS - Tore Anderson
+
 	*login:	add cloginrc timeout directive
 
 	nrancid: fix control number match - Guillaume RISCHARD

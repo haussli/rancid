@@ -1,4 +1,7 @@
 2.3.3
+	rancid: when compressing consecutive comment lines, only consider
+	empty lines.
+
 	arancid: handle password filter for HP 1:10Gb Ethernet Blade Switch
 	5.0.4-Base, running AOS - Tore Anderson
 

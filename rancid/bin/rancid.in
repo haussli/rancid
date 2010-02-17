@@ -1571,7 +1571,7 @@ sub WriteTerm {
 
 	# skip consecutive comment lines to avoid oscillating extra comment
 	# line on some access servers.  grrr.
-	if (/^!/) {
+	if (/^!\s*$/) {
 	    next if ($comment);
 	    ProcessHistory("","","",$_);
 	    $comment++;

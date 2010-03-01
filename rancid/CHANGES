@@ -1,4 +1,6 @@
 2.3.3
+	rancid: filter ldap host password on PIX
+
 	rancid: when compressing consecutive comment lines, only consider
 	empty lines.
 

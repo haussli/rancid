@@ -1699,6 +1699,9 @@ sub WriteTerm {
 	if (/^( pre-shared-key | key |failover key ).*/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed> $'"); next;
 	}
+	if (/(\s+ldap-login-password )\S+(.*)/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed> $'"); next;
+	}
 	#
 	if (/^( cable shared-secret )/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n");

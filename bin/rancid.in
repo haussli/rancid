@@ -740,6 +740,10 @@ sub DirSlotN {
 	    next if (/temp_cont\s*$/);
 	    next if (/uptime_cont\s*$/);
 	}
+	# Filter dhcp database
+	if (/dhcp_[^.[:space:]]\.txt/) {
+	    next;
+	}
 	# Filter debugging file dlbg.txt & dlbg.txt-1 only on ASR9k w/ XR
 	if (($ios eq "XR" && $proc =~ /ASR9K/) && /dlbg\.txt/) {
 	    next;
@@ -1541,6 +1545,7 @@ sub WriteTerm {
 	    my($len) = length($1);
 	    s/^$1\s{$len}//;
 	}
+	/^! no configuration change since last restart/i && next;
 	# skip emtpy lines at the beginning
 	if (!$linecnt && /^\s*$/) {
 	    next;
@@ -1549,7 +1554,8 @@ sub WriteTerm {
 	    ProcessHistory("","","", "!\nconfig-register $config_register\n");
 	}
 
-	/Non-Volatile memory is in use/  && return(-1); # NvRAM is locked
+	/Non-Volatile memory is in use/ && return(-1); # NvRAM is locked
+	/% Configuration buffer full, / && return(-1); # buffer is in use
 	$linecnt++;
 	$lineauto = 0 if (/^[^ ]/);
 	# skip the crap

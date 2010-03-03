@@ -741,7 +741,7 @@ sub DirSlotN {
 	    next if (/uptime_cont\s*$/);
 	}
 	# Filter dhcp database
-	if (/dhcp_[^.[:space:]]\.txt/) {
+	if (/dhcp_[^. ]*\.txt/) {
 	    next;
 	}
 	# Filter debugging file dlbg.txt & dlbg.txt-1 only on ASR9k w/ XR

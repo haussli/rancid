@@ -1,4 +1,12 @@
 2.3.3
+	rancid: filter some crud resulting from the change in handling non-empty
+	comment lines
+
+	rancid: fail if the configuration buffer fills
+
+	rancid: filter dhcp_[^[:space:].].txt from flash directories, so it
+	does not create constant changes. 
+
 	rancid: filter ldap host password on PIX
 
 	rancid: when compressing consecutive comment lines, only consider

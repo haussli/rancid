@@ -5,7 +5,8 @@
 	rancid: fail if the configuration buffer fills
 
 	rancid: filter dhcp_[^[:space:].].txt from flash directories, so it
-	does not create constant changes. 
+	does not create constant changes resulting from the ip dhcp database
+	saves.
 
 	rancid: filter ldap host password on PIX
 

@@ -1,4 +1,6 @@
 2.3.3
+	jrancid: fix return values of formatting functions
+
 	clogin: set terminal width so that o/p is consistent
 
 	rancid: filter some crud resulting from the change in handling non-empty

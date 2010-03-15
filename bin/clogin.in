@@ -886,6 +886,8 @@ foreach router [lrange $argv $i end] {
 	    send "set logging session disable\r"
 	} else {
 	    send "terminal length 0\r"
+	    expect -re $prompt  {}
+	    send "set width 80\r"
 	}
 	expect -re $prompt	{}
 	source $sfile

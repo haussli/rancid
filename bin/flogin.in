@@ -331,7 +331,13 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 		return 1
 	    }
 	} elseif ![string compare $prog "ssh"] {
-	    if [ catch {spawn $sshcmd -c $cyphertype -x -l $user $router} reason ] {
+	    regexp {ssh(:([^[:space:]]+))*} $prog methcmd suffix port
+	    set cmd [join [lindex $sshcmd 0] " "]
+	    if {"$port" != ""} {
+		set cmd "$cmd -p $port"
+	    }
+	    set retval [ catch {eval spawn [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason ]
+	    if { $retval } {
 		send_user "\nError: $sshcmd failed: $reason\n"
 		return 1
 	    }
@@ -668,7 +674,7 @@ foreach router [lrange $argv $i end] {
 	}
     }
     # we are logged in, now figure out the full prompt
-    send -h "\r" 
+    send -h "\r"
     expect {
 	-re "\[\r\n]+"		{ exp_continue; }
 	-re "^.+$prompt"	{ set junk $expect_out(0,string);

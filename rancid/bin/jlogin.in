@@ -303,16 +303,19 @@ proc login { router user passwd cmethod cyphertype identfile} {
 	    # ssh to the router & try to login with or without an identfile.
 	    # We use two calls to spawn since spawn does not seem to parse
 	    # spaces correctly.
+	    regexp {ssh(:([^[:space:]]+))*} $prog methcmd suffix port
+	    set cmd [join [lindex $sshcmd 0] " "]
+	    if {"$port" != ""} {
+		set cmd "$cmd -p $port"
+	    }
 	    if {$identfile != ""} {
-		if [ catch {spawn $sshcmd -c $cyphertype -x -l $user -i $identfile $router} reason ] {
-		    send_user "\nError: failed to $sshcmd: $reason\n"
-		    return 1
-		}
+		set retval [ catch {eval spawn [split "$cmd -c $cyphertype -x -l $user -i $identfile $router" { }]} reason ]
 	    } else {
-		if [ catch {spawn $sshcmd -c $cyphertype -x -l $user $router} reason ] {
-		    send_user "\nError: failed to $sshcmd: $reason\n"
-		    return 1
-		}
+		set retval [ catch {eval spawn [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason ]
+	    }
+	    if { $retval } {
+		send_user "\nError: $sshcmd failed: $reason\n"
+		return 1
 	    }
 	} elseif ![string compare $prog "rsh"] {
 	    send_error "\nError: unsupported method: rsh\n"

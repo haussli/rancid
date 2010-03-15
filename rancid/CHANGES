@@ -1,4 +1,7 @@
 2.3.3
+	*login: support :port method syntax for ssh and adjust to allow spaces
+	in sshcmd
+
 	jrancid: fix return values of formatting functions
 
 	clogin: set terminal width so that o/p is consistent

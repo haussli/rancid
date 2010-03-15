@@ -310,10 +310,16 @@ proc login { router user userpswd passwd prompt cmethod cyphertype } {
 		return 1
 	    }
 	} elseif ![string compare $prog "ssh"] {
-            if [ catch {spawn $sshcmd -c $cyphertype -x -l $user $router} reason ] {
-                send_user "\nError: $sshcmd failed: $reason\n"
-                return 1
+	    regexp {ssh(:([^[:space:]]+))*} $prog methcmd suffix port
+            set cmd [join [lindex $sshcmd 0] " "]
+            if {"$port" != ""} {
+                set cmd "$cmd -p $port"
             }
+	    set retval [ catch {eval spawn [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason ]
+	    if { $retval } {
+		send_user "\nError: $sshcmd failed: $reason\n"
+		return 1
+	    }
 	} elseif ![string compare $prog "rsh"] {
 	    send_error "\nError: unsupported method: rsh\n"
 	    if { $progs == 0 } {

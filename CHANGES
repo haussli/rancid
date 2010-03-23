@@ -1,4 +1,7 @@
 2.3.3
+	rancid: check for device busy when opening flash fails, which seems to
+	occur on 6500s when some other command is run.
+
 	*login: support :port method syntax for ssh and adjust to allow spaces
 	in sshcmd
 

@@ -733,6 +733,7 @@ sub DirSlotN {
 	    ProcessHistory("FLASH","","","!Flash: $dev: $_") && next;
 	return(-1) if (/\%Error calling/);
 	return(-1) if (/(: device being squeezed|ATA_Status time out)/i); # busy
+	return(-1) if (/(\%Error opening \S+:\S+ \(Device or resource busy\)/i);
 	return(-1) if (/command authorization failed/i);
 	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
 	# filter frequently changing files from IOX bootflash

@@ -1,3 +1,7 @@
+2.3.4
+	nxrancid: match unknown command errors appropriately & GC some junk
+	carried-over from IOS-rancid.
+
 2.3.3
 	rancid: check for device busy when opening flash fails, which seems to
 	occur on 6500s when some other command is run.

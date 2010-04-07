@@ -438,9 +438,8 @@ sub ShowVersion {
 sub AdminShowDiag {
     print STDERR "    In ShowDiag: $_" if ($debug);
 
-ProcessHistory("HEAS","","","TOP\n");
     while (<INPUT>) {
-REDUX:	tr/\015//d;
+	tr/\015//d;
 	if (/^$prompt/) { $found_diag = 1; last};
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if (/Line has invalid autocommand /);
@@ -457,7 +456,6 @@ REDUX:	tr/\015//d;
 	ProcessHistory("SLOT","","","!$_");
     }
     ProcessHistory("SLOT","","","!\n");
-ProcessHistory("HEAS","","","BOT\n");
     return(0);
 }
 

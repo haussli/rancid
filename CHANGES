@@ -1,4 +1,6 @@
 2.3.4
+	hlogin: hpuifilter got omitted from the ssh spawn; replace it.
+
 	nxrancid: match unknown command errors appropriately & GC some junk
 	carried-over from IOS-rancid.
 

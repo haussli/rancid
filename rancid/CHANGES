@@ -1,4 +1,6 @@
 2.3.4
+	rancid: parse admin show diag for XR better with a separate function
+
 	hlogin: hpuifilter got omitted from the ssh spawn; replace it.
 
 	nxrancid: match unknown command errors appropriately & GC some junk

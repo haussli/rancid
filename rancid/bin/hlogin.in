@@ -339,7 +339,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	    if {"$port" != ""} {
 		set cmd "$cmd -p $port"
 	    }
-	    set retval [ catch {eval spawn [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason ]
+	    set retval [ catch {eval spawn hpuifilter -- [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason ]
 	    if { $retval } {
 		send_user "\nError: $sshcmd failed: $reason\n"
 		return 1
@@ -734,7 +734,7 @@ foreach router [lrange $argv $i end] {
     send "\r"
     expect {
 	-re "\[\r\n]+"		{ exp_continue; }
-	-re "^.+$prompt"	{ set prompt $expect_out(0,string); }
+	-re "^.+$prompt"	{ set prompt $expect_out(buffer); }
     }
 
     if { $do_command } {

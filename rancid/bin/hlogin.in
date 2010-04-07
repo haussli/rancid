@@ -734,7 +734,7 @@ foreach router [lrange $argv $i end] {
     send "\r"
     expect {
 	-re "\[\r\n]+"		{ exp_continue; }
-	-re "^.+$prompt"	{ set prompt $expect_out(buffer); }
+	-re "^.+$prompt"	{ set prompt $expect_out(0,string); }
     }
 
     if { $do_command } {

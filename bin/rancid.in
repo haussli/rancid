@@ -450,6 +450,8 @@ sub AdminShowDiag {
 	s/^NODE //;
 	# wtf are those?
 	next if (/(New Deviation|UDI_VID|Board State)/);
+	# skip insertion time
+	next if (/insertion time/i);
 	# skip board h/w revision junk
 	next if (/^(\s{2}board |\s{3,})/i);
 

@@ -1144,7 +1144,7 @@ sub DoNothing {print STDOUT;}
 	{'dir /all sec-disk2:'		=> 'DirSlotN'},
 	{'show controllers'		=> 'ShowContAll'},
 	{'admin show diag'		=> 'AdminShowDiag'},
-	{'show inventory raw'		=> 'ShowInventory'},
+	{'admin show inventory raw'	=> 'ShowInventory'},
 	{'show vlan'			=> 'ShowVLAN'},
 	{'show debug'			=> 'ShowDebug'},
 	{'show running-config'		=> 'WriteTerm'},

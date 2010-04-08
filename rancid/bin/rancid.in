@@ -1870,7 +1870,6 @@ sub DoNothing {print STDOUT;}
 
 # Main
 @commandtable = (
-	{'admin show version'		=> 'ShowVersion'},
 	{'show version'			=> 'ShowVersion'},
 	{'show redundancy secondary'	=> 'ShowRedundancy'},
 	{'show idprom backplane',	=> 'ShowIDprom'},

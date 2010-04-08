@@ -309,10 +309,9 @@ proc login { router user passwd cmethod cyphertype identfile} {
 		set cmd "$cmd -p $port"
 	    }
 	    if {"$identfile" != ""} {
-		set retval [ catch {eval spawn [split "$cmd -c $cyphertype -x -l $user -i $identfile $router" { }]} reason ]
-	    } else {
-		set retval [ catch {eval spawn [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason ]
+		set cmd "$cmd -i $identfile"
 	    }
+	        set retval [ catch {eval spawn [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason ]
 	    if { $retval } {
 		send_user "\nError: $sshcmd failed: $reason\n"
 		return 1

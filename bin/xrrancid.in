@@ -193,6 +193,7 @@ sub ShowVersion {
 	    $slaveslot = ", slot $1";
 	    next;
 	}
+	if (/cisco ios xr /i) { $ios = "XR"; }
 	if (/cisco ios .* IOS-XE/i) { $ios = "XE"; }
 	if (/^Application and Content Networking Software/) { $type = "CE"; }
 	# treat the ACE like the Content Engines for matching endofconfig
@@ -429,6 +430,34 @@ sub ShowVersion {
 	    next;
 	}
     }
+    return(0);
+}
+
+# This routine parses "admin show diag" for IOS-XR.
+# This will create arrays for hw info.
+sub AdminShowDiag {
+    print STDERR "    In ShowDiag: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	if (/^$prompt/) { $found_diag = 1; last};
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if (/Line has invalid autocommand /);
+	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(-1) if (/command authorization failed/i);
+	/^$/ && next;
+
+	s/^NODE //;
+	# wtf are those?
+	next if (/(New Deviation|UDI_VID|Board State)/);
+	# skip insertion time
+	next if (/insertion time/i);
+	# skip board h/w revision junk
+	next if (/^(\s{2}board |\s{3,})/i);
+
+	ProcessHistory("SLOT","","","!$_");
+    }
+    ProcessHistory("SLOT","","","!\n");
     return(0);
 }
 
@@ -744,7 +773,11 @@ sub DirSlotN {
 	if (/dhcp_[^. ]*\.txt/) {
 	    next;
 	}
-	if ($ios eq "XE" && /.*\((\d+) bytes free\)/) {
+	# Filter debugging file dlbg.txt & dlbg.txt-1 only on ASR9k w/ XR
+	if (($ios eq "XR" && $proc =~ /ASR9K/) && /dlbg\.txt/) {
+	    next;
+	}
+	if (($ios eq "XR" || $ios eq "XE") && /.*\((\d+) bytes free\)/) {
 	    my($tmp) = int($1 / (1024 * 1024));
 	    s/$1 bytes free/$tmp MB free/;
 	}
@@ -1002,7 +1035,7 @@ sub ShowDiagbus {
     return(0);
 }
 
-# This routine parses "show diag" for the gsr, 7200, 3700, 3600, 2600.
+# This routine parses "show diag" for the gsr, 7200, 3700, 3600, 2600 and XR.
 # This will create arrays for hw info.
 sub ShowDiag {
     print STDERR "    In ShowDiag: $_" if ($debug);
@@ -1875,12 +1908,14 @@ sub DoNothing {print STDOUT;}
 	{'show redundancy secondary'	=> 'ShowRedundancy'},
 	{'show idprom backplane',	=> 'ShowIDprom'},
 	{'show install active'		=> 'ShowInstallActive'},
+	{'admin show env all'		=> 'ShowEnv'},
 	{'show env all'			=> 'ShowEnv'},
 	{'show rsp chassis-info',	=> 'ShowRSP'},
 	{'show gsr chassis'		=> 'ShowGSR'},
 	{'show diag chassis-info'	=> 'ShowGSR'},
 	{'show boot'			=> 'ShowBoot'},
 	{'show bootvar'			=> 'ShowBoot'},
+	{'admin show variables boot'	=> 'ShowBoot'},
 	{'show variables boot'		=> 'ShowBoot'},
 	{'show flash'			=> 'ShowFlash'},
 	{'dir /all nvram:'		=> 'DirSlotN'},
@@ -1916,6 +1951,7 @@ sub DoNothing {print STDOUT;}
 	{'show controllers'		=> 'ShowContAll'},
 	{'show controllers cbus'	=> 'ShowContCbus'},
 	{'show diagbus'			=> 'ShowDiagbus'},
+	{'admin show diag'		=> 'AdminShowDiag'},
 	{'show diag'			=> 'ShowDiag'},
 	{'show module'			=> 'ShowModule'},	# cat 6500-ios
 	{'show spe version'		=> 'ShowSpeVersion'},

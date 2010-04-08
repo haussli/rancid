@@ -1206,7 +1206,7 @@ if ($ENV{"FILTER_PWDS"} =~ /no/i) {
     $filter_pwds = 1;
 }
 
-ProcessHistory("","","","!RANCID-CONTENT-TYPE: cisco\n!\n");
+ProcessHistory("","","","!RANCID-CONTENT-TYPE: cisco-xr\n!\n");
 ProcessHistory("COMMENTS","keysort","B0","!\n");
 ProcessHistory("COMMENTS","keysort","D0","!\n");
 ProcessHistory("COMMENTS","keysort","F0","!\n");

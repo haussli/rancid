@@ -308,7 +308,7 @@ proc login { router user passwd cmethod cyphertype identfile} {
 	    if {"$port" != ""} {
 		set cmd "$cmd -p $port"
 	    }
-	    if {$identfile != ""} {
+	    if {"$identfile" != ""} {
 		set retval [ catch {eval spawn [split "$cmd -c $cyphertype -x -l $user -i $identfile $router" { }]} reason ]
 	    } else {
 		set retval [ catch {eval spawn [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason ]

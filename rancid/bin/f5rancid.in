@@ -208,6 +208,7 @@ sub ShowDb {
 	/UCS.LoadTime/ && next;
 	/Configsync\..*Time/ && next;
 	/Configsync.peerupdatedstatus/ && next;
+	/Failover\..*Time/ && next;
 	/LTM.ConfigTime/ && next;
 
 	if (/^(snmp\..*\.community\..* =) (.+)/i) {

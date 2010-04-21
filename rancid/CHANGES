@@ -1,4 +1,6 @@
 2.3.4
+	f5rancid: filter Failover time stamps - from Ben O'Hara
+
 	hlogin: Add support for ssh identity file & passphrase for newer boxes
 
 	rancid: split IOS-XR into its own device type: cisco-xr

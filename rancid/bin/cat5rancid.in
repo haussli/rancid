@@ -907,6 +907,16 @@ sub WriteTerm {
 	    }
 	    next;
 	}
+	if (/^(set localuser user .*) password .* (privilege .*)/) {
+	    if (/^(set localuser user .*) password .* (privilege .*)/ &&
+		$filter_pwds >= 1) {
+		ProcessHistory("","","","! $1 password <removed> $2\n");
+	    } else {
+		ProcessHistory("","","","$_\n");
+	    }
+	    next;
+	}
+
 	if (/^set password / && $filter_pwds >= 2) {
 	    ProcessHistory("","","","! set password <removed>\n");
 	    next;

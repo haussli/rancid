@@ -1,4 +1,6 @@
 2.3.4
+	cat5rancid: filter local user password - frin David Adam
+
 	f5rancid: filter Failover time stamps - from Ben O'Hara
 
 	hlogin: Add support for ssh identity file & passphrase for newer boxes

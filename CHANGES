@@ -1,5 +1,8 @@
 2.3.4
-	cat5rancid: filter local user password - frin David Adam
+	cat5rancid: snmp community may have multiple spaces b/t community name
+	and permissions - from David Adam
+
+	cat5rancid: filter local user password - from David Adam
 
 	f5rancid: filter Failover time stamps - from Ben O'Hara
 

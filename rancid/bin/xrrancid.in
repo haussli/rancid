@@ -55,7 +55,6 @@ $debug = $opt_d;
 $file = $opt_f;
 $host = $ARGV[0];
 $proc = "";
-$ios = "IOS";
 $clean_run = 0;
 $found_end = 0;
 $found_version = 0;
@@ -188,19 +187,6 @@ sub ShowVersion {
 	    $slaveslot = ", slot $1";
 	    next;
 	}
-	if (/cisco ios xr /i) { $ios = "XR"; }
-	if (/cisco ios .* IOS-XE/i) { $ios = "XE"; }
-	if (/^Application and Content Networking Software/) { $type = "CE"; }
-	# treat the ACE like the Content Engines for matching endofconfig
-	if (/^Cisco Application Control Software/) { $type = "CE"; }
-	if (/^Cisco Storage Area Networking Operating System/) { $type = "SAN";}
-	if (/^Cisco Nexus Operating System/) { $type = "NXOS";}
-	/^Application and Content Networking Software Release /i &&
-	    ProcessHistory("COMMENTS","keysort","F1", "!Image: $_") && next;
-	# PIX 6 fail-over license, as in "This PIX has an Unrestricted (UR)
-	# license."  PIX 7 as "his platform has ..."
-	/^This (PIX|platform) has an?\s+(.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","D1", "!$_") && next;
 	/^(Cisco )?IOS .* Software,? \(([A-Za-z0-9_-]*)\), .*Version\s+(.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","F1",
 		"!Image:$slave Software: $2, $3\n") && next;
@@ -426,7 +412,7 @@ sub ShowVersion {
     return(0);
 }
 
-# This routine parses "admin show diag" for IOS-XR.
+# This routine parses "admin show diag".
 # This will create arrays for hw info.
 sub AdminShowDiag {
     print STDERR "    In ShowDiag: $_" if ($debug);
@@ -653,15 +639,12 @@ sub DirSlotN {
 	    next;
 	}
 	# Filter debugging file dlbg.txt & dlbg.txt-1 only on ASR9k w/ XR
-	if (($ios eq "XR" && $proc =~ /ASR9K/) && /dlbg\.txt/) {
+	if ($proc =~ /ASR9K/ && /dlbg\.txt/) {
 	    next;
 	}
-	if (($ios eq "XR" || $ios eq "XE") && /.*\((\d+) bytes free\)/) {
+	if (/.*\((\d+) bytes free\)/) {
 	    my($tmp) = int($1 / (1024 * 1024));
 	    s/$1 bytes free/$tmp MB free/;
-	}
-	if ($ios eq "XE" && /^((\s+)?\d+\s+\S+)\s+\d+.*(tracelogs$)/) {
-	    $_ = "$1" . sprintf("%43s", "") . "$3\n";
 	}
 
 	ProcessHistory("FLASH","","","!Flash: $dev: $_");
@@ -897,15 +880,6 @@ sub WriteTerm {
 			       "!username $1$2 password <removed>\n");
 	    } else {
 		ProcessHistory("USER","keysort","$1","$_");
-	    }
-	    next;
-	}
-	# cisco AP w/ IOS
-	if (/^(wlccp \S+ username (\S+)(\s.*)? password) (\d \S+|\S+)/) {
-	    if ($filter_pwds >= 1) {
-		ProcessHistory("USER","keysort","$2","!$1 <removed>\n");
-	    } else {
-		ProcessHistory("USER","keysort","$2","$_");
 	    }
 	    next;
 	}

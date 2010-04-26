@@ -1010,7 +1010,7 @@ sub WriteTerm {
 	    }
 	    next;
 	}
-	if (/^(set snmp community) (\S+) (\S+)/) {
+	if (/^(set snmp community) (\S+)\s+(\S+)/) {
 	    if ($filter_commstr) {
 		ProcessHistory("SNMPSERVERCOMM","keysort","$_","!$1 $2 <removed>\n");
 	    } else {

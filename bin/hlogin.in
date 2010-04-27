@@ -221,9 +221,8 @@ for {set i 0} {$i < $argc} {incr i} {
 	    set avenable 0
 	# Does tacacs automatically enable us?
 	} -autoenable {
-	    # hp does not autoenable
-	    #set autoenable 1
-	    #set avenable 0
+	    set avautoenable 1
+	    set avenable 0
 	} -* {
 	    send_user "\nError: Unknown argument! $arg\n"
 	    send_user $usage

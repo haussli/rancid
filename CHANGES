@@ -1,4 +1,6 @@
 2.3.4
+	xrrancid: disable timestamps - from Per Carlson
+
 	hlogin: implement -autoenable for newer hp procurve releases
 
 	cat5rancid: snmp community may have multiple spaces b/t community name

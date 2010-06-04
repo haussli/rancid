@@ -1,4 +1,6 @@
 2.3.4
+	mrvrancid: filter other oscillating info from show version - Ben O'Hara
+
 	xrrancid: disable timestamps - from Per Carlson
 
 	hlogin: implement -autoenable for newer hp procurve releases

@@ -175,9 +175,10 @@ sub GetSystem {
 	next if /^\s*$/;
 	last if (/$prompt/);
 
+	next if (/^System Time:/);
+	next if (/^conf_file_ver=/);
 	ProcessHistory("","","","$_");
     }
-    print STDOUT "Vendor: $vendor";
     ProcessHistory("SYSTEM","","","\n");
     return(0);
 }

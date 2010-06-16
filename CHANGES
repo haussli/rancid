@@ -1,4 +1,6 @@
 2.3.4
+	fnrancid: filter System Time & conf_file_ver= from GetSystem
+
 	mrvrancid: filter other oscillating info from show version - Ben O'Hara
 
 	xrrancid: disable timestamps - from Per Carlson

@@ -1,5 +1,6 @@
 2.3.4
-	fnrancid: filter System Time & conf_file_ver= from GetSystem
+	fnrancid: filter application signature, System Time & conf_file_ver=
+	from GetSystem/GetConf
 
 	mrvrancid: filter other oscillating info from show version - Ben O'Hara
 

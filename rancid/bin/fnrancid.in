@@ -176,7 +176,7 @@ sub GetSystem {
 	last if (/$prompt/);
 
 	next if (/^System Time:/);
-	next if (/^conf_file_ver=/);
+	next if (/^FortiClient application signature package:/);
 	ProcessHistory("","","","$_");
     }
     ProcessHistory("SYSTEM","","","\n");
@@ -199,6 +199,7 @@ sub GetConf {
 	next if /^\s*$/;
 	last if (/$prompt/);
 
+	next if (/^conf_file_ver=/);
 	if (/(^set.*)('Enc .*')(.*)/) {
 	    ProcessHistory("ENC","","","!$1 'Enc **encoding removed**' $3\n");
 	    next;

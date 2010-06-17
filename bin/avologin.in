@@ -331,6 +331,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	    }
 	} elseif [string match "ssh*" $prog] {
 	    regexp {ssh(:([^[:space:]]+))*} $prog command suffix port
+	    set cmd [join [lindex $sshcmd 0] " "]
 	    if {"$port" != ""} {
 		set cmd "$cmd -p $port"
 	    }

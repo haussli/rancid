@@ -1,4 +1,6 @@
 2.3.4
+	avologin: fix ssh command substitution - Ben O'Hara
+
 	fnrancid: filter application signature, System Time & conf_file_ver=
 	from GetSystem/GetConf
 

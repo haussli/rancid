@@ -1,4 +1,6 @@
 2.3.4
+	rancid: Accept '>' prompt, rather than just '#'
+
 	avologin: fix ssh command substitution - Ben O'Hara
 
 	fnrancid: filter application signature, System Time & conf_file_ver=

@@ -1,4 +1,7 @@
 2.3.4
+	clogin: adjust default ssh password prompt for ExtremeOS 12.3.3.6 -
+	from Sylvain 74
+
 	rancid: Accept '>' prompt, rather than just '#'
 
 	avologin: fix ssh command substitution - Ben O'Hara

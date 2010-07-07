@@ -1758,8 +1758,9 @@ sub WriteTerm {
 	# order arp lists
 	/^arp\s+(\d+\.\d+\.\d+\.\d+)\s+/ &&
 	    ProcessHistory("ARP","$aclsort","$1","$_") && next;
-	/^ip prefix-list\s+(\S+)\s+seq\s+(\d+)\s+(permit|deny)\s+(\d\S+)(\/.*)$/ &&
-	    ProcessHistory("PACL $1 $3","$aclsort","$4","ip prefix-list $1 $3 $4$5\n")
+	/^ip(v6)? prefix-list\s+(\S+)\s+seq\s+(\d+)\s+(permit|deny)\s+(\S+)(\/.*)$/
+	    && ProcessHistory("PACL $2 $4","$aclsort","$5",
+			      "ip$1 prefix-list $2 $4 $5$6\n")
 	    && next;
 	# order logging statements
 	/^logging (\d+\.\d+\.\d+\.\d+)/ &&

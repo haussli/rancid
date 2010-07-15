@@ -1,4 +1,6 @@
 2.3.4
+	nracnid: fix pager prompt filtering - Nathan Wallwork
+
 	rancid: remove sequences from IPv6 prefix-lists
 
 	clogin: adjust default ssh password prompt for ExtremeOS 12.3.3.6 -

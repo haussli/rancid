@@ -1,4 +1,6 @@
 2.3.4
+	nracnid: fix serial number matching - Nathan Wallwork
+
 	nracnid: fix pager prompt filtering - Nathan Wallwork
 
 	rancid: remove sequences from IPv6 prefix-lists

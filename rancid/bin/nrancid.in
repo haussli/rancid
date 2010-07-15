@@ -178,7 +178,7 @@ sub GetSystem {
 	# throw away the pager prompts
 	s/^--- more ---[\s\b]*//g;
 
-	/^Serial Number: (\d+), Control Number: [0-9a-f]+$/ &&
+	/^Serial Number: (\S+), Control Number: [0-9a-f]+$/ &&
 		ProcessHistory("SYSTEM","","", "#SN: $1\n") && next;
 	/^Product Name: (\S+)$/ &&
 		ProcessHistory("SYSTEM","","", "#Product: $1\n") && next;

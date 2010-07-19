@@ -302,7 +302,7 @@ sub ShowEnv {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
-	return(-1) if (/\% Invalid command at /);
+	return(1) if (/\% Invalid command at /);
 	return(-1) if (/command authorization failed/i);
 
 	s/ +$//;	# Drop trailing ' '
@@ -603,7 +603,7 @@ sub ShowCores {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
-	return(-1) if (/\% Invalid command at /);
+	return(1) if (/\% Invalid command at /);
 	return(-1) if (/command authorization failed/i);
 
 	ProcessHistory("COMMENTS","","","!CORES: $_");

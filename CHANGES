@@ -1,7 +1,11 @@
-2.3.4
-	nracnid: fix serial number matching - Nathan Wallwork
+2.3.5
+	nxrancid: show environment clock and show core vdc-all are not valid
+	commands on all platforms - Ryan West
 
-	nracnid: fix pager prompt filtering - Nathan Wallwork
+2.3.4
+	nrancid: fix serial number matching - Nathan Wallwork
+
+	nrancid: fix pager prompt filtering - Nathan Wallwork
 
 	rancid: remove sequences from IPv6 prefix-lists
 

@@ -1325,7 +1325,7 @@ sub ShowInventory {
 	    next;
 	}
 	# split PID/VID/SN line
-	if (/^PID: (\S*)\s*, VID: (\S*)\s*, SN: (\S*)\s*$/) {
+	if (/^PID: (\S*)\s*,\s*VID: (\S*)\s*,\s*SN: (\S*)\s*$/) {
 	    my($entries) = "";
 	    $entries .= "!PID: $1\n" if ($1);
 	    $entries .= "!VID: $2\n" if ($2);

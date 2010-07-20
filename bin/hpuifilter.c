@@ -568,8 +568,9 @@ filter(char *buf, int len)
     if (len == 0 || (err = strcspn(buf, bufstr)) >= len)
 	return(len);
 
-    for (x = 0; x < N_REG - N_CRs; x++) {
-	if (! init) {
+    if (! init) {
+	init++;
+	for (x = 0; x < N_REG; x++) {
 	    if ((err = regcomp(&preg[x], reg[x], REG_EXTENDED))) {
 		regerror(err, &preg[x], ebuf, 256);
 		fprintf(stderr, "%s: regex compile failed: %s\n", progname,
@@ -577,6 +578,9 @@ filter(char *buf, int len)
 		abort();
 	    }
 	}
+    }
+
+    for (x = 0; x < N_REG - N_CRs; x++) {
 	if ((err = regexec(&preg[x], buf, nmatch, pmatch, 0))) {
 	    if (err != REG_NOMATCH) {
 		regerror(err, &preg[x], ebuf, 256);
@@ -591,15 +595,6 @@ filter(char *buf, int len)
     }
 
     /* now the CR NL replacements */
-    if (! init++) {
-	for (x = N_REG - N_CRs; x < N_REG; x++)
-	    if ((err = regcomp(&preg[x], reg[x], REG_EXTENDED))) {
-		regerror(err, &preg[x], ebuf, 256);
-		fprintf(stderr, "%s: regex compile failed: %s\n", progname,
-			ebuf);
-		abort();
-	    }
-    }
     for (x = N_REG - N_CRs; x < N_REG; x++) {
 	if ((err = regexec(&preg[x], buf, nmatch, pmatch, 0))) {
 	    if (err != REG_NOMATCH) {

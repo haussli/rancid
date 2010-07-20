@@ -571,6 +571,7 @@ filter(char *buf, int len)
     if (! init) {
 	init++;
 	for (x = 0; x < N_REG; x++) {
+	    memset(&preg[x], 0, sizeof(preg[x]));
 	    if ((err = regcomp(&preg[x], reg[x], REG_EXTENDED))) {
 		regerror(err, &preg[x], ebuf, 256);
 		fprintf(stderr, "%s: regex compile failed: %s\n", progname,

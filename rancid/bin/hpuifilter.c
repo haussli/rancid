@@ -589,7 +589,13 @@ filter(char *buf, int len)
 		abort();
 	    }
 	} else {
-	    strcpy(buf + pmatch[0].rm_so, buf + pmatch[0].rm_eo);
+	    if (len - pmatch[0].rm_eo <= 0) {
+		buf[pmatch[0].rm_so] = '\0';
+	    } else {
+		memcpy(buf + pmatch[0].rm_so, buf + pmatch[0].rm_eo,
+		       len - pmatch[0].rm_eo + 1);
+	    }
+	    len -= pmatch[0].rm_eo - pmatch[0].rm_so;
 	    /* start over with the first regex */
 	    x = -1;
 	}
@@ -604,15 +610,21 @@ filter(char *buf, int len)
 		abort();
 	    }
 	} else {
-	    *(buf + pmatch[0].rm_so) = '\r';
-	    *(buf + pmatch[0].rm_so + 1) = '\n';
-	    strcpy(buf + pmatch[0].rm_so + 2, buf + pmatch[0].rm_eo);
+	    *(buf + pmatch[0].rm_so++) = '\r';
+	    *(buf + pmatch[0].rm_so++) = '\n';
+	    if (len - pmatch[0].rm_eo == 0) {
+		buf[pmatch[0].rm_so] = '\0';
+	    } else {
+		memcpy(buf + pmatch[0].rm_so, buf + pmatch[0].rm_eo,
+		       len - pmatch[0].rm_eo + 1);
+	    }
+	    len -= pmatch[0].rm_eo - pmatch[0].rm_so;
 	    /* start over with the first CR regex */
-	    x = N_REG - 3;
+	    x = N_REG - 1 - N_CRs;
 	}
     }
 
-    return(strlen(buf));
+    return(len);
 }
 
 RETSIGTYPE

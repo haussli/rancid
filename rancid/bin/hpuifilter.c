@@ -565,7 +565,7 @@ filter(char *buf, int len)
 			x;
     static int		init = 0;
 
-    if (len == 0 || (err = strcspn(buf, bufstr)) >= len)
+    if (len == 0 || strcspn(buf, bufstr) >= len)
 	return(len);
 
     if (! init) {

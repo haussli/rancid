@@ -1,5 +1,6 @@
 2.3.5
-	hpuifilter: change filtering to avoid use of string functions
+	hpuifilter: change filtering to avoid use of string functions due to a
+	Debian bug.  Should be faster too.
 
 	rancid: adjust show inventory matches for variables WS - Aaron Rees
 

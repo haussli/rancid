@@ -226,8 +226,9 @@ sub ShowVersion {
 		"!CPU: $3\n");
 	    ProcessHistory("COMMENTS","keysort","B1", "!Memory: $2\n");
 	}
-	/^Serial Number:\s+(.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","C1", "!$_") && next;
+	/^serial number:\s+(.*)$/i &&
+	    ProcessHistory("COMMENTS","keysort","C1", "!Serial Number: $1") &&
+	    next;
 	# More PIX stuff
 	/^Encryption hardware device\s+:\s+(.*)/ &&
 	    ProcessHistory("COMMENTS","keysort","A3", "!Encryption: $1\n") &&
@@ -240,8 +241,8 @@ sub ShowVersion {
 	    ProcessHistory("COMMENTS","keysort","B2", "!Memory: Flash $2\n") &&
 	    next;
 	# CatOS 3500xl stuff
-	/^System serial number(:\s+.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","C1", "!Serial Number$1\n") &&
+	/^system serial number\s*:\s+(.*)$/i &&
+	    ProcessHistory("COMMENTS","keysort","C1", "!Serial Number: $1\n") &&
 	    next;
 	/^Model / &&
 	    ProcessHistory("COMMENTS","keysort","C2", "!$_") && next;

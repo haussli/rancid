@@ -1,4 +1,6 @@
 2.3.5
+	rancid: handle a few IOS serial number formatting variants - Aaron Rees
+
 	hpuifilter: change filtering to avoid use of string functions due to a
 	Debian bug.  Should be faster too.
 

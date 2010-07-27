@@ -1,4 +1,6 @@
 2.3.5
+	rancid: filter ASA time-based license noise - Christopher DeRemer
+
 	rancid: filter command in WriteTerm if echoed - Arjan Oosting
 
 	configure: specifically look for ping in /sbin & /usr/sbin

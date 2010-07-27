@@ -203,6 +203,10 @@ sub ShowVersion {
 	    ProcessHistory("COMMENTS","keysort","F1", "!Image: $_") && next;
 	/^Cisco Secure PIX /i &&
 	    ProcessHistory("COMMENTS","keysort","F1", "!Image: $_") && next;
+	# ASA "time-based licenses" - eg: bot-net
+	/^This (PIX|platform) has a time-based license that will expire in\s+(\d{2,})\s+day.*$/ &&
+	    ProcessHistory("COMMENTS","keysort","D1",
+			   "!This $1 has a time-based license\n") && next;
 	# PIX 6 fail-over license, as in "This PIX has an Unrestricted (UR)
 	# license."  PIX 7 as "his platform has ..."
 	/^This (PIX|platform) has an?\s+(.*)$/ &&

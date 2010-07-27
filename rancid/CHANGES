@@ -1,4 +1,6 @@
 2.3.5
+	configure: specifically look for ping in /sbin & /usr/sbin
+
 	rancid: handle a few IOS serial number formatting variants - Aaron Rees
 
 	hpuifilter: change filtering to avoid use of string functions due to a

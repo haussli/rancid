@@ -6050,8 +6050,6 @@ ac_config_files="$ac_config_files bin/htlogin bin/htrancid"
 
 ac_config_files="$ac_config_files bin/jlogin bin/jrancid bin/jerancid"
 
-ac_config_files="$ac_config_files bin/motorancid"
-
 ac_config_files="$ac_config_files bin/mrancid bin/mrvlogin bin/mrvrancid"
 
 ac_config_files="$ac_config_files bin/nlogin bin/nrancid"
@@ -6839,7 +6837,6 @@ do
     "bin/jlogin") CONFIG_FILES="$CONFIG_FILES bin/jlogin" ;;
     "bin/jrancid") CONFIG_FILES="$CONFIG_FILES bin/jrancid" ;;
     "bin/jerancid") CONFIG_FILES="$CONFIG_FILES bin/jerancid" ;;
-    "bin/motorancid") CONFIG_FILES="$CONFIG_FILES bin/motorancid" ;;
     "bin/mrancid") CONFIG_FILES="$CONFIG_FILES bin/mrancid" ;;
     "bin/mrvlogin") CONFIG_FILES="$CONFIG_FILES bin/mrvlogin" ;;
     "bin/mrvrancid") CONFIG_FILES="$CONFIG_FILES bin/mrvrancid" ;;
@@ -7569,7 +7566,6 @@ $as_echo X"$file" |
     "bin/jlogin":F) chmod a+x $ac_file ;;
     "bin/jrancid":F) chmod a+x $ac_file ;;
     "bin/jerancid":F) chmod a+x $ac_file ;;
-    "bin/motorancid":F) chmod a+x $ac_file ;;
     "bin/mrancid":F) chmod a+x $ac_file ;;
     "bin/mrvlogin":F) chmod a+x $ac_file ;;
     "bin/mrvrancid":F) chmod a+x $ac_file ;;

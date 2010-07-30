@@ -1,4 +1,6 @@
 2.3.5
+	francid: filter system uptime on new Brocades - Matthias Cramer
+
 	rancid: filter ASA time-based license noise - Christopher DeRemer
 
 	rancid: filter command in WriteTerm if echoed - Arjan Oosting

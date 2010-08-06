@@ -1,0 +1,146 @@
+From rancid-discuss-bounces@shrubbery.net  Thu Jul 29 16:12:09 2010
+Return-Path: <rancid-discuss-bounces@shrubbery.net>
+X-Original-To: heas@shrubbery.net
+Delivered-To: heas@shrubbery.net
+Received: from ni.shrubbery.net (ni.shrubbery.net [198.58.5.4])
+	by guelah.shrubbery.net (Postfix) with ESMTP id EDB55108690
+	for <heas@shrubbery.net>; Thu, 29 Jul 2010 16:12:08 +0000 (UTC)
+Received: from ni.shrubbery.net (localhost [127.0.0.1])
+	by ni.shrubbery.net (Postfix) with ESMTP id 9C54711CEB9;
+	Thu, 29 Jul 2010 16:12:07 +0000 (UTC)
+X-Original-To: rancid-discuss@www.shrubbery.net
+Delivered-To: rancid-discuss@www.shrubbery.net
+Received: from guelah.shrubbery.net (guelah.shrubbery.net [198.58.5.1])
+	by ni.shrubbery.net (Postfix) with ESMTP id 3E2AA11CEB4
+	for <rancid-discuss@www.shrubbery.net>;
+	Thu, 29 Jul 2010 14:58:51 +0000 (UTC)
+Received: by guelah.shrubbery.net (Postfix)
+	id 8CBF7108695; Thu, 29 Jul 2010 14:58:51 +0000 (UTC)
+Delivered-To: rancid-discuss@shrubbery.net
+Received: from mout.perfora.net (mout.perfora.net [74.208.4.195])
+	by guelah.shrubbery.net (Postfix) with ESMTP id 521EB108690
+	for <rancid-discuss@shrubbery.net>;
+	Thu, 29 Jul 2010 14:58:27 +0000 (UTC)
+Received: from mail-ww0-f44.google.com (mail-ww0-f44.google.com [74.125.82.44])
+	by mrelay.perfora.net (node=mrus3) with ESMTP (Nemesis)
+	id 0LmbFL-1PDotY02lP-00a6rs; Thu, 29 Jul 2010 10:44:24 -0400
+Received: by wwj40 with SMTP id 40so456320wwj.25
+	for <rancid-discuss@shrubbery.net>;
+	Thu, 29 Jul 2010 07:44:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.227.152.18 with SMTP id e18mr265277wbw.1.1280414661125; Thu, 
+	29 Jul 2010 07:44:21 -0700 (PDT)
+Received: by 10.216.87.15 with HTTP; Thu, 29 Jul 2010 07:44:21 -0700 (PDT)
+Date: Thu, 29 Jul 2010 09:44:21 -0500
+Message-ID: <AANLkTintzB3e_V0ezvWdbM5f_rr1Fy6DLaJo=jhtzFRm@mail.gmail.com>
+From: Wayne Hall <whall@whall.org>
+To: rancid-discuss@shrubbery.net
+X-Provags-ID: V02:K0:InxakVSqTTcncsvO937AYtDH+BLxROBdpwPG+O+UMlJ
+	4bykq+uvIoa/0PnAIr9jLEz/ggMHQC0bznbXYmdjUT2gw4iPxD
+	UyvlhfQIRM2ReKXU5xm22VmmDp9jWGhRlPtVNjrMHkruTr6Gqt
+	tvTyKtY7S97NKkrurEU9DhW11GlgGm0KS41VZ9NeFdJ2aCUyfR
+	iU5WdgCCMaLDrjcsvGv012DcGQlcueYyp4224J/n/I=
+X-Mailman-Approved-At: Thu, 29 Jul 2010 16:11:37 +0000
+Subject: [rancid]  sflow timeout filter for dell PowerConnects
+X-BeenThere: rancid-discuss@shrubbery.net
+X-Mailman-Version: 2.1.9
+Precedence: bulk
+List-Id: RANCID discussion <rancid-discuss.shrubbery.net>
+List-Unsubscribe: <http://www.shrubbery.net/mailman/listinfo.cgi/rancid-discuss>, 
+	<mailto:rancid-discuss-request@shrubbery.net?subject=unsubscribe>
+List-Archive: <http://www.shrubbery.net/pipermail/rancid-discuss>
+List-Post: <mailto:rancid-discuss@shrubbery.net>
+List-Help: <mailto:rancid-discuss-request@shrubbery.net?subject=help>
+List-Subscribe: <http://www.shrubbery.net/mailman/listinfo.cgi/rancid-discuss>, 
+	<mailto:rancid-discuss-request@shrubbery.net?subject=subscribe>
+Content-Type: multipart/mixed; boundary="===============1965480964=="
+Sender: rancid-discuss-bounces@shrubbery.net
+Errors-To: rancid-discuss-bounces@shrubbery.net
+X-Bogosity: Unsure, tests=bogofilter, spamicity=0.496412, version=1.0.3
+Status: RO
+Content-Length: 3785
+Lines: 82
+
+--===============1965480964==
+Content-Type: multipart/alternative; boundary=001636831d480aae9b048c87c56e
+
+--001636831d480aae9b048c87c56e
+Content-Type: text/plain; charset=ISO-8859-1
+
+For those who take advantage of sflow on the newer powerconnect firmware
+(3.x supports it), you might find that the running-config now has a new
+timeout value, which is a countdown.  Countdowns make babies cry.  While I
+hate to see crying babies, sflow is way too useful to let a few whiny
+infants get in my way of using it, so instead I decided to modify rancid to
+stop informing me of this countdown reduction.
+
+3c3
+< ## $Id: drancid,v 1.2 2010/07/29 14:42:56 rancid Exp $
+---
+> ## $Id: drancid,v 1.1 2010/07/29 14:09:22 rancid Exp $
+229,237d228
+<               # -------------------------------
+<               # custom lines here
+<               # -------------------------------
+<               #
+<               # ignore sflow countdown timer
+<               if (/(sflow\s+\d+.*timeout)/) {
+<             ProcessHistory("","","","$1 4294967295\n"); next;
+<               }
+
+I'm putting in that high number because that is the highest the command
+allows, and if you're wanting to paste it into a config again later, better
+it to be a usable command and not an <ignored> or <removed> type of message.
+
+My thanx to *john heasley *on the post at
+http://www.shrubbery.net/pipermail/rancid-discuss/2010-July/005065.html for
+the hints I needed.
+
+This is my first filter, so be kind.
+
+--001636831d480aae9b048c87c56e
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+For those who take advantage of sflow on the newer powerconnect firmware (3=
+.x supports it), you might find that the running-config now has a new timeo=
+ut value, which is a countdown.=A0 Countdowns make babies cry.=A0 While I h=
+ate to see crying babies, sflow is way too useful to let a few whiny infant=
+s get in my way of using it, so instead I decided to modify rancid to stop =
+informing me of this countdown reduction.<br>
+<br>3c3<br>&lt; ## $Id: drancid,v 1.2 2010/07/29 14:42:56 rancid Exp $<br>-=
+--<br>&gt; ## $Id: drancid,v 1.1 2010/07/29 14:09:22 rancid Exp $<br>229,23=
+7d228<br>&lt;=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 # -----------------=
+--------------<br>&lt;=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 # custom l=
+ines here<br>
+&lt;=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 # --------------------------=
+-----<br>&lt;=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 #<br>&lt;=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 # ignore sflow countdown timer<br>&lt;=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if (/(sflow\s+\d+.*timeout)/) {<br>=
+&lt;=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ProcessHistory(&quot;&quot;,&quot;=
+&quot;,&quot;&quot;,&quot;$1 4294967295\n&quot;); next;<br>
+&lt;=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 }<br><br>I&#39;m putting in =
+that high number because that is the highest the command allows, and if you=
+&#39;re wanting to paste it into a config again later, better it to be a us=
+able command and not an &lt;ignored&gt; or &lt;removed&gt; type of message.=
+<br>
+<br>My thanx to <b>john heasley </b>on the post at <a href=3D"http://www.sh=
+rubbery.net/pipermail/rancid-discuss/2010-July/005065.html">http://www.shru=
+bbery.net/pipermail/rancid-discuss/2010-July/005065.html</a> for the hints =
+I needed.=A0 <br>
+<br>This is my first filter, so be kind.<br><br><br>
+
+--001636831d480aae9b048c87c56e--
+
+--===============1965480964==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+Rancid-discuss mailing list
+Rancid-discuss@shrubbery.net
+http://www.shrubbery.net/mailman/listinfo.cgi/rancid-discuss
+--===============1965480964==--
+

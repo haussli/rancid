@@ -1,0 +1,59 @@
+http://www.shrubbery.net/pipermail/rancid-discuss/2010-July/005020.html
+
+Thu, Jul 08, 2010 at 08:34:46AM +0200, Martin Moens:
+> Hi John,
+>  
+> I have tested several sw and hw combinations, a few of them:
+> 3925: c3900-universalk9-mz.SPA.150-1 and c3900-universalk9-mz.SPA.150-1.M2
+> 2811: c2800nm-advipservicesk9-mz.124-24.T
+> 7206: c7200-advipservicesk9-mz.122-33.SRD1
+> 7606: c7600rsp72043-advipservicesk9-mz.122-33.SRD4
+> As you can see the problem is not specific to a certain hardware or software  
+> version, I suppuse I can assume all versions have this problem....
+
+Hack for rancid 2.3.4
+> >
+> >Index: rancid.in
+> >===================================================================
+> >--- rancid.in        (revision 2211)
+> >+++ rancid.in        (working copy)
+> >@@ -1523,6 +1523,7 @@
+> > sub WriteTerm {
+> >     print STDERR "    In WriteTerm: $_" if ($debug);
+> >     my($lineauto,$comment,$linecnt) = (0,0,0);
+> >+    my($subconfig) = "";
+> >
+> >     while (<INPUT>) {
+> >     tr/\015//d;
+> >@@ -1539,6 +1540,9 @@
+> >         my($len) = length($1);
+> >         s/^$1\s{$len}//;
+> >     }
+> >+    if (/^\S/) {
+> >+        $subconfig = "";
+> >+    }
+> >     /^! no configuration change since last restart/i && next;
+> >     # skip emtpy lines at the beginning 
+> >     if (!$linecnt && /^\s*$/) {
+> >@@ -1579,6 +1583,21 @@
+> >     }
+> >     $comment = 0;
+> >
+> >+    # l2tp-class
+> >+    if (/^l2tp-class /) { $subconfig = "l2tp-class"; }
+> >+    if ($subconfig == "l2tp-class" && /password ((\d) \S+|\S+)/) {
+> >+        if ($filter_pwds >= 2) {
+> >+            ProcessHistory("L2TP","keysort","$subconfig",
+> >+                           "! password <removed>\n");
+> >+        } elsif ($filter_pwds >= 1 && $4 ne "5"){
+> >+            ProcessHistory("L2TP","keysort","$subconfig",
+> >+                           "! password <removed>\n");
+> >+        } else {
+> >+            ProcessHistory("L2TP","keysort","$subconfig","$_");
+> >+        }
+> >+        next;
+> >+    }
+> >+ 
+> >     # Dog gone Cool matches to process the rest of the config
+> >     /^tftp-server flash /   && next; # kill any tftp remains
+> >     /^ntp clock-period /    && next; # kill ntp clock-period

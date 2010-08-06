@@ -1,4 +1,6 @@
 2.3.5
+	zrancid: force terminal type vt100 so as not to confuse Linux
+
 	francid: filter system uptime on new Brocades - Matthias Cramer
 
 	rancid: filter ASA time-based license noise - Christopher DeRemer

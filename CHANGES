@@ -9,7 +9,8 @@
 
 	rancid: filter command in WriteTerm if echoed - Arjan Oosting
 
-	configure: specifically look for ping in /sbin & /usr/sbin
+	configure: specifically look for ping in /sbin & /usr/sbin & fix typo
+	in test operator
 
 	rancid: handle a few IOS serial number formatting variants - Aaron Rees
 

@@ -1,4 +1,6 @@
 2.3.5
+	xrrancid: filter sequences from ipv4/6 access-lists
+
 	zrancid: force terminal type vt100 so as not to confuse Linux
 
 	francid: filter system uptime on new Brocades - Matthias Cramer

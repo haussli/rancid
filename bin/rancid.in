@@ -2009,7 +2009,7 @@ TOP: while(<INPUT>) {
 	$clean_run = 0;
 	last;
     }
-    while (/#\s*($cmds_regexp)\s*$/) {
+    while (/[>#]\s*($cmds_regexp)\s*$/) {
 	$cmd = $1;
 	if (!defined($prompt)) {
 	    $prompt = ($_ =~ /^([^#>]+[#>])/)[0];

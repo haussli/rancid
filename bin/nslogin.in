@@ -531,7 +531,7 @@ foreach router [lrange $argv $i end] {
     set prompt "#"
 
     # look for noenable option in .cloginrc
-    if { [find noenable $router] != "" } {
+    if { [find noenable $router] == "1" } {
 	set enable 0
     } else {
 	set enable $avenable

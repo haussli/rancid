@@ -1,4 +1,6 @@
 2.3.5
+	*rancid: update for grammar deprecated in perl 5.12
+
 	*login: handle noenable value consistently, '1' to turn it on
 
 	configure: look for -n <count> option to ping, for Windows ping (over

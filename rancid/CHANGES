@@ -1,4 +1,6 @@
 2.3.5
+	alogin: respond to active alarms msg at login - Vincent Tamet
+
 	*rancid: update for grammar deprecated in perl 5.12
 
 	*login: handle noenable value consistently, '1' to turn it on

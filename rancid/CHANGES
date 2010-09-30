@@ -1,3 +1,6 @@
+2.3.6
+	francid: remove system uptime line on CER 3000 - Simon Leinen
+
 2.3.5
 	alogin: respond to active alarms msg at login - Vincent Tamet
 

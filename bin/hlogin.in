@@ -55,7 +55,7 @@
 # Usage line
 set usage "Usage: $argv0 \[-dSV\] \[-autoenable\] \[-noenable\] \[-c command\] \
 \[-Evar=x\] \[-e enable-password\] \[-f cloginrc-file\] \[-p user-password\] \
-\[-s script-file\] \[-t timeout\] \[-u username\] \
+\[-r passphrase\] \[-s script-file\] \[-t timeout\] \[-u username\] \
 \[-v vty-password\] \[-w enable-username\] \[-x command-file\] \
 \[-y ssh_cypher_type\] router \[router...\]\n"
 

@@ -1,4 +1,6 @@
 2.3.6
+	clogin: add -r and passphrase/identfile from cloginrc - Per-Olof Olsson
+
 	francid: remove system uptime line on CER 3000 - Simon Leinen
 
 2.3.5

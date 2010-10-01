@@ -111,6 +111,12 @@ for {set i 0} {$i < $argc} {incr i} {
 		set username [ lindex $argv $i ]
 	    }
 	# VTY Password
+	} -p* {
+	    # ignore -p
+	# ssh passphrase
+	} -r* {
+	    # ignore -r
+	# VTY Password
 	} -v* {
 	    if {! [  regexp .\[vV\](.+) $arg ignore passwd]} {
 		incr i

@@ -118,6 +118,9 @@ for {set i 0} {$i < $argc} {incr i} {
 		set userpasswd [ lindex $argv $i ]
 	    }
 	    set do_passwd 0
+	# ssh passphrase
+	} -r* {
+	    # ignore -r
 	# Environment variable to pass to -s scripts
 	} -E* {
 	    if {[ regexp .\[E\](.+)=(.+) $arg ignore varname varvalue]} {

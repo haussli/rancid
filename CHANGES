@@ -1,4 +1,6 @@
 2.3.6
+	clogin: Fix pasto in IOS terminal width command.
+
 	hlogin: -r missing from usage o/p - Per-Olof Olsson
 
 	clogin: add -r and passphrase/identfile from cloginrc - Per-Olof Olsson

@@ -921,7 +921,7 @@ foreach router [lrange $argv $i end] {
 	} else {
 	    send "terminal length 0\r"
 	    expect -re $prompt  {}
-	    send "set width 80\r"
+	    send "terminal width 80\r"
 	}
 	expect -re $prompt	{}
 	source $sfile

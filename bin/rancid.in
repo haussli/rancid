@@ -709,6 +709,9 @@ sub ShowFlash {
 	    s/^$1\s{$len}//;
 	}
 
+	# Filter dhcp database
+	next if (/dhcp_[^. ]*\.txt/);
+
 	/\s+(multiple-fs|nv_hdr|vlan\.dat)$/ && next;
 	ProcessHistory("FLASH","","","!Flash: $_");
     }
@@ -746,9 +749,8 @@ sub DirSlotN {
 	    next if (/uptime_cont\s*$/);
 	}
 	# Filter dhcp database
-	if (/dhcp_[^. ]*\.txt/) {
-	    next;
-	}
+	next if (/dhcp_[^. ]*\.txt/);
+
 	if ($ios eq "XE" && /.*\((\d+) bytes free\)/) {
 	    my($tmp) = int($1 / (1024 * 1024));
 	    s/$1 bytes free/$tmp MB free/;

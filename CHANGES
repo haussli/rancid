@@ -1,4 +1,6 @@
 2.3.6
+	fnrancid: update recent fortinet software - Diego Ercolani
+
 	rancid: ignore show flash on IOS XE - Marcus Stoegbauer
 
 	rancid: copy the dhcp database filter to ShowFlash() - From Lee

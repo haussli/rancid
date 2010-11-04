@@ -643,8 +643,14 @@ sub DirSlotN {
 	    next;
 	}
 	if (/.*\((\d+) bytes free\)/) {
-	    my($tmp) = int($1 / (1024 * 1024));
-	    s/$1 bytes free/$tmp MB free/;
+ 	    my($tmp) = $1;
+	    if ($tmp >= (1024 * 1024 * 1024)) {
+		$tmp = int($tmp / (1024 * 1024 * 1024));
+		s/$1 bytes free/$tmp GB free/;
+	    } else {
+		$tmp = int($tmp / (1024 * 1024));
+		s/$1 bytes free/$tmp MB free/;
+	    }
 	}
 
 	ProcessHistory("FLASH","","","!Flash: $dev: $_");

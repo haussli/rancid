@@ -1,4 +1,6 @@
 2.3.6
+	rancid: filter sflog from DirSlot() for IOS on cisco 10k
+
 	fnrancid: update recent fortinet software - Diego Ercolani
 
 	rancid: ignore show flash on IOS XE - Marcus Stoegbauer

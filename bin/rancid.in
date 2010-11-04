@@ -759,6 +759,9 @@ sub DirSlotN {
 	if ($ios eq "XE" && /^((\s+)?\d+\s+\S+)\s+\d+.*(tracelogs$)/) {
 	    $_ = "$1" . sprintf("%43s", "") . "$3\n";
 	}
+	if ($ios eq "IOS" && /^((\s+)?\d+\s+\S+)\s+\d+.*(sflog$)/) {
+	    $_ = "$1" . sprintf("%43s", "") . "$3\n";
+	}
 	# the pager can not be disabled per-session on the PIX
 	if (/^(<-+ More -+>)/) {
 	    my($len) = length($1);

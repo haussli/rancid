@@ -1,5 +1,7 @@
 2.3.6
-	rancid: filter sflog from DirSlot() for IOS on cisco 10k
+	{xr}rancid: summarize DirSlotN() bytes free as GB, else MB.
+
+	rancid: filter sflog from DirSlotN() for IOS on cisco 10k
 
 	fnrancid: update recent fortinet software - Diego Ercolani
 

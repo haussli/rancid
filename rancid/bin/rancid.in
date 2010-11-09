@@ -194,7 +194,7 @@ sub ShowVersion {
 	    next;
 	}
 	if (/cisco ios .* IOS-XE/i) { $ios = "XE"; }
-	if (/^Application and Content Networking Software/) { $type = "CE"; }
+	if (/^Application and Content Networking .*Software/) { $type = "CE"; }
 	# treat the ACE like the Content Engines for matching endofconfig
 	if (/^Cisco Application Control Software/) { $type = "CE"; }
 	if (/^Cisco Storage Area Networking Operating System/) { $type = "SAN";}

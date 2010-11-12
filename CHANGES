@@ -1,4 +1,6 @@
 2.3.6
+	jrancid: patch for master/backup matching on EX series - Sven Engelhardt
+
 	rancid: update cisco WAE identity string match - from Jim Hock
 
 	{xr}rancid: summarize DirSlotN() bytes free as GB, else MB.

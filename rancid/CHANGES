@@ -1,4 +1,6 @@
 2.3.6
+	alogin: adjust match of active alarms msg at login
+
 	jrancid: patch for master/backup matching on EX series - Sven Engelhardt
 
 	rancid: update cisco WAE identity string match - from Jim Hock

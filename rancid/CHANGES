@@ -1,4 +1,6 @@
 2.3.6
+	rancid: filter auto "rogue ap" configuration - Kevin Nesbitt
+
 	alogin: adjust match of active alarms msg at login
 
 	jrancid: patch for master/backup matching on EX series - Sven Engelhardt

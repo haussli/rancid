@@ -1643,6 +1643,8 @@ sub WriteTerm {
 	    }
 	    next;
 	}
+	# filter auto "rogue ap" configuration lines
+	/^rogue ap classify / && next;
 	if (/^( set session-key (in|out)bound ah \d+ )/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1<removed>\n");
 	    next;

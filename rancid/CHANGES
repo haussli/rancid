@@ -1,4 +1,7 @@
 2.3.6
+	control_rancid: for svn stupidity, run update (yes update) and commit
+	after setting svn:ignore, else . is out of date.
+
 	rancid: filter auto "rogue ap" configuration - Kevin Nesbitt
 
 	alogin: adjust match of active alarms msg at login

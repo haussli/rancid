@@ -162,6 +162,8 @@ routers.up
 EOF
     if [ $RCSSYS = svn ] ; then
 	svn propset svn:ignore -F .cvsignore .
+	svn update .
+	svn commit -m 'set svn:ignores' .
     fi
 fi
 

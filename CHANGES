@@ -1,4 +1,6 @@
 2.3.6
+	rancid: skip ASA 5520 configuration author line
+
 	control_rancid: for svn stupidity, run update (yes update) and commit
 	after setting svn:ignore, else . is out of date.
 

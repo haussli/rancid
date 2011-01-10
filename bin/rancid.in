@@ -1549,6 +1549,7 @@ sub WriteTerm {
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
 	return(1) if (/\%Error: No such file or directory/);
+	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
 	return(0) if ($found_end);		# Only do this routine once
 	return(-1) if (/command authorization failed/i);
 	return(-1) if (/% ?configuration buffer full/i);

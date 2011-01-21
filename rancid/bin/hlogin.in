@@ -396,6 +396,10 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 	    send " "
 	    exp_continue
 	}
+	"Enter switch number to connect to or <CR>:" { 
+	    send "\r"
+	    exp_continue
+	}
 	-re "(Connection refused|Secure connection \[^\n\r]+ refused|Connection closed by)" {
 	    catch {close}; catch {wait};
 	    if !$progs {
@@ -470,10 +474,6 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 				  return 0
 				}
 	    }
-	    exp_continue
-	}
-	"Enter switch number to connect to or <CR>:" { 
-	    send "\r"
 	    exp_continue
 	}
 	"$prompt"	{ break; }

@@ -1,4 +1,6 @@
 2.3.7
+	hlogin: stacks prompt for switch number or CR at login, send CR -
+	Per-Olof Olsson
 
 2.3.6
 	rancid: fail on error opening nvram:

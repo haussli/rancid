@@ -1,4 +1,9 @@
 2.3.7
+	nxrancid: do not require 'show system redundancy status', apparently
+	unsupported on some nexus models.
+
+	clogin: set terminal width for -c and -s
+
 	hlogin: stacks prompt for switch number or CR at login, send CR -
 	Per-Olof Olsson
 

@@ -688,7 +688,7 @@ if ($file) {
     print(STDERR "executing echo jlogin -t $timeo -c\"$jnx_commands\" $host\n") if ($debug);
     print(STDOUT "executing echo jlogin -t $timeo -c\"$jnx_commands\" $host\n") if ($debug);
 
-    if (defined($ENV{NOPIPE})) {
+    if (defined($ENV{NOPIPE}) && $ENV{NOPIPE} =~ /^YES/i) {
 	system "jlogin -t $timeo -c \"$jnx_commands\" $host </dev/null > $host.raw" || die "jlogin failed for $host: $!\n";
 	open(INPUT, "< $host.raw") || die "jlogin failed for $host: $!\n";
     } else {
@@ -770,7 +770,7 @@ ProcessHistory("","","","");
 close(INPUT);
 close(OUTPUT);
 
-if (defined($ENV{NOPIPE})) {
+if (defined($ENV{NOPIPE}) && $ENV{NOPIPE} =~ /^YES/i) {
     unlink("$host.raw") if (! $debug);
 }
 

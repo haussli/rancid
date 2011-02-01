@@ -1,4 +1,6 @@
 2.3.7
+	fnrancid: update system time and conf_file_ver filters - Gavin McCullagh
+
 	nxrancid: do not require 'show system redundancy status', apparently
 	unsupported on some nexus models.
 

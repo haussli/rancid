@@ -452,7 +452,6 @@ proc run_commands { prompt command } {
     set num_commands [llength $commands]
     for {set i 0} {$i < $num_commands} { incr i} {
 	send -- "[subst [lindex $commands $i]]\r"
-#	send_user "**************** [subst [lindex $commands $i]] ************\n"
 	expect {
             -re "$prompt"			{ send "\r"
 						  sleep 0.5
@@ -463,7 +462,6 @@ proc run_commands { prompt command } {
 						}
 	}
      }   
-#    send_user "******* fuori da ciclo for *******\n"
      expect {
 	  -re "$prompt$"				{
 						  send "exit\r"
@@ -475,7 +473,7 @@ proc run_commands { prompt command } {
 						  send "n\r"
 						  exp_continue
 						}
-	  timeout					{ catch {close}; catch {wait};
+	  timeout				{ catch {close}; catch {wait};
 						  return 0
 						}
 	  eof					{ return 0 }

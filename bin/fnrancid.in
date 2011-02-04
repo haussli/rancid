@@ -180,7 +180,7 @@ sub GetSystem {
 	next if (/^\s*Extended DB: .*/);
 	next if (/^\s*IPS-DB: .*/);
 	next if (/^FortiClient application signature package:/);
-	ProcessHistory("","","","!$_");
+	ProcessHistory("","","","#$_");
     }
     ProcessHistory("SYSTEM","","","\n");
     return(0);
@@ -211,7 +211,7 @@ sub GetConf {
 	# filter variabilities between configurations.  password encryption
 	# upon each display of the configuration.
 	if (/^\s*(set [^\s]*)\s(Enc\s[^\s]+)(.*)/i && $filter_pwds > 0 ) {
-	    ProcessHistory("ENC","","","!$1 ENC <removed> $3\n");
+	    ProcessHistory("ENC","","","#$1 ENC <removed> $3\n");
 	    next;
 	}
 	ProcessHistory("","","","$_");
@@ -285,7 +285,7 @@ if ($ENV{"FILTER_PWDS"} =~ /no/i) {
     $filter_pwds = 1;
 }
 
-ProcessHistory("","","","!RANCID-CONTENT-TYPE: fortigate\n\n");
+ProcessHistory("","","","#RANCID-CONTENT-TYPE: fortigate\n\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
     if (/^Error:/) {

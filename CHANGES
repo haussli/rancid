@@ -1,4 +1,6 @@
 2.3.6
+	rancid.spec: updated for 2.3.6 - from Florian Koch
+
 	rancid: fail on error opening nvram:
 
 	rancid: skip ASA 5520 configuration author line

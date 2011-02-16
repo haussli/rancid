@@ -43,3 +43,6 @@ DIRS2_CREATE+=$(DESTDIR)$(localstatedir)
 endif
 install-data-hook:
 	$(mkinstalldirs) $(DIRS2_CREATE);
+
+distclean-local:
+	-rm -rf $(top_srcdir)/autom4te.cache

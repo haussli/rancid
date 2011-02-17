@@ -1,4 +1,6 @@
 2.3.7
+	avorancid: collect power management file - from Darius Jan Seroka
+
 	fnrancid: correct comment character - noted by Gavin McCullagh
 
 	fnrancid: update system time and conf_file_ver filters - Gavin McCullagh

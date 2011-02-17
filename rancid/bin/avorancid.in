@@ -200,6 +200,7 @@ sub DoNothing {print STDOUT;}
 	{'cat /etc/network/ifcfg_eth0'	=> 'CatFile'},
 	{'cat /etc/network/st_routes'	=> 'CatFile'},
 	{'cat /etc/security.opts'	=> 'CatFile'},
+	{'cat /etc/pmdgrp.conf'		=> 'CatFile'},
 );
 # Use an array to preserve the order of the commands and a hash for mapping
 # commands to the subroutine and track commands that have been completed.

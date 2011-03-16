@@ -1,4 +1,6 @@
 2.3.7
+	rancid: filter config timestamp on MDS/NX-OS
+
 	avorancid: collect power management file - from Darius Jan Seroka
 
 	fnrancid: correct comment character - noted by Gavin McCullagh

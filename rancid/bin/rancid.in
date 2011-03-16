@@ -1582,6 +1582,8 @@ sub WriteTerm {
 	    }
 	    tr/\015//d;
 	}
+	# config timestamp on MDS/NX-OS
+	/Time: / && next;
 	# skip ASA 5520 configuration author line
 	/^: written by /i && next;
 	# some versions have other crap mixed in with the bits in the

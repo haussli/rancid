@@ -567,7 +567,7 @@ proc run_commands { prompt command } {
 	}
     }
     log_user 1
-    send -h "exit\r"
+    send -h "logout\r"
     expect {
 	"Do you want to save current configuration"	{
 						  if {$do_saveconfig} {

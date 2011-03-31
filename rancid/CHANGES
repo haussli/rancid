@@ -1,4 +1,7 @@
 2.3.7
+	hrancid: collect show config files and show tech transceivers - Thorsten
+	Hahn
+
 	rancid: filter config timestamp on MDS/NX-OS
 
 	avorancid: collect power management file - from Darius Jan Seroka

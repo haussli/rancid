@@ -168,6 +168,22 @@ sub sortbyipaddr {
     &ipaddrval($a) <=> &ipaddrval($b);
 }
 
+# This routine parses "show config files"
+sub ShowConfigFiles {
+    print STDERR "    In ShowConfigFiles: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(-1) if (/command authorization failed/i);
+	return(1) if /^(Invalid|Ambiguous) input:/i;
+
+	ProcessHistory("COMMENTS","keysort","H0",";$_");
+    }
+    return(0);
+}
+
 # This routine parses "show version"
 sub ShowVersion {
     print STDERR "    In ShowVersion: $_" if ($debug);
@@ -279,6 +295,24 @@ sub ShowStack {
 	ProcessHistory("COMMENTS","keysort","F0",";$_");
 
 	/auto grab/i && last;
+    }
+    return(0);
+}
+
+# This routine parses "show tech transceivers"
+sub ShowTechTransceivers {
+    print STDERR "    In ShowTransceivers: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(-1) if (/command authorization failed/i);
+	return(1) if /^(Invalid|Ambiguous) input:/i;
+
+	s/ Technical Information//i;
+
+	ProcessHistory("COMMENTS","keysort","G0",";$_");
     }
     return(0);
 }
@@ -474,6 +508,8 @@ sub DoNothing {print STDOUT;}
 	{'show system information'	=> 'ShowSystem'},
 	{'show module'			=> 'ShowModule'},
 	{'show stack'			=> 'ShowStack'},
+	{'show tech transceivers'	=> 'ShowTechTransceivers'},
+	{'show config files'		=> 'ShowConfigFiles'},
 	{'write term'			=> 'WriteTerm'}
 );
 # Use an array to preserve the order of the commands and a hash for mapping
@@ -539,7 +575,9 @@ ProcessHistory("COMMENTS","keysort","C0",";\n");	# showversion
 ProcessHistory("COMMENTS","keysort","D0",";\n");	# showflash
 ProcessHistory("COMMENTS","keysort","E0",";\n");	# showmodule
 ProcessHistory("COMMENTS","keysort","F0",";\n");	# showstack
-ProcessHistory("COMMENTS","keysort","G0",";\n");
+ProcessHistory("COMMENTS","keysort","G0",";\n");	# showtechtransceivers
+ProcessHistory("COMMENTS","keysort","H0",";\n");	# showconfigfiles
+ProcessHistory("COMMENTS","keysort","I0",";\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
     if (/$prompt\s*exit\s*$/i) {

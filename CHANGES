@@ -1,4 +1,7 @@
 2.3.7
+	arancid: filter "esecret" lines which change with each config display -
+	Ton
+
 	hlogin: logout from enabled mode instead of exit for -S - Thorsten Hahn
 
 	hrancid: collect show config files and show tech transceivers - Thorsten

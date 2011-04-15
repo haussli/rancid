@@ -210,6 +210,7 @@ sub WriteTerm {
 
 	next if (/^\/\* Configuration dump taken/i);
 	next if (/^\/\* Version.*Base MAC.*/i);
+	next if (/^ *esecret /);
 
 	if (/^\/?script end/) {
 	    $found_end = 1;

@@ -1671,7 +1671,7 @@ sub WriteTerm {
 	    ProcessHistory("","","","! neighbor $1 password <removed>\n");
 	    next;
 	}
-	if (/^(ppp .* password) 7 .*/ && $filter_pwds >= 1) {
+	if (/^(\s*ppp .* password) 7 .*/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
 	if (/^(ip ftp password) / && $filter_pwds >= 1) {

@@ -1,4 +1,6 @@
 2.3.7
+	mt{login,rancid}: import Microtik module from Chris Boot
+
 	rancid: ppp password missed on dialer interfaces - noted by Hirofumi
 	Katou
 

@@ -1,4 +1,6 @@
 2.3.7
+	rancid: adjust regex for tacacs key match - Pavel Korovin
+
 	*login: join sshcmd clogin directive to handle spaces properly
 
 	mt{login,rancid}: import Microtik module from Chris Boot

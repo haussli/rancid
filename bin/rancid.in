@@ -1919,6 +1919,7 @@ sub DoNothing {print STDOUT;}
 	{'dir /all harddisk:'		=> 'DirSlotN'},
 	{'dir /all harddiska:'		=> 'DirSlotN'},
 	{'dir /all harddiskb:'		=> 'DirSlotN'},
+	{'dir /all sup-bootdisk:'	=> 'DirSlotN'},		# 6500 sup32
 	{'dir /all sup-bootflash:'	=> 'DirSlotN'},		# cat 6500-ios
 	{'dir /all sup-microcode:'	=> 'DirSlotN'},		# cat 6500-ios
 	{'dir /all slavenvram:'		=> 'DirSlotN'},

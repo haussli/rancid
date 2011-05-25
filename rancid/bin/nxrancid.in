@@ -169,7 +169,7 @@ sub ShowVersion {
 
     while (<INPUT>) {
 	tr/\015//d;
-	if (/^$prompt/) { last};
+	if (/^$prompt/) { last };
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
@@ -180,7 +180,7 @@ sub ShowVersion {
 	if (/^Software$/) {
 	    while (<INPUT>) {
 		tr/\015//d;
-		if (/^$prompt/) { last};
+		if (/^$prompt/) { last };
 		next if (/^\s*$cmd\s*$/);
 
 		if (/^$/) {
@@ -193,7 +193,7 @@ EndSoftware:
 	if (/^Hardware$/) {
 	    while (<INPUT>) {
 		tr/\015//d;
-		if (/^$prompt/) { last};
+		if (/^$prompt/) { last };
 		next if (/^\s*$cmd\s*$/);
 
 		if (/^$/) {
@@ -235,7 +235,7 @@ sub ShowVersionBuild {
 
     while (<INPUT>) {
 	tr/\015//d;
-	if (/^$prompt/) { last};
+	if (/^$prompt/) { last };
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
@@ -318,7 +318,7 @@ sub ShowEnvTemp {
 
     while (<INPUT>) {
 	tr/\015//d;
-	if (/^$prompt/) { last};
+	if (/^$prompt/) { last };
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
@@ -346,7 +346,7 @@ sub ShowEnvPower {
 
     while (<INPUT>) {
 	tr/\015//d;
-	if (/^$prompt/) { last};
+	if (/^$prompt/) { last };
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;

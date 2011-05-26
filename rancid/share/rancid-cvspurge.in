@@ -66,7 +66,7 @@ elif [ "$LIST_OF_GROUPS" = "" ] ; then
 fi
 
 for GROUP in $LIST_OF_GROUPS; do
-    cd $BASEDIR/$GROUP/configs
+    cd $BASEDIR/$GROUP/configs > /dev/null 2>&1
     if [ $? -ne 0 ] ; then
 	echo "$BASEDIR/$GROUP/configs not found" >&2
 	continue;

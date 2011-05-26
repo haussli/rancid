@@ -54,23 +54,27 @@ ENVFILE="@sysconfdir@/rancid.conf"
 . $ENVFILE
 
 if [ $RCSSYS != "cvs" ] ; then
-    echo "$0 is for CVS only.  RCSSYS is not set to CVS in rancid.conf."
+    echo "$0 is for CVS only.  RCSSYS is not set to CVS in rancid.conf." >&2
     exit 1
 fi
 
 if [ $# -ge 1 ] ; then
     LIST_OF_GROUPS="$*"
 elif [ "$LIST_OF_GROUPS" = "" ] ; then
-    echo "LIST_OF_GROUPS is empty in $ENVFILE"
+    echo "LIST_OF_GROUPS is empty in $ENVFILE" >&2
     exit 1
 fi
 
 for GROUP in $LIST_OF_GROUPS; do
     cd $BASEDIR/$GROUP/configs
+    if [ $? -ne 0 ] ; then
+	echo "$BASEDIR/$GROUP/configs not found" >&2
+	continue;
+    fi
     for ENTRY in `grep ^/ CVS/Entries | cut -d/ -f2,3`
     do 
-         ROUTER=`echo $ENTRY | cut -d/ -f1`
-         VERSION=`echo $ENTRY | cut -d/ -f2`
-         cvs admin -o ::$VERSION $ROUTER
+	ROUTER=`echo $ENTRY | cut -d/ -f1`
+	VERSION=`echo $ENTRY | cut -d/ -f2`
+	cvs admin -o ::$VERSION $ROUTER
     done
 done

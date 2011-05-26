@@ -1,9 +1,8 @@
-## Process this file with automake to produce Makefile.in
-## A Makefile.in is supplied, in case you do not have automake.
-
-## $Id$
+#! /bin/sh
 ##
-## Copyright (c) 1997-2008 by Terrapin Communications, Inc.
+## $Id: downreport.in 2096 2009-06-17 21:49:46Z heas $
+##
+## Copyright (c) 1997-2007 by Terrapin Communications, Inc.
 ## All rights reserved.
 ##
 ## This code is derived from software contributed to and maintained by
@@ -44,41 +43,34 @@
 # 
 #  The original looking glass software was written by Ed Kern, provided by
 #  permission and modified beyond recognition.
-
-#AUTOMAKE_OPTIONS=foreign no-dependencies
-AUTOMAKE_OPTIONS=foreign
-
-pkgdata_SCRIPTS= rancid-cvspurge rtrfilter downreport
-dist_pkgdata_SCRIPTS=getipacctg
-dist_pkgdata_DATA=README.misc cisco-load.exp cisco-reload.exp \
-	index.html lgnotes.html
-
-EXTRA_DIST = rancid-cvspurge.in rancid.spec rtrfilter.in downreport.in
-
-CLEANFILES= rancid-cvspurge downreport
-
-all:
-
-# auto_edit does the autoconf variable substitution.  This allows the
-# substitution to have the full expansion of the variables, e.g.: $sysconfdir
-# will be /prefix/etc instead of ${prefix}/etc.
 #
-# This is a bit of a PITA, but is the method recommended by the autoconf
-# documentation.
-auto_edit = sed \
-	-e 's,@prefix\@,$(prefix),g' \
-	-e 's,@localstatedir\@,$(localstatedir),g' \
-	-e 's,@sysconfdir\@,$(sysconfdir),g' \
-	-e 's,@pkgdatadir\@,$(pkgdatadir),g'
+# Purges old versions of configurations from the CVS repostiory.
+#
+# From Matthew J. Grossman
+#
 
-downreport: Makefile $(srcdir)/downreport.in
-	rm -f downreport downreport.tmp; \
-	$(auto_edit) $(srcdir)/downreport.in >downreport.tmp; \
-	chmod +x downreport.tmp; \
-	mv downreport.tmp downreport
+ENVFILE="@sysconfdir@/rancid.conf"
 
-rancid-cvspurge: Makefile $(srcdir)/rancid-cvspurge.in
-	rm -f rancid-cvspurge rancid-cvspurge.tmp; \
-	$(auto_edit) $(srcdir)/rancid-cvspurge.in >rancid-cvspurge.tmp; \
-	chmod +x rancid-cvspurge.tmp; \
-	mv rancid-cvspurge.tmp rancid-cvspurge
+. $ENVFILE
+
+if [ $RCSSYS != "cvs" ] ; then
+    echo "$0 is for CVS only.  RCSSYS is not set to CVS in rancid.conf."
+    exit 1
+fi
+
+if [ $# -ge 1 ] ; then
+    LIST_OF_GROUPS="$*"
+elif [ "$LIST_OF_GROUPS" = "" ] ; then
+    echo "LIST_OF_GROUPS is empty in $ENVFILE"
+    exit 1
+fi
+
+for GROUP in $LIST_OF_GROUPS; do
+    cd $BASEDIR/$GROUP/configs
+    for ENTRY in `grep ^/ CVS/Entries | cut -d/ -f2,3`
+    do 
+         ROUTER=`echo $ENTRY | cut -d/ -f1`
+         VERSION=`echo $ENTRY | cut -d/ -f2`
+         cvs admin -o ::$VERSION $ROUTER
+    done
+done

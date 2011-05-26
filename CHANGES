@@ -1,4 +1,6 @@
 2.3.7
+	import share/rancid-cvspurge - Matthew Grossman
+
 	rancid: add 'dir /all sup-bootdisk:' for 6500 sup32 - Lee
 
 	rancid: adjust regex for tacacs key match - Pavel Korovin

@@ -1,4 +1,6 @@
 2.3.7
+	clogin: respond to ASA's pager in long login banners - Lee
+
 	clogin: set terminal width to 132
 
 	rancid: match flash memory on likes of Cisco 2811 and 2621XM - Pan Affa

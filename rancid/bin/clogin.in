@@ -620,21 +620,9 @@ proc run_commands { prompt command } {
     # skip if its an extreme (since the pager can not be disabled on a
     # per-vty basis).
     if { [ string compare "extreme" "$platform" ] } {
-	if [ regexp -- ".*> .*enable" "$prompt" ] {
-	    send "set length 0\r"
-	    # This is ugly, but reduces code duplication, allowing the
-	    # subsequent expects to handle everything as normal.
-	    set command "set logging session disable;$command"
-	} else {
-	    send "terminal length 0\r"
-	}
 	# match cisco config mode prompts too, such as router(config-if)#,
 	# but catalyst does not change in this fashion.
 	regsub -all {^(.{1,11}).*([#>])$} $prompt {\1([^#>\r\n]+)?[#>](\\([^)\\r\\n]+\\))?} reprompt
-	expect {
-	    -re $reprompt	{}
-	    -re "\[\n\r]+"	{ exp_continue }
-	}
     } else {
 	set reprompt $prompt
     }
@@ -908,13 +896,7 @@ foreach router [lrange $argv $i end] {
 				  regsub -all "\[\]\[\(\)]" $junk {\\&} prompt;
 				}
     }
-
-    if { $do_command } {
-	if {[run_commands $prompt $command]} {
-	    incr exitval
-	    continue
-	}
-    } elseif { $do_script } {
+    if { $do_command || $do_script } {
 	# If the prompt is (enable), then we are on a switch and the
 	# command is "set length 0"; otherwise its "terminal length 0".
 	if [ regexp -- ".*> .*enable" "$prompt" ] {
@@ -929,6 +911,13 @@ foreach router [lrange $argv $i end] {
 	    send "terminal width 132\r"
 	}
 	expect -re $prompt	{}
+    }
+    if { $do_command } {
+	if {[run_commands $prompt $command]} {
+	    incr exitval
+	    continue
+	}
+    } elseif { $do_script } {
 	source $sfile
 	catch {close};
     } else {

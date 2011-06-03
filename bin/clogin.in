@@ -915,13 +915,13 @@ foreach router [lrange $argv $i end] {
 	if [ regexp -- ".*> .*enable" "$prompt" ] {
 	    send "set length 0\r"
 	    expect -re $prompt  {}
-	    send "set width 80\r"
+	    send "set width 132\r"
 	    expect -re $prompt	{}
 	    send "set logging session disable\r"
 	} else {
 	    send "terminal length 0\r"
 	    expect -re $prompt  {}
-	    send "terminal width 80\r"
+	    send "terminal width 132\r"
 	}
 	expect -re $prompt	{}
 	source $sfile

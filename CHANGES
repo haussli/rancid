@@ -1,4 +1,6 @@
 2.3.7
+	clogin; set terminal width to 132 for both -s and -c
+
 	clogin: respond to ASA's pager in long login banners - Lee
 
 	clogin: set terminal width to 132

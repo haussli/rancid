@@ -1,4 +1,6 @@
 2.3.7
+	clogin: set terminal width to 132
+
 	rancid: match flash memory on likes of Cisco 2811 and 2621XM - Pan Affa
 
 	import share/rancid-cvspurge - Matthew Grossman

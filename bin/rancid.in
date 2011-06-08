@@ -1698,7 +1698,7 @@ sub WriteTerm {
 	    && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
-	if (/^((crypto )?isakmp key) \S+ / && $filter_pwds >= 1) {
+	if (/^((crypto )?isakmp key) (\d )?\S+ / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed> $'"); next;
 	}
 	# filter HSRP passwords

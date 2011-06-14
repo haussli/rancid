@@ -648,7 +648,7 @@ proc run_commands { prompt command } {
 						  send " "
 						  exp_continue
 						}
-	    -re "\[\n\r]+"			{ send_user -- "$expect_out(buffer)"
+	    -re "\[^\r\n]*\[\n\r]+"		{ send_user -- "$expect_out(buffer)"
 						  exp_continue
 						}
 	    -re "\[^\r\n]*Press <SPACE> to cont\[^\r\n]*"	{

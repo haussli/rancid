@@ -1,4 +1,6 @@
 2.3.7
+	arancid: /info/sys -> /info/sys/dump - Tim Frost
+
 	rancid: correct isakmp key filter - Pan Affa
 
 	clogin; set terminal width to 132 for both -s and -c

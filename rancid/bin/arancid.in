@@ -228,7 +228,7 @@ sub DoNothing {print STDOUT;}
 
 # Main
 @commandtable = (
-	{'/info/sys'		=> 'ShowVersion'},
+	{'/info/sys/dump'	=> 'ShowVersion'},
 	{'/cfg/dump'		=> 'WriteTerm'}
 );
 # Use an array to preserve the order of the commands and a hash for mapping

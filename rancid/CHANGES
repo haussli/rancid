@@ -1,4 +1,6 @@
 2.3.7
+	xrrancid: add admin show running - Troy Boudreau
+
 	arancid: /info/sys -> /info/sys/dump - Tim Frost
 
 	rancid: correct isakmp key filter - Pan Affa

@@ -550,7 +550,8 @@ foreach router [lrange $argv $i end] {
 	continue
     }
 
-    # we are logged in, now figure out the full prompt based on what the device sends us.
+    # we are logged in, now figure out the full prompt based on what the
+    # device sends us.
     send "\r"
     expect {
 	-re "\[\r\n]+"		{ exp_continue; }

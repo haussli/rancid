@@ -1,4 +1,6 @@
 2.3.7
+	nxrancid: Nexus 4000s don't support 'show environment power' - Lee
+
 	xrrancid: add admin show running - Troy Boudreau
 
 	arancid: /info/sys -> /info/sys/dump - Tim Frost

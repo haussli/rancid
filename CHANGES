@@ -1,4 +1,6 @@
 2.3.7
+	*login: dont split $sshcmd
+
 	nxrancid: Nexus 4000s don't support 'show environment power' - Lee
 
 	xrrancid: add admin show running - Troy Boudreau

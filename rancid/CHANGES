@@ -1,4 +1,6 @@
 2.3.7
+	nxrancid: add show environment fex all fan cmd - Deny IP Any Any
+
 	*login: dont split $sshcmd
 
 	nxrancid: Nexus 4000s don't support 'show environment power' - Lee

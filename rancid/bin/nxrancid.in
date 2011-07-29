@@ -1029,6 +1029,7 @@ sub DoNothing {print STDOUT;}
 	{'show system redundancy status' => 'ShowRedundancy'},
 	{'show environment clock'	=> 'ShowEnv'},
 	{'show environment fan'		=> 'ShowEnv'},
+	{'show environment fex all fan'	=> 'ShowEnv'},
 	{'show environment temperature'	=> 'ShowEnvTemp'},
 	{'show environment power'	=> 'ShowEnvPower'},
 	{'show boot'			=> 'ShowBoot'},

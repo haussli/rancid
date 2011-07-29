@@ -307,7 +307,7 @@ proc login { router user passwd cmethod cyphertype identfile} {
 	    # We use two calls to spawn since spawn does not seem to parse
 	    # spaces correctly.
 	    regexp {ssh(:([^[:space:]]+))*} $prog methcmd suffix port
-	    set cmd [join [lindex $sshcmd 0] " "]
+	    set cmd $sshcmd
 	    if {"$port" != ""} {
 		set cmd "$cmd -p $port"
 	    }

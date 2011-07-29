@@ -317,13 +317,13 @@ proc login { router user userpswd passwd prompt cmethod cyphertype } {
 	    }
 	} elseif ![string compare $prog "ssh"] {
 	    regexp {ssh(:([^[:space:]]+))*} $prog methcmd suffix port
-            set cmd [join [lindex $sshcmd 0] " "]
+            set cmd $sshcmd
             if {"$port" != ""} {
                 set cmd "$cmd -p $port"
             }
 	    set retval [ catch {eval spawn [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason ]
 	    if { $retval } {
-		send_user "\nError: $sshcmd failed: $reason\n"
+		send_user "\nError: $cmd failed: $reason\n"
 		return 1
 	    }
 	} elseif ![string compare $prog "rsh"] {

@@ -1,4 +1,6 @@
 2.3.7
+	hrancid: collect show config status - mostly from Per-Olof Olsson
+
 	nxrancid: add show environment fex all fan cmd - Deny IP Any Any
 
 	*login: dont split $sshcmd

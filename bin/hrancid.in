@@ -317,6 +317,25 @@ sub ShowTechTransceivers {
     return(0);
 }
 
+# This routine parses "show config status"
+sub ShowConfigStatus {
+    print STDERR "    In ShowConfigStatus: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(-1) if (/command authorization failed/i);
+	return(1) if /^(Invalid|Ambiguous) input:/i;
+
+	next if (/^Running configuration is same as /);
+	next if (/^$/);
+
+	ProcessHistory("COMMENTS","keysort","H0","; $_");
+    }
+    return(0);
+}
+
 # This routine processes a "write term"
 sub WriteTerm {
     print STDERR "    In WriteTerm: $_" if ($debug);
@@ -510,6 +529,7 @@ sub DoNothing {print STDOUT;}
 	{'show stack'			=> 'ShowStack'},
 	{'show tech transceivers'	=> 'ShowTechTransceivers'},
 	{'show config files'		=> 'ShowConfigFiles'},
+	{'show config status'		=> 'ShowConfigStatus'},
 	{'write term'			=> 'WriteTerm'}
 );
 # Use an array to preserve the order of the commands and a hash for mapping

@@ -355,6 +355,7 @@ sub WriteTerm {
 	s/\$(Revision|Id):/ $1:/;
 	/^; (\S+) configuration editor;/i &&
 	    ProcessHistory("COMMENTS","keysort","A0",";Chassis type: $1\n") &&
+	    ProcessHistory("","","",";\n;Running config file:\n$_") &&
 	    next;
 
 	# order logging statements - doesnt appear to do syslog as of right now

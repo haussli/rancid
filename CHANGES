@@ -1,4 +1,6 @@
 2.3.7
+	hrancid: include comment line for procurve parser - Per-Olof Olsson
+
 	hrancid: collect show config status - mostly from Per-Olof Olsson
 
 	nxrancid: add show environment fex all fan cmd - Deny IP Any Any

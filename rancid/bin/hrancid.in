@@ -342,6 +342,10 @@ sub WriteTerm {
 
     while (<INPUT>) {
 	tr/\015//d;
+	if (/$prompt\s*(exit|logout)\s*$/i) {
+	    $clean_run=1;
+	    last;
+	}
 	last if(/^$prompt/);
 	return(-1) if (/command authorization failed/i);
 	# the pager can not be disabled per-session
@@ -601,7 +605,7 @@ ProcessHistory("COMMENTS","keysort","H0",";\n");	# showconfigfiles
 ProcessHistory("COMMENTS","keysort","I0",";\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
-    if (/$prompt\s*exit\s*$/i) {
+    if (/$prompt\s*(exit|logout)\s*$/i) {
 	$clean_run=1;
 	last;
     }

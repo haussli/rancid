@@ -344,7 +344,7 @@ sub WriteTerm {
 	tr/\015//d;
 	last if(/^$prompt/);
 	return(-1) if (/command authorization failed/i);
-	# the pager can not be disabled per-session on the PIX
+	# the pager can not be disabled per-session
 	s/^<-+ More -+>\s*//;
 	s/^$/;/;
 

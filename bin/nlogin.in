@@ -280,17 +280,18 @@ proc source_password_file { password_file } {
 
 # Log into the firewall.
 # returns: 0 on success, 1 on failure
-proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype } {
-    global spawn_id in_proc do_command do_script sshcmd
+proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile } {
+    global command spawn_id in_proc do_command do_script passphrase
+    global prompt prompt_match u_prompt p_prompt sshcmd
     set in_proc 1
     set uprompt_seen 0
 
-    # Telnet to the firewall & try to login.
+    # try each of the connection methods in $cmethod until one is successful
     set progs [llength $cmethod]
     foreach prog [lrange $cmethod 0 end] {
 	incr progs -1
 	if [string match "telnet*" $prog] {
-	    regexp {telnet(:([^[:space:]]+))*} $prog command suffix port
+	    regexp {telnet(:([^[:space:]]+))*} $prog methcmd suffix port
 	    if {"$port" == ""} {
 		set retval [catch {spawn telnet $router} reason]
 	    } else {
@@ -301,10 +302,14 @@ proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype } {
 		return 1
 	    }
 	} elseif [string match "ssh*" $prog] {
+	    # ssh to the router & try to login with or without an identfile.
 	    regexp {ssh(:([^[:space:]]+))*} $prog methcmd suffix port
 	    set cmd $sshcmd
 	    if {"$port" != ""} {
 		set cmd "$cmd -p $port"
+	    }
+	    if {"$identfile" != ""} {
+		set cmd "$cmd -i $identfile"
 	    }
 	    set retval [catch {eval spawn [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason]
 	    if { $retval } {
@@ -526,6 +531,9 @@ foreach router [lrange $argv $i end] {
       if { "$userpswd" == "" } { set userpswd $passwd }
     }
 
+    # Figure out identity file to use
+    set identfile [join [lindex [find identity $router] 0] ""]
+
     # Figure out cypher type
     if {[info exists cypher]} {
 	# command line cypher type
@@ -544,7 +552,7 @@ foreach router [lrange $argv $i end] {
     if { "$sshcmd" == "" } { set sshcmd {ssh} }
 
     # Login to the router
-    if {[login $router $ruser $userpswd $passwd $enapasswd $prompt $cmethod $cyphertype]} {
+    if {[login $router $ruser $userpswd $passwd $enapasswd $cmethod $cyphertype $identfile]} {
 	incr exitval
 	# if login failed, move on to the next device
 	continue

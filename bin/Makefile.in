@@ -138,6 +138,7 @@ CCDEPMODE = @CCDEPMODE@
 #CFLAGS += -g
 CFLAGS = -g -O0
 COMM = @COMM@
+COPYYEARS = @COPYYEARS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CVS = @CVS@
@@ -285,7 +286,8 @@ auto_edit = sed \
 	-e 's,@MAILPLUS\@,$(MAILPLUS),g' \
 	-e 's,@PACKAGE\@,$(PACKAGE),g' \
 	-e 's,@SVN_FSTYPE\@,$(SVN_FSTYPE),g' \
-	-e 's,@VERSION\@,$(VERSION),g'
+	-e 's,@VERSION\@,$(VERSION),g' \
+	-e 's,@COPYYEARS\@,$(COPYYEARS),g'
 
 all: all-am
 

@@ -669,6 +669,7 @@ am__isrc
 INSTALL_DATA
 INSTALL_SCRIPT
 INSTALL_PROGRAM
+COPYYEARS
 PACKAGE
 VERSION
 target_alias
@@ -2204,6 +2205,8 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 VERSION=`sed -n 's/.*version.*"\(.*\)".*/\1/p' $srcdir/include/version.h.in|tr -d ' '`
 PACKAGE=`sed -n 's/.*package.*"\(.*\)".*/\1/p' $srcdir/include/version.h.in|tr -d ' '`
 
+
+COPYYEARS="1997-2011"
 
 
 am__api_version='1.11'

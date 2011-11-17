@@ -384,7 +384,8 @@ proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype } {
 	-re "(Host key not found |The authenticity of host .* be established).*\(yes\/no\)\?" {
 	    send "yes\r"
 	    send_user "\nHost $router added to the list of known hosts.\n"
-	    exp_continue }
+	    exp_continue
+	}
 	-re "HOST IDENTIFICATION HAS CHANGED.* \(yes\/no\)\?" {
 	    send "no\r"
 	    send_user "\nError: The host key for $router has changed.  Update the SSH known_hosts file accordingly.\n"
@@ -402,7 +403,7 @@ proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype } {
 				  catch {close}; catch {wait}; return 1
 				}
 	"Login failed"		{
-				  send_user "\nError: Check your passwd for $router\n";
+				  send_user "\nError: Check your passwd for $router\n"
 				  catch {close}; catch {wait}; return 1
 				 }
 	-re "(login:)"			{
@@ -429,6 +430,7 @@ proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype } {
 	-- "$prompt"			{ break; }
      }
     }
+
     set in_proc 0
     return 0
 }
@@ -444,7 +446,7 @@ proc run_commands { prompt command } {
     set commands [split $command \;]
     set num_commands [llength $commands]
     for {set i 0} {$i < $num_commands} { incr i} {
-	send -- "[subst [lindex $commands $i]]\r"
+	send -- "[subst -nocommands [lindex $commands $i]]\r"
 	expect {
 	    -re "\[\n\r]+"			{ exp_continue }
 	    -re "$prompt"			{}
@@ -480,7 +482,7 @@ set in_proc 0
 set exitval 0
 foreach router [lrange $argv $i end] {
     set router [string tolower $router]
-    send_user "$router\n"
+    send_user -- "$router\n"
 
     # device timeout
     set timeout [find timeout $router]
@@ -492,13 +494,13 @@ foreach router [lrange $argv $i end] {
 
     # Figure out passwords
     if { $do_passwd || $do_enapasswd } {
-      set pswd [find password $router]
-      if { [llength $pswd] == 0 } {
-	send_user "\nError: no password for $router in $password_file.\n"
-	continue
-      }
-     set passwd [join [lindex $pswd 0] ""]
-     set enapasswd [join [lindex $pswd 1]  ""]
+	set pswd [find password $router]
+	if { [llength $pswd] == 0 } {
+	    send_user -- "\nError: no password for $router in $password_file.\n"
+	    continue
+	}
+	set passwd [join [lindex $pswd 0] ""]
+	set enapasswd [join [lindex $pswd 1]  ""]
     } else {
 	set passwd $userpasswd
 	set enapasswd $enapasswd
@@ -522,14 +524,13 @@ foreach router [lrange $argv $i end] {
       if { "$userpswd" == "" } { set userpswd $passwd }
     }
 
-
     # Figure out cypher type
     if {[info exists cypher]} {
-      # command line cypher type
-      set cyphertype $cypher
+	# command line cypher type
+	set cyphertype $cypher
     } else {
-      set cyphertype [find cyphertype $router]
-      if { "$cyphertype" == "" } { set cyphertype "3des" }
+	set cyphertype [find cyphertype $router]
+	if { "$cyphertype" == "" } { set cyphertype "3des" }
     }
 
     # Figure out connection method

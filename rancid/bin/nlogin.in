@@ -162,9 +162,11 @@ for {set i 0} {$i < $argc} {incr i} {
 		incr i
 		set password_file [lindex $argv $i]
 	    }
+	# Timeout
 	} -t* {
 	    incr i
 	    set timeoutdflt [lindex $argv $i]
+	# Command file
 	} -x* {
 	    if {! [regexp .\[xX\](.+) $arg ignore cmd_file]} {
 		incr i
@@ -229,8 +231,8 @@ proc label { host } {
 
 # This is a helper function to make the password file easier to
 # maintain.  Using this the password file has the form:
-# add password sl* 	pete cow
-# add password at* 	steve
+# add password sl*	pete cow
+# add password at*	steve
 # add password *	hanky-pie
 proc add {var args} { global int_$var ; lappend int_$var $args}
 proc include {args} {
@@ -544,6 +546,7 @@ foreach router [lrange $argv $i end] {
     # Login to the router
     if {[login $router $ruser $userpswd $passwd $enapasswd $prompt $cmethod $cyphertype]} {
 	incr exitval
+	# if login failed, move on to the next device
 	continue
     }
 

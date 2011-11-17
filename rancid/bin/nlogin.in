@@ -151,11 +151,11 @@ for {set i 0} {$i < $argc} {incr i} {
 	} -S* {
 	    set do_saveconfig 1
 	# cypher type
-        } -y* {
-            if {! [regexp .\[eE\](.+) $arg ignore cypher]} {
-                incr i
-                set cypher [lindex $argv $i]
-            }
+	} -y* {
+	    if {! [regexp .\[eE\](.+) $arg ignore cypher]} {
+		incr i
+		set cypher [lindex $argv $i]
+	    }
 	# alternate cloginrc file
 	} -f* {
 	    if {! [regexp .\[fF\](.+) $arg ignore password_file]} {
@@ -165,25 +165,25 @@ for {set i 0} {$i < $argc} {incr i} {
 	} -t* {
 	    incr i
 	    set timeoutdflt [lindex $argv $i]
-        } -x* {
-            if {! [regexp .\[xX\](.+) $arg ignore cmd_file]} {
-                incr i
-                set cmd_file [lindex $argv $i]
-            }
+	} -x* {
+	    if {! [regexp .\[xX\](.+) $arg ignore cmd_file]} {
+		incr i
+		set cmd_file [lindex $argv $i]
+	    }
 	    if [catch {set cmd_fd [open $cmd_file r]} reason] {
 		send_user "\nError: $reason\n"
 		exit 1
 	    }
-            set cmd_text [read $cmd_fd]
-            close $cmd_fd
-            set command [join [split $cmd_text \n] \;]
-            set do_command 1
+	    set cmd_text [read $cmd_fd]
+	    close $cmd_fd
+	    set command [join [split $cmd_text \n] \;]
+	    set do_command 1
 	# Version string
 	} -V* {
 	    send_user "@PACKAGE@ @VERSION@\n"
 	    exit 0
 	# Does tacacs automatically enable us?
-        } -autoenable {
+	} -autoenable {
 	    # ignore autoenable
 	} -* {
 	    send_user "\nError: Unknown argument! $arg\n"
@@ -223,7 +223,7 @@ proc label { host } {
 	if [regexp \^(xterm|vs) $env(TERM) ignore ] {
 	    send_user "\033]1;[lindex [split $host "."] 0]\a"
 	    send_user "\033]2;$host\a"
-        }
+	}
     }
 }
 
@@ -328,19 +328,19 @@ proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype } {
 	    send_user "\nError: TIMEOUT reached\n"
 	    catch {close}; catch {wait};
 	    if { $in_proc} {
-	        return 1
+		return 1
 	    } else {
-	        continue
+		continue
 	    }
-        } eof {
+	} eof {
 	    send_user "\nError: EOF received\n"
 	    catch {close}; catch {wait};
 	    if { $in_proc} {
-	        return 1
+		return 1
 	    } else {
-	        continue
+		continue
 	    }
-        }
+	}
     }
 
     # Here we get a little tricky.  There are several possibilities:
@@ -447,7 +447,7 @@ proc run_commands { prompt command } {
 	send -- "[subst [lindex $commands $i]]\r"
 	expect {
 	    -re "\[\n\r]+"			{ exp_continue }
-            -re "$prompt"			{}
+	    -re "$prompt"			{}
 	    -gl "--- more ---"			{ send " "
 						  exp_continue
 						}
@@ -494,8 +494,8 @@ foreach router [lrange $argv $i end] {
     if { $do_passwd || $do_enapasswd } {
       set pswd [find password $router]
       if { [llength $pswd] == 0 } {
-        send_user "\nError: no password for $router in $password_file.\n"
-        continue
+	send_user "\nError: no password for $router in $password_file.\n"
+	continue
       }
      set passwd [join [lindex $pswd 0] ""]
      set enapasswd [join [lindex $pswd 1]  ""]

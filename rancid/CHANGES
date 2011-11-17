@@ -1,4 +1,6 @@
 2.3.7
+	nlogin: add identfile support - Garry Shtern
+
 	hrancid: match 'logout' in new procurve versions for end of run
 
 	hrancid: include comment line for procurve parser - Per-Olof Olsson

@@ -1,4 +1,6 @@
 2.3.7
+	rancid.conf: add LC_COLLATE - Daniel Schmidt
+
 	nlogin: add identfile support - Garry Shtern
 
 	hrancid: match 'logout' in new procurve versions for end of run

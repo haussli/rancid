@@ -5,6 +5,9 @@
 #
 TERM=network;export TERM
 #
+# Collating locale
+LC_COLLATE="POSIX"; export LC_COLLATE
+#
 # Create files w/o world read/write/exec permissions, but read/exec permissions
 # for group.
 umask 027

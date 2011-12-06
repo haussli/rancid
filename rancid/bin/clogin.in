@@ -633,8 +633,8 @@ proc run_commands { prompt command } {
     set commands [split $command \;]
     set num_commands [llength $commands]
     # the pager can not be turned off on the PIX, so we have to look
-    # for the "More" prompt.  the extreme is equally obnoxious, with a
-    # global switch in the config.
+    # for the "More" prompt.  the extreme is equally obnoxious in pre-12.3 XOS,
+    # with a global switch in the config.
     for {set i 0} {$i < $num_commands} { incr i} {
 	send -- "[subst -nocommands [lindex $commands $i]]\r"
 	expect {
@@ -897,20 +897,25 @@ foreach router [lrange $argv $i end] {
 				}
     }
     if { $do_command || $do_script } {
-	# If the prompt is (enable), then we are on a switch and the
-	# command is "set length 0"; otherwise its "terminal length 0".
-	if [regexp -- ".*> .*enable" "$prompt"] {
-	    send "set length 0\r"
-	    expect -re $prompt  {}
-	    send "set width 132\r"
-	    expect -re $prompt	{}
-	    send "set logging session disable\r"
+	if { [ string compare "extreme" "$platform" ] } {
+	    # If the prompt is (enable), then we are on a switch and the
+	    # command is "set length 0"; otherwise its "terminal length 0".
+	    if [regexp -- ".*> .*enable" "$prompt"] {
+		send "set length 0\r"
+		expect -re $prompt  	{}
+		send "set width 132\r"
+		expect -re $prompt	{}
+		send "set logging session disable\r"
+	    } else {
+		send "terminal length 0\r"
+		expect -re $prompt  	{}
+		send "terminal width 132\r"
+	    }
+	    expect -re $prompt		{}
 	} else {
-	    send "terminal length 0\r"
-	    expect -re $prompt  {}
-	    send "terminal width 132\r"
+	    send "disable clipaging\r"
+	    expect -re $prompt		{}
 	}
-	expect -re $prompt	{}
     }
     if { $do_command } {
 	if {[run_commands $prompt $command]} {

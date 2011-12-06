@@ -1,4 +1,6 @@
 2.3.7
+	clogin: disable pager for XOS-12.3 - Zenon Mousmoulas
+
 	rancid.conf & control_rancid: support arbitrary subversion URLs as
 	(pre-provisioned) repositories and do not overwrite an existing local
 	 repository - Zenon Mousmoulas

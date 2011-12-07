@@ -1725,6 +1725,7 @@ sub WriteTerm {
 	if (/^( pre-shared-key | key |failover key ).*/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed> $'"); next;
 	}
+	# ASA/PIX keys in more system:running-config
 	if (/(\s+ldap-login-password )\S+(.*)/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed> $'"); next;
 	}
@@ -1953,6 +1954,8 @@ sub DoNothing {print STDOUT;}
 	{'show vlan-switch'		=> 'ShowVLAN'},
 	{'show debug'			=> 'ShowDebug'},
 	{'more system:running-config'	=> 'WriteTerm'},	# ASA/PIX
+	{'show running-config view full'=> 'WriteTerm'},	# workaround for
+								# role-based CLI
 	{'show running-config'		=> 'WriteTerm'},
 	{'write term'			=> 'WriteTerm'},
 );

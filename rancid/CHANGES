@@ -1,4 +1,6 @@
 2.3.7
+	rancid: add 'show running-config view full' for role cli - Pavel Korovin
+
 	rancid: filter ppp hostnames (aka usernames) - Pavel Korovin
 
 	*login: update host key change match for newer ssh

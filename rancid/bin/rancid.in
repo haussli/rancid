@@ -1729,6 +1729,10 @@ sub WriteTerm {
 	if (/(\s+ldap-login-password )\S+(.*)/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed> $'"); next;
 	}
+	# filter WPA password such as on cisco 877W ISR
+	if (/^\s+(wpa-psk ascii|hex \d) / && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>\n"); next;
+	}
 	#
 	if (/^( cable shared-secret )/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n");

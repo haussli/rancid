@@ -1,4 +1,6 @@
 2.3.7
+	rancid-cvs: svn repository handling improvement - Zenon Mousmoulas
+
 	rancid: filter WPA passwd - Pavel Korovin
 
 	rancid: add 'show running-config view full' for role cli - Pavel Korovin

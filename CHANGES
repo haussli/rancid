@@ -1,4 +1,6 @@
 2.3.7
+	rancid: filter ppp hostnames (aka usernames) - Pavel Korovin
+
 	*login: update host key change match for newer ssh
 
 	clogin: disable pager for XOS-12.3 - Zenon Mousmoulas

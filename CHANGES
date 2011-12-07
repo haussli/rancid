@@ -1,4 +1,6 @@
 2.3.7
+	rancid: filter WPA passwd - Pavel Korovin
+
 	rancid: add 'show running-config view full' for role cli - Pavel Korovin
 
 	rancid: filter ppp hostnames (aka usernames) - Pavel Korovin

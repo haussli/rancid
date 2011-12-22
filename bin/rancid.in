@@ -1672,7 +1672,7 @@ sub WriteTerm {
 	    ProcessHistory("","","","! neighbor $1 password <removed>\n");
 	    next;
 	}
-	if (/^(\s*ppp .* (hostname|password \d) .*/ && $filter_pwds >= 1) {
+	if (/^(\s*ppp .* (hostname|password \d)) .*/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
 	if (/^(ip ftp password) / && $filter_pwds >= 1) {

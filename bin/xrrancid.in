@@ -1011,7 +1011,7 @@ sub WriteTerm {
 		    ProcessHistory("EXPATH","keysort","$key","$expath");
 		    $key = $1;
 		    $expath = $_;
-		} else  {
+		} else {
 		    $expath .= $_;
 		}
 	    }
@@ -1028,7 +1028,7 @@ sub WriteTerm {
 		    ProcessHistory("ROUTEMAP","keysort","$key","$routemap");
 		    $key = $1;
 		    $routemap = $_;
-		} else  {
+		} else {
 		    $routemap .= $_;
 		}
 	    }
@@ -1055,7 +1055,7 @@ sub WriteTerm {
 		last if (/^$prompt/ || /^\S/);
 		if (/^\s+(\d+) (permit|deny) /) {
 		    ProcessHistory("ACL $nlri $key","keysort","$2"," $2 $'");
-		} else  {
+		} else {
 		    ProcessHistory("ACL $nlri $key","keysort","$key","$_");
 		}
 	    }

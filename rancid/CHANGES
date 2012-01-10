@@ -1,4 +1,6 @@
 2.3.7
+	xrrancid: fix access-list formatting & sorting
+
 	rancid: collect show capture & shun for ASA - Josh Ward
 
 	xrancid: misc patches for XOS - Zenon Mousmoulas

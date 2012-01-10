@@ -1048,15 +1048,18 @@ sub WriteTerm {
 	    ProcessHistory("EACL $1 $2","$aclsort","0.0.0.0","$_") && next;
 	# sort ipv{4,6} access-lists
 	if (/^ipv(4|6) access-list (\S+)\s*$/) {
-	    my($nlri, $key) = ($1,$2);
-	    ProcessHistory("ACL $nlri $key","keysort","$key","$_");
+	    my($nlri, $key) = ($1, $2);
+	    my($seq, $cmd);
+	    ProcessHistory("ACL $nlri $key","","","$_");
 	    while (<INPUT>) {
 		tr/\015//d;
 		last if (/^$prompt/ || /^\S/);
-		if (/^\s+(\d+) (permit|deny) /) {
-		    ProcessHistory("ACL $nlri $key","keysort","$2"," $2 $'");
+		($seq, $cmd, $misc, $ip) = ($_ =~ /^\s+(\d+) (\w+) (.*\s)(\w+)/);
+		if ($cmd =~ /(permit|deny)/) {
+		    ProcessHistory("ACL $nlri $key $cmd","$aclsort","$ip",
+				   " $cmd $misc$ip\n");
 		} else {
-		    ProcessHistory("ACL $nlri $key","keysort","$key","$_");
+		    ProcessHistory("ACL $nlri $key","",""," $cmd $misc$ip\n");
 		}
 	    }
 	}

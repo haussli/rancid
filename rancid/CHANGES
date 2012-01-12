@@ -1,4 +1,6 @@
 2.3.7
+	rancid: add CR after s/n
+
 	xrrancid: fix access-list formatting & sorting
 
 	rancid: collect show capture & shun for ASA - Josh Ward

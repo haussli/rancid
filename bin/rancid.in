@@ -231,7 +231,7 @@ sub ShowVersion {
 	    ProcessHistory("COMMENTS","keysort","B1", "!Memory: $2\n");
 	}
 	/^serial number:\s+(.*)$/i &&
-	    ProcessHistory("COMMENTS","keysort","C1", "!Serial Number: $1") &&
+	    ProcessHistory("COMMENTS","keysort","C1", "!Serial Number: $1\n") &&
 	    next;
 	# More PIX stuff
 	/^Encryption hardware device\s+:\s+(.*)/ &&

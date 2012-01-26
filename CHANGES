@@ -1,4 +1,6 @@
 2.3.7
+	nrancid: installed memory on Juniper SSG series - Steven Bertsch
+
 	rancid: add CR after s/n
 
 	xrrancid: fix access-list formatting & sorting

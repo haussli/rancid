@@ -191,8 +191,10 @@ sub GetSystem {
 	/^Feature: (\S+)$/ &&
 		ProcessHistory("SYSTEM","","", "#Feature: $1\n") && next;
 	/^File Name: (\S+), Checksum: (\S+)$/ &&
-		ProcessHistory("SYSTEM","","", "#File Name: $1, Checksum: $2\n") && next;
-
+		ProcessHistory("SYSTEM","","", "#File Name: $1, Checksum: $2\n")
+		&& next;
+	/^, Total Memory: (\S+)$/ &&
+		ProcessHistory("SYSTEM","","", "#Memory: $1\n") && next;
     }
     ProcessHistory("SYSTEM","","","#\n");
     return(0);

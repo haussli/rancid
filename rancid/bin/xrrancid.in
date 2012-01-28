@@ -427,7 +427,7 @@ sub AdminShowDiag {
 	/^$/ && next;
 
 	s/^NODE //;
-	# wtf are those?
+	# wtf are these?
 	next if (/(New Deviation|UDI_VID|Board State)/);
 	# skip insertion time
 	next if (/insertion time/i);
@@ -556,41 +556,6 @@ sub ShowEnv {
     return(0);
 }
 
-# This routine parses "show boot"
-sub ShowBoot {
-    # Pick up boot variables if 7000/7200/7500/12000/2900/3500;
-    # otherwise pick up bootflash.
-    print STDERR "    In ShowBoot: $_" if ($debug);
-
-    while (<INPUT>) {
-	tr/\015//d;
-	last if (/^$prompt/);
-	next if (/^(\s*|\s*$cmd\s*)$/);
-	return(1) if (/^\s*\^\s*$/);
-	return(1) if (/Line has invalid autocommand /);
-	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
-	return(1) if (/Ambiguous command/i);
-	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
-	return(-1) if (/command authorization failed/i);
-
-	next if /CONFGEN variable/;
-	if (!defined($H0)) {
-	    $H0 = 1; ProcessHistory("COMMENTS","keysort","H0","!\n");
-	}
-	if ($type !~ /^(12[04]|7)/) {
-	    if ($type !~ /^(29|35)00/) {
-		ProcessHistory("COMMENTS","keysort","H2","!BootFlash: $_");
-	    } else {
-		ProcessHistory("COMMENTS","keysort","H1","!Variable: $_");
-	    }
-	} elsif (/(variable|register)/) {
-	    ProcessHistory("COMMENTS","keysort","H1","!Variable: $_");
-	}
-    }
-    ProcessHistory("COMMENTS","","","!\n");
-    return(0);
-}
-
 # This routine parses "dir /all ((disk|slot)N|bootflash|nvram):"
 sub DirSlotN {
     print STDERR "    In DirSlotN: $_" if ($debug);
@@ -642,6 +607,32 @@ sub DirSlotN {
 	ProcessHistory("FLASH","","","!Flash: $dev: $_");
     }
     ProcessHistory("","","","!\n");
+    return(0);
+}
+
+# This routine parses "admin show variables boot"
+sub ShowBootVar {
+    print STDERR "    In ShowBootVar: $_" if ($debug);
+
+    while (<INPUT>) {
+	# delete non-ascii chars, except new line
+	tr/ -~\n//cd;
+	last if (/^$prompt/);
+	next if (/\s*$cmd\s*$/);
+	return(1) if (/^\s*\^\s*$/);
+	return(1) if (/Line has invalid autocommand /);
+	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/Ambiguous command/i);
+	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
+	return(-1) if (/command authorization failed/i);
+
+	# skip blank lines
+	next if (/^\s*$/);
+
+	ProcessHistory("COMMENTS", "keysort", "A30", "! $_");
+    }
+    ProcessHistory("COMMENTS", "keysort", "A39", "!\n");
+
     return(0);
 }
 
@@ -728,12 +719,39 @@ sub ShowDebug {
     return(0);
 }
 
+# This routine parses "show install summary"
+sub ShowInstallSummary {
+    print STDERR "    In ShowInstallSummary: $_" if ($debug);
+
+    while (<INPUT>) {
+	# delete non-ascii chars, except new line
+	tr/ -~\n//cd;
+	last if (/^$prompt/);
+	next if (/\s*$cmd\s*$/);
+	return(1) if (/^\s*\^\s*$/);
+	return(1) if (/Line has invalid autocommand /);
+	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/Ambiguous command/i);
+	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
+	return(-1) if (/command authorization failed/i);
+
+	# skip blank lines
+	next if (/^\s*$/);
+
+	ProcessHistory("COMMENTS", "keysort", "A10", "! $_");
+    }
+    ProcessHistory("COMMENTS", "keysort", "A19", "!\n");
+
+    return(0);
+}
+
 # This routine parses "show inventory".
 sub ShowInventory {
     print STDERR "    In ShowInventory: $_" if ($debug);
 
     while (<INPUT>) {
-	tr/\015//d;
+	# delete non-ascii chars, except new line
+	tr/ -~\n//cd;
 	return if (/^\s*\^$/);
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -748,15 +766,41 @@ sub ShowInventory {
 	# split PID/VID/SN line
 	if (/^PID: (\S*)\s*, VID: (\S*)\s*, SN: (\S*)\s*$/) {
 	    my($entries) = "";
-	    $entries .= "!PID: $1\n" if ($1);
-	    $entries .= "!VID: $2\n" if ($2);
-	    $entries .= "!SN: $3\n" if ($3);
+	    $entries .= "!PID: $1\n" if ($1 && $1 != "0x");
+	    $entries .= "!VID: $2\n" if ($2 && $2 != "0x");
+	    $entries .= "!SN: $3\n" if ($3 && $3 != "0x");
 	    ProcessHistory("INVENTORY","","", "$entries");
 	    next;
 	}
 	ProcessHistory("INVENTORY","","","!$_");
     }
     ProcessHistory("INVENTORY","","","!\n");
+
+    return(0);
+}
+
+# This routine parses "show license"
+sub ShowLicense {
+    print STDERR "    In ShowLicense: $_" if ($debug);
+
+    while (<INPUT>) {
+	# delete non-ascii chars, except new line
+	tr/ -~\n//cd;
+	last if (/^$prompt/);
+	next if (/\s*$cmd\s*$/);
+	return(1) if (/^\s*\^\s*$/);
+	return(1) if (/Line has invalid autocommand /);
+	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/Ambiguous command/i);
+	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
+	return(-1) if (/command authorization failed/i);
+
+	# skip blank lines
+	next if (/^\s*$/);
+
+	ProcessHistory("COMMENTS", "keysort", "A20", "! $_");
+    }
+    ProcessHistory("COMMENTS", "keysort", "A29", "!\n");
 
     return(0);
 }
@@ -1150,10 +1194,15 @@ sub DoNothing {print STDOUT;}
 	{'terminal exec prompt no-timestamp' => 'FilterAll' },  # XR 3.8 style
 
 	{'admin show version'		=> 'ShowVersion'},
+
+	# XR IMAGE commands
+	{'admin show install summary'	=> 'ShowInstallSummary'},
+	{'admin show license'		=> 'ShowLicense'},
+	{'admin show variables boot'	=> 'ShowBootVar'},
+
 	{'show redundancy secondary'	=> 'ShowRedundancy'},
 	{'show install active'		=> 'ShowInstallActive'},
 	{'admin show env all'		=> 'ShowEnv'},
-	{'admin show variables boot'	=> 'ShowBoot'},
 	{'dir /all nvram:'		=> 'DirSlotN'},
 	{'dir /all bootflash:'		=> 'DirSlotN'},
 	{'dir /all compactflash:'	=> 'DirSlotN'},

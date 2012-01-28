@@ -1,7 +1,11 @@
 2.3.7
 	nrancid: installed memory on Juniper SSG series - Steven Bertsch
 
-	rancid: add CR after s/n
+	rancid: missing CR after s/n
+
+	xrrancid: admin show variables boot clean-up - Per Carlson
+
+	xrrancid: add admin show install summary, license - Per Carlson
 
 	xrrancid: fix access-list formatting & sorting
 

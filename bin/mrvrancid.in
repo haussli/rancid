@@ -202,6 +202,7 @@ sub ShowVersion {
 # This routine parses "show chassis" for the gsr
 # This will create arrays for hw info.
 sub ShowChassis {
+    my($newfmt) = 0;
     # Skip if this is not a 1200n.
     print STDERR "    In ShowChassis: $_" if ($debug);
 
@@ -212,13 +213,22 @@ sub ShowChassis {
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/command authorization failed/i);
 
+	s/\s+$//;
+	$newfmt = 1 if (/\s+Serial Num$/);
+
 	if (/Chassis +Model/ || /=======/) {
-	    ProcessHistory("COMMENTS","keysort","C1","!$_");
+	    ProcessHistory("COMMENTS","keysort","C1","!$_\n");
 	    next;
 	}
 	# Trim the temp from the end of the slot line
-	chomp; s/\s+$//;
-	s/\S+$//;
+	if ($newfmt) {
+	    s/(-?\d+)(\s+\w+)$//;
+	    my($fmt) = "%-" . length($1) . "s";
+	    $_ = $_ . sprintf($fmt, "") . $2;
+	} else {
+	    # the old format
+	    s/\S+$//;
+	}
 	ProcessHistory("COMMENTS","keysort","C1","!$_\n");
     }
     ProcessHistory("COMMENTS","","","!\n");

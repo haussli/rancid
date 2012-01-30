@@ -1,4 +1,6 @@
 2.3.7
+	mrvrancid: update ShowChassis() for temp filtering in new s/w
+
 	nrancid: installed memory on Juniper SSG series - Steven Bertsch
 
 	rancid: missing CR after s/n

@@ -1,4 +1,8 @@
 2.3.7
+	xrrancid: change some "admin show" sorting to reflect previous code
+
+	xrrancid: filter useless junk from show inventory
+
 	mrvrancid: update ShowChassis() for temp filtering in new s/w
 
 	nrancid: installed memory on Juniper SSG series - Steven Bertsch

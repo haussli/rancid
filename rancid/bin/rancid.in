@@ -68,6 +68,8 @@ my($aclsort) = ("ipsort");		# ACL sorting mode
 my($config_register);			# configuration register value
 my($filter_commstr);			# SNMP community string filtering
 my($filter_pwds);			# password filtering mode
+my($supbootdisk) = 0;			# skip sup-bootflash if sup-bootdisk
+					# worked
 
 # This routine is used to print out the router configuration
 sub ProcessHistory {
@@ -745,6 +747,12 @@ sub DirSlotN {
 	return(-1) if (/\%Error opening \S+:\S+ \(Device or resource busy\)/i);
 	return(-1) if (/command authorization failed/i);
 	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
+	# skip dir sup-bootflash if dir sup-bootdisk was successful, duplicates
+	if ($cmd =~ / sup-bootdisk/) {
+	    $supbootdisk++;
+	} elsif ($supbootdisk && $cmd =~ / sup-bootflash/) {
+	    return(0);
+	}
 	# filter frequently changing files from IOX bootflash
 	if ($dev =~ /bootflash/) {
 	    next if (/temp_cont\s*$/);

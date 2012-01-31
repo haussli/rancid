@@ -1344,10 +1344,18 @@ sub ShowInventory {
 	}
 	# split PID/VID/SN line
 	if (/^PID: (\S*)\s*,\s*VID: (\S*)\s*,\s*SN: (\S*)\s*$/) {
+	    my($pid,$vid,$sn) = ($1, $2, $3);
 	    my($entries) = "";
-	    $entries .= "!PID: $1\n" if ($1);
-	    $entries .= "!VID: $2\n" if ($2);
-	    $entries .= "!SN: $3\n" if ($3);
+	    # filter <empty>, "0x" and "N/A" lines
+	    if ($pid !~ /^(|0x|N\/A)$/) {
+		$entries .= "!PID: $pid\n";
+	    }
+	    if ($vid !~ /^(|0x|N\/A)$/) {
+		$entries .= "!VID: $vid\n";
+	    }
+	    if ($sn !~ /^(|0x|N\/A)$/) {
+		$entries .= "!SN: $sn\n";
+	    }
 	    ProcessHistory("INVENTORY","","", "$entries");
 	    next;
 	}

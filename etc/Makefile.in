@@ -462,7 +462,7 @@ install-data-local: all
 	    echo "WARNING: *** $(DESTDIR)$(sysconfdir)/rancid.types.conf exists."; \
 	    echo ""; \
 	else \
-	    $(INSTALL_DATA) lg.conf.sample $(DESTDIR)$(sysconfdir)/lg.conf; \
+	    $(INSTALL_DATA) rancid.types.conf $(DESTDIR)$(sysconfdir)/rancid.types.conf; \
 	fi; \
 	if test -f $(DESTDIR)$(sysconfdir)/lg.conf ; then \
 	    echo ""; \

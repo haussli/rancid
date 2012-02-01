@@ -3,7 +3,7 @@
 
 ## $Id$
 ##
-## Copyright (c) 1997-2008 by Terrapin Communications, Inc.
+## Copyright (c) 1997-2012 by Terrapin Communications, Inc.
 ## All rights reserved.
 ##
 ## This code is derived from software contributed to and maintained by
@@ -57,11 +57,11 @@ bin_SCRIPTS = agmrancid alogin arancid arrancid avologin avorancid blogin \
 	rancid-fe rancid rivlogin rivrancid rrancid srancid tlogin tntlogin \
 	tntrancid trancid xrancid xrrancid zrancid
 
-bin_SCRIPTS += lg.cgi lgform.cgi rancid-cvs rancid-run
-EXTRA_DIST= lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-run.in
+bin_SCRIPTS += lg.cgi lgform.cgi rancid-cvs rancid-fe rancid-run
+EXTRA_DIST= lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in
 #dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
 
-CLEANFILES= lg.cgi lgform.cgi rancid-cvs rancid-run
+CLEANFILES= lg.cgi lgform.cgi rancid-cvs rancid-fe rancid-run
 #CLEANFILES= $(bin_SCRIPTS)
 
 hpuifilter_SOURCES = hpuifilter.c
@@ -120,6 +120,12 @@ rancid-cvs: Makefile $(srcdir)/rancid-cvs.in
 	$(auto_edit) $(srcdir)/rancid-cvs.in >rancid-cvs.tmp; \
 	chmod +x rancid-cvs.tmp; \
 	mv rancid-cvs.tmp rancid-cvs
+
+rancid-fe: Makefile $(srcdir)/rancid-fe.in
+	rm -f rancid-fe rancid-fe.tmp; \
+	$(auto_edit) $(srcdir)/rancid-fe.in >rancid-fe.tmp; \
+	chmod +x rancid-fe.tmp; \
+	mv rancid-fe.tmp rancid-fe
 
 rancid-run: Makefile $(srcdir)/rancid-run.in
 	rm -f rancid-run rancid-run.tmp; \

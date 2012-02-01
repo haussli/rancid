@@ -3,7 +3,7 @@
 
 ## $Id$
 ##
-## Copyright (c) 1997-2007 by Terrapin Communications, Inc.
+## Copyright (c) 1997-2012 by Terrapin Communications, Inc.
 ## All rights reserved.
 ##
 ## This code is derived from software contributed to and maintained by
@@ -48,7 +48,11 @@
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS=foreign
 
-pkgdata_DATA= lg.conf.sample rancid.conf.sample
+sysconf_DATA= rancid.types.base
+pkgdata_nogen = rancid.types.conf
+pkgdata_gen = lg.conf.sample rancid.conf.sample
+pkgdata_DATA = $(pkgdata_nogen) $(pkgdata_gen)
+
 EXTRA_DIST= $(pkgdata_DATA:%=%.in)
 
 CLEANFILES= $(pkgdata_DATA)
@@ -67,6 +71,13 @@ install-data-local: all
 	    echo ""; \
 	else \
 	    $(INSTALL_DATA) rancid.conf.sample $(DESTDIR)$(sysconfdir)/rancid.conf; \
+	fi; \
+	if test -f $(DESTDIR)$(sysconfdir)/rancid.types.conf ; then \
+	    echo ""; \
+	    echo "WARNING: *** $(DESTDIR)$(sysconfdir)/rancid.types.conf exists."; \
+	    echo ""; \
+	else \
+	    $(INSTALL_DATA) lg.conf.sample $(DESTDIR)$(sysconfdir)/lg.conf; \
 	fi; \
 	if test -f $(DESTDIR)$(sysconfdir)/lg.conf ; then \
 	    echo ""; \

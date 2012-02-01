@@ -1,0 +1,11 @@
+# RANCiD base device type configuration.
+#
+# DO NOT alter the base types, they WILL be over-written by future RANCiD
+# releases.  Copy them to rancid.types.conf and rename them.  If you override
+# existing types, it will be harder to provide support to you and I will hate
+# you.
+cisco:login:clogin
+cisco:command:ShowVersion:show version
+#
+juniper:login:jlogin
+juniper:command:ShowVersion:show version

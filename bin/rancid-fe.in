@@ -3,7 +3,7 @@
 ## $Id$
 ##
 ## @PACKAGE@ @VERSION@
-## Copyright (c) 1997-2008 by Terrapin Communications, Inc.
+## Copyright (c) @COPYYEARS@ by Terrapin Communications, Inc.
 ## All rights reserved.
 ##
 ## This code is derived from software contributed to and maintained by
@@ -47,50 +47,37 @@
 
 require 5;
 
-($router, $vendor) = split('\:', $ARGV[0]);
+my($script);
+my($router, $vendor) = split('\:', $ARGV[0]);
 $vendor =~ tr/[A-Z]/[a-z]/;
+if (! length($vendor)) {
+    printf(STDERR "unknown router manufacturer for $router: $vendor\n");
+    exit(-1);
+}
 
-%vendortable = (
-    'agm'		=> 'agmrancid',
-    'alteon'		=> 'arancid',
-    'arista'		=> 'arrancid',
-    'avocent'		=> 'avorancid',
-    'baynet'		=> 'brancid',
-    'cat5'		=> 'cat5rancid',
-    'cisco'		=> 'rancid',
-    'cisco-nx'		=> 'nxrancid',
-    'cisco-xr'		=> 'xrrancid',
-    'css'		=> 'cssrancid',
-    'enterasys'		=> 'rivrancid',
-    'erx'		=> 'jerancid',
-    'extreme'		=> 'xrancid',
-    'ezt3'		=> 'erancid',
-    'f5'		=> 'f5rancid',
-    'force10'		=> 'f10rancid',
-    'fortigate'		=> 'fnrancid',
-    'foundry'		=> 'francid',
-    'hitachi'		=> 'htrancid',
-    'hp'		=> 'hrancid',
-    'juniper'		=> 'jrancid',
-    'mikrotik'		=> 'mtrancid',
-    'mrtd'		=> 'mrancid',
-    'mrv'		=> 'mrvrancid',
-    'netopia'		=> 'trancid',
-    'netscaler'		=> 'nsrancid',
-    'netscreen'		=> 'nrancid',
-    'procket'		=> 'prancid',
-    'redback'		=> 'rrancid',
-    'riverstone'	=> 'rivrancid',
-    'smc'		=> 'srancid',
-    'tnt'		=> 'tntrancid',
-    'zebra'		=> 'zrancid'
-);
+foreach $file ("@sysconfdir@/rancid.types.base",
+	       "@sysconfdir@/rancid.types.conf") {
+    open(INPUT, "< $file") || die "Could not open $file: $!";
+    while (<INPUT>) {
+	chomp;
+	my($type, $directive, $value) = split('\:');
+	$type =~ tr/[A-Z]/[a-z]/;
+	$directive =~ tr/[A-Z]/[a-z]/;
+	if ($type eq $vendor && $directive eq "script") {
+	    $script = $value;
+	    close(INPUT);
+	    goto VENDOR;
+	}
+    }
+    close(INPUT);
+}
 
-if ($vendortable{$vendor} eq "") {
+VENDOR:
+if (! defined($script)) {
     printf(STDERR "unknown router manufacturer for $router: $vendor\n");
     exit(-1);
 } else {
-    exec($vendortable{$vendor} . " $router");
+    exec($script . " $router");
 }
 
 printf(STDERR "exec failed router manufacturer $vendor: $!\n");

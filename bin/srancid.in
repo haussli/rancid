@@ -404,8 +404,8 @@ ProcessHistory("COMMENTS","keysort","D0","!\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
     if (/^Error:/) {
-	print STDOUT ("$host dlogin error: $_");
-	print STDERR ("$host dlogin error: $_") if ($debug);
+	print STDOUT ("$host hlogin error: $_");
+	print STDERR ("$host hlogin error: $_") if ($debug);
 	last;
     }
     while (/#\s*($cmds_regexp)\s*$/) {

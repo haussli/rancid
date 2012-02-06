@@ -30,6 +30,8 @@ cloginrc.sample	TCL commands to set passwords, usernames etc. used by clogin
 etc/
 	lg.conf.sample		Sample Looking Glass configuration
 	rancid.conf.sample	Sample RANCID configuration
+	rancid.types.base	RANCID default device type configuration
+	rancid.types.conf	RANCID user-defined device type configuration
 bin/
 	clogin.in	Expect script that logs into routers and either presents
 			an interactive shell, runs a set of commands, or runs

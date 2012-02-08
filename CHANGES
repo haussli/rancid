@@ -1,3 +1,6 @@
+2.3.9
+	hpuifilter: dont use memcpy for overlapping regions - David Byers
+
 2.3.8
 	rancid: filter sup-bootflash if sup-bootdisk worked
 

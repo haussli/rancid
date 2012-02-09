@@ -1,4 +1,6 @@
 2.3.9
+	xrrancid: additional file filters for 4.2
+
 	hpuifilter: dont use memcpy for overlapping regions - David Byers
 
 2.3.8

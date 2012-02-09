@@ -53,9 +53,9 @@ pkgdata_nogen = rancid.types.conf
 pkgdata_gen = lg.conf.sample rancid.conf.sample
 pkgdata_DATA = $(pkgdata_nogen) $(pkgdata_gen)
 
-EXTRA_DIST= $(pkgdata_DATA:%=%.in)
+EXTRA_DIST= $(pkgdata_gen:%=%.in)
 
-CLEANFILES= $(pkgdata_DATA)
+CLEANFILES= $(pkgdata_gen)
 
 if CONF_INSTALL
 DO_CONF_INSTALL=yes

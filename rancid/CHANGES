@@ -1,4 +1,7 @@
 2.3.9
+	rancid: filter LISP cache file number, size and date on IOS-XE LISP EFT
+	and filter dhcp db and vlan.dat in the same manner, instead of removing
+
 	clogin.1: note not using [#>] in prompts
 
 	xrrancid: additional file filters for 4.2

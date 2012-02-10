@@ -1,4 +1,6 @@
 2.3.9
+	clogin.1: note not using [#>] in prompts
+
 	xrrancid: additional file filters for 4.2
 
 	hpuifilter: dont use memcpy for overlapping regions - David Byers

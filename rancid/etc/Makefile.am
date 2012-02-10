@@ -48,12 +48,12 @@
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS=foreign
 
-sysconf_DATA= rancid.types.base
-pkgdata_nogen = rancid.types.conf
+sysconf_DATA= rancid.types.base rancid.types.conf
+pkgdata_nogen = 
 pkgdata_gen = lg.conf.sample rancid.conf.sample
 pkgdata_DATA = $(pkgdata_nogen) $(pkgdata_gen)
 
-EXTRA_DIST= $(pkgdata_gen:%=%.in)
+EXTRA_DIST= $(pkgdata_gen:%=%.in) $(pkgdata_nogen) $(sysconf_DATA)
 
 CLEANFILES= $(pkgdata_gen)
 

@@ -1,4 +1,6 @@
 2.3.9
+	xrrancd: also filter temp_static_data
+
 	rancid: filter LISP cache file number, size and date on IOS-XE LISP EFT
 	and filter dhcp db and vlan.dat in the same manner, instead of removing
 

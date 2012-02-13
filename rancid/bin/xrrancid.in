@@ -582,7 +582,7 @@ sub DirSlotN {
 	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
 	# filter frequently changing files from IOX bootflash / hardiska
 	if ($dev =~ /(bootflash|harddiska)/) {
-	    if (/(temp_cont|uptime_cont|volt_cont)\s*$/) {
+	    if (/(temp_cont|temp_static_data|uptime_cont|volt_cont)\s*$/) {
 		if (/(\s*\d+\s+\S+\s+)(\d+)(\s+)(\w+ \w+\s+\d+ \d+:\d+:\d+ \d+)/) {
 		    my($a, $sz, $c, $dt, $rem) = ($1, $2, $3, $4, $');
 		    my($szl, $dtl) = (length($sz), length($dt));

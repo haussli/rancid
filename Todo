@@ -1,3 +1,6 @@
+- sup2t show version info is missing
+- RSP440 show version info is missing, eg:
+  !Chassis type: ASR9K Series - a ASR9K Series router
 - make *login and login.top.in cmdline options common among all scripts
 - cpu info missing from sup-2t
    Index: configs/r01.londen01.uk.bb.gin.ntt.net

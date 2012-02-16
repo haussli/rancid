@@ -604,7 +604,7 @@ sub DirSlotN {
 	    if ($tmp >= (1024 * 1024 * 1024)) {
 		$tmp = int($tmp / (1024 * 1024 * 1024));
 		s/$1 bytes free/$tmp GB free/;
-	    } else if ($tmp >= (1024 * 1024)) {
+	    } elsif ($tmp >= (1024 * 1024)) {
 		$tmp = int($tmp / (1024 * 1024));
 		s/$1 bytes free/$tmp MB free/;
 	    } else {

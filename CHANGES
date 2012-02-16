@@ -1,4 +1,7 @@
 2.3.9
+	hlogin: add "--" in comment to prevent older expect/tcl from
+	interpretting "-," as an option. !@#&!#$
+
 	rancid, xrrancid: add KB to disk/flash bytes free filtering
 
 	xrrancd: also filter temp_static_data

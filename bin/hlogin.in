@@ -558,7 +558,7 @@ proc run_commands { prompt command } {
 					  exp_continue }
 	    -re "^-+ MORE -+\[^\n\r]*"	{ catch {send " "}
 					  exp_continue }
-	    # 3 flavours of the more prompt, first -More-, then --More-- (for
+	    # 3 flavours of the more prompt, -- first -More-, then --More-- (for
 	    # cisco/riverhead AGM), then with more dashes.
 	    -re "^-More-\[^\n\r-]*"	{ catch {send " "}
 					  exp_continue }

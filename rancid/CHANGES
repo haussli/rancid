@@ -1,4 +1,6 @@
 2.3.9
+	rancid, xrrancid: add KB to disk/flash bytes free filtering
+
 	xrrancd: also filter temp_static_data
 
 	rancid: filter LISP cache file number, size and date on IOS-XE LISP EFT

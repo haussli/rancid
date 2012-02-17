@@ -595,6 +595,7 @@ sub ShowDebug {
 	# XXX return(-1) if (/\% Permission denied/);
 	# NX 5000 bug? "show debug" generates
 	# "Permission denied" when using command authorization. -Per-Olof Olsson
+	next if (/\% Permission denied/);
 
 	/^No matching debug flags set$/ && next;
 	/^No debug flags set$/ && next;

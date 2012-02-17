@@ -35,6 +35,7 @@ One device is listed per-line, where the syntax is one of:
 <device_type>:login:<login_program>
 <device_type>:command:<filter_function>:<device_command_string>
 <device_type>:script:<rancid_script> XXX temporary knob?
+<device_type>:postscript:<rancid_script> XXX temporary knob?
 .fi
 .in -1i
 .PP

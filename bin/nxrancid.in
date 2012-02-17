@@ -591,8 +591,10 @@ sub ShowDebug {
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/\% Invalid command at /);
-	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
+	# XXX return(-1) if (/\% Permission denied/);
+	# NX 5000 bug? "show debug" generates
+	# "Permission denied" when using command authorization. -Per-Olof Olsson
 
 	/^No matching debug flags set$/ && next;
 	/^No debug flags set$/ && next;

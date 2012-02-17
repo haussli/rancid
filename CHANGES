@@ -1,4 +1,7 @@
 2.3.9
+	nxrancid: nx5000 generates spurious 'Permission denied' error for 'show
+	debug' if command authorization is used - Per-Olof Olsson
+
 	nxrancid: remove cisco ios residuals - Per-Olof Olsson
 
 	hlogin: add "--" in comment to prevent older expect/tcl from

@@ -53,6 +53,17 @@ A. This may be due to your prompt.  CatOS does not include an implicit '>' in
 	cat5k> (enable)
 
 
+Q. Why won't a saved HP Procurve configuration load onto the switch to restore
+   the configuration.
+A. Stefan Metzger and Per-Olof Olsson have found that the Procurve O/S does
+   not like the leading comments, the lines beginning with ';', so remove
+   these comments in whatever manner you wish.  Also, they appear to expect a
+   leading comment line that varies between different models, for example:
+	"; Running config file:"
+   OR
+	"; JJBA8<any other chars>"
+
+
 Q. Polling a ZebOS box fails from cron, but is successful from the command-
    line.
 A. This is the tty/pty handling of either your O/S or ZebOS.  Supposedly,

@@ -1,4 +1,6 @@
 2.3.9
+	nxrancid: remove cisco ios residuals - Per-Olof Olsson
+
 	hlogin: add "--" in comment to prevent older expect/tcl from
 	interpretting "-," as an option. !@#&!#$
 

@@ -1,4 +1,7 @@
 2.3.9
+	jrancid: distill used subscriber licenses to a percentage, else its
+	forever changing.
+
 	nxrancid: nx5000 generates spurious 'Permission denied' error for 'show
 	debug' if command authorization is used - Per-Olof Olsson
 

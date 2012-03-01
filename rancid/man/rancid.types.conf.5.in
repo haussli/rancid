@@ -2,15 +2,15 @@
 .\" $Id: rancid.types.conf.5.in 2096 2009-06-17 21:49:46Z heas $
 .\"
 .hys 50
-.TH "rancid.types.conf" "5" "30 January 2012"
+.TH "rancid.types.conf" "5" "1 March 2012"
 .SH NAME
 rancid.types.conf \- rancid device type configuration file
 .SH DESCRIPTION
 .B rancid.types.conf
 contains formatted configuration lines that define the device types that
-are available for use in the <devive_type> field of the
+are available for use in the <device_type> field of the
 .BR router.db (5)
-rancid collection group configuration file.
+configuration file.
 .PP
 The
 .B rancid.types.base
@@ -51,6 +51,7 @@ juniper:command:ShowVersion:show version
 .PP
 .\"
 XXX Add further documentation
+XXX document ProcessHistory() and the default/base function library that has it
 .SH ERRORS
 Omitted fields or syntax errors are likely to cause perl compilation errors,
 or collection to fail or be incomplete.

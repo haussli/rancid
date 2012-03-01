@@ -1,4 +1,6 @@
 2.3.9
+	Add MAILOPTS variable to rancid.conf - Matej Vela
+
 	share/Makefile: missing MAIL* variables in sed script - Aaron Smith
 
 	jrancid: distill used subscriber licenses to a percentage, else its

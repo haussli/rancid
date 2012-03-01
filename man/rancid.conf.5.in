@@ -144,6 +144,14 @@ Default: Precedence: bulk
 Example: Precedence: bulk\\nX-clamation: beef cake
 .\"
 .TP
+.B MAILOPTS
+Define additional options used to invoke
+.BR sendmail (8).
+By default, this is not set.
+.sp
+Example: MAILOPTS="-f bounces.go.here@example.com"
+.\"
+.TP
 .B MAX_ROUNDS
 Defines how many times rancid should retry collection of devices that fail.
 The minimum is 1.

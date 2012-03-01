@@ -156,7 +156,7 @@ do
 rancid $GROUP hung on `hostname`?  Old lockfile still exists:
 `ls -l $LOCKFILE`
 END
-		) | sendmail -t
+		) | sendmail -t $MAILOPTS
 	    fi
 	    rm -f $TMPDIR/.$GROUP.old
 	else

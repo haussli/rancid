@@ -93,3 +93,6 @@ RCSSYS=@RCSSYS@; export RCSSYS
 # it to "" or adding X- style headers.  Individual headers must be separated
 # by a \n.
 #MAILHEADERS="Precedence: bulk"; export MAILHEADERS
+#
+# Additional options for sendmail(8).
+#MAILOPTS="-f bounces.go.here@example.com"; export MAILOPTS

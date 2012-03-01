@@ -102,6 +102,6 @@ EOM
 
       )
     fi
-  ) | sendmail -t
+  ) | sendmail -t $MAILOPTS
 
 done

@@ -1,3 +1,4 @@
+- '% clogin clogin' w/ ssh default produces a tcl traceback
 - sup2t show version info is missing
 - RSP440 show version info is missing, eg:
   !Chassis type: ASR9K Series - a ASR9K Series router

@@ -1,4 +1,6 @@
 2.3.9
+	rancid: adjust snmp community filter for ASA version >=8.x - Skye Hagen
+
 	Add MAILOPTS variable to rancid.conf - Matej Vela
 
 	share/Makefile: missing MAIL* variables in sed script - Aaron Smith

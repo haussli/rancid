@@ -1,4 +1,6 @@
 2.3.9
+	rancid: include fans in ShowEnv - Affa Pan
+
 	fnlogin: correct check for ssh port setting - Robert Blayzor
 
 	rancid: adjust snmp community filter for ASA version >=8.x - Skye Hagen

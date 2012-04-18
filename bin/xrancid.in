@@ -297,7 +297,7 @@ sub ShowSwitch {
     return(0);
 }
 
-# This routine processes a "write term"
+# This routine processes a "show configuration {detail}"
 sub WriteTerm {
     my($lines) = 0;
     print STDERR "    In WriteTerm: $_" if ($debug);
@@ -401,6 +401,8 @@ sub WriteTerm {
 	    return(0);
 	}
     }
+
+    printf STDERR "    End WriteTerm: $_" if ($debug);
 
     if ($lines < 3) {
 	printf(STDERR "ERROR: $host configuration appears to be truncated.\n");

@@ -1,4 +1,6 @@
 2.3.9
+	jrancid: filter $9$ at the FILTER_PWDS=YES level
+
 	rancid: include fans in ShowEnv - Affa Pan
 
 	fnlogin: correct check for ssh port setting - Robert Blayzor

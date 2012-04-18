@@ -612,7 +612,7 @@ sub ShowConfiguration {
 	    ProcessHistory("","","","$_");
 	    next;
 	}
-	if (/^(.*\ssecret )[^ ;]+/ && $filter_pwds >= 1) {
+	if (/^(.*\s(secret|simple-password) )[^ ;]+/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","#$1<removed>$'");
 	    next;
 	}

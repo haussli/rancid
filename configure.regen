@@ -1,0 +1,7 @@
+#! /bin/sh
+# libtoolize -c -f -i
+# aclocal --force -Iaconf
+aclocal --force
+autoheader -f
+automake -a -c -f
+autoconf

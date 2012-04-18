@@ -1,4 +1,8 @@
 2.3.9
+	rancid: Filter issu_loc_lock and volt_cont files
+
+	nxrancid: try to get show env power output to line up better.
+
 	hrancid: ignore unrecognized command for "show system( |-)information"
 
 	xirancid: xirrus support - Aaron Smith

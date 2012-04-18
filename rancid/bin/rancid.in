@@ -401,8 +401,7 @@ sub ShowVersion {
 	/^(\d+[kK]) bytes of (non-volatile|NVRAM)/ &&
 	    ProcessHistory("COMMENTS","keysort","B3",
 		"!Memory: nvram $1\n") && next;
-	/^(\d+[kK]) bytes of (flash memory|processor board System flash|ATA Comp
-actFlash)/ &&
+	/^(\d+[kK]) bytes of (flash memory|processor board System flash|ATA CompactFlash)/ &&
 	    ProcessHistory("COMMENTS","keysort","B5","!Memory: flash $1\n") &&
 	    next;
 	/^(\d+[kK]) bytes of .*flash partition/ &&
@@ -772,6 +771,7 @@ sub DirSlotN {
 	if ($dev =~ /bootflash/) {
 	    next if (/temp_cont\s*$/);
 	    next if (/uptime_cont\s*$/);
+	    next if (/volt_cont\s*$/);
 	}
 	# filter frequently changing files (vlan database, LISP cache, etc)
 	if (/(dhcp_[^. ]*\.txt|LISP-MapCache-IPv\S+|vlan\.dat)\s*$/) {
@@ -787,6 +787,9 @@ sub DirSlotN {
 		$_ = sprintf($fmt, "", $a, "", $c, "", $rem);
 	    }
 	}
+	# Filter internal file used by ISSU (In-Service Software Upgrade)
+	# on dual RP ASR systems
+	next if (/\.issu_loc_lock\s*$/);
 
 	if ($ios eq "XE" && /.*\((\d+) bytes free\)/) {
 	    my($tmp) = $1;

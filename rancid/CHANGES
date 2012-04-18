@@ -1,4 +1,6 @@
 2.3.9
+	hrancid: ignore unrecognized command for "show system( |-)information"
+
 	xirancid: xirrus support - Aaron Smith
 
 	jrancid: filter $9$ at the FILTER_PWDS=YES level

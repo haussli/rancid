@@ -236,6 +236,7 @@ sub ShowSystem {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(-1) if (/command authorization failed/i);
 	return(0) if /^(Invalid|Ambiguous) input:/i;
+	return(0) if /^% Unknown command/i;
 
 	if (/memory\s+-\s+total\s+:\s+(\S+)/i) {
 	    my($mem) = $1;

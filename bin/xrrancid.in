@@ -59,7 +59,6 @@ $clean_run = 0;
 $found_end = 0;
 $found_version = 0;
 $found_env = 0;
-$found_diag = 0;
 $timeo = 90;				# clogin timeout in seconds
 
 my(@commandtable, %commands, @commands);# command lists
@@ -419,7 +418,7 @@ sub AdminShowDiag {
 
     while (<INPUT>) {
 	tr/\015//d;
-	if (/^$prompt/) { $found_diag = 1; last};
+	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
@@ -447,7 +446,7 @@ sub AdminShowRunning {
 
     while (<INPUT>) {
 	tr/\015//d;
-	if (/^$prompt/) { $found_diag = 1; last};
+	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);

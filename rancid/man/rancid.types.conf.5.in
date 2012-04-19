@@ -71,10 +71,3 @@ Configuration file described here.
 .BR rancid-run (1),
 .BR router.db (5),
 .\"
-.SH HISTORY
-In RANCID releases prior to 2.3,
-.B rancid.conf
-was named
-.B env
-and located in the bin directory.  This was changed to be more consistent
-with common file location practices.

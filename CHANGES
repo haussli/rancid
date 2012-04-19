@@ -1,4 +1,6 @@
 2.3.9
+	hlogin: add "username" to prompt match for Cisco ACS 5.3 - Skye Hagen
+
 	rancid: Filter issu_loc_lock and volt_cont files
 
 	nxrancid: try to get show env power output to line up better.

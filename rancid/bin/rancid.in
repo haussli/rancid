@@ -973,6 +973,8 @@ sub ShowDebug {
 	    s/^$1\s{$len}//;
 	}
 
+	/^Load for / && next;
+	/^Time source is / && next;
 	/^No matching debug flags set$/ && next;
 	/^No debug flags set$/ && next;
 	ProcessHistory("COMMENTS","keysort","J1","!DEBUG: $_");
@@ -1396,6 +1398,8 @@ sub ShowInventory {
 	    s/^$1\s{$len}//;
 	}
 
+	next if (/^Load for /);
+	next if (/^Time source is /);
 	if (/^(NAME: "[^"]*",) (DESCR: "[^"]+")/) {
 	    ProcessHistory("INVENTORY","","", sprintf("!%-30s %s\n", $1, $2));
 	    next;

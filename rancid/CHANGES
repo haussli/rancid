@@ -1,4 +1,7 @@
 2.3.9
+	rancid: ignore "Load for five secs:" and "Time source is
+	NTP" lines.
+
 	rancid: remove LISP-MapCache files; fix date removal for dhcp &
 	vlan.dat files in flash.
 

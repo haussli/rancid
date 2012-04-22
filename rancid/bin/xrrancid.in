@@ -440,7 +440,6 @@ sub AdminShowDiag {
 }
 
 # This routine parses "admin show running".
-# This will create arrays for hw info.
 sub AdminShowRunning {
     print STDERR "    In ShowRunning: $_" if ($debug);
 
@@ -458,9 +457,10 @@ sub AdminShowRunning {
 	    ProcessHistory("SLOT","","","!$1 <removed>\n");
 	    next;
 	}
-	/^end$/ && last;
 
 	ProcessHistory("SLOT","","","!$_");
+
+	/^end$/ && last;
     }
     ProcessHistory("SLOT","","","!\n");
     return(0);
@@ -579,10 +579,22 @@ sub DirSlotN {
 	return(-1) if (/\%Error opening \S+:\S+ \(Device or resource busy\)/i);
 	return(-1) if (/command authorization failed/i);
 	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
-	# filter frequently changing files from IOX bootflash / hardiska
-	if ($dev =~ /(bootflash|harddiska)/) {
+	# filter frequently changing files from IOX bootflash, hardiska,
+	# and nvram
+	if ($dev =~ /(bootflash|harddiska|nvram)/) {
 	    if (/(temp_cont|temp_static_data|uptime_cont|volt_cont)\s*$/) {
-		if (/(\s*\d+\s+\S+\s+)(\d+)(\s+)(\w+ \w+\s+\d+ \d+:\d+:\d+ \d+)/) {
+		# change
+		# 57          -rw-  23100       <no date>              volt_cont
+		# 614788      drwx  4096        Fri Aug 20 12:06:25 2010  temp_cont
+		# to
+		# 57          -rw-              <no date>              volt_cont
+		# 614788      drwx                                        temp_cont
+		if (/(\s*\d+\s+\S+\s+)(\d+)(\s+)(<no date> )/) {
+		    my($a, $sz, $c, $dt, $rem) = ($1, $2, $3, $4, $');
+		    my($szl) = length($sz);
+		    my($fmt) = "%s%-". $szl ."s%s%s%s";
+		    $_ = sprintf($fmt, $a, "", $c, $dt, $rem);
+		} elsif (/(\s*\d+\s+\S+\s+)(\d+)(\s+)(\w+ \w+\s+\d+ \d+:\d+:\d+ \d+)/) {
 		    my($a, $sz, $c, $dt, $rem) = ($1, $2, $3, $4, $');
 		    my($szl, $dtl) = (length($sz), length($dt));
 		    my($fmt) = "%s%-". $szl ."s%s%-". $dtl ."s%s";
@@ -1274,12 +1286,12 @@ sub DoNothing {print STDOUT;}
 	{'dir /all sec-slot2:'		=> 'DirSlotN'},
 	{'dir /all sec-disk2:'		=> 'DirSlotN'},
 	{'show controllers'		=> 'ShowContAll'},
-	{'admin show running'		=> 'AdminShowRunning'},
 	{'admin show diag'		=> 'AdminShowDiag'},
 	{'admin show inventory raw'	=> 'ShowInventory'},
 	{'show vlan'			=> 'ShowVLAN'},
 	{'show debug'			=> 'ShowDebug'},
 	{'show rpl maximum'		=> 'ShowRPL'},
+	{'admin show running'		=> 'AdminShowRunning'},
 	{'show running-config'		=> 'WriteTerm'},
 );
 # Use an array to preserve the order of the commands and a hash for mapping

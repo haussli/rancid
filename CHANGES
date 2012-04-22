@@ -1,4 +1,8 @@
 2.3.9
+	xrancid: capture more info from show switch.
+
+	xrrancid: filter changing files (*_cont) from nvram:.
+
 	rancid: ignore "Load for five secs:" and "Time source is
 	NTP" lines.
 

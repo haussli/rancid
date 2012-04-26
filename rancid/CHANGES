@@ -1,4 +1,6 @@
 3.0a
+	mtlogin: fix cloginrc timeout handling & clean-up command-line options
+
 	xrancid: capture more info from show switch.
 
 	xrrancid: filter changing files (*_cont) from nvram:.

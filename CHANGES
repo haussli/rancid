@@ -1,4 +1,6 @@
 3.0a
+	rivlogin,jlogin,fnlogin: command-line option clean-up
+
 	mtlogin: fix cloginrc timeout handling & clean-up command-line options
 
 	xrancid: capture more info from show switch.

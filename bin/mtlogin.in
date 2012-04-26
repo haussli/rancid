@@ -71,7 +71,7 @@ set avautoenable 0
 # tracks if we receive them on the command line.
 set do_passwd 1
 # Sometimes routers take awhile to answer (the default is 10 sec)
-set timeout 45
+set timeoutdflt 45
 
 # Find the user in the ENV, or use the unix userid.
 if {[ info exists env(CISCO_USER) ]} {
@@ -177,7 +177,7 @@ for {set i 0} {$i < $argc} {incr i} {
 	-T* {
 	    if {! [ regexp .\[tT\](.+) $arg ignore timeout]} {
 		incr i
-	        set timeout [ lindex $argv $i ]
+	        set timeoutdflt [ lindex $argv $i ]
 	    }
 	# Command file
 	} -x* -
@@ -465,6 +465,12 @@ foreach router [lrange $argv $i end] {
     # alteon only "enables" based on the password used at login time
     set autoenable 1
     set enable 0
+
+    # device timeout
+    set timeout [find timeout $router]
+    if { [llength $timeout] == 0 } {
+	set timeout $timeoutdflt
+    }
 
     # Figure out passwords
     if { $do_passwd } {

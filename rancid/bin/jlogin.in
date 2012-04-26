@@ -99,8 +99,7 @@ for {set i 0} {$i < $argc} {incr i} {
 
     switch  -glob -- $arg {
 	# Command to run.
-	-c* -
-	-C* {
+	-c* {
 	    if {! [  regexp .\[cC\](.+) $arg ignore command]} {
 		incr i
 		set command [ lindex $argv $i ]

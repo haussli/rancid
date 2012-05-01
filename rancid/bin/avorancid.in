@@ -43,10 +43,10 @@
 #
 #  RANCID - Really Awesome New Cisco confIg Differ
 #
-# usage: rancid [-dV] [-l] [-f filename | $host]
+# usage: avorancid [-dlCV] [-f filename | hostname]
 #
 use Getopt::Std;
-getopts('dflV');
+getopts('dflCV');
 if ($opt_V) {
     print "@PACKAGE@ @VERSION@\n";
     exit(0);
@@ -210,6 +210,19 @@ sub DoNothing {print STDOUT;}
 $cisco_cmds = join(";",@commands);
 $cmds_regexp = join("|", map quotemeta($_), @commands);
 
+if (length($host) == 0) {
+    if ($file) {
+	print(STDERR "Too few arguments: file name required\n");
+	exit(1);
+    } else {
+	print(STDERR "Too few arguments: host name required\n");
+	exit(1);
+    }
+}
+if ($opt_C) {
+    print "avologin -t $timeo -c\'$cisco_cmds\' $host\n";
+    exit(0);
+}
 open(OUTPUT,">$host.new") || die "Can't open $host.new for writing: $!\n";
 select(OUTPUT);
 # make OUTPUT unbuffered if debugging

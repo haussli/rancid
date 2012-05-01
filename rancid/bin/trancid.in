@@ -42,11 +42,11 @@
 #
 #  RANCID - Really Awesome New Cisco confIg Differ
 #
-# usage: rancid [-dV] [-l] [-f filename | $host]
+# usage: trancid [-dlCV] [-f filename | hostname]
 #
 # Modified by Ed Ravin for Netopia.
 use Getopt::Std;
-getopts('dflV');
+getopts('dflCV');
 if ($opt_V) {
     print "@PACKAGE@ @VERSION@\n";
     exit(0);
@@ -240,6 +240,10 @@ if (length($host) == 0) {
 	print(STDERR "Too few arguments: host name required\n");
 	exit(1);
     }
+}
+if ($opt_C) {
+    print "$clogin_pgm -t $timeo -c\'$cisco_cmds\' $host\n";
+    exit(0);
 }
 open(OUTPUT,">$host.new") || die "Can't open $host.new for writing: $!\n";
 select(OUTPUT);

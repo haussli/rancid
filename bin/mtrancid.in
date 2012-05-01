@@ -22,11 +22,11 @@
 #
 #  RANCID - Really Awesome New Cisco confIg Differ
 #
-# usage: rancid [-dV] [-l] [-f filename | $host]
+# usage: mtrancid [-dlCV] [-f filename | hostname]
 #
 # Modified by Chris Boot for MikroTik.
 use Getopt::Std;
-getopts('dflV');
+getopts('dflCV');
 if ($opt_V) {
     print "@PACKAGE@ @VERSION@\n";
     exit(0);
@@ -262,6 +262,19 @@ foreach (@commandtable) {
 $cisco_cmds=join(";",@commands);
 $cmds_regexp=join("|",@commands);
 
+if (length($host) == 0) {
+    if ($file) {
+	print(STDERR "Too few arguments: file name required\n");
+	exit(1);
+    } else {
+	print(STDERR "Too few arguments: host name required\n");
+	exit(1);
+    }
+}
+if ($opt_C) {
+    print "$clogin_pgm -t $timeo -c\'$cisco_cmds\' $host\n";
+    exit(0);
+}
 open(OUTPUT,">$host.new") || die "Can't open $host.new for writing: $!\n";
 select(OUTPUT);
 # make OUTPUT unbuffered if debugging

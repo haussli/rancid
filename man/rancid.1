@@ -1,11 +1,11 @@
 .\"
 .hys 50
-.TH "rancid" "1" "26 April 2011"
+.TH "rancid" "1" "1 May 2012"
 .SH NAME
 rancid \- Cisco configuration filter
 .SH SYNOPSIS
 .B rancid
-[\fB\-dlV\fP]
+[\fB\-dlCV\fP]
 (\fB\-f\fP filename | hostname)
 .SH DESCRIPTION
 .B rancid
@@ -120,6 +120,9 @@ Cisco IOS-XR boxes
 Zebra routing software
 .PP
 The command-line options are as follows:
+.TP
+.B \-C
+Prints the login command that would be used to collect data from the device.
 .TP
 .B \-V
 Prints package name and version strings.

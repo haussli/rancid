@@ -1,6 +1,9 @@
 - login script should catch output to stdout/user, so that if the rancid script
   exits prematurely, such as due to a cmd authorization failure, the user
   doesnt get a tcl traceback
+  - related; could also add an error msg for required command like write term
+    in the authorization failure case:
+	return(-1) if (/command authorization failed/i);
 - '% clogin clogin' w/ ssh default produces a tcl traceback
 - sup2t show version info is missing
 - RSP440 show version info is missing, eg:

@@ -1,6 +1,7 @@
 - login script should catch output to stdout/user, so that if the rancid script
   exits prematurely, such as due to a cmd authorization failure, the user
   doesnt get a tcl traceback
+  See http://www.tcl.tk/man/tcl8.4/TclCmd/catch.htm
   - related; could also add an error msg for required command like write term
     in the authorization failure case:
 	return(-1) if (/command authorization failed/i);

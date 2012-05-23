@@ -9,6 +9,8 @@ agm:script:agmrancid
 #
 alteon:script:arancid
 #
+arbor:script:anrancid
+#
 arista:script:arrancid
 #
 avocent:script:avorancid

@@ -48,6 +48,7 @@ bin/
 	rancid.in	Runs commands on cisco routers and processes the output.
 
 	agmrancid.in	Version of rancid.in for Cisco Anomaly Guard Module (AGM)
+	anrancid.in	Version of rancid.in for Arbor Networks appliances.
 	arancid.in	Version of rancid.in for Alteon switches.
 	brancid.in	Version of rancid.in for baynet/nortel routers.
 	cat5rancid.in	Version of rancid.in for Cisco Catalyst switches.

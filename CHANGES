@@ -1,4 +1,6 @@
 3.0a
+	anrancid: add arbor networks module
+
 	*rancid: add the -C option
 
 	rivlogin,jlogin,fnlogin: command-line option clean-up

@@ -1,4 +1,6 @@
 3.0a
+	xrrancid: adjust for ARS9k RSP440 show version format
+
 	anrancid: add arbor networks module
 
 	*rancid: add the -C option

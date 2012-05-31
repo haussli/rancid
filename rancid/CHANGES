@@ -1,4 +1,7 @@
 3.0a
+	jlogin: set cli screen-width to prevent cli from mucking with the
+	command line in irritating ways - Jay Borkenhagen
+
 	xrrancid: adjust for ARS9k RSP440 show version format
 
 	anrancid: add arbor networks module

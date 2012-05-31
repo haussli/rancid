@@ -546,6 +546,8 @@ foreach router [lrange $argv $i end] {
 	expect -re $prompt	{}
 	send "set cli screen-length 0\r"
 	expect -re $prompt	{}
+	send "set cli screen-width 0\r"
+	expect -re $prompt	{}
 	source $sfile
 	catch {close};
     } else {

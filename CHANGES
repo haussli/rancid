@@ -1,4 +1,7 @@
 3.0a
+	jrancid: show version can terminate abnormally when unable to
+	communicate with a daemon
+
 	nxrancid: improve power supply wattage filtering further
 
 	nxrancid: improve power supply wattage filtering - Zenon Mousmoulas
@@ -26,7 +29,8 @@
 	rancid: remove LISP-MapCache files; fix date removal for dhcp &
 	vlan.dat files in flash.
 
-	nxrancid: delete the line with the "^" from the "Invalid command at" errors.
+	nxrancid: delete the line with the "^" from the "Invalid command at"
+	errors.
 
 	hlogin: add "username" to prompt match for Cisco ACS 5.3 - Skye Hagen
 

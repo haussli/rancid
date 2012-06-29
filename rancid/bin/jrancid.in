@@ -552,6 +552,7 @@ sub ShowVersion {
 	next if (/^\s*$/);
 	next if (/^system (shutdown message from|going down )/i);
 	next if (/^\{(master|backup)(:\d+)?\}/);
+	/# error: abnormal / && return(-1);
 
 	/^Juniper Networks is:/ && ProcessHistory("","","","# \n# $_") && next;
 	ProcessHistory("","","","# $_");

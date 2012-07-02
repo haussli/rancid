@@ -1,4 +1,6 @@
 3.0a
+	arrancid: summarize flash remaining space
+
 	jrancid: show version can terminate abnormally when unable to
 	communicate with a daemon
 

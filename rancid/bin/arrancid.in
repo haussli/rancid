@@ -304,6 +304,21 @@ sub ShowFlash {
         # persist changes constantly if you're running ntp, so
         # skip its updates.
         /\spersist$/ && next;
+
+	if (/.*\((\d+) bytes free\)/) {  
+	    my($tmp) = $1;
+	    if ($tmp >= (1024 * 1024 * 1024)) {   
+		$tmp = int($tmp / (1024 * 1024 * 1024));
+		s/$1 bytes free/$tmp GB free/;
+	    } elsif ($tmp >= (1024 * 1024)) {  
+		$tmp = int($tmp / (1024 * 1024));
+		s/$1 bytes free/$tmp MB free/;
+	    } else {
+		$tmp = int($tmp / 1024);
+		s/$1 bytes free/$tmp KB free/;
+	    }
+	}
+
 	ProcessHistory("FLASH","","","!Flash: $_");
     }
     ProcessHistory("","","","!\n");

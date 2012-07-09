@@ -19,9 +19,71 @@ baynet:script:brancid
 #
 cat5:script:cat5rancid
 #
+# Cisco IOS device
 cisco:script:rancid
 cisco:login:clogin
+cisco:module:rancid::ios
 cisco:command:ShowVersion:show version
+cisco:command:ShowRedundancy:show redundancy secondary
+cisco:command:ShowIDprom:show idprom backplane
+cisco:command:ShowInstallActive:show install active
+cisco:command:ShowEnv:show env all
+cisco:command:ShowRSP:show rsp chassis-info
+cisco:command:ShowGSR:show gsr chassis
+cisco:command:ShowGSR:show diag chassis-info
+cisco:command:ShowBoot:show boot
+cisco:command:ShowBoot:show bootvar
+cisco:command:ShowBoot:show variables boot
+cisco:command:ShowFlash:show flash
+cisco:command:DirSlotN:dir /all nvram:
+cisco:command:DirSlotN:dir /all bootflash:
+cisco:command:DirSlotN:dir /all slot0:
+cisco:command:DirSlotN:dir /all disk0:
+cisco:command:DirSlotN:dir /all slot1:
+cisco:command:DirSlotN:dir /all disk1:
+cisco:command:DirSlotN:dir /all slot2:
+cisco:command:DirSlotN:dir /all disk2:
+cisco:command:DirSlotN:dir /all harddisk:
+cisco:command:DirSlotN:dir /all harddiska:
+cisco:command:DirSlotN:dir /all harddiskb:
+cisco:command:DirSlotN:dir /all sup-bootdisk:
+cisco:command:DirSlotN:dir /all sup-bootflash:
+cisco:command:DirSlotN:dir /all sup-microcode:
+cisco:command:DirSlotN:dir /all slavenvram:
+cisco:command:DirSlotN:dir /all slavebootflash:
+cisco:command:DirSlotN:dir /all slaveslot0:
+cisco:command:DirSlotN:dir /all slavedisk0:
+cisco:command:DirSlotN:dir /all slaveslot1:
+cisco:command:DirSlotN:dir /all slavedisk1:
+cisco:command:DirSlotN:dir /all slaveslot2:
+cisco:command:DirSlotN:dir /all slavedisk2:
+cisco:command:DirSlotN:dir /all slavesup-bootflash:
+cisco:command:DirSlotN:dir /all sec-nvram:
+cisco:command:DirSlotN:dir /all sec-bootflash:
+cisco:command:DirSlotN:dir /all sec-slot0:
+cisco:command:DirSlotN:dir /all sec-disk0:
+cisco:command:DirSlotN:dir /all sec-slot1:
+cisco:command:DirSlotN:dir /all sec-disk1:
+cisco:command:DirSlotN:dir /all sec-slot2:
+cisco:command:DirSlotN:dir /all sec-disk2:
+cisco:command:ShowContAll:show controllers
+cisco:command:ShowContCbus:show controllers cbus
+cisco:command:ShowDiagbus:show diagbus
+cisco:command:ShowDiag:show diag
+cisco:command:ShowCapture:show capture
+cisco:command:ShowModule:show module
+cisco:command:ShowSpeVersion:show spe version
+cisco:command:ShowC7200:show c7200
+cisco:command:ShowInventory:show inventory raw
+cisco:command:ShowVTP:show vtp status
+cisco:command:ShowVLAN:show vlan
+cisco:command:ShowVLAN:show vlan-switch
+cisco:command:ShowDebug:show debug
+cisco:command:ShowShun:show shun
+cisco:command:WriteTerm:more system:running-config
+cisco:command:WriteTerm:show running-config view full
+cisco:command:WriteTerm:show running-config
+cisco:command:WriteTerm:write term
 #
 cisco-nx:script:nxrancid
 #

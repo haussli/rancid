@@ -257,7 +257,15 @@ sub sortbyipaddr {
     &ipaddrval($a) <=> &ipaddrval($b);
 }
 
-# dummy function
-sub DoNothing {print STDOUT;}
+# This routine parses a single command that returns no required info.
+sub RunCommand {
+    print STDERR "    In RunCommand: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+    }
+    return(0);
+}
 
 1;

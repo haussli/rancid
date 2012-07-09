@@ -46,33 +46,60 @@ package rancid::base;
 #
 
 use 5.005;
+use Exporter;
 use strict 'vars';
+use warnings;
 
 use vars qw{$VERSION};
+use vars qw{@commandtable %commands @commands};	# command lists
+use vars qw{$commandstr $cmds_regexp};
+use vars qw{$filter_commstr};		# SNMP community string filtering
+use vars qw{$filter_pwds};		# password filtering mode
+use vars qw{$aclsort};			# ACL sorting mode
+use vars qw{$log};			# log cmdline option
+use vars qw{$debug};			# debug cmdline option
+use vars qw{$file};			# file cmdline option
+use vars qw{$host};			# hostname from cmdline
+use vars qw{$clean_run};		# successful run
+use vars qw{$found_end};		# found end of the config
+use vars qw{$timeo};			# login script timeout in seconds
+
+use vars qw{$command $hist_tag};	# ProcessHistory state
+use vars qw{%history @history};		# ProcessHistory state
+#XXX @Exporter::ISA = qw(Exporter);
+@Exporter::EXPORT = qw($VERSION @commandtable %commands @commands
+		$commandstr $cmds_regexp
+		$filter_commstr $filter_pwds $aclsort
+		$log $debug $file $host $clean_run $found_end $timeo
+		init loadtype ProcessHistory numerically keynsort keysort
+		valsort numsort ipsort ipaddrval sortbyipaddr DoNothing);
+
 BEGIN {
-        $VERSION = '@VERSION@';
+    $VERSION = '@VERSION@';
 }
 
-# initialize common rancid parameters.
+# initialize common rancid parameters and handle command-line arguments.
 sub init {
-    if ($opt_V) {
+    if ($main::opt_V) {
 	print "@PACKAGE@ @VERSION@\n";
 	exit(0);
     }
+    # make OUTPUT unbuffered if debugging
+    if ($main::debug) { $| = 1; }
 
-    my($log) = $opt_l;
-    my($debug) = $opt_d;
-    my($file) = $opt_f;
-    my($host) = $ARGV[0];
-    my($clean_run) = 0;
-    my($found_end) = 0;
-    my($timeo) = 90;			# login script timeout in seconds
+    $command = $hist_tag = "";		# ProcessHistory state
+    %history = {};
+    @history = ();
 
-    my(@commandtable, %commands, @commands);# command lists
-    my($aclsort) = ("ipsort");		# ACL sorting mode
-    my($filter_commstr);		# SNMP community string filtering
-    my($filter_pwds);			# password filtering mode
+    $log = $main::opt_l;
+    $debug = $main::opt_d;
+    $file = $main::opt_f;
+    $host = $ARGV[0];
+    $clean_run = 0;
+    $found_end = 0;
+    $timeo = 90;			# login script timeout in seconds
 
+    $aclsort = ("ipsort");		# ACL sorting mode
 
     # determine ACL sorting mode
     if ($ENV{"ACLSORT"} =~ /no/i) {
@@ -94,38 +121,37 @@ sub init {
 	$filter_pwds = 1;
     }
 
-    # make OUTPUT unbuffered if debugging
-    if ($debug) { $| = 1; }
+    if (length($main::host) == 0) {
+	if ($main::file) {
+	    print(STDERR "Too few arguments: file name required\n");
+	    exit(1);
+	} else {
+	    print(STDERR "Too few arguments: host name required\n");
+	    exit(1);
+	}
+    }
 
     1;
 }
 
-# load rancid device-type spec/info
+# load rancid device-type spec/info and modules & handle -C option
 sub loadtype {
     @commandtable = ();
 
 	# XXX load device-type information
+	# XXX load device-type specific modules
     # Use an array to preserve the order of the commands and a hash for mapping
     # commands to the subroutine and track commands that have been completed.
     @commands = map(keys(%$_), @commandtable);
     %commands = map(%$_, @commandtable);
 
-    $cisco_cmds = join(";",@commands);
+    $commandstr = join(";",@commands);
     $cmds_regexp = join("|", map quotemeta($_), @commands);
 
-if (length($host) == 0) {
-    if ($file) {
-	print(STDERR "Too few arguments: file name required\n");
-	exit(1);
-    } else {
-	print(STDERR "Too few arguments: host name required\n");
-	exit(1);
+    if ($main::opt_C) {
+	print "clogin -t $timeo -c\'$commandstr\' $host\n";
+	exit(0);
     }
-}
-if ($opt_C) {
-    print "clogin -t $timeo -c\'$cisco_cmds\' $host\n";
-    exit(0);
-}
 
     1;
 }
@@ -160,9 +186,9 @@ sub numerically { $a <=> $b; }
 # This is a sort routine that will sort numerically on the
 # keys of a hash as if it were a normal array.
 sub keynsort {
-    local(%lines) = @_;
-    local($i) = 0;
-    local(@sorted_lines);
+    my(%lines) = @_;
+    my($i) = 0;
+    my($key, @sorted_lines);
     foreach $key (sort numerically keys(%lines)) {
 	$sorted_lines[$i] = $lines{$key};
 	$i++;
@@ -173,9 +199,9 @@ sub keynsort {
 # This is a sort routine that will sort on the
 # keys of a hash as if it were a normal array.
 sub keysort {
-    local(%lines) = @_;
-    local($i) = 0;
-    local(@sorted_lines);
+    my(%lines) = @_;
+    my($i) = 0;
+    my($key, @sorted_lines);
     foreach $key (sort keys(%lines)) {
 	$sorted_lines[$i] = $lines{$key};
 	$i++;
@@ -185,10 +211,10 @@ sub keysort {
 
 # This is a sort routine that will sort on the
 # values of a hash as if it were a normal array.
-sub valsort{
-    local(%lines) = @_;
-    local($i) = 0;
-    local(@sorted_lines);
+sub valsort {
+    my(%lines) = @_;
+    my($i) = 0;
+    my($key, @sorted_lines);
     foreach $key (sort values %lines) {
 	$sorted_lines[$i] = $key;
 	$i++;
@@ -198,9 +224,9 @@ sub valsort{
 
 # This is a numerical sort routine (ascending).
 sub numsort {
-    local(%lines) = @_;
-    local($i) = 0;
-    local(@sorted_lines);
+    my(%lines) = @_;
+    my($i) = 0;
+    my($num, @sorted_lines);
     foreach $num (sort {$a <=> $b} keys %lines) {
 	$sorted_lines[$i] = $lines{$num};
 	$i++;
@@ -212,9 +238,9 @@ sub numsort {
 # ip address when the ip address is anywhere in
 # the strings.
 sub ipsort {
-    local(%lines) = @_;
-    local($i) = 0;
-    local(@sorted_lines);
+    my(%lines) = @_;
+    my($i) = 0;
+    my($addr, @sorted_lines);
     foreach $addr (sort sortbyipaddr keys %lines) {
 	$sorted_lines[$i] = $lines{$addr};
 	$i++;

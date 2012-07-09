@@ -113,7 +113,25 @@ hp:script:hrancid
 #
 juniper:script:jrancid
 juniper:login:jlogin
-juniper:command:ShowVersion:show version
+juniper:module:rancid::junos
+juniper:command:ShowChassisClocks:show chassis clocks
+juniper:command:ShowChassisEnvironment:show chassis environment
+juniper:command:ShowChassisFirmware:show chassis firmware
+juniper:command:ShowChassisFpcDetail:show chassis fpc detail
+juniper:command:ShowChassisHardware:show chassis hardware detail
+juniper:command:ShowChassisRoutingEngine:show chassis routing-engine
+juniper:command:ShowChassisSCB:show chassis scb
+juniper:command:ShowChassisSCB:show chassis sfm detail
+juniper:command:ShowChassisSCB:show chassis ssb
+juniper:command:ShowChassisSCB:show chassis feb detail
+juniper:command:ShowChassisSCB:show chassis feb
+juniper:command:ShowChassisSCB:show chassis cfeb
+juniper:command:ShowChassisAlarms:show chassis alarms
+juniper:command:ShowSystemLicense:show system license
+juniper:command:ShowSystemBootMessages:show system boot-messages
+juniper:command:ShowSystemCoreDumps:show system core-dumps
+juniper:command:ShowVersion:show version detail
+juniper:command:ShowConfiguration:show configuration
 #
 mikrotik:script:mtrancid
 #

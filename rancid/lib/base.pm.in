@@ -46,9 +46,9 @@ package rancid::base;
 #
 
 use 5.005;
-use Exporter;
 use strict 'vars';
 use warnings;
+require Exporter;
 
 use vars qw{$VERSION};
 use vars qw{@commandtable %commands @commands};	# command lists
@@ -63,6 +63,7 @@ use vars qw{$host};			# hostname from cmdline
 use vars qw{$clean_run};		# successful run
 use vars qw{$found_end};		# found end of the config
 use vars qw{$timeo};			# login script timeout in seconds
+use vars qw{$prompt};			# device prompt regex
 
 use vars qw{$command $hist_tag};	# ProcessHistory state
 use vars qw{%history @history};		# ProcessHistory state
@@ -70,8 +71,8 @@ use vars qw{%history @history};		# ProcessHistory state
 @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands
 		$commandstr $cmds_regexp
 		$filter_commstr $filter_pwds $aclsort
-		$log $debug $file $host $clean_run $found_end $timeo
-		ProcessHistory numerically keynsort keysort
+		$log $debug $file $host $clean_run $found_end $timeo $prompt
+		init loadtypes ProcessHistory numerically keynsort keysort
 		valsort numsort ipsort ipaddrval sortbyipaddr DoNothing);
 
 BEGIN {
@@ -80,6 +81,8 @@ BEGIN {
 
 # initialize common rancid parameters and handle command-line arguments.
 sub init {
+    my($i);
+
     if ($main::opt_V) {
 	print "@PACKAGE@ @VERSION@\n";
 	exit(0);
@@ -88,13 +91,15 @@ sub init {
     if ($main::debug) { $| = 1; }
 
     $command = $hist_tag = "";		# ProcessHistory state
-    %history = {};
+    for (keys %history) {
+        delete $history{$_};
+    }
     @history = ();
 
     $log = $main::opt_l;
     $debug = $main::opt_d;
     $file = $main::opt_f;
-    $host = $ARGV[0];
+    $host = defined($ARGV[0]) ? $ARGV[0] : "";
     $clean_run = 0;
     $found_end = 0;
     $timeo = 90;			# login script timeout in seconds
@@ -102,7 +107,7 @@ sub init {
     $aclsort = ("ipsort");		# ACL sorting mode
 
     # determine ACL sorting mode
-    if ($ENV{"ACLSORT"} =~ /no/i) {
+    if (defined($ENV{"ACLSORT"}) && $ENV{"ACLSORT"} =~ /no/i) {
 	$aclsort = "";
     }
     # determine community string filtering mode
@@ -113,15 +118,15 @@ sub init {
 	$filter_commstr = 0;
     }
     # determine password filtering mode
-    if ($ENV{"FILTER_PWDS"} =~ /no/i) {
+    if (defined($ENV{"FILTER_PWDS"}) && $ENV{"FILTER_PWDS"} =~ /no/i) {
 	$filter_pwds = 0;
-    } elsif ($ENV{"FILTER_PWDS"} =~ /all/i) {
+    } elsif (defined($ENV{"FILTER_PWDS"}) && ENV{"FILTER_PWDS"} =~ /all/i) {
 	$filter_pwds = 2;
     } else {
 	$filter_pwds = 1;
     }
 
-    if (length($main::host) == 0) {
+    if (length($host) == 0) {
 	if ($main::file) {
 	    print(STDERR "Too few arguments: file name required\n");
 	    exit(1);
@@ -261,7 +266,7 @@ sub sortbyipaddr {
 sub RunCommand {
     print STDERR "    In RunCommand: $_" if ($debug);
 
-    while (<INPUT>) {
+    while (<main::INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
     }

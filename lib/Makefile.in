@@ -78,6 +78,14 @@ base_pm_AR = $(AR) $(ARFLAGS)
 base_pm_LIBADD =
 base_pm_SOURCES = base.c
 base_pm_OBJECTS = base.$(OBJEXT)
+ios_pm_AR = $(AR) $(ARFLAGS)
+ios_pm_LIBADD =
+ios_pm_SOURCES = ios.c
+ios_pm_OBJECTS = ios.$(OBJEXT)
+junos_pm_AR = $(AR) $(ARFLAGS)
+junos_pm_LIBADD =
+junos_pm_SOURCES = junos.c
+junos_pm_OBJECTS = junos.$(OBJEXT)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/include
 depcomp =
 am__depfiles_maybe =
@@ -85,8 +93,8 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = base.c
-DIST_SOURCES = base.c
+SOURCES = base.c ios.c junos.c
+DIST_SOURCES = base.c ios.c junos.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -206,7 +214,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign no-dependencies
-pkglib_LIBRARIES = base.pm
+pkglib_LIBRARIES = base.pm ios.pm junos.pm
 RANLIB = :
 
 #EXTRA_DIST= lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in
@@ -518,6 +526,18 @@ base.pm: Makefile $(srcdir)/base.pm.in
 	$(auto_edit) $(srcdir)/base.pm.in >base.pm.tmp; \
 	chmod +x base.pm.tmp; \
 	mv base.pm.tmp base.pm
+
+ios.pm: Makefile $(srcdir)/ios.pm.in
+	rm -f ios.pm ios.pm.tmp; \
+	$(auto_edit) $(srcdir)/ios.pm.in >ios.pm.tmp; \
+	chmod +x ios.pm.tmp; \
+	mv ios.pm.tmp ios.pm
+
+junos.pm: Makefile $(srcdir)/junos.pm.in
+	rm -f junos.pm junos.pm.tmp; \
+	$(auto_edit) $(srcdir)/junos.pm.in >junos.pm.tmp; \
+	chmod +x junos.pm.tmp; \
+	mv junos.pm.tmp junos.pm
 
 #$(bin_PROGRAMS) $(bin_SCRIPTS): ../include/version.h
 

@@ -572,9 +572,6 @@ sub ShowRun {
     return(0);
 }
 
-# dummy function
-sub DoNothing {print STDOUT;}
-
 # Main
 @commandtable = (
 	{'term length 65535'		=> 'TermLength'},

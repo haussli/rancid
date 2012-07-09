@@ -212,10 +212,6 @@ sub ShowConfig {
 	}
 }
 
-
-# dummy function
-sub DoNothing {print STDOUT;}
-
 # Main
 @commandtable=(
 	{'show version'		=> "ShowVersion"},

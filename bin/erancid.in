@@ -228,9 +228,6 @@ sub WriteTerm {
     return(1);
 }
 
-# dummy function
-sub DoNothing {print STDOUT;}
-
 # Main
 @commandtable = (
 	{'version'		=> 'ShowVersion'},

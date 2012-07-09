@@ -98,9 +98,6 @@ sub ShowConfig {
     return(0);
 }
 
-# dummy function
-sub DoNothing {print STDOUT;}
-
 # Main
 @commandtable = (
 	{'show boot-env' 			=> "ShowConfig"},

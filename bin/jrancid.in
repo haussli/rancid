@@ -645,9 +645,6 @@ sub ShowConfiguration {
 ### End of real work
 ###
 
-# dummy function
-sub DoNothing {print STDOUT;}
-
 # Main
 @commandtable = (
 	{'show chassis clocks'		=> 'ShowChassisClocks'},

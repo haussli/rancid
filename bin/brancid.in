@@ -210,9 +210,6 @@ sub RunCommand {
     return(0)
 }
 
-# dummy function
-sub DoNothing {print STDOUT;}
-
 # Main
 @commandtable = (
 	{'bcc'			=> 'RunCommand'},

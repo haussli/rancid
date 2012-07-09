@@ -251,9 +251,6 @@ sub ShowActive {
     return;
 }
 
-# dummy function
-sub DoNothing {print STDOUT;}
-
 # Main
 @commandtable = (
 	{'system show uptime'		=> 'ShowUptime'},

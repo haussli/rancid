@@ -292,9 +292,6 @@ sub WriteTerm {
     return;
 }
 
-# dummy function
-sub DoNothing {print STDOUT;}
-
 # Main subroutine that splits up the work
 # All Subs return the name of the next function to use.
 # If the sub returns a new funtion name, that name will be used

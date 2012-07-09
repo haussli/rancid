@@ -262,9 +262,6 @@ sub GetConf {
     return(1);
 }
 
-# dummy function
-sub DoNothing {print STDOUT;}
-
 # Main
 @commandtable = (
 	{'get system'		=> 'GetSystem'},

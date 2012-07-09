@@ -742,9 +742,6 @@ sub RunCommand {
     return(0);
 }
 
-# dummy function
-sub DoNothing {print STDOUT;}
-
 ##############################
 # add these:
 # show version module X - wait until can show all

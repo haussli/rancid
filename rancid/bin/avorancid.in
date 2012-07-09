@@ -186,9 +186,6 @@ sub CatFile {
     return(0);
 }
 
-# dummy function
-sub DoNothing {print STDOUT;}
-
 # Main
 @commandtable = (
 	{'cat /etc/hostname'		=> 'CatFile'},

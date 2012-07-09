@@ -190,9 +190,6 @@ sub ShowVersion {
     return(0)
 }
 
-# dummy function
-sub DoNothing {print STDOUT;}
-
 # Main
 @commandtable = (
 	{'version -a'			=> 'ShowVersion'},

@@ -205,11 +205,6 @@ $found_end = 1;
 print STDOUT "$found_end = found_end at end test\n";
 
 
-
-
-# dummy function
-sub DoNothing {print STDOUT;}
-
 # Main
 @commandtable = (
 	{'save con'		=> 'SaveConf'}

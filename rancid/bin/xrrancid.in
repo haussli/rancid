@@ -1235,9 +1235,6 @@ sub FilterAll {
     }
 }
 
-# dummy function
-sub DoNothing {print STDOUT;}
-
 # Main
 @commandtable = (
 	# Disable timestamps in output

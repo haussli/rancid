@@ -71,7 +71,7 @@ use vars qw{%history @history};		# ProcessHistory state
 		$commandstr $cmds_regexp
 		$filter_commstr $filter_pwds $aclsort
 		$log $debug $file $host $clean_run $found_end $timeo
-		init loadtype ProcessHistory numerically keynsort keysort
+		ProcessHistory numerically keynsort keysort
 		valsort numsort ipsort ipaddrval sortbyipaddr DoNothing);
 
 BEGIN {

@@ -12,6 +12,9 @@ LC_COLLATE="POSIX"; export LC_COLLATE
 # for group.
 umask 027
 #
+# Set the perl module search path.  perl -V shows the default
+#PERL5LIB="@libdir@"; export PERL5LIB
+#
 # Under BASEDIR (i.e.: --localstatedir), there will be a "logs" directory for
 # the logs from rancid and a directory for each group of routers defined in
 # LIST_OF_GROUPS (below).  In addition to these, there will be a "CVS"

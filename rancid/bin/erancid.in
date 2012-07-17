@@ -239,7 +239,7 @@ sub WriteTerm {
 @commands = map(keys(%$_), @commandtable);
 %commands = map(%$_, @commandtable);
 
-$cisco_cmds=join(";",@commands);
+$commandstr=join(";",@commands);
 $cmds_regexp = join("|", map quotemeta($_), @commands);
 
 if (length($host) == 0) {
@@ -252,7 +252,7 @@ if (length($host) == 0) {
     }
 }
 if ($opt_C) {
-    print "elogin -t $timeo -c\'$cisco_cmds\' $host\n";
+    print "elogin -t $timeo -c\'$commandstr\' $host\n";
     exit(0);
 }
 open(OUTPUT,">$host.new") || die "Can't open $host.new for writing: $!\n";
@@ -265,13 +265,13 @@ if ($file) {
     print STDOUT "opening file $host\n" if ($log);
     open(INPUT,"<$host") || die "open failed for $host: $!\n";
 } else {
-    print STDERR "executing elogin -t $timeo -c\"$cisco_cmds\" $host\n" if ($debug);
-    print STDOUT "executing elogin -t $timeo -c\"$cisco_cmds\" $host\n" if ($log);
+    print STDERR "executing elogin -t $timeo -c\"$commandstr\" $host\n" if ($debug);
+    print STDOUT "executing elogin -t $timeo -c\"$commandstr\" $host\n" if ($log);
     if (defined($ENV{NOPIPE}) && $ENV{NOPIPE} =~ /^YES/i) {
-	system "elogin -t $timeo -c \"$cisco_cmds\" $host </dev/null > $host.raw 2>&1" || die "elogin failed for $host: $!\n";
+	system "elogin -t $timeo -c \"$commandstr\" $host </dev/null > $host.raw 2>&1" || die "elogin failed for $host: $!\n";
 	open(INPUT, "< $host.raw") || die "elogin failed for $host: $!\n";
     } else {
-	open(INPUT,"elogin -t $timeo -c \"$cisco_cmds\" $host </dev/null |") || die "elogin failed for $host: $!\n";
+	open(INPUT,"elogin -t $timeo -c \"$commandstr\" $host </dev/null |") || die "elogin failed for $host: $!\n";
     }
 }
 

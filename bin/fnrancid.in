@@ -230,7 +230,7 @@ sub GetConf {
 @commands = map(keys(%$_), @commandtable);
 %commands = map(%$_, @commandtable);
 
-$cisco_cmds=join(";",@commands);
+$commandstr=join(";",@commands);
 $cmds_regexp = join("|", map quotemeta($_), @commands);
 
 if (length($host) == 0) {
@@ -243,7 +243,7 @@ if (length($host) == 0) {
     }
 }
 if ($opt_C) {
-    print "fnlogin -t $timeo -c\'$cisco_cmds\' $host\n";
+    print "fnlogin -t $timeo -c\'$commandstr\' $host\n";
     exit(0);
 }
 open(OUTPUT,">$host.new") || die "Can't open $host.new for writing: $!\n";
@@ -256,13 +256,13 @@ if ($file) {
     print STDOUT "opening file $host\n" if ($log);
     open(INPUT,"<$host") || die "open failed for $host: $!\n";
 } else {
-    print STDERR "executing fnlogin -t $timeo -c\"$cisco_cmds\" $host\n" if ($debug);
-    print STDOUT "executing fnlogin -t $timeo -c\"$cisco_cmds\" $host\n" if ($log);
+    print STDERR "executing fnlogin -t $timeo -c\"$commandstr\" $host\n" if ($debug);
+    print STDOUT "executing fnlogin -t $timeo -c\"$commandstr\" $host\n" if ($log);
     if (defined($ENV{NOPIPE}) && $ENV{NOPIPE} =~ /^YES/i) {
-	system "fnlogin -t $timeo -c \"$cisco_cmds\" $host </dev/null > $host.raw 2>&1" || die "fnlogin failed for $host: $!\n";
+	system "fnlogin -t $timeo -c \"$commandstr\" $host </dev/null > $host.raw 2>&1" || die "fnlogin failed for $host: $!\n";
 	open(INPUT, "< $host.raw") || die "fnlogin failed for $host: $!\n";
     } else {
-	open(INPUT,"fnlogin -t $timeo -c \"$cisco_cmds\" $host </dev/null |") || die "fnlogin failed for $host: $!\n";
+	open(INPUT,"fnlogin -t $timeo -c \"$commandstr\" $host </dev/null |") || die "fnlogin failed for $host: $!\n";
     }
 }
 

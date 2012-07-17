@@ -1,4 +1,6 @@
 3.0a
+	*rancid: few variable name changes to match rancid::base
+
 	arrancid: summarize flash remaining space
 
 	jrancid: show version can terminate abnormally when unable to

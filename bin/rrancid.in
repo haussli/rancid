@@ -336,7 +336,7 @@ if (length($host) == 0) {
     }
 }
 if ($opt_C) {
-    print "clogin -t $timeo -c\'$cisco_cmds\' $host\n";
+    print "clogin -t $timeo -c\'$commandstr\' $host\n";
     exit(0);
 }
 open(OUTPUT,">$host.new") || die "Can't open $host.new for writing: $!\n";

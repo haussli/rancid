@@ -424,7 +424,7 @@ sub WriteTerm {
 @commands = map(keys(%$_), @commandtable);
 %commands = map(%$_, @commandtable);
 
-$cisco_cmds=join(";",@commands);
+$commandstr=join(";",@commands);
 $cmds_regexp = join("|", map quotemeta($_), @commands);
 
 if (length($host) == 0) {
@@ -437,7 +437,7 @@ if (length($host) == 0) {
     }
 }
 if ($opt_C) {
-    print "flogin -t $timeo -c\'$cisco_cmds\' $host\n";
+    print "flogin -t $timeo -c\'$commandstr\' $host\n";
     exit(0);
 }
 open(OUTPUT,">$host.new") || die "Can't open $host.new for writing: $!\n";
@@ -450,13 +450,13 @@ if ($file) {
     print STDOUT "opening file $host\n" if ($log);
     open(INPUT,"<$host") || die "open failed for $host: $!\n";
 } else {
-    print STDERR "executing flogin -t $timeo -c\"$cisco_cmds\" $host\n" if ($debug);
-    print STDOUT "executing flogin -t $timeo -c\"$cisco_cmds\" $host\n" if ($log);
+    print STDERR "executing flogin -t $timeo -c\"$commandstr\" $host\n" if ($debug);
+    print STDOUT "executing flogin -t $timeo -c\"$commandstr\" $host\n" if ($log);
     if (defined($ENV{NOPIPE}) && $ENV{NOPIPE} =~ /^YES/i) {
-	system "flogin -t $timeo -c \"$cisco_cmds\" $host </dev/null > $host.raw 2>&1" || die "flogin failed for $host: $!\n";
+	system "flogin -t $timeo -c \"$commandstr\" $host </dev/null > $host.raw 2>&1" || die "flogin failed for $host: $!\n";
 	open(INPUT, "< $host.raw") || die "flogin failed for $host: $!\n";
     } else {
-	open(INPUT,"flogin -t $timeo -c \"$cisco_cmds\" $host </dev/null |") || die "flogin failed for $host: $!\n";
+	open(INPUT,"flogin -t $timeo -c \"$commandstr\" $host </dev/null |") || die "flogin failed for $host: $!\n";
     }
 }
 

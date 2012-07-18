@@ -1,4 +1,8 @@
 3.0a
+	router.db,rancid.types.*: change field separator to ';' (semi-colon) to
+	allow for IPv6 addresses in router.db and avoid conflict with :s in
+	device commands and perl module names
+
 	*rancid: few variable name changes to match rancid::base
 
 	arrancid: summarize flash remaining space

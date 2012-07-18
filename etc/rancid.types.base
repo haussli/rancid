@@ -10,6 +10,11 @@ agm:script:agmrancid
 alteon:script:arancid
 #
 arbor:script:anrancid
+arbor:login:anlogin
+arbor:module:rancid::arbor
+arbor:command:system version
+arbor:command:system hardware
+arbor:command:config show
 #
 arista:script:arrancid
 #

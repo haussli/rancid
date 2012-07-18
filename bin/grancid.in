@@ -45,10 +45,10 @@
 #  grancid - generalized rancid module; command schedule is derived from the
 #	     rancid.{base,types}.conf configurations.
 #
-# usage: grancid [-dlCV] [-f filename | hostname]
+# usage: grancid [-dltCV] [-f filename | hostname]
 #
 use Getopt::Std;
-getopts('dflCV');
+getopts('dfltCV');
 BEGIN {
     push(@INC, "/home/heas/rancid/lib");
 }
@@ -58,7 +58,7 @@ use rancid::base;
 rancid::base::init();
 
 # Main
-rancid::base::loadtype();
+rancid::base::loadtype($devtype);
 #XXX load base modules
 #XXX find device type in type configuration files & build @commandtable
 #XXX load specified modules

@@ -42,11 +42,11 @@
 #
 #  RANCID - Really Awesome New Cisco confIg Differ
 #
-# usage: trancid [-dlCV] [-f filename | hostname]
+# usage: trancid [-dltCV] [-f filename | hostname]
 #
 # Modified by Ed Ravin for Netopia.
 use Getopt::Std;
-getopts('dflCV');
+getopts('dfltCV');
 if ($opt_V) {
     print "@PACKAGE@ @VERSION@\n";
     exit(0);

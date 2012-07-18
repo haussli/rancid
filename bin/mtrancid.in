@@ -22,11 +22,11 @@
 #
 #  RANCID - Really Awesome New Cisco confIg Differ
 #
-# usage: mtrancid [-dlCV] [-f filename | hostname]
+# usage: mtrancid [-dltCV] [-f filename | hostname]
 #
 # Modified by Chris Boot for MikroTik.
 use Getopt::Std;
-getopts('dflCV');
+getopts('dfltCV');
 if ($opt_V) {
     print "@PACKAGE@ @VERSION@\n";
     exit(0);

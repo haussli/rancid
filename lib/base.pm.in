@@ -53,6 +53,7 @@ require Exporter;
 use vars qw{$VERSION};
 use vars qw{@commandtable %commands @commands};	# command lists
 use vars qw{$commandstr $cmds_regexp};
+use vars qw{$devtype};			# device type argument
 use vars qw{$filter_commstr};		# SNMP community string filtering
 use vars qw{$filter_pwds};		# password filtering mode
 use vars qw{$aclsort};			# ACL sorting mode
@@ -98,6 +99,7 @@ sub init {
 
     $log = $main::opt_l;
     $debug = $main::opt_d;
+    $devtype = $main::opt_t;
     $file = $main::opt_f;
     $host = defined($ARGV[0]) ? $ARGV[0] : "";
     $clean_run = 0;
@@ -139,8 +141,11 @@ sub init {
     1;
 }
 
-# load rancid device-type spec/info and modules & handle -C option
+# load rancid device-type spec/info from etc/rancid.types.* config files, then
+# load modules & handle -C option, if present.
+# usage: loadtype(device_type)
 sub loadtype {
+    my($type) = @_;
     @commandtable = ();
 
 	# XXX load device-type information

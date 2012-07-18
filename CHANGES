@@ -1,4 +1,7 @@
 3.0a
+	*rancid: add -t option for rancid-fe to pass the device type from
+	router.db.  Mainly for grancid, but pass it to all scripts.
+
 	router.db,rancid.types.*: change field separator to ';' (semi-colon) to
 	allow for IPv6 addresses in router.db and avoid conflict with :s in
 	device commands and perl module names

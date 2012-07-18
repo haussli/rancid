@@ -42,10 +42,10 @@
 #
 #  RANCID - Really Awesome New Cisco confIg Differ
 #
-# usage: xrrancid [-dlCV] [-f filename | hostname]
+# usage: xrrancid [-dltCV] [-f filename | hostname]
 #
 use Getopt::Std;
-getopts('dflCV');
+getopts('dfltCV');
 if ($opt_V) {
     print "@PACKAGE@ @VERSION@\n";
     exit(0);

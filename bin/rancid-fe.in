@@ -48,10 +48,10 @@
 require 5;
 
 my($script);
-my($router, $vendor) = split('\:', $ARGV[0]);
-$vendor =~ tr/[A-Z]/[a-z]/;
-if (! length($vendor)) {
-    printf(STDERR "unknown router manufacturer for $router: $vendor\n");
+my($router, $devtype) = split('\;', $ARGV[0]);
+$devtype =~ tr/[A-Z]/[a-z]/;
+if (! length($devtype)) {
+    printf(STDERR "unknown router manufacturer for $router: $devtype\n");
     exit(-1);
 }
 
@@ -60,25 +60,25 @@ foreach $file ("@sysconfdir@/rancid.types.base",
     open(INPUT, "< $file") || die "Could not open $file: $!";
     while (<INPUT>) {
 	chomp;
-	my($type, $directive, $value) = split('\:');
+	my($type, $directive, $value) = split('\;');
 	$type =~ tr/[A-Z]/[a-z]/;
 	$directive =~ tr/[A-Z]/[a-z]/;
-	if ($type eq $vendor && $directive eq "script") {
+	if ($type eq $devtype && $directive eq "script") {
 	    $script = $value;
 	    close(INPUT);
-	    goto VENDOR;
+	    goto FOUND;
 	}
     }
     close(INPUT);
 }
 
-VENDOR:
+FOUND:
 if (! defined($script)) {
-    printf(STDERR "unknown router manufacturer for $router: $vendor\n");
+    printf(STDERR "unknown router manufacturer for $router: $devtype\n");
     exit(-1);
 } else {
     exec($script . " $router");
 }
 
-printf(STDERR "exec failed router manufacturer $vendor: $!\n");
+printf(STDERR "exec failed router manufacturer $devtype: $!\n");
 exit(-1);

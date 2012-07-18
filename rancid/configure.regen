@@ -1,7 +1,7 @@
 #! /bin/sh
-# libtoolize -c -f -i
-# aclocal --force -Iaconf
-aclocal --force
-autoheader -f
-automake -a -c -f
-autoconf
+# libtoolize -c -f -i;sleep 1
+# aclocal --force -Iaconf;sleep 1
+aclocal --force;sleep 1
+autoheader -f;sleep 1
+automake -a -c -f;sleep 1
+autoconf;sleep 1

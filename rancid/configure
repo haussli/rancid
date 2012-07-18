@@ -6011,6 +6011,8 @@ ac_config_files="$ac_config_files etc/Makefile"
 
 ac_config_files="$ac_config_files include/Makefile"
 
+ac_config_files="$ac_config_files lib/Makefile"
+
 ac_config_files="$ac_config_files man/Makefile"
 
 ac_config_files="$ac_config_files share/Makefile"
@@ -6036,6 +6038,8 @@ ac_config_files="$ac_config_files bin/anlogin bin/anrancid"
 
 ac_config_files="$ac_config_files bin/arrancid"
 
+ac_config_files="$ac_config_files bin/atrancid"
+
 ac_config_files="$ac_config_files bin/avologin bin/avorancid"
 
 ac_config_files="$ac_config_files bin/blogin bin/brancid"
@@ -6053,6 +6057,8 @@ ac_config_files="$ac_config_files bin/f10rancid"
 ac_config_files="$ac_config_files bin/flogin bin/francid"
 
 ac_config_files="$ac_config_files bin/fnlogin bin/fnrancid"
+
+ac_config_files="$ac_config_files bin/grancid"
 
 ac_config_files="$ac_config_files bin/hlogin bin/hrancid"
 
@@ -6818,6 +6824,7 @@ do
     "bin/Makefile") CONFIG_FILES="$CONFIG_FILES bin/Makefile" ;;
     "etc/Makefile") CONFIG_FILES="$CONFIG_FILES etc/Makefile" ;;
     "include/Makefile") CONFIG_FILES="$CONFIG_FILES include/Makefile" ;;
+    "lib/Makefile") CONFIG_FILES="$CONFIG_FILES lib/Makefile" ;;
     "man/Makefile") CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
     "share/Makefile") CONFIG_FILES="$CONFIG_FILES share/Makefile" ;;
     "include/version.h") CONFIG_FILES="$CONFIG_FILES include/version.h" ;;
@@ -6830,6 +6837,7 @@ do
     "bin/anlogin") CONFIG_FILES="$CONFIG_FILES bin/anlogin" ;;
     "bin/anrancid") CONFIG_FILES="$CONFIG_FILES bin/anrancid" ;;
     "bin/arrancid") CONFIG_FILES="$CONFIG_FILES bin/arrancid" ;;
+    "bin/atrancid") CONFIG_FILES="$CONFIG_FILES bin/atrancid" ;;
     "bin/avologin") CONFIG_FILES="$CONFIG_FILES bin/avologin" ;;
     "bin/avorancid") CONFIG_FILES="$CONFIG_FILES bin/avorancid" ;;
     "bin/blogin") CONFIG_FILES="$CONFIG_FILES bin/blogin" ;;
@@ -6846,6 +6854,7 @@ do
     "bin/francid") CONFIG_FILES="$CONFIG_FILES bin/francid" ;;
     "bin/fnlogin") CONFIG_FILES="$CONFIG_FILES bin/fnlogin" ;;
     "bin/fnrancid") CONFIG_FILES="$CONFIG_FILES bin/fnrancid" ;;
+    "bin/grancid") CONFIG_FILES="$CONFIG_FILES bin/grancid" ;;
     "bin/hlogin") CONFIG_FILES="$CONFIG_FILES bin/hlogin" ;;
     "bin/hrancid") CONFIG_FILES="$CONFIG_FILES bin/hrancid" ;;
     "bin/htlogin") CONFIG_FILES="$CONFIG_FILES bin/htlogin" ;;
@@ -7565,6 +7574,7 @@ $as_echo X"$file" |
     "bin/anlogin":F) chmod a+x $ac_file ;;
     "bin/anrancid":F) chmod a+x $ac_file ;;
     "bin/arrancid":F) chmod a+x $ac_file ;;
+    "bin/atrancid":F) chmod a+x $ac_file ;;
     "bin/avologin":F) chmod a+x $ac_file ;;
     "bin/avorancid":F) chmod a+x $ac_file ;;
     "bin/blogin":F) chmod a+x $ac_file ;;
@@ -7581,6 +7591,7 @@ $as_echo X"$file" |
     "bin/francid":F) chmod a+x $ac_file ;;
     "bin/fnlogin":F) chmod a+x $ac_file ;;
     "bin/fnrancid":F) chmod a+x $ac_file ;;
+    "bin/grancid":F) chmod a+x $ac_file ;;
     "bin/hlogin":F) chmod a+x $ac_file ;;
     "bin/hrancid":F) chmod a+x $ac_file ;;
     "bin/htlogin":F) chmod a+x $ac_file ;;

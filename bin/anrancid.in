@@ -59,7 +59,7 @@ $file = $opt_f;
 $host = $ARGV[0];
 $clean_run = 0;
 $found_end = 0;
-$timeo = 90;				# complogin timeout in seconds
+$timeo = 90;				# anlogin timeout in seconds
 
 my(@commandtable, %commands, @commands);# command lists
 my($aclsort) = ("ipsort");		# ACL sorting mode
@@ -296,7 +296,7 @@ if (length($host) == 0) {
     }
 }
 if ($opt_C) {
-    print "complogin -t $timeo -c\'$commandstr\' $host\n";
+    print "anlogin -t $timeo -c\'$commandstr\' $host\n";
     exit(0);
 }
 open(OUTPUT,">$host.new") || die "Can't open $host.new for writing: $!\n";

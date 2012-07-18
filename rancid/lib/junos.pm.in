@@ -59,8 +59,11 @@ use vars qw{$ShowChassisSCB};		# Only run ShowChassisSCB() once
 
 # initialize common rancid parameters and handle command-line arguments.
 sub init {
-    $timeo = 120;			# clogin timeout in seconds
+    $timeo = 120;			# jlogin timeout in seconds
 
+# XXX is this the right place for this?
+# XXX can the content line move to the lib?
+ProcessHistory("","","","!RANCID-CONTENT-TYPE: juniper\n!\n");
     1;
 }
 

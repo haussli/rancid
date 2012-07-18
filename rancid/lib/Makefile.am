@@ -47,7 +47,7 @@
 
 AUTOMAKE_OPTIONS=foreign no-dependencies
 
-pkglib_LIBRARIES = base.pm ios.pm junos.pm
+pkglib_LIBRARIES = base.pm arbor.pm ios.pm junos.pm
 RANLIB= :
 
 #EXTRA_DIST= lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in
@@ -85,6 +85,12 @@ base.pm: Makefile $(srcdir)/base.pm.in
 	$(auto_edit) $(srcdir)/base.pm.in >base.pm.tmp; \
 	chmod +x base.pm.tmp; \
 	mv base.pm.tmp base.pm
+
+arbor.pm: Makefile $(srcdir)/arbor.pm.in
+	rm -f arbor.pm arbor.pm.tmp; \
+	$(auto_edit) $(srcdir)/arbor.pm.in >arbor.pm.tmp; \
+	chmod +x arbor.pm.tmp; \
+	mv arbor.pm.tmp arbor.pm
 
 ios.pm: Makefile $(srcdir)/ios.pm.in
 	rm -f ios.pm ios.pm.tmp; \

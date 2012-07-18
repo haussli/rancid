@@ -5,161 +5,161 @@
 # existing types, it will be harder to provide support to you and I will hate
 # you.
 #
-agm:script:agmrancid
+agm;script;agmrancid
 #
-alteon:script:arancid
+alteon;script;arancid
 #
-arbor:script:anrancid
-arbor:login:anlogin
-arbor:module:rancid::arbor
-arbor:command:system version
-arbor:command:system hardware
-arbor:command:config show
+arbor;script;anrancid
+arbor;login;anlogin
+arbor;module;rancid::arbor
+arbor;command;system version
+arbor;command;system hardware
+arbor;command;config show
 #
-arista:script:arrancid
+arista;script;arrancid
 #
-avocent:script:avorancid
+avocent;script;avorancid
 #
-baynet:script:brancid
+baynet;script;brancid
 #
-cat5:script:cat5rancid
+cat5;script;cat5rancid
 #
 # Cisco IOS device
-cisco:script:rancid
-cisco:login:clogin
-cisco:module:rancid::ios
-cisco:command:ShowVersion:show version
-cisco:command:ShowRedundancy:show redundancy secondary
-cisco:command:ShowIDprom:show idprom backplane
-cisco:command:ShowInstallActive:show install active
-cisco:command:ShowEnv:show env all
-cisco:command:ShowRSP:show rsp chassis-info
-cisco:command:ShowGSR:show gsr chassis
-cisco:command:ShowGSR:show diag chassis-info
-cisco:command:ShowBoot:show boot
-cisco:command:ShowBoot:show bootvar
-cisco:command:ShowBoot:show variables boot
-cisco:command:ShowFlash:show flash
-cisco:command:DirSlotN:dir /all nvram:
-cisco:command:DirSlotN:dir /all bootflash:
-cisco:command:DirSlotN:dir /all slot0:
-cisco:command:DirSlotN:dir /all disk0:
-cisco:command:DirSlotN:dir /all slot1:
-cisco:command:DirSlotN:dir /all disk1:
-cisco:command:DirSlotN:dir /all slot2:
-cisco:command:DirSlotN:dir /all disk2:
-cisco:command:DirSlotN:dir /all harddisk:
-cisco:command:DirSlotN:dir /all harddiska:
-cisco:command:DirSlotN:dir /all harddiskb:
-cisco:command:DirSlotN:dir /all sup-bootdisk:
-cisco:command:DirSlotN:dir /all sup-bootflash:
-cisco:command:DirSlotN:dir /all sup-microcode:
-cisco:command:DirSlotN:dir /all slavenvram:
-cisco:command:DirSlotN:dir /all slavebootflash:
-cisco:command:DirSlotN:dir /all slaveslot0:
-cisco:command:DirSlotN:dir /all slavedisk0:
-cisco:command:DirSlotN:dir /all slaveslot1:
-cisco:command:DirSlotN:dir /all slavedisk1:
-cisco:command:DirSlotN:dir /all slaveslot2:
-cisco:command:DirSlotN:dir /all slavedisk2:
-cisco:command:DirSlotN:dir /all slavesup-bootflash:
-cisco:command:DirSlotN:dir /all sec-nvram:
-cisco:command:DirSlotN:dir /all sec-bootflash:
-cisco:command:DirSlotN:dir /all sec-slot0:
-cisco:command:DirSlotN:dir /all sec-disk0:
-cisco:command:DirSlotN:dir /all sec-slot1:
-cisco:command:DirSlotN:dir /all sec-disk1:
-cisco:command:DirSlotN:dir /all sec-slot2:
-cisco:command:DirSlotN:dir /all sec-disk2:
-cisco:command:ShowContAll:show controllers
-cisco:command:ShowContCbus:show controllers cbus
-cisco:command:ShowDiagbus:show diagbus
-cisco:command:ShowDiag:show diag
-cisco:command:ShowCapture:show capture
-cisco:command:ShowModule:show module
-cisco:command:ShowSpeVersion:show spe version
-cisco:command:ShowC7200:show c7200
-cisco:command:ShowInventory:show inventory raw
-cisco:command:ShowVTP:show vtp status
-cisco:command:ShowVLAN:show vlan
-cisco:command:ShowVLAN:show vlan-switch
-cisco:command:ShowDebug:show debug
-cisco:command:ShowShun:show shun
-cisco:command:WriteTerm:more system:running-config
-cisco:command:WriteTerm:show running-config view full
-cisco:command:WriteTerm:show running-config
-cisco:command:WriteTerm:write term
+cisco;script;rancid
+cisco;login;clogin
+cisco;module;rancid::ios
+cisco;command;ShowVersion;show version
+cisco;command;ShowRedundancy;show redundancy secondary
+cisco;command;ShowIDprom;show idprom backplane
+cisco;command;ShowInstallActive;show install active
+cisco;command;ShowEnv;show env all
+cisco;command;ShowRSP;show rsp chassis-info
+cisco;command;ShowGSR;show gsr chassis
+cisco;command;ShowGSR;show diag chassis-info
+cisco;command;ShowBoot;show boot
+cisco;command;ShowBoot;show bootvar
+cisco;command;ShowBoot;show variables boot
+cisco;command;ShowFlash;show flash
+cisco;command;DirSlotN;dir /all nvram:
+cisco;command;DirSlotN;dir /all bootflash:
+cisco;command;DirSlotN;dir /all slot0:
+cisco;command;DirSlotN;dir /all disk0:
+cisco;command;DirSlotN;dir /all slot1:
+cisco;command;DirSlotN;dir /all disk1:
+cisco;command;DirSlotN;dir /all slot2:
+cisco;command;DirSlotN;dir /all disk2:
+cisco;command;DirSlotN;dir /all harddisk:
+cisco;command;DirSlotN;dir /all harddiska:
+cisco;command;DirSlotN;dir /all harddiskb:
+cisco;command;DirSlotN;dir /all sup-bootdisk:
+cisco;command;DirSlotN;dir /all sup-bootflash:
+cisco;command;DirSlotN;dir /all sup-microcode:
+cisco;command;DirSlotN;dir /all slavenvram:
+cisco;command;DirSlotN;dir /all slavebootflash:
+cisco;command;DirSlotN;dir /all slaveslot0:
+cisco;command;DirSlotN;dir /all slavedisk0:
+cisco;command;DirSlotN;dir /all slaveslot1:
+cisco;command;DirSlotN;dir /all slavedisk1:
+cisco;command;DirSlotN;dir /all slaveslot2:
+cisco;command;DirSlotN;dir /all slavedisk2:
+cisco;command;DirSlotN;dir /all slavesup-bootflash:
+cisco;command;DirSlotN;dir /all sec-nvram:
+cisco;command;DirSlotN;dir /all sec-bootflash:
+cisco;command;DirSlotN;dir /all sec-slot0:
+cisco;command;DirSlotN;dir /all sec-disk0:
+cisco;command;DirSlotN;dir /all sec-slot1:
+cisco;command;DirSlotN;dir /all sec-disk1:
+cisco;command;DirSlotN;dir /all sec-slot2:
+cisco;command;DirSlotN;dir /all sec-disk2:
+cisco;command;ShowContAll;show controllers
+cisco;command;ShowContCbus;show controllers cbus
+cisco;command;ShowDiagbus;show diagbus
+cisco;command;ShowDiag;show diag
+cisco;command;ShowCapture;show capture
+cisco;command;ShowModule;show module
+cisco;command;ShowSpeVersion;show spe version
+cisco;command;ShowC7200;show c7200
+cisco;command;ShowInventory;show inventory raw
+cisco;command;ShowVTP;show vtp status
+cisco;command;ShowVLAN;show vlan
+cisco;command;ShowVLAN;show vlan-switch
+cisco;command;ShowDebug;show debug
+cisco;command;ShowShun;show shun
+cisco;command;WriteTerm;more system;running-config
+cisco;command;WriteTerm;show running-config view full
+cisco;command;WriteTerm;show running-config
+cisco;command;WriteTerm;write term
 #
-cisco-nx:script:nxrancid
+cisco-nx;script;nxrancid
 #
-cisco-xr:script:xrrancid
+cisco-xr;script;xrrancid
 #
-css:script:cssrancid
+css;script;cssrancid
 #
-enterasys:script:rivrancid
+enterasys;script;rivrancid
 #
-erx:script:jerancid
+erx;script;jerancid
 #
-extreme:script:xrancid
+extreme;script;xrancid
 #
-ezt3:script:erancid
+ezt3;script;erancid
 #
-f5:script:f5rancid
+f5;script;f5rancid
 #
-force10:script:f10rancid
+force10;script;f10rancid
 #
-fortigate:script:fnrancid
+fortigate;script;fnrancid
 #
-foundry:script:francid
+foundry;script;francid
 #
-hitachi:script:htrancid
+hitachi;script;htrancid
 #
-hp:script:hrancid
+hp;script;hrancid
 #
-juniper:script:jrancid
-juniper:login:jlogin
-juniper:module:rancid::junos
-juniper:command:ShowChassisClocks:show chassis clocks
-juniper:command:ShowChassisEnvironment:show chassis environment
-juniper:command:ShowChassisFirmware:show chassis firmware
-juniper:command:ShowChassisFpcDetail:show chassis fpc detail
-juniper:command:ShowChassisHardware:show chassis hardware detail
-juniper:command:ShowChassisRoutingEngine:show chassis routing-engine
-juniper:command:ShowChassisSCB:show chassis scb
-juniper:command:ShowChassisSCB:show chassis sfm detail
-juniper:command:ShowChassisSCB:show chassis ssb
-juniper:command:ShowChassisSCB:show chassis feb detail
-juniper:command:ShowChassisSCB:show chassis feb
-juniper:command:ShowChassisSCB:show chassis cfeb
-juniper:command:ShowChassisAlarms:show chassis alarms
-juniper:command:ShowSystemLicense:show system license
-juniper:command:ShowSystemBootMessages:show system boot-messages
-juniper:command:ShowSystemCoreDumps:show system core-dumps
-juniper:command:ShowVersion:show version detail
-juniper:command:ShowConfiguration:show configuration
+juniper;script;jrancid
+juniper;login;jlogin
+juniper;module;rancid::junos
+juniper;command;ShowChassisClocks;show chassis clocks
+juniper;command;ShowChassisEnvironment;show chassis environment
+juniper;command;ShowChassisFirmware;show chassis firmware
+juniper;command;ShowChassisFpcDetail;show chassis fpc detail
+juniper;command;ShowChassisHardware;show chassis hardware detail
+juniper;command;ShowChassisRoutingEngine;show chassis routing-engine
+juniper;command;ShowChassisSCB;show chassis scb
+juniper;command;ShowChassisSCB;show chassis sfm detail
+juniper;command;ShowChassisSCB;show chassis ssb
+juniper;command;ShowChassisSCB;show chassis feb detail
+juniper;command;ShowChassisSCB;show chassis feb
+juniper;command;ShowChassisSCB;show chassis cfeb
+juniper;command;ShowChassisAlarms;show chassis alarms
+juniper;command;ShowSystemLicense;show system license
+juniper;command;ShowSystemBootMessages;show system boot-messages
+juniper;command;ShowSystemCoreDumps;show system core-dumps
+juniper;command;ShowVersion;show version detail
+juniper;command;ShowConfiguration;show configuration
 #
-mikrotik:script:mtrancid
+mikrotik;script;mtrancid
 #
-mrtd:script:mrancid
+mrtd;script;mrancid
 #
-mrv:script:mrvrancid
+mrv;script;mrvrancid
 #
-netopia:script:trancid
+netopia;script;trancid
 #
-netscaler:script:nsrancid
+netscaler;script;nsrancid
 #
-netscreen:script:nrancid
+netscreen;script;nrancid
 #
-procket:script:prancid
+procket;script;prancid
 #
-redback:script:rrancid
+redback;script;rrancid
 #
-riverstone:script:rivrancid
+riverstone;script;rivrancid
 #
-smc:script:srancid
+smc;script;srancid
 #
-tnt:script:tntrancid
+tnt;script;tntrancid
 #
-xirrus:script:xirancid
+xirrus;script;xirancid
 #
-zebra:script:zrancid
+zebra;script;zrancid

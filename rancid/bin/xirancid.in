@@ -44,10 +44,10 @@
 #
 #  RANXID - Really Awesome New Xirrus confIg Differ
 #
-# usage: xirancid [-dlCV] [-f filename | hostname]
+# usage: xirancid [-dltCV] [-f filename | hostname]
 #
 use Getopt::Std;
-getopts('dflCV');
+getopts('dfltCV');
 if ($opt_V) {
     print "@PACKAGE@ @VERSION@\n";
     exit(0);

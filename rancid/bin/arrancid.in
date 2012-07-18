@@ -46,10 +46,10 @@
 # Arista mode is better.
 # Initial version by Bill Fenner <fenner@aristanetworks.com>
 #
-# usage: arrancid [-dlCV] [-f filename | hostname]
+# usage: arrancid [-dltCV] [-f filename | hostname]
 #
 use Getopt::Std;
-getopts('dflCV');
+getopts('dfltCV');
 if ($opt_V) {
     print "@PACKAGE@ @VERSION@\n";
     exit(0);

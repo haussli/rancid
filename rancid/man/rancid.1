@@ -1,11 +1,12 @@
 .\"
 .hys 50
-.TH "rancid" "1" "23 May 2012"
+.TH "rancid" "1" "17 July 2012"
 .SH NAME
 rancid \- Cisco configuration filter
 .SH SYNOPSIS
 .B rancid
 [\fB\-dlCV\fP]
+[\fB\-t device_type\fP]
 (\fB\-f\fP filename | hostname)
 .SH DESCRIPTION
 .B rancid
@@ -138,6 +139,13 @@ Display debugging information.
 Display somewhat less debugging information.
 .\"
 .TP
+.B \-t
+Device type, of the given host or file, that is defined in
+.B rancid.types.base
+or
+.B rancid.types.conf .
+.\"
+.TP
 .B \-f
 .B rancid
 should interpret the next argument as a filename which contains the
@@ -148,7 +156,8 @@ output it would normally collect from the device (
 .SH "SEE ALSO"
 .BR control_rancid (1),
 .BR clogin (1),
-.BR rancid.conf (5)
+.BR rancid.conf (5),
+.BR rancid.types.conf (5)
 .\"
 .SH "CAVEATS"
 Cisco IOS offers a DHCP server that maintains a text database which can be

@@ -77,7 +77,7 @@ if (! defined($script)) {
     printf(STDERR "unknown router manufacturer for $router: $devtype\n");
     exit(-1);
 } else {
-    exec($script . " $router");
+    exec($script . "-t $devtype $router");
 }
 
 printf(STDERR "exec failed router manufacturer $devtype: $!\n");

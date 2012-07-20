@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "rancid" "1" "17 July 2012"
+.TH "rancid" "1" "18 July 2012"
 .SH NAME
 rancid \- Cisco configuration filter
 .SH SYNOPSIS
@@ -62,6 +62,12 @@ Fortinet Firewalls
 .TP
 .B francid
 Foundry and HP procurve OEMs of Foundry
+.TP
+.B grancid
+Generic rancid.
+See
+.BR rancid_base (3)
+for details.
 .TP
 .B hrancid
 HP Procurve Switches
@@ -157,7 +163,8 @@ output it would normally collect from the device (
 .BR control_rancid (1),
 .BR clogin (1),
 .BR rancid.conf (5),
-.BR rancid.types.conf (5)
+.BR rancid.types.conf (5),
+.BR rancid_base (3)
 .\"
 .SH "CAVEATS"
 Cisco IOS offers a DHCP server that maintains a text database which can be

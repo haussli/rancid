@@ -66,6 +66,8 @@ use vars qw{$found_end};		# found end of the config
 use vars qw{$timeo};			# login script timeout in seconds
 use vars qw{$prompt};			# device prompt regex
 
+
+use vars qw{$script $lscript $module};	# script, login script, script module
 use vars qw{$command $hist_tag};	# ProcessHistory state
 use vars qw{%history @history};		# ProcessHistory state
 #XXX @Exporter::ISA = qw(Exporter);
@@ -145,11 +147,73 @@ sub init {
 # load modules & handle -C option, if present.
 # usage: loadtype(device_type)
 sub loadtype {
-    my($type) = @_;
+    my($devtype) = @_;
+    my($file, $line, $matched);
     @commandtable = ();
 
-	# XXX load device-type information
-	# XXX load device-type specific modules
+    if (!defined($devtype) || length($devtype) == 0) {
+	print STDERR "rancid::base::loadtype(): device_type is empty\n";
+	return 1;
+    }
+    print STDERR "rancid::base::loadtype: device type $devtype\n" if ($debug);
+
+    # which device type configuration file has the definition of $devtype?
+    foreach $file ("@sysconfdir@/rancid.types.base",
+		   "@sysconfdir@/rancid.types.conf") {
+	$line = 0;
+	open(INPUT, "< $file") || die "Could not open $file: $!";
+	while (<INPUT>) {
+	    $line++;
+	    chomp;
+	    next if (/^\s*$/ || /^\s*#/);
+	    my($type, $directive, $value, $value2) = split('\;');
+	    $type =~ tr/[A-Z]/[a-z]/;
+	    $directive =~ tr/[A-Z]/[a-z]/;
+
+	    next if ($type ne $devtype);
+	    if (!$matched) {
+		$matched++;
+		print STDERR "rancid::base::loadtype: found device type ".
+			     "$devtype in $file\n" if ($debug);
+	    }
+	    if ($directive eq "script") {
+		$script = $value;
+	    } elsif ($directive eq "login") {
+		$lscript = $value;
+	    } elsif ($directive eq "module") {
+		$module = $value;
+	    } elsif ($directive eq "command") {
+		push(@commandtable, {$value2, $value});
+	    } else {
+		print STDERR "rancid::base::loadtype: unknown directive ".
+			     "$directive at $file:$line\n";
+		close(INPUT);
+		return(-1);
+	    }
+	}
+	close(INPUT);
+
+	# do not parse rancid.types.conf if we found any device type matches
+	# in rancid.types.base.
+	last if ($matched);
+    }
+
+    # load device-type specific modules
+    if (length($module)) {
+	eval {
+	    (my $file = $module) =~ s/::/\//g;
+	    require $file . '.pm';
+	    # call module->import(); we expect 0 as success, as god intended it
+	    $module::init ? 0 : 1;
+	} or do {
+	    # Module load failed
+	    my($error) = $@;
+	    print STDERR "rancid::base::loadtype: loading $module failed: ".
+			 "$error\n";
+	    return(-1);
+	};
+    }
+
     # Use an array to preserve the order of the commands and a hash for mapping
     # commands to the subroutine and track commands that have been completed.
     @commands = map(keys(%$_), @commandtable);
@@ -163,7 +227,7 @@ sub loadtype {
 	exit(0);
     }
 
-    1;
+    0;
 }
 
 # This routine is used to print out the router configuration

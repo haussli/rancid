@@ -48,7 +48,7 @@
 # usage: grancid [-dltCV] [-f filename | hostname]
 #
 use Getopt::Std;
-getopts('dfltCV');
+getopts('dflt:CV');
 BEGIN {
     push(@INC, "/home/heas/rancid/lib");
 }
@@ -56,17 +56,13 @@ use rancid::base;
 
 # basic initialization
 rancid::base::init();
-
-# Main
-rancid::base::loadtype($devtype);
-#XXX load base modules
-#XXX find device type in type configuration files & build @commandtable
-#XXX load specified modules
+# load device type spec, build @commandtable and load modules
+if (rancid::base::loadtype($rancid::base::devtype)) {
+    die "Couldn't load device type spec for $rancid::base::devtype\n";
+}
 
 open(OUTPUT,">$host.new") || die "Can't open $host.new for writing: $!\n";
 select(OUTPUT);
-# make OUTPUT unbuffered if debugging
-if ($debug) { $| = 1; }
 
 if ($file) {
     print STDERR "opening file $host\n" if ($debug);
@@ -83,6 +79,7 @@ if ($file) {
     }
 }
 
+$rancid::base::module;
 # XXX can the content line move to the lib?
 ProcessHistory("","","","!RANCID-CONTENT-TYPE: cisco\n!\n");
 ProcessHistory("COMMENTS","keysort","B0","!\n");

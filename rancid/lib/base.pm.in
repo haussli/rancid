@@ -71,7 +71,8 @@ use vars qw{$script $lscript $module};	# script, login script, script module
 use vars qw{$command $hist_tag};	# ProcessHistory state
 use vars qw{%history @history};		# ProcessHistory state
 #XXX @Exporter::ISA = qw(Exporter);
-@Exporter::EXPORT = qw($VERSION @commandtable %commands @commands
+@Exporter::EXPORT = qw($VERSION $script $lscript $module @commandtable
+		%commands @commands
 		$commandstr $cmds_regexp
 		$filter_commstr $filter_pwds $aclsort
 		$log $debug $file $host $clean_run $found_end $timeo $prompt

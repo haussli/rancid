@@ -46,7 +46,7 @@
 #
 # Modified by Ed Ravin for Netopia.
 use Getopt::Std;
-getopts('dfltCV');
+getopts('dflt:CV');
 if ($opt_V) {
     print "@PACKAGE@ @VERSION@\n";
     exit(0);

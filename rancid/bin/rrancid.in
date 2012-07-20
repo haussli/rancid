@@ -47,7 +47,7 @@
 # usage: rrancid [-dltCV] [-f filename | hostname]
 #
 use Getopt::Std;
-getopts('dfltCV');
+getopts('dflt:CV');
 if ($opt_V) {
     print "@PACKAGE@ @VERSION@\n";
     exit(0);

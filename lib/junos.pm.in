@@ -1,4 +1,4 @@
-package rancid::ios;
+package rancid::junos;
 ##
 ## $Id: jrancid.in 2508 2012-07-09 20:32:49Z heas $
 ##
@@ -49,22 +49,32 @@ use 5.005;
 use strict 'vars';
 use warnings;
 require Exporter;
-     
+our @ISA = qw(Exporter);
+$Exporter::Verbose=1;
+
+#XXX use @VERSION@ when we have a version w/o letters in it
+#XXX use rancid::base @VERSION@;
 use rancid::base;
 
-use vars qw{$ShowChassisSCB};		# Only run ShowChassisSCB() once
+our $ShowChassisSCB;			# Only run ShowChassisSCB() once
 
-#XXX @Exporter::ISA = qw(Exporter);
-#XXX @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands);
+@ISA = qw(Exporter rancid::base);
+#our @EXPORT = qw($VERSION)
 
-# initialize common rancid parameters and handle command-line arguments.
-sub init {
+# load-time initialization
+sub import {
     $timeo = 120;			# jlogin timeout in seconds
 
+    0;
+}
+
+# post-open(collection file) initialization
+sub init {
 # XXX is this the right place for this?
 # XXX can the content line move to the lib?
-ProcessHistory("","","","!RANCID-CONTENT-TYPE: juniper\n!\n");
-    1;
+    ProcessHistory("","","","!RANCID-CONTENT-TYPE: $devtype\n!\n");
+
+    0;
 }
 
 # This routine parses "show chassis clocks"
@@ -95,6 +105,7 @@ sub ShowChassisClocks {
 	} elsif (/^(.+)(\.[0-9]+) MHz/) {
 	    # filter for T series
 	    my($leadlen) = length($1);
+	    my($x);
 	    $x = sprintf(" MHz%".length($2)."s", " ");
 	    substr($_, $leadlen, length($2)+4, $x);
 	}

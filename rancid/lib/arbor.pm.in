@@ -47,21 +47,27 @@ package rancid::arbor;
 use 5.005;
 use strict 'vars';
 use warnings;
-require Exporter;
+require(Exporter);
+our @ISA = qw(Exporter);
 
 use rancid::base;
 
 #XXX @Exporter::ISA = qw(Exporter);
 #XXX @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands);
 
-# initialize common rancid parameters and handle command-line arguments.
+# load-time initialization
+sub import {
+    0;
+}
+
+# post-open(collection file) initialization
 sub init {
     $timeo = 90;			# anlogin timeout in seconds
 
 # XXX is this the right place for this?
 # XXX can the content line move to the lib?
-ProcessHistory("","","","!RANCID-CONTENT-TYPE: arbor\n!\n");
-    1;
+    ProcessHistory("","","","!RANCID-CONTENT-TYPE: arbor\n!\n");
+    0;
 }
 
 # This routine parses "show configuration"

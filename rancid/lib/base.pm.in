@@ -48,51 +48,54 @@ package rancid::base;
 use 5.005;
 use strict 'vars';
 use warnings;
-require Exporter;
+require(Exporter);
+our @ISA = qw(Exporter);
 
-use vars qw{$VERSION};
-use vars qw{@commandtable %commands @commands};	# command lists
-use vars qw{$commandstr $cmds_regexp};
-use vars qw{$devtype};			# device type argument
-use vars qw{$filter_commstr};		# SNMP community string filtering
-use vars qw{$filter_pwds};		# password filtering mode
-use vars qw{$aclsort};			# ACL sorting mode
-use vars qw{$log};			# log cmdline option
-use vars qw{$debug};			# debug cmdline option
-use vars qw{$file};			# file cmdline option
-use vars qw{$host};			# hostname from cmdline
-use vars qw{$clean_run};		# successful run
-use vars qw{$found_end};		# found end of the config
-use vars qw{$timeo};			# login script timeout in seconds
-use vars qw{$prompt};			# device prompt regex
+our $VERSION;
+our @commandtable;			# command lists
+our %commands;
+our @commands;
+our $commandstr;			# command string for lscript -c
+our $cmds_regexp;			# command regex for matching input
+our $devtype;				# device type argument
+our $filter_commstr;			# SNMP community string filtering
+our $filter_pwds;			# password filtering mode
+our $aclsort;				# ACL sorting mode
+our $log;				# log cmdline option
+our $debug;				# debug cmdline option
+our $file;				# file cmdline option
+our $host;				# hostname from cmdline
+our $clean_run;				# successful run
+our $found_end;				# found end of the config
+our $timeo;				# login script timeout in seconds
+our $prompt;				# device prompt regex
 
 
 use vars qw{$script $lscript $module};	# script, login script, script module
 use vars qw{$command $hist_tag};	# ProcessHistory state
 use vars qw{%history @history};		# ProcessHistory state
-#XXX @Exporter::ISA = qw(Exporter);
-@Exporter::EXPORT = qw($VERSION $script $lscript $module @commandtable
+our @EXPORT = qw($VERSION $devtype $script $lscript $module @commandtable
 		%commands @commands
 		$commandstr $cmds_regexp
 		$filter_commstr $filter_pwds $aclsort
 		$log $debug $file $host $clean_run $found_end $timeo $prompt
-		init loadtypes ProcessHistory numerically keynsort keysort
-		valsort numsort ipsort ipaddrval sortbyipaddr DoNothing);
+		rancidinit loadtype
+		ProcessHistory numerically keynsort keysort valsort numsort
+		ipsort ipaddrval sortbyipaddr
+		RunCommand);
 
 BEGIN {
     $VERSION = '@VERSION@';
 }
 
 # initialize common rancid parameters and handle command-line arguments.
-sub init {
+sub rancidinit {
     my($i);
 
     if ($main::opt_V) {
 	print "@PACKAGE@ @VERSION@\n";
 	exit(0);
     }
-    # make OUTPUT unbuffered if debugging
-    if ($main::debug) { $| = 1; }
 
     $command = $hist_tag = "";		# ProcessHistory state
     for (keys %history) {
@@ -141,6 +144,9 @@ sub init {
 	}
     }
 
+    # make OUTPUT unbuffered if debugging
+    if ($debug) { $| = 1; }
+
     1;
 }
 
@@ -153,10 +159,10 @@ sub loadtype {
     @commandtable = ();
 
     if (!defined($devtype) || length($devtype) == 0) {
-	print STDERR "rancid::base::loadtype(): device_type is empty\n";
+	print STDERR "loadtype(): device_type is empty\n";
 	return 1;
     }
-    print STDERR "rancid::base::loadtype: device type $devtype\n" if ($debug);
+    print STDERR "loadtype: device type $devtype\n" if ($debug);
 
     # which device type configuration file has the definition of $devtype?
     foreach $file ("@sysconfdir@/rancid.types.base",
@@ -174,7 +180,7 @@ sub loadtype {
 	    next if ($type ne $devtype);
 	    if (!$matched) {
 		$matched++;
-		print STDERR "rancid::base::loadtype: found device type ".
+		print STDERR "loadtype: found device type ".
 			     "$devtype in $file\n" if ($debug);
 	    }
 	    if ($directive eq "script") {
@@ -186,7 +192,7 @@ sub loadtype {
 	    } elsif ($directive eq "command") {
 		push(@commandtable, {$value2, $value});
 	    } else {
-		print STDERR "rancid::base::loadtype: unknown directive ".
+		print STDERR "loadtype: unknown directive ".
 			     "$directive at $file:$line\n";
 		close(INPUT);
 		return(-1);
@@ -205,11 +211,12 @@ sub loadtype {
 	    (my $file = $module) =~ s/::/\//g;
 	    require $file . '.pm';
 	    # call module->import(); we expect 0 as success, as god intended it
-	    $module::init ? 0 : 1;
+	    # XXX how the fuck is this done w/o the eval and w/o a temp var?
+	    eval($module ."::import();") ? 0 : 1;
 	} or do {
 	    # Module load failed
 	    my($error) = $@;
-	    print STDERR "rancid::base::loadtype: loading $module failed: ".
+	    print STDERR "loadtype: loading $module failed: ".
 			 "$error\n";
 	    return(-1);
 	};

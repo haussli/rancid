@@ -56,17 +56,17 @@ getopts('dflt:CV');
 BEGIN {
     push(@INC, "/home/heas/rancid/lib");
 }
-use rancid::base;
-our @ISA = qw(Exporter rancid::base);
+use rancid;
+our @ISA = qw(Exporter rancid);
 
 # basic initialization
 rancidinit();
 # load device type spec, build @commandtable and load modules
 if (loadtype($devtype)) {
-    die "Couldn't load device type spec for $rancid::base::devtype\n";
+    die "Couldn't load device type spec for $rancid::devtype\n";
 }
 if (! defined($lscript)) {
-    die "login script not defined for device type $rancid::base::devtype\n";
+    die "login script not defined for device type $rancid::devtype\n";
 }
 
 open(OUTPUT,">$host.new") || die "Can't open $host.new for writing: $!\n";

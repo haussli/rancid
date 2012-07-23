@@ -1,6 +1,6 @@
 package ios;
 ##
-## $Id: rancid.in 2470 2012-05-01 18:04:29Z heas $
+## $Id$
 ##
 ## @PACKAGE@ @VERSION@
 ## Copyright (c) @COPYYEARS@ by Terrapin Communications, Inc.

@@ -1,6 +1,6 @@
 package junos;
 ##
-## $Id: jrancid.in 2508 2012-07-09 20:32:49Z heas $
+## $Id$
 ##
 ## @PACKAGE@ @VERSION@
 ## Copyright (c) @COPYYEARS@ by Terrapin Communications, Inc.

@@ -11,7 +11,7 @@ alteon;script;arancid
 #
 arbor;script;grancid
 arbor;login;anlogin
-arbor;module;rancid::arbor
+arbor;module;arbor
 arbor;command;arbor::ShowVersion;system version
 arbor;command;arbor::ShowHardware;system hardware
 arbor;command;arbor::ShowConfig;config show
@@ -27,7 +27,7 @@ cat5;script;cat5rancid
 # Cisco IOS device
 cisco;script;grancid
 cisco;login;clogin
-cisco;module;rancid::ios
+cisco;module;ios
 cisco;command;ios::ShowVersion;show version
 cisco;command;ios::ShowRedundancy;show redundancy secondary
 cisco;command;ios::ShowIDprom;show idprom backplane

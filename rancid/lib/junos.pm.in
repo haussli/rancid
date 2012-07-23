@@ -53,12 +53,12 @@ our @ISA = qw(Exporter);
 $Exporter::Verbose=1;
 
 #XXX use @VERSION@ when we have a version w/o letters in it
-#XXX use rancid::base @VERSION@;
-use rancid::base;
+#XXX use rancid @VERSION@;
+use rancid;
 
 our $ShowChassisSCB;			# Only run ShowChassisSCB() once
 
-@ISA = qw(Exporter rancid::base main);
+@ISA = qw(Exporter rancid main);
 #our @EXPORT = qw($VERSION)
 
 # load-time initialization

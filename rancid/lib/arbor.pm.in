@@ -51,10 +51,10 @@ require(Exporter);
 our @ISA = qw(Exporter);
 
 #XXX use 3.0 when we have a version w/o letters in it
-#XXX use rancid::base 3.0;
-use rancid::base;
+#XXX use rancid 3.0;
+use rancid;
 
-#XXX @Exporter::ISA = qw(Exporter);
+@ISA = qw(Exporter rancid main);
 #XXX @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands);
 
 # load-time initialization

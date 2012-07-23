@@ -78,10 +78,6 @@ arbor_pm_AR = $(AR) $(ARFLAGS)
 arbor_pm_LIBADD =
 arbor_pm_SOURCES = arbor.c
 arbor_pm_OBJECTS = arbor.$(OBJEXT)
-base_pm_AR = $(AR) $(ARFLAGS)
-base_pm_LIBADD =
-base_pm_SOURCES = base.c
-base_pm_OBJECTS = base.$(OBJEXT)
 ios_pm_AR = $(AR) $(ARFLAGS)
 ios_pm_LIBADD =
 ios_pm_SOURCES = ios.c
@@ -90,6 +86,10 @@ junos_pm_AR = $(AR) $(ARFLAGS)
 junos_pm_LIBADD =
 junos_pm_SOURCES = junos.c
 junos_pm_OBJECTS = junos.$(OBJEXT)
+rancid_pm_AR = $(AR) $(ARFLAGS)
+rancid_pm_LIBADD =
+rancid_pm_SOURCES = rancid.c
+rancid_pm_OBJECTS = rancid.$(OBJEXT)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/include
 depcomp =
 am__depfiles_maybe =
@@ -97,8 +97,8 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = arbor.c base.c ios.c junos.c
-DIST_SOURCES = arbor.c base.c ios.c junos.c
+SOURCES = arbor.c ios.c junos.c rancid.c
+DIST_SOURCES = arbor.c ios.c junos.c rancid.c
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -218,7 +218,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign no-dependencies
-pkglib_LIBRARIES = base.pm arbor.pm ios.pm junos.pm
+pkglib_LIBRARIES = rancid.pm arbor.pm ios.pm junos.pm
 RANLIB = :
 
 #EXTRA_DIST= lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in
@@ -525,11 +525,11 @@ uninstall-am: uninstall-pkglibLIBRARIES
 	uninstall-am uninstall-pkglibLIBRARIES
 
 
-base.pm: Makefile $(srcdir)/base.pm.in
-	rm -f base.pm base.pm.tmp; \
-	$(auto_edit) $(srcdir)/base.pm.in >base.pm.tmp; \
-	chmod +x base.pm.tmp; \
-	mv base.pm.tmp base.pm
+rancid.pm: Makefile $(srcdir)/rancid.pm.in
+	rm -f rancid.pm rancid.pm.tmp; \
+	$(auto_edit) $(srcdir)/rancid.pm.in >rancid.pm.tmp; \
+	chmod +x rancid.pm.tmp; \
+	mv rancid.pm.tmp rancid.pm
 
 arbor.pm: Makefile $(srcdir)/arbor.pm.in
 	rm -f arbor.pm arbor.pm.tmp; \

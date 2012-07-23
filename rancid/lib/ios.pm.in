@@ -51,8 +51,8 @@ require(Exporter);
 our @ISA = qw(Exporter);
 
 #XXX use @VERSION@ when we have a version w/o letters in it
-#XXX use rancid::base @VERSION@;
-use rancid::base;
+#XXX use rancid @VERSION@;
+use rancid;
 
 our $proc;
 our $ios;
@@ -62,7 +62,7 @@ our $found_diag;
 our $config_register;			# configuration register value
 our $supbootdisk;			# skip sup-bootflash if sup-bootdisk
 					# worked
-#XXX @Exporter::ISA = qw(Exporter);
+@ISA = qw(Exporter rancid main);
 #XXX @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands);
 
 # load-time initialization

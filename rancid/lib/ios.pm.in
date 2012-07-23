@@ -1,4 +1,4 @@
-package rancid::ios;
+package ios;
 ##
 ## $Id: rancid.in 2470 2012-05-01 18:04:29Z heas $
 ##
@@ -47,7 +47,7 @@ package rancid::ios;
 use 5.005;
 use strict 'vars';
 use warnings;
-require Exporter;
+require(Exporter);
 our @ISA = qw(Exporter);
 
 #XXX use @VERSION@ when we have a version w/o letters in it
@@ -94,10 +94,11 @@ sub init {
 
 # This routine parses "show version"
 sub ShowVersion {
+    my($INPUT) = shift;
     print STDERR "    In ShowVersion: $_" if ($debug);
     my($slaveslot);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	if (/^$prompt/) { $found_version = 1; last};
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -210,7 +211,7 @@ sub ShowVersion {
 	    # "processor: " unique string.  there are undoubtedly many other
 	    # incantations.  for a slave, we dont get this info, its just a
 	    # blank line.
-	    $_ = <INPUT>;
+	    $_ = <$INPUT>;
 	    if (/processor board id/i) {
 		my($sn);
 
@@ -220,7 +221,7 @@ sub ShowVersion {
 		    ProcessHistory("COMMENTS","keysort","D9",
 				   "!Processor ID: $sn\n");
 		}
-		$_ = <INPUT>;
+		$_ = <$INPUT>;
 	    }
 	    $_ = "" if (! /(cpu at |processor: |$cpu processor,)/i);
 	    tr/\015//d;
@@ -362,9 +363,10 @@ sub ShowVersion {
 
 # This routine parses "show redundancy"
 sub ShowRedundancy {
+    my($INPUT) = shift;
     print STDERR "    In ShowRedundancy: $_" if ($debug);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -394,11 +396,12 @@ sub ShowRedundancy {
 
 # This routine parses "show IDprom"
 sub ShowIDprom {
+    my($INPUT) = shift;
     my($tmp);
 
     print STDERR "    In ShowIDprom: $_" if ($debug);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -428,9 +431,10 @@ sub ShowIDprom {
 
 # This routine parses "show install active"
 sub ShowInstallActive {
+    my($INPUT) = shift;
     print STDERR "    In ShowInstallActive: $_" if ($debug);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -451,10 +455,11 @@ sub ShowInstallActive {
 
 # This routine parses "show env all"
 sub ShowEnv {
+    my($INPUT) = shift;
     # Skip if this is not a 7500, 7200, or 7000.
     print STDERR "    In ShowEnv: $_" if ($debug);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	if (/^$prompt/) { $found_env = 1; last};
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -503,9 +508,10 @@ sub ShowEnv {
 # This routine parses "show rsp chassis-info" for the rsp
 # This will create arrays for hw info.
 sub ShowRSP {
+    my($INPUT) = shift;
     print STDERR "    In ShowRSP: $_" if ($debug);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -535,10 +541,11 @@ sub ShowRSP {
 # This routine parses "show gsr chassis-info" for the gsr
 # This will create arrays for hw info.
 sub ShowGSR {
+    my($INPUT) = shift;
     # Skip if this is not a 1200n.
     print STDERR "    In ShowGSR: $_" if ($debug);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -575,11 +582,12 @@ sub ShowGSR {
 
 # This routine parses "show boot"
 sub ShowBoot {
+    my($INPUT) = shift;
     # Pick up boot variables if 7000/7200/7500/12000/2900/3500;
     # otherwise pick up bootflash.
     print STDERR "    In ShowBoot: $_" if ($debug);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -615,9 +623,10 @@ sub ShowBoot {
 
 # This routine parses "show flash"
 sub ShowFlash {
+    my($INPUT) = shift;
     print STDERR "    In ShowFlash: $_" if ($debug);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -667,11 +676,12 @@ sub ShowFlash {
 
 # This routine parses "dir /all ((disk|slot)N|bootflash|nvram):"
 sub DirSlotN {
+    my($INPUT) = shift;
     print STDERR "    In DirSlotN: $_" if ($debug);
 
     my($dev) = (/\s([^\s]+):/);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -762,10 +772,11 @@ sub DirSlotN {
 
 # This routine parses "show controllers"
 sub ShowContAll {
+    my($INPUT) = shift;
     # Skip if this is a 70[01]0, 7500, or 12000.
     print STDERR "    In ShowContAll: $_" if ($debug);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -789,12 +800,12 @@ sub ShowContAll {
 	    ProcessHistory("INT","","","!\t$1\n");
 	    if (/(M\dT[^ :]*:) show controller:$/) {
 		my($ctlr) = $1;
-		$_ = <INPUT>; tr/\015//d; s/ subunit \d,//;
+		$_ = <$INPUT>; tr/\015//d; s/ subunit \d,//;
 		ProcessHistory("INT","","","!Interface: $ctlr $_");
 	    }
 	if (/^(\S+) : show controller:$/) {
 	    my($ctlr) = $1;
-	    $_ = <INPUT>; tr/\015//d; s/ subunit \d,//;
+	    $_ = <$INPUT>; tr/\015//d; s/ subunit \d,//;
 	    ProcessHistory("INT","","","!Interface: $ctlr: $_");
 	}
 	/^(HD unit \d), idb/ &&
@@ -827,10 +838,11 @@ sub ShowContAll {
 # This routine parses "show controllers cbus"
 # Some of this is printed out in ShowDiagbus.
 sub ShowContCbus {
+    my($INPUT) = shift;
     # Skip if this is not a 7000 or 7500.
     print STDERR "    In ShowContCbus: $_" if ($debug);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -878,10 +890,11 @@ sub ShowContCbus {
 
 # This routine parses "show debug"
 sub ShowDebug {
+    my($INPUT) = shift;
     print STDERR "    In ShowDebug: $_" if ($debug);
     my($lines) = 0;
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -910,10 +923,11 @@ sub ShowDebug {
 # This routine parses "show diagbus"
 # This will create arrays for hw info.
 sub ShowDiagbus {
+    my($INPUT) = shift;
     # Skip if this is not a 7000, 70[01]0, or 7500.
     print STDERR "    In ShowDiagbus: $_" if ($debug);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -1004,9 +1018,10 @@ sub ShowDiagbus {
 # This routine parses "show diag" for the gsr, 7200, 3700, 3600, 2600.
 # This will create arrays for hw info.
 sub ShowDiag {
+    my($INPUT) = shift;
     print STDERR "    In ShowDiag: $_" if ($debug);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 REDUX:	tr/\015//d;
 	if (/^$prompt/) { $found_diag = 1; last};
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -1048,7 +1063,7 @@ REDUX:	tr/\015//d;
 	}
 	if (/^\s+MAIN:\s* type \S+,\s+(.*)/) {
 	    local($part) = $1;
-	    $_ = <INPUT>;
+	    $_ = <$INPUT>;
 	    if (/^\s+(HW version|Design Release) (\S+)\s+S\/N (\S+)/i) {
 		ProcessHistory("SLOT","keysort","AM","!Slot $slot/MAIN: part $part, serial $3\n");
 		ProcessHistory("SLOT","keysort","AM","!Slot $slot/MAIN: hvers $2\n");
@@ -1059,15 +1074,15 @@ REDUX:	tr/\015//d;
 	    next;
 	}
 	if (/^\s+MAIN:\s* board type \S+$/) {
-	    $_ = <INPUT>;
+	    $_ = <$INPUT>;
 	    tr/\015//d;
 	    if (/^\s+(.+)$/) {
 		local($part) = $1;
-		$_ = <INPUT>;
+		$_ = <$INPUT>;
 		tr/\015//d;
 		if (/^\s+dev (.*)$/) {
 		    local($dev) = $1;
-		    $_ = <INPUT>;
+		    $_ = <$INPUT>;
 		    if (/^\s+S\/N (\S+)/) {
 			ProcessHistory("SLOT","keysort","AM","!Slot $slot/MAIN: part $part, dev $dev, serial $1\n");
 		    } else {
@@ -1110,7 +1125,7 @@ REDUX:	tr/\015//d;
 	}
 	if (/^\s+PCA:\s+(.*)/) {
 	    local($part) = $1;
-	    $_ = <INPUT>;
+	    $_ = <$INPUT>;
 	    if (/^\s+(HW version|design release) (\S+)\s+S\/N (\S+)/i) {
 		ProcessHistory("SLOT","keysort","C1","!Slot $slot/PCA: part $part, serial $3\n");
 		ProcessHistory("SLOT","keysort","C2","!Slot $slot/PCA: hvers $2\n");
@@ -1122,7 +1137,7 @@ REDUX:	tr/\015//d;
 	}
 	if (/^\s+MBUS: .*\)\s+(.*)/) {
 	    local($tmp) = "!Slot $slot/MBUS: part $1";
-	    $_ = <INPUT>;
+	    $_ = <$INPUT>;
 	    /^\s+HW version (\S+)\s+S\/N (\S+)/ &&
 		ProcessHistory("SLOT","keysort","MB1","$tmp, serial $2\n") &&
 		ProcessHistory("SLOT","keysort","MB2","!Slot $slot/MBUS: hvers $1\n");
@@ -1154,7 +1169,7 @@ REDUX:	tr/\015//d;
 	}
 	if (/^\s+DRAM size: (\d+)/) {
 	    local($dram) = $1 / 1048576;
-	    $_ = <INPUT>;
+	    $_ = <$INPUT>;
 	    if (/^\s+FrFab SDRAM size: (\d+)/) {
 		ProcessHistory("SLOT","keysort","MB4","!Slot $slot/MBUS: $dram Mbytes DRAM, "
 			   . $1 / 1024 . " Kbytes SDRAM\n");
@@ -1186,7 +1201,7 @@ REDUX:	tr/\015//d;
 		$slot = $2;
 		undef($WIC);
 	    }
-	    $_ = <INPUT>; tr/\015//d;
+	    $_ = <$INPUT>; tr/\015//d;
 
 	    # clean up hideous 7200/etc formats to look more like 7500 output
 	    s/Fast-ethernet on C7200 I\/O card/FE-IO/;
@@ -1243,7 +1258,7 @@ REDUX:	tr/\015//d;
 	    } else {
 		$hw = $2;
 	    }
-	    while (<INPUT>) {
+	    while (<$INPUT>) {
 		tr/\015//d;
 
 		# Sometimes "show diag" just ends while we are
@@ -1303,9 +1318,10 @@ PerlSucks:
 
 # This routine parses "show inventory".
 sub ShowInventory {
+    my($INPUT) = shift;
     print STDERR "    In ShowInventory: $_" if ($debug);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	return if (/^\s*\^$/);
 	last if (/^$prompt/);
@@ -1351,12 +1367,13 @@ sub ShowInventory {
 
 # This routine parses "show module".
 sub ShowModule {
+    my($INPUT) = shift;
     print STDERR "    In ShowModule: $_" if ($debug);
 
     my(@lines);
     my($slot, $pa);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	return if (/^\s*\^$/);
 	last if (/online diag status/i);
@@ -1404,9 +1421,10 @@ sub ShowModule {
 
 # This routine parses "show spe version".
 sub ShowSpeVersion {
+    my($INPUT) = shift;
     print STDERR "    In ShowSpeVersion: $_" if ($debug);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -1424,10 +1442,11 @@ sub ShowSpeVersion {
 # This routine parses "show c7200" for the 7200
 # This will create arrays for hw info.
 sub ShowC7200 {
+    my($INPUT) = shift;
     # Skip if this is not a 7200.
     print STDERR "    In ShowC7200: $_" if ($debug);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -1442,10 +1461,10 @@ sub ShowC7200 {
 	}
 
 	if (/^(C7200 )?Midplane EEPROM:/) {
-	    $_ = <INPUT>;
+	    $_ = <$INPUT>;
 	    /revision\s+(\S+).*revision\s+(\S+)/;
 	    ProcessHistory("SLOT","","","!Slot Midplane: hvers $1 rev $2\n");
-	    $_ = <INPUT>;
+	    $_ = <$INPUT>;
 	    /number\s+(\S+)\s+Part number\s+(\S+)/;
 	    ProcessHistory("SLOT","","","!Slot Midplane: part $2, serial $1\n!\n");
 	    next;
@@ -1453,7 +1472,7 @@ sub ShowC7200 {
 	if (/C720\d(VXR)? CPU EEPROM:/) {
 	    my ($hvers,$rev,$part,$serial);
 	    # npe400s report their cpu eeprom info differently w/ 12.0.21S
-	    while (<INPUT>) {
+	    while (<$INPUT>) {
 		/Hardware Revision\s+: (\S+)/ && ($hvers = $1) && next;
 		/Board Revision\s+: (\S+)/ && ($rev = $1) && next;
 		/Part Number\s+: (\S+)/ && ($part = $1) && next;
@@ -1474,9 +1493,10 @@ sub ShowC7200 {
 
 # This routine parses "show capture".  Intended for ASA/PIXes.
 sub ShowCapture {
+    my($INPUT) = shift;
     print STDERR "    In ShowCapture: $_" if ($debug);
     my $capture_found = 0;
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	return(1) if (/^(\s*|\s*$cmd\s*)$/);
@@ -1506,9 +1526,10 @@ sub ShowCapture {
 
 # This routine parses "show vtp status"
 sub ShowVTP {
+    my($INPUT) = shift;
     print STDERR "    In ShowVTP: $_" if ($debug);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -1535,11 +1556,12 @@ sub ShowVTP {
 
 # This routine parses "show vlan"
 sub ShowVLAN {
+    my($INPUT) = shift;
     print STDERR "    In ShowVLAN: $_" if ($debug);
 
-    ($_ = <INPUT>, return(1)) if (!$DO_SHOW_VLAN);
+    ($_ = <$INPUT>, return(1)) if (!$DO_SHOW_VLAN);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -1562,9 +1584,10 @@ sub ShowVLAN {
 
 # This routine processes a "show shun".  Intended for ASA/PIXes.
 sub ShowShun {
+    my($INPUT) = shift;
     print STDERR "    In ShowShun: $_" if ($debug);
     my $shun_found = 0;
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	return(1) if (/^(\s*|\s*$cmd\s*)$/);
@@ -1587,10 +1610,11 @@ sub ShowShun {
 
 # This routine processes a "write term"
 sub WriteTerm {
+    my($INPUT) = shift;
     print STDERR "    In WriteTerm: $_" if ($debug);
     my($lineauto,$comment,$linecnt) = (0,0,0);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	return(1) if (!$linecnt && /^\s+\^\s*$/);
@@ -1622,7 +1646,7 @@ sub WriteTerm {
 	$lineauto = 0 if (/^[^ ]/);
 	# skip the crap
 	if (/^(##+|(building|current) configuration)/i) {
-	    while (<INPUT>) {
+	    while (<$INPUT>) {
 		next if (/^Current configuration\s*:/i);
 		next if (/^:/);
 		next if (/^([%!].*|\s*)$/);
@@ -1794,7 +1818,7 @@ sub WriteTerm {
 	if (/^ip explicit-path name (\S+)/) {
 	    my($key) = $1;
 	    my($expath) = $_;
-	    while (<INPUT>) {
+	    while (<$INPUT>) {
 		tr/\015//d;
 		last if (/^$prompt/);
 		last if (/^$prompt/ || ! /^(ip explicit-path name |[ !])/);
@@ -1812,7 +1836,7 @@ sub WriteTerm {
 	if (/^route-map (\S+)/) {
 	    my($key) = $1;
 	    my($routemap) = $_;
-	    while (<INPUT>) {
+	    while (<$INPUT>) {
 		tr/\015//d;
 		last if (/^$prompt/ || ! /^(route-map |[ !])/);
 		if (/^route-map (\S+)/) {

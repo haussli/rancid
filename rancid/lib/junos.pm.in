@@ -1,4 +1,4 @@
-package rancid::junos;
+package junos;
 ##
 ## $Id: jrancid.in 2508 2012-07-09 20:32:49Z heas $
 ##
@@ -48,7 +48,7 @@ package rancid::junos;
 use 5.005;
 use strict 'vars';
 use warnings;
-require Exporter;
+require(Exporter);
 our @ISA = qw(Exporter);
 $Exporter::Verbose=1;
 
@@ -58,7 +58,7 @@ use rancid::base;
 
 our $ShowChassisSCB;			# Only run ShowChassisSCB() once
 
-@ISA = qw(Exporter rancid::base);
+@ISA = qw(Exporter rancid::base main);
 #our @EXPORT = qw($VERSION)
 
 # load-time initialization
@@ -72,18 +72,19 @@ sub import {
 sub init {
 # XXX is this the right place for this?
 # XXX can the content line move to the lib?
-    ProcessHistory("","","","!RANCID-CONTENT-TYPE: $devtype\n!\n");
+    ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n#\n");
 
     0;
 }
 
 # This routine parses "show chassis clocks"
 sub ShowChassisClocks {
+    my($INPUT) = shift;
     print STDERR "    In ShowChassisClocks: $_" if ($debug);
 
     s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^system (shutdown message from|going down )/i);
@@ -121,11 +122,12 @@ sub ShowChassisClocks {
 
 # This routine parses "show chassis environment"
 sub ShowChassisEnvironment {
+    my($INPUT) = shift;
     print STDERR "    In ShowChassisEnvironment: $_" if ($debug);
 
     s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	return 1 if (/^aborted!/i);
@@ -155,11 +157,12 @@ sub ShowChassisEnvironment {
 
 # This routine parses "show chassis firmware"
 sub ShowChassisFirmware {
+    my($INPUT) = shift;
     print STDERR "    In ShowChassisFirmware: $_" if ($debug);
 
     s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	return 1 if (/^aborted!/i);
@@ -180,11 +183,12 @@ sub ShowChassisFirmware {
 
 # This routine parses "show chassis fpc detail"
 sub ShowChassisFpcDetail {
+    my($INPUT) = shift;
     print STDERR "    In ShowChassisFpcDetail: $_" if ($debug);
 
     s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	return 1 if (/^aborted!/i);
@@ -208,11 +212,12 @@ sub ShowChassisFpcDetail {
 
 # This routine parses "show chassis hardware"
 sub ShowChassisHardware {
+    my($INPUT) = shift;
     print STDERR "    In ShowChassisHardware: $_" if ($debug);
 
     s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	return 1 if (/^aborted!/i);
@@ -234,11 +239,12 @@ sub ShowChassisHardware {
 # This routine parses "show chassis routing-engine"
 # Most output is ignored.
 sub ShowChassisRoutingEngine {
+    my($INPUT) = shift;
     print STDERR "    In ShowChassisRoutingEngine: $_" if ($debug);
 
     s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^system (shutdown message from|going down )/i);
@@ -267,11 +273,12 @@ sub ShowChassisRoutingEngine {
 # chassis scb", "show chassis sfm detail", and "show chassis ssb".
 # Only do this routine once.
 sub ShowChassisSCB {
+    my($INPUT) = shift;
     print STDERR "    In ShowChassisSCB: $_" if ($debug);
 
     s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^system (shutdown message from|going down )/i);
@@ -300,11 +307,12 @@ sub ShowChassisSCB {
 
 # This routine parses "show chassis alarms"
 sub ShowChassisAlarms {
+    my($INPUT) = shift;
     print STDERR "    In ShowChassisAlarms: $_" if ($debug);
 
     s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^system (shutdown message from|going down )/i);
@@ -322,11 +330,12 @@ sub ShowChassisAlarms {
 
 # This routine parses "show system autoinstallation status"
 sub ShowSystemAutoinstall {
+    my($INPUT) = shift;
     print STDERR "    In ShowSystemAutoinstall: $_" if ($debug);
 
     s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^system (shutdown message from|going down )/i);
@@ -343,11 +352,12 @@ sub ShowSystemAutoinstall {
 }
 
 sub ShowSystemCoreDumps {
+    my($INPUT) = shift;
     print STDERR "    In ShowSystemCoreDumps: $_" if ($debug);
 
     s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 
@@ -355,7 +365,7 @@ sub ShowSystemCoreDumps {
 	/command is not valid/ && return(1);
 	/^\s+\^/ && return(1);
 	/syntax error/ && return(1);
-	/^JUNOS / && <INPUT> && next;
+	/^JUNOS / && <$INPUT> && next;
 	/No such file or directory$/ && next;
 
 	ProcessHistory("","","","# $_");
@@ -365,11 +375,12 @@ sub ShowSystemCoreDumps {
 
 # This routine parses "show system license"
 sub ShowSystemLicense {
+    my($INPUT) = shift;
     print STDERR "    In ShowSystemLicense: $_" if ($debug);
 
     s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^system (shutdown message from|going down )/i);
@@ -399,11 +410,12 @@ sub ShowSystemLicense {
 
 # This routine parses "show system license keys"
 sub ShowSystemLicenseKeys {
+    my($INPUT) = shift;
     print STDERR "    In ShowSystemLicenseKeys: $_" if ($debug);
 
     s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^system (shutdown message from|going down )/i);
@@ -421,11 +433,12 @@ sub ShowSystemLicenseKeys {
 
 # This routine parses "show system boot-messages"
 sub ShowSystemBootMessages {
+    my($INPUT) = shift;
     print STDERR "    In ShowSystemBootMessages: $_" if ($debug);
 
     s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^system (shutdown message from|going down )/i);
@@ -436,7 +449,7 @@ sub ShowSystemBootMessages {
 	/^\s+\^/ && return(1);
 	/syntax error/ && return(1);
 
-	/^JUNOS / && <INPUT> && next;
+	/^JUNOS / && <$INPUT> && next;
 	/^Timecounter "TSC" / && next;
 	/^real memory / && next;
 	/^avail memory / && next;
@@ -448,11 +461,12 @@ sub ShowSystemBootMessages {
 
 # This routine parses "show version"
 sub ShowVersion {
+    my($INPUT) = shift;
     print STDERR "    In ShowVersion: $_" if ($debug);
 
     s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^\s*$/);
@@ -470,13 +484,14 @@ sub ShowVersion {
 
 # This routine parses "show configuration"
 sub ShowConfiguration {
+    my($INPUT) = shift;
     my($lines) = 0;
     my($snmp) = 0;
     print STDERR "    In ShowConfiguration: $_" if ($debug);
 
     s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	next if (/^\s*$/);
 	# end of config - hopefully.  juniper does not have a reliable

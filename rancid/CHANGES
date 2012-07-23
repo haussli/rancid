@@ -1,4 +1,6 @@
 3.0a
+	rancid::base renamed rancid
+
 	Add lib/ and bin/grancid to the build process
 
 	*rancid: add -t option for rancid-fe to pass the device type from

@@ -89,6 +89,7 @@ if ($file) {
 }
 
 TOP: while(<INPUT>) {
+    my($cmd, $rval);
     tr/\015//d;
     if (/[>#]\s?exit$/) {
 	$clean_run = 1;
@@ -121,7 +122,7 @@ TOP: while(<INPUT>) {
 	}
     }
 }
-print STDOUT "Done $logincmd: $_\n" if ($log);
+print STDOUT "Done $lscript: $_\n" if ($log);
 # Flush History
 ProcessHistory("","","","");
 # Cleanup

@@ -63,6 +63,13 @@ our $found_diag;
 our $config_register;			# configuration register value
 our $supbootdisk;			# skip sup-bootflash if sup-bootdisk
 					# worked
+
+our $C0;				# output formatting control
+our $E0;
+our $H0;
+our $I0;
+our $DO_SHOW_VLAN;
+
 @ISA = qw(Exporter rancid main);
 #XXX @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands);
 

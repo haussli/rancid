@@ -421,7 +421,7 @@ TOP: while(<INPUT>) {
 	    print STDERR "$host: found unexpected command - \"$cmd\"\n";
 	    last TOP;
 	}
-	$rval = &{$commands{$cmd}};
+	$rval = &{$commands{$cmd}}(*INPUT, *OUTPUT, $cmd);
 	delete($commands{$cmd});
 	if ($rval == -1) {
 	    last TOP;

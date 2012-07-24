@@ -324,7 +324,7 @@ while(<INPUT>) {
 	    $clean_run = 0;
 	    last;
 	}
-	$rval = &{$commands{$cmd}};
+	$rval = &{$commands{$cmd}}(*INPUT, *OUTPUT, $cmd);
 	delete($commands{$cmd});
 	if ($rval == -1) {
 	    $clean_run = 0;

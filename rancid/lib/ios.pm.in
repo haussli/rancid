@@ -61,8 +61,15 @@ our $found_version;
 our $found_env;
 our $found_diag;
 our $config_register;			# configuration register value
+
+our %hwbuf;				# defined in ShowContCbus
+our %hwmemc;				# defined in ShowContCbus
+our %hwmemd;				# defined in ShowContCbus
+our %hwucode;				# defined in ShowContCbus
 our $supbootdisk;			# skip sup-bootflash if sup-bootdisk
 					# worked
+our $type;				# device model, from ShowVersion
+our %ucode;				# defined in ShowContCbus
 
 our $ssp;				# SSP/SSE info, from ShowVersion
 our $sspmem;				# SSP/SSE info, from ShowVersion
@@ -88,10 +95,17 @@ sub init {
     $found_version = 0;
     $found_env = 0;
     $found_diag = 0;
+    $config_register = undef;		# configuration register value
 
-    my($config_register) = undef;	# configuration register value
-    my($supbootdisk) = 0;		# skip sup-bootflash if sup-bootdisk
+    # XXX init %hwbuf;			# defined in ShowContCbus
+    # XXX init %hwmemc;			# defined in ShowContCbus
+    # XXX init %hwmemd;			# defined in ShowContCbus
+    # XXX init %hwucode;			# defined in ShowContCbus
+    $supbootdisk = 0;			# skip sup-bootflash if sup-bootdisk
 					# worked
+    $type = undef;			# device model, from ShowVersion
+    # XXX init %ucode;			# defined in ShowContCbus
+
     $ssp = 0;				# SSP/SSE info, from ShowVersion
     $sspmem = undef;			# SSP/SSE info, from ShowVersion
 
@@ -866,6 +880,7 @@ sub ShowContCbus {
     print STDERR "    In ShowContCbus: $_" if ($debug);
 
     while (<$INPUT>) {
+	my(%board, %hwver);
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -947,7 +962,7 @@ sub ShowDebug {
 # This will create arrays for hw info.
 sub ShowDiagbus {
     my($INPUT, $OUTPUT, $cmd) = @_;
-    my($board);
+    my($board, $slot);
     # Skip if this is not a 7000, 70[01]0, or 7500.
     print STDERR "    In ShowDiagbus: $_" if ($debug);
 

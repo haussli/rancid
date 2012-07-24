@@ -50,6 +50,7 @@
 use 5.005;
 use strict 'vars';
 use warnings;
+no warnings 'uninitialized';
 use Exporter;
 use Getopt::Std;
 getopts('dflt:CV');

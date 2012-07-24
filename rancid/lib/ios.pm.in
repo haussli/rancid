@@ -86,17 +86,24 @@ sub init {
     $found_env = 0;
     $found_diag = 0;
 
-    my($config_register);		# configuration register value
+    my($config_register) = undef;	# configuration register value
     my($supbootdisk) = 0;		# skip sup-bootflash if sup-bootdisk
 					# worked
 
-# XXX is this the right place for this?
-# XXX can the content line move to the lib?
+    $C0 = 0;				# output formatting control
+    $E0 = 0;
+    $H0 = 0;
+    $I0 = 0;
+    $DO_SHOW_VLAN = 0;
+
+    # XXX is this the right place for this?
+    # XXX can the content line move to the lib?
     ProcessHistory("","","","!RANCID-CONTENT-TYPE: cisco\n!\n");
     ProcessHistory("COMMENTS","keysort","B0","!\n");
     ProcessHistory("COMMENTS","keysort","D0","!\n");
     ProcessHistory("COMMENTS","keysort","F0","!\n");
     ProcessHistory("COMMENTS","keysort","G0","!\n");
+
     0;
 }
 
@@ -317,7 +324,7 @@ sub ShowVersion {
 	    next;
 	}
 	if (/(\S+) Silicon\s*Switch Processor/) {
-	    if (!defined($C0)) {
+	    if (!$C0) {
 		$C0 = 1; ProcessHistory("COMMENTS","keysort","C0","!\n");
 	    }
 	    ProcessHistory("COMMENTS","keysort","C2","!SSP: $1\n");
@@ -351,7 +358,7 @@ sub ShowVersion {
 	    next;
 	}
 	if (/^WARNING/) {
-	    if (!defined($I0)) {
+	    if (!$I0) {
 		$I0 = 1;
 		ProcessHistory("COMMENTS","keysort","I0","!\n");
 	    }
@@ -482,12 +489,12 @@ sub ShowEnv {
 	    s/^$1\s{$len}//;
 	}
 
-	if (!defined($E0)) {
+	if (!$E0) {
 	    $E0 = 1;
 	    ProcessHistory("COMMENTS","keysort","E0","!\n");
 	}
 	if (/^Arbiter type (\d), backplane type (\S+)/) {
-	    if (!defined($C0)) {
+	    if (!$C0) {
 		$C0 = 1; ProcessHistory("COMMENTS","keysort","C0","!\n");
 	    }
 	    ProcessHistory("COMMENTS","keysort","C1",
@@ -612,7 +619,7 @@ sub ShowBoot {
 	}
 
 	next if /CONFGEN variable/;
-	if (!defined($H0)) {
+	if (!$H0) {
 	    $H0 = 1; ProcessHistory("COMMENTS","keysort","H0","!\n");
 	}
 	if ($type !~ /^(12[04]|7)/) {
@@ -781,6 +788,7 @@ sub DirSlotN {
 # This routine parses "show controllers"
 sub ShowContAll {
     my($INPUT, $OUTPUT, $cmd) = @_;
+    my($INT);
     # Skip if this is a 70[01]0, 7500, or 12000.
     print STDERR "    In ShowContAll: $_" if ($debug);
 
@@ -1070,7 +1078,7 @@ REDUX:	tr/\015//d;
 	    next;
 	}
 	if (/^\s+MAIN:\s* type \S+,\s+(.*)/) {
-	    local($part) = $1;
+	    my($part) = $1;
 	    $_ = <$INPUT>;
 	    if (/^\s+(HW version|Design Release) (\S+)\s+S\/N (\S+)/i) {
 		ProcessHistory("SLOT","keysort","AM","!Slot $slot/MAIN: part $part, serial $3\n");
@@ -1085,11 +1093,11 @@ REDUX:	tr/\015//d;
 	    $_ = <$INPUT>;
 	    tr/\015//d;
 	    if (/^\s+(.+)$/) {
-		local($part) = $1;
+		my($part) = $1;
 		$_ = <$INPUT>;
 		tr/\015//d;
 		if (/^\s+dev (.*)$/) {
-		    local($dev) = $1;
+		    my($dev) = $1;
 		    $_ = <$INPUT>;
 		    if (/^\s+S\/N (\S+)/) {
 			ProcessHistory("SLOT","keysort","AM","!Slot $slot/MAIN: part $part, dev $dev, serial $1\n");
@@ -1132,7 +1140,7 @@ REDUX:	tr/\015//d;
 	    next;
 	}
 	if (/^\s+PCA:\s+(.*)/) {
-	    local($part) = $1;
+	    my($part) = $1;
 	    $_ = <$INPUT>;
 	    if (/^\s+(HW version|design release) (\S+)\s+S\/N (\S+)/i) {
 		ProcessHistory("SLOT","keysort","C1","!Slot $slot/PCA: part $part, serial $3\n");
@@ -1144,7 +1152,7 @@ REDUX:	tr/\015//d;
 	    next;
 	}
 	if (/^\s+MBUS: .*\)\s+(.*)/) {
-	    local($tmp) = "!Slot $slot/MBUS: part $1";
+	    my($tmp) = "!Slot $slot/MBUS: part $1";
 	    $_ = <$INPUT>;
 	    /^\s+HW version (\S+)\s+S\/N (\S+)/ &&
 		ProcessHistory("SLOT","keysort","MB1","$tmp, serial $2\n") &&
@@ -1176,7 +1184,7 @@ REDUX:	tr/\015//d;
 	    next;
 	}
 	if (/^\s+DRAM size: (\d+)/) {
-	    local($dram) = $1 / 1048576;
+	    my($dram) = $1 / 1048576;
 	    $_ = <$INPUT>;
 	    if (/^\s+FrFab SDRAM size: (\d+)/) {
 		ProcessHistory("SLOT","keysort","MB4","!Slot $slot/MBUS: $dram Mbytes DRAM, "
@@ -1938,7 +1946,7 @@ sub WriteTerm {
 	}
 	# order ntp peers/servers
 	if (/^ntp (server|peer) (\d+)\.(\d+)\.(\d+)\.(\d+)/) {
-	    $sortkey = sprintf("$1 %03d%03d%03d%03d",$2,$3,$4,$5);
+	    my($sortkey) = sprintf("$1 %03d%03d%03d%03d",$2,$3,$4,$5);
 	    ProcessHistory("NTP","keysort",$sortkey,"$_");
 	    next;
 	}

@@ -79,7 +79,7 @@ sub init {
 
 # This routine parses "show chassis clocks"
 sub ShowChassisClocks {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassisClocks: $_" if ($debug);
 
     s/^[a-z]+@//;
@@ -122,7 +122,7 @@ sub ShowChassisClocks {
 
 # This routine parses "show chassis environment"
 sub ShowChassisEnvironment {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassisEnvironment: $_" if ($debug);
 
     s/^[a-z]+@//;
@@ -157,7 +157,7 @@ sub ShowChassisEnvironment {
 
 # This routine parses "show chassis firmware"
 sub ShowChassisFirmware {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassisFirmware: $_" if ($debug);
 
     s/^[a-z]+@//;
@@ -183,7 +183,7 @@ sub ShowChassisFirmware {
 
 # This routine parses "show chassis fpc detail"
 sub ShowChassisFpcDetail {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassisFpcDetail: $_" if ($debug);
 
     s/^[a-z]+@//;
@@ -212,7 +212,7 @@ sub ShowChassisFpcDetail {
 
 # This routine parses "show chassis hardware"
 sub ShowChassisHardware {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassisHardware: $_" if ($debug);
 
     s/^[a-z]+@//;
@@ -239,7 +239,7 @@ sub ShowChassisHardware {
 # This routine parses "show chassis routing-engine"
 # Most output is ignored.
 sub ShowChassisRoutingEngine {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassisRoutingEngine: $_" if ($debug);
 
     s/^[a-z]+@//;
@@ -273,7 +273,7 @@ sub ShowChassisRoutingEngine {
 # chassis scb", "show chassis sfm detail", and "show chassis ssb".
 # Only do this routine once.
 sub ShowChassisSCB {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassisSCB: $_" if ($debug);
 
     s/^[a-z]+@//;
@@ -307,7 +307,7 @@ sub ShowChassisSCB {
 
 # This routine parses "show chassis alarms"
 sub ShowChassisAlarms {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassisAlarms: $_" if ($debug);
 
     s/^[a-z]+@//;
@@ -330,7 +330,7 @@ sub ShowChassisAlarms {
 
 # This routine parses "show system autoinstallation status"
 sub ShowSystemAutoinstall {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowSystemAutoinstall: $_" if ($debug);
 
     s/^[a-z]+@//;
@@ -352,7 +352,7 @@ sub ShowSystemAutoinstall {
 }
 
 sub ShowSystemCoreDumps {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowSystemCoreDumps: $_" if ($debug);
 
     s/^[a-z]+@//;
@@ -375,7 +375,7 @@ sub ShowSystemCoreDumps {
 
 # This routine parses "show system license"
 sub ShowSystemLicense {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowSystemLicense: $_" if ($debug);
 
     s/^[a-z]+@//;
@@ -410,7 +410,7 @@ sub ShowSystemLicense {
 
 # This routine parses "show system license keys"
 sub ShowSystemLicenseKeys {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowSystemLicenseKeys: $_" if ($debug);
 
     s/^[a-z]+@//;
@@ -433,7 +433,7 @@ sub ShowSystemLicenseKeys {
 
 # This routine parses "show system boot-messages"
 sub ShowSystemBootMessages {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowSystemBootMessages: $_" if ($debug);
 
     s/^[a-z]+@//;
@@ -461,7 +461,7 @@ sub ShowSystemBootMessages {
 
 # This routine parses "show version"
 sub ShowVersion {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowVersion: $_" if ($debug);
 
     s/^[a-z]+@//;
@@ -484,7 +484,7 @@ sub ShowVersion {
 
 # This routine parses "show configuration"
 sub ShowConfiguration {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     my($lines) = 0;
     my($snmp) = 0;
     print STDERR "    In ShowConfiguration: $_" if ($debug);

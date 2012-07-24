@@ -63,7 +63,6 @@ pr_usage() {
 # -m <mailto address>
 # -r <device name>
 if [ $# -ge 1 ] ; then
-
     while [ 1 ] ; do
 	case $1 in
 	-V)

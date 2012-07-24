@@ -1,4 +1,6 @@
 3.0a
+	*rancid: pass (INPUT,OUTPUT,$cmd) to filter functions
+
 	rancid::base renamed rancid
 
 	Add lib/ and bin/grancid to the build process

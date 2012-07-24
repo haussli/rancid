@@ -994,7 +994,7 @@ sub ShowDiagbus {
 		$board = $1;
 	    }
 	    # hwucode{$slot} defined in ShowContCbus
-	    if (defined $hwucode{$slot}) {
+	    if (defined($hwucode{$slot})) {
 		ProcessHistory("SLOT","","","!\n!Slot $slot/$board: hvers $hwver rev $boardrev ucode $hwucode{$slot}\n");
 	    } else {
 		ProcessHistory("SLOT","","","!\n!Slot $slot/$board: hvers $hwver rev $boardrev\n");

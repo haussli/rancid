@@ -1014,9 +1014,9 @@ sub ShowDiagbus {
 	    ProcessHistory("SLOT","","","!Slot $slot/$board: $1\n") &&
 	    next;
 	if (/PA Bay (\d) Information/) {
-	    $pano = $1;
+	    my($pano) = $1;
 	    if ("PA" =~ /$board/) {
-		($s,$c) = split(/\//,$board);
+		my($s,$c) = split(/\//,$board);
 		$board = "$s/$c/PA $pano";
 	    } else {
 		$board =~ s/\/PA \d//;
@@ -1043,6 +1043,7 @@ sub ShowDiagbus {
 # This will create arrays for hw info.
 sub ShowDiag {
     my($INPUT, $OUTPUT, $cmd) = @_;
+    my($fn, $slot, $WIC);
     print STDERR "    In ShowDiag: $_" if ($debug);
 
     while (<$INPUT>) {
@@ -1217,13 +1218,13 @@ REDUX:	tr/\015//d;
 		$WIC = "/$2";
 	    } elsif ($1 eq "Encryption AIM") {
 		$slot = "$2";
-		undef($WIC);
+		$WIC = undef;
 		ProcessHistory("SLOT","","","!\n");
 		ProcessHistory("SLOT","keysort","B","!Slot $slot: type $1\n");
 		next;
 	    } else {
 		$slot = $2;
-		undef($WIC);
+		$WIC = undef;
 	    }
 	    $_ = <$INPUT>; tr/\015//d;
 
@@ -1257,7 +1258,7 @@ REDUX:	tr/\015//d;
 	    #
 	    # handle WICs lacking "daughter card" in the 2nd line of their
 	    # show diag o/p
-	    if (defined($WIC)) {
+	    if (length($WIC)) {
 		s/^\s+//;
 		ProcessHistory("SLOT","keysort","B","!Slot $slot$WIC: type $_");
 	    }
@@ -1636,7 +1637,7 @@ sub ShowShun {
 sub WriteTerm {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In WriteTerm: $_" if ($debug);
-    my($lineauto,$comment,$linecnt) = (0,0,0);
+    my($lineauto, $comment, $linecnt) = (0,0,0);
 
     while (<$INPUT>) {
 	tr/\015//d;

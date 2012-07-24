@@ -74,7 +74,7 @@ sub init {
 
 # This routine parses "show configuration"
 sub ShowConfig {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     my($linecnt) = 0;
     print STDERR "    In ShowConfig: $_" if ($debug);
 
@@ -128,7 +128,7 @@ sub ShowConfig {
 
 # This routine parses "system hardware"
 sub ShowHardware {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowHardware: $_" if ($debug);
 
     while (<$INPUT>) {
@@ -148,7 +148,7 @@ sub ShowHardware {
 
 # This routine parses "show system version", "show system build-parameters"
 sub ShowVersion {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowVersion: $_" if ($debug);
 
     while (<$INPUT>) {

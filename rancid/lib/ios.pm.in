@@ -47,6 +47,7 @@ package ios;
 use 5.005;
 use strict 'vars';
 use warnings;
+no warnings 'uninitialized';
 require(Exporter);
 our @ISA = qw(Exporter);
 
@@ -94,7 +95,7 @@ sub init {
 
 # This routine parses "show version"
 sub ShowVersion {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowVersion: $_" if ($debug);
     my($slaveslot);
 
@@ -363,7 +364,7 @@ sub ShowVersion {
 
 # This routine parses "show redundancy"
 sub ShowRedundancy {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowRedundancy: $_" if ($debug);
 
     while (<$INPUT>) {
@@ -396,7 +397,7 @@ sub ShowRedundancy {
 
 # This routine parses "show IDprom"
 sub ShowIDprom {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     my($tmp);
 
     print STDERR "    In ShowIDprom: $_" if ($debug);
@@ -431,7 +432,7 @@ sub ShowIDprom {
 
 # This routine parses "show install active"
 sub ShowInstallActive {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowInstallActive: $_" if ($debug);
 
     while (<$INPUT>) {
@@ -455,7 +456,7 @@ sub ShowInstallActive {
 
 # This routine parses "show env all"
 sub ShowEnv {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     # Skip if this is not a 7500, 7200, or 7000.
     print STDERR "    In ShowEnv: $_" if ($debug);
 
@@ -508,7 +509,7 @@ sub ShowEnv {
 # This routine parses "show rsp chassis-info" for the rsp
 # This will create arrays for hw info.
 sub ShowRSP {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowRSP: $_" if ($debug);
 
     while (<$INPUT>) {
@@ -541,7 +542,7 @@ sub ShowRSP {
 # This routine parses "show gsr chassis-info" for the gsr
 # This will create arrays for hw info.
 sub ShowGSR {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     # Skip if this is not a 1200n.
     print STDERR "    In ShowGSR: $_" if ($debug);
 
@@ -582,7 +583,7 @@ sub ShowGSR {
 
 # This routine parses "show boot"
 sub ShowBoot {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     # Pick up boot variables if 7000/7200/7500/12000/2900/3500;
     # otherwise pick up bootflash.
     print STDERR "    In ShowBoot: $_" if ($debug);
@@ -623,7 +624,7 @@ sub ShowBoot {
 
 # This routine parses "show flash"
 sub ShowFlash {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowFlash: $_" if ($debug);
 
     while (<$INPUT>) {
@@ -676,7 +677,7 @@ sub ShowFlash {
 
 # This routine parses "dir /all ((disk|slot)N|bootflash|nvram):"
 sub DirSlotN {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In DirSlotN: $_" if ($debug);
 
     my($dev) = (/\s([^\s]+):/);
@@ -772,7 +773,7 @@ sub DirSlotN {
 
 # This routine parses "show controllers"
 sub ShowContAll {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     # Skip if this is a 70[01]0, 7500, or 12000.
     print STDERR "    In ShowContAll: $_" if ($debug);
 
@@ -838,7 +839,7 @@ sub ShowContAll {
 # This routine parses "show controllers cbus"
 # Some of this is printed out in ShowDiagbus.
 sub ShowContCbus {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     # Skip if this is not a 7000 or 7500.
     print STDERR "    In ShowContCbus: $_" if ($debug);
 
@@ -890,7 +891,7 @@ sub ShowContCbus {
 
 # This routine parses "show debug"
 sub ShowDebug {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowDebug: $_" if ($debug);
     my($lines) = 0;
 
@@ -923,7 +924,7 @@ sub ShowDebug {
 # This routine parses "show diagbus"
 # This will create arrays for hw info.
 sub ShowDiagbus {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     # Skip if this is not a 7000, 70[01]0, or 7500.
     print STDERR "    In ShowDiagbus: $_" if ($debug);
 
@@ -1018,7 +1019,7 @@ sub ShowDiagbus {
 # This routine parses "show diag" for the gsr, 7200, 3700, 3600, 2600.
 # This will create arrays for hw info.
 sub ShowDiag {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowDiag: $_" if ($debug);
 
     while (<$INPUT>) {
@@ -1318,7 +1319,7 @@ PerlSucks:
 
 # This routine parses "show inventory".
 sub ShowInventory {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowInventory: $_" if ($debug);
 
     while (<$INPUT>) {
@@ -1367,7 +1368,7 @@ sub ShowInventory {
 
 # This routine parses "show module".
 sub ShowModule {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowModule: $_" if ($debug);
 
     my(@lines);
@@ -1421,7 +1422,7 @@ sub ShowModule {
 
 # This routine parses "show spe version".
 sub ShowSpeVersion {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowSpeVersion: $_" if ($debug);
 
     while (<$INPUT>) {
@@ -1442,7 +1443,7 @@ sub ShowSpeVersion {
 # This routine parses "show c7200" for the 7200
 # This will create arrays for hw info.
 sub ShowC7200 {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     # Skip if this is not a 7200.
     print STDERR "    In ShowC7200: $_" if ($debug);
 
@@ -1493,7 +1494,7 @@ sub ShowC7200 {
 
 # This routine parses "show capture".  Intended for ASA/PIXes.
 sub ShowCapture {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowCapture: $_" if ($debug);
     my $capture_found = 0;
     while (<$INPUT>) {
@@ -1526,7 +1527,7 @@ sub ShowCapture {
 
 # This routine parses "show vtp status"
 sub ShowVTP {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowVTP: $_" if ($debug);
 
     while (<$INPUT>) {
@@ -1556,7 +1557,7 @@ sub ShowVTP {
 
 # This routine parses "show vlan"
 sub ShowVLAN {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowVLAN: $_" if ($debug);
 
     ($_ = <$INPUT>, return(1)) if (!$DO_SHOW_VLAN);
@@ -1584,7 +1585,7 @@ sub ShowVLAN {
 
 # This routine processes a "show shun".  Intended for ASA/PIXes.
 sub ShowShun {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowShun: $_" if ($debug);
     my $shun_found = 0;
     while (<$INPUT>) {
@@ -1610,7 +1611,7 @@ sub ShowShun {
 
 # This routine processes a "write term"
 sub WriteTerm {
-    my($INPUT) = shift;
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In WriteTerm: $_" if ($debug);
     my($lineauto,$comment,$linecnt) = (0,0,0);
 

@@ -284,7 +284,7 @@ if [ $RALL -ne 0 -o $RDOWN -ne 0 -o $RUP -ne 0 ] ; then
     do
 	OFS=$IFS
 	IFS=';'
-	set "$router"
+	set $router
 	IFS=$OFS
 	router=$1
 
@@ -390,7 +390,7 @@ do
     do
 	OFS=$IFS
 	IFS=';'
-	set "$router"
+	set $router
 	IFS=$OFS
 	router=$1; mfg=$2
 
@@ -420,7 +420,7 @@ for router in `cat $devlistfile`
 do
     OFS=$IFS
     IFS=';'
-    set "$router"
+    set $router
     IFS=$OFS
     router=$1;
 

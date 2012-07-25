@@ -55,6 +55,7 @@ if (! length($devtype)) {
     exit(-1);
 }
 
+# XXX use rancid::loadtype() to parse these files.
 foreach $file ("@sysconfdir@/rancid.types.base",
 	       "@sysconfdir@/rancid.types.conf") {
     open(INPUT, "< $file") || die "Could not open $file: $!";

@@ -17,6 +17,7 @@ The
 configuration file follows the same format but defines the base types
 described in
 .IR router.db(5).
+.PP
 Users are
 .B STRONGLY
 discouraged from altering this file or overriding the base types in
@@ -25,10 +26,10 @@ Instead, copy the type definition to be altered from
 .B rancid.types.base
 to
 .B rancid.types.conf
-with a different name.
+using a different <device_type>.
 .\"
 .SH SYNTAX
-One device is listed per-line, where the syntax is one of:
+One directive is listed per-line, where the syntax is one of:
 .PP
 .in +1i
 .nf
@@ -53,6 +54,11 @@ juniper;command;ShowVersion;show version
 .fi
 .in -1i
 .PP
+.\"
+<device_type> is a lower case name used in the
+.IR router.db(5)
+file.
+Its case is forced to lower case when reading the configuration files.
 .\"
 XXX Add further documentation
 XXX document ProcessHistory() and the default/base function library that has it

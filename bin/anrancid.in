@@ -1,6 +1,6 @@
 #! @PERLV_PATH@
 ##
-## $Id: comprancid.in 2477 2012-05-09 21:25:11Z heas $
+## $Id$
 ##
 ## @PACKAGE@ @VERSION@
 ## Copyright (c) @COPYYEARS@ by Terrapin Communications, Inc.

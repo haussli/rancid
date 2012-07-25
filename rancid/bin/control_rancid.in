@@ -284,7 +284,7 @@ if [ $RALL -ne 0 -o $RDOWN -ne 0 -o $RUP -ne 0 ] ; then
     do
 	OFS=$IFS
 	IFS=';'
-	set $router
+	set "$router"
 	IFS=$OFS
 	router=$1
 
@@ -374,7 +374,7 @@ cd $DIR/configs
 # tailored to the specific installation.
 echo ""
 echo "Trying to get all of the configs."
-par -q -n $PAR_COUNT -c "rancid-fe {}" $devlistfile
+par -q -n $PAR_COUNT -c "rancid-fe '{}'" $devlistfile
 
 # This section will generate a list of missed routers
 # and try to grab them again.  It will run through
@@ -390,7 +390,7 @@ do
     do
 	OFS=$IFS
 	IFS=';'
-	set $router
+	set "$router"
 	IFS=$OFS
 	router=$1; mfg=$2
 
@@ -404,7 +404,7 @@ do
     if [ -f $DIR/routers.up.missed ] ; then
 	echo "====================================="
 	echo "Getting missed routers: round $round."
-	par -q -n $PAR_COUNT -c "rancid-fe \{}" $DIR/routers.up.missed
+	par -q -n $PAR_COUNT -c "rancid-fe '{}'" $DIR/routers.up.missed
 	rm -f $DIR/routers.up.missed
 	round=`expr $round + 1`
     else
@@ -420,7 +420,7 @@ for router in `cat $devlistfile`
 do
     OFS=$IFS
     IFS=';'
-    set $router
+    set "$router"
     IFS=$OFS
     router=$1;
 

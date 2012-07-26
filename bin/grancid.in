@@ -55,7 +55,7 @@ use Exporter;
 use Getopt::Std;
 getopts('dflt:CV');
 BEGIN {
-    push(@INC, "/home/heas/rancid/lib");
+    push(@INC, "@pkglibdir@");
 }
 use rancid;
 our @ISA = qw(Exporter rancid);

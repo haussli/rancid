@@ -474,7 +474,8 @@ install-data-local: all
 	else \
 	    $(INSTALL_DATA) lg.conf.sample $(DESTDIR)$(sysconfdir)/lg.conf; \
 	fi; \
-	fi
+	fi; \
+	$(INSTALL_DATA) rancid.types.base $(DESTDIR)$(sysconfdir)/rancid.types.base
 
 lg.conf.sample: Makefile $(srcdir)/lg.conf.sample.in
 	rm -f lg.conf.sample lg.conf.sample.tmp; \

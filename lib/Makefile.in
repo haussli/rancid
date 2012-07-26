@@ -71,36 +71,11 @@ am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
 am__installdirs = "$(DESTDIR)$(pkglibdir)"
-LIBRARIES = $(pkglib_LIBRARIES)
-AR = ar
-ARFLAGS = cru
-arbor_pm_AR = $(AR) $(ARFLAGS)
-arbor_pm_LIBADD =
-arbor_pm_SOURCES = arbor.c
-arbor_pm_OBJECTS = arbor.$(OBJEXT)
-ios_pm_AR = $(AR) $(ARFLAGS)
-ios_pm_LIBADD =
-ios_pm_SOURCES = ios.c
-ios_pm_OBJECTS = ios.$(OBJEXT)
-junos_pm_AR = $(AR) $(ARFLAGS)
-junos_pm_LIBADD =
-junos_pm_SOURCES = junos.c
-junos_pm_OBJECTS = junos.$(OBJEXT)
-rancid_pm_AR = $(AR) $(ARFLAGS)
-rancid_pm_LIBADD =
-rancid_pm_SOURCES = rancid.c
-rancid_pm_OBJECTS = rancid.$(OBJEXT)
-DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)/include
+SCRIPTS = $(pkglib_SCRIPTS)
 depcomp =
 am__depfiles_maybe =
-COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = arbor.c ios.c junos.c rancid.c
-DIST_SOURCES = arbor.c ios.c junos.c rancid.c
-ETAGS = etags
-CTAGS = ctags
+SOURCES =
+DIST_SOURCES =
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 ADMINMAILPLUS = @ADMINMAILPLUS@
@@ -218,11 +193,12 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign no-dependencies
-pkglib_LIBRARIES = rancid.pm arbor.pm ios.pm junos.pm
+pkglib_SCRIPTS = rancid.pm arbor.pm ios.pm junos.pm
+pkglib_in = $(pkglib_SCRIPTS:%=%.in)
 RANLIB = :
 
 #EXTRA_DIST= lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in
-CLEANFILES = rancid $(pkglib_LIBRARIES)
+CLEANFILES = rancid $(pkglib_SCRIPTS)
 
 #clean:
 #	rm -f Makefile env $(BIN_DATAS) $(BIN_PROGS)
@@ -251,7 +227,6 @@ auto_edit = sed \
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .o .obj
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -282,102 +257,46 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
-install-pkglibLIBRARIES: $(pkglib_LIBRARIES)
+install-pkglibSCRIPTS: $(pkglib_SCRIPTS)
 	@$(NORMAL_INSTALL)
 	test -z "$(pkglibdir)" || $(MKDIR_P) "$(DESTDIR)$(pkglibdir)"
-	@list='$(pkglib_LIBRARIES)'; test -n "$(pkglibdir)" || list=; \
-	list2=; for p in $$list; do \
-	  if test -f $$p; then \
-	    list2="$$list2 $$p"; \
-	  else :; fi; \
-	done; \
-	test -z "$$list2" || { \
-	  echo " $(INSTALL_DATA) $$list2 '$(DESTDIR)$(pkglibdir)'"; \
-	  $(INSTALL_DATA) $$list2 "$(DESTDIR)$(pkglibdir)" || exit $$?; }
-	@$(POST_INSTALL)
-	@list='$(pkglib_LIBRARIES)'; test -n "$(pkglibdir)" || list=; \
+	@list='$(pkglib_SCRIPTS)'; test -n "$(pkglibdir)" || list=; \
 	for p in $$list; do \
-	  if test -f $$p; then \
-	    $(am__strip_dir) \
-	    echo " ( cd '$(DESTDIR)$(pkglibdir)' && $(RANLIB) $$f )"; \
-	    ( cd "$(DESTDIR)$(pkglibdir)" && $(RANLIB) $$f ) || exit $$?; \
-	  else :; fi; \
-	done
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f "$$d$$p"; then echo "$$d$$p"; echo "$$p"; else :; fi; \
+	done | \
+	sed -e 'p;s,.*/,,;n' \
+	    -e 'h;s|.*|.|' \
+	    -e 'p;x;s,.*/,,;$(transform)' | sed 'N;N;N;s,\n, ,g' | \
+	$(AWK) 'BEGIN { files["."] = ""; dirs["."] = 1; } \
+	  { d=$$3; if (dirs[d] != 1) { print "d", d; dirs[d] = 1 } \
+	    if ($$2 == $$4) { files[d] = files[d] " " $$1; \
+	      if (++n[d] == $(am__install_max)) { \
+		print "f", d, files[d]; n[d] = 0; files[d] = "" } } \
+	    else { print "f", d "/" $$4, $$1 } } \
+	  END { for (d in files) print "f", d, files[d] }' | \
+	while read type dir files; do \
+	     if test "$$dir" = .; then dir=; else dir=/$$dir; fi; \
+	     test -z "$$files" || { \
+	       echo " $(INSTALL_SCRIPT) $$files '$(DESTDIR)$(pkglibdir)$$dir'"; \
+	       $(INSTALL_SCRIPT) $$files "$(DESTDIR)$(pkglibdir)$$dir" || exit $$?; \
+	     } \
+	; done
 
-uninstall-pkglibLIBRARIES:
+uninstall-pkglibSCRIPTS:
 	@$(NORMAL_UNINSTALL)
-	@list='$(pkglib_LIBRARIES)'; test -n "$(pkglibdir)" || list=; \
-	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	test -n "$$files" || exit 0; \
-	echo " ( cd '$(DESTDIR)$(pkglibdir)' && rm -f "$$files" )"; \
+	@list='$(pkglib_SCRIPTS)'; test -n "$(pkglibdir)" || exit 0; \
+	files=`for p in $$list; do echo "$$p"; done | \
+	       sed -e 's,.*/,,;$(transform)'`; \
+	test -n "$$list" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(pkglibdir)' && rm -f" $$files ")"; \
 	cd "$(DESTDIR)$(pkglibdir)" && rm -f $$files
-
-clean-pkglibLIBRARIES:
-	-test -z "$(pkglib_LIBRARIES)" || rm -f $(pkglib_LIBRARIES)
-
-mostlyclean-compile:
-	-rm -f *.$(OBJEXT)
-
-distclean-compile:
-	-rm -f *.tab.c
-
-.c.o:
-	$(COMPILE) -c $<
-
-.c.obj:
-	$(COMPILE) -c `$(CYGPATH_W) '$<'`
-
-ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
-	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
-	unique=`for i in $$list; do \
-	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
-	  done | \
-	  $(AWK) '{ files[$$0] = 1; nonempty = 1; } \
-	      END { if (nonempty) { for (i in files) print i; }; }'`; \
-	mkid -fID $$unique
 tags: TAGS
+TAGS:
 
-TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
-		$(TAGS_FILES) $(LISP)
-	set x; \
-	here=`pwd`; \
-	list='$(SOURCES) $(HEADERS)  $(LISP) $(TAGS_FILES)'; \
-	unique=`for i in $$list; do \
-	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
-	  done | \
-	  $(AWK) '{ files[$$0] = 1; nonempty = 1; } \
-	      END { if (nonempty) { for (i in files) print i; }; }'`; \
-	shift; \
-	if test -z "$(ETAGS_ARGS)$$*$$unique"; then :; else \
-	  test -n "$$unique" || unique=$$empty_fix; \
-	  if test $$# -gt 0; then \
-	    $(ETAGS) $(ETAGSFLAGS) $(AM_ETAGSFLAGS) $(ETAGS_ARGS) \
-	      "$$@" $$unique; \
-	  else \
-	    $(ETAGS) $(ETAGSFLAGS) $(AM_ETAGSFLAGS) $(ETAGS_ARGS) \
-	      $$unique; \
-	  fi; \
-	fi
 ctags: CTAGS
-CTAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
-		$(TAGS_FILES) $(LISP)
-	list='$(SOURCES) $(HEADERS)  $(LISP) $(TAGS_FILES)'; \
-	unique=`for i in $$list; do \
-	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
-	  done | \
-	  $(AWK) '{ files[$$0] = 1; nonempty = 1; } \
-	      END { if (nonempty) { for (i in files) print i; }; }'`; \
-	test -z "$(CTAGS_ARGS)$$unique" \
-	  || $(CTAGS) $(CTAGSFLAGS) $(AM_CTAGSFLAGS) $(CTAGS_ARGS) \
-	     $$unique
+CTAGS:
 
-GTAGS:
-	here=`$(am__cd) $(top_builddir) && pwd` \
-	  && $(am__cd) $(top_srcdir) \
-	  && gtags -i $(GTAGS_ARGS) "$$here"
-
-distclean-tags:
-	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 
 distdir: $(DISTFILES)
 	@srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*]/\\\\&/g'`; \
@@ -411,7 +330,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LIBRARIES)
+all-am: Makefile $(SCRIPTS)
 installdirs:
 	for dir in "$(DESTDIR)$(pkglibdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
@@ -444,12 +363,11 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-pkglibLIBRARIES mostlyclean-am
+clean-am: clean-generic mostlyclean-am
 
 distclean: distclean-am
 	-rm -f Makefile
-distclean-am: clean-am distclean-compile distclean-generic \
-	distclean-tags
+distclean-am: clean-am distclean-generic
 
 dvi: dvi-am
 
@@ -469,7 +387,7 @@ install-dvi: install-dvi-am
 
 install-dvi-am:
 
-install-exec-am: install-pkglibLIBRARIES
+install-exec-am: install-pkglibSCRIPTS
 
 install-html: install-html-am
 
@@ -497,7 +415,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-am
 
-mostlyclean-am: mostlyclean-compile mostlyclean-generic
+mostlyclean-am: mostlyclean-generic
 
 pdf: pdf-am
 
@@ -507,49 +425,33 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-pkglibLIBRARIES
+uninstall-am: uninstall-pkglibSCRIPTS
 
 .MAKE: install-am install-strip
 
-.PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
-	clean-pkglibLIBRARIES ctags distclean distclean-compile \
-	distclean-generic distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-man install-pdf install-pdf-am \
-	install-pkglibLIBRARIES install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
-	uninstall-am uninstall-pkglibLIBRARIES
+.PHONY: all all-am check check-am clean clean-generic distclean \
+	distclean-generic distdir dvi dvi-am html html-am info info-am \
+	install install-am install-data install-data-am install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am install-man \
+	install-pdf install-pdf-am install-pkglibSCRIPTS install-ps \
+	install-ps-am install-strip installcheck installcheck-am \
+	installdirs maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-generic pdf pdf-am ps ps-am uninstall \
+	uninstall-am uninstall-pkglibSCRIPTS
 
 
-rancid.pm: Makefile $(srcdir)/rancid.pm.in
-	rm -f rancid.pm rancid.pm.tmp; \
-	$(auto_edit) $(srcdir)/rancid.pm.in >rancid.pm.tmp; \
-	chmod +x rancid.pm.tmp; \
-	mv rancid.pm.tmp rancid.pm
-
-arbor.pm: Makefile $(srcdir)/arbor.pm.in
-	rm -f arbor.pm arbor.pm.tmp; \
-	$(auto_edit) $(srcdir)/arbor.pm.in >arbor.pm.tmp; \
-	chmod +x arbor.pm.tmp; \
-	mv arbor.pm.tmp arbor.pm
-
-ios.pm: Makefile $(srcdir)/ios.pm.in
-	rm -f ios.pm ios.pm.tmp; \
-	$(auto_edit) $(srcdir)/ios.pm.in >ios.pm.tmp; \
-	chmod +x ios.pm.tmp; \
-	mv ios.pm.tmp ios.pm
-
-junos.pm: Makefile $(srcdir)/junos.pm.in
-	rm -f junos.pm junos.pm.tmp; \
-	$(auto_edit) $(srcdir)/junos.pm.in >junos.pm.tmp; \
-	chmod +x junos.pm.tmp; \
-	mv junos.pm.tmp junos.pm
-
-#$(bin_PROGRAMS) $(bin_SCRIPTS): ../include/version.h
+$(pkglib_in:%.in=%): Makefile $(top_builddir)/config.status
+	rm -f $@ $@.tmp; \
+	$(auto_edit) $(srcdir)/$@.in >$@.tmp; \
+	chmod +r $@.tmp; \
+	mv $@.tmp $@
+# XXX there must be a better way to produce these dependencies, perhaps in
+#     configure.
+arbor.pm: arbor.pm.in
+ios.pm: ios.pm.in
+junos.pm: junos.pm.in
+rancid.pm: rancid.pm.in
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

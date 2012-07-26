@@ -47,14 +47,15 @@
 
 AUTOMAKE_OPTIONS=foreign no-dependencies
 
-pkglib_LIBRARIES = rancid.pm arbor.pm ios.pm junos.pm
+pkglib_SCRIPTS = rancid.pm arbor.pm ios.pm junos.pm
+pkglib_in = $(pkglib_SCRIPTS:%=%.in)
 RANLIB= :
 
 #EXTRA_DIST= lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in
 ##dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
 
 CLEANFILES= rancid
-CLEANFILES+= $(pkglib_LIBRARIES)
+CLEANFILES+= $(pkglib_SCRIPTS)
 
 #clean:
 #	rm -f Makefile env $(BIN_DATAS) $(BIN_PROGS)
@@ -80,28 +81,14 @@ auto_edit = sed \
 	-e 's,@VERSION\@,$(VERSION),g' \
 	-e 's,@COPYYEARS\@,$(COPYYEARS),g'
 
-rancid.pm: Makefile $(srcdir)/rancid.pm.in
-	rm -f rancid.pm rancid.pm.tmp; \
-	$(auto_edit) $(srcdir)/rancid.pm.in >rancid.pm.tmp; \
-	chmod +x rancid.pm.tmp; \
-	mv rancid.pm.tmp rancid.pm
-
-arbor.pm: Makefile $(srcdir)/arbor.pm.in
-	rm -f arbor.pm arbor.pm.tmp; \
-	$(auto_edit) $(srcdir)/arbor.pm.in >arbor.pm.tmp; \
-	chmod +x arbor.pm.tmp; \
-	mv arbor.pm.tmp arbor.pm
-
-ios.pm: Makefile $(srcdir)/ios.pm.in
-	rm -f ios.pm ios.pm.tmp; \
-	$(auto_edit) $(srcdir)/ios.pm.in >ios.pm.tmp; \
-	chmod +x ios.pm.tmp; \
-	mv ios.pm.tmp ios.pm
-
-junos.pm: Makefile $(srcdir)/junos.pm.in
-	rm -f junos.pm junos.pm.tmp; \
-	$(auto_edit) $(srcdir)/junos.pm.in >junos.pm.tmp; \
-	chmod +x junos.pm.tmp; \
-	mv junos.pm.tmp junos.pm
-
-#$(bin_PROGRAMS) $(bin_SCRIPTS): ../include/version.h
+$(pkglib_in:%.in=%): Makefile $(top_builddir)/config.status
+	rm -f $@ $@.tmp; \
+	$(auto_edit) $(srcdir)/$@.in >$@.tmp; \
+	chmod +r $@.tmp; \
+	mv $@.tmp $@
+# XXX there must be a better way to produce these dependencies, perhaps in
+#     configure.
+arbor.pm: arbor.pm.in
+ios.pm: ios.pm.in
+junos.pm: junos.pm.in
+rancid.pm: rancid.pm.in

@@ -55,6 +55,7 @@ our $VERSION;
 our @commandtable;			# command lists
 our %commands;
 our @commands;
+our $commandcnt;			# number of members in @commandtable
 our $commandstr;			# command string for lscript -c
 our $cmds_regexp;			# command regex for matching input
 our $devtype;				# device type argument
@@ -75,7 +76,7 @@ use vars qw{$script $lscript $module};	# script, login script, script module
 use vars qw{$command $hist_tag};	# ProcessHistory state
 use vars qw{%history @history};		# ProcessHistory state
 our @EXPORT = qw($VERSION $devtype $script $lscript $module @commandtable
-		%commands @commands
+		%commands @commands $commandcnt
 		$commandstr $cmds_regexp
 		$filter_commstr $filter_pwds $aclsort
 		$log $debug $file $host $clean_run $found_end $timeo $prompt
@@ -156,7 +157,9 @@ sub rancidinit {
 sub loadtype {
     my($devtype) = @_;
     my($file, $line, $matched);
+
     @commandtable = ();
+    $commandcnt = 0;
 
     if (!defined($devtype) || length($devtype) == 0) {
 	print STDERR "loadtype(): device_type is empty\n";
@@ -226,6 +229,7 @@ sub loadtype {
     # commands to the subroutine and track commands that have been completed.
     @commands = map(keys(%$_), @commandtable);
     %commands = map(%$_, @commandtable);
+    $commandcnt = scalar(keys %commands);
 
     $commandstr = join(";",@commands);
     $cmds_regexp = join("|", map quotemeta($_), @commands);

@@ -213,6 +213,7 @@ print STDOUT "$found_end = found_end at end test\n";
 # commands to the subroutine and track commands that have been completed.
 @commands = map(keys(%$_), @commandtable);
 %commands = map(%$_, @commandtable);
+$commandcnt = scalar(keys %commands);
 
 $tnt_cmds=join(";",@commands);
 $cmds_regexp = join("|", map quotemeta($_), @commands);
@@ -319,7 +320,9 @@ if (defined($ENV{NOPIPE}) && $ENV{NOPIPE} =~ /^YES/i) {
 
 # check for completeness
 if (scalar(%commands) || !$clean_run || !$found_end) {
-    if (scalar(%commands)) {
+    if (scalar(keys %commands) eq $commandcnt) {
+	printf(STDERR "$host: missed cmd(s): all commands\n");
+    } elsif (scalar(%commands)) {
 	printf(STDOUT "$host: missed cmd(s): %s\n", join(',', keys(%commands)));
 	printf(STDERR "$host: missed cmd(s): %s\n", join(',', keys(%commands))) if ($debug);
     }

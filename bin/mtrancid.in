@@ -279,9 +279,9 @@ foreach (@commandtable) {
 	push @commands, (keys(%{$_}))[0];
 	$commands{$commands[$#commands]}= (values(%{$_}))[0];
 };
-
 $commandstr=join(";",@commands);
 $cmds_regexp=join("|",@commands);
+$commandcnt = scalar(keys %commands);
 
 if (length($host) == 0) {
     if ($file) {
@@ -375,7 +375,9 @@ if (defined($ENV{NOPIPE})) {
 
 # check for completeness
 if (scalar(%commands) || !$clean_run || !$found_end) {
-    if (scalar(%commands)) {
+    if (scalar(keys %commands) eq $commandcnt) {
+	printf(STDERR "$host: missed cmd(s): all commands\n");
+    } elsif (scalar(%commands)) {
 	printf(STDOUT "$host: missed cmd(s): %s\n", join(',', keys(%commands)));
 	printf(STDERR "$host: missed cmd(s): %s\n", join(',', keys(%commands))) if ($debug);
     }

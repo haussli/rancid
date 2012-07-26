@@ -57,6 +57,8 @@ bin_SCRIPTS = agmrancid alogin anlogin anrancid arancid arrancid atrancid \
 	nslogin nsrancid nxrancid par prancid rancid-fe rancid rivlogin \
 	rivrancid rrancid srancid tlogin tntlogin tntrancid trancid xilogin \
 	xirancid xrancid xrrancid zrancid
+# XXX hack for the grancid to get pkglibdir, see corresponding XXX below
+bin_in = grancid.in
 
 bin_SCRIPTS += lg.cgi lgform.cgi rancid-cvs rancid-fe rancid-run
 EXTRA_DIST= lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in
@@ -92,6 +94,7 @@ YFLAGS = -d
 auto_edit = sed \
 	-e 's,@prefix\@,$(prefix),g' \
 	-e 's,@localstatedir\@,$(localstatedir),g' \
+	-e 's,@pkglibdir\@,$(pkglibdir),g' \
 	-e 's,@sysconfdir\@,$(sysconfdir),g' \
 	-e 's,@EXPECT_PATH\@,$(EXPECT_PATH),g' \
 	-e 's,@PERLV\@,$(PERLV),g' \
@@ -103,6 +106,15 @@ auto_edit = sed \
 	-e 's,@SVN_FSTYPE\@,$(SVN_FSTYPE),g' \
 	-e 's,@VERSION\@,$(VERSION),g' \
 	-e 's,@COPYYEARS\@,$(COPYYEARS),g'
+
+# XXX this is the generic version for the rest of bin_scripts that comes from
+#     configure.in now.  perhaps change to use this.
+#$(bin_SCRIPTS): Makefile $(top_builddir)/config.status $(srcdir)/$@.in
+$(bin_in:%.in=%): Makefile $(top_builddir)/config.status $@.in
+	rm -f $@ $@.tmp; \
+	$(auto_edit) $(srcdir)/$@.in >$@.tmp; \
+	chmod +x $@.tmp; \
+	mv $@.tmp $@
 
 lg.cgi: Makefile $(srcdir)/lg.cgi.in
 	rm -f lg.cgi lg.cgi.tmp; \

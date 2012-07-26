@@ -80,5 +80,5 @@ Configuration file described here.
 .BR rancid (1),
 .BR rancid-run (1),
 .BR router.db (5),
-.BR rancid_base (3)
+.BR rancid (3)
 .\"

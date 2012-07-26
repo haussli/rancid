@@ -88,7 +88,8 @@ install-data-local: all
 	else \
 	    $(INSTALL_DATA) lg.conf.sample $(DESTDIR)$(sysconfdir)/lg.conf; \
 	fi; \
-	fi
+	fi; \
+	$(INSTALL_DATA) rancid.types.base $(DESTDIR)$(sysconfdir)/rancid.types.base
 
 #clean:
 #	rm -f Makefile rancid.conf $(BIN_DATAS) $(BIN_PROGS)

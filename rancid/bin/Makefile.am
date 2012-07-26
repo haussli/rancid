@@ -109,12 +109,15 @@ auto_edit = sed \
 
 # XXX this is the generic version for the rest of bin_scripts that comes from
 #     configure.in now.  perhaps change to use this.
-#$(bin_SCRIPTS): Makefile $(top_builddir)/config.status $(srcdir)/$@.in
-$(bin_in:%.in=%): Makefile $(top_builddir)/config.status $@.in
+#$(bin_SCRIPTS): Makefile $(top_builddir)/config.status
+$(bin_in:%.in=%): Makefile $(top_builddir)/config.status
 	rm -f $@ $@.tmp; \
 	$(auto_edit) $(srcdir)/$@.in >$@.tmp; \
 	chmod +x $@.tmp; \
 	mv $@.tmp $@
+# XXX there must be a better way to produce these dependencies, perhaps in
+#     configure.
+grancid: grancid.in
 
 lg.cgi: Makefile $(srcdir)/lg.cgi.in
 	rm -f lg.cgi lg.cgi.tmp; \

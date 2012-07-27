@@ -345,9 +345,10 @@ sub sortbyipaddr {
 
 # This routine parses a single command that returns no required info.
 sub RunCommand {
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In RunCommand: $_" if ($debug);
 
-    while (<main::INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
     }

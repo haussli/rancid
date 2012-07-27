@@ -85,7 +85,7 @@ cisco;command;ios::ShowVLAN;show vlan
 cisco;command;ios::ShowVLAN;show vlan-switch
 cisco;command;ios::ShowDebug;show debug
 cisco;command;ios::ShowShun;show shun
-cisco;command;ios::WriteTerm;more system;running-config
+cisco;command;ios::WriteTerm;more system:running-config
 cisco;command;ios::WriteTerm;show running-config view full
 cisco;command;ios::WriteTerm;show running-config
 cisco;command;ios::WriteTerm;write term

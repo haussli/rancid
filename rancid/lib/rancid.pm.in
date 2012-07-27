@@ -113,7 +113,7 @@ sub rancidinit {
     $found_end = 0;
     $timeo = 90;			# login script timeout in seconds
 
-    $aclsort = ("ipsort");		# ACL sorting mode
+    $aclsort = "ipsort";		# ACL sorting mode
 
     # determine ACL sorting mode
     if (defined($ENV{"ACLSORT"}) && $ENV{"ACLSORT"} =~ /no/i) {

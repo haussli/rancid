@@ -1,4 +1,6 @@
 3.0a
+	hlogin: add Login (capital L) as default login prompt - Johan Ryberg
+
 	rancid,ios.pm: update ASA/PIX pre-shared-key format - Michael Hertrick
 
 	*rancid: pass (INPUT,OUTPUT,$cmd) to filter functions

@@ -1,4 +1,6 @@
 3.0a
+	francid: filter new uptime on netiron switch fabrics - Roman Hochuli
+
 	hlogin: add Login (capital L) as default login prompt - Johan Ryberg
 
 	rancid,ios.pm: update ASA/PIX pre-shared-key format - Michael Hertrick

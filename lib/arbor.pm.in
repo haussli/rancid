@@ -66,9 +66,8 @@ sub import {
 sub init {
     $timeo = 90;			# anlogin timeout in seconds
 
-# XXX is this the right place for this?
-# XXX can the content line move to the lib?
-    ProcessHistory("","","","#RANCID-CONTENT-TYPE: arbor\n#\n");
+    # add content lines and separators
+    ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n#\n");
     0;
 }
 

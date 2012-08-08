@@ -115,9 +115,8 @@ sub init {
     $I0 = 0;
     $DO_SHOW_VLAN = 0;
 
-    # XXX is this the right place for this?
-    # XXX can the content line move to the lib?
-    ProcessHistory("","","","!RANCID-CONTENT-TYPE: cisco\n!\n");
+    # add content lines and separators
+    ProcessHistory("","","","!RANCID-CONTENT-TYPE: $devtype\n!\n");
     ProcessHistory("COMMENTS","keysort","B0","!\n");
     ProcessHistory("COMMENTS","keysort","D0","!\n");
     ProcessHistory("COMMENTS","keysort","F0","!\n");

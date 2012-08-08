@@ -70,8 +70,7 @@ sub import {
 
 # post-open(collection file) initialization
 sub init {
-# XXX is this the right place for this?
-# XXX can the content line move to the lib?
+    # add content lines and separators
     ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n#\n");
 
     0;

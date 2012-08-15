@@ -1,4 +1,6 @@
 3.0a
+	lg.cgi: add cisco ios xr specific commands
+
 	francid: filter new uptime on netiron switch fabrics - Roman Hochuli
 
 	hlogin: add Login (capital L) as default login prompt - Johan Ryberg

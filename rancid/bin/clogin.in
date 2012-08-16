@@ -585,10 +585,10 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 # Enable
 proc do_enable { enauser enapasswd } {
     global do_saveconfig in_proc
-    global prompt u_prompt e_prompt
+    global prompt u_prompt e_prompt enacmd
     set in_proc 1
 
-    send "enable\r"
+    send "$enacmd\r"
     expect {
 	-re "$u_prompt"	{ send -- "$enauser\r"; exp_continue}
 	-re "$e_prompt"	{ send -- "$enapasswd\r"; exp_continue}
@@ -801,6 +801,10 @@ foreach router [lrange $argv $i end] {
       set enauser [join [find enauser $router] ""]
       if { "$enauser" == "" } { set enauser $ruser }
     }
+
+    # Figure out enable command
+    set enacmd [join [find enablecmd $router] ""]
+    if { "$enacmd" == "" } { set enacmd "enable" }
 
     # Figure out prompts
     set u_prompt [find userprompt $router]

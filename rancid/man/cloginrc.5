@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "cloginrc" "5" "9 February 2009"
+.TH "cloginrc" "5" "15 August 2012"
 .SH NAME
  \.cloginrc \- clogin configuration file
 .SH DESCRIPTION
@@ -128,6 +128,12 @@ Example: add enableprompt rc*.example.net {"\\[Ee]nter\\ the\\ enable\\ password
 .sp
 Default: "\\[Pp]assword:"
 .\"
+.TP
+.B add enablecmd <router name glob> {<enable command>}
+.\"
+This defines the command on the device used to enter enabled or super-user
+mode.
+For example, in Cisco IOS the command is "enable".
 .TP
 .B add enauser <router name glob> {<username>}
 This is only needed if a device prompts for a username when gaining

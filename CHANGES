@@ -1,4 +1,6 @@
 3.0a
+	cloginrc: add enablecmd directive, for clogin - Jason Greenberg
+
 	lg.cgi: add cisco ios xr specific commands
 
 	francid: filter new uptime on netiron switch fabrics - Roman Hochuli

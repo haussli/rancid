@@ -1722,6 +1722,17 @@ sub WriteTerm {
 	$lineauto = 1 if /^ modem auto/;
 	/^ speed / && $lineauto	&& next; # kill speed on serial lines
 	/^ clockrate /		&& next; # kill clockrate on serial interfaces
+	# kill rx/txspeed on cellular modem cards
+	if (/^line \d+\/\d+\/\d+/) {
+	    my($key) = $1;
+	    ProcessHistory("LINE","keysort","$key","$_");
+	    while (<INPUT>) {
+		tr/\015//d;
+		last if (/^$prompt/ || ! /^ /);
+		next if (/(rx|tx)speed \d+/);
+		ProcessHistory("LINE","keysort","$key","$_");
+	    }
+	}
 	if (/^(enable )?(password|passwd)( level \d+)? / && $filter_pwds >= 1) {
 	    ProcessHistory("ENABLE","","","!$1$2$3 <removed>\n");
 	    next;

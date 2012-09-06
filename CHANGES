@@ -1,4 +1,6 @@
 3.0a
+	rancid, ios.pm: kill rx/txspeed on cellular modem cards
+
 	cloginrc: add enablecmd directive, for clogin - Jason Greenberg
 
 	lg.cgi: add cisco ios xr specific commands

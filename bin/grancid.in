@@ -62,6 +62,7 @@ our @ISA = qw(Exporter rancid);
 
 # basic initialization
 rancidinit();
+
 # load device type spec, build @commandtable and load modules
 if (loadtype($devtype)) {
     die "Couldn't load device type spec for $rancid::devtype\n";
@@ -70,10 +71,13 @@ if (! defined($lscript)) {
     die "login script not defined for device type $rancid::devtype\n";
 }
 
+# open the temporary file for the digested output
 open(OUTPUT,">$host.new") || die "Can't open $host.new for writing: $!\n";
 select(OUTPUT);
 eval($module ."::init();") && die "${module}::init failed: $@\n";
 
+# open the input, a pre-collected file or start a login for a login stream or
+# temporary file
 if ($file) {
     print STDERR "opening file $host\n" if ($debug);
     print STDOUT "opening file $host\n" if ($log);
@@ -89,6 +93,7 @@ if ($file) {
     }
 }
 
+# loop over the input
 TOP: while(<INPUT>) {
     my($cmd, $rval);
     tr/\015//d;

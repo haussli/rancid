@@ -117,11 +117,7 @@ $(bin_in:%.in=%): Makefile $(top_builddir)/config.status
 	mv $@.tmp $@
 # XXX there must be a better way to produce these dependencies, perhaps in
 #     configure.
-grancid: Makefile $(srcdir)/grancid.in
-	rm -f grancid grancid.tmp; \
-	$(auto_edit) $(srcdir)/grancid.in >grancid.tmp; \
-	chmod +x grancid.tmp; \
-	mv grancid.tmp grancid
+grancid: $(srcdir)/grancid.in
 
 lg.cgi: Makefile $(srcdir)/lg.cgi.in
 	rm -f lg.cgi lg.cgi.tmp; \

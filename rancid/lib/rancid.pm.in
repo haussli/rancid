@@ -135,7 +135,7 @@ sub rancidinit {
 	$filter_pwds = 1;
     }
 
-    if (length($host) == 0) {
+    if (!$main::opt_C && length($host) == 0) {
 	if ($main::file) {
 	    print(STDERR "Too few arguments: file name required\n");
 	    exit(1);

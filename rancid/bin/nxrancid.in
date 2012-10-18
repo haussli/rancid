@@ -665,7 +665,7 @@ sub WriteTerm {
 
 	# Dog gone Cool matches to process the rest of the config
 	/^!Command: show running-config/ && next; # kill this junk
-	/^!Time: /		&& next; # kill this junk
+	/^!Time: / && next; # kill this junk
 
 	# Sort username and delete passwords.
 	if (/^username (\S+) password (\d) (\S+)(\s.*)$/) {

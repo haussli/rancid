@@ -72,10 +72,12 @@ our $timeo;				# login script timeout in seconds
 our $prompt;				# device prompt regex
 
 
-use vars qw{$script $lscript $module};	# script, login script, script module
+use vars qw{$script $lscript $module};	# script, login script, module name
+use vars qw{$inloop}		;	# inloop func
 use vars qw{$command $hist_tag};	# ProcessHistory state
 use vars qw{%history @history};		# ProcessHistory state
-our @EXPORT = qw($VERSION $devtype $script $lscript $module @commandtable
+our @EXPORT = qw($VERSION $devtype $script $lscript $module $inloop
+		@commandtable
 		%commands @commands $commandcnt
 		$commandstr $cmds_regexp
 		$filter_commstr $filter_pwds $aclsort
@@ -191,7 +193,10 @@ sub loadtype {
 	    } elsif ($directive eq "login") {
 		$lscript = $value;
 	    } elsif ($directive eq "module") {
+		# XXX perhaps make this an array, to include mulitple modules?
 		$module = $value;
+	    } elsif ($directive eq "inloop") {
+		$inloop = $value;
 	    } elsif ($directive eq "command") {
 		push(@commandtable, {$value2, $value});
 	    } else {

@@ -27,6 +27,7 @@ alteon;script;arancid
 arbor;script;grancid
 arbor;login;anlogin
 arbor;module;arbor
+arbor;inloop;arbor::inloop
 arbor;command;arbor::ShowVersion;system version
 arbor;command;arbor::ShowHardware;system hardware
 arbor;command;arbor::ShowConfig;config show
@@ -43,6 +44,7 @@ cat5;script;cat5rancid
 cisco;script;grancid
 cisco;login;clogin
 cisco;module;ios
+cisco;inloop;ios::inloop
 cisco;command;ios::ShowVersion;show version
 cisco;command;ios::ShowRedundancy;show redundancy secondary
 cisco;command;ios::ShowIDprom;show idprom backplane
@@ -134,6 +136,7 @@ hp;script;hrancid
 juniper;script;grancid
 juniper;login;jlogin
 juniper;module;junos
+juniper;inloop;junos::inloop
 juniper;command;junos::ShowChassisClocks;show chassis clocks
 juniper;command;junos::ShowChassisEnvironment;show chassis environment
 juniper;command;junos::ShowChassisFirmware;show chassis firmware

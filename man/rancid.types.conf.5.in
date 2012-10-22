@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid.types.conf" "5" "18 July 2012"
+.TH "rancid.types.conf" "5" "20 October 2012"
 .SH NAME
 rancid.types.conf \- rancid device type configuration file
 .SH DESCRIPTION
@@ -36,6 +36,7 @@ One directive is listed per-line, where the syntax is one of:
 <device_type>;login;<login_program>
 <device_type>;command;<filter_function>;<device_command_string>
 <device_type>;module;<perl_module_name>
+<device_type>;inloop;<input_loop_function>
 <device_type>;prescript;<rancid_script> XXX temporary knob?
 <device_type>;postscript;<rancid_script> XXX temporary knob?
 <device_type>;script;<rancid_script>
@@ -47,9 +48,11 @@ For example:
 .nf
 cisco;login;clogin
 cisco;module;rancid::ios
+cisco;inloop;ios::inloop
 cisco;command;ShowVersion;show version
 juniper;login;/usr/local/bin/jlogin
 juniper;module;rancid::junos
+juniper;inloop;junos::inloop
 juniper;command;ShowVersion;show version
 .fi
 .in -1i

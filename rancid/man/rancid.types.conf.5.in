@@ -82,7 +82,9 @@ Defines the login script used for the <device_type>, which does not need to
 be an FQPN, but then must be found in the path.
 .TP
 .B module
-Loads a rancid perl module(s).
+Loads a rancid perl module to supply functions used in the
+.B command
+directives for the <device_type>.
 .TP
 .B script
 Defines the rancid script used for the <device_type>, which does not need to

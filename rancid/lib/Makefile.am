@@ -51,7 +51,7 @@ pkglib_SCRIPTS = rancid.pm arbor.pm ios.pm junos.pm
 pkglib_in = $(pkglib_SCRIPTS:%=%.in)
 RANLIB= :
 
-#EXTRA_DIST= lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in
+EXTRA_DIST= $(pkglib_in)
 ##dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
 
 CLEANFILES= rancid

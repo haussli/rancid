@@ -61,7 +61,8 @@ bin_SCRIPTS = agmrancid alogin anlogin anrancid arancid arrancid atrancid \
 bin_in = grancid.in
 
 bin_SCRIPTS += lg.cgi lgform.cgi rancid-cvs rancid-fe rancid-run
-EXTRA_DIST= lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in
+EXTRA_DIST= lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in \
+	$(bin_in)
 #dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
 
 CLEANFILES= lg.cgi lgform.cgi rancid-cvs rancid-fe rancid-run

@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid.types.conf" "5" "20 October 2012"
+.TH "rancid.types.conf" "5" "24 October 2012"
 .SH NAME
 rancid.types.conf \- rancid device type configuration file
 .SH DESCRIPTION
@@ -33,12 +33,12 @@ One directive is listed per-line, where the syntax is one of:
 .PP
 .in +1i
 .nf
-<device_type>;login;<login_program>
 <device_type>;command;<filter_function>;<device_command_string>
-<device_type>;module;<perl_module_name>
 <device_type>;inloop;<input_loop_function>
-<device_type>;prescript;<rancid_script> XXX temporary knob?
-<device_type>;postscript;<rancid_script> XXX temporary knob?
+<device_type>;login;<login_program>
+<device_type>;module;<perl_module_name>
+<device_type>;prescript;<rancid_script> XXX temporary knob?  add this?
+<device_type>;postscript;<rancid_script> XXX temporary knob?  add this?
 <device_type>;script;<rancid_script>
 .fi
 .in -1i
@@ -63,8 +63,33 @@ juniper;command;ShowVersion;show version
 file.
 Its case is forced to lower case when reading the configuration files.
 .\"
-XXX Add further documentation
-XXX document ProcessHistory() and the default/base function library that has it
+.PP
+Each <device_type> may have the following directives defined.
+The login and script directives are required.
+.TP
+.B command
+Defines commands to run for the <device_type> and the function that will
+process the input.
+.TP
+.B inloop
+Intended for
+.IR grancid(1),
+.B inloop
+defines a function to loop over the input from the device.
+.TP
+.B login
+Defines the login script used for the <device_type>, which does not need to
+be an FQPN, but then must be found in the path.
+.TP
+.B module
+Loads a rancid perl module(s).
+.TP
+.B script
+Defines the rancid script used for the <device_type>, which does not need to
+be an FQPN, but then must be found in the path.
+.\"
+.PP
+Each device_type must at least have a 
 .SH ERRORS
 Omitted fields or syntax errors are likely to cause perl compilation errors,
 or collection to fail or be incomplete.

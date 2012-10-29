@@ -1766,7 +1766,7 @@ sub WriteTerm {
 	if (/^line \d+\/\d+\/\d+/) {
 	    my($key) = $1;
 	    ProcessHistory("LINE","keysort","$key","$_");
-	    while (<INPUT>) {
+	    while (<$INPUT>) {
 		tr/\015//d;
 		last if (/^$prompt/ || ! /^ /);
 		next if (/(rx|tx)speed \d+/);

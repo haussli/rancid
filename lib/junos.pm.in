@@ -71,7 +71,7 @@ sub import {
 # post-open(collection file) initialization
 sub init {
     # add content lines and separators
-    ProcessHistory("","","","# RANCID-CONTENT-TYPE: $devtype\n#\n");
+    ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n#\n");
 
     0;
 }

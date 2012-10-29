@@ -1,4 +1,6 @@
 3.0a
+	fix install of rancid.types.conf
+
 	ios.pm: fix INPUT reference
 
 	implement grancid and rancid.types.{conf,base} collection configuration

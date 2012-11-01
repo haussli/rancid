@@ -1,4 +1,6 @@
 3.0a
+	clogin: match "username" prompt, lowercase u
+
 	fix install of rancid.types.conf
 
 	ios.pm: fix INPUT reference

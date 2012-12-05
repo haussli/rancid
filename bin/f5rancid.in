@@ -184,8 +184,10 @@ sub ShowBaseRun {
 	if (!$line++) {
 	    ProcessHistory("SHOWBASE","","","#\n#base:\n");
 	}
-	if (/(auth-password-encrypted )\S+/) &&
-	    ProcessHistory("SHOWBASE","","","# $1 <removed>") && next;
+	if (/(auth-password-encrypted )\S+/) {
+	    ProcessHistory("SHOWBASE","","","# $1 <removed>");
+	    next;
+	}
 	ProcessHistory("SHOWBASE","","","# $_") && next;
     }
     return(0);

@@ -1,10 +1,7 @@
 Short list of things the next release is holding on....so I do not loose
 track.
 
-- cisco content engine change questions for Rob Evans
-- awaiting comment on clogin cat1900 menu shite, enter K to get cli
 - finding a diff(1) in configure
 - need to filter vlan.dat from show flash output.  cats in/ VTP server mode
   repeatedly re-write this file causing erroneous rancid o/p
-- faq/readme reviews
 - review todo list for done items

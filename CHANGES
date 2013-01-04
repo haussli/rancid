@@ -1,4 +1,6 @@
 3.0a
+	hlogin: match Login Name for radius client w/ old code - David Byers
+
 	f5rancid: filter auth-password-encrypted lines, which oscillate
 
 	clogin: match "username" prompt, lowercase u

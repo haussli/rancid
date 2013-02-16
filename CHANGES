@@ -1,4 +1,6 @@
 3.0a
+	rancid, ios.pm: correct strings comparison operator - Vitaly Nikolaev
+
 	hlogin: match Login Name for radius client w/ old code - David Byers
 
 	f5rancid: filter auth-password-encrypted lines, which oscillate

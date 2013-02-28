@@ -1,4 +1,6 @@
 3.0a
+	nxrancid: fail collection if show debug times out - Daniel Schmidt
+
 	rancid, ios.pm: correct strings comparison operator - Vitaly Nikolaev
 
 	hlogin: match Login Name for radius client w/ old code - David Byers

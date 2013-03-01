@@ -328,7 +328,11 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 	regexp {(telnet|ssh)(:([^[:space:]]+))*} $prog command suffix junk port
 	if [string match "telnet*" $prog] {
 	    if {"$port" == ""} {
-		set retval [ catch {spawn hpuifilter -- telnet $router} reason ]
+		if { $do_command || $do_script } {
+		    set retval [ catch {spawn hpuifilter -- telnet $router} reason ]
+		} else {
+		    set retval [ catch {spawn telnet $router} reason ]
+		}
 	    } else {
 		set retval [ catch {spawn hpuifilter -- telnet $router $port} reason ]
 	    }
@@ -346,7 +350,11 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 	    if {"$identfile" != ""} {
 		set cmd "$cmd -i $identfile"
 	    }
-	    set retval [ catch {eval spawn hpuifilter -- [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason ]
+	    if { $do_command || $do_script } {
+		set retval [ catch {eval spawn hpuifilter -- [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason ]
+	    } else {
+		set retval [ catch {eval spawn [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason ]
+	    }
 	    if { $retval } {
 		send_user "\nError: $cmd failed: $reason\n"
 		return 1

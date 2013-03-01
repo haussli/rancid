@@ -1,4 +1,6 @@
 3.0a
+	hlogin: do not use hpuifilter for interactive - Per Olof Olsson
+
 	nxrancid: fail collection if show debug times out - Daniel Schmidt
 
 	rancid, ios.pm: correct strings comparison operator - Vitaly Nikolaev

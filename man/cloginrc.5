@@ -150,8 +150,8 @@ Default: your default identity file.  see ssh(1).
 .TP
 .B add method <router name glob> {ssh} [{...}]
 Defines, in order, the connection methods to use for a device from the
-set {ssh, telnet, rsh}.  Method telnet may have a suffix, indicating an
-alternate TCP port, of the form ":port".
+set {ssh, telnet, rsh}.  Method ssh and telnet may have a suffix, indicating
+an alternate TCP port, of the form ":port".
 .sp
 Note: Different versions of telnet treat the specification of a
 port differently.  In particular, BSD derived telnets do not do
@@ -164,7 +164,7 @@ add "mode character" to .telnetrc.  See
 for more information on telnet command-line syntax, telnet options,
 and .telnetrc.
 .sp
-Example: add method * {ssh} {telnet:-3000} {rsh}
+Example: add method * {ssh} {telnet:3000} {rsh}
 .sp
 Which would cause
 .IR clogin

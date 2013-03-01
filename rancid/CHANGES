@@ -1,4 +1,7 @@
 3.0a
+	cloginrc(5): remove - from method port example and note that ssh can
+	also take a port argument.
+
 	hlogin: do not use hpuifilter for interactive - Per Olof Olsson
 
 	nxrancid: fail collection if show debug times out - Daniel Schmidt

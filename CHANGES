@@ -1,4 +1,6 @@
 3.0a
+	grancid: add -h
+
 	cloginrc(5): remove - from method port example and note that ssh can
 	also take a port argument.
 

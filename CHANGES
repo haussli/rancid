@@ -1,4 +1,6 @@
 3.0a
+	anrancid: fail collection on TCL traceback
+
 	grancid: add -h
 
 	cloginrc(5): remove - from method port example and note that ssh can

@@ -176,7 +176,7 @@ sub GetSystem {
 	next if /^\s*$/;
 	last if(/$prompt/);
 	# throw away the pager prompts
-	s/^--- more ---[\s\b]*//g;
+	s/^--- more ---[ \b]*//g;
 
 	/^Serial Number: (\S+), Control Number: [0-9a-f]+$/ &&
 		ProcessHistory("SYSTEM","","", "#SN: $1\n") && next;
@@ -217,7 +217,7 @@ sub GetConf {
 	next if /^Total Config.+$/i;
 	last if(/$prompt/);
 	# throw away the pager prompts
-	s/^--- more ---[\s\b]*//g;
+	s/^--- more ---[ \b]*//g;
 
  	if (/^set admin name "(\S+)"$/ && $filter_pwds >= 1) {
 	    ProcessHistory("ADMIN","","","#set admin name <removed>\n");

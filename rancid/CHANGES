@@ -1,4 +1,9 @@
 3.0a
+	ios.pm: some c3750 stack-specific clean-up - Terry Kennedy
+
+	ios.pm: add show switch detail, show sdm prefer, show system mtu -
+	Terry Kennedy
+
 	anrancid: fail collection on TCL traceback
 
 	grancid: add -h

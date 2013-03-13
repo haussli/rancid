@@ -100,6 +100,9 @@ cisco;command;ios::ShowInventory;show inventory raw
 cisco;command;ios::ShowVTP;show vtp status
 cisco;command;ios::ShowVLAN;show vlan
 cisco;command;ios::ShowVLAN;show vlan-switch
+cisco;command;ios::ShowDetail;show switch detail
+cisco;command;ios::ShowSDM;show sdm prefer
+cisco;command;ios::ShowMTU;show system mtu
 cisco;command;ios::ShowDebug;show debug
 cisco;command;ios::ShowShun;show shun
 cisco;command;ios::WriteTerm;more system:running-config

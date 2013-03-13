@@ -241,6 +241,16 @@ sub ShowVersion {
 	/^Flash(\s+\S+)+ \@ 0x\S+,\s+(\S+)/ &&
 	    ProcessHistory("COMMENTS","keysort","B2", "!Memory: Flash $2\n") &&
 	    next;
+	# 3750 switch stacks
+	next if (/^Model revision number/ && $type == "3750");
+	next if (/^Motherboard/ && $type == "3750");
+	next if (/^Power supply/ && $type == "3750");
+	/^Model number                    : (.*)$/ && $type == "3750" &&
+	ProcessHistory("COMMENTS","keysort","C2", "!Model number:  $1\n") &&
+ 	    next;
+	/^System serial number            : (.*)$/ && $type == "3750" &&
+	ProcessHistory("COMMENTS","keysort","C2", "!Serial number: $1\n") &&
+ 	    next;
 	# CatOS 3500xl stuff
 	/^system serial number\s*:\s+(.*)$/i &&
 	    ProcessHistory("COMMENTS","keysort","C1", "!Serial Number: $1\n") &&
@@ -310,6 +320,9 @@ sub ShowVersion {
 		$type = "AGS+";
 	    } elsif ($proc =~ /1900/) {
 		$type = "1900";
+		$device = "switch";
+	    } elsif ($proc =~ /C3750/) {
+		$type = "3750";
 		$device = "switch";
 	    } elsif ($proc =~ /^(AS)?25[12][12]/) {
 		$type = "2500";
@@ -431,6 +444,62 @@ sub ShowVersion {
 	    next;
 	}
     }
+    return(0);
+}
+
+# This routine parses "showDetail"
+sub ShowDetail {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowDetail: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if (/Line has invalid autocommand /);
+	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+
+	ProcessHistory("COMMENTS","keysort","IO","!STACK: $_");
+    }
+    ProcessHistory("COMMENTS","keysort","IO","!\n");
+    return(0);
+}
+
+# This routine parses "showMTU"
+sub ShowMTU {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowMTU: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if (/Line has invalid autocommand /);
+	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+
+	ProcessHistory("COMMENTS","keysort","IO","!MTU: $_");
+    }
+    ProcessHistory("COMMENTS","keysort","IO","!\n");
+    return(0);
+}
+
+# This routine parses "showSDM"
+sub ShowSDM {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowSDM: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if (/Line has invalid autocommand /);
+	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+
+	if (/current template is/) {
+	    ProcessHistory("COMMENTS","keysort","IO","!SDM: $_");
+	}
+    }
+    ProcessHistory("COMMENTS","keysort","IO","!\n");
     return(0);
 }
 

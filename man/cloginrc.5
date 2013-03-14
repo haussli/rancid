@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "cloginrc" "5" "15 August 2012"
+.TH "cloginrc" "5" "14 March 2013"
 .SH NAME
  \.cloginrc \- clogin configuration file
 .SH DESCRIPTION
@@ -158,8 +158,8 @@ port differently.  In particular, BSD derived telnets do not do
 option negotiation when a port is given.  Some devices, Extreme
 switches for example, have undesirable telnet default options such
 as linemode.  In the BSD case, to enable option negotiation when
-specifying a port the method should be "{telnet:-23}" or you should
-add "mode character" to .telnetrc.  See
+specifying a port the method should be "{telnet:-23}" or, better, add
+"mode character" to .telnetrc.  See
 .BR telnet (1)
 for more information on telnet command-line syntax, telnet options,
 and .telnetrc.

@@ -1,4 +1,6 @@
 3.0a
+	hpuifilter: New HP2920-switches use <ESC>[6n (ansi u7) - Per-Olof Olsson
+
 	ios.pm: some c3750 stack-specific clean-up - Terry Kennedy
 
 	ios.pm: add show switch detail, show sdm prefer, show system mtu -

@@ -10,7 +10,7 @@
 
 AUTOMAKE_OPTIONS=foreign no-dependencies
 
-pkglib_SCRIPTS = rancid.pm arbor.pm ios.pm junos.pm
+pkglib_SCRIPTS = rancid.pm arbor.pm eos.pm ios.pm junos.pm
 pkglib_in = $(pkglib_SCRIPTS:%=%.in)
 RANLIB= :
 
@@ -52,6 +52,7 @@ $(pkglib_in:%.in=%): Makefile $(top_builddir)/config.status
 # XXX there must be a better way to produce these dependencies, perhaps in
 #     configure.
 arbor.pm: arbor.pm.in
+eos.pm: eos.pm.in
 ios.pm: ios.pm.in
 junos.pm: junos.pm.in
 rancid.pm: rancid.pm.in

@@ -1,6 +1,7 @@
 .deps
 Makefile
 arbor.pm
+eos.pm
 ios.pm
 junos.pm
 rancid.pm

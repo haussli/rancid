@@ -1,4 +1,12 @@
 3.0a
+	merge compass branch
+
+	comprancid: fail on command premature exit/failure in show config
+
+	comprancid: fail on read failure in show inventory
+
+	comprancid: add recognitin of EOS 1.1 end of config marker
+
 	nlogin: add code to filter more prompts in run_commands.  no complaints
 	from users; hope this is right as I have no way to test it.
 

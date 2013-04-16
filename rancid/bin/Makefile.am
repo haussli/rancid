@@ -13,13 +13,13 @@ AUTOMAKE_OPTIONS=foreign
 
 bin_PROGRAMS = hpuifilter
 bin_SCRIPTS = agmrancid alogin anlogin anrancid arancid arrancid atrancid \
-	avologin avorancid blogin brancid cat5rancid clogin control_rancid \
-	cssrancid elogin erancid f5rancid f10rancid flogin fnlogin fnrancid \
-	francid grancid hlogin hrancid htlogin htrancid jerancid jlogin \
-	jrancid mrancid mrvlogin mrvrancid mtlogin mtrancid nlogin nrancid \
-	nslogin nsrancid nxrancid par prancid rancid rivlogin rivrancid \
-	rrancid srancid tlogin tntlogin tntrancid trancid xilogin xirancid \
-	xrancid xrrancid zrancid
+	avologin avorancid blogin brancid cat5rancid clogin complogin \
+	control_rancid cssrancid elogin erancid f5rancid f10rancid flogin \
+	fnlogin fnrancid francid grancid hlogin hrancid htlogin htrancid \
+	jerancid jlogin jrancid mrancid mrvlogin mrvrancid mtlogin mtrancid \
+	nlogin nrancid nslogin nsrancid nxrancid par prancid rancid rivlogin \
+	rivrancid rrancid srancid tlogin tntlogin tntrancid trancid xilogin \
+	xirancid xrancid xrrancid zrancid
 # XXX hack for the grancid to get pkglibdir, see corresponding XXX below
 bin_in = grancid.in
 

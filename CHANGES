@@ -1,4 +1,6 @@
 3.0a2
+	ios: skip the "^" line that preceeds invalid input consistently
+
 	merge compass branch
 
 	comprancid: fail on command premature exit/failure in show config

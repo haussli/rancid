@@ -1,4 +1,7 @@
 3.0a
+	nlogin: add code to filter more prompts in run_commands.  no complaints
+	from users; hope this is right as I have no way to test it.
+
 	hpuifilter: New HP2920-switches use <ESC>[6n (ansi u7) - Per-Olof Olsson
 
 	ios.pm: some c3750 stack-specific clean-up - Terry Kennedy

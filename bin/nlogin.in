@@ -454,18 +454,24 @@ proc run_commands { prompt command } {
     send "set console page 0\r"
     expect -re $prompt {}
 
+    # this is the only way i see to get rid of more prompts in o/p..grrrrr
+    log_user 0
+
     set commands [split $command \;]
     set num_commands [llength $commands]
     for {set i 0} {$i < $num_commands} { incr i} {
 	send -- "[subst -nocommands [lindex $commands $i]]\r"
 	expect {
-	    -re "\[\n\r]+"			{ exp_continue }
-	    -re "$prompt"			{}
+	    -re "\[\n\r]+"			{ send_user -- "$expect_out(buffer)"
+						  exp_continue
+						}
+	    -re "$prompt"			{ send_user -- "$expect_out(buffer)" }
 	    -gl "--- more ---"			{ send " "
 						  exp_continue
 						}
 	}
     }
+    log_user 1
     send "exit\r"
     expect {
 	-re "$prompt"				{

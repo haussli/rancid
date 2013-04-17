@@ -312,6 +312,14 @@ sub ShowTechTransceivers {
 	return(1) if /^(Invalid|Ambiguous) input:/i;
 
 	s/ Technical Information//i;
+	if (/^ATTENTION: You are entering a diagnostic mode/) {
+	    while (<INPUT>) {
+	    tr/\015//d;
+		return(1) if (/^$prompt/);
+		last if (/^(\s*)$/);
+	    }
+	    next;
+	}
 
 	ProcessHistory("COMMENTS","keysort","G0",";$_");
     }

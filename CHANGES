@@ -1,4 +1,7 @@
 3.0a2
+	hrancid: ignore disclaimer from show tech transceivers starting with
+	procurve 2610 R11.98 - Mika Tiainen
+
 	ios: skip the "^" line that preceeds invalid input consistently
 
 	merge compass branch

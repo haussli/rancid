@@ -1,4 +1,14 @@
 3.0a2
+	arrancid: Parse power supplies with no power,
+	Skip free flash space altogether,
+	Optionally include the ribd running-config,
+	Skip the "Time:" comment in "show running",
+	Delete a bunch of cruft left over from IOS rancid copy,
+	Include diffs of unsaved changes, if there is a difference between
+	startup-config and running-config.,
+	Handle the common practice of putting the time in the prompt. - Bill
+	Fenner
+
 	hrancid: ignore disclaimer from show tech transceivers starting with
 	procurve 2610 R11.98 - Mika Tiainen
 

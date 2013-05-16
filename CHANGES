@@ -1,4 +1,6 @@
 3.0a3
+	ios.pm: Removing "AC Revision" from UBRs and some others - robert drake
+
 	ios.pm: GC unused old 7000 series code from ShowEnv - robert drake
 
 	arrancid: Parse power supplies with no power,

@@ -1,4 +1,6 @@
-3.0a2
+3.0a3
+	ios.pm: GC unused old 7000 series code from ShowEnv - robert drake
+
 	arrancid: Parse power supplies with no power,
 	Skip free flash space altogether,
 	Optionally include the ribd running-config,

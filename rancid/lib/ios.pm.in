@@ -605,14 +605,12 @@ sub ShowInstallActive {
 # This routine parses "show env all"
 sub ShowEnv {
     my($INPUT, $OUTPUT, $cmd) = @_;
-    # Skip if this is not a 7500, 7200, or 7000.
     print STDERR "    In ShowEnv: $_" if ($debug);
 
     while (<$INPUT>) {
 	tr/\015//d;
 	if (/^$prompt/) { $found_env = 1; last};
 	next if (/^(\s*|\s*$cmd\s*)$/);
-	#return(1) if ($type !~ /^7/);
 	next if (/^\s+\^$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(invalid (input|command) detected|type help or )/i);

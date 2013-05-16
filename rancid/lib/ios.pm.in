@@ -636,6 +636,8 @@ sub ShowEnv {
 		"!Chassis type: $2 backplane\n");
 	    next;
 	}
+	# AC revision from UBRs and some others fluctuates
+	s/is AC Revision [A-F]0\./is AC./;
 	/^Power Supply Information$/ && next;
 	/^\s*Power Module\s+Voltage\s+Current$/ && next;
 	/^\s*(Power [^:\n]+)$/ &&

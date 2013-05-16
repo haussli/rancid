@@ -819,7 +819,8 @@ sub ShowFlash {
 	}
 
 	# Drop these files entirely.
-	/\s+(multiple-fs|LISP-MapCache-IPv\S+|nv_hdr)$/ && next;
+	/\s+(private-multiple-fs|multiple-fs|LISP-MapCache-IPv\S+|nv_hdr)$/ &&
+	    next;
 	ProcessHistory("FLASH","","","!Flash: $_");
     }
     ProcessHistory("","","","!\n");

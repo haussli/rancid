@@ -1,4 +1,7 @@
 3.0a3
+	xrrancid: filter perpetually changing harddisk:ce_switch.log, a DDTS is
+	open for this
+
 	ios.pm: filter private-multiple-fs flash file found on APs - robert
 	drake
 

@@ -513,7 +513,7 @@ proc do_enable { enauser enapasswd } {
 
 # Run commands given on the command line.
 proc run_commands { prompt command } {
-    global in_proc
+    global do_saveconfig in_proc
     set in_proc 1
 
     send -h "skip-page-display\r"
@@ -543,6 +543,14 @@ proc run_commands { prompt command } {
 						  return 0
 						}
 	eof					{ return 0 }
+	-re "Configuration modified, save\? \[\r\n]*" {
+						  if {$do_saveconfig} {
+						    catch {send "y\r"}
+						  } else {
+						    catch {send "n\r"}
+						  }
+						  exp_continue
+						}
     }
     set in_proc 0
 }

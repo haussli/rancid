@@ -1,4 +1,6 @@
 3.0a3
+	flogin: handle -S/do_saveconfig
+
 	xrrancid: filter perpetually changing harddisk:ce_switch.log, a DDTS is
 	open for this
 

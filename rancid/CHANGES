@@ -1,4 +1,6 @@
 3.0a3
+	fnrancid: filter oscillating certs - based on patch from Gavin McCullagh
+
 	flogin: handle -S/do_saveconfig
 
 	xrrancid: filter perpetually changing harddisk:ce_switch.log, a DDTS is

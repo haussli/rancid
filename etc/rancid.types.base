@@ -68,9 +68,9 @@ cisco;command;ios::DirSlotN;dir /all disk2:
 cisco;command;ios::DirSlotN;dir /all harddisk:
 cisco;command;ios::DirSlotN;dir /all harddiska:
 cisco;command;ios::DirSlotN;dir /all harddiskb:
-cisco;command;ios::DirSlotN;dir /all sup-bootdisk:
-cisco;command;ios::DirSlotN;dir /all sup-bootflash:
-cisco;command;ios::DirSlotN;dir /all sup-microcode:
+cisco;command;ios::DirSlotN;dir /all sup-bootdisk:;c6500 sup32
+cisco;command;ios::DirSlotN;dir /all sup-bootflash:;c6500 ios
+cisco;command;ios::DirSlotN;dir /all sup-microcode:;c6500 ios
 cisco;command;ios::DirSlotN;dir /all slavenvram:
 cisco;command;ios::DirSlotN;dir /all slavebootflash:
 cisco;command;ios::DirSlotN;dir /all slaveslot0:
@@ -79,7 +79,7 @@ cisco;command;ios::DirSlotN;dir /all slaveslot1:
 cisco;command;ios::DirSlotN;dir /all slavedisk1:
 cisco;command;ios::DirSlotN;dir /all slaveslot2:
 cisco;command;ios::DirSlotN;dir /all slavedisk2:
-cisco;command;ios::DirSlotN;dir /all slavesup-bootflash:
+cisco;command;ios::DirSlotN;dir /all slavesup-bootflash:;c7600
 cisco;command;ios::DirSlotN;dir /all sec-nvram:
 cisco;command;ios::DirSlotN;dir /all sec-bootflash:
 cisco;command;ios::DirSlotN;dir /all sec-slot0:
@@ -92,8 +92,8 @@ cisco;command;ios::ShowContAll;show controllers
 cisco;command;ios::ShowContCbus;show controllers cbus
 cisco;command;ios::ShowDiagbus;show diagbus
 cisco;command;ios::ShowDiag;show diag
-cisco;command;ios::ShowCapture;show capture
-cisco;command;ios::ShowModule;show module
+cisco;command;ios::ShowCapture;show capture;ASA/PIX
+cisco;command;ios::ShowModule;show module;c6500 ios
 cisco;command;ios::ShowSpeVersion;show spe version
 cisco;command;ios::ShowC7200;show c7200
 cisco;command;ios::ShowInventory;show inventory raw
@@ -104,9 +104,9 @@ cisco;command;ios::ShowDetail;show switch detail
 cisco;command;ios::ShowSDM;show sdm prefer
 cisco;command;ios::ShowMTU;show system mtu
 cisco;command;ios::ShowDebug;show debug
-cisco;command;ios::ShowShun;show shun
-cisco;command;ios::WriteTerm;more system:running-config
-cisco;command;ios::WriteTerm;show running-config view full
+cisco;command;ios::ShowShun;show shun;ASA/PIX
+cisco;command;ios::WriteTerm;more system:running-config;ASA/PIX
+cisco;command;ios::WriteTerm;show running-config view full;workaround for role-based CLI
 cisco;command;ios::WriteTerm;show running-config
 cisco;command;ios::WriteTerm;write term
 #

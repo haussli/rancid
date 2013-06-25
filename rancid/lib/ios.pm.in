@@ -307,6 +307,19 @@ sub ShowVersion {
 		}
 		$_ = <$INPUT>;
 	    }
+	    # for 6500 sup-2t
+	    if ($cpu =~ /M8572/) {
+		if (defined($cpu)) {
+		    s/^ CPU://;
+		    ProcessHistory("COMMENTS","keysort","A3", "!CPU: $cpu, $_");
+		}
+LINE:		while (<$INPUT>) {
+		    last LINE if /^\s*$/;
+		    ProcessHistory("COMMENTS","keysort","A3", "!CPU: $_");
+		    last LINE if /^\s*I-cache/;
+		}
+		undef ($cpu);
+	    }
 	    $_ = "" if (! /(cpu at |processor: |$cpu processor,)/i);
 	    tr/\015//d;
 	    s/implementation/impl/i;

@@ -1,4 +1,6 @@
 3.0a3
+	ios.pm: include 6500 sup-2t CPU info - Per-Olof Olsson
+
 	fnrancid: filter oscillating certs - based on patch from Gavin McCullagh
 
 	flogin: handle -S/do_saveconfig

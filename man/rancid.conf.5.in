@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid.conf" "5" "18 December 2007"
+.TH "rancid.conf" "5" "28 July 2013"
 .SH NAME
 rancid.conf \- rancid environment configuration file
 .SH DESCRIPTION
@@ -154,7 +154,7 @@ Example: MAILOPTS="-f bounces.go.here@example.com"
 .TP
 .B MAX_ROUNDS
 Defines how many times rancid should retry collection of devices that fail.
-The minimum is 1.
+The minimum is 0.
 .sp
 Default: 4.
 .\"

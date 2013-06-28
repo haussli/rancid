@@ -59,7 +59,7 @@ RCSSYS=@RCSSYS@; export RCSSYS
 #NOCOMMSTR=YES; export NOCOMMSTR
 #
 # How many times failed collections are retried (for each run) before
-# giving up.  Minimum: 1
+# giving up.  Minimum: 0
 #MAX_ROUNDS=4; export MAX_ROUNDS
 #
 # How many hours should pass before complaining about routers that

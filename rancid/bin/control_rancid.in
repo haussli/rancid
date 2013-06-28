@@ -128,10 +128,10 @@ fi
 
 # Number of things par should run in parallel.
 PAR_COUNT=${PAR_COUNT:-5}
-# Number of times failed collections should be retried.  Minimum 1.
+# Number of times failed collections should be retried.  Minimum 0.
 MAX_ROUNDS=${MAX_ROUNDS:-4}
-if [ $MAX_ROUNDS -lt 1 ] ; then
-    echo "Error: MAX_ROUNDS must be at least 1."
+if [ $MAX_ROUNDS -lt 0 ] ; then
+    echo "Error: MAX_ROUNDS must be at least 0 or greater."
     MAX_ROUNDS=1
 fi
 

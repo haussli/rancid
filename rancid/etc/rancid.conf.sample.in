@@ -11,7 +11,7 @@ LC_COLLATE="POSIX"; export LC_COLLATE
 # Check that the effective UID is not root, which could lead to permissions
 # problems for user who is supposed to be running rancid.  If you know what
 # you are doing, disable this check by commenting these lines.
-eval `id | sed -e 's/(.*//'`
+uid=`perl -e 'print "$>"'`
 test "$uid" -eq 0 && echo "Do not run $0 as root!" && exit 1
 #
 # Create files w/o world read/write/exec permissions, but read/exec permissions

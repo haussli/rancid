@@ -1,4 +1,6 @@
 3.0a3
+	nsrancid: filter last modified lines - Roman Hochuli
+
 	rancid.conf: add check for EUID - Matthew Walster & Ed Ravin
 
 	control_rancid: allow MAX_ROUNDS to be zero - Alan McKinnon

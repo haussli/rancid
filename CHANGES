@@ -1,4 +1,6 @@
 3.0a3
+	nxrancid: add show (fex|module fex) - Alan McKinnon
+
 	nsrancid: filter last modified lines - Roman Hochuli
 
 	rancid.conf: add check for EUID - Matthew Walster & Ed Ravin

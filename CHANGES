@@ -1,4 +1,7 @@
 3.0a3
+	nxrancid: filter snmp communities, tacacs keys and neighbor pwds - Alan
+	McKinnon
+
 	ios.pm: remove lpd neighbor passwords - Alan McKinnon
 
 	ios.pm: remove interface dynamic addresses - Alan McKinnon

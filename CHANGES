@@ -1,4 +1,6 @@
 3.0a3
+	ios.pm: remove interface dynamic addresses - Alan McKinnon
+
 	nxrancid: add show (fex|module fex) - Alan McKinnon
 
 	nsrancid: filter last modified lines - Roman Hochuli

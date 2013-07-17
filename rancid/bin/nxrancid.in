@@ -626,6 +626,26 @@ sub ShowCores {
     return(0);
 }
 
+# This routine parses "show fex" and "show module fex"
+sub ShowFex {
+    print STDERR "    In ShowFex: $_" if ($debug);
+
+    while (<INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /Line has invalid autocommand /;
+	return(1) if /(Invalid input detected|Type help or )/;
+	return(1) if (/\% Invalid command at /);
+	return(-1) if (/\% Permission denied/);
+	return(-1) if (/command authorization failed/i);
+
+	ProcessHistory("COMMENTS","","","!FEX: $_");
+    }
+    ProcessHistory("COMMENTS","","","!\n");
+    return(0);
+}
+
 # This routine parses "show processes log"
 sub ShowProcLog {
     print STDERR "    In ShowProcLog: $_" if ($debug);
@@ -779,6 +799,8 @@ sub RunCommand {
 	{'show debug'			=> 'ShowDebug'},
 	{'show cores vdc-all'		=> 'ShowCores'},
 	{'show processes log vdc-all'	=> 'ShowProcLog'},
+	{'show module fex'		=> 'ShowFex'},
+	{'show fex'			=> 'ShowFex'},
 	{'show running-config'		=> 'WriteTerm'},
 );
 # Use an array to preserve the order of the commands and a hash for mapping

@@ -701,6 +701,20 @@ sub WriteTerm {
 	}
 	# Sort any other username info.
 	/^username (\S+) .*$/ && ProcessHistory("USER","keysort","$1","$_") && next;
+	if (/^\s*(.*?neighbor \S*) password / && $filter_pwds >= 1) {
+	    ProcessHistory("","","","! $1 password <removed>\n");
+	    next;
+	}
+	# Why was this commented out? It shows up in the raw text...
+	if (/^(snmp-server community) (\S+)/) {
+	    if ($filter_commstr) {
+		ProcessHistory("SNMPSERVERCOMM","keysort","$_",
+			       "!$1 <removed>$'") && next;
+	    } else {
+		ProcessHistory("SNMPSERVERCOMM","keysort","$_","$_") && next;
+	    }
+	}
+
 	# Sort snmp user and delete passwords.
 	if (/^snmp-server user (\S+) (\S+) auth md5 (\S+) priv (\S+) localizedkey$/) {
 	    if ($filter_pwds >= 2) {
@@ -722,6 +736,13 @@ sub WriteTerm {
 		ProcessHistory("","","","$_");
 	    }
 	    next;
+	}
+
+	# prune tacacs/radius server keys:
+	# tacacs-server host 196.23.0.13 key 7 "xxxxxxx" port 50 timeout 10
+	if (/^((tacacs|radius)-server.*?\bkey\b.*?) ".*?"(.*)/
+	    && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>$3\n"); next;
 	}
 
 	# order cli alias names

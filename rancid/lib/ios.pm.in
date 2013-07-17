@@ -1939,8 +1939,8 @@ sub WriteTerm {
 	    ProcessHistory("LINE-PASS","","","!$1secret <removed>\n");
 	    next;
 	}
-	if (/^\s*neighbor (\S*) password / && $filter_pwds >= 1) {
-	    ProcessHistory("","","","! neighbor $1 password <removed>\n");
+	if (/^\s*(.*?neighbor.*?) (\S*) password / && $filter_pwds >= 1) {
+	    ProcessHistory("","","","! $1 password <removed>\n");
 	    next;
 	}
 	if (/^(\s*ppp .* hostname) .*/ && $filter_pwds >= 1) {

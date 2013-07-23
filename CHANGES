@@ -1,4 +1,7 @@
 3.0a3
+	control_rancid: add group-specific rancid.conf file & supporting -f
+	option
+
 	nxrancid: filter snmp communities, tacacs keys and neighbor pwds - Alan
 	McKinnon
 

@@ -45,11 +45,12 @@
 
 # print a usage message to stderr
 pr_usage() {
-    echo "usage: $0 [-V] [-r device_name] [-m mail rcpt] group" >&2;
+    echo "usage: $0 [-V] [-f group_config_file] [-r device_name] [-m mail rcpt] group" >&2;
 }
 
 # command-line options
 # -V print version string
+# -f <group config file name>
 # -m <mail recipients>
 # -r <device name>
 alt_mailrcpt=0
@@ -60,6 +61,16 @@ if [ $# -ge 1 ] ; then
 	-V)
 	    echo "@PACKAGE@ @VERSION@"
 	    exit 0
+	    ;;
+	-f)
+	    shift
+	    # next arg is the alternate config file name
+	    ENVFILE="$1"
+	    if [ -z $ENVFILE ]; then
+		pr_usage
+		exit 1
+	    fi
+	    shift
 	    ;;
 	-m)
 	    shift
@@ -105,6 +116,12 @@ else
 fi
 DIR=$BASEDIR/$GROUP
 TMP=${TMPDIR:=/tmp}/rancid.$GROUP.$$
+if [ -z "$ENVFILE" ] ; then
+    ENVFILE="$DIR/rancid.conf"
+fi
+if [ -e "$ENVFILE" ] ; then
+    . $ENVFILE
+fi
 trap 'rm -fr $TMP;' 1 2 15
 
 # disable noclobber
@@ -164,6 +181,14 @@ EOF
 	svn propset svn:ignore -F .cvsignore .
 	svn update .
 	svn commit -m 'set svn:ignores' .
+    fi
+fi
+
+# check if there is a rancid.conf and if it needs to be added to the RCS
+if [ -e rancid.conf ] ; then
+    LN=`$RCSSYS ls rancid.conf | wc -l`
+    if [ $LN -eq 0 ] ; then
+	$RCSSYS add rancid.conf
     fi
 fi
 

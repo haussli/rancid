@@ -214,7 +214,7 @@ sub WriteTerm {
 #	/^ width /		&& next; # kill width on serial lines
 #	/^ clockrate /		&& next; # kill clockrate on serial interfaces
 
-	if (/^(enable password( \d)?) / && $filter_pwds >= 1) {
+	if (/^((enable )?password( \d)?) / && $filter_pwds >= 1) {
 	    ProcessHistory("ENABLE","","","!$1 <removed>\n");
 	    next;
 	}

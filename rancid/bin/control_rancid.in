@@ -497,6 +497,16 @@ fi
 
 # Mail out the diffs (if there are any).
 if [ -s $TMP.diff ] ; then
+    MAXSZ=${MAILSPLIT:=0}
+    if [ $MAXSZ -ne 0 ] ; then
+	BLOCKSIZE=1024; export BLOCKSIZE
+	tmpk=`perl -e "my(@S) = stat(\"$TMP.diff\"); print int(\\$S[7] / 1024);"`
+	unset BLOCKSIZE
+	if [ $tmpk -lt $MAXSZ ] ; then
+	    MAXSZ=0
+	fi
+    fi
+    if [ $MAXSZ -eq 0 ] ; then
 	(
 	  echo "To: $mailrcpt"
 	  echo "Subject: $subject"
@@ -504,6 +514,32 @@ if [ -s $TMP.diff ] ; then
 	  echo ""
 	  cat $TMP.diff
 	) | sendmail -t $MAILOPTS
+    else
+	CDIR=`pwd`
+	SDIR=${TMPDIR:=/tmp}/rancid.$GROUP.$$.mail
+	error=`mkdir $SDIR`
+	if [ $? -ne 0 ] ; then
+	    echo "Could not create $SDIR directory" >&2
+	    echo $error >&2
+	else
+	    cd $SDIR
+	    split -b${MAXSZ}k $TMP.diff
+	    nfiles=`ls | wc -l | sed -e 's/^ *//' |cut -d' ' -f1`
+	    n=0
+	    for file in `ls`; do
+		n=`expr $n + 1`
+		(
+		echo "To: $mailrcpt"
+		echo "Subject: $n of ${nfiles}: $subject"
+		echo "$MAILHEADERS" | awk '{L = "";LN = $0;while (LN ~ /\\n/) { I = index(LN,"\\n");L = L substr(LN,0,I-1) "\n";LN = substr(LN,I+2,length(LN)-I-1);}print L LN;}'
+		echo ""
+		cat $file
+		) | sendmail -t $MAILOPTS
+	    done
+	    cd $CDIR
+	    rm -rf $SDIR
+	fi
+    fi
 fi
 
 # If any machines have not been reached within the last $OLDTIME

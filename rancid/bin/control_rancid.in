@@ -535,6 +535,10 @@ if [ -s $TMP.diff ] ; then
 		echo ""
 		cat $file
 		) | sendmail -t $MAILOPTS
+		if [ $n -lt $nfiles ]; then
+		    # this just tries to make the msgs order right in MUAs
+		    sleep 1
+		fi
 	    done
 	    cd $CDIR
 	    rm -rf $SDIR

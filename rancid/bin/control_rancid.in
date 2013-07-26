@@ -526,15 +526,22 @@ if [ -s $TMP.diff ] ; then
 	    split -b${MAXSZ}k $TMP.diff
 	    nfiles=`ls | wc -l | sed -e 's/^ *//' |cut -d' ' -f1`
 	    n=0
+	    dt=`perl -e 'print time();'`
 	    for file in `ls`; do
 		n=`expr $n + 1`
+		MSGID="<$dt.RANCID$GROUP$$${nfiles}${n}@`hostname`>"
 		(
 		echo "To: $mailrcpt"
 		echo "Subject: $n of ${nfiles}: $subject"
+		echo "Message-Id: $MSGID"
+		if [ $n -gt 1 ] ; then
+		    echo "References: $LASTIDS"
+		fi
 		echo "$MAILHEADERS" | awk '{L = "";LN = $0;while (LN ~ /\\n/) { I = index(LN,"\\n");L = L substr(LN,0,I-1) "\n";LN = substr(LN,I+2,length(LN)-I-1);}print L LN;}'
 		echo ""
 		cat $file
 		) | sendmail -t $MAILOPTS
+		LASTIDS="$LASTIDS $MSGID"
 		if [ $n -lt $nfiles ]; then
 		    # this just tries to make the msgs order right in MUAs
 		    sleep 1

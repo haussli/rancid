@@ -105,3 +105,6 @@ RCSSYS=@RCSSYS@; export RCSSYS
 #
 # Additional options for sendmail(8).
 #MAILOPTS="-f bounces.go.here@example.com"; export MAILOPTS
+#
+# Split diffs larger then N kbytes
+#MAILSPLIT=0; export MAILSPLIT

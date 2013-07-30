@@ -1,4 +1,6 @@
 3.0a3
+	*login: change -c handling of ;'s for escaping like \;
+
 	rancid.conf: add MAILSPLIT to split large diff mail by kilobytes
 
 	control_rancid: add group-specific rancid.conf file & supporting -f

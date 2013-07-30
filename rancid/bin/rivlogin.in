@@ -471,7 +471,10 @@ proc start_logfile { output_file } {
 proc run_commands { prompt cmdstring } {
     global sendstring
 
-    set commands [split $cmdstring \;]
+    set sep "\\1\u001"
+    regsub -all {([^\\])\;} $command "$sep" esccommand
+    set sep "\u001"
+    set commands [split $esccommand $sep]
     set num_commands [llength $cmdstring]
 
     for {set i 0} {$i < $num_commands} { incr i} {

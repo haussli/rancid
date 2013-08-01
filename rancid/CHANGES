@@ -1,4 +1,6 @@
 3.0a3
+	f10rancid: skip . & ..
+
 	*login: change -c handling of ;'s for escaping like \;
 
 	rancid.conf: add MAILSPLIT to split large diff mail by kilobytes

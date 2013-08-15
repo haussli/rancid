@@ -1,5 +1,5 @@
 3.0a3
-	ios.pm: reverse login of whether to 'show vlan', skip VTP clients
+	ios.pm: reverse logic of whether to 'show vlan', skip VTP clients
 
 	f10rancid: skip . & ..
 

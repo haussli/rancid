@@ -1754,7 +1754,8 @@ sub ShowVLAN {
 	return(1) if (/Line has invalid autocommand /);
 	next if (/^\s+\^\s*$/);
 	return(1) if (/(invalid (input|command) detected|type help or )/i);
-	return(1) if (/Ambiguous command/i);
+	return(1) if (/ambiguous command/i);
+	return(1) if (/incomplete command/i);
 	return(-1) if (/command authorization failed/i);
 	# the pager can not be disabled per-session on the PIX
 	if (/^(<-+ More -+>)/) {
@@ -1984,6 +1985,10 @@ sub WriteTerm {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
 	if (/^( l2tp tunnel \S+ password)/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>\n"); next;
+	}
+	# l2tp-class secret
+	if (/^( digest secret 7?)/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
 	# i am told these are plain-text on the PIX

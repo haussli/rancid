@@ -1730,7 +1730,7 @@ sub ShowVTP {
 	    s/^$1\s{$len}//;
 	}
 
-	if (/^VTP Operating Mode\s+:\s+(Transparent|Server)/) {
+	if (/^VTP Operating Mode\s+:\s+(Client)/) {
 	    $DO_SHOW_VLAN = 1;
 	}
 	ProcessHistory("COMMENTS","keysort","I0","!VTP: $_");
@@ -1744,7 +1744,7 @@ sub ShowVLAN {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowVLAN: $_" if ($debug);
 
-    ($_ = <$INPUT>, return(1)) if (!$DO_SHOW_VLAN);
+    ($_ = <$INPUT>, return(1)) if ($DO_SHOW_VLAN);
 
     while (<$INPUT>) {
 	tr/\015//d;
@@ -1762,6 +1762,7 @@ sub ShowVLAN {
 	    my($len) = length($1);
 	    s/^$1\s{$len}//;
 	}
+	return(0) if (/no virtual lans configured/i);
 
 	ProcessHistory("COMMENTS","keysort","IO","!VLAN: $_");
     }

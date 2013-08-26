@@ -312,7 +312,7 @@ sub ShowEnv {
 	return(-1) if (/command authorization failed/i);
 
 	s/ +$//;	# Drop trailing ' '
-	s/Fan Zone Speed://;
+	next if (/Fan Zone Speed:/);
 	ProcessHistory("COMMENTS","","","!Env: $_");
     }
     ProcessHistory("COMMENTS","","","!\n");

@@ -1,4 +1,4 @@
-3.0a3
+3.0a4
 	nxrancid: filter Fan Zone Speed
 
 	ios.pm: reverse logic of whether to 'show vlan', skip VTP clients

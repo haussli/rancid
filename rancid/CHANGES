@@ -1,4 +1,6 @@
 3.0a4
+	rancid.types.base: add command show chassis hardware models
+
 	nxrancid: filter Fan Zone Speed
 
 	ios.pm: reverse logic of whether to 'show vlan', skip VTP clients

@@ -209,6 +209,7 @@ juniper;command;junos::ShowChassisEnvironment;show chassis environment
 juniper;command;junos::ShowChassisFirmware;show chassis firmware
 juniper;command;junos::ShowChassisFpcDetail;show chassis fpc detail
 juniper;command;junos::ShowChassisHardware;show chassis hardware detail
+juniper;command;junos::ShowChassisHardware;show chassis hardware models
 juniper;command;junos::ShowChassisRoutingEngine;show chassis routing-engine
 juniper;command;junos::ShowChassisSCB;show chassis scb
 juniper;command;junos::ShowChassisSCB;show chassis sfm detail

@@ -544,6 +544,9 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 	-re "Last login:"	{
 				  exp_continue
 				}
+	-re "Press the <tab> key \[^\r\n]+\[\r\n]+"	{
+				  exp_continue
+				}
 	-re "@\[^\r\n]+ $p_prompt"	{
 				  # ssh pwd prompt
 				  sleep 1

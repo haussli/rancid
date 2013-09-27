@@ -1,4 +1,7 @@
 3.0a4
+	clogin: Extreme XOS >= 12.5 has a new prompt-like banner before the
+	initial prompt, ignore it to avoid confusing location of the prompt
+
 	rancid.types.base: add command show chassis hardware models
 
 	nxrancid: filter Fan Zone Speed

@@ -1,4 +1,6 @@
 3.0a4
+	rancid.types.conf: add jlocal example base on Serge Malev's comment
+
 	clogin: Extreme XOS >= 12.5 has a new prompt-like banner before the
 	initial prompt, ignore it to avoid confusing location of the prompt
 

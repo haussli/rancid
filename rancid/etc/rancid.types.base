@@ -180,6 +180,12 @@ compass;command;eos::ShowConfig;show configuration detail
 #
 css;script;cssrancid
 #
+dell;script;grancid
+dell;login;dllogin
+dell;module;dell
+dell;command;dell::GetSystem;show switch;
+dell;command;dell::GetConf;show config current_config
+#
 enterasys;script;rivrancid
 #
 erx;script;jerancid

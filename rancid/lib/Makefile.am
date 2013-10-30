@@ -52,6 +52,7 @@ $(pkglib_in:%.in=%): Makefile $(top_builddir)/config.status
 # XXX there must be a better way to produce these dependencies, perhaps in
 #     configure.
 arbor.pm: arbor.pm.in
+dell.pm: dell.pm.in
 eos.pm: eos.pm.in
 ios.pm: ios.pm.in
 iosxr.pm: iosxr.pm.in

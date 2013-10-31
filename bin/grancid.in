@@ -56,7 +56,7 @@ use Getopt::Std;
 our($opt_d, $opt_f, $opt_h, $opt_l, $opt_t, $opt_C, $opt_V);
 getopts('dfhlt:CV');
 BEGIN {
-    push(@INC, "@pkglibdir@");
+    push(@INC, "@pkglibexecdir@");
 }
 use rancid;
 our @ISA = qw(Exporter rancid);

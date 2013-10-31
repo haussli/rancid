@@ -1,9 +1,9 @@
 # RANCiD base device type configuration.
 #
-# DO NOT alter the base types, they WILL be over-written by future RANCiD
-# releases.  Copy them to rancid.types.conf and rename them.  If you override
-# existing types, it will be harder to provide support to you and I will hate
-# you.
+# DO NOT alter the base device types, they WILL be over-written by future RANCiD
+# release installations.  Customize them by creating clones in rancid.types.conf
+# with a different type name.  If you override existing types, it will be harder
+# to provide support to you and I will make a voodoo doll in your likeness.
 #
 agm;script;agmrancid
 #

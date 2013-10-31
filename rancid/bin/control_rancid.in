@@ -186,7 +186,12 @@ fi
 
 # check if there is a rancid.conf and if it needs to be added to the RCS
 if [ -e rancid.conf ] ; then
-    LN=`$RCSSYS ls rancid.conf | wc -l`
+    if [ $RCSSYS = svn ] ; then
+	LN=`svn ls rancid.conf | wc -l`
+    else
+	cvs log -rHEAD rancid.conf > /dev/null 2>&1
+	if [ $? -eq 0 ] ; then LN=1; else LN=0; fi
+    fi
     if [ $LN -eq 0 ] ; then
 	$RCSSYS add rancid.conf
     fi

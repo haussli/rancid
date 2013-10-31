@@ -39,7 +39,7 @@
 ## parties packaging or redistributing RANCID NOT distribute altered versions
 ## of the etc/rancid.types.base file nor alter how this file is processed nor
 ## when in relation to etc/rancid.types.conf.  The goal of this is to help
-## suppress our support costs.  If it becomes a problem, this will become a
+## suppress our support costs.  If it becomes a problem, this could become a
 ## condition of license.
 # 
 #  The expect login scripts were based on Erik Sherk's gwtn, by permission.

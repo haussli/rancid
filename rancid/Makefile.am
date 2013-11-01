@@ -14,7 +14,7 @@ AUTOMAKE_OPTIONS=foreign no-dependencies
 @SET_MAKE@
 
 pkgdata_DATA = COPYING CHANGES FAQ README README.lg UPGRADING cloginrc.sample
-EXTRA_DIST = BUGS Todo configure install-sh \
+EXTRA_DIST = BUGS Todo configure configure.vers install-sh \
 	mkinstalldirs Makefile.in Todo $(pkgdata_DATA)
 #DIST_COMMON = 
 

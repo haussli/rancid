@@ -2,12 +2,12 @@
 ##
 ## $Id: dlrancid.in 2258 2010-10-11 20:49:05Z heas $
 ##
-## fnrancid patched to dlrancid to accomplish D-Link support 
+## fnrancid patched to dlrancid to accomplish D-Link support
 ## adapted by: Gavin McCullagh <gmccullagh at gmail.com>
 ##             Griffith College Dublin
-## 
-## rancid 2.3.6
-## Copyright (c) 1997-2008 by Terrapin Communications, Inc.
+##
+## @PACKAGE@ @VERSION@
+## Copyright (c) @COPYYEARS@ by Terrapin Communications, Inc.
 ## All rights reserved.
 ##
 ## This code is derived from software contributed to and maintained by
@@ -43,7 +43,7 @@
 ## CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ## ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 ## POSSIBILITY OF SUCH DAMAGE.
-# 
+#
 # A library built on Stephen Gill's Netscreen stuff to accomodate
 # the Fortinet product line.  [d_pfleger@juniper.net]
 #
@@ -51,140 +51,90 @@
 #
 # Code tested and working fine on these D-Link models:
 #
-#      2x DES-3010F
-#      4x DES-3052P
-#     31x DES-3526
-#      6x DES-3550
+# 	DES-3010F
+# 	DES-3052P
+# 	DES-3526
+# 	DES-3550
 #
+# dell.pm - Dell D-Link rancid procedures
 #
-#
-# usage: dlrancid [-dV] [-l] [-f filename | hostname]
-#
-use Getopt::Std;
-getopts('dflV');
-if ($opt_V) {
-    print "rancid 2.3.6\n";
-    exit(0);
+use 5.005;
+use strict 'vars';
+use warnings;
+no warnings 'uninitialized';
+require(Exporter);
+our @ISA = qw(Exporter);
+
+#XXX use @VERSION@ when we have a version w/o letters in it
+#XXX use rancid @VERSION@;
+use rancid;
+
+# load-time initialization
+sub import {
+    $timeo = 300;		# dllogin timeout in seconds (some of these
+				# devices are remarkably slow to read config)
+
+    0;
 }
-$log = $opt_l;
-$debug = $opt_d;
-#$debug = 1;
-$file = $opt_f;
-$host = $ARGV[0];
-$found_end = 0;
-$timeo = 300;				# dllogin timeout in seconds (some of these devices are remarkably slow to read config)
 
-my(@commandtable, %commands, @commands);# command lists
-my($aclsort) = ("ipsort");		# ACL sorting mode
-my($filter_commstr);			# SNMP community string filtering
-my($filter_pwds);			# password filtering mode
+# post-open(collection file) initialization
+sub init {
+    $proc = "";
+    $found_version = 0;
 
-# This routine is used to print out the router configuration
-sub ProcessHistory {
-    my($new_hist_tag,$new_command,$command_string,@string) = (@_);
-    if ((($new_hist_tag ne $hist_tag) || ($new_command ne $command))
-	&& scalar(%history)) {
-	print eval "$command \%history";
-	undef %history;
-    }
-    if (($new_hist_tag) && ($new_command) && ($command_string)) {
-	if ($history{$command_string}) {
-	    $history{$command_string} = "$history{$command_string}@string";
-	} else {
-	    $history{$command_string} = "@string";
+    # add content lines and separators
+    ProcessHistory("","","","#RANCID-CONTENT-TYPE: D-Link\n\n");
+
+    0;
+}
+
+# main loop of input of device output
+sub inloop {
+    my($INPUT, $OUTPUT) = @_;
+    my($cmd, $rval);
+
+TOP: while(<$INPUT>) {
+	tr/\015//d;
+	# XXX this match is not correct for DELL
+	if (/[>#]\s?exit$/) {
+	    $clean_run = 1;
+	    last;
 	}
-    } elsif (($new_hist_tag) && ($new_command)) {
-	$history{++$#history} = "@string";
-    } else {
-	print "@string";
+	if (/^Error:/) {
+	    print STDOUT ("$host dllogin error: $_");
+	    print STDERR ("$host dllogin error: $_") if ($debug);
+	    $clean_run = 0;
+	    last;
+	}
+	while (/^.+(#|\$)\s*($cmds_regexp)\s*$/) {
+	    $cmd = $2;
+	    # - D-Link prompts end with '#'.
+	    if ($_ =~ m/^.+#/) {
+		$prompt = '.+#.*';
+	    }
+	    print STDERR ("HIT COMMAND:$_") if ($debug);
+	    if (! defined($commands{$cmd})) {
+	        print STDERR "$host: found unexpected command - \"$cmd\"\n";
+		$clean_run = 0;
+	        last TOP;
+	    }
+	    $rval = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
+	    delete($commands{$cmd});
+	    if ($rval == -1) {
+		$clean_run = 0;
+	        last TOP;
+	    }
+	}
     }
-    $hist_tag = $new_hist_tag;
-    $command = $new_command;
-    1;
-}
-
-sub numerically { $a <=> $b; }
-
-# This is a sort routine that will sort numerically on the
-# keys of a hash as if it were a normal array.
-sub keynsort {
-    local(%lines) = @_;
-    local($i) = 0;
-    local(@sorted_lines);
-    foreach $key (sort numerically keys(%lines)) {
-	$sorted_lines[$i] = $lines{$key};
-	$i++;
-    }
-    @sorted_lines;
-}
-
-# This is a sort routine that will sort on the
-# keys of a hash as if it were a normal array.
-sub keysort {
-    local(%lines) = @_;
-    local($i) = 0;
-    local(@sorted_lines);
-    foreach $key (sort keys(%lines)) {
-	$sorted_lines[$i] = $lines{$key};
-	$i++;
-    }
-    @sorted_lines;
-}
-
-# This is a sort routine that will sort on the
-# values of a hash as if it were a normal array.
-sub valsort{
-    local(%lines) = @_;
-    local($i) = 0;
-    local(@sorted_lines);
-    foreach $key (sort values %lines) {
-	$sorted_lines[$i] = $key;
-	$i++;
-    }
-    @sorted_lines;
-}
-
-# This is a numerical sort routine (ascending).
-sub numsort {
-    local(%lines) = @_;
-    local($i) = 0;
-    local(@sorted_lines);
-    foreach $num (sort {$a <=> $b} keys %lines) {
-	$sorted_lines[$i] = $lines{$num};
-	$i++;
-    }
-    @sorted_lines;
-}
-
-# This is a sort routine that will sort on the
-# ip address when the ip address is anywhere in
-# the strings.
-sub ipsort {
-    local(%lines) = @_;
-    local($i) = 0;
-    local(@sorted_lines);
-    foreach $addr (sort sortbyipaddr keys %lines) {
-	$sorted_lines[$i] = $lines{$addr};
-	$i++;
-    }
-    @sorted_lines;
-}
-
-# These two routines will sort based upon IP addresses
-sub ipaddrval {
-    my(@a) = ($_[0] =~ m#^(\d+)\.(\d+)\.(\d+)\.(\d+)$#);
-    $a[3] + 256 * ($a[2] + 256 * ($a[1] +256 * $a[0]));
-}
-sub sortbyipaddr {
-    &ipaddrval($a) <=> &ipaddrval($b);
 }
 
 # This routine parses "get system"
 sub GetSystem {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    my($priv_key);
     print STDERR "    In GetSystem: $_" if ($debug);
 
-    my $priv_key;
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	next if /^\s*$/;
 	last if (/$prompt/);
@@ -201,9 +151,10 @@ sub GetSystem {
 }
 
 sub GetFile {
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In GetFile: $_" if ($debug);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	last if (/$prompt/);
     }
     ProcessHistory("FILE","","","\n");
@@ -211,9 +162,11 @@ sub GetFile {
 }
 
 sub GetConf {
-    print STDERR "    In GetConf: $_" if ($debug);
+    my($INPUT, $OUTPUT, $cmd) = @_;
     my $password_counter=0;
-    while (<INPUT>) {
+    print STDERR "    In GetConf: $_" if ($debug);
+
+    while (<$INPUT>) {
 	tr/\015//d;
 	next if /^\s*$/;
 	last if (/$prompt/);
@@ -242,119 +195,4 @@ sub GetConf {
     return(1);
 }
 
-# dummy function
-sub DoNothing {print STDOUT;}
-
-# Main
-@commandtable = (
-	{'show switch'		=> 'GetSystem'},
-	{'show config current_config'	=> 'GetConf'}
-);
-# Use an array to preserve the order of the commands and a hash for mapping
-# commands to the subroutine and track commands that have been completed.
-@commands = map(keys(%$_), @commandtable);
-%commands = map(%$_, @commandtable);
-
-$cisco_cmds=join(";",@commands);
-$cmds_regexp = join("|", map quotemeta($_), @commands);
-
-if (length($host) == 0) {
-    if ($file) {
-	print(STDERR "Too few arguments: file name required\n");
-	exit(1);
-    } else {
-	print(STDERR "Too few arguments: host name required\n");
-	exit(1);
-    }
-}
-open(OUTPUT,">$host.new") || die "Can't open $host.new for writing: $!\n";
-select(OUTPUT);
-# make OUTPUT unbuffered if debugging
-if ($debug) { $| = 1; }
-
-if ($file) {
-    print STDERR "opening file $host\n" if ($debug);
-    print STDOUT "opening file $host\n" if ($log);
-    open(INPUT,"<$host") || die "open failed for $host: $!\n";
-} else {
-    print STDERR "executing dllogin -t $timeo -c\"$cisco_cmds\" $host\n" if ($debug);
-    print STDOUT "executing dllogin -t $timeo -c\"$cisco_cmds\" $host\n" if ($log);
-    if (defined($ENV{NOPIPE})) {
-	system "dllogin -t $timeo -c \"$cisco_cmds\" $host </dev/null > $host.raw 2>&1" || die "dllogin failed for $host: $!\n";
-	open(INPUT, "< $host.raw") || die "dllogin failed for $host: $!\n";
-    } else {
-	open(INPUT,"dllogin -t $timeo -c \"$cisco_cmds\" $host </dev/null |") || die "dllogin failed for $host: $!\n";
-    }
-}
-
-# determine ACL sorting mode
-if ($ENV{"ACLSORT"} =~ /no/i) {
-    $aclsort = "";
-}
-# determine community string filtering mode
-if (defined($ENV{"NOCOMMSTR"}) &&
-    ($ENV{"NOCOMMSTR"} =~ /yes/i || $ENV{"NOCOMMSTR"} =~ /^$/)) {
-    $filter_commstr = 1;
-} else {
-    $filter_commstr = 0;
-}
-# determine password filtering mode
-if ($ENV{"FILTER_PWDS"} =~ /no/i) {
-    $filter_pwds = 0;
-} elsif ($ENV{"FILTER_PWDS"} =~ /all/i) {
-    $filter_pwds = 2;
-} else {
-    $filter_pwds = 1;
-}
-
-ProcessHistory("","","","#RANCID-CONTENT-TYPE: D-Link\n\n");
-TOP: while(<INPUT>) {
-    tr/\015//d;
-    if (/^Error:/) {
-	    print STDOUT ("$host dllogin error: $_");
-	    print STDERR ("$host dllogin error: $_") if ($debug);
-	    last;
-    }
-    while (/^.+(#|\$)\s*($cmds_regexp)\s*$/) {
-	    $cmd = $2;
-	    # - D-Link prompts end with '#'.
-	    if ($_ =~ m/^.+#/) {
-		    $prompt = '.+#.*';
-		}
-	    print STDERR ("HIT COMMAND:$_") if ($debug);
-	    if (!defined($commands{$cmd})) {
-	        print STDERR "$host: found unexpected command - \"$cmd\"\n";
-	        last TOP;
-	    }
-	    $rval = &{$commands{$cmd}};
-	    delete($commands{$cmd});
-	    if ($rval == -1) {
-	        last TOP;
-	    }
-    }
-}
-print STDOUT "Done $logincmd: $_\n" if ($log);
-# Flush History
-ProcessHistory("","","","");
-# Cleanup
-close(INPUT);
-close(OUTPUT);
-
-if (defined($ENV{NOPIPE})) {
-    unlink("$host.raw") if (! $debug);
-}
-
-# check for completeness
-if (scalar(%commands) || !$found_end) {
-    if (scalar(%commands)) {
-	printf(STDOUT "$host: missed cmd(s): %s\n", join(',', keys(%commands)));
-	printf(STDERR "$host: missed cmd(s): %s\n", join(',', keys(%commands))) if ($debug);
-    }
-    if (!$found_end) {
-	print STDOUT "$found_end: found end\n";
-	print STDOUT "$host: End of run not found\n";
-	print STDERR "$host: End of run not found\n" if ($debug);
-	system("/usr/bin/tail -1 $host.new");
-    }
-    unlink "$host.new" if (! $debug);
-}
+1;

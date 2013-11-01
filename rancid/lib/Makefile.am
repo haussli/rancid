@@ -10,15 +10,15 @@
 
 AUTOMAKE_OPTIONS=foreign no-dependencies
 
-pkglibexec_SCRIPTS = rancid.pm arbor.pm eos.pm ios.pm iosxr.pm junos.pm
-pkglibexec_in = $(pkglib_SCRIPTS:%=%.in)
+pkglib_LIBRARIES = rancid.pm arbor.pm eos.pm ios.pm iosxr.pm junos.pm
+pkglib_in = $(pkglib_SCRIPTS:%=%.in)
 RANLIB= :
 
-EXTRA_DIST= $(pkglibexec_in)
+EXTRA_DIST= $(pkglib_in)
 ##dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
 
 CLEANFILES= rancid
-CLEANFILES+= $(pkglibexec_SCRIPTS)
+CLEANFILES+= $(pkglib_LIBRARIES)
 
 #clean:
 #	rm -f Makefile env $(BIN_DATAS) $(BIN_PROGS)
@@ -44,7 +44,7 @@ auto_edit = sed \
 	-e 's,@VERSION\@,$(VERSION),g' \
 	-e 's,@COPYYEARS\@,$(COPYYEARS),g'
 
-$(pkglibexec_in:%.in=%): Makefile $(top_builddir)/config.status
+$(pkglib_in:%.in=%): Makefile $(top_builddir)/config.status
 	rm -f $@ $@.tmp; \
 	$(auto_edit) $(srcdir)/$@.in >$@.tmp; \
 	chmod +r $@.tmp; \

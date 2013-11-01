@@ -1,4 +1,4 @@
-#! /usr/bin/expect --
+#! @EXPECT_PATH@ --
 ##
 ## $Id: dllogin.in,v 1.51 2009/04/16 21:22:58 heas Exp $
 ## patched to accomplish fortinet from nlogin
@@ -8,8 +8,8 @@
 ## adapted by: Gavin McCullagh <gmccullagh at gmail.com>
 ##             Griffith College Dublin
 ##
-## rancid 2.3.6
-## Copyright (c) 1997-2009 by Terrapin Communications, Inc.
+## @PACKAGE@ @VERSION@
+## Copyright (c) @COPYYEARS@ by Terrapin Communications, Inc.
 ## All rights reserved.
 ##
 ## This code is derived from software contributed to and maintained by
@@ -45,7 +45,7 @@
 ## CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ## ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 ## POSSIBILITY OF SUCH DAMAGE.
-# 
+#
 #  The expect login scripts were based on Erik Sherk's gwtn, by permission.
 # 
 # Netscreen hacks implemented by Stephen Gill <gillsr@yahoo.com>.
@@ -186,7 +186,7 @@ for {set i 0} {$i < $argc} {incr i} {
             set do_command 1
 	# Version string
 	} -V* {
-	    send_user "rancid 2.3.6\n"
+	    send_user "@PACKAGE@ @VERSION@\n"
 	    exit 0
 	# Does tacacs automatically enable us?
         } -autoenable {
@@ -284,7 +284,7 @@ proc source_password_file { password_file } {
 
 # Log into the firewall.
 # returns: 0 on success, 1 on failure
-proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype } {
+proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype identfile } {
     global spawn_id in_proc do_command do_script sshcmd
     set in_proc 1
     set uprompt_seen 0
@@ -305,19 +305,21 @@ proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype } {
 		return 1
 	    }
 	} elseif [string match "ssh*" $prog] {
+	    # ssh to the router & try to login with or without an identfile.
 	    regexp {ssh(:([^[:space:]]+))*} $prog methcmd suffix port
-	    if {"$port" == ""} {
-		set cmd [join [lindex $sshcmd 0] " "]
-		set retval [ catch {eval spawn [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason ]
-	    } else {
-		set cmd [join [lindex $sshcmd 0] " "]
-		set retval [ catch {eval spawn [split "$cmd -c $cyphertype -x -l $user -p $port $router" { }]} reason ]
+	    set cmd $sshcmd
+	    if {"$port" != ""} {
+		set cmd "$cmd -p $port"
 	    }
+	    if {"$identfile" != ""} {
+		set cmd "$cmd -i $identfile"
+	    }
+	    set retval [catch {eval spawn [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason]
 	    if { $retval } {
-		send_user "\nError: $sshcmd failed: $reason\n"
+		send_user "\nError: $cmd failed: $reason\n"
 		return 1
 	    }
-	} elseif ![string compare $prog "rsh"] {
+	 } elseif ![string compare $prog "rsh"] {
 	    send_error "\nError: unsupported method: rsh\n"
 	    if { $progs == 0 } {
 		return 1
@@ -446,10 +448,13 @@ proc run_commands { prompt command } {
     global in_proc
     set in_proc 1
     # Disable output paging.
-    send -- "disable clipaging\r" 
+    send -- "disable clipaging\r"
     expect -re $prompt;
 
-    set commands [split $command \;]
+    set sep "\\1\u001"
+    regsub -all {([^\\])\;} $command "$sep" esccommand
+    set sep "\u001"
+    set commands [split $esccommand $sep]
     set num_commands [llength $commands]
     for {set i 0} {$i < $num_commands} { incr i} {
 	send -- "[subst [lindex $commands $i]]\r"
@@ -463,7 +468,7 @@ proc run_commands { prompt command } {
 	    -re "\[\n\r]+"			{ exp_continue }
 						}
 	}
-     }   
+     }
 #    send_user "******* fuori da ciclo for *******\n"
      expect {
 	  -re "$prompt$"				{
@@ -529,6 +534,8 @@ foreach router [lrange $argv $i end] {
       if { "$userpswd" == "" } { set userpswd $passwd }
     }
 
+    # Figure out identity file to use
+    set identfile [join [lindex [find identity $router] 0] ""]
 
     # Figure out cypher type
     if {[info exists cypher]} {
@@ -548,7 +555,7 @@ foreach router [lrange $argv $i end] {
     if { "$sshcmd" == "" } { set sshcmd {ssh} }
 
     # Login to the router
-    if {[login $router $ruser $userpswd $passwd $enapasswd $prompt $cmethod $cyphertype]} {
+    if {[login $router $ruser $userpswd $passwd $enapasswd $prompt $cmethod $cyphertype $identfile]} {
 	incr exitval
 	continue
     }

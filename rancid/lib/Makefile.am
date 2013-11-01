@@ -10,7 +10,7 @@
 
 AUTOMAKE_OPTIONS=foreign no-dependencies
 
-pkglib_LIBRARIES = rancid.pm arbor.pm eos.pm ios.pm iosxr.pm junos.pm
+pkglib_LIBRARIES = rancid.pm arbor.pm dell.pm eos.pm ios.pm iosxr.pm junos.pm
 pkglib_in = $(pkglib_LIBRARIES:%=%.in)
 RANLIB= :
 

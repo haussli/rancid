@@ -127,6 +127,10 @@ arbor_pm_AR = $(AR) $(ARFLAGS)
 arbor_pm_LIBADD =
 arbor_pm_SOURCES = arbor.c
 arbor_pm_OBJECTS = arbor.$(OBJEXT)
+dell_pm_AR = $(AR) $(ARFLAGS)
+dell_pm_LIBADD =
+dell_pm_SOURCES = dell.c
+dell_pm_OBJECTS = dell.$(OBJEXT)
 eos_pm_AR = $(AR) $(ARFLAGS)
 eos_pm_LIBADD =
 eos_pm_SOURCES = eos.c
@@ -174,8 +178,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = arbor.c eos.c ios.c iosxr.c junos.c rancid.c
-DIST_SOURCES = arbor.c eos.c ios.c iosxr.c junos.c rancid.c
+SOURCES = arbor.c dell.c eos.c ios.c iosxr.c junos.c rancid.c
+DIST_SOURCES = arbor.c dell.c eos.c ios.c iosxr.c junos.c rancid.c
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -317,7 +321,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign no-dependencies
-pkglib_LIBRARIES = rancid.pm arbor.pm eos.pm ios.pm iosxr.pm junos.pm
+pkglib_LIBRARIES = rancid.pm arbor.pm dell.pm eos.pm ios.pm iosxr.pm junos.pm
 pkglib_in = $(pkglib_LIBRARIES:%=%.in)
 RANLIB = :
 EXTRA_DIST = $(pkglib_in)

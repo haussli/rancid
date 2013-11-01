@@ -451,6 +451,10 @@ proc run_commands { prompt command } {
 	    -re "^\[^\n\r]*$reprompt"		{}
 	    -re "^\[^\n\r ]*>>.*$reprompt"	{ exp_continue }
 	    -re "\[\n\r]+"			{ exp_continue }
+	    -re "^\*Display private keys? \[y/n]:" {
+						 send "y\r"
+						 exp_continue
+						}
 	}
     }
     send "exit\r"

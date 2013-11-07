@@ -1,4 +1,6 @@
 3.0a4
+	ios.pm: filter sflog file for cisco 10k
+
 	alogin: match display private keys prompt - noted by majoosh chacko
 
 	rancid.types.conf: add jlocal example base on Serge Malev's comment

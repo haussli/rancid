@@ -10,15 +10,17 @@
 
 AUTOMAKE_OPTIONS=foreign no-dependencies
 
-pkglib_LIBRARIES = rancid.pm arbor.pm dell.pm eos.pm ios.pm iosxr.pm junos.pm
-pkglib_in = $(pkglib_LIBRARIES:%=%.in)
+my_pkglibdir = $(pkglibdir)
+my_pkglib_DATA = rancid.pm arbor.pm dell.pm eos.pm ios.pm iosxr.pm junos.pm
+pkglib_in = $(my_pkglib_DATA:%=%.in)
+
 RANLIB= :
 
 EXTRA_DIST= $(pkglib_in)
 ##dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
 
 CLEANFILES= rancid
-CLEANFILES+= $(pkglib_LIBRARIES)
+CLEANFILES+= $(my_pkglib_DATA)
 
 #clean:
 #	rm -f Makefile env $(BIN_DATAS) $(BIN_PROGS)

@@ -1,11 +1,11 @@
 .\"
 .hys 50
-.TH "par" "1" "18 December 2007"
+.TH "par" "1" "17 December 2012"
 .SH NAME
 par \- parallel command processing
 .SH SYNOPSIS
 .B par
-[\fB\-dfiqx\fP]
+[\fB\-defiqx\fP]
 [\c
 .BI \-c\ 
 command]
@@ -67,6 +67,10 @@ options, where the first line of the input file(s) begins with a pound-sign
 .TP
 .B \-d
 Print debugging information on standard error (stderr).
+.\"
+.TP
+.B \-e
+Split args on spaces and exec, rather than using sh -c.
 .\"
 .TP
 .B \-f

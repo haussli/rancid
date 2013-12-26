@@ -1,4 +1,7 @@
 3.0a4
+	cloginrc: add prompt directive to workaround prompt special characters
+	in login banners.  Not supported by all scripts; just clogin, ATM.
+
 	ios.pm: filter sflog file for cisco 10k
 
 	alogin: match display private keys prompt - noted by majoosh chacko

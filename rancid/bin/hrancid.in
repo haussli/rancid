@@ -195,6 +195,7 @@ sub ShowVersion {
 	return(-1) if (/command authorization failed/i);
 	return(-1) if /^(Invalid|Ambiguous) input:/i;
 
+	next if /^uptime/i;
 	s/^image//i;
 	s/^\s*//g;
 

@@ -1,4 +1,6 @@
 3.0a4
+	hrancid: filter uptime from show version - reported by Rikard Ekman
+
 	cloginrc: add prompt directive to workaround prompt special characters
 	in login banners.  Not supported by all scripts; just clogin, ATM.
 

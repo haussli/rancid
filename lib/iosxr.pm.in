@@ -1212,21 +1212,4 @@ sub WriteTerm {
     return(0);
 }
 
-# XXX is this necessary?
-## This routine processes a "write term"
-#sub FilterAll {
-#    my($INPUT, $OUTPUT, $cmd) = @_;
-#    print STDERR "    In FilterAll: $_" if ($debug);
-#
-#    while (<$INPUT>) {
-#	tr/\015//d;
-#	last if (/^$prompt/);
-#	return(1) if (/Line has invalid autocommand /);
-#	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
-#	return(1) if (/\%Error: No such file or directory/);
-#	return(-1) if (/command authorization failed/i);
-#	return(-1) if (/% ?configuration buffer full/i);
-#    }
-#}
-
 1;

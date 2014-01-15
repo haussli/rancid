@@ -70,11 +70,11 @@ if ($opt_V) {
     print "@PACKAGE@ @VERSION@\n";
     exit(0);
 }
-$procs=$opt_n;  $procs=3 if(!$procs);
-$command=$opt_c;   #$command="{}" if(!$command);
-$parlog=$opt_l; $parlog="par.log.".time() if(!$parlog);
-$debug=$opt_d;
-$no_file=$opt_f ? 1 : 0;
+$procs = $opt_n;  $procs = 3 if (!$procs);
+$command = $opt_c;
+$parlog = $opt_l; $parlog = "par.log.".time() if (!$parlog);
+$debug = $opt_d;
+$no_file = $opt_f ? 1 : 0;
 $pause_time = $opt_p ? $opt_p : 0;
 
 if ($opt_q && ($opt_x || $opt_l)) {

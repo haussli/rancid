@@ -82,12 +82,12 @@ if ($opt_q && ($opt_x || $opt_l)) {
     exit(1);
 }
 
-$signalled=0;
+$signalled = 0;
 
 sub handler {
     $signalled++;
     print STDERR "Received signal - ending run ($signalled).\n";
-    if($signalled>1) {
+    if ($signalled > 1) {
 	printf(STDERR "Ok - killing $id!\n");
 	kill 9, 0;
         exit(1);
@@ -99,8 +99,8 @@ $SIG{'TERM'} = 'handler';
 $SIG{'QUIT'} = 'handler';
 
 sub start {
-    local($cmd,$logfile)=@_;
-    unless ($id=fork) {
+    local($cmd, $logfile) = @_;
+    unless ($id = fork) {
 	if (!$opt_q) {
 	    local($date)=scalar localtime;
 	    open(LOG,">>$logfile");
@@ -121,53 +121,59 @@ sub start {
 }
 
 sub finish {
-    if(($id=wait)>0){
-        $logfile=$log{$id};
-        print STDERR "$id finished (logfile $logfile)\n" if($logfile && $debug);
+    if (($id = wait) > 0){
+        $logfile = $log{$id};
+        print STDERR "$id finished (logfile $logfile)\n" if ($logfile && $debug);
         $logfile;
     }
 }
 
 sub watchf {
-    local($log)=@_;
+    local($log) = @_;
     unless(fork) { exec "xterm -e tail -f $log" ; exit 1; }
 }
 
-# this does not work, $_ doesnt end up with <>
-#for($i=0; ($no_file && $i<$procs) || (! $no_file && <> ) ;$i++) {
-for($i=0; ($no_file || ($_=<>)) ;$i++) {
+for ($i=0; ($no_file || ($_=<>)); $i++) {
     chop;
-    if (/^\#/){$i--;next;}
+    if (/^\#/) {
+	$i--;
+	next;
+    }
     if ($opt_c == "" && /^:(.*)$/) {
-	$command=$1;$i--;next;
+	$command = $1;
+	$i--;
+	next;
     }
     if ($i<$procs) {
-	$logfile="running.$i"; $logfile="$parlog.$i" if (!$opt_q);
+	$logfile = "running.$i";
+	$logfile = "$parlog.$i" if (!$opt_q);
     } else {
-	$logfile=finish;
+	$logfile = finish;
     }
     last if $signalled;
     if ($logfile) {
         $cmd = $command;
         $cmd =~ s/\{\}/$_/g;
 	$cmd = "xterm -e $cmd" if ($opt_i);
-        $id=start($cmd,$logfile);
-	watchf($logfile) if($opt_x);
+        $id = start($cmd, $logfile);
+	watchf($logfile) if ($opt_x);
         $log{$id} = $logfile;
     }
     print STDERR "$i/$procs: $_: id=$id, log=$log{$id}\n" if ($debug);
     sleep($pause_time) if ($pause_time);
 }
 
-if($signalled && !eof) {
+if ($signalled && !eof) {
     $i--;
     print STDERR "Signalled - not running these:\n$_\n";
-    while(<>){print STDERR;}
+    while(<>) {
+	print STDERR;
+    }
 } else {
     print STDERR "All work assigned.  Waiting for remaining processes.\n" if ($debug);
 }
-$procs=$i if ($i<$procs);
+$procs = $i if ($i < $procs);
 while($procs) {
-    $procs-- if(finish);
+    $procs-- if (finish);
 }
 print STDERR "Complete\n" if ($debug);

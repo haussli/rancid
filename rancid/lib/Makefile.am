@@ -11,7 +11,8 @@
 AUTOMAKE_OPTIONS=foreign no-dependencies
 
 my_pkglibdir = $(pkglibdir)
-my_pkglib_DATA = rancid.pm arbor.pm dell.pm eos.pm ios.pm iosxr.pm junos.pm
+my_pkglib_DATA = rancid.pm arbor.pm dell.pm eos.pm foundry.pm ios.pm iosxr.pm \
+		 junos.pm
 pkglib_in = $(my_pkglib_DATA:%=%.in)
 
 RANLIB= :
@@ -56,6 +57,7 @@ $(pkglib_in:%.in=%): Makefile $(top_builddir)/config.status
 arbor.pm: arbor.pm.in
 dell.pm: dell.pm.in
 eos.pm: eos.pm.in
+foundry.pm: foundry.pm.in
 ios.pm: ios.pm.in
 iosxr.pm: iosxr.pm.in
 junos.pm: junos.pm.in

@@ -244,6 +244,7 @@ mikrotik;script;mtrancid
 #
 mrtd;script;mrancid
 #
+# MRV optical switches
 mrv;script;grancid
 mrv;login;mrvlogin
 mrv;module;mrv

@@ -98,7 +98,9 @@ Default: 3
 .\"
 .TP
 .B \-q
-Quiet mode.  Do not log anything.
+Quiet mode.  Omit the typical processing logs and do not create the log files
+from -l, instead the children inherit stdout and stderr from
+.B par.
 .B \-q
 is mutually exclusive with the
 .B \-x

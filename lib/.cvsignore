@@ -7,4 +7,5 @@ foundry.pm
 ios.pm
 iosxr.pm
 junos.pm
+mrv.pm
 rancid.pm

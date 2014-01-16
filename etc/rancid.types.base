@@ -244,7 +244,14 @@ mikrotik;script;mtrancid
 #
 mrtd;script;mrancid
 #
-mrv;script;mrvrancid
+mrv;script;grancid
+mrv;login;mrvlogin
+mrv;module;mrv
+mrv;inloop;mrv::inloop
+mrv;command;mrv::ShowVersion;show version
+mrv;command;mrv::ShowChassis;show chassis
+mrv;command;mrv::ShowSlots;show slots
+mrv;command;mrv::WriteTerm;show running-config
 #
 netopia;script;trancid
 #

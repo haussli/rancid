@@ -1,4 +1,6 @@
 3.0a4
+	mrvrancid, francid: converted to perl modules
+
 	hrancid: filter uptime from show version - reported by Rikard Ekman
 
 	cloginrc: add prompt directive to workaround prompt special characters

@@ -1,6 +1,6 @@
 package foundry;
 ##
-## $Id: ios.pm.in 2753 2013-11-07 19:47:48Z heas $
+## $Id$
 ##
 ## @PACKAGE@ @VERSION@
 ## Copyright (c) @COPYYEARS@ by Terrapin Communications, Inc.

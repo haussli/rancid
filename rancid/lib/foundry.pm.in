@@ -67,10 +67,6 @@ sub import {
 sub init {
     # add content lines and separators
     ProcessHistory("","","","!RANCID-CONTENT-TYPE: $devtype\n!\n");
-    ProcessHistory("COMMENTS","keysort","B0","!\n");
-    ProcessHistory("COMMENTS","keysort","D0","!\n");
-    ProcessHistory("COMMENTS","keysort","F0","!\n");
-    ProcessHistory("COMMENTS","keysort","G0","!\n");
 
     0;
 }

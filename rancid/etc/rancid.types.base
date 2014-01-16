@@ -200,6 +200,7 @@ force10;script;f10rancid
 #
 fortigate;script;fnrancid
 #
+# Foundry and HP procurve OEMs of Foundry
 foundry;script;grancid
 foundry;login;flogin
 foundry;module;foundry

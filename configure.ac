@@ -15,7 +15,7 @@ AC_INIT(m4_esyscmd(configure.vers package_name),
 	[rancid@shrubbery.net])
 AC_CONFIG_SRCDIR(CHANGES)
 AM_INIT_AUTOMAKE
-COPYYEARS="1997-2012"
+COPYYEARS="1997-2014"
 AC_SUBST(COPYYEARS)
 
 
@@ -467,7 +467,7 @@ AC_CONFIG_FILES(bin/dllogin, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/elogin bin/erancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/f5rancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/f10rancid, [chmod a+x $ac_file])
-AC_CONFIG_FILES(bin/flogin bin/francid, [chmod a+x $ac_file])
+AC_CONFIG_FILES(bin/flogin, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/fnlogin bin/fnrancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/hlogin bin/hrancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/htlogin bin/htrancid, [chmod a+x $ac_file])

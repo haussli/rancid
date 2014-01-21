@@ -240,7 +240,7 @@ sub loadtype {
     $cmds_regexp = join("|", map quotemeta($_), @commands);
 
     if ($main::opt_C) {
-	print "clogin -t $timeo -c\'$commandstr\' $host\n";
+	print "$lscript -t $timeo -c \'$commandstr\' $host\n";
 	exit(0);
     }
 

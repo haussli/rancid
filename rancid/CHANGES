@@ -1,4 +1,6 @@
 3.0a4
+	par: replace par with C version
+
 	rancid.types.conf: allow multiple module lines for device type
 
 	mrvrancid, francid: converted to perl modules

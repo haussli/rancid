@@ -452,7 +452,7 @@ extern int		errno;
 ])
 AC_CONFIG_HEADERS(include/config.h)
 
-AC_CONFIG_FILES(bin/control_rancid bin/par, [chmod a+x $ac_file])
+AC_CONFIG_FILES(bin/control_rancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/agmrancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/alogin bin/arancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/anlogin bin/anrancid, [chmod a+x $ac_file])

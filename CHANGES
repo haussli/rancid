@@ -1,4 +1,6 @@
 3.0a4
+	rancid.types.conf: allow multiple module lines for device type
+
 	mrvrancid, francid: converted to perl modules
 
 	hrancid: filter uptime from show version - reported by Rikard Ekman

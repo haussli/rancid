@@ -5953,7 +5953,7 @@ ac_config_files="$ac_config_files include/version.h"
 ac_config_headers="$ac_config_headers include/config.h"
 
 
-ac_config_files="$ac_config_files bin/control_rancid bin/par"
+ac_config_files="$ac_config_files bin/control_rancid"
 
 ac_config_files="$ac_config_files bin/agmrancid"
 
@@ -6768,7 +6768,6 @@ do
     "include/version.h") CONFIG_FILES="$CONFIG_FILES include/version.h" ;;
     "include/config.h") CONFIG_HEADERS="$CONFIG_HEADERS include/config.h" ;;
     "bin/control_rancid") CONFIG_FILES="$CONFIG_FILES bin/control_rancid" ;;
-    "bin/par") CONFIG_FILES="$CONFIG_FILES bin/par" ;;
     "bin/agmrancid") CONFIG_FILES="$CONFIG_FILES bin/agmrancid" ;;
     "bin/alogin") CONFIG_FILES="$CONFIG_FILES bin/alogin" ;;
     "bin/arancid") CONFIG_FILES="$CONFIG_FILES bin/arancid" ;;
@@ -7509,7 +7508,6 @@ $as_echo X"$file" |
 }
  ;;
     "bin/control_rancid":F) chmod a+x $ac_file ;;
-    "bin/par":F) chmod a+x $ac_file ;;
     "bin/agmrancid":F) chmod a+x $ac_file ;;
     "bin/alogin":F) chmod a+x $ac_file ;;
     "bin/arancid":F) chmod a+x $ac_file ;;

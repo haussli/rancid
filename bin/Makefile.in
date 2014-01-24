@@ -77,11 +77,11 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = hpuifilter$(EXEEXT)
+bin_PROGRAMS = hpuifilter$(EXEEXT) par$(EXEEXT)
 subdir = bin
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/mkinstalldirs $(srcdir)/control_rancid.in \
-	$(srcdir)/par.in $(srcdir)/agmrancid.in $(srcdir)/alogin.in \
+	$(srcdir)/agmrancid.in $(srcdir)/alogin.in \
 	$(srcdir)/arancid.in $(srcdir)/anlogin.in \
 	$(srcdir)/anrancid.in $(srcdir)/arrancid.in \
 	$(srcdir)/avologin.in $(srcdir)/avorancid.in \
@@ -111,20 +111,23 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES = control_rancid par agmrancid alogin arancid \
-	anlogin anrancid arrancid avologin avorancid blogin brancid \
-	cat5rancid clogin complogin cssrancid dllogin elogin erancid \
-	f5rancid f10rancid flogin fnlogin fnrancid hlogin hrancid \
-	htlogin htrancid jlogin jerancid mrancid mrvlogin mtrancid \
-	mtlogin nlogin nrancid nslogin nsrancid nxrancid prancid \
-	rivlogin rivrancid rrancid srancid tlogin tntlogin tntrancid \
-	trancid xilogin xirancid xrancid zrancid
+CONFIG_CLEAN_FILES = control_rancid agmrancid alogin arancid anlogin \
+	anrancid arrancid avologin avorancid blogin brancid cat5rancid \
+	clogin complogin cssrancid dllogin elogin erancid f5rancid \
+	f10rancid flogin fnlogin fnrancid hlogin hrancid htlogin \
+	htrancid jlogin jerancid mrancid mrvlogin mtrancid mtlogin \
+	nlogin nrancid nslogin nsrancid nxrancid prancid rivlogin \
+	rivrancid rrancid srancid tlogin tntlogin tntrancid trancid \
+	xilogin xirancid xrancid zrancid
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_hpuifilter_OBJECTS = hpuifilter.$(OBJEXT)
 hpuifilter_OBJECTS = $(am_hpuifilter_OBJECTS)
 hpuifilter_LDADD = $(LDADD)
+am_par_OBJECTS = par.$(OBJEXT)
+par_OBJECTS = $(am_par_OBJECTS)
+par_LDADD = $(LDADD)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -181,8 +184,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(hpuifilter_SOURCES)
-DIST_SOURCES = $(hpuifilter_SOURCES)
+SOURCES = $(hpuifilter_SOURCES) $(par_SOURCES)
+DIST_SOURCES = $(hpuifilter_SOURCES) $(par_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -337,7 +340,7 @@ bin_SCRIPTS = agmrancid alogin anlogin anrancid arancid arrancid \
 	complogin control_rancid cssrancid dllogin elogin erancid \
 	f5rancid f10rancid flogin fnlogin fnrancid grancid hlogin \
 	hrancid htlogin htrancid jerancid jlogin mrancid mrvlogin \
-	mtlogin mtrancid nlogin nrancid nslogin nsrancid nxrancid par \
+	mtlogin mtrancid nlogin nrancid nslogin nsrancid nxrancid \
 	prancid rivlogin rivrancid rrancid srancid tlogin tntlogin \
 	tntrancid trancid xilogin xirancid xrancid zrancid lg.cgi \
 	lgform.cgi rancid-cvs rancid-fe rancid-run
@@ -350,6 +353,7 @@ EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in \
 CLEANFILES = lg.cgi lgform.cgi rancid-cvs rancid-fe rancid-run
 #CLEANFILES= $(bin_SCRIPTS)
 hpuifilter_SOURCES = hpuifilter.c
+par_SOURCES = par.c
 YFLAGS = -d
 #LFLAGS = -i
 
@@ -416,8 +420,6 @@ $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
 control_rancid: $(top_builddir)/config.status $(srcdir)/control_rancid.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-par: $(top_builddir)/config.status $(srcdir)/par.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 agmrancid: $(top_builddir)/config.status $(srcdir)/agmrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
@@ -565,6 +567,10 @@ clean-binPROGRAMS:
 hpuifilter$(EXEEXT): $(hpuifilter_OBJECTS) $(hpuifilter_DEPENDENCIES) $(EXTRA_hpuifilter_DEPENDENCIES) 
 	@rm -f hpuifilter$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(hpuifilter_OBJECTS) $(hpuifilter_LDADD) $(LIBS)
+
+par$(EXEEXT): $(par_OBJECTS) $(par_DEPENDENCIES) $(EXTRA_par_DEPENDENCIES) 
+	@rm -f par$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(par_OBJECTS) $(par_LDADD) $(LIBS)
 install-binSCRIPTS: $(bin_SCRIPTS)
 	@$(NORMAL_INSTALL)
 	@list='$(bin_SCRIPTS)'; test -n "$(bindir)" || list=; \
@@ -608,6 +614,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/hpuifilter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/par.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

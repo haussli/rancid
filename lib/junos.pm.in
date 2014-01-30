@@ -553,6 +553,7 @@ sub ShowConfiguration {
 	}
 	next if (/^system (shutdown message from|going down )/i);
 	next if (/^\{(master|backup)(:\d+)?\}/);
+	next if (/^\{(primary|secondary)(:\d+)?\}/);
 	$lines++;
 
 	/^database header mismatch: / && return(-1);

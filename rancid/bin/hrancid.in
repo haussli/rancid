@@ -293,6 +293,7 @@ sub ShowStack {
 
 	s/stacking - (Stacking Status).*/$1/i;
 	s/\s*members unreachable .*$//i;
+	next if /^uptime/i;
 
 	ProcessHistory("COMMENTS","keysort","F0",";$_");
 

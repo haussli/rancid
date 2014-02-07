@@ -1,4 +1,6 @@
-3.0a4
+3.0a6
+	hrancid: filter uptime from show stack - Alan McKinnon
+
 	junos.pm: filter primary/secondary on SRX - Frank Eargle
 
 	par: replace par with C version

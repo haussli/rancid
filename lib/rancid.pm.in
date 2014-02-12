@@ -131,7 +131,7 @@ sub rancidinit {
     # determine password filtering mode
     if (defined($ENV{"FILTER_PWDS"}) && $ENV{"FILTER_PWDS"} =~ /no/i) {
 	$filter_pwds = 0;
-    } elsif (defined($ENV{"FILTER_PWDS"}) && ENV{"FILTER_PWDS"} =~ /all/i) {
+    } elsif (defined($ENV{"FILTER_PWDS"}) && $ENV{"FILTER_PWDS"} =~ /all/i) {
 	$filter_pwds = 2;
     } else {
 	$filter_pwds = 1;

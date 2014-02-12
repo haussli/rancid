@@ -1,4 +1,6 @@
 3.0a6
+	rancid.pm: fix syntax error
+
 	hrancid: filter uptime from show stack - Alan McKinnon
 
 	junos.pm: filter primary/secondary on SRX - Frank Eargle

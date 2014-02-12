@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid" "3" "22 January 2014"
+.TH "rancid" "3" "12 February 2014"
 .SH NAME
 rancid \- rancid perl module
 .SH INTRODUCTION
@@ -14,7 +14,7 @@ rancid.types files, and output handling functions that are common to all
 rancid device modules, all of which are "exported" (in perl terms) for use
 by those that import the module.
 Specifically, the library is used by
-.BR grancid (1),
+.BR rancid (1),
 but it could be used by any perl program for site-specific handling or
 additional automata.
 .PP Input handling functions:
@@ -78,5 +78,5 @@ Please see the library code for export variables.
 .PP
 .\"
 .SH "SEE ALSO"
-.BR grancid (1),
+.BR rancid (1),
 .BR rancid.types.conf (5)

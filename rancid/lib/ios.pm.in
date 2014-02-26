@@ -191,7 +191,7 @@ sub ShowVersion {
 	    $slaveslot = ", slot $1";
 	    next;
 	}
-	if (/cisco ios .* IOS-XE/i) { $ios = "XE"; }
+	if (/cisco ios.*(IOS-)?XE/i) { $ios = "XE"; }
 	if (/^Application and Content Networking .*Software/) { $type = "CE"; }
 	# treat the ACE like the Content Engines for matching endofconfig
 	if (/^Cisco Application Control Software/) { $type = "CE"; }

@@ -199,6 +199,8 @@ sub ShowChassisEnvironment {
 		ProcessHistory("","","","# $1\n") && next;
 	/(^.*\S)\s+ Spinning at .*$/ &&
 		ProcessHistory("","","","# $1\n") && next;
+	/(^.*\S)\s+ \d+ RPM$/ &&
+		ProcessHistory("","","","# $1\n") && next;
 	/(^.*\S)\s+Measurement/ &&
 		ProcessHistory("","","","# $1\n") && next;
 	ProcessHistory("","","","# $_");

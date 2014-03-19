@@ -1,4 +1,6 @@
 3.0a6
+	junos.pm: filter MX2020 fan speed
+
 	ios.pm: update XE match for XE 3.11.00.S - Jan Rheindorf
 
 	grancid: rename to rancid, now that the IOS script is converted and

@@ -1,4 +1,6 @@
 3.0a6
+	ios.pm: change $type comparisons to eq - reported by Reuben Farrelly
+
 	junos.pm: filter MX2020 fan speed
 
 	ios.pm: update XE match for XE 3.11.00.S - Jan Rheindorf

@@ -1,4 +1,7 @@
 3.0a7
+	nsrancid,nslogin: Fix prompt and end-of-config-markers - from Jesse
+	House confirmed by Tom Luong
+
 	ios.pm: show flash on 867VAE w/ 15.3(3)M2 produces the same output as
 	dir slotN: on "normal" ios, so filtering fials - reported by Reuben
 	Farrelly

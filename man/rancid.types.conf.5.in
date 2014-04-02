@@ -93,7 +93,6 @@ Defines the rancid script used for the <device_type>, which does not need to
 be an FQPN, but then must be found in the path.
 .\"
 .PP
-Each device_type must at least have a 
 .SH FILES
 .Bl -tag -width @sysconfdir@/rancid.types.conf -compact
 .TP

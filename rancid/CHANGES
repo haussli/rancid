@@ -1,4 +1,6 @@
 3.0
+	add SENDMAIL variable to rancid.conf - requsted by Mariusz Kruk
+
 	nsrancid,nslogin: Fix prompt and end-of-config-markers - from Jesse
 	House confirmed by Tom Luong
 

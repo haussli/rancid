@@ -70,6 +70,7 @@ auto_edit = sed \
 	-e 's,@ENV_PATH\@,$(ENV_PATH),g' \
 	-e 's,@RCSSYS\@,$(RCSSYS),g' \
 	-e 's,@PACKAGE\@,$(PACKAGE),g' \
+	-e 's,@SENDMAIL\@,$(SENDMAIL),g' \
 	-e 's,@VERSION\@,$(VERSION),g'
 
 lg.conf.sample: Makefile $(srcdir)/lg.conf.sample.in

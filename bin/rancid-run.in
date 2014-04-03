@@ -112,6 +112,8 @@ fi
 
 . $ENVFILE
 
+# SENDMAIL location
+SENDMAIL=${SENDMAIL:=sendmail};
 
 if [ $# -ge 1 ] ; then
     LIST_OF_GROUPS="$*"; export LIST_OF_GROUPS
@@ -155,7 +157,7 @@ do
 rancid $GROUP hung on `hostname`?  Old lockfile still exists:
 `ls -l $LOCKFILE`
 END
-		) | sendmail -t $MAILOPTS
+		) | @SENDMAIL@ -t $MAILOPTS
 	    fi
 	    rm -f $TMPDIR/.$GROUP.old
 	else

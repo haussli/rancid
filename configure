@@ -4576,26 +4576,14 @@ done
 
 
 for ac_header in ctype.h errno.h fcntl.h limits.h pty.h malloc.h memory.h \
-		 siginfo.h string.h strings.h stropts.h sys/types.h \
-		 sys/wait.h unistd.h util.h
+		 siginfo.h string.h strings.h stropts.h sys/resource.h \
+		 sys/types.h sys/wait.h sysexits.h unistd.h util.h wait.h
 do :
   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
 ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"
 if eval test \"x\$"$as_ac_Header"\" = x"yes"; then :
   cat >>confdefs.h <<_ACEOF
 #define `$as_echo "HAVE_$ac_header" | $as_tr_cpp` 1
-_ACEOF
-
-fi
-
-done
-
-for ac_header in sysexits.h
-do :
-  ac_fn_c_check_header_mongrel "$LINENO" "sysexits.h" "ac_cv_header_sysexits_h" "$ac_includes_default"
-if test "x$ac_cv_header_sysexits_h" = xyes; then :
-  cat >>confdefs.h <<_ACEOF
-#define HAVE_SYSEXITS_H 1
 _ACEOF
 
 fi

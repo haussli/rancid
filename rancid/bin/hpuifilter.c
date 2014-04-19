@@ -101,6 +101,9 @@
 # include <stropts.h>
 #endif
 #include <sys/ioctl.h>
+#if HAVE_SYS_RESOURCE_H
+# include <sys/resource.h>
+#endif
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <termios.h>

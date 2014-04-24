@@ -313,6 +313,7 @@ sub ShowEnv {
 
 	s/ +$//;	# Drop trailing ' '
 	next if (/Fan Zone Speed:/);
+	next if (/INTAKE/);
 	ProcessHistory("COMMENTS","","","!Env: $_");
     }
     ProcessHistory("COMMENTS","","","!\n");
@@ -435,6 +436,8 @@ sub DirSlotN {
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
 	return(1) if /(Open device \S+ failed|Error opening \S+:)/;
+
+	next if (/BufferMonitor-1HourData/);
 
 	if (/^\s*(\d+) bytes /) {
 	    my($tmp) = int($1 / (1024 * 1024));

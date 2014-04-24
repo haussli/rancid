@@ -1,3 +1,7 @@
+3.1
+	nxrancid: filter INTAKE temps and cycling file BufferMonitor-1HourData -
+	reported by Vincent Aniello
+
 3.0
 	add SENDMAIL variable to rancid.conf - requsted by Mariusz Kruk
 

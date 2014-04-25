@@ -1,4 +1,6 @@
 3.1
+	rancid.types.base: dell definition missing inloop configuration
+
 	rancid: display useful error if inloop is not configured
 
 	dell.pm: missing variable declarations

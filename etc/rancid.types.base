@@ -183,6 +183,7 @@ css;script;cssrancid
 dell;script;rancid
 dell;login;dllogin
 dell;module;dell
+dell;inloop;dell::inloop
 dell;command;dell::GetSystem;show switch;
 dell;command;dell::GetConf;show config current_config
 #

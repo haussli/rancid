@@ -119,7 +119,7 @@ TMP=${TMPDIR:=/tmp}/rancid.$GROUP.$$
 if [ -z "$ENVFILE" ] ; then
     ENVFILE="$DIR/rancid.conf"
 fi
-if [ -e "$ENVFILE" ] ; then
+if [ -f "$ENVFILE" ] ; then
     . $ENVFILE
 fi
 trap 'rm -fr $TMP;' 1 2 15
@@ -188,7 +188,7 @@ EOF
 fi
 
 # check if there is a rancid.conf and if it needs to be added to the RCS
-if [ -e rancid.conf ] ; then
+if [ -f rancid.conf ] ; then
     if [ $RCSSYS = svn ] ; then
 	LN=`svn ls rancid.conf | wc -l`
     else

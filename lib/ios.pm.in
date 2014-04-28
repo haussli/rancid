@@ -1949,7 +1949,7 @@ sub WriteTerm {
 	    next;
 	}
 	if (/^\s*(.*?neighbor.*?) (\S*) password / && $filter_pwds >= 1) {
-	    ProcessHistory("","","","! $1 password <removed>\n");
+	    ProcessHistory("","","","! $1 $2 password <removed>\n");
 	    next;
 	}
 	if (/^(\s*ppp .* hostname) .*/ && $filter_pwds >= 1) {

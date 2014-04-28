@@ -47,6 +47,11 @@
 #
 # usage: srancid [-dltCV] [-f filename | hostname]
 #
+# Code tested and working fine on these models:
+#
+#	DELL PowerConnect 62xx
+#	DELL 34xx (partially; configuration is incomplete)
+#
 use Getopt::Std;
 getopts('dflt:CV');
 if ($opt_V) {

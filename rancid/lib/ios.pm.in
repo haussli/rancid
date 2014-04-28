@@ -1770,6 +1770,8 @@ sub ShowVLAN {
 	    s/^$1\s{$len}//;
 	}
 	return(0) if (/no virtual lans configured/i);
+	# some ASAs do not support show vlan
+	return(0) if (/use .show switch vlan. to view the vlans that have /i);
 
 	ProcessHistory("COMMENTS","keysort","IO","!VLAN: $_");
     }

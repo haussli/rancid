@@ -1,4 +1,6 @@
 3.1
+	ios.pm: some ASAs do not support show vlan
+
 	ios.pm: bgp password filtering removing neighbor address
 
 	rancid.types.base: dell definition missing inloop configuration

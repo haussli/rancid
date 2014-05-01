@@ -215,7 +215,7 @@ sub ShowSys {
 	s/[\b]+\s*[\b]*//g;
 
 	# Remove Uptime
-	/ Up time/ && next;
+	/ up time/i && next;
 
 	# filter temperature sensor info for Dell 6428 stacks
 	/Temperature Sensors:/ && next;
@@ -251,7 +251,7 @@ sub ShowVlan {
 	s/[\b]+\s*[\b]*//g;
 
 	# Remove Uptime
-	/ Up time/ && next;
+	/ up time/i && next;
 	ProcessHistory("COMMENTS","keysort","D1","! $_");
     }
     return(0);

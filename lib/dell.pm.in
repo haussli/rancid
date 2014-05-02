@@ -72,6 +72,9 @@ use rancid;
 our $proc;
 our $found_version;
 
+@ISA = qw(Exporter rancid main);
+#XXX @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands);
+
 # load-time initialization
 sub import {
     $timeo = 300;		# dllogin timeout in seconds (some of these

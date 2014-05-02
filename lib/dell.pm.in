@@ -134,7 +134,6 @@ TOP: while(<$INPUT>) {
 # This routine parses "get system"
 sub GetSystem {
     my($INPUT, $OUTPUT, $cmd) = @_;
-    my($priv_key);
     print STDERR "    In GetSystem: $_" if ($debug);
 
     while (<$INPUT>) {
@@ -166,7 +165,7 @@ sub GetFile {
 
 sub GetConf {
     my($INPUT, $OUTPUT, $cmd) = @_;
-    my $password_counter=0;
+    my($password_counter) = (0);
     print STDERR "    In GetConf: $_" if ($debug);
 
     while (<$INPUT>) {
@@ -183,7 +182,7 @@ sub GetConf {
 	# if filtering passwords, note that we're on an opening account line
         # next two lines will be passwords
 	if (/^create account / && $filter_pwds > 0 ) {
-              $password_counter=2;
+              $password_counter = 2;
 	      ProcessHistory("","","","#$_");
               next;
 	}

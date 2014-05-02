@@ -1,4 +1,4 @@
-#! /usr/bin/perl
+package dell;
 ##
 ## $Id: dlrancid.in 2258 2010-10-11 20:49:05Z heas $
 ##

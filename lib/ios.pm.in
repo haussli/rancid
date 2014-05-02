@@ -1773,6 +1773,16 @@ sub ShowVLAN {
 	# some ASAs do not support show vlan
 	return(0) if (/use .show switch vlan. to view the vlans that have /i);
 
+	# GSR-specific, i think, filter
+	if (/received:\s+transmitted:/i) {
+	    while (<$INPUT>) {
+		last if (/^\s*$/);
+		goto OUT if (/^$prompt/);
+	    }
+	}
+
+	next if (/total.*packets.*(input|output)/i);
+
 	ProcessHistory("COMMENTS","keysort","IO","!VLAN: $_");
     }
     ProcessHistory("COMMENTS","keysort","IO","!\n");

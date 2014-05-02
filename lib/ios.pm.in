@@ -1785,7 +1785,7 @@ sub ShowVLAN {
 
 	ProcessHistory("COMMENTS","keysort","IO","!VLAN: $_");
     }
-    ProcessHistory("COMMENTS","keysort","IO","!\n");
+OUT:ProcessHistory("COMMENTS","keysort","IO","!\n");
     return(0);
 }
 

@@ -1,5 +1,5 @@
 3.1
-	ios.pm: filter vlan traffic counters on gsr & switches
+	ios.pm: filter vlan traffic counters on gsr, 6400 & switches
 
 	srancid: fix up time filter for dell 3448
 

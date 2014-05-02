@@ -1,4 +1,6 @@
 3.1
+	ios.pm: filter vlan traffic counters on gsr & switches
+
 	srancid: fix up time filter for dell 3448
 
 	ios.pm: some ASAs do not support show vlan

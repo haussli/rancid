@@ -1,4 +1,6 @@
 3.1
+	fnrancid: fix filter match for encrypted pwd
+
 	ios.pm: filter vlan traffic counters on gsr, 6400 & switches
 
 	srancid: fix up time filter for dell 3448

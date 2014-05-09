@@ -1,4 +1,6 @@
 3.1
+	clogin: missing variable initialization - Per-Olaf Olsson
+
 	ios.pm: filter fan speed setting on 2900, etc.
 
 	fnrancid: fix filter match for encrypted pwd

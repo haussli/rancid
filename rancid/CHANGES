@@ -1,4 +1,8 @@
 3.1
+	Change rancid script exec(); move cmd-line options to rancid.types.*
+	files.  This allows older scripts to function without change, ie:
+	needing to support -t.
+
 	clogin: missing variable initialization - Per-Olaf Olsson
 
 	ios.pm: filter fan speed setting on 2900, etc.

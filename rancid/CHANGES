@@ -1,3 +1,5 @@
+3.2
+
 3.1
 	Change rancid script exec(); move cmd-line options to rancid.types.*
 	files.  This allows older scripts to function without change, ie:

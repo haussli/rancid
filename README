@@ -210,7 +210,7 @@ Quick Installation Guide (an example):
    do it.  Also see 'man -M <basedir>/man rancid-cvs'.
 
 8) For each "group", modify the router.db file in the group directory.
-   The file is of the form "router:mfg:state" where "router" is
+   The file is of the form "router;mfg;state" where "router" is
    the name (we use FQDN) of the router, mfg is the manufacturer
    from the set of (cat5|cisco|juniper) (see router.db.5 for a complete
    list and description), and "state" is either up or down.  Each router

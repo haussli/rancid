@@ -336,14 +336,14 @@ top_srcdir = @top_srcdir@
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS = foreign
 bin_SCRIPTS = agmrancid alogin anlogin anrancid arancid arrancid \
-	atrancid avologin avorancid blogin brancid cat5rancid clogin \
-	complogin control_rancid cssrancid dllogin elogin erancid \
-	f5rancid f10rancid flogin fnlogin fnrancid hlogin hrancid \
-	htlogin htrancid jerancid jlogin mrancid mrvlogin mtlogin \
-	mtrancid nlogin nrancid nslogin nsrancid nxrancid prancid \
-	rancid rivlogin rivrancid rrancid srancid tlogin tntlogin \
-	tntrancid trancid xilogin xirancid xrancid zrancid lg.cgi \
-	lgform.cgi rancid-cvs rancid-fe rancid-run
+	avologin avorancid blogin brancid cat5rancid clogin complogin \
+	control_rancid cssrancid dllogin elogin erancid f5rancid \
+	f10rancid flogin fnlogin fnrancid hlogin hrancid htlogin \
+	htrancid jerancid jlogin mrancid mrvlogin mtlogin mtrancid \
+	nlogin nrancid nslogin nsrancid nxrancid prancid rancid \
+	rivlogin rivrancid rrancid srancid tlogin tntlogin tntrancid \
+	trancid xilogin xirancid xrancid zrancid lg.cgi lgform.cgi \
+	rancid-cvs rancid-fe rancid-run
 # XXX hack for the rancid to get pkglibdir, see corresponding XXX below
 bin_in = rancid.in
 EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in \

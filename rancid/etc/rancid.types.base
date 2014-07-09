@@ -40,7 +40,7 @@ baynet;script;brancid
 #
 cat5;script;cat5rancid
 #
-# Cisco IOS device
+# Cisco IOS device & Allied Telesis AW+
 cisco;script;rancid -t cisco
 cisco;login;clogin
 cisco;module;ios

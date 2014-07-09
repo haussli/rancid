@@ -1,4 +1,8 @@
 3.2
+	Note Allied Telesis AW+ devices support, works as type 'cisco'
+	according to Allied Telesis Employees
+
+	fix handling of absent sendmail in configure script
 
 3.1
 	Change rancid script exec(); move cmd-line options to rancid.types.*

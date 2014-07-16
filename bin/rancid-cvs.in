@@ -88,7 +88,7 @@ cd $BASEDIR
 # RCS system
 RCSSYS=${RCSSYS:=cvs};
 if [ $RCSSYS != "cvs" -a $RCSSYS != "svn" ] ; then
-    echo "$RCSSYS is not a valid value for RCSSYS."
+    echo "$RCSSYS is not a valid value for RCSSYS. See rancid.conf(5)." >&2
     exit 1
 fi
 

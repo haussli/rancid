@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "router.db" "5" "29 April 2014"
+.TH "router.db" "5" "15 July 2014"
 .SH NAME
 router.db \- rancid group configuration file
 .SH DESCRIPTION
@@ -243,3 +243,9 @@ within \fI$BASEDIR/etc/rancid.conf\fR.
 .BR control_rancid (1),
 .BR rancid (1),
 .BR rancid.conf (5)
+.\"
+.SH HISTORY 
+In RANCID releases prior to 3.0,
+.B router.db
+used colons (:) as its field separator.
+This was changed to allow IPv6 addresses to be used in router.db.

@@ -39,10 +39,11 @@ PATH=@bindir@:@ENV_PATH@; export PATH
 # below).
 #SENDMAIL="@SENDMAIL@"
 #
-# Location of the CVS/SVN repository.  Be careful changing this.
-# If RCSSYS is svn, this can be:
-# - an (absolute) path (a subdirectory of BASEDIR by default).
-# - any URL that subversion understands, but beware that:
+# Location of the CVS/SVN/GIT repository.  Be careful changing this.
+# If RCSSYS is svn or git, this can be:
+# - an (absolute) path (a subdirectory of BASEDIR by default).  BASEDIR/CVS,
+#   BASEDIR/.svn, or BASEDIR/.git, but it does not matter.
+# - any URL that git/subversion understand, but beware that:
 #   - no attempt will be made to create the repository when running rancid-cvs.
 #   - authentication credentials, if necessary, MUST be cached (see the SVN
 #     book, Ch. 3, Network Model, Caching credentials) before non-interactive
@@ -51,9 +52,9 @@ CVSROOT=$BASEDIR/CVS; export CVSROOT
 # Location of log files produced by rancid-run(1).
 LOGDIR=$BASEDIR/logs; export LOGDIR
 #
-# Select which RCS system to use, "cvs" (default) or "svn".  Do not change
-# this after CVSROOT has been created with rancid-cvs.  Changing between these
-# requires manual conversions.
+# Select which RCS system to use, "cvs" (default), "svn" or "git".  Do not
+# change this after CVSROOT has been created with rancid-cvs.  Changing between
+# these requires manual conversions.
 RCSSYS=@RCSSYS@; export RCSSYS
 #
 # if ACLSORT is NO, access-lists will NOT be sorted.

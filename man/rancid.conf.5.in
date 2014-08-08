@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid.conf" "5" "28 July 2013"
+.TH "rancid.conf" "5" "8 August 2014"
 .SH NAME
 rancid.conf \- rancid environment configuration file
 .SH DESCRIPTION
@@ -228,7 +228,9 @@ note that it must include @bindir@.
 Sets which revision control system is in use.
 Valid values are
 .B cvs
-for CVS
+for CVS,
+.B git
+for Git
 or
 .B svn
 for Subversion.

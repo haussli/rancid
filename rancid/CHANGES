@@ -1,4 +1,6 @@
 3.2
+	foundry.pm: remove rogue newline in regex - from P. R. Wilson
+
 	Note Allied Telesis AW+ devices support, works as type 'cisco'
 	according to Allied Telesis Employees
 

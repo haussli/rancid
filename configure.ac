@@ -249,10 +249,12 @@ AC_SUBST(DIFF)
 rd_cv_DIFF_CMD=$DIFF_CMD
 AC_SUBST(DIFF_CMD)
 
-AC_PATH_PROG(SENDMAIL,sendmail,no, [/usr/sbin:/usr/bin:/usr/lib],
-	[SENDMAIL=$ac_cv_prog_SENDMAIL;
-	 AC_SUBST(SENDMAIL)
-	])
+AC_PATH_PROG(SENDMAIL, [sendmail], [no], [/usr/sbin:/usr/bin:/usr/lib])
+if test "$SENDMAIL" = "no"; then
+    echo "WARNING: sendmail not found" >&2
+    SENDMAIL=''
+fi
+AC_SUBST(SENDMAIL)
 
 # Find an appropriate tar for use in "dist" targets.  A "best guess"
 # is good enough -- if we can't find GNU tar, we don't really care.

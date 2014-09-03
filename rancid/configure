@@ -5090,6 +5090,11 @@ $as_echo "no" >&6; }
 fi
 
 
+if test "$SENDMAIL" = "no"; then
+    echo "WARNING: sendmail not found" >&2
+    SENDMAIL=''
+fi
+
 
 # Find an appropriate tar for use in "dist" targets.  A "best guess"
 # is good enough -- if we can't find GNU tar, we don't really care.

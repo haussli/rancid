@@ -1,4 +1,6 @@
 3.2
+	configure: complain if sendmail is not found
+
 	control_rancid: DIR set too early
 
 	clogin,ios.pm,iosxr.pm: escape plus (+) regex atom in prompt handling

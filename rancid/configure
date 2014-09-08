@@ -5403,7 +5403,7 @@ rd_cv_lg_ping_cmd=$LG_PING_CMD
 # locate tools to build $PATH for rancid.conf.  order is significant.  want
 # to be sure that we pick up the the proper diff and ucbmail in
 # etc/rancid.conf.
-ENV_PATH="`dirname $PERLV_PATH`:`dirname $EXPECT_PATH`:`dirname $SENDMAIL`"
+ENV_PATH="`dirname $PERLV_PATH`:`dirname $EXPECT_PATH`:`dirname \"$SENDMAIL\"`"
 ENV_PATH="$ENV_PATH:`dirname $DIRNAME`:`dirname $DIFF`"
 
 if test $RCSSYS = "cvs" ; then

@@ -116,7 +116,7 @@ else
 fi
 TMP=${TMPDIR:=/tmp}/rancid.$GROUP.$$
 if [ -z "$ENVFILE" ] ; then
-    ENVFILE="$DIR/rancid.conf"
+    ENVFILE="@sysconfdir@/rancid.conf"
 fi
 if [ -f "$ENVFILE" ] ; then
     . $ENVFILE

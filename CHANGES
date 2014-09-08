@@ -1,4 +1,8 @@
 3.2
+	control_rancid: DIR set too early
+
+	clogin,ios.pm,iosxr.pm: escape plus (+) regex atom in prompt handling
+
 	foundry.pm: remove rogue newline in regex - from P. R. Wilson
 
 	Note Allied Telesis AW+ devices support, works as type 'cisco'

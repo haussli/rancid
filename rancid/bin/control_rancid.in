@@ -114,7 +114,6 @@ if [ $# -lt 1 ] ; then
 else
     GROUP=$1
 fi
-DIR=$BASEDIR/$GROUP
 TMP=${TMPDIR:=/tmp}/rancid.$GROUP.$$
 if [ -z "$ENVFILE" ] ; then
     ENVFILE="$DIR/rancid.conf"
@@ -123,6 +122,7 @@ if [ -f "$ENVFILE" ] ; then
     . $ENVFILE
 fi
 trap 'rm -fr $TMP;' 1 2 15
+DIR=$BASEDIR/$GROUP
 
 # disable noclobber
 unset noclobber > /dev/null 2>&1

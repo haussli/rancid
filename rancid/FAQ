@@ -1,4 +1,4 @@
-Frequently Asked Questions about rancid - last updated 20120215.
+Frequently Asked Questions about rancid - last updated 20140910.
 
 This FAQ contains information that may not apply directly to versions of
 rancid prior to 2.3.  It also contains paths containing tags such as
@@ -17,6 +17,13 @@ rancid.
 			The location of the CVS repository, log files, etc.
 
 The most recent FAQ can be found at http://www.shrubbery.net/rancid/FAQ
+
+TOC
+1) Platform specific
+2) CVS and filesystem permissions
+3) General
+4) O/S specific
+5) License
 
 1) Platform specific
 

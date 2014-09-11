@@ -147,6 +147,11 @@ sub rancidinit {
 	}
     }
 
+    if (!defined($main::opt_t) || length($main::opt_t) == 0) {
+	print(STDERR "Too few arguments: -t option is required\n");
+	exit(1);
+    }
+
     # make OUTPUT unbuffered if debugging
     if ($debug) { $| = 1; }
 

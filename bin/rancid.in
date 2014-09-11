@@ -61,9 +61,14 @@ BEGIN {
 use rancid;
 our @ISA = qw(Exporter rancid);
 
-if ($opt_h) {
+sub usage()
+{
     print STDERR "rancid [-dhltCV] -t device_type [-f filename | hostname]\n";
     exit 64;
+}
+
+if ($opt_h) {
+    usage();
 }
 
 # basic initialization

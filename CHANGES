@@ -1,4 +1,6 @@
 3.2
+	ios.pm: filter timestamp and size from filename "syslog"
+
 	configure: complain if sendmail is not found
 
 	control_rancid: DIR set too early

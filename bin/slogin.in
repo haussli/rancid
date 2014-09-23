@@ -121,6 +121,10 @@ if ($opt_z) {
     # read rancid.conf for BASEDIR and LIST_OF_GROUPS?
     my($ENVFILE) = "@sysconfdir@/rancid.conf";
     open(INPUT, "< $ENVFILE") || die "Could not open $ENVFILE: $!";
+    close(INPUT);
+    open(INPUT,
+	 "sh -c \'. $ENVFILE; echo \"BASEDIR=\$BASEDIR\"; echo \"LIST_OF_GROUPS=\$LIST_OF_GROUPS\"\' |") ||
+	 die "Could not open $ENVFILE: $!";
     while (<INPUT>) {
         chomp;
 	s/#.$//;
@@ -137,7 +141,7 @@ if ($opt_z) {
     close(INPUT);
 
     # read each router.db for the routername and thus the devtype
-    foreach $i (split(" ", $LIST_OF_GROUPS)) {
+    foreach $i (split("/s+", $LIST_OF_GROUPS)) {
 	open(INPUT, "< $BASEDIR/$i/router.db") ||
 		die "Could not open $BASEDIR/$i/router.db: $!";
 	while (<INPUT>) {

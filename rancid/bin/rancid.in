@@ -43,7 +43,7 @@
 #  RANCID - Really Awesome New Cisco confIg Differ
 #
 #  rancid - generalized rancid module; command schedule is derived from the
-#	    rancid.{base,types}.conf configurations.
+#	    rancid.types.{base,conf} configurations.
 #
 # usage: rancid [-dhltCV] -t device_type [-f filename | hostname]
 #

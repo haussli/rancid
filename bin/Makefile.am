@@ -18,10 +18,10 @@ bin_SCRIPTS = agmrancid alogin anlogin anrancid arancid arrancid \
 	flogin fnlogin fnrancid hlogin hrancid htlogin \
 	htrancid jerancid jlogin mrancid mrvlogin mtlogin mtrancid \
 	nlogin nrancid nslogin nsrancid nxrancid prancid rancid rivlogin \
-	rivrancid rrancid srancid tlogin tntlogin tntrancid trancid xilogin \
-	xirancid xrancid zrancid
+	rivrancid rrancid slogin srancid tlogin tntlogin tntrancid trancid \
+	xilogin xirancid xrancid zrancid
 # XXX hack for the rancid to get pkglibdir, see corresponding XXX below
-bin_in = rancid.in
+bin_in = rancid.in slogin.in
 
 bin_SCRIPTS += lg.cgi lgform.cgi rancid-cvs rancid-fe rancid-run
 EXTRA_DIST= lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in \
@@ -84,6 +84,7 @@ $(bin_in:%.in=%): Makefile $(top_builddir)/config.status
 # XXX there must be a better way to produce these dependencies, perhaps in
 #     configure.
 rancid: $(srcdir)/rancid.in
+slogin: $(srcdir)/slogin.in
 
 lg.cgi: Makefile $(srcdir)/lg.cgi.in
 	rm -f lg.cgi lg.cgi.tmp; \

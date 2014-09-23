@@ -1,4 +1,6 @@
 3.2
+	slogin: add switching login
+
 	ios.pm: filter timestamp and size from filename "syslog"
 
 	configure: complain if sendmail is not found

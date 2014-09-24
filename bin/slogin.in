@@ -117,7 +117,7 @@ foreach $i (@ARGV) {
 if ($opt_z) {
     $devtype = $opt_z;
 } else {
-    # XXX look in router.dbs for device type
+    # Look in router.dbs for device type.
     # read rancid.conf for BASEDIR and LIST_OF_GROUPS?
     my($ENVFILE) = "@sysconfdir@/rancid.conf";
     open(INPUT, "< $ENVFILE") || die "Could not open $ENVFILE: $!";
@@ -133,17 +133,20 @@ if ($opt_z) {
 	if ($varname eq "BASEDIR") {
 	    $BASEDIR = $value;
 	}
-	# XXX handle X="$X a b c"?  eval() perhaps?
 	if ($varname eq "LIST_OF_GROUPS") {
 	    $LIST_OF_GROUPS = $value;
+	    $LIST_OF_GROUPS =~ s/^\s+//;
+	    $LIST_OF_GROUPS =~ s/\s+$//;
 	}
     }
     close(INPUT);
 
     # read each router.db for the routername and thus the devtype
-    foreach $i (split("/s+", $LIST_OF_GROUPS)) {
-	open(INPUT, "< $BASEDIR/$i/router.db") ||
-		die "Could not open $BASEDIR/$i/router.db: $!";
+    foreach $i (split(/\s+/, $LIST_OF_GROUPS)) {
+	if (!open(INPUT, "< $BASEDIR/$i/router.db")) {
+	    warn "Could not open $BASEDIR/$i/router.db: $!";
+	    next;
+	}
 	while (<INPUT>) {
 	    chomp;
 	    s/#.$//;
@@ -152,11 +155,18 @@ if ($opt_z) {
 	    foreach $j (@routers) {
 		if ($router eq $j) {
 		    $devtype = $type;
+		    close(INPUT);
+		    goto FOUND;
 		}
 	    }
 	}
 	close(INPUT);
     }
+}
+
+FOUND:
+if (length($devtype) < 1) {
+    die "Couldn't find device type by hostname in router.dbs\n";
 }
 
 # load device type spec, build @commandtable and load modules

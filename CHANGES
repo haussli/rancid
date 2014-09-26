@@ -1,4 +1,7 @@
 3.2
+	par, hpuifilter: type fixes for Raspian compatibility - thanks Dan
+	Anderson
+
 	slogin: add switching login
 
 	ios.pm: filter timestamp and size from filename "syslog"

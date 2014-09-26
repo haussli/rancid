@@ -141,13 +141,13 @@ main(int argc, char **argv, char **ev)
 {
     extern char		*optarg;
     extern int		optind;
-    char		ch,
-			hbuf[BUFSZ],		/* hlogin buffer */
+    char		hbuf[BUFSZ],		/* hlogin buffer */
 			ptyname[FILENAME_MAX + 1],
 			tbuf[BUFSZ],		/* telnet/ssh buffer */
 			tbufstr[5] = {ESC, '\x07', '\r', '\n', '\0'};
     int			bytes,			/* bytes read/written */
 			devnull,
+			i,
 			rval = EX_OK,
 			ptym,			/* master pty */
 			ptys;			/* slave pty */
@@ -167,8 +167,8 @@ main(int argc, char **argv, char **ev)
     if (strrchr(progname, '.') != NULL)
 	*(strrchr(progname, '.')) = '\0';
 
-    while ((ch = getopt(argc, argv, "dhvt:")) != -1 )
-	switch (ch) {
+    while ((i = getopt(argc, argv, "dhvt:")) != -1 )
+	switch (i) {
 	case 'd':
 	    debug++;
 	    break;

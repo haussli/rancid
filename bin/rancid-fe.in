@@ -42,7 +42,7 @@
 # 
 #  rancid-FE - front-end to rancid/jrancid/etc. for use with par.
 #
-# usage: rancid-fe <router>:<vendor>
+# usage: rancid-fe <router>;<vendor>
 #
 
 require 5;

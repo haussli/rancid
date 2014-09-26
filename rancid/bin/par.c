@@ -138,7 +138,6 @@ main(int argc, char **argv, char **envp)
 {
     extern char		*optarg;
     extern int		optind;
-    char		ch;
     time_t		t;
     int			i,
 			line;
@@ -167,8 +166,8 @@ main(int argc, char **argv, char **envp)
     } else
 	errfp = stderr;
 
-    while ((ch = getopt(argc, argv, "defhiqxvc:e:l:n:p:")) != -1 )
-	switch (ch) {
+    while ((i = getopt(argc, argv, "defhiqxvc:e:l:n:p:")) != -1 )
+	switch (i) {
 	case 'c':	/* command to run */
 	    c_opt = optarg;
 	    break;

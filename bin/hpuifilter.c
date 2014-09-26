@@ -109,6 +109,8 @@
 #include <termios.h>
 #if HAVE_UTIL_H
 # include <util.h>
+#elif HAVE_LIBUTIL_H
+# include <libutil.h>
 #endif
 
 #define	BUFSZ	(LINE_MAX * 2)

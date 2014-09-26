@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_PREREQ(2.13)
+AC_PREREQ(2.69)
 
 dnl	VERSION needs to be updated such that 'make dist' uses the correct
 dnl	filename for the directory name and tarball.
@@ -47,9 +47,10 @@ AC_C_STRINGIZE
 
 # check includes/headers
 AC_HEADER_STDC
-AC_CHECK_HEADERS(ctype.h errno.h fcntl.h limits.h pty.h malloc.h memory.h \
-		 siginfo.h string.h strings.h stropts.h sys/resource.h \
-		 sys/types.h sys/wait.h sysexits.h unistd.h util.h wait.h)
+AC_CHECK_HEADERS(ctype.h errno.h fcntl.h libutil.h limits.h pty.h malloc.h \
+		 memory.h siginfo.h string.h strings.h stropts.h \
+		 sys/resource.h sys/types.h sys/wait.h sysexits.h unistd.h \
+		 util.h wait.h)
 
 # check functions
 AC_CHECK_FUNCS(memcpy memmove memset strerror strchr \

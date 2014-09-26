@@ -1,4 +1,6 @@
 3.2
+	tntlogin, tntrancid: remove TNT support
+
 	par, hpuifilter: type fixes for Raspian compatibility - thanks Dan
 	Anderson
 

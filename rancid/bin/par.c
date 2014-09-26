@@ -912,7 +912,7 @@ read_input(char *fname, FILE **F, int *line, char ***cmd, char ***args)
 
     /* first line might be a command */
     if (*line == 1) {
-	switch ((buf[0] = fgetc(*F))) {
+	switch ((e = fgetc(*F))) {
 	case EOF:
 	    goto ERR;
 	    break;
@@ -933,7 +933,7 @@ read_input(char *fname, FILE **F, int *line, char ***cmd, char ***args)
 	    }
 	    break;
 	default:
-	    ungetc(buf[0], *F);
+	    ungetc(e, *F);
 	    if (*cmd == NULL && c_opt != NULL)
 		if ((e = line_split(c_opt, cmd))) {
 			/* XXX: is strerror(e) right? */

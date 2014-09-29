@@ -1,5 +1,6 @@
 .deps
 Makefile
+adtran.pm
 arbor.pm
 dell.pm
 eos.pm

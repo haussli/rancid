@@ -23,6 +23,7 @@ adtran;command;adtran::ShowInterfaces;show interfaces
 adtran;command;adtran::WriteTerm;show running-config
 #
 alteon;script;arancid
+alteon;login;alogin
 #
 arbor;script;rancid -t arbor
 arbor;login;anlogin
@@ -33,12 +34,16 @@ arbor;command;arbor::ShowHardware;system hardware
 arbor;command;arbor::ShowConfig;config show
 #
 arista;script;arrancid
+arista;login;clogin
 #
 avocent;script;avorancid
+avocent;login;avologin
 #
 baynet;script;brancid
+baynet;login;blogin
 #
 cat5;script;cat5rancid
+cat5;login;clogin
 #
 # Cisco IOS device & Allied Telesis AW+
 cisco;script;rancid -t cisco
@@ -111,6 +116,7 @@ cisco;command;ios::WriteTerm;show running-config
 cisco;command;ios::WriteTerm;write term
 #
 cisco-nx;script;nxrancid
+cisco-nx;login;clogin
 #
 cisco-xr;script;rancid -t cisco-xr
 cisco-xr;login;clogin
@@ -179,6 +185,7 @@ compass;command;eos::ShowInventory;show system hardware
 compass;command;eos::ShowConfig;show configuration detail 
 #
 css;script;cssrancid
+css;login;clogin
 #
 dell;script;rancid -t dell
 dell;login;dllogin
@@ -188,18 +195,25 @@ dell;command;dell::GetSystem;show switch;
 dell;command;dell::GetConf;show config current_config
 #
 enterasys;script;rivrancid
+enterasys;login;rivlogin
 #
 erx;script;jerancid
+erx;login;clogin
 #
 extreme;script;xrancid
+extreme;login;clogin
 #
 ezt3;script;erancid
+ezt3;login;elogin
 #
 f5;script;f5rancid
+f5;login;clogin
 #
 force10;script;f10rancid
+force10;login;clogin
 #
 fortigate;script;fnrancid
+fortigate;login;fnlogin
 #
 # Foundry and HP procurve OEMs of Foundry
 foundry;script;rancid -t foundry
@@ -214,8 +228,10 @@ foundry;command;foundry::WriteTerm;write term
 foundry;command;foundry::WriteTerm;show running-config
 #
 hitachi;script;htrancid
+hitachi;login;htlogin
 #
 hp;script;hrancid
+hp;login;hlogin
 #
 juniper;script;rancid -t juniper
 juniper;login;jlogin
@@ -290,8 +306,10 @@ juniper-srx;command;junos::ShowConfiguration;show configuration system
 juniper-srx;command;junos::ShowConfiguration;show configuration vlans
 #
 mikrotik;script;mtrancid
+mikrotik;login;mtlogin
 #
 mrtd;script;mrancid
+mrtd;login;clogin
 #
 # MRV optical switches
 mrv;script;rancid -t mrv
@@ -304,21 +322,28 @@ mrv;command;mrv::ShowSlots;show slots
 mrv;command;mrv::WriteTerm;show running-config
 #
 netopia;script;trancid
+netopia;login;tlogin
 #
 netscaler;script;nsrancid
+netscaler;login;nslogin
 #
 netscreen;script;nrancid
+netscreen;login;nlogin
 #
 procket;script;prancid
+procket;login;clogin
 #
 redback;script;rrancid
+redback;login;clogin
 #
 riverstone;script;rivrancid
+riverstone;login;rivlogin
 #
 smc;script;srancid
-#
-tnt;script;tntrancid
+smc;login;hlogin
 #
 xirrus;script;xirancid
+xirrus;login;xilogin
 #
 zebra;script;zrancid
+zebra;login;clogin

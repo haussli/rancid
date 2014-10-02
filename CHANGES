@@ -1,4 +1,6 @@
 3.2
+	ios.pm: save "next reload" template - lee.e.rian
+
 	tntlogin, tntrancid: remove TNT support
 
 	par, hpuifilter: type fixes for Raspian compatibility - thanks Dan

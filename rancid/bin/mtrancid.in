@@ -59,7 +59,6 @@ $host = $ARGV[0];
 $clean_run = 0;
 $found_end = 0;
 $timeo = 90;			# clogin timeout in seconds
-$clogin_pgm= $ENV{'RANCID_CLOGIN'} || "mtlogin";
 
 my(@commandtable, %commands, @commands);# command lists
 my(%filter_pwds);		# password filtering mode
@@ -293,7 +292,7 @@ if (length($host) == 0) {
     }
 }
 if ($opt_C) {
-    print "$clogin_pgm -t $timeo -c\'$commandstr\' $host\n";
+    print "mtlogin -t $timeo -c\'$commandstr\' $host\n";
     exit(0);
 }
 open(OUTPUT,">$host.new") || die "Can't open $host.new for writing: $!\n";
@@ -306,13 +305,13 @@ if ($file) {
     print STDOUT "opening file $host\n" if ($log);
     open(INPUT,"<$host") || die "open failed for $host: $!\n";
 } else {
-    print STDERR "executing $clogin_pgm -t $timeo -c\"$commandstr\" $host\n" if ($debug);
-    print STDOUT "executing $clogin_pgm -t $timeo -c\"$commandstr\" $host\n" if ($log);
+    print STDERR "executing mtlogin -t $timeo -c\"$commandstr\" $host\n" if ($debug);
+    print STDOUT "executing mtlogin -t $timeo -c\"$commandstr\" $host\n" if ($log);
     if (defined($ENV{NOPIPE})) {
-	system "$clogin_pgm -t $timeo -c \"$commandstr\" $host </dev/null > $host.raw 2>&1" || die "$clogin_pgm failed for $host: $!\n";
-	open(INPUT, "< $host.raw") || die "$clogin_pgm failed for $host: $!\n";
+	system "mtlogin -t $timeo -c \"$commandstr\" $host </dev/null > $host.raw 2>&1" || die "mtlogin failed for $host: $!\n";
+	open(INPUT, "< $host.raw") || die "mtlogin failed for $host: $!\n";
     } else {
-	open(INPUT,"$clogin_pgm -t $timeo -c \"$commandstr\" $host </dev/null |") || die "$clogin_pgm failed for $host: $!\n";
+	open(INPUT,"mtlogin -t $timeo -c \"$commandstr\" $host </dev/null |") || die "mtlogin failed for $host: $!\n";
     }
 }
 
@@ -337,8 +336,8 @@ TOP: while(<INPUT>) {
 	last;
     }
     if (/^Error:/) {
-	print STDOUT ("$host $clogin_pgm error: $_");
-	print STDERR ("$host $clogin_pgm error: $_") if ($debug);
+	print STDOUT ("$host mtlogin error: $_");
+	print STDERR ("$host mtlogin error: $_") if ($debug);
 	$clean_run=0;
 	last;
     }

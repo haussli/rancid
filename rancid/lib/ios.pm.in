@@ -512,7 +512,7 @@ sub ShowSDM {
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(invalid (input|command) detected|type help or )/i);
 
-	if (/current template is/) {
+	if (/(current template is|next reload)/) {
 	    ProcessHistory("COMMENTS","keysort","IO","!SDM: $_");
 	}
     }
@@ -848,6 +848,20 @@ sub ShowFlash {
 	# Drop these files entirely.
 	/\s+(private-multiple-fs|multiple-fs|LISP-MapCache-IPv\S+|nv_hdr)$/ &&
 	    next;
+
+	if ($ios eq "XE" && /(\d+) bytes available \(\d+ bytes used\)/) {
+	    my($tmp) = $1;
+	    if ($tmp >= (1024 * 1024 * 1024)) {
+		$tmp = int($tmp / (1024 * 1024 * 1024));
+		$_ = "$tmp GB free";
+	    } elsif ($tmp >= (1024 * 1024)) {
+		$tmp = int($tmp / (1024 * 1024));
+		$_ = "$tmp MB free";
+	    } else {
+		$tmp = int($tmp / 1024);
+		$_ = "$tmp KB free";
+	    }
+	}
 	ProcessHistory("FLASH","","","!Flash: $_");
     }
     ProcessHistory("","","","!\n");

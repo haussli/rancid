@@ -97,12 +97,12 @@ DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(srcdir)/mrvlogin.in $(srcdir)/mtrancid.in \
 	$(srcdir)/mtlogin.in $(srcdir)/nlogin.in $(srcdir)/nrancid.in \
 	$(srcdir)/nslogin.in $(srcdir)/nsrancid.in \
-	$(srcdir)/nxrancid.in $(srcdir)/prancid.in \
-	$(srcdir)/rivlogin.in $(srcdir)/rivrancid.in \
-	$(srcdir)/rrancid.in $(srcdir)/srancid.in $(srcdir)/tlogin.in \
-	$(srcdir)/trancid.in $(srcdir)/xilogin.in \
-	$(srcdir)/xirancid.in $(srcdir)/xrancid.in $(srcdir)/wlogin.in \
-	$(srcdir)/zrancid.in $(top_srcdir)/depcomp
+	$(srcdir)/prancid.in $(srcdir)/rivlogin.in \
+	$(srcdir)/rivrancid.in $(srcdir)/rrancid.in \
+	$(srcdir)/srancid.in $(srcdir)/tlogin.in $(srcdir)/trancid.in \
+	$(srcdir)/xilogin.in $(srcdir)/xirancid.in \
+	$(srcdir)/xrancid.in $(srcdir)/wlogin.in $(srcdir)/zrancid.in \
+	$(top_srcdir)/depcomp
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/configure.ac
@@ -115,9 +115,9 @@ CONFIG_CLEAN_FILES = control_rancid agmrancid alogin arancid anlogin \
 	clogin complogin cssrancid dllogin elogin erancid f5rancid \
 	f10rancid flogin fnlogin fnrancid hlogin hrancid htlogin \
 	htrancid jlogin jerancid mrancid mrvlogin mtrancid mtlogin \
-	nlogin nrancid nslogin nsrancid nxrancid prancid rivlogin \
-	rivrancid rrancid srancid tlogin trancid xilogin xirancid \
-	xrancid wlogin zrancid
+	nlogin nrancid nslogin nsrancid prancid rivlogin rivrancid \
+	rrancid srancid tlogin trancid xilogin xirancid xrancid wlogin \
+	zrancid
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -492,8 +492,6 @@ nrancid: $(top_builddir)/config.status $(srcdir)/nrancid.in
 nslogin: $(top_builddir)/config.status $(srcdir)/nslogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 nsrancid: $(top_builddir)/config.status $(srcdir)/nsrancid.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-nxrancid: $(top_builddir)/config.status $(srcdir)/nxrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 prancid: $(top_builddir)/config.status $(srcdir)/prancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

@@ -8,6 +8,7 @@
 agm;script;agmrancid
 #
 adtran;script;rancid -t adtran
+adtran;module;adtran
 adtran;inloop;adtran::inloop
 adtran;login;clogin
 # TA5000

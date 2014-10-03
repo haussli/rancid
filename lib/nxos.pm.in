@@ -80,18 +80,12 @@ sub import {
 # post-open(collection file) initialization
 sub init {
     $proc = "";
-    $ios = "IOS";
     $found_version = 0;
     $found_env = 0;
     $found_diag = 0;
     $config_register = undef;		# configuration register value
 
-    # XXX init %hwbuf;			# defined in ShowContCbus
-    # XXX init %hwmemc;			# defined in ShowContCbus
-    # XXX init %hwmemd;			# defined in ShowContCbus
-    # XXX init %hwucode;			# defined in ShowContCbus
     $type = undef;			# device model, from ShowVersion
-    # XXX init %ucode;			# defined in ShowContCbus
 
     $C0 = 0;				# output formatting control
     $E0 = 0;
@@ -217,6 +211,7 @@ EndHardware:
     }
 
     print STDERR "TYPE = $type\n" if ($debug);
+    # XXX $proc is never set
     ProcessHistory("COMMENTS","keysort","A1", "!Chassis type: $proc - a $type router\n");
     ProcessHistory("COMMENTS","keysort","B0", "!\n");
     ProcessHistory("COMMENTS","keysort","C0", "!\n");

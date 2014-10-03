@@ -5993,8 +5993,6 @@ ac_config_files="$ac_config_files bin/nlogin bin/nrancid"
 
 ac_config_files="$ac_config_files bin/nslogin bin/nsrancid"
 
-ac_config_files="$ac_config_files bin/nxrancid"
-
 ac_config_files="$ac_config_files bin/prancid"
 
 ac_config_files="$ac_config_files bin/rivlogin bin/rivrancid"
@@ -6005,13 +6003,13 @@ ac_config_files="$ac_config_files bin/srancid"
 
 ac_config_files="$ac_config_files bin/tlogin"
 
-ac_config_files="$ac_config_files bin/tntlogin bin/tntrancid"
-
 ac_config_files="$ac_config_files bin/trancid"
 
 ac_config_files="$ac_config_files bin/xilogin bin/xirancid"
 
 ac_config_files="$ac_config_files bin/xrancid"
+
+ac_config_files="$ac_config_files bin/wlogin"
 
 ac_config_files="$ac_config_files bin/zrancid"
 
@@ -6798,19 +6796,17 @@ do
     "bin/nrancid") CONFIG_FILES="$CONFIG_FILES bin/nrancid" ;;
     "bin/nslogin") CONFIG_FILES="$CONFIG_FILES bin/nslogin" ;;
     "bin/nsrancid") CONFIG_FILES="$CONFIG_FILES bin/nsrancid" ;;
-    "bin/nxrancid") CONFIG_FILES="$CONFIG_FILES bin/nxrancid" ;;
     "bin/prancid") CONFIG_FILES="$CONFIG_FILES bin/prancid" ;;
     "bin/rivlogin") CONFIG_FILES="$CONFIG_FILES bin/rivlogin" ;;
     "bin/rivrancid") CONFIG_FILES="$CONFIG_FILES bin/rivrancid" ;;
     "bin/rrancid") CONFIG_FILES="$CONFIG_FILES bin/rrancid" ;;
     "bin/srancid") CONFIG_FILES="$CONFIG_FILES bin/srancid" ;;
     "bin/tlogin") CONFIG_FILES="$CONFIG_FILES bin/tlogin" ;;
-    "bin/tntlogin") CONFIG_FILES="$CONFIG_FILES bin/tntlogin" ;;
-    "bin/tntrancid") CONFIG_FILES="$CONFIG_FILES bin/tntrancid" ;;
     "bin/trancid") CONFIG_FILES="$CONFIG_FILES bin/trancid" ;;
     "bin/xilogin") CONFIG_FILES="$CONFIG_FILES bin/xilogin" ;;
     "bin/xirancid") CONFIG_FILES="$CONFIG_FILES bin/xirancid" ;;
     "bin/xrancid") CONFIG_FILES="$CONFIG_FILES bin/xrancid" ;;
+    "bin/wlogin") CONFIG_FILES="$CONFIG_FILES bin/wlogin" ;;
     "bin/zrancid") CONFIG_FILES="$CONFIG_FILES bin/zrancid" ;;
     "share/rtrfilter") CONFIG_FILES="$CONFIG_FILES share/rtrfilter" ;;
 
@@ -7538,19 +7534,17 @@ $as_echo X"$file" |
     "bin/nrancid":F) chmod a+x $ac_file ;;
     "bin/nslogin":F) chmod a+x $ac_file ;;
     "bin/nsrancid":F) chmod a+x $ac_file ;;
-    "bin/nxrancid":F) chmod a+x $ac_file ;;
     "bin/prancid":F) chmod a+x $ac_file ;;
     "bin/rivlogin":F) chmod a+x $ac_file ;;
     "bin/rivrancid":F) chmod a+x $ac_file ;;
     "bin/rrancid":F) chmod a+x $ac_file ;;
     "bin/srancid":F) chmod a+x $ac_file ;;
     "bin/tlogin":F) chmod a+x $ac_file ;;
-    "bin/tntlogin":F) chmod a+x $ac_file ;;
-    "bin/tntrancid":F) chmod a+x $ac_file ;;
     "bin/trancid":F) chmod a+x $ac_file ;;
     "bin/xilogin":F) chmod a+x $ac_file ;;
     "bin/xirancid":F) chmod a+x $ac_file ;;
     "bin/xrancid":F) chmod a+x $ac_file ;;
+    "bin/wlogin":F) chmod a+x $ac_file ;;
     "bin/zrancid":F) chmod a+x $ac_file ;;
     "share/rtrfilter":F) chmod a+x $ac_file ;;
 

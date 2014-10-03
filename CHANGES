@@ -1,4 +1,6 @@
 3.2
+	nxrancid: convert nexus to module nxos.pm
+
 	ios.pm: save "next reload" template - lee.e.rian
 
 	tntlogin, tntrancid: remove TNT support

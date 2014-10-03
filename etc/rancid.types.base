@@ -116,8 +116,43 @@ cisco;command;ios::WriteTerm;show running-config view full;workaround for role-b
 cisco;command;ios::WriteTerm;show running-config
 cisco;command;ios::WriteTerm;write term
 #
-cisco-nx;script;nxrancid
+cisco-nx;script;rancid -t cisco-nx
 cisco-nx;login;clogin
+cisco-nx;module;nxos
+cisco-nx;inloop;nxos::inloop
+cisco-nx;command;rancid::RunCommand;term no monitor-force
+cisco-nx;command;nxos::ShowVersion;show version
+cisco-nx;command;nxos::ShowVersionBuild;show version build-info all
+cisco-nx;command;nxos::ShowLicense;show license
+cisco-nx;command;nxos::ShowLicense;show license usage
+cisco-nx;command;nxos::ShowLicense;show license host-id
+cisco-nx;command;nxos::ShowRedundancy;show system redundancy status
+cisco-nx;command;nxos::ShowEnv;show environment clock
+cisco-nx;command;nxos::ShowEnv;show environment fan
+cisco-nx;command;nxos::ShowEnv;show environment fex all fan
+cisco-nx;command;nxos::ShowEnvTemp;show environment temperature
+cisco-nx;command;nxos::ShowEnvPower;show environment power
+cisco-nx;command;nxos::ShowBoot;show boot
+cisco-nx;command;nxos::DirSlotN;dir bootflash:
+cisco-nx;command;nxos::DirSlotN;dir debug:
+cisco-nx;command;nxos::DirSlotN;dir logflash:
+cisco-nx;command;nxos::DirSlotN;dir slot0:
+cisco-nx;command;nxos::DirSlotN;dir usb1:
+cisco-nx;command;nxos::DirSlotN;dir usb2:
+cisco-nx;command;nxos::DirSlotN;dir volatile:
+cisco-nx;command;nxos::ShowModule;show module
+cisco-nx;command;nxos::ShowModule;show module xbar
+#cisco-nx;command;nxos::ShowModule;show module X;add, but wait for show all
+#cisco-nx;command;nxos::ShowModule;show module X epld;add, but wait for show all
+cisco-nx;command;nxos::ShowInventory;show inventory
+cisco-nx;command;nxos::ShowVTP;show vtp status;drop?
+cisco-nx;command;nxos::ShowVLAN;show vlan
+cisco-nx;command;nxos::ShowDebug;show debug
+cisco-nx;command;nxos::ShowCores;show cores vdc-all
+cisco-nx;command;nxos::ShowProcLog;show processes log vdc-all
+cisco-nx;command;nxos::ShowFex;show module fex
+cisco-nx;command;nxos::ShowFex;show fex
+cisco-nx;command;nxos::WriteTerm;show running-config
 #
 cisco-xr;script;rancid -t cisco-xr
 cisco-xr;login;clogin

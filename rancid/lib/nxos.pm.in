@@ -185,6 +185,14 @@ EndSoftware:
 		last if (/^$prompt/);
 		next if (/^\s*$cmd\s*$/);
 
+		if (/^\s*cisco (Nexus[ \d]+) /) {
+		    # cisco Nexus7000 C7010 (10 Slot) Chassis ("Supervisor module-1X")
+		    # cisco Nexus7000 C7018 (18 Slot) Chassis ("Supervisor module-1X")
+		    # cisco Nexus5548 Chassis ("O2 32X10GE/Modular Supervisor")
+		    # cisco Nexus 4000 Chassis ("20x10GE/supervisor")
+		    $proc = $1;
+		}
+
 		if (/^$/) {
 		    goto EndHardware;
 		}

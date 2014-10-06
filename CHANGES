@@ -1,4 +1,6 @@
 3.2
+	nxos.pm: does not set $proc - lee.e.rian
+
 	nxrancid: convert nexus to module nxos.pm
 
 	ios.pm: save "next reload" template - lee.e.rian

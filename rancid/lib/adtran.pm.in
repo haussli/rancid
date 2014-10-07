@@ -1,6 +1,6 @@
 package adtran;
 ##
-## $Id: adtran.pm.in 2614 2012-08-08 00:12:06Z heas $
+## $Id$
 ##
 ## @PACKAGE@ @VERSION@
 ## Copyright (c) @COPYYEARS@ by Terrapin Communications, Inc.

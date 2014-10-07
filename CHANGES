@@ -1,4 +1,6 @@
 3.2
+	nxos.pm: recognize invalid command in ShowFex - lee.e.rian
+
 	nxos.pm: does not set $proc - lee.e.rian
 
 	nxrancid: convert nexus to module nxos.pm

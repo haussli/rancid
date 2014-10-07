@@ -523,6 +523,9 @@ regsub -all {^(.{1,14}).*([#>])$} $reprompt {\1([^#>\r\n]+)?[#>](\\([^)\\r\\n]+\
     # this is the only way i see to get rid of more prompts in o/p..grrrrr
     log_user 0
 
+    # handle escaped ;s in commands, and ;; and ^;
+    regsub -all {([^\\]);;} $command "\\1;\u002;" esccommand
+    regsub {^;} $esccommand "\u002;" command
     set sep "\\1\u001"
     regsub -all {([^\\])\;} $command "$sep" esccommand
     set sep "\u001"

@@ -471,6 +471,9 @@ proc start_logfile { output_file } {
 proc run_commands { prompt cmdstring } {
     global sendstring
 
+    # handle escaped ;s in commands, and ;; and ^;
+    regsub -all {([^\\]);;} $command "\\1;\u002;" esccommand
+    regsub {^;} $esccommand "\u002;" command
     set sep "\\1\u001"
     regsub -all {([^\\])\;} $command "$sep" esccommand
     set sep "\u001"

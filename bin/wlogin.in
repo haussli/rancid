@@ -1,6 +1,6 @@
 #! @EXPECT_PATH@ --
 ##
-## $Id: clogin.in 2854 2014-07-29 12:48:43Z heas $
+## $Id$
 ##
 ## @PACKAGE@ @VERSION@
 ## Copyright (c) @COPYYEARS@ by Terrapin Communications, Inc.
@@ -365,6 +365,9 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 		continue;
 	    }
 
+	    # handle escaped ;s in commands, and ;; and ^;
+	    regsub -all {([^\\]);;} $command "\\1;\u002;" esccommand
+	    regsub {^;} $esccommand "\u002;" command
 	    set sep "\\1\u001"
 	    regsub -all {([^\\])\;} $command "$sep" esccommand   
 	    set sep "\u001"
@@ -623,6 +626,9 @@ proc run_commands { prompt command } {
     # this is the only way i see to get rid of more prompts in o/p..grrrrr
     log_user 0
 
+    # handle escaped ;s in commands, and ;; and ^;
+    regsub -all {([^\\]);;} $command "\\1;\u002;" esccommand
+    regsub {^;} $esccommand "\u002;" command
     set sep "\\1\u001"
     regsub -all {([^\\])\;} $command "$sep" esccommand
     set sep "\u001"

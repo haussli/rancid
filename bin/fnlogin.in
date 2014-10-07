@@ -455,6 +455,9 @@ proc run_commands { prompt command } {
     expect -re $prompt; send -- "end\r"
     expect -re $prompt;
 
+    # handle escaped ;s in commands, and ;; and ^;
+    regsub -all {([^\\]);;} $command "\\1;\u002;" esccommand
+    regsub {^;} $esccommand "\u002;" command
     set sep "\\1\u001"
     regsub -all {([^\\])\;} $command "$sep" esccommand
     set sep "\u001"

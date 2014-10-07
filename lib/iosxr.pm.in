@@ -1,6 +1,6 @@
 package iosxr;
 ##
-## $Id: ios.pm.in 2690 2013-05-16 20:19:06Z heas $
+## $Id$
 ##
 ## @PACKAGE@ @VERSION@
 ## Copyright (c) @COPYYEARS@ by Terrapin Communications, Inc.

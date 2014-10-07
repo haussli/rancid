@@ -1,6 +1,6 @@
 package eos;
 ##
-## $Id: ios.pm.in 2582 2012-07-26 16:23:46Z heas $
+## $Id$
 ##
 ## @PACKAGE@ @VERSION@
 ## Copyright (c) @COPYYEARS@ by Terrapin Communications, Inc.

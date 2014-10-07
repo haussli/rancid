@@ -1,6 +1,6 @@
 package nxos;
 ##
-## $Id: ios.pm.in 2837 2014-05-02 19:11:43Z heas $
+## $Id$
 ##
 ## @PACKAGE@ @VERSION@
 ## Copyright (c) @COPYYEARS@ by Terrapin Communications, Inc.

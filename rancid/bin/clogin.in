@@ -364,6 +364,9 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 		continue;
 	    }
 
+	    # handle escaped ;s in commands, and ;; and ^;
+	    regsub -all {([^\\]);;} $command "\\1;\u002;" esccommand
+	    regsub {^;} $esccommand "\u002;" command
 	    set sep "\\1\u001"
 	    regsub -all {([^\\])\;} $command "$sep" esccommand
 	    set sep "\u001"
@@ -645,8 +648,11 @@ proc run_commands { prompt command } {
     # this is the only way i see to get rid of more prompts in o/p..grrrrr
     log_user 0
 
+    # handle escaped ;s in commands, and ;; and ^;
+    regsub -all {([^\\]);;} $command "\\1;\u002;" esccommand
+    regsub {^;} $esccommand "\u002;" command
     set sep "\\1\u001"
-    regsub -all {([^\\])\;} $command "$sep" esccommand
+    regsub -all {([^\\]);} $command "$sep" esccommand
     set sep "\u001"
     set commands [split $esccommand $sep]
     set num_commands [llength $commands]
@@ -654,7 +660,11 @@ proc run_commands { prompt command } {
     # for the "More" prompt.  the extreme is equally obnoxious in pre-12.3 XOS,
     # with a global switch in the config.
     for {set i 0} {$i < $num_commands} { incr i} {
-	send -- "[subst -nocommands [lindex $commands $i]]\r"
+	if { [lindex $commands $i] == "\u002" } {
+	    send -- "\r"
+	} else {
+	    send -- "[subst -nocommands [lindex $commands $i]]\r"
+	}
 	expect {
 	    -re "\b+"				{ exp_continue }
 	    -re "^\[^\n\r *]*$reprompt"		{ send_user -- "$expect_out(buffer)"

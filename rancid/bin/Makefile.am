@@ -18,7 +18,7 @@ bin_SCRIPTS = agmrancid alogin anlogin anrancid arancid arrancid \
 	flogin fnlogin fnrancid hlogin hrancid htlogin \
 	htrancid jerancid jlogin mrancid mrvlogin mtlogin mtrancid \
 	nlogin nrancid nslogin nsrancid prancid rancid rivlogin \
-	rivrancid rrancid slogin srancid tlogin trancid \
+	rivrancid rrancid slogin srancid tlogin trancid wlogin \
 	xilogin xirancid xrancid zrancid
 # XXX hack for the rancid to get pkglibdir, see corresponding XXX below
 bin_in = rancid.in slogin.in

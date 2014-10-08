@@ -337,15 +337,12 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 		return 1
 	    }
 	} elseif [string match "ssh*" $prog] {
-	    # ssh to the router & try to login with or without an identfile.
+	    # ssh to the router & try to login
 	    regexp {ssh(:([^[:space:]]+))*} $prog methcmd suffix port
 	    set cmd $sshcmd
 	    if {"$port" != ""} {
 		set cmd "$cmd -p $port"
 	    } 
-	    if {"$identfile" != ""} {  
-		set cmd "$cmd -i $identfile"
-	    }
 	    set retval [catch {eval spawn [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason]
 	    if { $retval } {
 		send_user "\nError: $cmd failed: $reason\n"
@@ -804,7 +801,7 @@ foreach router [lrange $argv $i end] {
     if { "$cmethod" == "" } { set cmethod {{telnet} {ssh}} }
 
     # Figure out the SSH executable name
-    set sshcmd [find sshcmd $router]
+    set sshcmd [join [lindex [find sshcmd $router] 0] ""]
     if { "$sshcmd" == "" } { set sshcmd {ssh} }
 
     # Login to the router

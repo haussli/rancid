@@ -5953,7 +5953,7 @@ ac_config_files="$ac_config_files bin/agmrancid"
 
 ac_config_files="$ac_config_files bin/alogin bin/arancid"
 
-ac_config_files="$ac_config_files bin/anlogin bin/anrancid"
+ac_config_files="$ac_config_files bin/anlogin"
 
 ac_config_files="$ac_config_files bin/arrancid"
 
@@ -6764,7 +6764,6 @@ do
     "bin/alogin") CONFIG_FILES="$CONFIG_FILES bin/alogin" ;;
     "bin/arancid") CONFIG_FILES="$CONFIG_FILES bin/arancid" ;;
     "bin/anlogin") CONFIG_FILES="$CONFIG_FILES bin/anlogin" ;;
-    "bin/anrancid") CONFIG_FILES="$CONFIG_FILES bin/anrancid" ;;
     "bin/arrancid") CONFIG_FILES="$CONFIG_FILES bin/arrancid" ;;
     "bin/avologin") CONFIG_FILES="$CONFIG_FILES bin/avologin" ;;
     "bin/avorancid") CONFIG_FILES="$CONFIG_FILES bin/avorancid" ;;
@@ -7502,7 +7501,6 @@ $as_echo X"$file" |
     "bin/alogin":F) chmod a+x $ac_file ;;
     "bin/arancid":F) chmod a+x $ac_file ;;
     "bin/anlogin":F) chmod a+x $ac_file ;;
-    "bin/anrancid":F) chmod a+x $ac_file ;;
     "bin/arrancid":F) chmod a+x $ac_file ;;
     "bin/avologin":F) chmod a+x $ac_file ;;
     "bin/avorancid":F) chmod a+x $ac_file ;;

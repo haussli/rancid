@@ -83,15 +83,15 @@ DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/mkinstalldirs $(srcdir)/control_rancid.in \
 	$(srcdir)/agmrancid.in $(srcdir)/alogin.in \
 	$(srcdir)/arancid.in $(srcdir)/anlogin.in \
-	$(srcdir)/anrancid.in $(srcdir)/arrancid.in \
-	$(srcdir)/avologin.in $(srcdir)/avorancid.in \
-	$(srcdir)/blogin.in $(srcdir)/brancid.in \
-	$(srcdir)/cat5rancid.in $(srcdir)/clogin.in \
-	$(srcdir)/complogin.in $(srcdir)/cssrancid.in \
-	$(srcdir)/dllogin.in $(srcdir)/elogin.in $(srcdir)/erancid.in \
-	$(srcdir)/f5rancid.in $(srcdir)/f10rancid.in \
-	$(srcdir)/flogin.in $(srcdir)/fnlogin.in $(srcdir)/fnrancid.in \
-	$(srcdir)/hlogin.in $(srcdir)/hrancid.in $(srcdir)/htlogin.in \
+	$(srcdir)/arrancid.in $(srcdir)/avologin.in \
+	$(srcdir)/avorancid.in $(srcdir)/blogin.in \
+	$(srcdir)/brancid.in $(srcdir)/cat5rancid.in \
+	$(srcdir)/clogin.in $(srcdir)/complogin.in \
+	$(srcdir)/cssrancid.in $(srcdir)/dllogin.in \
+	$(srcdir)/elogin.in $(srcdir)/erancid.in $(srcdir)/f5rancid.in \
+	$(srcdir)/f10rancid.in $(srcdir)/flogin.in \
+	$(srcdir)/fnlogin.in $(srcdir)/fnrancid.in $(srcdir)/hlogin.in \
+	$(srcdir)/hrancid.in $(srcdir)/htlogin.in \
 	$(srcdir)/htrancid.in $(srcdir)/jlogin.in \
 	$(srcdir)/jerancid.in $(srcdir)/mrancid.in \
 	$(srcdir)/mrvlogin.in $(srcdir)/mtrancid.in \
@@ -111,13 +111,12 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
 CONFIG_CLEAN_FILES = control_rancid agmrancid alogin arancid anlogin \
-	anrancid arrancid avologin avorancid blogin brancid cat5rancid \
-	clogin complogin cssrancid dllogin elogin erancid f5rancid \
-	f10rancid flogin fnlogin fnrancid hlogin hrancid htlogin \
-	htrancid jlogin jerancid mrancid mrvlogin mtrancid mtlogin \
-	nlogin nrancid nslogin nsrancid prancid rivlogin rivrancid \
-	rrancid srancid tlogin trancid xilogin xirancid xrancid wlogin \
-	zrancid
+	arrancid avologin avorancid blogin brancid cat5rancid clogin \
+	complogin cssrancid dllogin elogin erancid f5rancid f10rancid \
+	flogin fnlogin fnrancid hlogin hrancid htlogin htrancid jlogin \
+	jerancid mrancid mrvlogin mtrancid mtlogin nlogin nrancid \
+	nslogin nsrancid prancid rivlogin rivrancid rrancid srancid \
+	tlogin trancid xilogin xirancid xrancid wlogin zrancid
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -334,8 +333,8 @@ top_srcdir = @top_srcdir@
 
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS = foreign
-bin_SCRIPTS = agmrancid alogin anlogin anrancid arancid arrancid \
-	avologin avorancid blogin brancid cat5rancid clogin complogin \
+bin_SCRIPTS = agmrancid alogin anlogin arancid arrancid avologin \
+	avorancid blogin brancid cat5rancid clogin complogin \
 	control_rancid cssrancid dllogin elogin erancid f5rancid \
 	f10rancid flogin fnlogin fnrancid hlogin hrancid htlogin \
 	htrancid jerancid jlogin mrancid mrvlogin mtlogin mtrancid \
@@ -428,8 +427,6 @@ alogin: $(top_builddir)/config.status $(srcdir)/alogin.in
 arancid: $(top_builddir)/config.status $(srcdir)/arancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 anlogin: $(top_builddir)/config.status $(srcdir)/anlogin.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-anrancid: $(top_builddir)/config.status $(srcdir)/anrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 arrancid: $(top_builddir)/config.status $(srcdir)/arrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

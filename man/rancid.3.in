@@ -74,7 +74,7 @@ ProcessHistory("TAG","ipsort","192.168.1.0","!D0\\n");
 .B sortbyipaddr(XXX)
 A sort routine that will sort based upon IPv4 addresses.
 .PP
-Please see the library code for export variables.
+Please see the library code for exported variables.
 .PP
 .\"
 .SH "SEE ALSO"

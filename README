@@ -52,7 +52,6 @@ bin/
 	rancid.in	Runs commands on cisco routers and processes the output.
 
 	agmrancid.in	Version of rancid.in for Cisco Anomaly Guard Module (AGM)
-	anrancid.in	Version of rancid.in for Arbor Networks appliances.
 	arancid.in	Version of rancid.in for Alteon switches.
 	brancid.in	Version of rancid.in for baynet/nortel routers.
 	cat5rancid.in	Version of rancid.in for Cisco Catalyst switches.
@@ -73,7 +72,6 @@ bin/
 	rivancid.in	Version of rancid.in for Riverstone routers.
 	rrancid.in	Version of rancid.in for Redback routers.
 	srancid.in	Version of rancid.in for SMC switches.
-	tntrancid.in	Version of rancid.in for TNT access servers.
 	xirancid.in	Version of rancid.in for Xirrus arrays.
 	xrancid.in	Version of rancid.in for Extreme switches.
 	zrancid.in	Version of rancid.in for Zebra routers.
@@ -90,8 +88,18 @@ bin/
 	nlogin.in	Version of clogin.in for Netscreen firewalls.
 	nslogin.in	Version of clogin.in for Netscalars.
 	rivlogin.in	Version of clogin.in for Riverstone routers.
-	tntlogin.in	Version of clogin.in for TNT access servers.
 	xilogin.in	Version of clogin.in for Xirrus arrays.
+lib/
+	arbor.pm.in	rancid library for Arbor Networks appliances.
+	dell.pm.in	rancid library for some Dell D-Link models.
+	eos.pm.in	rancid library for Compass EOS.
+	foundry.pm.in	rancid library for Foundry (Brocade) switches.
+	ios.pm.in	rancid library for Cisco IOS and IOS-XE.
+	iosxr.pm.in	rancid library for Cisco IOS-XR.
+	junos.pm.in	rancid library for Juniper JunOS.
+	mrv.pm.in	rancid library for MRV MCS.
+	nxos.pm.in	rancid library for Cisco NX-OS.
+	rancid.pm.in	rancid global functions.
 man/		man pages
 share/		Readmes, samples, utilities, contribs, etc
 include/	Include files and rancid version.h
@@ -124,6 +132,10 @@ expect		http://expect.nist.gov/  We highly suggest that you stick to
 svn		Code revision system, an alternative to cvs.  Available from
 		http://subversion.tigris.org/tarballs/.  Use the configure
 		option --with-svn to configure for Subversion.
+		To convert from CVS to SVN, find the cvs2svn python script,
+		then:
+		cd ~rancid
+		cvs2svn -s `pwd`/.svn --keywords-off `pwd`/CVS
 tcl		Required by expect.
 
 Bill Fenner (now maintained by others) has a cgi script for interacting

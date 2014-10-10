@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid" "3" "12 February 2014"
+.TH "rancid" "3" "8 October 2014"
 .SH NAME
 rancid \- rancid perl module
 .SH INTRODUCTION
@@ -19,7 +19,7 @@ but it could be used by any perl program for site-specific handling or
 additional automata.
 .PP Input handling functions:
 .TP
-.B RunCommand(*input, *output, command)
+.B RunCommand(*INPUT, *OUTPUT, command)
 Parse a single command that returns no required info; the output is dropped.
 This could be used as the processing function in a command definition in
 a rancid.types file.

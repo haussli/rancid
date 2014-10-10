@@ -1,6 +1,6 @@
 #! @PERLV_PATH@
 ##
-## $Id: nxrancid.in 2818 2014-04-24 21:18:44Z heas $
+## $Id$
 ##
 ## @PACKAGE@ @VERSION@
 ## Copyright (c) @COPYYEARS@ by Terrapin Communications, Inc.

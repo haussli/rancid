@@ -118,14 +118,13 @@ sub ShowConfig {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowConfig: $_" if ($debug);
     ProcessHistory("","","","\n!--WLC Begin Config Data--!\n\n");
-
-    $firstexit=0;
+    my($firstexit) = 0;
 
     while (<$INPUT>) {
         tr/\015//d;
         tr/\020//d;
 
-        $skipprocess = 0;
+        my($skipprocess) = 0;
 
         # remove snmp community string data
         if (/^(\s*snmp community create)/ && $filter_pwds >= 1) {
@@ -137,14 +136,14 @@ sub ShowConfig {
         if (/^(\s*snmp community ipaddr\s\S+\s\S+) / && $filter_pwds >= 1) {
             ProcessHistory("","","","!$1 <removed>\n"); next;
         }
-	if (/^\s*rogue ap classify/) { $skipprocess=1; }
-	if (/^\s*rogue adhoc alert/) { $skipprocess=1; }
+	if (/^\s*rogue ap classify/) { $skipprocess = 1; }
+	if (/^\s*rogue adhoc alert/) { $skipprocess = 1; }
 
 
         last if (/^$prompt/);
         next if (/^(\s*|\s*$cmd\s*)$/);
         if (! /^$prompt/) {
-                if ( ! $skipprocess ) {
+                if (! $skipprocess) {
                         print STDOUT "      ShowConfig Data: $_" if ($debug);
                         ProcessHistory("","","","$_");
                 }
@@ -165,12 +164,12 @@ sub ShowSysinfo {
     while (<$INPUT>) {
 	tr/\015//d;
 
-	$skipprocess = 0;
+	my($skipprocess) = 0;
 
 	if (/^System Up Time/) { $skipprocess = 1; }
 	if (/^Number of Active Clients/) { $skipprocess = 1; }
 	if (/^(Internal|External) Temperature/) { $skipprocess=1; }
-	if (/rpm$/) { $skipprocess=1; }
+	if (/rpm$/) { $skipprocess = 1; }
 
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -195,7 +194,7 @@ sub ShowUdi {
     while (<$INPUT>) {
         tr/\015//d;
 
-        $skipprocess = 0;
+        my($skipprocess) = 0;
 
         last if (/^$prompt/);
         next if (/^(\s*|\s*$cmd\s*)$/);

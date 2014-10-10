@@ -1,4 +1,9 @@
 3.2
+	ciscowlc: convert Cisco WLC scripts to library
+
+	import Cisco WLC scripts from
+	http://www.shrubbery.net/pipermail/rancid-discuss/2010-February/004652.html
+
 	*login.in; fix handling of empty lines in -x input - reported by
 	lee.e.rian
 

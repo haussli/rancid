@@ -208,6 +208,22 @@ cisco-xr;command;iosxr::ShowRPL;show rpl maximum
 cisco-xr;command;iosxr::AdminShowRunning;admin show running
 cisco-xr;command;iosxr::WriteTerm;show running-config
 #
+cisco-wlc4;script;rancid -t cisco-wlc4
+cisco-wlc4;login;clogin
+cisco-wlc4;module;ciscowlc
+cisco-wlc4;inloop;ciscowlc::inloop
+cisco-wlc4;command;ciscowlc::ShowUdi4;show udi
+cisco-wlc4;command;ciscowlc::ShowSysinfo4;show sysinfo
+cisco-wlc4;command;ciscowlc::ShowConfig4;show running-config
+#
+cisco-wlc5;script;rancid -t cisco-wlc5
+cisco-wlc5;login;clogin
+cisco-wlc5;module;ciscowlc
+cisco-wlc5;inloop;ciscowlc::inloop
+cisco-wlc5;command;ciscowlc::ShowUdi5;show udi
+cisco-wlc5;command;ciscowlc::ShowSysinfo5;show sysinfo
+cisco-wlc5;command;ciscowlc::ShowConfig5;show running-config commands
+#
 compass;script;rancid -t compass
 compass;login;complogin
 compass;module;eos

@@ -849,7 +849,7 @@ sub ShowFlash {
 	/\s+(private-multiple-fs|multiple-fs|LISP-MapCache-IPv\S+|nv_hdr)$/ &&
 	    next;
 
-	if (/(\d+) bytes total \(\d+ bytes used\)/) {
+	if ($ios eq "XE" && /(\d+) bytes available \(\d+ bytes used\)/) {
 	    my($tmp) = $1;
 	    if ($tmp >= (1024 * 1024 * 1024)) {
 		$tmp = int($tmp / (1024 * 1024 * 1024));
@@ -933,7 +933,7 @@ sub DirSlotN {
 	# on dual RP ASR systems
 	next if (/\.issu_loc_lock\s*$/);
 
-	if (/.*\((\d+) bytes free\)/) {
+	if ($ios eq "XE" && /.*\((\d+) bytes free\)/) {
 	    my($tmp) = $1;
 	    if ($tmp >= (1024 * 1024 * 1024)) {
 		$tmp = int($tmp / (1024 * 1024 * 1024));

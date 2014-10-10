@@ -2,6 +2,7 @@
 Makefile
 adtran.pm
 arbor.pm
+ciscowlc.pm
 dell.pm
 eos.pm
 foundry.pm

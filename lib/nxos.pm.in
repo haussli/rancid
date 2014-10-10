@@ -314,17 +314,7 @@ sub ShowEnv {
 
 	s/ +$//;	# Drop trailing ' '
 	next if (/Fan Zone Speed:/);
-	if (/(control temperature|monitor temperature)/i) {
-	    ProcessHistory("COMMENTS","","","!Env: $_");
-	    while (<$INPUT>) {
-		if (/(.*\s+\d+\s+\d+\s+)(\d+)(.*$)/) {
-		    $_ = sprintf("%s%-". length($2)."s%s\n", $1, "", $3);
-		}
-		ProcessHistory("COMMENTS","","","!Env: $_");
-		last if (/^\s*$/);
-	    }
-	    next;
-	}
+	next if (/INTAKE/);
 	ProcessHistory("COMMENTS","","","!Env: $_");
     }
     ProcessHistory("COMMENTS","","","!\n");
@@ -346,29 +336,16 @@ sub ShowEnvTemp {
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
 
-	s/ +$//;	# Drop trailing ' '
-
 # Cut out CurTemp - drop the 2nd to last field.
 #--------------------------------------------------------------------
 #Module   Sensor        MajorThresh   MinorThres   CurTemp     Status
 #                       (Celsius)     (Celsius)    (Celsius)         
 #5        Outlet1 (s1)    125             125         33         Ok
 #5        QEng1Sn1(s10)   115             105         39         Ok
-	if (/(control temperature|monitor temperature)/i) {
-	    ProcessHistory("COMMENTS","","","!Env: $_");
-	    while (<INPUT>) {
-		if (/(.*\s+\d+\s+\d+\s+)(\d+)(.*$)/) {
-		    $_ = sprintf("%s%-". length($2)."s%s\n", $1, "", $3);
-		}
-		ProcessHistory("COMMENTS","","","!Env: $_");
-		last if (/^\s*$/);
-	    }
-	    next;
-	} else {
-	    s/^(.+\s)(\S+\s+)(\S+\s*)$/$1$3/;
-	    s/ +$//;	# Drop trailing ' '
-	    ProcessHistory("COMMENTS","","","!Env: $_");
-	}
+	s/^(.+\s)(\S+\s+)(\S+\s*)$/$1$3/;
+
+	s/ +$//;	# Drop trailing ' '
+	ProcessHistory("COMMENTS","","","!Env: $_");
     }
     ProcessHistory("COMMENTS","","","!\n");
     return(0);

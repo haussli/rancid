@@ -48,6 +48,7 @@ package rancid;
 use 5.010;
 use strict 'vars';
 use warnings;
+use Net::IP;
 require(Exporter);
 our @ISA = qw(Exporter);
 
@@ -349,13 +350,22 @@ sub ipsort {
 
 # These two routines will sort based upon IP addresses
 sub ipaddrval {
-    my(@a) = ($_[0] =~ m#^(\d+)\.(\d+)\.(\d+)\.(\d+)$#);
-    # work around uninitialized values warning, requires perl >= 5.010
-    $a[0] //= 0;
-    $a[1] //= 0;
-    $a[2] //= 0;
-    $a[3] //= 0;
-    $a[3] + 256 * ($a[2] + 256 * ($a[1] + 256 * $a[0]));
+    my($a) = @_;
+    my($ip) = new Net::IP($a);
+
+    return iptobin($ip);
+
+    if ($a =~ /:/) {
+	my(@a) = ($_[0] =~ m#^([0-9A-Fa-f]{0,4}):.*:([0-9A-Fa-f]{0,4})$#);
+    } else {
+	my(@a) = ($_[0] =~ m#^(\d+)\.(\d+)\.(\d+)\.(\d+)$#);
+	# work around uninitialized values warning, requires perl >= 5.010
+	$a[0] //= 0;
+	$a[1] //= 0;
+	$a[2] //= 0;
+	$a[3] //= 0;
+	$a[3] + 256 * ($a[2] + 256 * ($a[1] + 256 * $a[0]));
+    }
 }
 sub sortbyipaddr {
     &ipaddrval($a) <=> &ipaddrval($b);

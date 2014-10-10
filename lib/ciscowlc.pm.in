@@ -137,6 +137,9 @@ sub ShowConfig {
         if (/^(\s*snmp community ipaddr\s\S+\s\S+) / && $filter_pwds >= 1) {
             ProcessHistory("","","","!$1 <removed>\n"); next;
         }
+	if (/^\s*rogue ap classify/) { $skipprocess=1; }
+	if (/^\s*rogue adhoc alert/) { $skipprocess=1; }
+
 
         last if (/^$prompt/);
         next if (/^(\s*|\s*$cmd\s*)$/);
@@ -166,7 +169,8 @@ sub ShowSysinfo {
 
 	if (/^System Up Time/) { $skipprocess = 1; }
 	if (/^Number of Active Clients/) { $skipprocess = 1; }
-	if (/^Internal Temperature/) { $skipprocess = 1; }
+	if (/^(Internal|External) Temperature/) { $skipprocess=1; }
+	if (/rpm$/) { $skipprocess=1; }
 
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);

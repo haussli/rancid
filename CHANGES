@@ -1,4 +1,6 @@
 3.2
+	ciscowlc: add filters for oscillating config & env o/p - Daniel Schmidt
+
 	ciscowlc: convert Cisco WLC scripts to library
 
 	import Cisco WLC scripts from

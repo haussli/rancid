@@ -135,7 +135,10 @@ svn		Code revision system, an alternative to cvs.  Available from
 		To convert from CVS to SVN, find the cvs2svn python script,
 		then:
 		cd ~rancid
-		cvs2svn -s `pwd`/.svn --keywords-off `pwd`/CVS
+		cvs2svn --trunk= --trunk-only -s `pwd`/.svn --keywords-off \
+			`pwd`/CVS
+		sh -c '. /path/to/etc/rancid.conf ; for g in $LIST_OF_GROUPS; \
+			do svn co file://`pwd`/.svn/$g; done'
 tcl		Required by expect.
 
 Bill Fenner (now maintained by others) has a cgi script for interacting

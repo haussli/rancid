@@ -1,5 +1,8 @@
+Rancid 3.2
+3.2 required perl module Net::IP.  http://search.cpan.org/dist/Net-IP/
+
 Rancid 3.0
-3.0 requires a minimum of perl 5.10 and a minimum of expect 5.43.
+3.0 requires minimum revisions of perl 5.10 and expect 5.43.
 
 The router.db field separator has been changed to ';' from ':' to avoid
 conflict with IPv6 addresses and etc.

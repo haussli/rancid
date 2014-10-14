@@ -58,7 +58,7 @@ package dell;
 #
 # dell.pm - Dell D-Link rancid procedures
 #
-use 5.005;
+use 5.010;
 use strict 'vars';
 use warnings;
 no warnings 'uninitialized';

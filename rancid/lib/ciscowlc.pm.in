@@ -45,7 +45,7 @@ package ciscowlc;
 #  ciscowlc.pm - Cisco WLC V4.X
 #
 #  based on modified version of ciscoips by Josh Yost on 4/16/2008
-use 5.005;
+use 5.010;
 use strict 'vars';
 use warnings;
 no warnings 'uninitialized';

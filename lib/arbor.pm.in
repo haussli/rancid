@@ -44,7 +44,7 @@ package arbor;
 #
 #  arbor.pm - Arbor Networks appliances rancid procedures
 
-use 5.005;
+use 5.010;
 use strict 'vars';
 use warnings;
 require(Exporter);

@@ -44,7 +44,7 @@ package ios;
 #
 #  ios.pm - Cisco IOS rancid procedures
 
-use 5.005;
+use 5.010;
 use strict 'vars';
 use warnings;
 no warnings 'uninitialized';

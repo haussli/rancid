@@ -849,17 +849,26 @@ sub ShowFlash {
 	/\s+(private-multiple-fs|multiple-fs|LISP-MapCache-IPv\S+|nv_hdr)$/ &&
 	    next;
 
-	if ($ios eq "XE" && /(\d+) bytes available \(\d+ bytes used\)/) {
-	    my($tmp) = $1;
+	if (/(\d+) bytes (available|total) \((\d+) bytes used\)/) {
+	    my($tmp);
+	    if ($2 eq "available") {
+		$tmp = $1;
+	    } else {
+		$tmp = $1 - $3;
+	    }
 	    if ($tmp >= (1024 * 1024 * 1024)) {
 		$tmp = int($tmp / (1024 * 1024 * 1024));
-		$_ = "$tmp GB free";
+		$_ = "$tmp GB free\n";
 	    } elsif ($tmp >= (1024 * 1024)) {
 		$tmp = int($tmp / (1024 * 1024));
-		$_ = "$tmp MB free";
-	    } else {
+		$_ = "$tmp MB free\n";
+	    } elsif ($tmp >= (1024)) {
 		$tmp = int($tmp / 1024);
-		$_ = "$tmp KB free";
+		$_ = "$tmp KB free\n";
+	    } elsif ($tmp > 0) {
+		$_ = "< 1KB free\n";
+	    } else {
+		$_ = "0 bytes free\n";
 	    }
 	}
 	ProcessHistory("FLASH","","","!Flash: $_");
@@ -933,7 +942,7 @@ sub DirSlotN {
 	# on dual RP ASR systems
 	next if (/\.issu_loc_lock\s*$/);
 
-	if ($ios eq "XE" && /.*\((\d+) bytes free\)/) {
+	if (/.*\((\d+) bytes free\)/) {
 	    my($tmp) = $1;
 	    if ($tmp >= (1024 * 1024 * 1024)) {
 		$tmp = int($tmp / (1024 * 1024 * 1024));
@@ -941,9 +950,13 @@ sub DirSlotN {
 	    } elsif ($tmp >= (1024 * 1024)) {
 		$tmp = int($tmp / (1024 * 1024));
 		s/$1 bytes free/$tmp MB free/;
-	    } else {
+	    } elsif ($tmp >= (1024)) {
 		$tmp = int($tmp / 1024);
 		s/$1 bytes free/$tmp KB free/;
+	    } elsif ($tmp > 0) {
+		s/$1 bytes free/< 1KB free/;
+	    } else {
+		s/$1 bytes free/0 bytes free/;
 	    }
 	}
 	if ($ios eq "XE" && /^((\s+)?\d+\s+\S+)\s+\d+.*(tracelogs$)/) {

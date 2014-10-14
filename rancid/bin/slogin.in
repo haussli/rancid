@@ -45,7 +45,7 @@
 #  slogin - selective login; use router.db files and rancid.{base,types}.conf
 #	    configurations to determine which login script to execute.
 #
-use 5.005;
+use 5.0010;
 use strict 'vars';
 use warnings;
 no warnings 'uninitialized';

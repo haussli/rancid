@@ -1,4 +1,6 @@
 3.2
+	rancid.pm: improve IP sorting w/ Net::IP, esp for IPv6
+
 	ios.pm: filter show flash & dir bytes free better
 
 	ciscowlc: add filters for oscillating config & env o/p - Daniel Schmidt

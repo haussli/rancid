@@ -351,9 +351,10 @@ sub ipsort {
 # These two routines will sort based upon IP addresses
 sub ipaddrval {
     my($a) = @_;
-    my($ip) = new Net::IP($a);
+    local($rancid::ip) = new Net::IP;
 
-    return $ip->intip();
+    $rancid::ip->set($a);
+    return $rancid::ip->binip();
 }
 
 sub sortbyipaddr {

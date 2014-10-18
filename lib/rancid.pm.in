@@ -351,10 +351,21 @@ sub ipsort {
 # These two routines will sort based upon IP addresses
 sub ipaddrval {
     my($a) = @_;
-    local($rancid::ip) = new Net::IP;
 
-    $rancid::ip->set($a);
-    return $rancid::ip->binip();
+    if ($a =~ /:/) {
+	my($ip) = new Net::IP($a);
+
+	$ip->set($a);
+	return $ip->binip();
+    } else {
+	my(@a) = ($_[0] =~ m#^(\d+)\.(\d+)\.(\d+)\.(\d+)$#);
+	# work around uninitialized values warning, requires perl >= 5.010
+	$a[0] //= 0;
+	$a[1] //= 0;
+	$a[2] //= 0;
+	$a[3] //= 0;
+	$a[3] + 256 * ($a[2] + 256 * ($a[1] + 256 * $a[0]));
+    }
 }
 
 sub sortbyipaddr {

@@ -1077,7 +1077,7 @@ sub WriteTerm {
 	    while (<$INPUT>) {
 		tr/\015//d;
 		last if (/^$prompt/ || /^\S/);
-		my($seq, $cmd, $misc, $ip) = ($_ =~ /^\s+(\d+) (\w+) (.*\s)(\w+)/);
+		my($seq, $cmd, $misc, $ip) = ($_ =~ /^\s+(\d+) (\w+) (\S+\s)?(.+)/);
 		if ($cmd =~ /(permit|deny)/) {
 		    ProcessHistory("ACL $nlri $key $cmd","$aclsort","$ip",
 				   " $cmd $misc$ip\n");

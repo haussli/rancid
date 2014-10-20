@@ -48,7 +48,6 @@ package rancid;
 use 5.010;
 use strict 'vars';
 use warnings;
-use Net::IP;
 require(Exporter);
 our @ISA = qw(Exporter);
 
@@ -353,10 +352,31 @@ sub ipaddrval {
     my($a) = @_;
 
     if ($a =~ /:/) {
-	my($ip) = new Net::IP($a);
+	my($p, $l, @a, $i, $n, $z);
+	if ($a eq "::") {
+	    return(0);
+	}
+	if ($a =~ /\//) {
+	    ($a, $l) = split(/\//, $a);
+	} else {
+	    $l = 0;
+	}
+	@a = split(/:/, $a, -1);
+	$n = $#a;
 
-	$ip->set($a);
-	return $ip->binip();
+	$a ="";
+	for ($i = 0; $i <= $n; $i++) {
+	    if ($n < 7 && $i < ($n) && length($a[$i]) == 0) {
+		# fill-in the ::s with 0s
+		for ($z = 8 - $i - ($n - $i); $z; $z--) {
+		    $a .= "00000";
+		}
+		next;
+	    }
+	    $a .= sprintf("%05d", hex($a[$i]));
+	}
+	$a .= sprintf("%03d", $l);
+	return($a);
     } else {
 	my(@a) = ($_[0] =~ m#^(\d+)\.(\d+)\.(\d+)\.(\d+)$#);
 	# work around uninitialized values warning, requires perl >= 5.010

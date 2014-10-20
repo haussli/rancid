@@ -359,7 +359,7 @@ sub ipaddrval {
 	if ($a =~ /\//) {
 	    ($a, $l) = split(/\//, $a);
 	} else {
-	    $l = 0;
+	    $l = 128;
 	}
 	@a = split(/:/, $a, -1);
 	$n = $#a;

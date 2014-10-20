@@ -1,4 +1,6 @@
 3.2
+	iosxr.pm: access-list regex truncating lines - Peter Jackson
+
 	rancid.pm: improve IP sorting, esp for IPv6
 
 	ios.pm: filter show flash & dir bytes free better

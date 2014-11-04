@@ -53,7 +53,7 @@ AC_CHECK_HEADERS(ctype.h errno.h fcntl.h libutil.h limits.h pty.h malloc.h \
 		 util.h wait.h)
 
 # check functions
-AC_CHECK_FUNCS(memcpy memmove memset strerror strchr \
+AC_CHECK_FUNCS(asprintf memcpy memmove memset strerror strchr \
 		strrchr strstr strtok strrtok index rindex unsetenv)
 AC_CHECK_FUNCS(openpty, openpty=1, openpty=0)
 # openpty() is not in the default libraries.  See if it is in some other lib.

@@ -118,6 +118,9 @@ sigset_t	set_chld;			/* SIGCHLD {un}blocking */
 void		arg_free(char ***);
 int		arg_mash(char **, char **);
 int		arg_replace(char **, char **, char **, char ***);
+#ifndef HAVE_ASPRINTF
+int		asprintf(char **, char const *, ...)
+#endif
 int		dispatch_cmd(char **, char **);
 int		execcmd(child *, char **);
 int		line_split(const char *, char ***);
@@ -655,6 +658,30 @@ arg_replace(char **cmd, char **args, char **tail, char ***new)
 
     return(0);
 }
+
+#ifndef HAVE_ASPRINTF
+/* crude emulation of asprintf() */
+int
+asprintf(char **str, char const *fmt, va_list ap)
+{
+    int len;
+    va_list apc;
+
+    va_copy(apc, ap);
+    len = vsnprintf(NULL, 0, fmt, apc);
+    va_end(apc);
+    if (len < 0)
+	return len;
+    if ((*str = malloc(len + 1)) == NULL)
+	return -1;
+    if ((len = vsnprintf(*str, len + 1, fmt, ap)) >= 0)
+	return len;
+    len = errno;
+    free(*str);
+    errno = len;
+    return -1;
+}
+#endif
 
 /*
  * find a child/process slot (one of n_opt) to run the command and use

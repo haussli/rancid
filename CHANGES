@@ -1,4 +1,8 @@
 3.2
+	jlogin: set tty width to 132 to avoid problems with cli
+	complete-on-space, which fixes problems occuring when hostnames are
+	longer
+
 	iosxr.pm: access-list regex truncating lines - Peter Jackson
 
 	rancid.pm: improve IP sorting, esp for IPv6

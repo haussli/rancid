@@ -1,4 +1,6 @@
 3.2
+	panlogin, panrancid: import palo alto network script from Doug Hughes
+
 	jlogin: set tty width to 132 to avoid problems with cli
 	complete-on-space, which fixes problems occuring when hostnames are
 	longer

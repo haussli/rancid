@@ -383,8 +383,14 @@ netscaler;login;nslogin
 netscreen;script;nrancid
 netscreen;login;nlogin
 #
-paloalto;script;panrancid
+paloalto;script;rancid -t paloalto
 paloalto;login;panlogin
+paloalto;module;panos
+paloalto;inloop;panos::inloop
+paloalto;command;panos::EatCommand;set cli scripting-mode on
+paloalto;command;panos::EatCommand;set cli pager off
+paloalto;command;panos::ShowInfo;show system info
+paloalto;command;panos::ShowConfig;show config running
 #
 procket;script;prancid
 procket;login;clogin

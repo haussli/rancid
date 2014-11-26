@@ -1,6 +1,6 @@
 #! @EXPECT_PATH@ --
 ##
-## $Id: jlogin.in 2936 2014-11-25 22:52:58Z heas $
+## $Id$
 ##
 ## @PACKAGE@ @VERSION@
 ## Copyright (c) @COPYYEARS@ by Terrapin Communications, Inc.

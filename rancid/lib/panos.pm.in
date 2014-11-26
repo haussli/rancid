@@ -1,6 +1,6 @@
-#! @PERLV_PATH@
+package ios;
 ##
-## $Id: zrancid.in 2713 2013-07-23 22:09:34Z heas $
+## $Id$
 ##
 ## @PACKAGE@ @VERSION@
 ## Copyright (c) @COPYYEARS@ by Terrapin Communications, Inc.

@@ -11,4 +11,5 @@ iosxr.pm
 junos.pm
 mrv.pm
 nxos.pm
+panos.pm
 rancid.pm

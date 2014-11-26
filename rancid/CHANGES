@@ -1,4 +1,6 @@
 3.2
+	panos.pm: convert panrancid to a module
+
 	panlogin, panrancid: import palo alto network script from Doug Hughes
 
 	jlogin: set tty width to 132 to avoid problems with cli

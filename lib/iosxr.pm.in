@@ -1063,12 +1063,14 @@ sub WriteTerm {
 	    while (<$INPUT>) {
 		tr/\015//d;
 		last if (/^$prompt/ || /^\S/);
-		my($seq, $cmd, $misc, $ip) = ($_ =~ /^\s+(\d+) (\w+) (\S+\s)?(.+)/);
+		my($seq, $cmd, $resid) = ($_ =~ /^\s+(\d+) (\w+) (.+)/);
+		my($misc, $ip) = ($resid =~ /(\w+) (\S+\s)?(.+)/);
 		if ($cmd =~ /(permit|deny)/) {
-		    ProcessHistory("ACL $nlri $key $cmd","$aclsort","$ip",
-				   " $cmd $misc$ip\n");
+		    ProcessHistory("ACL $nlri $key $cmd", "$aclsort", "$ip",
+				   " $cmd $resid\n");
 		} else {
-		    ProcessHistory("ACL $nlri $key","",""," $cmd $misc$ip\n");
+		    ProcessHistory("ACL $nlri $key $cmd", "", "",
+				   " $cmd $resid\n");
 		}
 	    }
 	}

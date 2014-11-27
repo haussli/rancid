@@ -50,9 +50,7 @@ use warnings;
 require(Exporter);
 our @ISA = qw(Exporter);
 
-#XXX use 3.0 when we have a version w/o letters in it
-#XXX use rancid 3.0;
-use rancid;
+use rancid @VERSION@;
 
 @ISA = qw(Exporter rancid main);
 #XXX @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands);

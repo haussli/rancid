@@ -244,7 +244,7 @@ sub loadtype {
     %commands = map(%$_, @commandtable);
     $commandcnt = scalar(keys %commands);
 
-    $commandstr = join(";",@commands);
+    $commandstr = join(";", @commands);
     $cmds_regexp = join("|", map quotemeta($_), @commands);
 
     if ($main::opt_C) {
@@ -257,7 +257,7 @@ sub loadtype {
 
 # This routine is used to print out the router configuration
 sub ProcessHistory {
-    my($new_hist_tag,$new_command,$command_string,@string) = (@_);
+    my($new_hist_tag, $new_command, $command_string, @string) = (@_);
     if ((($new_hist_tag ne $hist_tag) || ($new_command ne $command))
 	&& scalar(%history)) {
 	print eval "$command \%history";

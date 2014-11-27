@@ -97,14 +97,9 @@ sub init {
     $found_diag = 0;
     $config_register = undef;		# configuration register value
 
-    # XXX init %hwbuf;			# defined in ShowContCbus
-    # XXX init %hwmemc;			# defined in ShowContCbus
-    # XXX init %hwmemd;			# defined in ShowContCbus
-    # XXX init %hwucode;			# defined in ShowContCbus
     $supbootdisk = 0;			# skip sup-bootflash if sup-bootdisk
 					# worked
     $type = undef;			# device model, from ShowVersion
-    # XXX init %ucode;			# defined in ShowContCbus
 
     $ssp = 0;				# SSP/SSE info, from ShowVersion
     $sspmem = undef;			# SSP/SSE info, from ShowVersion

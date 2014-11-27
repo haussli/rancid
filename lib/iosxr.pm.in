@@ -61,15 +61,12 @@ our $found_diag;
 our $found_version;
 our $config_register;			# configuration register value
 
-#XXX our %hwmemd;				# defined in ShowContCbus
 our $type;				# device model, from ShowVersion
-#XXX our %ucode;				# defined in ShowContCbus
 
 our $C0;				# output formatting control
 our $E0;
 our $H0;
 our $I0;
-our $DO_SHOW_VLAN;
 
 @ISA = qw(Exporter rancid main);
 #XXX @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands);
@@ -87,19 +84,12 @@ sub init {
     $found_version = 0;
     $config_register = undef;		# configuration register value
 
-    # XXX $supbootdisk = 0;			# skip sup-bootflash if sup-bootdisk
-					# worked
-    # XXX $type = undef;			# device model, from ShowVersion
-    # XXX init %ucode;			# defined in ShowContCbus
-
-    # XXX $ssp = 0;				# SSP/SSE info, from ShowVersion
-    # XXX $sspmem = undef;			# SSP/SSE info, from ShowVersion
+    # XXX $type = undef;		# device model, from ShowVersion
 
     $C0 = 0;				# output formatting control
     $E0 = 0;
     $H0 = 0;
     $I0 = 0;
-    # XXX $DO_SHOW_VLAN = 0;
 
     # add content lines and separators
     ProcessHistory("","","","!RANCID-CONTENT-TYPE: $devtype\n!\n");
@@ -827,8 +817,6 @@ sub ShowRPL {
 sub ShowVLAN {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowVLAN: $_" if ($debug);
-
-    ($_ = <$INPUT>, return(1)) if (!$DO_SHOW_VLAN);
 
     while (<$INPUT>) {
 	tr/\015//d;

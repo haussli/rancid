@@ -275,7 +275,9 @@ sub ShowVersion {
 	    next;
 	/^System image file is "([^\"]*)"$/ &&
 	    ProcessHistory("COMMENTS","keysort","F5","!Image: $1\n") && next;
-	if (/(\S+(?:\sseries)?)\s+(?:\((\S+)\)\s+processor|\(revision[^)]+\)).*\s+with (\S+k) bytes/i) {
+	# 2800 at least don't have a processor line
+	if ((/(\S+(?:\sseries)?)\s+(?:\((\S+)\)\s+processor|\(revision[^)]+\)).*\s+with (\S+k) bytes/i) ||
+	    (/isco\s+(\S+)\s+\(.+\)\s+with (\S+[kK]) bytes/)) {
 	    $proc = $1;
 	    my($cpu) = $2;
 	    my($mem) = $3;
@@ -328,6 +330,14 @@ LINE:		while (<$INPUT>) {
 	    } elsif ($proc =~ /1900/) {
 		$type = "1900";
 		$device = "switch";
+	    } elsif ($proc =~ /2811/) {
+		$type = "2800";
+            } elsif ( $proc =~ /^ME-3400/) {
+                $type = "ME3400";
+            } elsif ( $proc =~ /^ME-C37/) {
+                $type = "ME3700";
+            } elsif ( $proc =~ /^ME-C65/) {
+                $type = "ME6500";
 	    } elsif ($proc =~ /C3750/) {
 		$type = "3750";
 		$device = "switch";
@@ -348,6 +358,9 @@ LINE:		while (<$INPUT>) {
 		$type = "3600";
 	    } elsif ($proc =~ /^37/) {
 		$type = "3700";
+            } elsif ( $proc =~ /WS-C375/) {
+                $type = "3750";
+                $device = "switch";
 	    } elsif ($proc =~ /^38/) {
 		$type = "3800";
 	    } elsif ($proc =~ /WS-C45/) {
@@ -364,6 +377,9 @@ LINE:		while (<$INPUT>) {
 		$device = "switch";
 	    } elsif ($proc eq "WK-C65") {
 		$type = "6500";
+            } elsif ( $proc =~ /WS-C6509/) {
+                $type = "6500";
+                $device = "router";
 	    } elsif ($proc eq "RP") {
 		$type = "7000";
 	    } elsif ($proc eq "RP1") {

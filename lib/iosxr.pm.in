@@ -238,6 +238,17 @@ sub ShowVersion {
 	    } elsif ($proc =~ /1900/) {
 		$type = "1900";
 		$device = "switch";
+	    } elsif ($proc =~ /2811/) {
+		$type = "2800";
+            } elsif ( $proc =~ /^ME-3400/) {
+                $type = "ME3400";
+            } elsif ( $proc =~ /^ME-C37/) {
+                $type = "ME3700";
+            } elsif ( $proc =~ /^ME-C65/) {
+                $type = "ME6500";
+	    } elsif ($proc =~ /C3750/) {
+		$type = "3750";
+		$device = "switch";
 	    } elsif ($proc =~ /^(AS)?25[12][12]/) {
 		$type = "2500";
 	    } elsif ($proc =~ /261[01]/ || $proc =~ /262[01]/ ) {
@@ -255,6 +266,9 @@ sub ShowVersion {
 		$type = "3600";
 	    } elsif ($proc =~ /^37/) {
 		$type = "3700";
+            } elsif ( $proc =~ /WS-C375/) {
+                $type = "3750";
+                $device = "switch";
 	    } elsif ($proc =~ /^38/) {
 		$type = "3800";
 	    } elsif ($proc =~ /WS-C45/) {
@@ -271,6 +285,9 @@ sub ShowVersion {
 		$device = "switch";
 	    } elsif ($proc eq "WK-C65") {
 		$type = "6500";
+            } elsif ( $proc =~ /WS-C6509/) {
+                $type = "6500";
+                $device = "router";
 	    } elsif ($proc eq "RP") {
 		$type = "7000";
 	    } elsif ($proc eq "RP1") {
@@ -293,6 +310,21 @@ sub ShowVersion {
 		$type = "12000";
 	    } elsif ($proc =~ /1240[48]\/(GRP|PRP)/ || $proc =~ /1241[06]\/(GRP|PRP)/) {
 		$type = "12400";
+            } elsif ($proc =~ /ASR9K/) {
+                $_ = <INPUT>;
+                $type = $proc;
+                if (/(ASR\S+)\s+(\SC)\s+Chassis/) {
+                    $proc = $1;
+                } elsif (/(ASR\S+)\s+Chassis/) {
+                    $proc = $1;
+                } elsif (/(ASR)\s+(9\S+)\s+(\SC)\s+Chassis/) {
+                    $proc = "ASR-". $2;
+                } elsif (/(ASR)\s+(9\S+)\s+Chassis/) {
+                    $proc = "ASR-". $2;
+                } elsif (/(ASR\s+9922)/) {
+                    $proc = "ASR-9922";
+                }
+                $_ = "";
 	    } else {
 		$type = $proc;
 	    }

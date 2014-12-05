@@ -502,13 +502,28 @@ sub ShowMTU {
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(invalid (input|command) detected|type help or )/i);
 
-	ProcessHistory("COMMENTS","keysort","IO","!MTU: $_");
+        if (/System MTU size is (\d+) bytes/) {
+            ProcessHistory("COMMENTS","keysort","IO","!MTU: $1\n");
+            next;
+        }
+        if (/System Jumbo MTU size is (\d+) bytes/) {
+            ProcessHistory("COMMENTS","keysort","IO","!MTU-Jumbo: $1\n");
+            next;
+        }
+        if (/Routing MTU size is (\d+) bytes/) {
+            ProcessHistory("COMMENTS","keysort","IO","!MTU-Routing: $1\n");
+            next;
+        }
+        if (/On next reload, (.*)/) {
+            ProcessHistory("COMMENTS","keysort","IO","!MTU-Reload: $1\n");
+            next;
+        }
     }
     ProcessHistory("COMMENTS","keysort","IO","!\n");
     return(0);
 }
 
-# This routine parses "showSDM"
+# This routine parses "show sdm prefer"
 sub ShowSDM {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowSDM: $_" if ($debug);
@@ -521,6 +536,18 @@ sub ShowSDM {
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(invalid (input|command) detected|type help or )/i);
 
+        if (/current template is "(.+)" template/) {
+            ProcessHistory("COMMENTS","keysort","IO","!SDM Template: $1\n");
+            next;
+        }
+        if (/current template is the (\S+) template/) {
+            ProcessHistory("COMMENTS","keysort","IO","!SDM Template: $1\n");
+            next;
+        }
+        if (/On next reload, template will be "(.+)" template/) {
+            ProcessHistory("COMMENTS","keysort","IO","!SDM Template-Reload: $1\n");
+            next;
+        }
 	if (/(current template is|next reload)/) {
 	    ProcessHistory("COMMENTS","keysort","IO","!SDM: $_");
 	}

@@ -354,7 +354,7 @@ sub ShowEnvTemp {
 #5        QEng1Sn1(s10)   115             105         39         Ok
 	if (/(control temperature|monitor temperature)/i) {
 	    ProcessHistory("COMMENTS","","","!Env: $_");
-	    while (<INPUT>) {
+	    while (<$INPUT>) {
 		if (/(.*\s+\d+\s+\d+\s+)(\d+)(.*$)/) {
 		    $_ = sprintf("%s%-". length($2)."s%s\n", $1, "", $3);
 		}

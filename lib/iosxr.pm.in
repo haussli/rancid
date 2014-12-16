@@ -311,7 +311,7 @@ sub ShowVersion {
 	    } elsif ($proc =~ /1240[48]\/(GRP|PRP)/ || $proc =~ /1241[06]\/(GRP|PRP)/) {
 		$type = "12400";
             } elsif ($proc =~ /ASR9K/) {
-                $_ = <INPUT>;
+                $_ = <$INPUT>;
                 $type = $proc;
                 if (/(ASR\S+)\s+(\SC)\s+Chassis/) {
                     $proc = $1;

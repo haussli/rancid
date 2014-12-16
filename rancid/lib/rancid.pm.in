@@ -347,14 +347,14 @@ sub ipsort {
     @sorted_lines;
 }
 
-# These two routines will sort based upon IP addresses
+# These two routines will sort based upon IPv4/6 addresses
 sub ipaddrval {
     my($a) = @_;
 
     if ($a =~ /:/) {
 	my($p, $l, @a, $i, $n, $z);
 	if ($a eq "::") {
-	    return(0);
+	    return("0000000000000000000000000000000000000000000");
 	}
 	if ($a =~ /\//) {
 	    ($a, $l) = split(/\//, $a);
@@ -371,20 +371,29 @@ sub ipaddrval {
 		for ($z = 8 - $i - ($n - $i); $z; $z--) {
 		    $a .= "00000";
 		}
-		next;
+		goto NVAL;
 	    }
+	    # work around uninitialized values warning, requires perl >= 5.010
+	    $a[$i] //= 0;
 	    $a .= sprintf("%05d", hex($a[$i]));
+NVAL:	    next;
 	}
 	$a .= sprintf("%03d", $l);
 	return($a);
     } else {
-	my(@a) = ($_[0] =~ m#^(\d+)\.(\d+)\.(\d+)\.(\d+)$#);
+	my(@a, $l);
+	if ($a =~ /\//) {
+	    ($a, $l) = split(/\//, $a);
+	} else {
+	    $l = 32;
+	}
+	@a = split(/\./, $a, -1);
 	# work around uninitialized values warning, requires perl >= 5.010
 	$a[0] //= 0;
 	$a[1] //= 0;
 	$a[2] //= 0;
 	$a[3] //= 0;
-	return($a[3] + 256 * ($a[2] + 256 * ($a[1] + 256 * $a[0])));
+	return(sprintf("%03d%03d%03d%03d%02d", $a[0], $a[1], $a[2], $a[3], $l));
     }
 }
 

@@ -1,4 +1,6 @@
 3.2
+	ios.pm: access-list/prefix-list sorting regex fixes
+
 	nxos.pm: filter ASIC/INTAKE cycling temps - Vincent Aniello
 
 	panos.pm: convert panrancid to a module

@@ -1,4 +1,6 @@
 3.2
+	nxos.pm: filter ASIC/INTAKE cycling temps - Vincent Aniello
+
 	panos.pm: convert panrancid to a module
 
 	panlogin, panrancid: import palo alto network script from Doug Hughes

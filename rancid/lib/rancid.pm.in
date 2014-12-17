@@ -255,9 +255,14 @@ sub loadtype {
     0;
 }
 
-# This routine is used to print out the router configuration
+# This routine is used to print out the router configuration.  Each line is
+# fed to ProcessHistory([tag], [output/sort func], [func argument], line/string)
+# which outputs the line/strings if there is no tag or sort function, else it
+# accumulates the lines/strings until either the optional tag changes or the
+# optional output function changes.
 sub ProcessHistory {
     my($new_hist_tag, $new_command, $command_string, @string) = (@_);
+
     if ((($new_hist_tag ne $hist_tag) || ($new_command ne $command))
 	&& scalar(%history)) {
 	print eval "$command \%history";

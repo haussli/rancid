@@ -405,7 +405,7 @@ NVAL:	    next;
 
 # sortbyipaddr(IPaddr, IPaddr) compares two IPv4/v6 addresses like strcmp().
 sub sortbyipaddr {
-    &ipaddrval($a) <=> &ipaddrval($b);
+    &ipaddrval($a) cmp &ipaddrval($b);
 }
 
 # This routine parses a single command that returns no required info.  The

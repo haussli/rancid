@@ -1,4 +1,6 @@
 3.2
+	dell.pm: filter up time from show switch
+
 	control_rancid: svn cleanup after collection commits
 
 	iosxr.pm: access-list/prefix-list sorting regex fixes

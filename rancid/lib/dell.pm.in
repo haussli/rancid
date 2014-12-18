@@ -142,7 +142,7 @@ sub GetSystem {
 	next if /^\s*$/;
 	last if (/$prompt/);
 
-	#next if (/^System Time:/i);
+	next if (/^system up time:/i);
 	#next if (/^\s*Virus-DB: .*/);
 	#next if (/^\s*Extended DB: .*/);
 	#next if (/^\s*IPS-DB: .*/);

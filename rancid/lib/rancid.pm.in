@@ -372,12 +372,11 @@ sub ipaddrval {
 		for ($z = 8 - $i - ($n - $i); $z; $z--) {
 		    $a .= "00000";
 		}
-		goto NVAL;
+		next;
 	    }
 	    # work around uninitialized values warning, requires perl >= 5.010
 	    $a[$i] //= 0;
 	    $a .= sprintf("%05d", hex($a[$i]));
-NVAL:	    next;
 	}
 	$a .= sprintf("%03d", $l);
 	return($a);

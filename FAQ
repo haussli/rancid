@@ -200,7 +200,8 @@ A. Assuming that you're starting fresh, its quite simple.  Before running
 
 
 Q. I need a web interface to the rancid CVS repository, for the CVS unsavvy.
-A. cvsweb works with rancid.  Other similar software may as well.
+A. cvsweb works with rancid.  Other similar software may exist as well and
+   there are similar tools for Subversion and git.
 	http://www.freebsd.org/projects/cvsweb.html
    cvsweb.conf:
 	@CVSrepositories = (

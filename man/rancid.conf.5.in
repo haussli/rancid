@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid.conf" "5" "17 December 2014"
+.TH "rancid.conf" "5" "18 December 2014"
 .SH NAME
 rancid.conf \- rancid environment configuration file
 .SH DESCRIPTION
@@ -55,8 +55,13 @@ Default: @localstatedir@
 and
 .IR rancid-cvs (1)
 use this environment variable to locate the CVS repository.
-In some cases, and for Subversion, it is used as an argument to commands.
-It should not be necessary to alter it.
+In some cases, particularly for Subversion and git, it is used as an argument
+to commands.
+In general, it should not be necessary to alter it, but it could be set
+to a remote location if the the RCS system supports it.
+If it is a remote location, any necessary authentication must be handled
+separately from RANCiD, which provides no means of interacting with the
+remote.
 .sp
 Default: $BASEDIR/CVS
 .\"

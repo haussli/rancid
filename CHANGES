@@ -1,4 +1,6 @@
 3.2
+	control_rancid: svn cleanup after collection commits
+
 	iosxr.pm: access-list/prefix-list sorting regex fixes
 
 	ios.pm: access-list/prefix-list sorting regex fixes

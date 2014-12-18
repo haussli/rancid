@@ -180,28 +180,37 @@ routers.all
 routers.down
 routers.up
 EOF
-    if [ $RCSSYS = svn ] ; then
+    case $RCSSYS in
+    svn )
 	svn propset svn:ignore -F .cvsignore .
 	svn update .
 	svn commit -m 'set svn:ignores' .
-    fi
+	;;
+    esac
 fi
 
 # check if there is a rancid.conf and if it needs to be added to the RCS
 if [ -f rancid.conf ] ; then
-    if [ $RCSSYS = svn ] ; then
-	LN=`svn ls rancid.conf | wc -l`
-    else
+    case $RCSSYS in
+    cvs )
 	cvs log -rHEAD rancid.conf > /dev/null 2>&1
 	if [ $? -eq 0 ] ; then LN=1; else LN=0; fi
-    fi
+	;;
+    svn )
+	LN=`svn ls rancid.conf | wc -l`
+	;;
+    esac
     if [ $LN -eq 0 ] ; then
 	$RCSSYS add rancid.conf
     fi
 fi
 
 # do cvs update of router.db in case anyone has fiddled.
-$RCSSYS update router.db > $TMP 2>&1
+case $RCSSYS in
+cvs svn )
+    $RCSSYS update router.db > $TMP 2>&1
+    ;;
+esac
 grep "^C" $TMP > /dev/null
 if [ $? -eq 0 ] ; then
     echo "There were $RCSSYS conflicts during update."
@@ -322,11 +331,14 @@ if [ $RALL -ne 0 -o $RDOWN -ne 0 -o $RUP -ne 0 ] ; then
 	router=$1
 
 	touch $router
-	if [ $RCSSYS = cvs ] ; then
+	case $RCSSYS in
+	cvs )
 	    cvs add -ko $router
-	else
+	    ;;
+	svn )
 	    svn add $router
-	fi
+	    ;;
+	esac
 	$RCSSYS commit -m 'new router' $router
 	echo "Added $router"
     done
@@ -352,21 +364,27 @@ trap 'rm -fr $TMP;' 1 2 15
 cd $DIR/configs
 # check for 'up' routers missing in RCS.  no idea how this happens to some folks
 for router in `cut -d\; -f1 ../routers.up` ; do
-    if [ $RCSSYS = cvs ] ; then
+    case $RCSSYS in
+    cvs )
 	cvs status $router | grep -i 'status: unknown' > /dev/null 2>&1
-    else
+	;;
+    svn )
 	if [ ! -e $router ] ; then
 	    touch $router
 	fi
 	svn status $router | grep '^?' > /dev/null 2>&1
-    fi
+        ;;
+    esac
     if [ $? -eq 0 ] ; then
 	touch $router
-	if [ $RCSSYS = cvs ] ; then
+	case $RCSSYS in
+	cvs )
 	    cvs add -ko $router
-	else
+	    ;;
+	svn )
 	    svn add $router
-	fi
+	    ;;
+	esac
 	echo "$RCSSYS added missing router $router"
     fi
 done
@@ -486,12 +504,15 @@ done
 # Diff the directory and then checkin.
 trap 'rm -fr $TMP $TMP.diff $DIR/routers.single;' 1 2 15
 cd $DIR
-if [ $RCSSYS = "cvs" ] ; then
+case $RCSSYS in
+cvs )
     cvs -f @DIFF_CMD@ -ko | sed -e '/^RCS file: /d' -e '/^--- /d' \
 	-e '/^+++ /d' -e 's/^\([-+ ]\)/\1 /' >$TMP.diff
-else
+    ;;
+svn )
     svn diff | sed -e '/^+++ /d' -e 's/^\([-+ ]\)/\1 /' >$TMP.diff
-fi
+    ;;
+esac
 
 if [ $alt_mailrcpt -eq 1 ] ; then
     subject="router config diffs - courtesy of $mailrcpt"

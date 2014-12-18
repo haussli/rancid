@@ -93,11 +93,13 @@ if [ $RCSSYS != "cvs" -a $RCSSYS != "svn" ] ; then
 fi
 
 # Top level RCS stuff
-if [ $RCSSYS = cvs ]; then
+case $RCSSYS in
+cvs )
     if [ ! -d $CVSROOT ]; then
 	cvs -d $CVSROOT init
     fi
-else
+    ;;
+svn )
     if echo "$CVSROOT" | grep -q "://"; then
 	# do nothing because CVSROOT is some sort of a URL
 	# also assume the repository has already been provisioned
@@ -108,7 +110,8 @@ else
 	fi
 	CVSROOT="file://$CVSROOT"
     fi
-fi
+    ;;
+esac
 
 # Log dir
 if [ ! -d logs ]; then
@@ -125,24 +128,26 @@ fi
 
 for GROUP in `echo $LIST_OF_GROUPS` ;
 do
-
     DIR=$BASEDIR/$GROUP
 
     # Directory for the group and the configs
     if [ ! -d $DIR ]; then
 	mkdir -p $DIR
 	cd $DIR
-	if [ $RCSSYS = cvs ]; then
+	case $RCSSYS in
+	cvs )
 	    cvs import -m "$GROUP" $GROUP new rancid
 	    cd $BASEDIR
 	    cvs checkout $GROUP
-	else
+	    ;;
+	svn )
 	    svn import -m "$GROUP" . $CVSROOT/$GROUP
 	    cd $BASEDIR
 	    svn checkout $CVSROOT/$GROUP $GROUP
 	    cd $DIR
 	    svn update
-	fi
+	    ;;
+	esac
     fi
     cd $DIR
     if [ ! -d configs ]; then

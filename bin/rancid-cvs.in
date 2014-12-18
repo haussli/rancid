@@ -92,7 +92,7 @@ if [ $RCSSYS != "cvs" -a $RCSSYS != "svn" ] ; then
     exit 1
 fi
 
-# Top level CVS stuff
+# Top level RCS stuff
 if [ $RCSSYS = cvs ]; then
     if [ ! -d $CVSROOT ]; then
 	cvs -d $CVSROOT init

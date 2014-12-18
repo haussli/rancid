@@ -101,7 +101,7 @@ sub rancidinit {
     }
 
     $command = $hist_tag = "";		# ProcessHistory state
-    for (keys %history) {
+    for (keys(%history)) {
         delete $history{$_};
     }
     @history = ();
@@ -242,7 +242,7 @@ sub loadtype {
     # commands to the subroutine and track commands that have been completed.
     @commands = map(keys(%$_), @commandtable);
     %commands = map(%$_, @commandtable);
-    $commandcnt = scalar(keys %commands);
+    $commandcnt = scalar(keys(%commands));
 
     $commandstr = join(";", @commands);
     $cmds_regexp = join("|", map quotemeta($_), @commands);
@@ -294,8 +294,7 @@ sub keynsort {
     my($i) = 0;
     my($key, @sorted_lines);
     foreach $key (sort numerically keys(%lines)) {
-	$sorted_lines[$i] = $lines{$key};
-	$i++;
+	$sorted_lines[$i++] = $lines{$key};
     }
     @sorted_lines;
 }
@@ -307,8 +306,7 @@ sub keysort {
     my($i) = 0;
     my($key, @sorted_lines);
     foreach $key (sort keys(%lines)) {
-	$sorted_lines[$i] = $lines{$key};
-	$i++;
+	$sorted_lines[$i++] = $lines{$key};
     }
     @sorted_lines;
 }
@@ -319,9 +317,8 @@ sub valsort {
     my(%lines) = @_;
     my($i) = 0;
     my($key, @sorted_lines);
-    foreach $key (sort values %lines) {
-	$sorted_lines[$i] = $key;
-	$i++;
+    foreach $key (sort values(%lines)) {
+	$sorted_lines[$i++] = $key;
     }
     @sorted_lines;
 }
@@ -331,9 +328,8 @@ sub numsort {
     my(%lines) = @_;
     my($i) = 0;
     my($num, @sorted_lines);
-    foreach $num (sort {$a <=> $b} keys %lines) {
-	$sorted_lines[$i] = $lines{$num};
-	$i++;
+    foreach $num (sort {$a <=> $b} keys(%lines)) {
+	$sorted_lines[$i++] = $lines{$num};
     }
     @sorted_lines;
 }
@@ -344,9 +340,8 @@ sub ipsort {
     my(%lines) = @_;
     my($i) = 0;
     my($addr, @sorted_lines);
-    foreach $addr (sort sortbyipaddr keys %lines) {
-	$sorted_lines[$i] = $lines{$addr};
-	$i++;
+    foreach $addr (sort sortbyipaddr keys(%lines)) {
+	$sorted_lines[$i++] = $lines{$addr};
     }
     @sorted_lines;
 }

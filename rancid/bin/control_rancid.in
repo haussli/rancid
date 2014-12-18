@@ -506,6 +506,11 @@ else
     subject="$GROUP $subject"
 fi
 
+# working-directory maintenance
+if [ $RCSSYS = svn ] ; then
+    svn cleanup
+fi
+
 # Mail out the diffs (if there are any).
 if [ -s $TMP.diff ] ; then
     MAXSZ=${MAILSPLIT:=0}

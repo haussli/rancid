@@ -1,11 +1,15 @@
 .\"
 .hys 50
+.TH "rancid-cvs" "1" "18 December 2014"
 .TH "rancid-cvs" "1" "17 December 2014"
 .SH NAME
 rancid-cvs \- initialize CVS, Subversion or git and rancid group files and directories
 .SH SYNOPSIS
 .B rancid-cvs
-[\fB\-V\fR] [group [group ...]]
+[\fB\-V\fR] [\c
+.BI \-f\ \c
+config_file]\ \c
+[group [group ...]]
 .SH DESCRIPTION
 .B rancid-cvs
 creates the directories and
@@ -50,6 +54,10 @@ The command-line options are as follows:
 .TP
 .B \-V
 Prints package name and version strings.
+.TP
+.B \-f group_config_file
+Specify an alternative rancid.conf.  The global rancid.conf file is read by
+.B rancid-run.
 .\"
 .PP
 The best method for adding groups is by adding the group name to

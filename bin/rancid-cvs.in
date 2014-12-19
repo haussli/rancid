@@ -51,7 +51,7 @@ ENVFILE="@sysconfdir@/rancid.conf"
 
 # print a usage message to stderr
 pr_usage() {
-    echo "usage: $0 [-V] [group [group ...]]" >&2;
+    echo "usage: $0 [-V] [-f config_file] [group [group ...]]" >&2;
 }
 
 # command-line options
@@ -62,6 +62,16 @@ if [ $# -ge 1 ] ; then
 	-V)
 	    echo "@PACKAGE@ @VERSION@"
 	    exit 0
+	    ;;
+	-f)
+	    shift
+	    # next arg is the alternate config file name
+	    ENVFILE="$1"
+	    if [ -z $ENVFILE ]; then
+		pr_usage
+		exit 1
+	    fi
+	    shift
 	    ;;
 	-*)
 	    echo "unknown option: $1" >&2

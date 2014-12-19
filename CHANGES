@@ -1,4 +1,6 @@
 3.2
+	rancid-cvs: add -f option
+
 	dell.pm: filter up time from show switch
 
 	control_rancid: svn cleanup after collection commits

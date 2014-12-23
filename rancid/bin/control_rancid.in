@@ -189,7 +189,7 @@ EOF
     esac
 fi
 
-# check if there is a rancid.conf and if it needs to be added to the RCS
+# if there is a rancid.conf, check if it needs to be added to the RCS
 if [ -f rancid.conf ] ; then
     case $RCSSYS in
     cvs )

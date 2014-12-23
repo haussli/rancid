@@ -179,9 +179,13 @@ do
     fi
     cd $DIR
     if [ ! -d configs ]; then
+	rm -f configs
 	mkdir configs
 	if [ $RCSSYS = "git" ]; then
-	    echo '*.raw' > configs/.gitignore
+	    cat > configs/.gitignore <<EOF
+*.new
+*.raw
+EOF
 	fi
 	$RCSSYS add configs
 	$RCSSYS commit -m 'new' configs

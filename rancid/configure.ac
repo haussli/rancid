@@ -22,7 +22,7 @@ AC_SUBST(COPYYEARS)
 dnl default install location
 AC_PREFIX_DEFAULT(/usr/local/rancid)
 
-dnl AM_MAINTAINER_MODE()
+AM_MAINTAINER_MODE([disable])
 
 dnl AC_CONFIG_SUBDIRS(util)
 

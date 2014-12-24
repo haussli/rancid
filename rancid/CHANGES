@@ -1,4 +1,7 @@
 3.2
+	add support for git based on Jeffrey C. Ollie's patch & thanks Dan Lowe,
+	Job Snijders and a number of folks on rancid-discuss
+
 	rancid-cvs: add -f option
 
 	dell.pm: filter up time from show switch

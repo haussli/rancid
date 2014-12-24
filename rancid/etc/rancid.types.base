@@ -159,8 +159,8 @@ cisco-xr;script;rancid -t cisco-xr
 cisco-xr;login;clogin
 cisco-xr;module;iosxr
 cisco-xr;inloop;iosxr::inloop
-cisco-xr;command;iosxr::RunCommand;terminal no-timestamp;Disable timestamps XR 3.6
-cisco-xr;command;iosxr::RunCommand;terminal exec prompt no-timestamp;Disable timestamps XR 3.8
+cisco-xr;command;rancid::RunCommand;terminal no-timestamp;Disable timestamps XR 3.6
+cisco-xr;command;rancid::RunCommand;terminal exec prompt no-timestamp;Disable timestamps XR 3.8
 cisco-xr;command;iosxr::ShowVersion;admin show version
 cisco-xr;command;iosxr::ShowInstallSummary;admin show install summary;XR image
 cisco-xr;command;iosxr::ShowLicense;admin show license;XR image

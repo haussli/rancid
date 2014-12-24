@@ -165,14 +165,3 @@ sub ShowConfig {
     }
     return 0;
 }
-
-# eat lines until the next prompt shows up
-sub EatCommand {
-    my($INPUT, $OUTPUT, $cmd) = @_;
-
-    while (<$INPUT>) {
-	tr/\015//d;
-	last if (/^$prompt/);
-    }
-    return 0;
-}

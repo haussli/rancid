@@ -165,3 +165,5 @@ sub ShowConfig {
     }
     return 0;
 }
+
+1;

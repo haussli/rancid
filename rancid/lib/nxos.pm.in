@@ -803,9 +803,9 @@ sub WriteTerm {
 	}
     }
     # The ContentEngine lacks a definitive "end of config" marker.  If we
-    # know that it is a CE, SAN, or NXOS and we have seen at least 5 lines
+    # know that it is NXOS and we have seen at least 5 lines
     # of write term output, we can be reasonably sure that we got the config.
-    if (($type == "CE" || $type == "SAN" || $type == "NXOS" ) && $linecnt > 5) {
+    if (($type eq "NXOS") && $linecnt > 5) {
 	$found_end = 1;
 	return(0);
     }

@@ -3,7 +3,7 @@
 
 ## $Id$
 ##
-## Copyright (c) 1997-2013 by Terrapin Communications, Inc.
+## Copyright (c) 1997-2015 by Terrapin Communications, Inc.
 ## All rights reserved.
 ##
 ## Please see the file COPYING for the text of the license.

@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1997-2008 by Terrapin Communications, Inc.
+ * Copyright (c) 1997-2015 by Terrapin Communications, Inc.
  * All rights reserved.
  *
  * This code is derived from software contributed to and maintained by

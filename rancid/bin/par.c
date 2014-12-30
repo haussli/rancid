@@ -1,7 +1,7 @@
 /*
  * $Id: par.c 4910 2014-01-16 20:12:45Z heas $
  *
- * Copyright (C) 2002-2008 by Henry Kilmer, Andrew Partan, John Heasley
+ * Copyright (C) 2002-2015 by Henry Kilmer, Andrew Partan, John Heasley
  * All rights reserved.
  *
  * This software may be freely copied, modified and redistributed without

@@ -1967,6 +1967,7 @@ sub WriteTerm {
 		tr/\015//d;
 		last if (/^$prompt/ || ! /^ /);
 		next if (/(rx|tx)speed \d+/);
+		$_ = "$1 <removed>" if (/^(\s+password \d+) /);
 		ProcessHistory("LINE","keysort","$key","$_");
 	    }
 	}

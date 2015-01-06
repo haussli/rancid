@@ -1,7 +1,7 @@
 3.1.99
 	rancid.types: fix show config commands for cisco-wlc*
 
-	ios.pm: filter line password on XE - Ira Byerly
+	ios.pm: filter line password on c2800s & c2900s - Ira Byerly
 
 	add support for git.  See the UPGRADING file.  Based on Jeffrey C.
 	Ollie's patch & thanks Dan Lowe, Job Snijders and a number of folks on

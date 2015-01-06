@@ -142,7 +142,7 @@ sub ShowConfig {
         next if (/^(\s*|\s*$cmd\s*)$/);
         if (! /^$prompt/) {
                 if (! $skipprocess) {
-                        print STDOUT "      ShowConfig Data: $_" if ($debug);
+                        print STDERR "      ShowConfig Data: $_" if ($debug);
                         ProcessHistory("","","","$_");
                 }
         }
@@ -173,7 +173,7 @@ sub ShowSysinfo {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	if (! /^$prompt/) {
 		if (! $skipprocess) {
-			print STDOUT "      ShowSysinfo Data: $_" if ($debug);
+			print STDERR "      ShowSysinfo Data: $_" if ($debug);
 			ProcessHistory("","","","! $_");
 		}
 	}
@@ -198,7 +198,7 @@ sub ShowUdi {
         next if (/^(\s*|\s*$cmd\s*)$/);
         if (! /^$prompt/) {
                 if (! $skipprocess) {
-                        print STDOUT "      ShowUdi Data: $_" if ($debug);
+                        print STDERR "      ShowUdi Data: $_" if ($debug);
                         ProcessHistory("","","","! $_");
                 }
         }

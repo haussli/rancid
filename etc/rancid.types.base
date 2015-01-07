@@ -212,17 +212,17 @@ cisco-wlc4;script;rancid -t cisco-wlc4
 cisco-wlc4;login;wlogin
 cisco-wlc4;module;ciscowlc
 cisco-wlc4;inloop;ciscowlc::inloop
-cisco-wlc4;command;ciscowlc::ShowUdi4;show udi
-cisco-wlc4;command;ciscowlc::ShowSysinfo4;show sysinfo
-cisco-wlc4;command;ciscowlc::ShowConfig4;show runnning-config
+cisco-wlc4;command;ciscowlc::ShowUdi;show udi
+cisco-wlc4;command;ciscowlc::ShowSysinfo;show sysinfo
+cisco-wlc4;command;ciscowlc::ShowConfig;show runnning-config
 #
 cisco-wlc5;script;rancid -t cisco-wlc5
 cisco-wlc5;login;wlogin
 cisco-wlc5;module;ciscowlc
 cisco-wlc5;inloop;ciscowlc::inloop
-cisco-wlc5;command;ciscowlc::ShowUdi5;show udi
-cisco-wlc5;command;ciscowlc::ShowSysinfo5;show sysinfo
-cisco-wlc5;command;ciscowlc::ShowConfig5;show run-config commands
+cisco-wlc5;command;ciscowlc::ShowUdi;show udi
+cisco-wlc5;command;ciscowlc::ShowSysinfo;show sysinfo
+cisco-wlc5;command;ciscowlc::ShowConfig;show run-config commands
 #
 compass;script;rancid -t compass
 compass;login;complogin

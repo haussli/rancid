@@ -114,9 +114,9 @@ TOP: while(<$INPUT>) {
 # This routine parses "show running-config"
 sub ShowConfig {
     my($INPUT, $OUTPUT, $cmd) = @_;
+    my($linecnt) = 0;
     print STDERR "    In ShowConfig: $_" if ($debug);
-    ProcessHistory("","","","\n!--WLC Begin Config Data--!\n\n");
-    my($firstexit) = 0;
+    ProcessHistory("","","","\n!--WLC Begin Config Data--!\n");
 
     while (<$INPUT>) {
         tr/\015//d;
@@ -140,6 +140,8 @@ sub ShowConfig {
 
         last if (/^$prompt/);
         next if (/^(\s*|\s*$cmd\s*)$/);
+
+	$linecnt++;
         if (! /^$prompt/) {
                 if (! $skipprocess) {
                         print STDERR "      ShowConfig Data: $_" if ($debug);
@@ -147,9 +149,13 @@ sub ShowConfig {
                 }
         }
     }
-    $clean_run=1;
     ProcessHistory("","","","\n!--WLC End Config Data--!\n");
     print STDERR "    Exiting ShowConfig: $_" if ($debug);
+    # WLC lacks a definitive "end of config" marker.
+    if ($linecnt > 5) {
+	$found_end = 1;
+	return(1);
+    }
     return(0);
 }
 
@@ -190,23 +196,16 @@ sub ShowUdi {
     ProcessHistory("","","","\n!WLC Show Udi Start\n!\n");
 
     while (<$INPUT>) {
-        tr/\015//d;
+	tr/\015//d;
 
-        my($skipprocess) = 0;
-
-        last if (/^$prompt/);
-        next if (/^(\s*|\s*$cmd\s*)$/);
-        if (! /^$prompt/) {
-                if (! $skipprocess) {
-                        print STDERR "      ShowUdi Data: $_" if ($debug);
-                        ProcessHistory("","","","! $_");
-                }
-        }
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	print STDERR "      ShowUdi Data: $_" if ($debug);
+	ProcessHistory("","","","! $_");
     }
     ProcessHistory("","","","!\n!WLC Show Udi End\n");
     print STDERR "    Exiting ShowSysinfo: $_" if ($debug);
     return(0);
-
 }
 
 1;

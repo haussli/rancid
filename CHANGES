@@ -1,4 +1,6 @@
 3.1.99
+	Updates to default mail headers for RFC3834 & MS - Jethro R Binks
+
 	rancid.types: fix show config commands for cisco-wlc*
 
 	ios.pm: filter line password on c2800s & c2900s - Ira Byerly

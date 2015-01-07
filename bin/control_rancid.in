@@ -143,7 +143,7 @@ adminmailrcpt=${adminmailrcpt:-"@ADMINMAILPLUS@${GROUP}${MAILDOMAIN}"};
 export adminmailrcpt
 set | grep MAILHEADERS= > /dev/null 2>&1
 if [ $? -ne 0 ] ; then
-    MAILHEADERS="Precedence: bulk\n"; export MAILHEADERS
+    MAILHEADERS="Precedence: bulk\nAuto-submitted: auto-generated\nX-Auto-Response-Suppress: All"; export MAILHEADERS
 fi
 
 # Number of things par should run in parallel.

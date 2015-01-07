@@ -95,13 +95,13 @@ TOP: while(<$INPUT>) {
 		$prompt =~ s/([][}{)(\\])/\\$1/g;
 		print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
 	    }
-	    print STDERR ("WLC COMMAND:$_") if ($debug);
+	    print STDERR ("HIT COMMAND:$_") if ($debug);
 	    if (! defined($commands{$cmd})) {
 		print STDERR "$host: found unexpected command - \"$cmd\"\n";
 		$clean_run = 0;
 		last TOP;
 	    }
-	    $rval = &{$commands{$cmd}};
+	    $rval = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
 	    delete($commands{$cmd});
 	    if ($rval == -1) {
 		$clean_run = 0;

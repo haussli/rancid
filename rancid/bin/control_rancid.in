@@ -574,7 +574,11 @@ else
     subject="router config diffs"
 fi
 if [ "X$device" != "X" ] ; then
-    $RCSSYS commit -m "updates - courtesy of $mailrcpt" $device
+    if [ $RCSSYS = git ] ; then
+	$RCSSYS commit -am "updates - courtesy of $mailrcpt"
+    else
+	$RCSSYS commit -m "updates - courtesy of $mailrcpt"
+    fi
     subject="$GROUP/$device $subject"
 else
     if [ $RCSSYS = git ] ; then

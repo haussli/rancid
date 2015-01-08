@@ -151,6 +151,8 @@ do
 		  echo "To: @ADMINMAILPLUS@${GROUP}${MAILDOMAIN}"
 		  echo "Subject: rancid hung - $GROUP"
 		  echo "Precedence: bulk"
+		  echo "Auto-submitted: auto-generated"
+		  echo "X-Auto-Response-Suppress: All"
 		  echo ""
 
 		  cat <<END

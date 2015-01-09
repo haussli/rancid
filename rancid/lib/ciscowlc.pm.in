@@ -101,6 +101,7 @@ TOP: while(<$INPUT>) {
 		$clean_run = 0;
 		last TOP;
 	    }
+	    print STDERR ("HIT COMMAND:$_") if ($debug);
 	    $rval = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
 	    delete($commands{$cmd});
 	    if ($rval == -1) {

@@ -466,6 +466,18 @@ sub DirSlotN {
 	return(1) if /(Open device \S+ failed|Error opening \S+:)/;
 
 	next if (/BufferMonitor-1HourData/);
+	if (/ log\/$/) {
+	    # change
+	    #         8192    Jan 08 14:05:05 2015  log/
+	    # to
+	    #                                       log/
+	    if (/(\s*\d+\s+)(\S+ \d+\s+\d+:\d+:\d+ \d+)(.*)/) {
+		my($a, $dt, $rem) = ($1, $2, $3);
+		my($dtl) = length($dt);
+		my($fmt) = "%s%-". $dtl ."s%s\n";
+		$_ = sprintf($fmt, $a, "", $rem);
+	    }
+	}
 
 	if (/^\s*(\d+) bytes /) {
 	    my($tmp) = int($1 / (1024 * 1024));

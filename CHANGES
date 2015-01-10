@@ -1,4 +1,8 @@
 3.1.99
+	control_rancid: read rancid.conf sooner & fix handling group/ranicd.conf
+
+	rancid-run: pass -f to control_rancid
+
 	Fix the commit command used for -r - Jethro R Binks
 
 	Updates to default mail headers for RFC3834 & MS - Jethro R Binks

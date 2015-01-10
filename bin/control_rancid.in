@@ -130,6 +130,25 @@ unset noclobber > /dev/null 2>&1
 # SENDMAIL location
 SENDMAIL=${SENDMAIL:=sendmail};
 
+# Bail if we do not have the necessary info to run
+if [ ! -d $DIR ] ; then
+    echo "$DIR does not exist."
+    echo "Run bin/rancid-cvs $GROUP to make all of the needed directories."
+    (
+	echo "To: $adminmailrcpt"
+	echo "Subject: no $GROUP directory"
+	echo "$MAILHEADERS" | awk '{L = "";LN = $0;while (LN ~ /\\n/) { I = index(LN,"\\n");L = L substr(LN,0,I-1) "\n";LN = substr(LN,I+2,length(LN)-I-1);}print L LN;}'
+	echo ""
+	echo "$DIR does not exist."
+	echo "Run bin/rancid-cvs $GROUP to make all of the needed directories."
+    ) | @SENDMAIL@ -t $MAILOPTS
+    exit 1
+fi
+cd $DIR
+if [ -e "rancid.conf" ] ; then
+    . rancid.conf
+fi
+
 # RCS system
 RCSSYS=${RCSSYS:=cvs};
 if [ $RCSSYS != "cvs" -a $RCSSYS != "svn" -a $RCSSYS != "git" ] ; then
@@ -154,22 +173,6 @@ if [ $MAX_ROUNDS -lt 0 ] ; then
     echo "Error: MAX_ROUNDS must be at least 0 or greater."
     MAX_ROUNDS=1
 fi
-
-# Bail if we do not have the necessary info to run
-if [ ! -d $DIR ] ; then
-    echo "$DIR does not exist."
-    echo "Run bin/rancid-cvs $GROUP to make all of the needed directories."
-    (
-	echo "To: $adminmailrcpt"
-	echo "Subject: no $GROUP directory"
-	echo "$MAILHEADERS" | awk '{L = "";LN = $0;while (LN ~ /\\n/) { I = index(LN,"\\n");L = L substr(LN,0,I-1) "\n";LN = substr(LN,I+2,length(LN)-I-1);}print L LN;}'
-	echo ""
-	echo "$DIR does not exist."
-	echo "Run bin/rancid-cvs $GROUP to make all of the needed directories."
-    ) | @SENDMAIL@ -t $MAILOPTS
-    exit 1
-fi
-cd $DIR
 
 # create a .cvsignore/.gitignore
 case $RCSSYS in

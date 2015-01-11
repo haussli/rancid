@@ -128,7 +128,7 @@ for {set i 0} {$i < $argc} {incr i} {
 		set userpasswd [ lindex $argv $i ]
 	    }
 	    set do_passwd 0
-	# ssh passphrase 
+	# ssh passphrase
 	} -r* {
 	    # ignore -r
 	# VTY Password

@@ -313,7 +313,7 @@ TOP: while(<INPUT>) {
     while (/^.+(#|\$)\s*($cmds_regexp)\s*$/) {
 	$cmd = $2;
 	# - FortiGate prompts end with either '#' or '$'. Further, they may
-	# be prepended with a '~' if the hostname is too long. Therefore, 
+	# be prepended with a '~' if the hostname is too long. Therefore,
 	# we need to figure out what our prompt really is.
 	if (!defined($prompt)) {
 	    if ($_ =~ m/^.+\~\$/) {

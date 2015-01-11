@@ -260,9 +260,9 @@ if ($file) {
 }
 
 # determine ACL sorting mode
-if ($ENV{"ACLSORT"} =~ /no/i) { 
-    $aclsort = ""; 
-} 
+if ($ENV{"ACLSORT"} =~ /no/i) {
+    $aclsort = "";
+}
 # determine community string filtering mode
 if (defined($ENV{"NOCOMMSTR"}) &&
     ($ENV{"NOCOMMSTR"} =~ /yes/i || $ENV{"NOCOMMSTR"} =~ /^$/)) {

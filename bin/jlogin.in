@@ -470,7 +470,7 @@ proc run_commands { prompt command } {
 source_password_file $password_file
 set in_proc 0
 set exitval 0
-# if we have dont have a tty, we need some additional terminal settings  
+# if we have dont have a tty, we need some additional terminal settings
 if [catch {stty -echo} reason] {
     # no tty, ie: cron
     set spawnopts "-nottycopy"

@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid.conf" "5" "18 December 2014"
+.TH "rancid.conf" "5" "9 January 2015"
 .SH NAME
 rancid.conf \- rancid environment configuration file
 .SH DESCRIPTION
@@ -64,6 +64,14 @@ separately from RANCiD, which provides no means of interacting with the
 remote.
 .sp
 Default: $BASEDIR/CVS
+.\"
+.TP
+.B DIFFSCRIPT
+Defines an alternate filter for the output of the RCS diff.
+The filter should read from stdin and write to stdout.
+The default is defined in control_rancid and only improves readability.
+.sp
+Example: DIFFSCRIPT="sed -e '/^=/d' | expand"; export DIFFSCRIPT
 .\"
 .TP
 .B FILTER_PWDS
@@ -270,7 +278,7 @@ present in the environment of child processes, each must be exported.  See
 for more information on the built-in command export.
 .SH ERRORS
 .B rancid.conf
-is interpreted directly by 
+is interpreted directly by
 .IR sh (1),
 so its syntax follows that of the bourne shell.  Errors
 may produce quite unexpected results.

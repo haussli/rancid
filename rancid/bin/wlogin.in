@@ -337,7 +337,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	    set cmd $sshcmd
 	    if {"$port" != ""} {
 		set cmd "$cmd -p $port"
-	    } 
+	    }
 	    set retval [catch {eval spawn [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason]
 	    if { $retval } {
 		send_user "\nError: $cmd failed: $reason\n"
@@ -361,7 +361,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	    regsub -all {([^\\]);;} $command "\\1;\u002;" esccommand
 	    regsub {^;} $esccommand "\u002;" command
 	    set sep "\\1\u001"
-	    regsub -all {([^\\])\;} $command "$sep" esccommand   
+	    regsub -all {([^\\])\;} $command "$sep" esccommand
 	    set sep "\u001"
 	    set commands [split $esccommand $sep]
 	    set num_commands [llength $commands]
@@ -673,7 +673,7 @@ proc run_commands { prompt command } {
     # Send an Unconditional CTRL Z to exit out of any context the WLC prompt
     # may be in
     send "\032"
-   
+
     expect {
 	-re "(.+)>"				{ # the Cisco CE and Jnx ERX
 						  # return to non-enabled mode

@@ -395,7 +395,7 @@ proc login { router user userpswd passwd prompt cmethod cyphertype } {
 	    send_user "\nError: host key mismatch for $router.  Update the SSH known_hosts file accordingly.\n"
 	    return 1
 	}
-	-re "NOTICE:\[^\n\r]* - display now \[^\n\r]*:" { 
+	-re "NOTICE:\[^\n\r]* - display now \[^\n\r]*:" {
 	    send "no\r"
 	    exp_continue
 	}

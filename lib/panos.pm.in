@@ -82,7 +82,7 @@ sub inloop {
     my($INPUT, $OUTPUT) = @_;
     my($cmd, $rval);
 
-    # Paloalto buffers commands and prints them twice, once while buffering, 
+    # Paloalto buffers commands and prints them twice, once while buffering,
     # and once while executing. It's a bit weird and causes default rancid
     # code a bit of a conniption, so we need to only execute the callbacks
     # on second discovery.

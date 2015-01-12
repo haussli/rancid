@@ -81,6 +81,8 @@ set do_passwd 1
 set do_enapasswd 1
 # Save config, if prompted
 set do_saveconfig 0
+# Sometimes routers take awhile to answer (the default is 10 sec)
+set timeoutdflt 10
 
 # Find the user in the ENV, or use the unix userid.
 if {[ info exists env(CISCO_USER) ]} {
@@ -168,9 +170,13 @@ for {set i 0} {$i < $argc} {incr i} {
 		incr i
 		set password_file [ lindex $argv $i ]
 	    }
+	# Timeout
 	} -t* {
-	    incr i
-	    set timeout [ lindex $argv $i ]
+	    if {! [regexp .\[tT\](.+) $arg ignore timeout]} {
+		incr i
+		set timeoutdflt [lindex $argv $i]
+	    }
+	# Command file
         } -x* {
             if {! [  regexp .\[xX\](.+) $arg ignore cmd_file]} {
                 incr i
@@ -501,6 +507,12 @@ set exitval 0
 foreach router [lrange $argv $i end] {
     set router [string tolower $router]
     send_user "$router\n"
+
+    # device timeout
+    set timeout [find timeout $router]
+    if { [llength $timeout] == 0 } {
+	set timeout $timeoutdflt
+    }
 
     # FortiOS 2.x prompts can end in either '#' or '$'
     set prompt "\[#\\$]"

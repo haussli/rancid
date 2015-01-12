@@ -78,6 +78,8 @@ set avautoenable 0
 # tracks if we receive them on the command line.
 set do_passwd 1
 set do_enapasswd 1
+# Sometimes routers take awhile to answer (the default is 10 sec)
+set timeoutdflt 10
 
 # Find the user in the ENV, or use the unix userid.
 if {[ info exists env(CISCO_USER) ]} {
@@ -189,6 +191,12 @@ for {set i 0} {$i < $argc} {incr i} {
 	    if {! [  regexp .\[uU\](.+) $arg ignore user]} {
 		incr i
 		set username [ lindex $argv $i ]
+	    }
+	# Timeout
+	} -t* {
+	    if {! [regexp .\[tT\](.+) $arg ignore timeout]} {
+		incr i
+		set timeoutdflt [lindex $argv $i]
 	    }
 	# Command file
 	} -x* {
@@ -702,6 +710,12 @@ foreach router [lrange $argv $i end] {
     # attempt at platform switching.
     set platform ""
     send_user -- "$router\n"
+
+    # device timeout
+    set timeout [find timeout $router]
+    if { [llength $timeout] == 0 } {
+	set timeout $timeoutdflt
+    }
 
     # Figure out the prompt.
     # autoenable is off by default.  If we have it defined, it was done

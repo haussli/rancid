@@ -558,18 +558,26 @@ done
 # Diff the directory and then checkin.
 trap 'rm -fr $TMP $TMP.diff $DIR/routers.single;' 1 2 15
 cd $DIR
-case $RCSSYS in
-cvs )
-    cvs -f @DIFF_CMD@ -ko | sed -e '/^RCS file: /d' -e '/^--- /d' \
+if [ "X$DIFFSCRIPT" = "X" ]; then
+    case $RCSSYS in
+    cvs )
+	cvs -f @DIFF_CMD@ -ko | sed -e '/^RCS file: /d' -e '/^--- /d' \
 	-e '/^+++ /d' -e 's/^\([-+ ]\)/\1 /' >$TMP.diff
-    ;;
-svn )
-    svn diff | sed -e '/^+++ /d' -e 's/^\([-+ ]\)/\1 /' >$TMP.diff
-    ;;
-git )
-    git diff | sed -e '/^+++ /d' -e 's/^\([-+ ]\)/\1 /' >$TMP.diff
-    ;;
-esac
+	;;
+    svn | git )
+	$RCSSYS diff | sed -e '/^+++ /d' -e 's/^\([-+ ]\)/\1 /' >$TMP.diff
+	;;
+    esac
+else
+    case $RCSSYS in
+    cvs )
+	cvs -f @DIFF_CMD@ -ko | ($DIFFSCRIPT) 2>&1 >$TMP.diff
+	;;
+    svn | git )
+	$RCSSYS diff | ($DIFFSCRIPT) 2>&1 >$TMP.diff
+	;;
+    esac
+fi
 
 if [ $alt_mailrcpt -eq 1 ] ; then
     subject="router config diffs - courtesy of $mailrcpt"

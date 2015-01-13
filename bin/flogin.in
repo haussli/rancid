@@ -515,6 +515,14 @@ proc run_commands { prompt command } {
 
     send -h "skip-page-display\r"
     expect -re "$prompt" {}
+    # If logging in as an unpriv user (i.e., level 5 read-only), then
+    # "skip-page-display" isn't available, unless you also configure:
+    # privilege exec level 5 skip-page-display
+    #
+    # On some platforms, like the MLX, you can work around that
+    # with this:
+    send "terminal length 0\r"
+    expect -re "$prompt" {}
 
     # handle escaped ;s in commands, and ;; and ^;
     regsub -all {([^\\]);;} $command "\\1;\u002;" esccommand
@@ -710,6 +718,14 @@ foreach router [lrange $argv $i end] {
 	# fucking foundry
 	send -h "skip-page-display\r"
 	expect -re $prompt	{}
+	# If logging in as an unpriv user (i.e., level 5 read-only), then
+	# "skip-page-display" isn't available, unless you also configure:
+	# privilege exec level 5 skip-page-display
+	#
+	# On some platforms, like the MLX, you can work around that
+	# with this:
+	send "terminal length 0\r"
+	expect -re "$prompt" {}
 	source $sfile
 	catch {close};
     } else {

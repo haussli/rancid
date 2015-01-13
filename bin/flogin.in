@@ -84,7 +84,7 @@ set do_saveconfig 0
 # Sometimes routers take awhile to answer (the default is 10 sec)
 set timeoutdflt 45
 # Some CLIs having problems if we write too fast (Extreme, PIX, Cat)
-set send_human {.4 .4 .7 .3 5}
+set send_human {.2 .1 .4 .2 1}
 
 # Find the user in the ENV, or use the unix userid.
 if {[ info exists env(CISCO_USER) ]} {
@@ -451,17 +451,15 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 				}
 	-re "@\[^\r\n]+ $p_prompt"	{
 					  # ssh pwd prompt
-					  sleep 1
 					  send -h -- "$userpswd\r"
 					  exp_continue
-					}
+				}
 	-re "$u_prompt"		{
 				  send -h -- "$user\r"
 				  set uprompt_seen 1
 				  exp_continue
 				}
 	-re "$p_prompt"		{
-				  sleep 1
 				  if {$uprompt_seen == 1} {
 					send -h -- "$userpswd\r"
 				  } else {
@@ -487,7 +485,6 @@ proc do_enable { enauser enapasswd } {
     global u_prompt e_prompt
     set in_proc 1
 
-    sleep 1;		# dont go too fast for it now...
     send -h "enable\r"
     expect {
 	-re "$u_prompt"	{ send -h -- "$enauser\r"; exp_continue}

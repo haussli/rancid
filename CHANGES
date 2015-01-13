@@ -1,4 +1,7 @@
 3.1.99
+	*login: set base send_human values and lower (faster) values where it
+	was already set (clogin, complogin, etc), except flogin.
+
 	rancid.conf: add DIFFSCRIPT knob
 
 	dllogin, wlogin: handle -t option

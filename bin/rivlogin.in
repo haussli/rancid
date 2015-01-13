@@ -64,6 +64,8 @@ set config   0
 
 # in seconds to wait for data back from device
 set timeoutdflt 10
+# Some CLIs having problems if we write too fast (Extreme, PIX, Cat)
+set send_human {.2 .1 .4 .2 1}
 set tempfile "/tmp/rivlogin.[exec date]"
 
 # cli command prompt

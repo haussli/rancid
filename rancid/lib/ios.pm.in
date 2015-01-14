@@ -1061,7 +1061,7 @@ sub ShowContAll {
 	    ProcessHistory("INT","","","!\t$1\n") && next;
 	# Remove dynamic addresses like:
 	# !Interface: FastEthernet0/0, GT96K FE ADDR: 62AFB684, FASTSEND: 6 1579E4C, MCI_INDEX: 0
-	/^Hardware is (.*?)($| ADDR: .*| at 0x.*)/ &&
+	/^ *Hardware is (.*?)($| ADDR: .*| at 0x.*)/ &&
 	    ProcessHistory("INT","","","!Interface: $INT$1\n") && next;
 	/^Hardware is (.*)/ &&
 	    ProcessHistory("INT","","","!Interface: $INT$1\n") && next;

@@ -1,4 +1,6 @@
 3.1.99
+	rename slogin to plogin (poly-login), as slogin collides with ssh pkg
+
 	jlogin, mtlogin: set tty init options when there is no controlling tty,
 	and update jlogin to match this method to an error from stty on the O/S
 	used by the user, Linux, I believe.

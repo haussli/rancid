@@ -1,4 +1,6 @@
 3.1.99
+	update lg for router.db delimeter change - Buchan Milne
+
 	rename slogin to plogin (poly-login), as slogin collides with ssh pkg -
 	Reuben Farrelly
 

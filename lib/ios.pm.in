@@ -514,6 +514,11 @@ sub ShowMTU {
             ProcessHistory("COMMENTS","keysort","IO","!MTU-Routing: $1\n");
             next;
         }
+	# XE version
+        if (/Global Ethernet MTU is (\d+) bytes./) {
+            ProcessHistory("COMMENTS","keysort","IO","!MTU-Global: $1\n");
+            next;
+        }
         if (/On next reload, (.*)/) {
             ProcessHistory("COMMENTS","keysort","IO","!MTU-Reload: $1\n");
             next;
@@ -541,6 +546,11 @@ sub ShowSDM {
             next;
         }
         if (/current template is the (\S+) template/) {
+            ProcessHistory("COMMENTS","keysort","IO","!SDM Template: $1\n");
+            next;
+        }
+	# XE version
+        if (/This is the (\S+.*) template/) {
             ProcessHistory("COMMENTS","keysort","IO","!SDM Template: $1\n");
             next;
         }

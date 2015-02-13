@@ -1,4 +1,7 @@
 3.1.99
+	ios.pm: 3560X w/ XE has different show sdm prefer and show system mtu
+	formats - Reuben Farrelly
+
 	update lg for router.db delimeter change - Buchan Milne
 
 	rename slogin to plogin (poly-login), as slogin collides with ssh pkg -

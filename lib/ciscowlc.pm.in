@@ -123,7 +123,10 @@ sub ShowConfig {
         tr/\015//d;
         tr/\020//d;
 
-        my($skipprocess) = 0;
+	next if (/^\s*rogue ap classify/);
+	next if (/^\s*rogue adhoc alert/);
+
+	$linecnt++;
 
         # remove snmp community string data
         if (/^(\s*snmp community create)/ && $filter_pwds >= 1) {
@@ -135,19 +138,14 @@ sub ShowConfig {
         if (/^(\s*snmp community ipaddr\s\S+\s\S+) / && $filter_pwds >= 1) {
             ProcessHistory("","","","!$1 <removed>\n"); next;
         }
-	if (/^\s*rogue ap classify/) { $skipprocess = 1; }
-	if (/^\s*rogue adhoc alert/) { $skipprocess = 1; }
-
 
         last if (/^$prompt/);
         next if (/^(\s*|\s*$cmd\s*)$/);
 
 	$linecnt++;
         if (! /^$prompt/) {
-                if (! $skipprocess) {
-                        print STDERR "      ShowConfig Data: $_" if ($debug);
-                        ProcessHistory("","","","$_");
-                }
+	    print(STDERR "      ShowConfig Data: $_") if ($debug);
+	    ProcessHistory("","","","$_");
         }
     }
     ProcessHistory("","","","\n!--WLC End Config Data--!\n");

@@ -1970,7 +1970,7 @@ sub WriteTerm {
 	/^ speed / && $lineauto	&& next; # kill speed on serial lines
 	/^ clockrate /		&& next; # kill clockrate on serial interfaces
 	# kill rx/txspeed on cellular modem cards
-	if (/^line \d+\/\d+\/\d+/) {
+	if (/^line \d+(\/\d+\/\d+)?/) {
 	    my($key) = $1;
 	    ProcessHistory("LINE","keysort","$key","$_");
 	    while (<$INPUT>) {

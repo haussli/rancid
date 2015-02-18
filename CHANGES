@@ -1,4 +1,8 @@
 3.1.99
+	ios.pm: drop the fabricated portion of the "Chassis type:" line; its
+	too much to try to track it accurately and doesnt seem to provide any
+	value
+
 	foundry.pm: filter altitude and pressure in ShowChassis
 
 	ios.pm: cellular modem speeds not filtered on C819G

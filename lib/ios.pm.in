@@ -281,7 +281,6 @@ sub ShowVersion {
 	    $proc = $1;
 	    my($cpu) = $2;
 	    my($mem) = $3;
-	    my($device) = "router";
 
 	    # the next line ought to be the more specific cpu info, grab it.
 	    # yet, some boards/IOS vers have a processor ID line between these
@@ -329,7 +328,6 @@ LINE:		while (<$INPUT>) {
 		$type = "AGS+";
 	    } elsif ($proc =~ /1900/) {
 		$type = "1900";
-		$device = "switch";
 	    } elsif ($proc =~ /2811/) {
 		$type = "2800";
             } elsif ( $proc =~ /^ME-3400/) {
@@ -340,32 +338,26 @@ LINE:		while (<$INPUT>) {
                 $type = "ME6500";
 	    } elsif ($proc =~ /C3750/) {
 		$type = "3750";
-		$device = "switch";
 	    } elsif ($proc =~ /^(AS)?25[12][12]/) {
 		$type = "2500";
 	    } elsif ($proc =~ /261[01]/ || $proc =~ /262[01]/ ) {
 		$type = "2600";
 	    } elsif ($proc =~ /WS-C29/) {
 		$type = "2900XL";
-		$device = "switch";
 	    } elsif ($proc =~ /WS-C355/) {
 		$type = "3550";
-		$device = "switch";
 	    } elsif ($proc =~ /WS-C35/) {
 		$type = "3500XL";
-		$device = "switch";
 	    } elsif ($proc =~ /^36[0246][0-9]/) {
 		$type = "3600";
 	    } elsif ($proc =~ /^37/) {
 		$type = "3700";
             } elsif ( $proc =~ /WS-C375/) {
                 $type = "3750";
-                $device = "switch";
 	    } elsif ($proc =~ /^38/) {
 		$type = "3800";
 	    } elsif ($proc =~ /WS-C45/) {
 		$type = "4500";
-		$device = "switch";
 	    } elsif ( $proc =~ /^AS5300/) {
 		$type = "AS5300";
 	    } elsif ( $proc =~ /^AS5350/) {
@@ -374,12 +366,10 @@ LINE:		while (<$INPUT>) {
 		$type = "AS5400";
 	    } elsif ($proc =~ /6000/) {
 		$type = "6000";
-		$device = "switch";
 	    } elsif ($proc eq "WK-C65") {
 		$type = "6500";
             } elsif ( $proc =~ /WS-C6509/) {
                 $type = "6500";
-                $device = "router";
 	    } elsif ($proc eq "RP") {
 		$type = "7000";
 	    } elsif ($proc eq "RP1") {
@@ -408,7 +398,7 @@ LINE:		while (<$INPUT>) {
 
 	    print STDERR "TYPE = $type\n" if ($debug);
 	    ProcessHistory("COMMENTS","keysort","A1",
-		"!Chassis type:$slave $proc - a $type $device\n");
+		"!Chassis type:$slave $proc\n");
 	    ProcessHistory("COMMENTS","keysort","B1",
 		"!Memory:$slave main $mem\n");
 	    if (defined($cpu)) {

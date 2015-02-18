@@ -1,4 +1,6 @@
 3.1.99
+	foundry.pm: filter altitude and pressure in ShowChassis
+
 	ios.pm: cellular modem speeds not filtered on C819G
 
 	ios.pm: 3560X w/ XE has different show sdm prefer and show system mtu

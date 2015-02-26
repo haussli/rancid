@@ -1890,6 +1890,7 @@ sub WriteTerm {
     my($lineauto, $comment, $linecnt) = (0,0,0);
 
     while (<$INPUT>) {
+TOP:
 	tr/\015//d;
 	last if (/^$prompt/);
 	return(1) if (!$linecnt && /^\s+\^\s*$/);
@@ -1959,15 +1960,25 @@ sub WriteTerm {
 	$lineauto = 1 if /^ modem auto/;
 	/^ speed / && $lineauto	&& next; # kill speed on serial lines
 	/^ clockrate /		&& next; # kill clockrate on serial interfaces
-	# kill rx/txspeed on cellular modem cards
-	if (/^line \d+(\/\d+\/\d+)?/) {
+	# kill rx/txspeed (particularly on cellular modem cards)
+	if (/^(line (\d+(\/\d+\/\d+)?|con|aux|vty))/) {
 	    my($key) = $1;
+	    if ($key =~ /con/) {
+		$key = -1;
+	    } elsif ($key =~ /aux/) {
+		$key = -2;
+	    } elsif ($key =~ /vty/) {
+		$key = -3;
+	    }
 	    ProcessHistory("LINE","keysort","$key","$_");
 	    while (<$INPUT>) {
 		tr/\015//d;
-		last if (/^$prompt/ || ! /^ /);
+		last if (/^$prompt/);
+		goto TOP if (! /^ /);
 		next if (/\s*(rx|tx)speed \d+/);
-		$_ = "$1 <removed>" if (/^(\s+password \d+) /);
+		if (/^(\s+password) \d+ / && $filter_pwds >= 1) {
+		    $_ = "$1 <removed>\n";
+		}
 		ProcessHistory("LINE","keysort","$key","$_");
 	    }
 	}

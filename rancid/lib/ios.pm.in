@@ -1978,7 +1978,7 @@ TOP:
 		$lineauto = 1 if /^ modem auto/;
 		/^ speed / && $lineauto	&& next; # kill speed on serial lines
 		if (/^(\s+password) \d+ / && $filter_pwds >= 1) {
-		    $_ = "! $1 <removed>\n";
+		    $_ = "!$1 <removed>\n";
 		}
 		ProcessHistory("LINE","keysort","$key","$_");
 	    }

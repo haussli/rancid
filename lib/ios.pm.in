@@ -1887,7 +1887,7 @@ sub ShowShun {
 sub WriteTerm {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In WriteTerm: $_" if ($debug);
-    my($lineauto, $comment, $linecnt) = (0,0,0);
+    my($comment, $linecnt) = (0,0);
 
     while (<$INPUT>) {
 TOP:
@@ -1920,7 +1920,6 @@ TOP:
 	/Non-Volatile memory is in use/ && return(-1); # NvRAM is locked
 	/% Configuration buffer full, / && return(-1); # buffer is in use
 	$linecnt++;
-	$lineauto = 0 if (/^[^ ]/);
 	# skip the crap
 	if (/^(##+|(building|current) configuration)/i) {
 	    while (<$INPUT>) {
@@ -1955,12 +1954,11 @@ TOP:
 	# Dog gone Cool matches to process the rest of the config
 	/^tftp-server flash /   && next; # kill any tftp remains
 	/^ntp clock-period /    && next; # kill ntp clock-period
-	$lineauto = 1 if /^ modem auto/;
-	/^ speed / && $lineauto	&& next; # kill speed on serial lines
 	/^ clockrate /		&& next; # kill clockrate on serial interfaces
 	# kill rx/txspeed (particularly on cellular modem cards)
 	if (/^(line (\d+(\/\d+\/\d+)?|con|aux|vty))/) {
 	    my($key) = $1;
+	    my($lineauto) = (0);
 	    if ($key =~ /con/) {
 		$key = -1;
 	    } elsif ($key =~ /aux/) {
@@ -1976,6 +1974,9 @@ TOP:
 		next if (/\s*(rx|tx)speed \d+/);
 		next if (/^ length /);	# kill length on serial lines
 		next if (/^ width /);	# kill width on serial lines
+		$lineauto = 0 if (/^[^ ]/);
+		$lineauto = 1 if /^ modem auto/;
+		/^ speed / && $lineauto	&& next; # kill speed on serial lines
 		if (/^(\s+password) \d+ / && $filter_pwds >= 1) {
 		    $_ = "! $1 <removed>\n";
 		}

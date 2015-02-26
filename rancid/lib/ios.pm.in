@@ -1977,7 +1977,7 @@ TOP:
 		goto TOP if (! /^ /);
 		next if (/\s*(rx|tx)speed \d+/);
 		if (/^(\s+password) \d+ / && $filter_pwds >= 1) {
-		    $_ = "$1 <removed>\n";
+		    $_ = "! $1 <removed>\n";
 		}
 		ProcessHistory("LINE","keysort","$key","$_");
 	    }

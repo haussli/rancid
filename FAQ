@@ -174,7 +174,7 @@ A. CVS does not provide a way (AFAIK) to rename files or to rename or delete
 
 Q. I am new to svn.  Where can I find more information?
 A. The svn so-called "red book" is the definitive guide.
-   http://svnbook.red-bean.com/en/1.5/svn-book.html 
+   http://svnbook.red-bean.com/en/1.5/svn-book.html
 
 
 Q. I am removing a group and would like to remove all traces of it from the
@@ -376,6 +376,26 @@ A. Strictly speaking, no.  Rancid needs permission to read device configuration
 
    For RADIUS, Justin Grote suggested privilege levels:
    http://www.cisco.com/univercd/cc/td/doc/product/software/ios122/122newft/122t/122t13/ftprienh.htm
+
+   Or, on a Juniper, configure a login class, such as below:
+
+	set system login class RANCID permissions access
+	set system login class RANCID permissions admin
+	set system login class RANCID permissions firewall
+	set system login class RANCID permissions flow-tap
+	set system login class RANCID permissions interface
+	set system login class RANCID permissions network
+	set system login class RANCID permissions routing
+	set system login class RANCID permissions secret
+	set system login class RANCID permissions security
+	set system login class RANCID permissions snmp
+	set system login class RANCID permissions storage
+	set system login class RANCID permissions system
+	set system login class RANCID permissions trace
+	set system login class RANCID permissions view
+	set system login class RANCID permissions view-configuration
+
+	set system login user rancid class RANCID
 
 
 Q. For approximately X hosts (configs), what size server should we be

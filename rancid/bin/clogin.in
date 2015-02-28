@@ -633,10 +633,6 @@ proc run_commands { prompt command } {
     global do_saveconfig in_proc platform
     set in_proc 1
 
-    # If the prompt is (enable), then we are on a switch and the
-    # command is "set length 0"; otherwise its "terminal length 0".
-    # skip if its an extreme (since the pager can not be disabled on a
-    # per-vty basis).
     if { [string compare "extreme" "$platform"] } {
 	# match cisco config mode prompts too, such as router(config-if)#,
 	# but catalyst does not change in this fashion.

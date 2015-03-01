@@ -636,7 +636,9 @@ proc run_commands { prompt command } {
     if { [string compare "extreme" "$platform"] } {
 	# match cisco config mode prompts too, such as router(config-if)#,
 	# but catalyst does not change in this fashion.
-	regsub -all {^(.{1,11}).*([#>])$} $prompt {\1([^#>\r\n]+)?[#>](\\([^)\\r\\n]+\\))?} reprompt
+	regsub -lineanchor -- {^(.{1,11}).*([#>])$} $prompt {\1} reprompt
+	regsub -all -- {[\\]$} $reprompt {} reprompt
+	append reprompt {([^#>\r\n]+)?[#>](\\([^)\\r\\n]+\\))?}
     } else {
 	set reprompt $prompt
     }

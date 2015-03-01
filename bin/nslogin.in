@@ -461,6 +461,7 @@ proc run_commands { prompt command } {
     global in_proc
     set in_proc 1
 
+    # escape any parens in the prompt, such as "(enable)"
     regsub -all "\[)(]" $prompt {\\&} reprompt
     # this is the only way i see to get rid of more prompts in o/p..grrrrr
     log_user 0

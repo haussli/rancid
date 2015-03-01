@@ -419,6 +419,7 @@ proc run_commands { prompt command } {
     global in_proc
     set in_proc 1
 
+    # escape any parens in the prompt, such as "(enable)"
     regsub -all "\[)(]" $prompt {\\&} reprompt
 
     # handle escaped ;s in commands, and ;; and ^;

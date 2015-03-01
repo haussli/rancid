@@ -410,6 +410,7 @@ proc run_commands { prompt command } {
     send "screen 0\r"
     expect $prompt {}
 
+    # escape any parens in the prompt, such as "(enable)"
     regsub -all "\[)(]" $prompt {\\&} reprompt
 
     # handle escaped ;s in commands, and ;; and ^;

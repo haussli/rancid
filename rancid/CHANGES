@@ -1,4 +1,6 @@
 3.1.99
+	f5rancid: filter fluctuating monitor state in config
+
 	FAQ: updates - Thomas Greer
 
 	ios.pm: drop the fabricated portion of the "Chassis type:" line; its

@@ -502,6 +502,9 @@ sub WriteTerm {
 	/^ip nat (\S+) source static (\S+)/ &&
 	    ProcessHistory("IP NAT $1","ipsort","$2","$_") && next;
 
+	# monitor state
+	/^\s+monitor state (\S+)/ && next;
+
 	# catch anything that wasnt matched above.
 	ProcessHistory("","","","$_");
     }

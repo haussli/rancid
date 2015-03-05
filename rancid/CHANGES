@@ -1,4 +1,6 @@
 3.1.99
+	nxos.pm: not all nexus have show process log vdc-all
+
 	f5rancid: filter fluctuating monitor state in config
 
 	FAQ: updates - Thomas Greer

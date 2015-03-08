@@ -1,4 +1,6 @@
 3.1.99
+	ciscowlc.pm: filter some config junk that wont import
+
 	nxos.pm: not all nexus have show process log vdc-all
 
 	f5rancid: filter fluctuating monitor state in config

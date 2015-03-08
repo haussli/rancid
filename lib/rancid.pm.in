@@ -248,6 +248,10 @@ sub loadtype {
     $cmds_regexp = join("|", map quotemeta($_), @commands);
 
     if ($main::opt_C) {
+	if (!defined($lscript)) {
+	    printf(STDERR "$devtype: login script not defined\n");
+	    exit(1);
+	}
 	print "$lscript -t $timeo -c \'$commandstr\' $host\n";
 	exit(0);
     }

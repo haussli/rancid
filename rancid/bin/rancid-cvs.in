@@ -183,6 +183,7 @@ do
 	mkdir configs
 	if [ $RCSSYS = "git" ]; then
 	    cat > configs/.gitignore <<EOF
+.old
 *.new
 *.raw
 EOF

@@ -189,6 +189,7 @@ EOF
     if [ ! -f configs/.gitignore ] ; then
 	rm -rf configs/.gitignore
 	cat > configs/.gitignore <<EOF
+.old
 *.new
 *.raw
 EOF
@@ -204,8 +205,17 @@ routers.all
 routers.down
 routers.up
 EOF
+    if [ ! -f configs/.cvsignore ] ; then
+	rm -rf configs/.cvsignore
+	cat > configs/.cvsignore <<EOF
+.old
+*.new
+*.raw
+EOF
+    fi
     if [ $RCSSYS = svn ] ; then
 	svn propset svn:ignore -F .cvsignore .
+	svn propset svn:ignore -F configs/.cvsignore configs
 	svn update .
 	svn commit -m 'set svn:ignores' .
 	fi

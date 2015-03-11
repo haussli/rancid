@@ -1,4 +1,6 @@
 3.1.99
+	add .old to configs/{.cvsignore,.gitignore}; see control_rancid.1
+
 	rancid.pm: rework IP address sorting based on patch from Nick Hilliard
 
 	ciscowlc.pm: filter some config junk that wont import

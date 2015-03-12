@@ -1,4 +1,6 @@
 3.1.99
+	control_rancid: fix mail rcpt bug in error path
+
 	rancid-cvs: change git push.default to current - Per Carlson
 
 	add .old to configs/{.cvsignore,.gitignore}; see control_rancid.1

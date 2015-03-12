@@ -132,6 +132,7 @@ SENDMAIL=${SENDMAIL:=sendmail};
 
 # Bail if we do not have the necessary info to run
 if [ ! -d $DIR ] ; then
+    adminmailrcpt=${adminmailrcpt:-"@ADMINMAILPLUS@${GROUP}${MAILDOMAIN}"};
     echo "$DIR does not exist."
     echo "Run bin/rancid-cvs $GROUP to make all of the needed directories."
     (

@@ -173,7 +173,7 @@ do
 	    git clone $CVSROOT/$GROUP .
 	    git config --global user.name RANCiD
 	    git config --global user.email $USER$MAILDOMAIN
-	    git config --global push.default simple
+	    git config --global push.default current
 	    ;;
 	esac
     fi

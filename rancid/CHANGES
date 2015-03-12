@@ -1,4 +1,6 @@
 3.1.99
+	rancid-cvs: change git push.default to current - Per Carlson
+
 	add .old to configs/{.cvsignore,.gitignore}; see control_rancid.1
 
 	rancid.pm: rework IP address sorting based on patch from Nick Hilliard

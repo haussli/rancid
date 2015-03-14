@@ -460,6 +460,25 @@ LINE:		while (<$INPUT>) {
     return(0);
 }
 
+# This routine parses "showCellular"
+sub ShowCellular {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowDetail: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+	return(1) if (/Line has invalid autocommand /);
+	return(1) if (/(invalid (input|command) detected|type help or )/i);
+
+	ProcessHistory("COMMENTS","keysort","CELL","!CELL: $_");
+    }
+    ProcessHistory("COMMENTS","keysort","CELL","!\n");
+    return(0);
+}
+
 # This routine parses "showDetail"
 sub ShowDetail {
     my($INPUT, $OUTPUT, $cmd) = @_;

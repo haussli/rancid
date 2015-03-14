@@ -1,4 +1,6 @@
 3.1.99
+	ios.pm: add ios::ShowCellular() and cmd show cellular 0 profile
+
 	control_rancid: fix mail rcpt bug in error path
 
 	rancid-cvs: change git push.default to current - Per Carlson

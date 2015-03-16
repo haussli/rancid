@@ -119,7 +119,10 @@ for {set i 0} {$i < $argc} {incr i} {
 	    set do_passwd 0
 	# ssh passphrase
 	} -r* {
-	    # ignore -r
+	    if {! [regexp .\[rR\](.+) $arg ignore passphrase]} {
+		incr i
+		set avpassphrase [lindex $argv $i]
+	    }
 	# Version string
 	} -V* {
 	    send_user "rancid 2.3.2a9\n"
@@ -290,7 +293,7 @@ proc source_password_file { password_file } {
 
 # Log into the router.
 # returns: 0 on success, 1 on failure
-proc login { router user userpswd passwd prompt cmethod cyphertype } {
+proc login { router user userpswd passwd prompt cmethod cyphertype identfile } {
     global spawn_id in_proc do_command do_script
     global u_prompt p_prompt sshcmd
     set in_proc 1
@@ -312,10 +315,20 @@ proc login { router user userpswd passwd prompt cmethod cyphertype } {
 		return 1
 	    }
 	} elseif ![string compare $prog "ssh"] {
-            if [ catch {spawn $sshcmd -c $cyphertype -x -l $user+ct $router} reason ] {
-                send_user "\nError: $sshcmd failed: $reason\n"
-                return 1
-            }
+	    # ssh to the router & try to login with or without an identfile.
+	    regexp {ssh(:([^[:space:]]+))*} $prog methcmd suffix port
+	    set cmd $sshcmd
+	    if {"$port" != ""} {
+		set cmd "$cmd -p $port"
+	    }
+	    if {"$identfile" != ""} {
+		set cmd "$cmd -i $identfile"
+	    }
+	    set retval [catch {eval spawn [split "$cmd -c $cyphertype -x -l $user+ct $router" { }]} reason]
+	    if { $retval } {
+		send_user "\nError: $cmd failed: $reason\n"
+		return 1
+	    }
 	} elseif ![string compare $prog "rsh"] {
 	    send_error "\nError: unsupported method: rsh\n"
 	    if { $progs == 0 } {
@@ -382,6 +395,12 @@ proc login { router user userpswd passwd prompt cmethod cyphertype } {
 	    send "no\r"
 	    send_user "\nError: host key mismatch for $router.  Update the SSH known_hosts file accordingly.\n"
 	    return 1 }
+	-re "Enter passphrase.*: "	{
+					  # sleep to allow time for stty -echo
+					  sleep .3
+					  send -- "$passphrase\r"
+					  exp_continue
+					}
 
 	-re "$u_prompt"			{
 					  send -- "$user+ct\r"
@@ -527,6 +546,19 @@ foreach router [lrange $argv $i end] {
 	set p_prompt [join [lindex $p_prompt 0] ""]
     }
 
+    # Figure out identity file to use
+    set identfile [join [lindex [find identity $router] 0] ""]
+
+    # Figure out passphrase to use
+    if {[info exists avpassphrase]} {
+	set passphrase $avpassphrase
+    } else {
+	set passphrase [join [lindex [find passphrase $router] 0] ""]
+    }
+    if { ! [string length "$passphrase"]} {
+	set passphrase $passwd
+    }
+
     # Figure out cypher type
     if {[info exists cypher]} {
       # command line cypher type
@@ -545,7 +577,7 @@ foreach router [lrange $argv $i end] {
     if { "$sshcmd" == "" } { set sshcmd {ssh} }
 
     # Login to the router
-    if {[login $router $ruser $userpswd $passwd $prompt $cmethod $cyphertype]} {
+    if {[login $router $ruser $userpswd $passwd $prompt $cmethod $cyphertype $identfile]} {
 	incr exitval
 	continue
     }

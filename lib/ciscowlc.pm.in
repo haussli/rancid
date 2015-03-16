@@ -129,10 +129,11 @@ sub ShowConfig {
 	$linecnt++;
 
 	# These can not be imported, so comment them
-	if (/^\s*service port.*/i) {
-	    ProcessHistory("","","","!$_"); next;
-	}
-	if (/^\s*wlan express setup.*/i) {
+	if (/^\s*cisco public safety is not allowed to set in this domain/i ||
+	    /^\s*outdoor mesh ext.unii b domain channels:/i ||
+	    /^\s*service port.*/i ||
+	    /^\s*wlan express setup.*/i ||
+	    /^\s*wmm-ac (disabled|enabled)/i) {
 	    ProcessHistory("","","","!$_"); next;
 	}
 

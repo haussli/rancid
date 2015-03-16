@@ -1,3 +1,6 @@
+3.2.99
+	ciscowlc.pm: comment a few config lines that can not be imported
+
 3.2
 	mtlogin: support cloginrc passphrase and identity
 

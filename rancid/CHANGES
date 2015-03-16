@@ -1,4 +1,6 @@
 3.1.99
+	mtlogin: support cloginrc passphrase and identity
+
 	ios.pm: add ios::ShowCellular() and cmd show cellular 0 profile
 
 	control_rancid: fix mail rcpt bug in error path

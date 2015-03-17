@@ -422,6 +422,9 @@ proc login { router user userpswd passwd prompt cmethod cyphertype } {
 	"Password incorrect"	{ send_user "\nError: Check your password for $router\n";
 				  catch {close}; catch {wait}; return 1 }
 	-re "$prompt"	{ break; }
+	-re "Warning: Remote host denied" {
+			  exp_continue
+			}
 	denied		{ send_user "\nError: Check your passwd for $router\n"
 			  catch {close}; catch {wait}; return 1
 			}
@@ -456,9 +459,13 @@ proc run_commands { prompt command } {
 	    -re "^\[^\n\r]*$reprompt"		{}
 	    -re "^\[^\n\r ]*>>.*$reprompt"	{ exp_continue }
 	    -re "\[\n\r]+"			{ exp_continue }
-	    -re "^\*Display private keys? \[y/n]:" {
-						 send "y\r"
-						 exp_continue
+	    -re "Display private keys"		{
+						  if { "$cmethod" == "ssh" } {
+						    send "y\r"
+						  } else {
+						    send "n\r"
+						  }
+						  exp_continue
 						}
 	}
     }

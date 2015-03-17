@@ -48,7 +48,7 @@
 # Netscreen hacks implemented by Stephen Gill <gillsr@yahoo.com>.
 # Fortinet hacks by Daniel G. Epstein <dan at rootlike.com>
 #
-# fnlogin - fortinet login
+# fnlogin - fortinet/fortigate login
 #
 # Most options are intuitive for logging into a netscreen firewall.
 #

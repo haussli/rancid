@@ -1,4 +1,8 @@
 3.2
+	junos.pm: fix showsystemlicense for errant licenses w/ 0 available
+
+	rancid.pm: check result from inet_pton()
+
 	mtlogin: support cloginrc passphrase and identity
 
 	ios.pm: add ios::ShowCellular() and cmd show cellular 0 profile

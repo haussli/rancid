@@ -1,4 +1,6 @@
 3.2.99
+	junos.pm: fix showsystemlicense for errant licenses w/ 0 available
+
 	rancid.pm: check result from inet_pton()
 
 	ciscowlc.pm: comment a few config lines that can not be imported

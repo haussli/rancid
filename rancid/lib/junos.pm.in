@@ -439,13 +439,18 @@ sub ShowSystemLicense {
 
 	# licenses used changes constantly.  distill it to a percentage.
 	if (/^(\s+scale-subscriber)(\s+)(\d+)(\s+\d+)(.*$)/) {
-	    my($a, $sp, $used, $avail, $rem) = ($1, $2, $3, $4, $');
+	    my($a, $sp, $used, $avail, $rem) = ($1, $2, $3, $4, $5);
 	    my($spl, $usedl) = (length($sp), length($used));
-	    my($pcnt) = int(($used + 0.0) / ($avail + 0.0) * 100);
+	    my($pcnt);
+	    if ($avail < 1) {
+		$pcnt = ">100";
+	    } else {
+		$pcnt = int(($used + 0.0) / ($avail + 0.0) * 100);
+	    }
 	    my($pcntl) = length($pcnt) + 1;
 	    $spl = $spl + $usedl - $pcntl;
 
-	    my($fmt) = "%s%-" . $spl . "s%d%%%s%s";
+	    my($fmt) = "%s%-" . $spl . "s%s%%%s%s\n";
 	    $_ = sprintf($fmt, $a, "", $pcnt, $avail, $rem);
 	}
 

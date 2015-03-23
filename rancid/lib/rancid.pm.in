@@ -48,7 +48,7 @@ package rancid;
 use 5.010;
 use strict 'vars';
 use warnings;
-use Socket qw(AF_INET AF_INET6 inet_pton);
+use 2.006 Socket qw(AF_INET AF_INET6 inet_pton);
 require(Exporter);
 our @ISA = qw(Exporter);
 

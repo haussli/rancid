@@ -5307,7 +5307,7 @@ fi
     else
 	$PERLV_PATH -e 'require 5;'
 	if test $? -ne 0 ; then
-           as_fn_error $? "can't locate a suitable perl5." "$LINENO" 5
+	   as_fn_error $? "can't locate a suitable perl5." "$LINENO" 5
 	   exit 1
 	fi
     fi
@@ -5315,6 +5315,15 @@ fi
 
 PERLV=`basename $PERLV_PATH`
 
+
+# check Socket.pm version
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking Socket.pm version" >&5
+$as_echo_n "checking Socket.pm version... " >&6; }
+$PERLV_PATH -e 'use 2.006 Socket qw(inet_pton);' 2>&1 >/dev/null
+if test $? -ne 0 ; then
+   as_fn_error $? "Socket.pm is older than 2.002; upgrade from http://metacpan.org/pod/Socket" "$LINENO" 5
+   exit 1
+fi
 
 # Extract the first word of "expect", so it can be a program name with args.
 set dummy expect; ac_word=$2

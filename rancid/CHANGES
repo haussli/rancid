@@ -6,6 +6,8 @@
 	ciscowlc.pm: comment a few config lines that can not be imported
 
 3.2
+	configure, rancid.pm: check minimum revision of Socket.pm
+
 	mtlogin: support cloginrc passphrase and identity
 
 	ios.pm: add ios::ShowCellular() and cmd show cellular 0 profile

@@ -275,7 +275,7 @@ if test $PERLV_PATH = no; then
     else
 	$PERLV_PATH -e 'require 5;'
 	if test $? -ne 0 ; then
-           AC_MSG_ERROR([can't locate a suitable perl5.])
+	   AC_MSG_ERROR([can't locate a suitable perl5.])
 	   exit 1
 	fi
     fi
@@ -283,6 +283,14 @@ fi
 AC_SUBST(PERLV_PATH)
 PERLV=`basename $PERLV_PATH`
 AC_SUBST(PERLV)
+
+# check Socket.pm version
+AC_MSG_CHECKING([Socket.pm version])
+$PERLV_PATH -e 'use 2.006 Socket qw(inet_pton);' 2>&1 >/dev/null
+if test $? -ne 0 ; then
+   AC_MSG_ERROR([Socket.pm is older than 2.002; upgrade from http://metacpan.org/pod/Socket])
+   exit 1
+fi
 
 AC_PATH_PROG(EXPECT_PATH,expect,no)
 if test $EXPECT_PATH = no; then

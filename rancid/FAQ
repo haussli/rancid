@@ -351,7 +351,9 @@ A. Using a syslog watcher script, one can trigger RANCID from the syslog
    when it is fed a line like that syslog line.  The command will be run at
    most once every 1800 seconds.  If you do not get hostnames in your
    log lines that match your router.db entries, either fix your reverse
-   DNS or remove the '-r $1' part.
+   DNS or remove the '-r $1' part.  And, if it can identify the group the
+   device is part of, include the group on the command line to reduce the time
+   it takes rancid to locate the group and avoid lock contention.
 
 
 Q. I would like to limit the permissions of the rancid user on my devices.  Is

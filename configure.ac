@@ -288,7 +288,7 @@ AC_SUBST(PERLV)
 AC_MSG_CHECKING([Socket.pm version])
 $PERLV_PATH -e 'use 2.006 Socket qw(inet_pton);' 2>&1 >/dev/null
 if test $? -ne 0 ; then
-   AC_MSG_ERROR([Socket.pm is older than 2.002; upgrade from http://metacpan.org/pod/Socket])
+   AC_MSG_ERROR([Socket.pm is older than 2.006; upgrade from http://metacpan.org/pod/Socket])
    exit 1
 fi
 

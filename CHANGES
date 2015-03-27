@@ -1,4 +1,6 @@
 3.2
+	rancid.type.base: comment adtran definition to avoid confusion
+
 	configure, rancid.pm: check minimum revision of Socket.pm
 
 	junos.pm: fix showsystemlicense for errant licenses w/ 0 available

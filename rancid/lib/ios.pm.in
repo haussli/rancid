@@ -690,6 +690,9 @@ sub ShowEnv {
 	    s/^$1\s{$len}//;
 	}
 
+	# remove "Fan n RPM is #" on 7201's
+	next if (/ RPM is /);
+
 	if (!$E0) {
 	    $E0 = 1;
 	    ProcessHistory("COMMENTS","keysort","E0","!\n");

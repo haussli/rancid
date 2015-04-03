@@ -572,6 +572,7 @@ sub DirSlotN {
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
 	return(1) if (/(No such device|Error Sending Request)/i);
 	return(1) if (/\%Error: No such file or directory/);
+	return(1) if (/\%Error: No route to host/);
 	return(1) if (/No space information available/);
 	# Corrupt flash
 	/\%Error calling getdents / &&

@@ -1,4 +1,6 @@
 3.2.99
+	iosxr.pm: dir may return no route error for unknown devicename
+
 	ios.pm: ShowDiag(): recognize 3800 AIM modules - Terry Kennedy
 
 	ios.pm: ShowDiag(): if slot # is empty, use Chassis - Terry Kennedy

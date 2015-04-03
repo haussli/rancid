@@ -1563,6 +1563,10 @@ REDUX:	tr/\015//d;
 	    }
 PerlSucks:
 	    # fru/pid bits
+	    # If slot is blank, call it "Chassis"
+	    if ($slot eq "") {
+		$slot = "Chassis";
+	    }
 	    ProcessHistory("SLOT","keysort","AG","!Slot $slot$WIC: fru $fn\n");
 	    #
 	    ProcessHistory("SLOT","keysort","B","!Slot $slot$WIC: hvers $hw rev $rev\n");

@@ -441,6 +441,28 @@ sub AdminShowRunning {
     return(0);
 }
 
+# This routine parses "admin show hw-module fpd location all".
+sub ShowHWfpd {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowRunning: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if (/Line has invalid autocommand /);
+	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(-1) if (/command authorization failed/i);
+	/^$/ && next;
+
+	/^notes:/i && last;
+
+	ProcessHistory("FPD","","","!$_");
+    }
+    ProcessHistory("FPD","","","!\n");
+    return(0);
+}
+
 # This routine parses "admin show redundancy"
 sub ShowRedundancy {
     my($INPUT, $OUTPUT, $cmd) = @_;

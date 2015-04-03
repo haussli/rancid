@@ -1,4 +1,6 @@
 3.2.99
+	ios.pm: remove "Fan n RPM is #" on 7201's - Terry Kennedy
+
 	iosxr.pm: collect admin show hw-module fpd location all
 
 	junos.pm: fix showsystemlicense for errant licenses w/ 0 available

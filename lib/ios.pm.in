@@ -690,7 +690,7 @@ sub ShowEnv {
 	    s/^$1\s{$len}//;
 	}
 
-	# remove "Fan n RPM is #" on 7201's
+	# remove "Fan n RPM is #" on 7201, 7301
 	next if (/ RPM is /);
 
 	if (!$E0) {

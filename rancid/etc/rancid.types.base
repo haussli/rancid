@@ -167,6 +167,7 @@ cisco-xr;command;iosxr::ShowVersion;admin show version
 cisco-xr;command;iosxr::ShowInstallSummary;admin show install summary;XR image
 cisco-xr;command;iosxr::ShowLicense;admin show license;XR image
 cisco-xr;command;iosxr::ShowBootVar;admin show variables boot;XR image
+cisco-xr;command;iosxr::ShowHWfpd;admin show hw-module fpd location all;XR LC images
 cisco-xr;command;iosxr::ShowRedundancy;show redundancy secondary
 cisco-xr;command;iosxr::ShowInstallActive;show install active
 cisco-xr;command;iosxr::ShowEnv;admin show env all

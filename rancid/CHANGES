@@ -1,4 +1,6 @@
 3.2.99
+	iosxr.pm: collect admin show hw-module fpd location all
+
 	junos.pm: fix showsystemlicense for errant licenses w/ 0 available
 
 	rancid.pm: check result from inet_pton()

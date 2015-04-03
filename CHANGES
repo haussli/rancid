@@ -1,4 +1,6 @@
 3.2.99
+	ios.pm: ShowDiag(): recognize 3800 AIM modules - Terry Kennedy
+
 	ios.pm: ShowDiag(): if slot # is empty, use Chassis - Terry Kennedy
 
 	ios.pm: remove "Fan n RPM is #" on 7201's - Terry Kennedy

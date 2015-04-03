@@ -1455,10 +1455,11 @@ REDUX:	tr/\015//d;
 	    }
 	    next;
 	}
-	# 7200, 3600, 2600, and 1700 stuff
+	# 7200, 3800, 3600, 2600, and 1700 stuff
 	if (/^(Slot)\s+(\d+(\/\d+)?):/
 	    || /^\s+(WIC|VIC|WIC\/VIC) Slot (\d):/
-	    || /^(Encryption AIM) (\d):/) {
+	    || /^(Encryption AIM) (\d):/
+	    || /^(AIM Module in slot:) (\d)/) {
 	    if ($1 eq "WIC") {
 		$WIC = "/$2";
 	    } elsif ($1 eq "VIC") {
@@ -1472,6 +1473,13 @@ REDUX:	tr/\015//d;
 		$WIC = undef;
 		ProcessHistory("SLOT","","","!\n");
 		ProcessHistory("SLOT","keysort","B","!Slot $slot: type $1\n");
+		next;
+	    } elsif ($1 eq "AIM Module in slot:") {
+		$slot = "AIM $2";
+		$WIC = undef;
+		ProcessHistory("SLOT","","","!\n");
+		ProcessHistory("SLOT","keysort","B",
+			       "!Slot $slot: type AIM Module\n");
 		next;
 	    } else {
 		$slot = $2;

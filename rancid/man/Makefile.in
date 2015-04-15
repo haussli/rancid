@@ -287,7 +287,7 @@ man_nogen_MANS = agmrancid.1 alogin.1 anlogin.1 anrancid.1 arancid.1 \
 		router.db.5 rrancid.1 srancid.1 tlogin.1 wlogin.1 \
 		xilogin.1 xirancid.1 trancid.1 xrancid.1 \
 		zrancid.1 \
-		complogin.1 comprancid.1
+		complogin.1
 
 man_MANS = $(man_nogen_MANS) $(man_gen_MANS)
 EXTRA_DIST = $(man_nogen_MANS) $(man_gen_MANS:%=%.in)

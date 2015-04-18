@@ -1,4 +1,6 @@
 3.2.99
+	control_rancid: specify path of <group>/rancid.conf
+
 	iosxr.pm: fix ShowEnv() collection of power info
 
 	iosxr.pm: dir may return no route error for unknown devicename

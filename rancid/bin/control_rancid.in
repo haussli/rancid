@@ -147,7 +147,7 @@ if [ ! -d $DIR ] ; then
 fi
 cd $DIR
 if [ -e "rancid.conf" ] ; then
-    . rancid.conf
+    . ./rancid.conf
 fi
 
 # RCS system

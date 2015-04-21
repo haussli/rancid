@@ -1,90 +1,8 @@
-#! @EXPECT_PATH@ --
-##
-## $Id$
-##
-## @PACKAGE@ @VERSION@
-## Copyright (c) 1997-2015 by Terrapin Communications, Inc.
-## All rights reserved.
-##
-## This code is derived from software contributed to and maintained by
-## Terrapin Communications, Inc. by Henry Kilmer, John Heasley, Andrew Partan,
-## Pete Whiting, Austin Schutz, and Andrew Fort.
-##
-## Redistribution and use in source and binary forms, with or without
-## modification, are permitted provided that the following conditions
-## are met:
-## 1. Redistributions of source code must retain the above copyright
-##    notice, this list of conditions and the following disclaimer.
-## 2. Redistributions in binary form must reproduce the above copyright
-##    notice, this list of conditions and the following disclaimer in the
-##    documentation and/or other materials provided with the distribution.
-## 3. All advertising materials mentioning features or use of this software
-##    must display the following acknowledgement:
-##        This product includes software developed by Terrapin Communications,
-##        Inc. and its contributors for RANCID.
-## 4. Neither the name of Terrapin Communications, Inc. nor the names of its
-##    contributors may be used to endorse or promote products derived from
-##    this software without specific prior written permission.
-## 5. It is requested that non-binding fixes and modifications be contributed
-##    back to Terrapin Communications, Inc.
-##
-## THIS SOFTWARE IS PROVIDED BY Terrapin Communications, INC. AND CONTRIBUTORS
-## ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-## TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-## PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COMPANY OR CONTRIBUTORS
-## BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-## CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-## SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-## INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-## CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-## ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-## POSSIBILITY OF SUCH DAMAGE.
-#
-#  The expect login scripts were based on Erik Sherk's gwtn, by permission.
-#
-# clogin - Cisco login
-#
-# Most options are intuitive for logging into a Cisco router.
-# The default is to enable (thus -noenable).  Some folks have
-# setup tacacs to have a user login at priv-lvl = 15 (enabled)
-# so the -autoenable flag was added for this case (don't go through
-# the process of enabling and the prompt will be the "#" prompt.
-# The default username password is the same as the vty password.
-#
-
-# Usage line
-set usage "Usage: $argv0 \[-dSV\] \[-autoenable\] \[-noenable\] \[-c command\] \
-\[-Evar=x\] \[-e enable-password\] \[-f cloginrc-file\] \[-p user-password\] \
-\[-s script-file\] \[-t timeout\] \[-u username\] \
-\[-v vty-password\] \[-w enable-username\] \[-x command-file\] \
-\[-y ssh_cypher_type\] router \[router...\]\n"
-
 # env(CLOGIN) may contain:
 #	x == do not set xterm banner or name
 
-# Password file
-set password_file $env(HOME)/.cloginrc
-# Default is to login to the router
-set do_command 0
-set do_script 0
-# The default is to automatically enable
-set avenable 1
-# The default is that you login non-enabled (tacacs can have you login already
-# enabled)
-set avautoenable 0
-# The default is to look in the password file to find the passwords.  This
-# tracks if we receive them on the command line.
-set do_passwd 1
-set do_enapasswd 1
-# Save config, if prompted
-set do_saveconfig 0
-# Sometimes routers take awhile to answer (the default is 10 sec)
-set timeoutdflt 45
-# attempt at platform switching.
-set platform ""
-
 # Find the user in the ENV, or use the unix userid.
-if {[info exists env(CISCO_USER)] } {
+if {[info exists env(CISCO_USER)]} {
     set default_user $env(CISCO_USER)
 } elseif {[info exists env(USER)]} {
     set default_user $env(USER)
@@ -104,22 +22,21 @@ if {[info exists env(CLOGINRC)]} {
     set password_file $env(CLOGINRC)
 }
 
+# Usage line
+set usage "Usage: $argv0 \[-dSV\] \[-autoenable\] \[-noenable\] \[-c command\] \
+\[-Evar=x\] \[-e enable-password\] \[-f cloginrc-file\] \[-p user-password\] \
+\[-r passphrase\] \[-s script-file\] \[-t timeout\] \[-u username\] \
+\[-v vty-password\] \[-w enable-username\] \[-x command-file\] \
+\[-y ssh_cypher_type\] router \[router...\]\n"
+
 # Process the command line
 for {set i 0} {$i < $argc} {incr i} {
     set arg [lindex $argv $i]
 
     switch  -glob -- $arg {
-	# expect debugging
+	# Expect debug mode
 	-d* {
 	    exp_internal 1
-	# Environment variable to pass to -s scripts
-	} -E* {
-	    if {[regexp .\[E\](.+)=(.+) $arg ignore varname varvalue]} {
-		set E$varname $varvalue
-	    } else {
-		send_user "\nError: invalid format for -E in $arg\n"
-		exit 1
-	    }
 	# Username
 	} -u* {
 	    if {! [regexp .\[uU\](.+) $arg ignore user]} {
@@ -133,12 +50,12 @@ for {set i 0} {$i < $argc} {incr i} {
 		set userpasswd [lindex $argv $i]
 	    }
 	    set do_passwd 0
-        # passphrase
-        } -r* {
-            if {! [regexp .\[rR\](.+) $arg ignore passphrase]} {
-                incr i
-                set avpassphrase [lindex $argv $i]
-            }
+	# ssh passphrase
+	} -r* {
+	    if {! [regexp .\[rR\](.+) $arg ignore passphrase]} {
+		incr i
+		set avpassphrase [lindex $argv $i]
+	    }
 	# VTY Password
 	} -v* {
 	    if {! [regexp .\[vV\](.+) $arg ignore passwd]} {
@@ -155,6 +72,14 @@ for {set i 0} {$i < $argc} {incr i} {
 	    if {! [regexp .\[wW\](.+) $arg ignore enauser]} {
 		incr i
 		set enausername [lindex $argv $i]
+	    }
+	# Environment variable to pass to -s scripts
+	} -E* {
+	    if {[regexp .\[E\](.+)=(.+) $arg ignore varname varvalue]} {
+		set E$varname $varvalue
+	    } else {
+		send_user "\nError: invalid format for -E in $arg\n"
+		exit 1
 	    }
 	# Enable Password
 	} -e* {
@@ -186,7 +111,7 @@ for {set i 0} {$i < $argc} {incr i} {
 	    set do_saveconfig 1
 	# 'ssh -c' cypher type
 	} -y* {
-	    if {! [regexp .\[yY\](.+) $arg ignore cypher]} {
+	    if {! [regexp .\[eE\](.+) $arg ignore cypher]} {
 		incr i
 		set cypher [lindex $argv $i]
 	    }
@@ -208,7 +133,7 @@ for {set i 0} {$i < $argc} {incr i} {
 		incr i
 		set cmd_file [lindex $argv $i]
 	    }
-	    if [catch {set cmd_fd [open $cmd_file r]} reason ] {
+	    if [catch {set cmd_fd [open $cmd_file r]} reason] {
 		send_user "\nError: $reason\n"
 		exit 1
 	    }
@@ -258,7 +183,7 @@ proc label { host } {
     }
     # take host from ENV(TERM)
     if [info exists env(TERM)] {
-	if [regexp \^(xterm|vs) $env(TERM) ignore ] {
+	if [regexp \^(xterm|vs) $env(TERM) ignore] {
 	    send_user "\033]1;[lindex [split $host "."] 0]\a"
 	    send_user "\033]2;$host\a"
 	}
@@ -284,7 +209,7 @@ proc find {var router} {
     upvar int_$var list
     if { [info exists list] } {
 	foreach line $list {
-	    if { [string match [lindex $line 0] $router ] } {
+	    if { [string match -nocase [lindex $line 0] $router] } {
 		return [lrange $line 1 end]
 	    }
 	}
@@ -313,4 +238,3 @@ proc source_password_file { password_file } {
 	exit 1
     }
 }
-

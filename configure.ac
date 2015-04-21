@@ -458,7 +458,8 @@ extern int		errno;
 ])
 AC_CONFIG_HEADERS(include/config.h)
 
-AC_SUBST_FILE([copyright login_top])
+AC_SUBST_FILE([copyright])
+AC_SUBST_FILE([login_top])
 copyright=$srcdir/COPYING
 login_top=$srcdir/bin/login_top.in
 

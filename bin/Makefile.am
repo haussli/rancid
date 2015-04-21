@@ -26,7 +26,7 @@ bin_in = plogin.in rancid.in
 
 bin_SCRIPTS += lg.cgi lgform.cgi rancid-cvs rancid-fe rancid-run
 EXTRA_DIST= lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in \
-	$(bin_in)
+	$(bin_in) login_top.in
 #dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
 
 CLEANFILES= lg.cgi lgform.cgi plogin rancid rancid-cvs rancid-fe rancid-run

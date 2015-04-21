@@ -355,7 +355,7 @@ bin_SCRIPTS = agmrancid alogin anlogin arancid arrancid avologin \
 # XXX hack for the rancid to get pkglibdir, see corresponding XXX below
 bin_in = plogin.in rancid.in
 EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in \
-	$(bin_in)
+	$(bin_in) login_top.in
 
 #dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
 CLEANFILES = lg.cgi lgform.cgi plogin rancid rancid-cvs rancid-fe rancid-run
@@ -886,6 +886,7 @@ rancid-run: Makefile $(srcdir)/rancid-run.in
 	mv rancid-run.tmp rancid-run
 
 $(bin_PROGRAMS) $(bin_SCRIPTS): ../include/version.h
+$(bin_SCRIPTS): ../COPYING login_top.in
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

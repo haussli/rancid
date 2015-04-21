@@ -747,7 +747,7 @@ PATH_SEPARATOR
 SHELL
 PACKAGE
 VERSION'
-ac_subst_files=''
+ac_subst_files='copyright login_top'
 ac_user_opts='
 enable_option_checking
 enable_silent_rules
@@ -5987,6 +5987,10 @@ ac_config_files="$ac_config_files include/version.h"
 ac_config_headers="$ac_config_headers include/config.h"
 
 
+
+copyright=$srcdir/COPYING
+login_top=$srcdir/bin/login_top.in
+
 ac_config_files="$ac_config_files bin/control_rancid"
 
 ac_config_files="$ac_config_files bin/agmrancid"
@@ -6903,7 +6907,24 @@ ac_tmp=$tmp
 # This happens for instance with `./config.status config.h'.
 if test -n "$CONFIG_FILES"; then
 
-
+if $AWK 'BEGIN { getline <"/dev/null" }' </dev/null 2>/dev/null; then
+  ac_cs_awk_getline=:
+  ac_cs_awk_pipe_init=
+  ac_cs_awk_read_file='
+      while ((getline aline < (F[key])) > 0)
+	print(aline)
+      close(F[key])'
+  ac_cs_awk_pipe_fini=
+else
+  ac_cs_awk_getline=false
+  ac_cs_awk_pipe_init="print \"cat <<'|#_!!_#|' &&\""
+  ac_cs_awk_read_file='
+      print "|#_!!_#|"
+      print "cat " F[key] " &&"
+      '$ac_cs_awk_pipe_init
+  # The final `:' finishes the AND list.
+  ac_cs_awk_pipe_fini='END { print "|#_!!_#|"; print ":" }'
+fi
 ac_cr=`echo X | tr X '\015'`
 # On cygwin, bash can eat \r inside `` if the user requested igncr.
 # But we know of no other shell where ac_cr would be empty at this
@@ -6921,6 +6942,17 @@ fi
 echo 'BEGIN {' >"$ac_tmp/subs1.awk" &&
 _ACEOF
 
+# Create commands to substitute file output variables.
+{
+  echo "cat >>$CONFIG_STATUS <<_ACEOF || ac_write_fail=1" &&
+  echo 'cat >>"\$ac_tmp/subs1.awk" <<\\_ACAWK &&' &&
+  echo "$ac_subst_files" | sed 's/.*/F["&"]="$&"/' &&
+  echo "_ACAWK" &&
+  echo "_ACEOF"
+} >conf$$files.sh &&
+. ./conf$$files.sh ||
+  as_fn_error $? "could not make $CONFIG_STATUS" "$LINENO" 5
+rm -f conf$$files.sh
 
 {
   echo "cat >conf$$subs.awk <<_ACEOF" &&
@@ -6997,7 +7029,7 @@ _ACAWK
 cat >>"\$ac_tmp/subs1.awk" <<_ACAWK &&
   for (key in S) S_is_set[key] = 1
   FS = ""
-
+  \$ac_cs_awk_pipe_init
 }
 {
   line = $ 0
@@ -7015,10 +7047,16 @@ cat >>"\$ac_tmp/subs1.awk" <<_ACAWK &&
     } else
       len += 1 + keylen
   }
-
+  if (nfields == 3 && !substed) {
+    key = field[2]
+    if (F[key] != "" && line ~ /^[	 ]*@.*@[	 ]*$/) {
+      \$ac_cs_awk_read_file
+      next
+    }
+  }
   print line
 }
-
+\$ac_cs_awk_pipe_fini
 _ACAWK
 _ACEOF
 cat >>$CONFIG_STATUS <<\_ACEOF || ac_write_fail=1
@@ -7365,7 +7403,12 @@ s&@INSTALL@&$ac_INSTALL&;t t
 s&@MKDIR_P@&$ac_MKDIR_P&;t t
 $ac_datarootdir_hack
 "
-eval sed \"\$ac_sed_extra\" "$ac_file_inputs" | $AWK -f "$ac_tmp/subs.awk" \
+eval sed \"\$ac_sed_extra\" "$ac_file_inputs" |
+if $ac_cs_awk_getline; then
+  $AWK -f "$ac_tmp/subs.awk"
+else
+  $AWK -f "$ac_tmp/subs.awk" | $SHELL
+fi \
   >$ac_tmp/out || as_fn_error $? "could not create $ac_file" "$LINENO" 5
 
 test -z "$ac_datarootdir_hack$ac_datarootdir_seen" &&

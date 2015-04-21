@@ -54,6 +54,10 @@ for {set i 0} {$i < $argc} {incr i} {
 	# Expect debug mode
 	-d* {
 	    exp_internal 1
+	# Help
+	} -h* {
+	    send_user "$usage"
+	    exit 0
 	# Username
 	} -u* {
 	    if {! [regexp .\[uU\](.+) $arg ignore user]} {

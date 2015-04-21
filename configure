@@ -747,7 +747,8 @@ PATH_SEPARATOR
 SHELL
 PACKAGE
 VERSION'
-ac_subst_files='copyright login_top'
+ac_subst_files='copyright
+login_top'
 ac_user_opts='
 enable_option_checking
 enable_silent_rules
@@ -5985,6 +5986,7 @@ ac_config_files="$ac_config_files include/version.h"
 
 
 ac_config_headers="$ac_config_headers include/config.h"
+
 
 
 

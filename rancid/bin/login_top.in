@@ -29,6 +29,23 @@ set usage "Usage: $argv0 \[-dSV\] \[-autoenable\] \[-noenable\] \[-c command\] \
 \[-v vty-password\] \[-w enable-username\] \[-x command-file\] \
 \[-y ssh_cypher_type\] router \[router...\]\n"
 
+# Password file
+set password_file $env(HOME)/.cloginrc
+# Default is to login to the router
+set do_command 0
+set do_script 0
+# The default is to automatically enable
+set avenable 1
+# The default is that you login non-enabled (tacacs can have you login already
+# enabled)
+set avautoenable 0
+# The default is to look in the password file to find the passwords.  This
+# tracks if we receive them on the command line.
+set do_passwd 1
+set do_enapasswd 1
+# Save config, if prompted
+set do_saveconfig 0
+
 # Process the command line
 for {set i 0} {$i < $argc} {incr i} {
     set arg [lindex $argv $i]

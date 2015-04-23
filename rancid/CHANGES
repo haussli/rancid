@@ -1,4 +1,6 @@
 3.2.99
+	clogin: Add -m & -M options
+
 	control_rancid: specify path of <group>/rancid.conf
 
 	iosxr.pm: fix ShowEnv() collection of power info

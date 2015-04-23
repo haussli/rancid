@@ -7,7 +7,7 @@ clogin \- Cisco login script
 .B clogin
 [\fB\-autoenable\fP]
 [\fB\-noenable\fP]
-[\fB\-dhSV\fR]
+[\fB\-dhmMSV\fR]
 [\c
 .BI \-c\ 
 command]
@@ -150,6 +150,16 @@ Specifies an alternate configuration file.  The default is
 .TP
 .B \-h
 Display usage line and exit.
+.\"
+.TP
+.B \-[mM]
+Display
+.IR .cloginrc
+information for matching lines; either the first match (-m) or all
+matches (-M), then exit.
+The display format is:
+.sp
+look-up variable:filename:line number: glob
 .\"
 .TP
 .B \-p

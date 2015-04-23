@@ -1,4 +1,6 @@
 3.2.99
+	ios.pm: ignore PDP addr and resolvers in cellular o/p - Reuben Farrelly
+
 	clogin: Add -m & -M options
 
 	control_rancid: specify path of <group>/rancid.conf

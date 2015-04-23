@@ -72,7 +72,9 @@ auto_edit = sed \
 	-e 's,@SVN_FSTYPE\@,$(SVN_FSTYPE),g' \
 	-e 's,@SENDMAIL\@,$(SENDMAIL),g' \
 	-e 's,@VERSION\@,$(VERSION),g' \
-	-e 's,@COPYYEARS\@,$(COPYYEARS),g'
+	-e 's,@COPYYEARS\@,$(COPYYEARS),g' \
+	-e '/@copyright@/r ../COPYING' \
+	-e '/@copyright@/d'
 
 # XXX this is the generic version for the rest of bin_scripts that comes from
 #     configure.in now.  perhaps change to use this.
@@ -84,7 +86,7 @@ $(bin_in:%.in=%): Makefile $(top_builddir)/config.status
 	mv $@.tmp $@
 # XXX there must be a better way to produce these dependencies, perhaps in
 #     configure.
-plogin: $(srcdir)/plogin.in
+plogin: $(srcdir)/plogin.in ../COPYING
 rancid: $(srcdir)/rancid.in
 
 lg.cgi: Makefile $(srcdir)/lg.cgi.in

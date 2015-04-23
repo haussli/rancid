@@ -47,6 +47,9 @@ set do_enapasswd 1
 set do_saveconfig 0
 # cloginrc debugging knob
 set do_cloginrcdbg 0
+# intialize cloginrc parsing stacks
+set int_file {}
+set int_lineno {}
 
 # Process the command line
 for {set i 0} {$i < $argc} {incr i} {
@@ -218,8 +221,6 @@ proc label { host } {
     }
 }
 
-set int_file {}
-set int_lineno {}
 # This is a helper function to make the password file easier to
 # maintain.  Using this the password file has the form:
 # add password sl*	pete cow

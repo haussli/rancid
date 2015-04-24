@@ -491,10 +491,10 @@ proc run_commands { prompt command } {
 
     send -h "terminal length 0\r"
     # match cisco config mode prompts too, such as router(config-if)#
-    regsub -all {^(.{1,11}).*([#>])$} $prompt {\1} reprompt
-    # escape any parens in the prompt, such as "(enable)"
-    regsub -all {[)(]} $reprompt {\\&} reprompt
-    append reprompt {([^#>\r\n]+)?\2(\\([^)\\r\\n]+\\))?}
+    regsub -lineanchor -- {^(.{1,11}).*([#>] *)$} $prompt {\1} reprompt
+    # escape any parens or escapes in the prompt
+    regsub -all -- {[)(\\]$} $reprompt {} reprompt
+    append reprompt {([^#>\r\n]+)?[#>]}
     expect {
 	-re $reprompt	{}
 	-re "\[\n\r]+"	{ exp_continue }

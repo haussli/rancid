@@ -1,4 +1,7 @@
 3.2.99
+	rancid.types.base: remove cisco-xr dir slave and sec cmds, they do
+	not appear to apply to any XR platforms - Buchan Milne
+
 	ios.pm: ignore PDP addr and resolvers in cellular o/p - Reuben Farrelly
 
 	clogin: Add -m & -M options

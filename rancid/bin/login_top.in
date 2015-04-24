@@ -63,17 +63,27 @@ for {set i 0} {$i < $argc} {incr i} {
 	} -h* {
 	    send_user "$usage"
 	    exit 0
-	# Username
-	} -u* {
-	    if {! [regexp .\[uU\](.+) $arg ignore user]} {
+	# Command to run.
+	} -c* {
+	    if {! [regexp .\[cC\](.+) $arg ignore command]} {
 		incr i
-		set username [lindex $argv $i]
+		set command [lindex $argv $i]
 	    }
-	# cloginrc debugging knobs
-	} -m* {
-	    set do_cloginrcdbg 1
-	} -M* {
-	    set do_cloginrcdbg 2
+	    set do_command 1
+	# Environment variable to pass to -s scripts
+	} -E* {
+	    if {[regexp .\[E\](.+)=(.+) $arg ignore varname varvalue]} {
+		set E$varname $varvalue
+	    } else {
+		send_user "\nError: invalid format for -E in $arg\n"
+		exit 1
+	    }
+	# alternate cloginrc file
+	} -f* {
+	    if {! [regexp .\[fF\](.+) $arg ignore password_file]} {
+		incr i
+		set password_file [lindex $argv $i]
+	    }
 	# VTY Password
 	} -p* {
 	    if {! [regexp .\[pP\](.+) $arg ignore userpasswd]} {
@@ -81,14 +91,46 @@ for {set i 0} {$i < $argc} {incr i} {
 		set userpasswd [lindex $argv $i]
 	    }
 	    set do_passwd 0
+	# cloginrc debugging knobs
+	} -m* {
+	    set do_cloginrcdbg 1
+	} -M* {
+	    set do_cloginrcdbg 2
 	# ssh passphrase
 	} -r* {
 	    if {! [regexp .\[rR\](.+) $arg ignore passphrase]} {
 		incr i
 		set avpassphrase [lindex $argv $i]
 	    }
+	# Expect script to run.
+	} -s* {
+	    if {! [regexp .\[sS\](.+) $arg ignore sfile]} {
+		incr i
+		set sfile [lindex $argv $i]
+	    }
+	    if { ! [file readable $sfile] } {
+		send_user "\nError: Can't read $sfile\n"
+		exit 1
+	    }
+	    set do_script 1
+	# save config on exit
+	} -S* {
+	    set do_saveconfig 1
+	# Timeout
+	} -t* {
+	    if {! [regexp .\[tT\](.+) $arg ignore timeout]} {
+		incr i
+	        set timeoutdflt [lindex $argv $i]
+	    }
+	# Username
+	} -u* {
+	    if {! [regexp .\[uU\](.+) $arg ignore user]} {
+		incr i
+		set username [lindex $argv $i]
+	    }
 	# VTY Password
 	} -v* {
+	    # some scripts ignore -v, like jlogin
 	    if {! [regexp .\[vV\](.+) $arg ignore passwd]} {
 		incr i
 		set passwd [lindex $argv $i]
@@ -104,14 +146,6 @@ for {set i 0} {$i < $argc} {incr i} {
 		incr i
 		set enausername [lindex $argv $i]
 	    }
-	# Environment variable to pass to -s scripts
-	} -E* {
-	    if {[regexp .\[E\](.+)=(.+) $arg ignore varname varvalue]} {
-		set E$varname $varvalue
-	    } else {
-		send_user "\nError: invalid format for -E in $arg\n"
-		exit 1
-	    }
 	# Enable Password
 	} -e* {
 	    if {! [regexp .\[e\](.+) $arg ignore enapasswd]} {
@@ -119,44 +153,11 @@ for {set i 0} {$i < $argc} {incr i} {
 		set enapasswd [lindex $argv $i]
 	    }
 	    set do_enapasswd 0
-	# Command to run.
-	} -c* {
-	    if {! [regexp .\[cC\](.+) $arg ignore command]} {
-		incr i
-		set command [lindex $argv $i]
-	    }
-	    set do_command 1
-	# Expect script to run.
-	} -s* {
-	    if {! [regexp .\[sS\](.+) $arg ignore sfile]} {
-		incr i
-		set sfile [lindex $argv $i]
-	    }
-	    if { ! [file readable $sfile] } {
-		send_user "\nError: Can't read $sfile\n"
-		exit 1
-	    }
-	    set do_script 1
-	# save config on exit
-	} -S* {
-	    set do_saveconfig 1
 	# 'ssh -c' cypher type
 	} -y* {
 	    if {! [regexp .\[eE\](.+) $arg ignore cypher]} {
 		incr i
 		set cypher [lindex $argv $i]
-	    }
-	# alternate cloginrc file
-	} -f* {
-	    if {! [regexp .\[fF\](.+) $arg ignore password_file]} {
-		incr i
-		set password_file [lindex $argv $i]
-	    }
-	# Timeout
-	} -t* {
-	    if {! [regexp .\[tT\](.+) $arg ignore timeout]} {
-		incr i
-	        set timeoutdflt [lindex $argv $i]
 	    }
 	# Command file
 	} -x* {

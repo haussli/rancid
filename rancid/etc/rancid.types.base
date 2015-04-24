@@ -186,22 +186,6 @@ cisco-xr;command;iosxr::DirSlotN;dir /all disk2:
 cisco-xr;command;iosxr::DirSlotN;dir /all harddisk:
 cisco-xr;command;iosxr::DirSlotN;dir /all harddiska:
 cisco-xr;command;iosxr::DirSlotN;dir /all harddiskb:
-cisco-xr;command;iosxr::DirSlotN;dir /all slavenvram:
-cisco-xr;command;iosxr::DirSlotN;dir /all slavebootflash:
-cisco-xr;command;iosxr::DirSlotN;dir /all slaveslot0:
-cisco-xr;command;iosxr::DirSlotN;dir /all slavedisk0:
-cisco-xr;command;iosxr::DirSlotN;dir /all slaveslot1:
-cisco-xr;command;iosxr::DirSlotN;dir /all slavedisk1:
-cisco-xr;command;iosxr::DirSlotN;dir /all slaveslot2:
-cisco-xr;command;iosxr::DirSlotN;dir /all slavedisk2:
-cisco-xr;command;iosxr::DirSlotN;dir /all sec-nvram:
-cisco-xr;command;iosxr::DirSlotN;dir /all sec-bootflash:
-cisco-xr;command;iosxr::DirSlotN;dir /all sec-slot0:
-cisco-xr;command;iosxr::DirSlotN;dir /all sec-disk0:
-cisco-xr;command;iosxr::DirSlotN;dir /all sec-slot1:
-cisco-xr;command;iosxr::DirSlotN;dir /all sec-disk1:
-cisco-xr;command;iosxr::DirSlotN;dir /all sec-slot2:
-cisco-xr;command;iosxr::DirSlotN;dir /all sec-disk2:
 cisco-xr;command;iosxr::ShowContAll;show controllers
 cisco-xr;command;iosxr::AdminShowDiag;admin show diag
 cisco-xr;command;iosxr::ShowInventory;admin show inventory raw

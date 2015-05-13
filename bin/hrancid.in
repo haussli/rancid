@@ -61,6 +61,9 @@ $clean_run = 0;
 $found_end = 0;				# unused - hp lacks an end-of-config tag
 $timeo = 90;				# hlogin timeout in seconds
 
+# force a terminal type to work-around a problem seen with HP2910/J9145A
+$ENV{'TERM'} = "vt100";
+
 my(@commandtable, %commands, @commands);# command lists
 my($aclsort) = ("ipsort");		# ACL sorting mode
 my($filter_commstr);			# SNMP community string filtering

@@ -430,6 +430,10 @@ proc run_commands { prompt command } {
 						  }
 						  exp_continue
 						}
+	     -re "passphrase"			{
+						  send "PASSWORD\r"
+						  exp_continue
+						}
 	}
     }
     send "exit\r"

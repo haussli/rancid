@@ -29,7 +29,7 @@
 	ciscowlc.pm: comment a few config lines that can not be imported
 
 3.2
-	panos.pm: fix package definition
+	panos.pm: fix package definition - martyMusto
 
 	rancid.type.base: comment adtran definition to avoid confusion
 

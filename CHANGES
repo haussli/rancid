@@ -29,6 +29,8 @@
 	ciscowlc.pm: comment a few config lines that can not be imported
 
 3.2
+	panos.pm: fix package definition
+
 	rancid.type.base: comment adtran definition to avoid confusion
 
 	configure, rancid.pm: check minimum revision of Socket.pm

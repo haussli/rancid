@@ -278,9 +278,6 @@ if [ ! -f $DIR/router.db ] ; then
     exit 1;
 fi
 
-# IQ test
-@PERLV@ -F\; -ane '{if ($F[0] !~ /^\s*#/ && $F[0] !~ /^\s*$/ && $#F < 2 && $F[0] =~ /:/) {print "WARNING: Have you forgotten to update the FS in router.db?\n"; exit;}}' router.db
-
 # generate the list of all, up, & down routers
 cd $DIR
 trap 'rm -fr routers.db routers.all.new routers.down.new routers.up.new \

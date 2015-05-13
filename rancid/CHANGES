@@ -1,4 +1,6 @@
 3.2.99
+	control_rancid: add check for router.db FS
+
 	mrvlogin: fix prompt re-factoring in run_commands()
 
 	rancid.types.base: remove cisco-xr dir slave and sec cmds, they do

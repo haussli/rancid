@@ -225,7 +225,7 @@ sub GetConf {
 	    }
 	}
 	# filter cycling password encryption
-	if (/^\s*(set [^\s]*)\s(enc\s[^\s]+)(.*)?/i && $filter_pwds > 0 ) {
+	if (/^\s*(set [^\s]*)\s(enc\s[^\s]+)(.*)/i && $filter_pwds > 0 ) {
 	    ProcessHistory("ENC","","","#$1 ENC <removed> $3\n");
 	    next;
 	}

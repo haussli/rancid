@@ -1,4 +1,6 @@
 3.2.99
+	rancid.conf: move the UID check after setting PATH
+
 	control_rancid: add check for router.db FS
 
 	mrvlogin: fix prompt re-factoring in run_commands()

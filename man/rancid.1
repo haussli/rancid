@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "rancid" "1" "8 October 2014"
+.TH "rancid" "1" "18 May 2015"
 .SH NAME
 rancid \- Cisco configuration filter
 .SH SYNOPSIS
@@ -27,13 +27,14 @@ For example,
 .IR hostname.new .
 .PP
 .B rancid
-is also a
+is a
 .BR perl (1)
-script that operates much like
-.B rancid,
-but is generic and will eventually obsolete the
+script that operates much like the vendor-specific
 .B rancid
-script.
+script of pre-3.0 releases, but is generic and will eventually obsolete the
+vendor-specific
+.B rancid
+scripts.
 It uses the device_type specified with the -t option to look-up a device
 description that defines what it does to collect and process device
 information.

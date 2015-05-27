@@ -33,6 +33,8 @@
 	ciscowlc.pm: comment a few config lines that can not be imported
 
 3.2
+	control_rancid: fix handling of configs/.cvsignore
+
 	panos.pm: fix package definition - martyMusto
 
 	rancid.type.base: comment adtran definition to avoid confusion

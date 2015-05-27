@@ -206,20 +206,20 @@ routers.all
 routers.down
 routers.up
 EOF
+    fi
     if [ ! -f configs/.cvsignore ] ; then
 	rm -rf configs/.cvsignore
-	cat > configs/.cvsignore <<EOF
+	cat > configs/.cvsignore <<EOF2
 .old
 *.new
 *.raw
-EOF
+EOF2
     fi
     if [ $RCSSYS = svn ] ; then
 	svn propset svn:ignore -F .cvsignore .
 	svn propset svn:ignore -F configs/.cvsignore configs
 	svn update .
 	svn commit -m 'set svn:ignores' .
-	fi
     fi
     ;;
 esac

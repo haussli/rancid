@@ -236,6 +236,7 @@ if [ -f rancid.conf ] ; then
 	;;
     git )
 	git status -s rancid.conf | grep '^?'
+	if [ $? -eq 0 ] ; then LN=1; else LN=0; fi
         ;;
     esac
     if [ $LN -eq 0 ] ; then

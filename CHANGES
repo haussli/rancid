@@ -1,4 +1,6 @@
 3.2
+	control_rancid: fix handling of <group>/rancid.conf in git - Mike Eklund
+
 	control_rancid: fix handling of configs/.cvsignore
 
 	panos.pm: fix package definition

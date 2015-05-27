@@ -2139,6 +2139,11 @@ TOP:
 	    next;
 	}
 	# ASA/PIX keys in more system:running-config
+	if (/^(( ikev2)? (local|remote)-authentication pre-shared-key ).*/ &&
+	    $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed> $'"); next;
+	}
+	# ASA/PIX keys in more system:running-config
 	if (/^(( ikev1)? pre-shared-key | key |failover key ).*/ &&
 	    $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed> $'"); next;

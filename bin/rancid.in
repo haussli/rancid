@@ -89,18 +89,18 @@ if (length($#modules)) {
     my($module);
 
     foreach $module (@modules) {
-	eval {
-            (my $file = $module) =~ s/::/\//g;
-            # call module->init(); we expect 0 as success, as god intended it
-            # XXX how the fuck is this done w/o the eval and w/o a temp var?
-            eval($module ."::init();") ? 0 : 1;
-	} or do {
-            # Module load failed
-            my($error) = $@;
-            print STDERR "loadtype: initializing $module failed: ".
-                         "$error\n";
-            return(-1);
-	};
+	(my $file = $module) =~ s/::/\//g;
+	my($err) = 0;
+
+	# call module->init(); we expect 0 as success, as god intended it
+	eval "\$err = ". $module ."::init();";
+	if ($@) {
+	    printf(STDERR "loadtype: initializing $module failed: %s\n", $@);
+	    exit 1;
+	} elsif ($err) {
+	    printf(STDERR "loadtype: %s::init() returned failure\n", $module);
+	    exit 1;
+	}
     }
 }
 

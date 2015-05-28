@@ -1,4 +1,7 @@
 3.2.99
+	rancid: fix error checking of module::init() & calling command handlers
+	that are undefined.
+
 	ios.pm: filter ike2 keys on ASA - Mike Eklund
 
 	rancid.conf: move the UID check after setting PATH

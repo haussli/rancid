@@ -129,6 +129,12 @@ CMD:	if (/[>#]\s?exit$/) {
 		$clean_run = 0;
 		last TOP;
 	    }
+	    if (! defined(&{$commands{$cmd}})) {
+		printf(STDERR "$host: undefined function - \"%s\"\n",  
+		       $commands{$cmd});
+		$clean_run = 0;
+		last TOP;
+	    }
 	    $rval = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
 	    delete($commands{$cmd});
 	    if ($rval == -1) {

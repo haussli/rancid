@@ -1,4 +1,6 @@
 3.2.99
+	jlogin mtlogin: fix match for method "ssh:port"
+
 	*login: fix usage line display of -m | -M
 
 	rancid: fix error checking of module::init() & calling command handlers

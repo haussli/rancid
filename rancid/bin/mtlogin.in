@@ -40,7 +40,7 @@ proc login { router user userpswd passwd prompt cmethod cyphertype identfile } {
 		send_user "\nError: telnet failed: $reason\n"
 		return 1
 	    }
-	} elseif ![string compare $prog "ssh"] {
+	} elseif [string match "ssh*" $prog] {
 	    # ssh to the router & try to login with or without an identfile.
 	    regexp {ssh(:([^[:space:]]+))*} $prog methcmd suffix port
 	    set cmd $sshcmd

@@ -23,7 +23,7 @@ if {[info exists env(CLOGINRC)]} {
 }
 
 # Usage line
-set usage "Usage: $argv0 \[-dhmMSV\] \[-autoenable\] \[-noenable\] \
+set usage "Usage: $argv0 \[-dhSV\] \[-m|M\] \[-autoenable\] \[-noenable\] \
 \[-c command\] \[-Evar=x\] \[-e enable-password\] \[-f cloginrc-file\] \
 \[-p user-password\] \[-r passphrase\] \[-s script-file\] \[-t timeout\] \
 \[-u username\] \[-v vty-password\] \[-w enable-username\] \[-x command-file\] \

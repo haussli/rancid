@@ -1,4 +1,7 @@
 3.2.99
+	rancid-run, control_rancid, rancid.conf.sample: fix sendmail variable
+	usage Rancid 3.0 change - Tetsuo Handa
+
 	jlogin mtlogin: fix match for method "ssh:port"
 
 	*login: fix usage line display of -m | -M

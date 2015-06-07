@@ -637,6 +637,7 @@ MKDIR
 ID
 FIND
 COMM
+GIT
 SVN
 CVS
 LG_PING_CMD
@@ -5491,7 +5492,7 @@ fi
 
 
     ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_CVS`"
-else
+elif test $RCSSYS = "svn" ; then
     # Extract the first word of "svn", so it can be a program name with args.
 set dummy svn; ac_word=$2
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
@@ -5534,6 +5535,49 @@ fi
 
 
     ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_SVN`"
+else
+    # Extract the first word of "git", so it can be a program name with args.
+set dummy git; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_GIT+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $GIT in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_GIT="$GIT" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_GIT="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_path_GIT" && ac_cv_path_GIT="no"
+  ;;
+esac
+fi
+GIT=$ac_cv_path_GIT
+if test -n "$GIT"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $GIT" >&5
+$as_echo "$GIT" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+    ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_GIT`"
 fi
 # Extract the first word of "comm", so it can be a program name with args.
 set dummy comm; ac_word=$2
@@ -5958,7 +6002,7 @@ ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_TOUCH`"
 ENV_PATH="$ENV_PATH:/usr/local/bin:/usr/bin"
 
 
-ENV_PATH=`echo $ENV_PATH | $PERLV_PATH -e 'foreach $x(split(":",<>)){next unless (length($x));push(@F, $x),$seen{$x}=1 unless (defined $seen{$x});}print join(":",@F);'`
+ENV_PATH=`echo $ENV_PATH | $PERLV_PATH -e 'foreach $x(split(":",<>)){next unless (length($x));next if (/^\.$/);push(@F, $x),$seen{$x}=1 unless (defined $seen{$x});}print join(":",@F);'`
 ac_cv_env_path=$ENV_PATH
 
 

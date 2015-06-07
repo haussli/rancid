@@ -338,9 +338,12 @@ ENV_PATH="$ENV_PATH:`dirname $DIRNAME`:`dirname $DIFF`"
 if test $RCSSYS = "cvs" ; then
     AC_PATH_PROG(CVS,cvs,no)
     ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_CVS`"
-else
+elif test $RCSSYS = "svn" ; then
     AC_PATH_PROG(SVN,svn,no)
     ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_SVN`"
+else
+    AC_PATH_PROG(GIT,git,no)
+    ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_GIT`"
 fi
 AC_PATH_PROG(COMM,comm,no)
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_COMM`"

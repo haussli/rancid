@@ -1,4 +1,6 @@
 3.2.99
+	configure: remove . from PATH - Tetsuo Handa
+
 	rancid-run, control_rancid, rancid.conf.sample: fix sendmail variable
 	usage Rancid 3.0 change - Tetsuo Handa
 

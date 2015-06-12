@@ -1,7 +1,7 @@
-Frequently Asked Questions about rancid - last updated 20150216.
+Frequently Asked Questions about rancid - last updated 20150611.
 
 This FAQ contains information that may not apply directly to versions of
-rancid prior to 2.3.  It also contains paths containing tags such as
+rancid prior to 3.0.  It also contains paths containing tags such as
 <PREFIX>, which refer to paths that are site-specific and are determined
 by how rancid was configured at installation time.  These are explained
 briefly in the configure --help output.  Below are the defaults used in
@@ -27,6 +27,17 @@ ToC
 6) License
 
 1) Platform/Device specific
+Q. clogin to a Cisco ASR IOS-XE is failing producing the log message:
+   %SSH-3-DH_RANGE_FAIL: Client DH key range mismatch with maximum configured DH key on server
+A. Cisco bug CSCuo76464.  See https://tools.cisco.com/bugsearch/bug/CSCuo76464
+   and http://stackoverflow.com/questions/25341773/cisco-ssh-key-exchange-fails-from-ubuntu-14-04-client-dh-key-range-mismatch.
+
+   Suggested fix is adding the below to /etc/ssh/ssh_config or ~/.ssh/config:
+
+    Host *
+           KexAlgorithms diffie-hellman-group1-sha1
+
+
 Q. I have a Cisco Catalyst 6500 series switch running the IOS (NOT catOS)
    software, is the router.db device type cisco or cat5?
 A. A catalyst running IOS is type "cisco".  The 'show version' output will

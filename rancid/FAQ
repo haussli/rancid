@@ -23,8 +23,9 @@ ToC
 2) CVS and filesystem permissions
 3) General
 4) O/S specific
-5) I am still stuck
-6) License
+5) E-mail problems
+6) I am still stuck
+7) License
 
 1) Platform/Device specific
 Q. clogin to a Cisco ASR IOS-XE is failing producing the log message:
@@ -492,15 +493,37 @@ A. This is likely a problem with Kerberized-telnet.  See
    that use hpuifilter.
 
 
-5) I am still stuck
+5) E-mail problems
+Q. Can you help with e-mail delivery problems?
+A. No.  rancid-discuss@, etc. are not Mail Transport Agent (MTA) support
+   lists.  There are lists specific to Postfix, Sendmail, and all other MTAs;
+   google for those lists and ask there.
+
+   But, to explain basic information about rancid's use of the MTA is simple,
+   rancid simply uses sendmail (the executable, named so for historical
+   purposes and not to be confused with the MTA Sendmail) to send mail to the
+   per-rancid-group aliases described in the rancid source README and
+   rancid.conf(5) and affected by rancid.conf(5) and build-time configure
+   options.
+
+   All mail delivery is performed by the MTA.
+
+   For debugging the MTA, review logs that your MTA generates and try sending
+   mail to the per-rancid-group aliases manually using your favorite Mail User
+   Agent (MUA) (Mail, mail, mutt, pine, etc) and see debugging options that
+   your MTA and MUA offer for providing more logs, delivery receipts, etc.
+
+
+6) I am still stuck
 Q. I'm still stuck on this problem.  Where can I get more help?
 A. A discussion list is available, rancid-discuss@shrubbery.net.  You must
    be a subscriber to post.  Subscribe like this:
 
    shell% echo "subscribe" | mail rancid-discuss-request@shrubbery.net
 
+   Please, no questions about Unix or MTAs.
 
-6) License
+7) License
 Q. Please explain the RANCID license.
 A. Quite simple; read it.  It is a slightly modified BSD license; it has an
    additional clause.

@@ -1,4 +1,6 @@
 3.2.99
+	zrancid: change TERM to ansi - Tore Anderson
+
 	configure: remove . from PATH - Tetsuo Handa
 
 	rancid-run, control_rancid, rancid.conf.sample: fix sendmail variable

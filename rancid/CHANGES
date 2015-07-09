@@ -1,4 +1,9 @@
 3.2.99
+	arbor.pm: sort IP addresses in policy and display one-per-line as
+	comments so that they are readable and it is easier to see what changed
+	in the policy. There does not appear to be a way to split these lines
+	and have the saved config still be loadable into the device.
+
 	anlogin: arbor produces some *really* long prefix match lines on account
 	of its lousy config syntax.  this exceeds the default expect max buffer
 	size, which i have never seen before.  Utilize the full_buffer magic

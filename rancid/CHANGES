@@ -1,4 +1,9 @@
 3.2.99
+	anlogin: arbor produces some *really* long prefix match lines on account
+	of its lousy config syntax.  this exceeds the default expect max buffer
+	size, which i have never seen before.  Utilize the full_buffer magic
+	patlist to dump the buffer when it is full but hasnt matched an EOL.
+
 	arbor.pm: sort ip access lists
 
 	zrancid: change TERM to ansi - Tore Anderson

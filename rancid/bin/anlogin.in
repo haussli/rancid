@@ -543,6 +543,9 @@ proc run_commands { prompt command } {
 						  send " "
 						  exp_continue
 						}
+	    full_buffer				{ send_user -- "$expect_out(buffer)"
+						  exp_continue
+						}
 	}
     }
     log_user 1

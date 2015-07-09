@@ -127,6 +127,10 @@ sub ShowConfig {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if (/invalid command/i);
 
+	if (/ip access add (\S+) all (\S+)/) {
+	    ProcessHistory("IPACCESS_$1","ipsort","$2","$_"); next;
+	}
+
 	if (/(services sp device edit .+ snmp community set )\S+/) {
 	    if ($filter_commstr) {
 		ProcessHistory("","","","# $1 <removed>$'"); next;

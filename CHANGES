@@ -1,4 +1,6 @@
 3.2.99
+	arbor.pm: sort ip access lists
+
 	zrancid: change TERM to ansi - Tore Anderson
 
 	configure: remove . from PATH - Tetsuo Handa

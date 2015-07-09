@@ -115,7 +115,7 @@ TOP: while(<$INPUT>) {
     }
 }
 
-# This routine parses "show configuration"
+# This routine parses "config show"
 sub ShowConfig {
     my($INPUT, $OUTPUT, $cmd) = @_;
     my($linecnt) = 0;
@@ -127,8 +127,33 @@ sub ShowConfig {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if (/invalid command/i);
 
+	# sort mgmt ACLs
 	if (/ip access add (\S+) all (\S+)/) {
-	    ProcessHistory("IPACCESS_$1","ipsort","$2","$_"); next;
+	    ProcessHistory("IPACCESS_$1","$aclsort","$2","$_"); next;
+	}
+
+	# sort IP addresses in policy and display one-per-line as comments so
+	# that they are readable and it is easier to see what changed in the
+	# policy. There does not appear to be a way to split these lines and
+	# have the saved config still be loadable into the device.
+	if (/(services sp managed_objects edit \"[^"]*\" match set cidr_blocks) (.*)/ ||
+	    /(services sp managed_objects edit \"[^"]*\" match set cidr_v6_blocks) (.*)/ ||
+	    /(services sp managed_objects edit \"[^"]*\" tags add \"[^"]*\") (.*)/ ||
+	    /(services sp managed_objects edit \"[^"]*\" portal mitigation tms scope set) (.*)/) {
+	    ProcessHistory("MG_OBJ","","","$_");
+	    my(@ips) = split(/,/, $2);
+	    next if ($#ips < 2);
+	    ProcessHistory("MG_OBJ","","","# $1 \\\n");
+	    my($ip, $n) = (0,0);
+	    foreach $ip (@ips) {
+		$n++;
+		if ($n <= $#ips) {
+		    ProcessHistory("MG_OBJ","$aclsort","$ip","#\t\t\t\t$ip,\\\n");
+		} else {
+		    ProcessHistory("MG_OBJ","$aclsort","$ip","#\t\t\t\t$ip\n");
+		}
+	    }
+	    next;
 	}
 
 	if (/(services sp device edit .+ snmp community set )\S+/) {

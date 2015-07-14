@@ -50,7 +50,7 @@ proc login { router user userpswd passwd prompt cmethod cyphertype identfile } {
 	    if {"$identfile" != ""} {
 		set cmd "$cmd -i $identfile"
 	    }
-	    set retval [catch {eval spawn [split "$cmd -c $cyphertype -x -l $user+ct $router" { }]} reason]
+	    set retval [catch {eval spawn [split "$cmd -c $cyphertype -x -l $user+ct200w $router" { }]} reason]
 	    if { $retval } {
 		send_user "\nError: $cmd failed: $reason\n"
 		return 1
@@ -129,7 +129,7 @@ proc login { router user userpswd passwd prompt cmethod cyphertype identfile } {
 					}
 
 	-re "$u_prompt"			{
-					  send -- "$user+ct\r"
+					  send -- "$user+ct200w\r"
 					  set uprompt_seen 1
 					  exp_continue
 					}

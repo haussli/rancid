@@ -1,4 +1,6 @@
 3.2.99
+	f5rancid: change TERM to vt100-w for 132 width - John Kougoulos
+
 	arbor.pm: sort IP addresses in policy and display one-per-line as
 	comments so that they are readable and it is easier to see what changed
 	in the policy. There does not appear to be a way to split these lines

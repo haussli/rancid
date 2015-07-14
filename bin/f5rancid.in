@@ -61,7 +61,7 @@ $found_end = 0;
 $timeo = 90;				# clogin timeout in seconds
 
 # force a terminal type so as not to confuse the POS
-$ENV{'TERM'} = "vt100";
+$ENV{'TERM'} = "vt100-w";
 
 my(@commandtable, %commands, @commands);# command lists
 my($aclsort) = ("ipsort");		# ACL sorting mode

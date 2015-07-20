@@ -586,10 +586,10 @@ if [ "X$DIFFSCRIPT" = "X" ]; then
 else
     case $RCSSYS in
     cvs )
-	cvs -f @DIFF_CMD@ -ko | ($DIFFSCRIPT) 2>&1 >$TMP.diff
+	cvs -f @DIFF_CMD@ -ko | (eval $DIFFSCRIPT) 2>&1 >$TMP.diff
 	;;
     svn | git )
-	$RCSSYS diff | ($DIFFSCRIPT) 2>&1 >$TMP.diff
+	$RCSSYS diff | (eval $DIFFSCRIPT) 2>&1 >$TMP.diff
 	;;
     esac
 fi

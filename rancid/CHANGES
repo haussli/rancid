@@ -1,4 +1,6 @@
 3.2.99
+	nlogin: handle netscreen agreement - Yannick Charton
+
 	mtlogin: avoid line truncation with TERM for wide screen - Ehud Gavron
 
 	f5rancid: change TERM to vt100-w for 132 width - John Kougoulos

@@ -437,6 +437,11 @@ proc run_commands { prompt command } {
 						  exp_continue
 						}
 	    -re "$prompt"			{ send_user -- "$expect_out(buffer)" }
+	    -re "\[Aa]ccept this agreement y/.n."  {
+						  sleep 1
+						  send -- "y\r"
+						  exp_continue
+						}
 	    -gl "--- more ---"			{ send " "
 						  exp_continue
 						}

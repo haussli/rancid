@@ -1,4 +1,6 @@
 3.2.99
+	alogin: select ibmnos-cli on IBM Flex System Fabric
+
 	nlogin: handle netscreen agreement - Yannick Charton
 
 	mtlogin: avoid line truncation with TERM for wide screen - Ehud Gavron

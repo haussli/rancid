@@ -22,10 +22,11 @@ ToC
 1) Platform/Device specific
 2) CVS and filesystem permissions
 3) General
-4) O/S specific
-5) E-mail problems
-6) I am still stuck
-7) License
+4) Extending RANCiD
+5) O/S specific
+6) E-mail problems
+7) I am still stuck
+8) License
 
 1) Platform/Device specific
 Q. clogin to a Cisco ASR IOS-XE is failing producing the log message:
@@ -436,12 +437,11 @@ A. On modern machines it is unlikely you will have issues with disk space or
 
 Q. How can I run rancid to make the most efficient use of resources (i.e.
    run in the shortest amount of time)?
-
 A. You can adjust PAR_COUNT in rancid.conf to achieve maximum efficiency
    during polling. You can watch the output of the standard unix command
    vmstat command during polling to determine whether or not the cpu is being
    wholly utilized - there should be little idle time and no process blocking
-   (see vmstat).
+   (see vmstat(8)).
 
    Another simpler method is to look at the time stamps on the rancid log
    files, and adjust PAR_COUNT until the least amount of time is taken
@@ -470,6 +470,7 @@ A. The possibilities are endless...rancid is non-toxic when applied properly.
 	http://www.shrubbery.net/rancid/NANOG29/
 
 
+4) Extending RANCiD
 Q. I wrote scripts for an unsupported device in rancid 2.x, but I am upgrading
    to 3.x and rancid-fe no longer works in the same manner.  Can I use the
    script with 3.x?
@@ -479,8 +480,8 @@ A. Yes.  The device type must be added to etc/rancid.types.conf such as:
    See rancid.types.conf(5)
 
 
-4) O/S specific
-4a) Linux
+5) O/S specific
+5a) Linux
 Q. Some device collections have erroneously duplicated characters and which
    characters are duplicated often change between collections.  Such as:
    - access-list 1 permit x.x.x.101
@@ -493,7 +494,7 @@ A. This is likely a problem with Kerberized-telnet.  See
    that use hpuifilter.
 
 
-5) E-mail problems
+6) E-mail problems
 Q. Can you help with e-mail delivery problems?
 A. No.  rancid-discuss@, etc. are not Mail Transport Agent (MTA) support
    lists.  There are lists specific to Postfix, Sendmail, and all other MTAs;
@@ -514,7 +515,7 @@ A. No.  rancid-discuss@, etc. are not Mail Transport Agent (MTA) support
    your MTA and MUA offer for providing more logs, delivery receipts, etc.
 
 
-6) I am still stuck
+7) I am still stuck
 Q. I'm still stuck on this problem.  Where can I get more help?
 A. A discussion list is available, rancid-discuss@shrubbery.net.  You must
    be a subscriber to post.  Subscribe like this:
@@ -523,7 +524,7 @@ A. A discussion list is available, rancid-discuss@shrubbery.net.  You must
 
    Please, no questions about Unix or MTAs.
 
-7) License
+8) License
 Q. Please explain the RANCID license.
 A. Quite simple; read it.  It is a slightly modified BSD license; it has an
    additional clause.

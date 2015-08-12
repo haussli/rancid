@@ -479,6 +479,54 @@ A. Yes.  The device type must be added to etc/rancid.types.conf such as:
 	DeviceTypeName;login;LoginScriptName
    See rancid.types.conf(5)
 
+Q. I Have a device that is not supported by rancid.  How can I added support
+   for it?
+A. You should first search the rancid-discuss mail list and the web for
+   previous art.  Someone may have already accomplished or begun the task.
+   If that is fruitless, you should query the rancid-discuss mail list, for
+   someone still may have done the work or you may be able to hire or bribe
+   someone.
+
+   If you must write one, it is helpful to have a basic understanding of
+   rancid's general process.  See rancid_intro(1) and this maillist thread
+   thread:
+   http://www.shrubbery.net/pipermail/rancid-discuss/2015-August/008630.html .
+
+   You should begin with installation of the latest version of rancid.  Adding
+   device support has been made easier in 3.0 and is being made easier as it
+   progresses.
+
+   Now, following the advice from Alan in the mail thread, choose the login
+   script and rancid library that most closely resembles the new device.  If
+   it resembles none of them, clogin and ios.pm are reasonable starting points.
+
+   If you wish to contribute your scripts to the community, it is easier if
+   they are already in the format that autoconf and automake require.  You
+   accomplish this by beginning with the .in version of the scripts/libraries.
+   The new files must also be added to automake &/ autoconf configuration files;
+   configure.ac and various Makefile.am files.
+
+   In some cases, it is possible to use an existing script without modification
+   or just simple changes.  Do so, if possible, BUT we encourage you to
+   contribute those changes back to the community so that they will be in the
+   next version and it will be easier for you to upgrade in the future, AND
+   be careful making changes as it is easy to break the login scripts.
+
+   Otherwise, copy the files to the new names that you have chosen.  We normally
+   use the name of the device's O/S for the library name; eg: iosxr.pm.  For
+   the login script, we use a one or two character prefix added to login to
+   differentiate them and try to keep the names unique within the filesystem.
+   If you must create an pre-rancid 3.0 style rancid script, the name typically
+   follows the same format as the login script.
+
+   Add your definitions to rancid.types.conf(5).  Alter the login script so
+   that interactive login works; then make -c, -s, and -x work.  There are
+   more tips on testing the login script earlier in this FAQ.
+
+   After the login script works, work on the rancid library.  First the inloop
+   function, followed by the filter functions.  See tips regarding rancid -d
+   and the environment variable NOPIPE earlier in this FAQ.
+
 
 5) O/S specific
 5a) Linux
@@ -522,7 +570,9 @@ A. A discussion list is available, rancid-discuss@shrubbery.net.  You must
 
    shell% echo "subscribe" | mail rancid-discuss-request@shrubbery.net
 
-   Please, no questions about Unix or MTAs.
+   Please, no questions about Unix or MTAs.  This is not a Unix, MTA, or
+   Perl help list.  If you ask such questions, you will most likely be
+   ignored.
 
 8) License
 Q. Please explain the RANCID license.

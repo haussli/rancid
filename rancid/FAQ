@@ -225,7 +225,7 @@ A. cvsweb works with rancid.  Other similar software may exist as well and
 Q. I have upgraded to rancid >=3.0 and I am not receiving updates for any
    devices.
 A. Have you updated the format of your router.db files?  The field separator
-   changed in 3.0.
+   changed in 3.0.  See the UPGRADING file or router.db(5).
 
 Q. I have a (set of) device(s) on which collection fails.  How can I debug
    this?

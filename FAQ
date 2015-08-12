@@ -535,7 +535,7 @@ Q. Some device collections have erroneously duplicated characters and which
    - access-list 1 permit x.x.x.101
    + access-list 1 permitt x.x.x.101
 A. This is likely a problem with Kerberized-telnet.  See
-   http://ftp.shrubbery.net/pipermail/rancid-discuss/2011-September/005929.html
+   http://www.shrubbery.net/pipermail/rancid-discuss/2011-September/005929.html
    http://www.shrubbery.net/pipermail/rancid-discuss/2012-February/006210.html
 
    There was also a bug prior to 3.0 affecting hlogin and other login scripts

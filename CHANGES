@@ -1,4 +1,6 @@
 3.2.99
+	ios.pm: filter oscillating DTE lines from show diag
+
 	alogin: select ibmnos-cli on IBM Flex System Fabric
 
 	nlogin: handle netscreen agreement - Yannick Charton

@@ -1101,8 +1101,7 @@ sub ShowContAll {
 	    ProcessHistory("INT","","","!$1\n") && next;
 	/^QUICC Ethernet .*/ &&
 	    ProcessHistory("INT","","","!$_") && next;
-	/^DTE .*\.$/ &&
-	    ProcessHistory("INT","","","!\t$_") && next;
+	/^DTE .*\.$/ && next;
 	/^(cable type :.*),/ &&
 	    ProcessHistory("INT","","","!\t$1\n") && next;
 	/^(.* cable.*), received clockrate \d+$/ &&

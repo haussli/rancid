@@ -34,7 +34,18 @@ man_MANS = $(man_nogen_MANS) $(man_gen_MANS)
 
 EXTRA_DIST = $(man_nogen_MANS) $(man_gen_MANS:%=%.in)
 
-CLEANFILES = $(man_gen_MANS)
+htmls_MANS = clogin.1 cloginrc.5 control_rancid.1 lg.conf.5 lg_intro.1 \
+	par.1 rancid-cvs.1 rancid-run.1 rancid.1 rancid.3 \
+	rancid.conf.5 rancid.types.conf.5 rancid_intro.1 router.db.5
+htmls_gen_MANS= $(htmls_MANS:%=%.html)
+
+CLEANFILES = $(man_gen_MANS) $(htmls_gen_MANS)
+
+htmls: $(htmls_gen_MANS)
+
+$(htmls_gen_MANS): $(htmls_MANS)
+	m=`echo $@ | sed -e 's/\.[^.]*$$//'`; \
+	groff -mandoc -Thtml < $$m > $@
 
 # auto_edit does the autoconf variable substitution.  This allows the
 # substitution to have the full expansion of the variables, e.g.: $sysconfdir

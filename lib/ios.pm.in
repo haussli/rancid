@@ -469,7 +469,7 @@ LINE:		while (<$INPUT>) {
 # This routine parses "showCellular"
 sub ShowCellular {
     my($INPUT, $OUTPUT, $cmd) = @_;
-    print STDERR "    In ShowDetail: $_" if ($debug);
+    print STDERR "    In ShowCellular: $_" if ($debug);
 
     while (<$INPUT>) {
 	tr/\015//d;

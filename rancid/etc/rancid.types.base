@@ -385,6 +385,17 @@ procket;login;clogin
 redback;script;rrancid
 redback;login;clogin
 #
+riverbed;script;rancid -t riverbed
+riverbed;login;clogin
+riverbed;module;rbt
+riverbed;inloop;rbt::inloop
+riverbed;command;rbt::ShowVersion;show version
+riverbed;command;rbt::ShowLicenses;show licenses
+riverbed;command;rbt::ShowHardware;show hardware all
+riverbed;command;rbt::ShowInfo;show info
+riverbed;command;rbt::ShowPeers;show peers
+riverbed;command;rbt::WriteTerm;show configuration
+#
 riverstone;script;rivrancid
 riverstone;login;rivlogin
 #

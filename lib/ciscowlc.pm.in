@@ -184,8 +184,9 @@ sub ShowSysinfo {
 	my($skipprocess) = 0;
 
 	if (/^System Up Time/) { $skipprocess = 1; }
+	if (/^fan status/i) { $skipprocess = 1; }
 	if (/^Number of Active Clients/) { $skipprocess = 1; }
-	if (/^(Internal|External) Temperature/) { $skipprocess=1; }
+	if (/^(internal|external) temperature/i) { $skipprocess=1; }
 	if (/rpm$/) { $skipprocess = 1; }
 
 	last if (/^$prompt/);

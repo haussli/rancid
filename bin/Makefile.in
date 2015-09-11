@@ -102,8 +102,9 @@ CONFIG_CLEAN_FILES = control_rancid agmrancid alogin arancid anlogin \
 	complogin cssrancid dllogin elogin erancid f5rancid f10rancid \
 	flogin fnlogin fnrancid hlogin hrancid htlogin htrancid jlogin \
 	jerancid mrancid mrvlogin mtrancid mtlogin nlogin nrancid \
-	nslogin nsrancid panlogin prancid rivlogin rivrancid rrancid \
-	srancid tlogin trancid xilogin xirancid xrancid wlogin zrancid
+	nslogin nsrancid panlogin prancid rblogin rivlogin rivrancid \
+	rrancid srancid tlogin trancid xilogin xirancid xrancid wlogin \
+	zrancid
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -211,12 +212,13 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/agmrancid.in \
 	$(srcdir)/mtlogin.in $(srcdir)/mtrancid.in $(srcdir)/nlogin.in \
 	$(srcdir)/nrancid.in $(srcdir)/nslogin.in \
 	$(srcdir)/nsrancid.in $(srcdir)/panlogin.in \
-	$(srcdir)/prancid.in $(srcdir)/rivlogin.in \
-	$(srcdir)/rivrancid.in $(srcdir)/rrancid.in \
-	$(srcdir)/srancid.in $(srcdir)/tlogin.in $(srcdir)/trancid.in \
-	$(srcdir)/wlogin.in $(srcdir)/xilogin.in $(srcdir)/xirancid.in \
-	$(srcdir)/xrancid.in $(srcdir)/zrancid.in \
-	$(top_srcdir)/depcomp $(top_srcdir)/mkinstalldirs
+	$(srcdir)/prancid.in $(srcdir)/rblogin.in \
+	$(srcdir)/rivlogin.in $(srcdir)/rivrancid.in \
+	$(srcdir)/rrancid.in $(srcdir)/srancid.in $(srcdir)/tlogin.in \
+	$(srcdir)/trancid.in $(srcdir)/wlogin.in $(srcdir)/xilogin.in \
+	$(srcdir)/xirancid.in $(srcdir)/xrancid.in \
+	$(srcdir)/zrancid.in $(top_srcdir)/depcomp \
+	$(top_srcdir)/mkinstalldirs
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 ADMINMAILPLUS = @ADMINMAILPLUS@
@@ -349,7 +351,7 @@ bin_SCRIPTS = agmrancid alogin anlogin arancid arrancid avologin \
 	control_rancid cssrancid dllogin elogin erancid f5rancid \
 	f10rancid flogin fnlogin fnrancid hlogin hrancid htlogin \
 	htrancid jerancid jlogin mrancid mrvlogin mtlogin mtrancid \
-	nlogin nrancid nslogin nsrancid panlogin plogin rancid \
+	nlogin nrancid nslogin nsrancid panlogin plogin rancid rblogin \
 	rivlogin rivrancid rrancid srancid tlogin trancid wlogin \
 	xilogin xirancid xrancid zrancid lg.cgi lgform.cgi rancid-cvs \
 	rancid-fe rancid-run
@@ -505,6 +507,8 @@ nsrancid: $(top_builddir)/config.status $(srcdir)/nsrancid.in
 panlogin: $(top_builddir)/config.status $(srcdir)/panlogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 prancid: $(top_builddir)/config.status $(srcdir)/prancid.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+rblogin: $(top_builddir)/config.status $(srcdir)/rblogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 rivlogin: $(top_builddir)/config.status $(srcdir)/rivlogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

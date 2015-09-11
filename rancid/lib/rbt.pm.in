@@ -1,6 +1,6 @@
 package rbt;
 ##
-## $Id: ios.pm.in 3123 2015-05-28 22:39:32Z heas $
+## $Id$
 ##
 ## @PACKAGE@ @VERSION@
 ## Copyright (c) @COPYYEARS@ by Terrapin Communications, Inc.

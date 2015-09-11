@@ -1,4 +1,6 @@
 3.2.99
+	rblogin, rbt.pm: initial riverbed steelhead support
+
 	ciscowlc.pm: filter fan status & make temperature match case insensitive
 
 	ios.pm: filter oscillating DTE lines from show diag

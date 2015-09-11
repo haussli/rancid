@@ -6087,6 +6087,8 @@ ac_config_files="$ac_config_files bin/panlogin"
 
 ac_config_files="$ac_config_files bin/prancid"
 
+ac_config_files="$ac_config_files bin/rblogin"
+
 ac_config_files="$ac_config_files bin/rivlogin bin/rivrancid"
 
 ac_config_files="$ac_config_files bin/rrancid"
@@ -6893,6 +6895,7 @@ do
     "bin/nsrancid") CONFIG_FILES="$CONFIG_FILES bin/nsrancid" ;;
     "bin/panlogin") CONFIG_FILES="$CONFIG_FILES bin/panlogin" ;;
     "bin/prancid") CONFIG_FILES="$CONFIG_FILES bin/prancid" ;;
+    "bin/rblogin") CONFIG_FILES="$CONFIG_FILES bin/rblogin" ;;
     "bin/rivlogin") CONFIG_FILES="$CONFIG_FILES bin/rivlogin" ;;
     "bin/rivrancid") CONFIG_FILES="$CONFIG_FILES bin/rivrancid" ;;
     "bin/rrancid") CONFIG_FILES="$CONFIG_FILES bin/rrancid" ;;
@@ -7670,6 +7673,7 @@ $as_echo X"$file" |
     "bin/nsrancid":F) chmod a+x $ac_file ;;
     "bin/panlogin":F) chmod a+x $ac_file ;;
     "bin/prancid":F) chmod a+x $ac_file ;;
+    "bin/rblogin":F) chmod a+x $ac_file ;;
     "bin/rivlogin":F) chmod a+x $ac_file ;;
     "bin/rivrancid":F) chmod a+x $ac_file ;;
     "bin/rrancid":F) chmod a+x $ac_file ;;

@@ -386,7 +386,7 @@ redback;script;rrancid
 redback;login;clogin
 #
 riverbed;script;rancid -t riverbed
-riverbed;login;clogin
+riverbed;login;rblogin
 riverbed;module;rbt
 riverbed;inloop;rbt::inloop
 riverbed;command;rbt::ShowVersion;show version

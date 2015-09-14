@@ -1147,13 +1147,13 @@ ProcessHistory("COMMENTS","keysort","G0","!\n");
 TOP: while(<INPUT>) {
     tr/\015//d;
     if (/> \(enable\) ?exit(?:$|Connection)/) {
-	$clean_run=1;
+	$clean_run = 1;
 	last;
     }
     if (/^Error:/) {
 	print STDOUT ("$host clogin error: $_");
 	print STDERR ("$host clogin error: $_") if ($debug);
-	$clean_run=0;
+	$clean_run = 0;
 	last;
     }
     while (/> \(enable\)\s*($cmds_regexp)\s*$/) {

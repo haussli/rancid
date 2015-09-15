@@ -74,10 +74,6 @@ sub init {
 
     # add content lines and separators
     ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n#\n");
-    ProcessHistory("COMMENTS","keysort","B0","#\n");
-    ProcessHistory("COMMENTS","keysort","D0","#\n");
-    ProcessHistory("COMMENTS","keysort","F0","#\n");
-    ProcessHistory("COMMENTS","keysort","G0","#\n");
 
     0;
 }
@@ -89,10 +85,6 @@ sub inloop {
 
 TOP: while(<$INPUT>) {
 	tr/\015//d;
-	if (/[>#]\s?exit$/) {
-	    $clean_run = 1;
-	    last;
-	}
 	if (/^Error:/) {
 	    print STDOUT ("$host clogin error: $_");
 	    print STDERR ("$host clogin error: $_") if ($debug);
@@ -125,6 +117,10 @@ TOP: while(<$INPUT>) {
 		last TOP;
 	    }
 	}
+	if (/[>#]\s?exit$/) {
+	    $clean_run = 1;
+	    last;
+	}
     }
 }
 
@@ -149,15 +145,17 @@ sub ShowVersion {
 
 	if (/^product model:\s+(\S+)/i) {
 	    $type = $1;
-	    ProcessHistory("COMMENTS","keysort","A1", "#Chassis type: $1\n");
+	    ProcessHistory("COMMENTS","keysort","A1", "#Chassis type: $1\n#\n");
 	    next;
 	}
-	/^system memory:.*(\S+) \s+ total/i &&
-	    ProcessHistory("COMMENTS","keysort","B1", "#Memory: $1\n") &&
+	/^system memory:.*\/ (\S+ \S+) total/i &&
+	    ProcessHistory("COMMENTS","keysort","B1", "# Memory: $1\n") &&
 	    next;
 
-	ProcessHistory("COMMENTS","keysort","X1", "# $_\n");
+	ProcessHistory("COMMENTS","keysort","X1", "# $_");
     }
+    # flush the history
+    ProcessHistory("","","", "#\n");
     return(0);
 }
 
@@ -271,7 +269,7 @@ TOP:
     }
 
     # It lacks a definitive "end of config" marker.  If we have seen at least
-    # 5 lines of config output, we can be reasonably sure that we got the
+    # 5 lines of config output, we can be reasonably sure that we received the
     # config.
     if ($linecnt > 5) {
 	$found_end = 1;

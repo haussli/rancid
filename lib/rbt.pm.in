@@ -54,19 +54,9 @@ our @ISA = qw(Exporter);
 use rancid @VERSION@;
 
 our $proc;
-our $ios;
 our $found_version;
-our $found_env;
-our $found_diag;
-our $config_register;			# configuration register value
 
 our $type;				# device model, from ShowVersion
-
-our $C0;				# output formatting control
-our $E0;
-our $H0;
-our $I0;
-our $DO_SHOW_VLAN;
 
 @ISA = qw(Exporter rancid main);
 #XXX @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands);
@@ -78,7 +68,6 @@ sub import {
 
 # post-open(collection file) initialization
 sub init {
-    $proc = "";
     $found_version = 0;
 
     $type = undef;			# device model, from ShowVersion

@@ -83,12 +83,6 @@ sub init {
 
     $type = undef;			# device model, from ShowVersion
 
-    $C0 = 0;				# output formatting control
-    $E0 = 0;
-    $H0 = 0;
-    $I0 = 0;
-    $DO_SHOW_VLAN = 0;
-
     # add content lines and separators
     ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n#\n");
     ProcessHistory("COMMENTS","keysort","B0","#\n");
@@ -286,6 +280,7 @@ TOP:
 	# catch anything that wasnt matched above.
 	ProcessHistory("","","","$_");
     }
+
     # It lacks a definitive "end of config" marker.  If we have seen at least
     # 5 lines of config output, we can be reasonably sure that we got the
     # config.

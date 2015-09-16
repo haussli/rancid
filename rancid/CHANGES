@@ -1,4 +1,6 @@
 3.2.99
+	rtftpboot: example script to save copies of configs from /tftpboot
+
 	rblogin, rbt.pm: initial riverbed steelhead support
 
 	ciscowlc.pm: filter fan status & make temperature match case insensitive

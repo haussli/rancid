@@ -264,6 +264,16 @@ TOP:
 	next if (/^\s*$/);
 	$linecnt++;
 
+	if (/^(\s*username \S+ password 7) \$6\$/) {
+	    if ($filter_pwds >= 2) {
+		ProcessHistory("USER","","","#$1 <removed>\n");
+		next;
+	    }
+	} elsif (/^(\s*username \S+ password 7) / && $filter_pwds >= 1) {
+	    ProcessHistory("USER","","","#$1 <removed>\n");
+	    next;
+	}
+
 	# catch anything that wasnt matched above.
 	ProcessHistory("","","","$_");
     }

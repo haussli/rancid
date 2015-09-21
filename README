@@ -4,7 +4,7 @@ maintain CVS (or Subversion or git) controlled copies of router configs.
 *** The Following Information is Very Important ****
 Rancid 3.0 converts several device scripts (the remaining will follow) to
 libraries used by the single script, named rancid, to parse device output.
-It also requires perl 5.10 minimum.
+It also requires perl 5.10 minimum.  Also see the UPGRADING file.
 
 Rancid 2.3 introduces a new directory layout.  It has been changed to more
 closely follow the standard path hierarchy, which is defined by the FHS

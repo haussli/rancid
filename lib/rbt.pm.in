@@ -274,6 +274,23 @@ TOP:
 	    next;
 	}
 
+	if (/^(\s*service shared-secret secret (client|server)) \S+$/ ||
+	    /^(\s*ip security shared secret) \S+$/) {
+	    if ($filter_pwds >= 1) {
+		ProcessHistory("USER","","","#$1 <removed>\n");
+		next;
+	    }
+	}
+
+	if (/^(\s+snmp-server community) (\S+)/) {
+	    if ($filter_commstr) {
+		ProcessHistory("SNMPSERVERCOMM","keysort","$_",
+			       "#$1 <removed>$'") && next;
+	    } else {
+		ProcessHistory("SNMPSERVERCOMM","keysort","$_","$_") && next;
+	    }
+	}
+
 	# catch anything that wasnt matched above.
 	ProcessHistory("","","","$_");
     }

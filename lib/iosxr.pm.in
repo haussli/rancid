@@ -162,6 +162,7 @@ sub ShowVersion {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/^(-+^$|syntax error: unknown argument)/i);	# XRv
 	return(0) if ($found_version);		# Only do this routine once
 	return(-1) if (/command authorization failed/i);
 
@@ -402,6 +403,7 @@ sub AdminShowDiag {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/^(-+^$|syntax error: unknown argument)/i);	# XRv
 	return(-1) if (/command authorization failed/i);
 	/^$/ && next;
 
@@ -430,6 +432,7 @@ sub AdminShowRunning {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/^(-+^$|syntax error: unknown argument)/i);	# XRv
 	return(-1) if (/command authorization failed/i);
 	/^$/ && next;
 
@@ -458,6 +461,7 @@ sub ShowHWfpd {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/^(-+^|syntax error: unknown argument)$/i);	# XRv
 	return(-1) if (/command authorization failed/i);
 	/^$/ && next;
 
@@ -481,6 +485,7 @@ sub ShowRedundancy {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/^(-+^|syntax error: unknown argument)$/i);	# XRv
 
 	if (/^Version information for secondary in slot (\d+):/) {
 	    $slave = " Slave:";
@@ -510,6 +515,7 @@ sub ShowInstallActive {
 	return(1) if (/^\s*\^\s*$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/^(-+^|syntax error: unknown argument)$/i);	# XRv
 	return(-1) if (/command authorization failed/i);
 
 	ProcessHistory("COMMENTS","keysort","F5","!Image: $_") && next;
@@ -527,8 +533,10 @@ sub ShowEnv {
 	tr/\015//d;
 	if (/^$prompt/) { $found_env = 1; last};
 	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\w{3} \w{3,4} {1,3}\d{1,2} {1,2}\d{1,2}:\d+:\d+\.\d+ \S+$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/^(-+^|syntax error: unknown argument)$/i);	# XRv
 	return(0) if ($found_env);		# Only do this routine once
 	return(-1) if (/command authorization failed/i);
 
@@ -574,10 +582,13 @@ sub DirSlotN {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\w{3} \w{3,4} {1,3}\d{1,2} {1,2}\d{1,2}:\d+:\d+\.\d+ \S+$/);
 	return(1) if /^\s*\^\s*$/;
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/^(-+^|syntax error: unknown argument)$/i);	# XRv
 	return(1) if (/(No such device|Error Sending Request)/i);
+	return(1) if (/: path doesnot exists/i);	# XRv
 	return(1) if (/\%Error: No such file or directory/);
 	return(1) if (/\%Error: No route to host/);
 	return(1) if (/No space information available/);
@@ -620,17 +631,20 @@ sub DirSlotN {
 	if ($proc =~ /ASR9K/ && /dlbg\.txt/) {
 	    next;
 	}
-	if (/.*\((\d+) bytes free\)/) {
+	if (/.*\((\d+) (k?bytes) free\)/) {
  	    my($tmp) = $1;
+ 	    my($sz) = $2;
+	    $tmp *= 1024 if ($sz eq "kbytes");	# XRv summarizes in kbytes
+	
 	    if ($tmp >= (1024 * 1024 * 1024)) {
 		$tmp = int($tmp / (1024 * 1024 * 1024));
-		s/$1 bytes free/$tmp GB free/;
+		s/$1 $sz free/$tmp GB free/;
 	    } elsif ($tmp >= (1024 * 1024)) {
 		$tmp = int($tmp / (1024 * 1024));
-		s/$1 bytes free/$tmp MB free/;
+		s/$1 $sz free/$tmp MB free/;
 	    } else {
 		$tmp = int($tmp / 1024);
-		s/$1 bytes free/$tmp KB free/;
+		s/$1 $sz free/$tmp KB free/;
 	    }
 	}
 
@@ -653,6 +667,7 @@ sub ShowBootVar {
 	return(1) if (/^\s*\^\s*$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/^(-+^$|syntax error: unknown argument)/i);	# XRv
 	return(1) if (/Ambiguous command/i);
 	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
 	return(-1) if (/command authorization failed/i);
@@ -678,6 +693,7 @@ sub ShowContAll {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/^(-+^$|syntax error: unknown argument)/i);	# XRv
 	# return(1) if ($type =~ /^(12[40]|7[05])/);
 	return(-1) if (/command authorization failed/i);
 
@@ -739,6 +755,7 @@ sub ShowDebug {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/^(-+^$|syntax error: unknown argument)/i);	# XRv
 	return(-1) if (/command authorization failed/i);
 
 	/^No matching debug flags set$/ && next;
@@ -765,6 +782,7 @@ sub ShowInstallSummary {
 	return(1) if (/^\s*\^\s*$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/^(-+^$|syntax error: unknown argument)/i);	# XRv
 	return(1) if (/Ambiguous command/i);
 	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
 	return(-1) if (/command authorization failed/i);
@@ -793,6 +811,7 @@ sub ShowInventory {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/^(-+^$|syntax error: unknown argument)/i);	# XRv
 	return(-1) if (/command authorization failed/i);
 
 	# remove spaces after quotes
@@ -838,6 +857,7 @@ sub ShowLicense {
 	return(1) if (/^\s*\^\s*$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/^(-+^$|syntax error: unknown argument)/i);	# XRv
 	return(1) if (/Ambiguous command/i);
 	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
 	return(-1) if (/command authorization failed/i);
@@ -864,6 +884,7 @@ sub ShowRPL {
 	return(1) if /^\s*\^\s*$/;
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/^(-+^$|syntax error: unknown argument)/i);	# XRv
 	return(1) if (/Ambiguous command/i);
 	return(-1) if (/command authorization failed/i);
 
@@ -885,6 +906,7 @@ sub ShowVLAN {
 	return(1) if /^\s*\^\s*$/;
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/^(-+^$|syntax error: unknown argument)/i);	# XRv
 	return(1) if (/Ambiguous command/i);
 	return(-1) if (/command authorization failed/i);
 
@@ -906,6 +928,7 @@ sub WriteTerm {
 	return(1) if (!$linecnt && /^\s+\^\s*$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/^(-+^$|syntax error: unknown argument)/i);	# XRv
 	return(1) if (/\%Error: No such file or directory/);
 	return(0) if ($found_end);		# Only do this routine once
 	return(-1) if (/command authorization failed/i);

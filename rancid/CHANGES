@@ -1,5 +1,5 @@
 3.2.99
-	iosxr.pm: misc clean-up for XRv
+	iosxr.pm: misc hacks for NCS
 
 	rtftpboot: example script to save copies of configs from /tftpboot
 

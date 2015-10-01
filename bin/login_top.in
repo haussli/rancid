@@ -249,7 +249,7 @@ proc find {var router} {
 	foreach line $list {
 	    if { [string match -nocase [lindex $line 1] $router] } {
 		if { $do_cloginrcdbg > 0 } {
-		    send_error -- [join [list [lindex $line 0] [lindex $line 1 end] "\r\n"]]
+		    send_error -- [join [list [lindex $line 0] [lindex $line 1] "\r\n"]]
 		}
 		if { $do_cloginrcdbg == 2 } {
 		    # save return value

@@ -42,7 +42,7 @@
 #
 # copy configs from tftpboot within rancid; assumes CWD=<group>/configs
 #
-# usage: tftpcopy [-dltCV] [-f filename | hostname]
+# usage: rtftpcopy [-dltCV] [-f filename | hostname]
 #
 use Getopt::Std;
 getopts('dflt:CV');

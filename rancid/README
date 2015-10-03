@@ -37,22 +37,22 @@ etc/
 	rancid.types.base	RANCID default device type configuration
 	rancid.types.conf	RANCID user-defined device type configuration
 bin/
-	clogin.in	Expect script that logs into routers and either presents
-			an interactive shell, runs a set of commands, or runs
-			another expect script.  It handles Cisco, Extreme,
-			Force10, Juniper E-series, Procket, Redback, Zebra/MRT.
 	control_rancid.in
 			Builds router list, calls rancid on each router and
 			handles cvs routines.
 	hpuifilter.c	HP procurve login filter - see hlogin(1).
 	par.c		Parallel processing of commands - any commands.
 	rancid-cvs.in	Creates all of the CVS and config directories.
+	rancid-fe.in	Used by crontrol_rancid to determine script rancid used
 	rancid-run.in	Script designed to be run from cron.
-	rancid-fe.in	Chooses between rancid/[abefhjrx]rancid/cat5rancid.
-	rancid.in	Runs commands on cisco routers and processes the output.
 
+	rancid.in	Generic wrapper for the rancid for the rancid libraries
+			that runs commands on their respective device types as
+			defined in etc/rancid.types.* and processes the output.
 	agmrancid.in	Version of rancid.in for Cisco Anomaly Guard Module (AGM)
 	arancid.in	Version of rancid.in for Alteon switches.
+	arrancid.in	Version of rancid.in for Arista Networks devices.
+	avorancid.in	Version of rancid.in for Avocent appliances.
 	brancid.in	Version of rancid.in for baynet/nortel routers.
 	cat5rancid.in	Version of rancid.in for Cisco Catalyst switches.
 	cssrancid.in	Version of rancid.in for Cisco CSS switches.
@@ -60,7 +60,6 @@ bin/
 	f10rancid.in	Version of rancid.in for Force10 routers.
 	f5rancid.in	Version of rancid.in for F5 BigIPs.
 	fnrancid.in	Version of rancid.in for Fortinet Firewalls.
-	francid.in	Version of rancid.in for Foundry switches.
 	hrancid.in	Version of rancid.in for HP Procurve switches.
 	htrancid.in	Version of rancid.in for Hitatchi routers.
 	jerancid.in	Version of rancid.in for Juniper E-series routers.
@@ -69,28 +68,49 @@ bin/
 	nrancid.in	Version of rancid.in for Netscreen firewalls.
 	nsrancid.in	Version of rancid.in for Netscalars.
 	prancid.in	Version of rancid.in for Procket routers.
-	rivancid.in	Version of rancid.in for Riverstone routers.
+	rivancid.in	Version of rancid.in for Cabletron, Riverstone and
+			Enterasys routers.
 	rrancid.in	Version of rancid.in for Redback routers.
+	rtftpcopy.in	Copy configs from tftpboot within rancid.
 	srancid.in	Version of rancid.in for SMC switches.
+	trancid.in	Version of rancid.in for Netopia routers.
 	xirancid.in	Version of rancid.in for Xirrus arrays.
 	xrancid.in	Version of rancid.in for Extreme switches.
 	zrancid.in	Version of rancid.in for Zebra routers.
 
 	alogin.in	Version of clogin.in for Alteon switches.
+	anlogin.in	Version of clogin.in for Arbor Networks appliances.
+	avologin.in	Version of clogin.in for Avocent appliances.
 	blogin.in	Version of clogin.in for baynet/Nortel routers.
+	clogin.in	Expect script that logs into routers and either presents
+			an interactive shell, runs a set of commands, or runs
+			another expect script.  It handles Cisco, Extreme,
+			Force10, Juniper E-series, Procket, Redback, Zebra/MRT.
+	complogin.in	Version of clogin.in for Compass Networks routers.
+	dllogin.in	Version of clogin.in for D-Link devices.
 	elogin.in	Version of clogin.in for ADC EZ-T3 muxes.
 	flogin.in	Version of clogin.in for Foundry switches.  If foundry
 			cleaned-up their bloody UI, clogin should do the job.
+	fnlogin.in	Version of clogin.in for Fortinet Firewalls.
 	hlogin.in	Version of clogin.in for HP procurve switches.
 	htlogin.in	Version of clogin.in for Hitatchi routers.
 	jlogin.in	Version of clogin.in for Juniper routers.
+	login_top.in	Common login code included in all login scripts.
 	mtlogin.in	Version of clogin.in for Microtik routers.
 	nlogin.in	Version of clogin.in for Netscreen firewalls.
 	nslogin.in	Version of clogin.in for Netscalars.
+	panlogin.in	Version of clogin.in for Palo Alto Networks devices.
+	plogin.in	Poly-login version of clogin.in; it uses router.db
+			and router.types.* configuration files to determine the
+			login script to use for a device.
+	rblogin.in	Version of clogin.in for Riverbed Steelhead routers.
 	rivlogin.in	Version of clogin.in for Riverstone routers.
+	tlogin.in	Version of clogin.in for Netopia devices.
+	wlogin.in	Version of clogin.in for Cisco Wireless Lan Controllers.
 	xilogin.in	Version of clogin.in for Xirrus arrays.
 lib/
 	arbor.pm.in	rancid library for Arbor Networks appliances.
+	ciscowlc.pm.in	rancid library for some Cisco Wireless Lan Controllers.
 	dell.pm.in	rancid library for some Dell D-Link models.
 	eos.pm.in	rancid library for Compass EOS.
 	foundry.pm.in	rancid library for Foundry (Brocade) switches.
@@ -99,7 +119,9 @@ lib/
 	junos.pm.in	rancid library for Juniper JunOS.
 	mrv.pm.in	rancid library for MRV MCS.
 	nxos.pm.in	rancid library for Cisco NX-OS.
+	panos.pm.in	rancid library for Palo Alto Networks devices.
 	rancid.pm.in	rancid global functions.
+	rbt.pm.in	rancid library for Riverbed Steelhead.
 man/		man pages
 share/		Readmes, samples, utilities, contribs, etc
 include/	Include files and rancid version.h

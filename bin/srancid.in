@@ -198,6 +198,9 @@ sub ShowVer {
 	# pager remnants like: ^H^H^H    ^H^H^H content
 	s/[\b]+\s*[\b]*//g;
 
+	# Remove Uptime
+	/ up time/i && next;
+
 	ProcessHistory("COMMENTS","keysort","B1","! $_");
     }
     return(0);

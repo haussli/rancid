@@ -1,4 +1,6 @@
 3.2.99
+	srancid: remove uptime on dell powerconnects - Frank Fegert
+
 	iosxr.pm: misc hacks for NCS
 
 	rtftpboot: example script to save copies of configs from /tftpboot

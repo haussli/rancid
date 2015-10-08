@@ -277,6 +277,26 @@ A. Check that the configure process run during the installation of rancid
    affect the operation of sort(1).
 
 
+Q. I have received an e-mail with the subject "rancid hung - <group>".  What
+   does this mean?
+A. It means that the lockfile for <group> already exists and rancid-run is
+   attempting to run again.  The lockfile prevents two instances of rancid
+   from running simulaneously for the same rancid group.
+
+   This could be due to a system crash or rancid being killed and this not
+   having an opportunity to remove the lock or rancid could indeed be hung.
+   Look at the system process list for an existing instance of rancid for
+   the given group.  If none exist, simply remove the lockfile named in the
+   email.  If it does exist, note what process in the progress group is hung
+   and where it is hung (see system utilities ps, lsof, truss, ktrace, strace,
+   dtrace and so on).  Kill the hung process and rancid may run to completion
+   from there.
+
+   If the hang occurs again, further debugging will be necessary and will be
+   dependant upon what is hanging.  It has been observed that some devies
+   have had bugs that cause interactive sessions to hang at exit and exhibit
+   other exciting behaviors.
+
 Q. Are there any characters in the banner that rancid has problems with OR
    I changed the device's command prompt and now collection is failing?
 A. The trickiest part about clogin (et al) is recognizing the prompt

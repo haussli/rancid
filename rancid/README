@@ -219,13 +219,14 @@ Quick Installation Guide (an example):
 
 5) Modify .cloginrc.
 
-   Test to make sure that you can log into every router.
+   Test to make sure that you can log into every router.  The login scripts
+   support options m and M to help debug the .cloginrc; see clogin(1).
 
-   Note: the juniper user you use *must* log into a cli shell (which
-   is the default on a juniper).
+   Note: the JunOS that user you use *must* log into a cli shell (which
+   is the default on a juniper), not a unix shell.
 
    See the file cloginrc.sample, located in <datadir> (<basedir>/share/rancid),
-   for examples and good starting point.  Also take a look at the cloginrc
+   for examples and a good starting point.  Also take a look at the cloginrc
    manual page, 'man -M <basedir>/man cloginrc'.
 
 6) Modify /etc/aliases
@@ -235,11 +236,13 @@ Quick Installation Guide (an example):
    access routers or separate based upon network etc...  Different router
    uses forced different people being interested in router "groups" -
    thus this setup.  Make sure email to rancid-<GROUP> works.  /etc/aliases
-   can be maintainable by Majordomo stuff, but make sure the user that
-   runs rancid can post to the list.
+   can be maintainable by Majordomo or another maillist software or may just
+   forward to a remote machine, but make sure the user that runs rancid can
+   post to the list.
 
-   The Precedence header set to bulk or junk *hopefully* avoids replies from
-   auto-responders and vacation type mail filters.
+   The Precedence header set to bulk or junk and setting the other RFC3834
+   auto-responder headers *hopefully* avoids replies from auto-responders and
+   other vacation type mail filters.
 
    The --enable-mail-plus option to configure will set each of the "rancid-"
    addresses mentioned above to "rancid+".  See sendmail's operation manual
@@ -250,12 +253,14 @@ Quick Installation Guide (an example):
    option is not used, the value of --enable-mail-plus is assumed.  That is,
    the addresses will be "rancid+", if it is specified.
 
+   There are also several mail-related options in rancid.conf.
+
 7) Run rancid-cvs.
    This creates all of the necessary directories and config files for
    each of the groups in LIST_OF_GROUPS and imports them into CVS (or
    Subversion or git).  This will also be run each time a new group is added.
    Do not create the directories or CVS repository manually, allow rancid-cvs
-   do it.  Also see 'man -M <basedir>/man rancid-cvs'.
+   to do it.  Also see 'man -M <basedir>/man rancid-cvs'.
 
 8) For each "group", modify the router.db file in the group directory.
    The file is of the form "router;mfg;state" where "router" is
@@ -287,10 +292,10 @@ Quick Installation Guide (an example):
 	# clean out config differ logs
 	50 23 * * * /usr/bin/find <localstatedir>/logs -type f -mtime +2 -exec rm {} \;
 
-11) Note: If you are using any of these programs (other than
-    rancid-run) out of cron, make sure that you set your $PATH
-    correctly so that they work.  E.g.: if you are using clogin,
-    it can call id, telnet, ssh, and/or rsh.
+11) Note: If you are using any of these programs (other than rancid-run) out
+    of cron or from a shell, make sure that you set your $PATH correctly so
+    that they work.  E.g.: if you are using clogin, it can call id, telnet,
+    ssh, and/or rsh.
 
     configure already makes sure that $PATH is set correctly in
     etc/rancid.conf for rancid-run, so you could use the $PATH from there. e.g.:

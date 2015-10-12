@@ -195,9 +195,15 @@ Quick Installation Guide (an example):
 
    The user who will run rancid must have write permission in "localstatedir".
 
-   See ./configure --help for other configure options.
+   See ./configure --help for other configure options, including which SCM
+   should use.  Now is the time to choose the SCM..
 
 2) make install
+
+   If rancid is being installed in system locations, then the install will
+   likely need to be done as root.  eg:
+
+   make; sudo make install
 
 3) Modify <sysconfdir>/rancid.conf (e.g.: <basedir>/etc/rancid.conf).  The
    variable LIST_OF_GROUPS is a space delimited list of router "groups".
@@ -325,4 +331,5 @@ which use some more elaborate regexes that have failed with expect versions
 prior to 5.40.  While 5.40 works, it still seems to need the patch offered
 on the rancid web page for Linux and Solaris.
 
-See www.shrubbery.net/rancid for additional notes on this.
+See www.shrubbery.net/rancid for additional notes on this.  Also the
+UPGRADING file that comes with the distribution.

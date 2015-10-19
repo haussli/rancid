@@ -40,7 +40,9 @@
 ## ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 ## POSSIBILITY OF SUCH DAMAGE.
 #
-# copy configs from tftpboot within rancid; assumes CWD=<group>/configs
+# copy configs from tftpboot within rancid; assumes CWD=<group>/configs and
+# that /bin/domainname is the same domainname as the routers, which is
+# replaced with "-confg" to form the filename expected in /tftpboot.
 #
 # usage: rtftpcopy [-dltCV] [-f filename | hostname]
 #
@@ -54,12 +56,14 @@ $log = $opt_l;
 $debug = $opt_d;
 $file = $opt_f;
 $host = $ARGV[0];
+$domain = system("/bin/domainname");
+$domain =~ s/[.]/\\./g;
 if ($file) {
     $srcfile = $host;
     $host =~ s/^.*\///;
 } else {
     $srcfile = $host;
-    $srcfile =~ s/\.gin\.ntt\.net$/-confg/;
+    $srcfile =~ s/$domain$/-confg/;
 }
 
 if (length($host) == 0) {

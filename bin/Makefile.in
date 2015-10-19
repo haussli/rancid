@@ -103,8 +103,8 @@ CONFIG_CLEAN_FILES = control_rancid agmrancid alogin arancid anlogin \
 	flogin fnlogin fnrancid hlogin hrancid htlogin htrancid jlogin \
 	jerancid mrancid mrvlogin mtrancid mtlogin nlogin nrancid \
 	nslogin nsrancid panlogin prancid rblogin rivlogin rivrancid \
-	rrancid srancid tlogin trancid xilogin xirancid xrancid wlogin \
-	zrancid
+	rrancid rtftpcopy srancid tlogin trancid xilogin xirancid \
+	xrancid wlogin zrancid
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -214,11 +214,11 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/agmrancid.in \
 	$(srcdir)/nsrancid.in $(srcdir)/panlogin.in \
 	$(srcdir)/prancid.in $(srcdir)/rblogin.in \
 	$(srcdir)/rivlogin.in $(srcdir)/rivrancid.in \
-	$(srcdir)/rrancid.in $(srcdir)/srancid.in $(srcdir)/tlogin.in \
-	$(srcdir)/trancid.in $(srcdir)/wlogin.in $(srcdir)/xilogin.in \
-	$(srcdir)/xirancid.in $(srcdir)/xrancid.in \
-	$(srcdir)/zrancid.in $(top_srcdir)/depcomp \
-	$(top_srcdir)/mkinstalldirs
+	$(srcdir)/rrancid.in $(srcdir)/rtftpcopy.in \
+	$(srcdir)/srancid.in $(srcdir)/tlogin.in $(srcdir)/trancid.in \
+	$(srcdir)/wlogin.in $(srcdir)/xilogin.in $(srcdir)/xirancid.in \
+	$(srcdir)/xrancid.in $(srcdir)/zrancid.in \
+	$(top_srcdir)/depcomp $(top_srcdir)/mkinstalldirs
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 ADMINMAILPLUS = @ADMINMAILPLUS@
@@ -515,6 +515,8 @@ rivlogin: $(top_builddir)/config.status $(srcdir)/rivlogin.in
 rivrancid: $(top_builddir)/config.status $(srcdir)/rivrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 rrancid: $(top_builddir)/config.status $(srcdir)/rrancid.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+rtftpcopy: $(top_builddir)/config.status $(srcdir)/rtftpcopy.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 srancid: $(top_builddir)/config.status $(srcdir)/srancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

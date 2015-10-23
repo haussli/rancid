@@ -173,6 +173,8 @@ sub sortbyipaddr {
 # This routine parses "dir"
 sub Dir {
     print STDERR "    In Dir: $_" if ($debug);
+    $_ =~ s/^[^#]*//;
+    ProcessHistory("COMMENTS","keysort","D1","!\n! $_");
 
     while (<INPUT>) {
 	s/^\s+\015//g;
@@ -208,6 +210,8 @@ sub ShowVer {
 
 sub ShowSys {
     print STDERR "    In ShowSys: $_" if ($debug);
+    $_ =~ s/^[^#]*//;
+    ProcessHistory("COMMENTS","keysort","C1","!\n! $_");
 
     while (<INPUT>) {
 	s/^\s+\015//g;
@@ -244,6 +248,8 @@ sub ShowSys {
 
 sub ShowVlan {
     print STDERR "    In ShowVlan: $_" if ($debug);
+    $_ =~ s/^[^#]*//;
+    ProcessHistory("COMMENTS","keysort","D1","!\n! $_");
 
     while (<INPUT>) {
 	s/^\s+\015//g;

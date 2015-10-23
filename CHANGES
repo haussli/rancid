@@ -1,4 +1,7 @@
 3.2.99
+	srancid: Insert the command string at the top of some of the output
+	to give some context, along with a preceeding blank line - Frank Fegert
+
 	srancid: remove uptime on dell powerconnects - Frank Fegert
 
 	iosxr.pm: misc hacks for NCS

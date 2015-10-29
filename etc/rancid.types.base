@@ -295,6 +295,7 @@ juniper;command;junos::ShowSystemLicense;show system license
 juniper;command;junos::ShowSystemBootMessages;show system boot-messages
 juniper;command;junos::ShowSystemCoreDumps;show system core-dumps
 juniper;command;junos::ShowVersion;show version detail
+juniper;command;junos::ShowVersion;show version invoke-on other-routing-engine
 juniper;command;junos::ShowConfiguration;show configuration
 #
 # juniper-srx type is for SRX with ThreatSTOP; it displays the configuration

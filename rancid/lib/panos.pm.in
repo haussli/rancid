@@ -120,7 +120,7 @@ TOP: while(<$INPUT>) {
 		last TOP;
 	    }
 	    if (! defined(&{$commands{$cmd}})) {
-		printf(STDERR "$host: undefined function - \"%s\"\n",  
+		printf(STDERR "$host: undefined function - \"%s\"\n",
 		       $commands{$cmd});
 		$clean_run = 0;
 		last TOP;
@@ -146,6 +146,7 @@ sub ShowInfo {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(time:|uptime:)/);
+	next if (/^(app|av|threat|wf-private|wildfire|url-filtering)-(version|release-date):/);
 
 	ProcessHistory("INFO","","","#$_");
     }

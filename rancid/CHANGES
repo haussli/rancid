@@ -1,4 +1,6 @@
 3.2.99
+	panos.pm: filter dynamic info from show system info - Reuben Farrelly
+
 	juniper: add command show version invoke-on other-routing-engine
 
 	srancid: temp sensor parsing for M6348 and M8024 - Frank Fegert

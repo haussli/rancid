@@ -471,6 +471,12 @@ sub DirSlotN {
 	return(-1) if (/command authorization failed/i);
 	return(1) if /(Open device \S+ failed|Error opening \S+:)/;
 
+	# Drop ee.log
+	/\s+ee\.log\.*$/ && next;
+
+	# Drop accounting.log
+	/\s+accounting\.log$/ && next;
+
 	next if (/BufferMonitor-1HourData/);
 	if (/ log\/$/) {
 	    # change

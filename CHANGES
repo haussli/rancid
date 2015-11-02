@@ -1,4 +1,6 @@
 3.2.99
+	nxos.pm: filter ee.log and accounting.log - Reuben Farrelly
+
 	panos.pm: filter dynamic info from show system info - Reuben Farrelly
 
 	juniper: add command show version invoke-on other-routing-engine

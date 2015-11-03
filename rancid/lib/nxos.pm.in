@@ -166,6 +166,7 @@ sub ShowVersion {
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/\% Invalid command at /);
+	return(-1) if (/No token match at /);	# 1000v
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
 
@@ -251,6 +252,7 @@ sub ShowVersionBuild {
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(1) if (/\% Invalid command at /);
+	return(1) if (/No token match at /);	# 1000v
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
 
@@ -275,6 +277,7 @@ sub ShowLicense {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(1) if (/\% Invalid command at /);
+	return(-1) if (/No token match at /);	# 1000v
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
 
@@ -298,6 +301,7 @@ sub ShowRedundancy {
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(1) if (/\% Invalid command at /);
+	return(-1) if (/No token match at /);	# 1000v
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
 
@@ -321,6 +325,7 @@ sub ShowEnv {
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(1) if (/\% Invalid command at /);
+	return(1) if (/No token match at /);	# 1000v
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
 
@@ -354,6 +359,7 @@ sub ShowEnvTemp {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
+	return(1) if (/No token match at /);	# 1000v
 	return(-1) if (/\% Invalid command at /);
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
@@ -401,6 +407,7 @@ sub ShowEnvPower {
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(1) if (/\% Invalid command at /);
+	return(1) if (/No token match at /);	# 1000v
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
 
@@ -444,6 +451,7 @@ sub ShowBoot {
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(1) if /Ambiguous command/i;
 	return(-1) if (/\% Invalid command at /);
+	return(-1) if (/No token match at /);	# 1000v
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
 
@@ -549,6 +557,7 @@ sub ShowInventory {
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(1) if (/\% Invalid command at /);
+	return(-1) if (/No token match at /);	# 1000v
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
 
@@ -597,6 +606,7 @@ sub ShowVTP {
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(1) if (/\% Invalid command at /);
+	return(1) if (/No token match at /);	# 1000v
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
 	next if (/^Configuration last modified by/);
@@ -630,6 +640,7 @@ sub ShowVLAN {
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/\% Invalid command at /);
+	return(-1) if (/No token match at /);	# 1000v
 	return(1) if /Ambiguous command/i;
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
@@ -658,6 +669,7 @@ sub ShowDebug {
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/\% Invalid command at /);
+	return(-1) if (/No token match at /);	# 1000v
 	return(-1) if (/command authorization failed/i);
 	return(-1) if (/could not retrieve info/i);
 	# XXX return(-1) if (/\% Permission denied/);
@@ -688,6 +700,7 @@ sub ShowCores {
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(1) if (/\% Invalid command at /);
+	return(-1) if (/No token match at /);	# 1000v
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
 
@@ -710,6 +723,7 @@ sub ShowFex {
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(1) if (/\% Invalid command at /);
+	return(1) if (/No token match at /);	# 1000v
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
 
@@ -731,6 +745,7 @@ sub ShowProcLog {
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(1) if (/\% Invalid command at /);
+	return(-1) if (/No token match at /);	# 1000v
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
 
@@ -752,9 +767,10 @@ sub WriteTerm {
 	return(1) if /Line has invalid autocommand /;
 	return(1) if (/(Invalid input detected|Type help or )/i);
 	return(-1) if (/\% Invalid command at /);
-	return(0) if ($found_end);		# Only do this routine once
+	return(-1) if (/No token match at /);	# 1000v
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
+	return(0) if ($found_end);		# Only do this routine once
 
 	$linecnt++;
 	$lineauto = 0 if (/^[^ ]/);

@@ -179,7 +179,9 @@ sub ShowVersion {
 		if (/^$/) {
 		    goto EndSoftware;
 		}
-		/\s*([^:]*:)\s*(.*)$/ && ProcessHistory("COMMENTS","keysort","C1", "!Software: $1 $2\n") && next;
+		/\s*([^:]*:)\s*(.*)$/ &&
+		    ProcessHistory("COMMENTS","keysort","C1",
+				   "!Software: $1 $2\n") && next;
 	    }
 	}
 EndSoftware:
@@ -202,21 +204,26 @@ EndSoftware:
 		}
 		if (/^\s*(.*) CPU\s*with (\d*) kB(.*)$/) {
 		    my($tmp) = int($2 / 1024);
-		    ProcessHistory("COMMENTS","keysort","A2", "!Hardware: $1 CPU with $tmp MB$3\n");
+		    ProcessHistory("COMMENTS","keysort","A2",
+				   "!Hardware: $1 CPU with $tmp MB$3\n");
 		    next;
 		}
 		if (/^\s*(.*)\s*with (\d*) kB(.*)$/) {
 		    my($tmp) = int($2 / 1024);
-		    ProcessHistory("COMMENTS","keysort","A2", "!Hardware: $1with $tmp MB$3\n");
+		    ProcessHistory("COMMENTS","keysort","A2",
+				   "!Hardware: $1with $tmp MB$3\n");
 		    next;
 		}
-		/^\s*(.*)$/ && ProcessHistory("COMMENTS","keysort","A2", "!Hardware: $1\n") && next;
+		/^\s*(.*)$/ &&
+		    ProcessHistory("COMMENTS","keysort","A2",
+				   "!Hardware: $1\n") && next;
 	    }
 	}
 EndHardware:
 	if (/^\s+(bootflash|slot0):\s+(\d+) kB(.*)$/) {
 	    my($tmp) = int($2 / 1024);
-	    ProcessHistory("COMMENTS","keysort","B1", "!Memory: $1: $tmp MB$3\n");
+	    ProcessHistory("COMMENTS","keysort","B1",
+			   "!Memory: $1: $tmp MB$3\n");
 	    next;
 	}
 
@@ -224,7 +231,8 @@ EndHardware:
 
     print STDERR "TYPE = $type\n" if ($debug);
     # XXX $proc is never set
-    ProcessHistory("COMMENTS","keysort","A1", "!Chassis type: $proc - a $type router\n");
+    ProcessHistory("COMMENTS","keysort","A1",
+		   "!Chassis type: $proc - a $type router\n");
     ProcessHistory("COMMENTS","keysort","B0", "!\n");
     ProcessHistory("COMMENTS","keysort","C0", "!\n");
     ProcessHistory("COMMENTS","","", "!\n");
@@ -757,16 +765,19 @@ sub WriteTerm {
 	# Sort username and delete passwords.
 	if (/^username (\S+) password (\d) (\S+)(\s.*)$/) {
 	    if ($filter_pwds >= 2) {
-		ProcessHistory("USER","keysort","$1","!username $1 password <removed>$4\n");
+		ProcessHistory("USER","keysort","$1",
+			       "!username $1 password <removed>$4\n");
 	    } elsif ($filter_pwds >= 1 && $2 ne "5") {
-		ProcessHistory("USER","keysort","$1","!username $1 password <removed>$4\n");
+		ProcessHistory("USER","keysort","$1",
+			       "!username $1 password <removed>$4\n");
 	    } else {
 		ProcessHistory("USER","keysort","$1","$_");
 	    }
 	    next;
 	}
 	# Sort any other username info.
-	/^username (\S+) .*$/ && ProcessHistory("USER","keysort","$1","$_") && next;
+	/^username (\S+) .*$/ &&
+	    ProcessHistory("USER","keysort","$1","$_") && next;
 	if (/^\s*(.*?neighbor \S*) password / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","! $1 password <removed>\n");
 	    next;
@@ -784,14 +795,16 @@ sub WriteTerm {
 	# Sort snmp user and delete passwords.
 	if (/^snmp-server user (\S+) (\S+) auth md5 (\S+) priv (\S+) localizedkey$/) {
 	    if ($filter_pwds >= 2) {
-		ProcessHistory("SNMP-USER","keysort","$1","!snmp-server user $1 $2 auth md5 <removed> priv <removed> localizedkey\n");
+		ProcessHistory("SNMP-USER","keysort","$1",
+			       "!snmp-server user $1 $2 auth md5 <removed> priv <removed> localizedkey\n");
 	    } else {
 		ProcessHistory("SNMP-USER","keysort","$1","$_");
 	    }
 	    next;
 	}
 	# Sort any other snmp user info.
-	/^snmp-server user (\S+) .*$/ && ProcessHistory("SNMP-USER","keysort","$1","$_") && next;
+	/^snmp-server user (\S+) .*$/ &&
+	    ProcessHistory("SNMP-USER","keysort","$1","$_") && next;
 	# Delete bgp passwords.
 	if (/^(\s*)password (\d) (\S+)(\s.*)?$/) {
 	    if ($filter_pwds >= 2) {

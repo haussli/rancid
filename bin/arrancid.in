@@ -182,6 +182,7 @@ sub ShowVersion {
 	return(1) if /^% Invalid input/;
 	return(0) if ($found_version);		# Only do this routine once
 
+	next if (/uptime is/);			# Older AOS show uptime
         ( $key, $val ) = split( /:\s+/, $_, 2 );
         if ( ! $val ) {
            # Must be the model name if there's no colon

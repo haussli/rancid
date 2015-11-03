@@ -1,4 +1,6 @@
 3.2.99
+	nxos.pm: filter unsupported commands on 1000v - Reuben Farrelly
+
 	panos.pm: update show system info dynamic info filter - Robert Minsk
 
 	arrancid: filter uptime from older AOS' show version - Robert Minsk

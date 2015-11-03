@@ -146,7 +146,7 @@ sub ShowInfo {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(time:|uptime:)/);
-	next if (/^(app|av|threat|wf-private|wildfire|url-filtering)-(version|release-date):/);
+	next if (/^(app|av|global-protect-datafile|threat|wf-private|wildfire|url-filtering)-(version|release-date):/);
 
 	ProcessHistory("INFO","","","#$_");
     }

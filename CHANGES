@@ -1,4 +1,6 @@
 3.2.99
+	panos.pm: update show system info dynamic info filter - Robert Minsk
+
 	arrancid: filter uptime from older AOS' show version - Robert Minsk
 
 	nxos.pm: filter ee.log and accounting.log - Reuben Farrelly

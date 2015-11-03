@@ -522,6 +522,7 @@ sub ShowModule {
 	last if (/^$prompt/);
 	next if (/^\s*$cmd\s*$/);
 	return(1) if (/\% Invalid command at /);
+	return(1) if (/\% Invalid number at /);
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
 

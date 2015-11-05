@@ -1,4 +1,6 @@
 3.2.99
+	*login.in: ignore openssh authentication agent forwarding failure
+
 	nxos.pm: filter unsupported commands on 1000v - Reuben Farrelly
 
 	panos.pm: update show system info dynamic info filter - Robert Minsk

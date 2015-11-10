@@ -1,4 +1,6 @@
 3.2.99
+	ios.pm: filter fan rpm on 7201 - Mike Stupalov
+
 	*login.in: ignore openssh authentication agent forwarding failure
 
 	nxos.pm: filter unsupported commands on 1000v - Reuben Farrelly

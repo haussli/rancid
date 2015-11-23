@@ -1,4 +1,8 @@
 3.2.99
+	anlogin: openssh reduced what ssh ciphers are available
+	(https://bbs.archlinux.org/viewtopic.php?id=188613); allow ssh to
+	use its default list if not specified in cloginrc.
+
 	ios.pm: filter fan rpm on 7201 - Mike Stupalov
 
 	*login.in: ignore openssh authentication agent forwarding failure

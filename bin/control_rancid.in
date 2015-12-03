@@ -560,7 +560,7 @@ do
 	if [ ! $lines ] ; then
 	    rm -f $router.new
 	else
-	    mv $router.new $router
+	    mv -f $router.new $router
 	    if [ $? -ne 0 ] ; then
 		echo "Error: could not rename $router.new to $router"
 		rm -f $router.new

@@ -165,9 +165,10 @@ END
 	    rm -f $TMPDIR/.$GROUP.old
 	else
 	    trap 'rm -fr $LOCKFILE;exit 1' 1 2 3 6 10 15
-	    touch $LOCKFILE
+	    @LOCKPROG@ $LOCKFILE
 	    if [ $? -eq 0 ] ; then
 		control_rancid $CR_ARGV $GROUP
+		trap ''  1 2 3 6 10 15
 		rm -f $LOCKFILE
 	    fi
 	    trap ''  1 2 3 6 10 15

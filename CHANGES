@@ -1,4 +1,6 @@
 3.2.99
+	rancid-run: improve locking by using mktemp, fall-back to touch
+
 	anlogin: openssh reduced what ssh ciphers are available
 	(https://bbs.archlinux.org/viewtopic.php?id=188613); allow ssh to
 	use its default list if not specified in cloginrc.

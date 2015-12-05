@@ -298,6 +298,18 @@ if test $EXPECT_PATH = no; then
 fi
 AC_SUBST(EXPECT_PATH)
 
+# look for lockfile utility
+AC_PATH_PROG(LOCKPROG_PATH,mktemp,no)
+if test $LOCKPROG_PATH = no; then
+    unset ac_cv_path_LOCKPROG_PATH
+    AC_MSG_WARN([can't locate a mktemp(1), using touch.])
+    LOCKPROG=touch
+else
+    AC_SUBST(LOCKPROG_PATH)
+    LOCKPROG="`basename $LOCKPROG_PATH` -q"
+fi
+AC_SUBST(LOCKPROG)
+
 # locate ping and it's syntax
 AC_PATH_PROG(PING_PATH,[ping],[no],
 	     [$PATH$PATH_SEPARATOR/sbin$PATH_SEPARATOR/usr/sbin])
@@ -334,6 +346,9 @@ rd_cv_lg_ping_cmd=$LG_PING_CMD
 # etc/rancid.conf.
 ENV_PATH="`dirname $PERLV_PATH`:`dirname $EXPECT_PATH`:`dirname \"$SENDMAIL\"`"
 ENV_PATH="$ENV_PATH:`dirname $DIRNAME`:`dirname $DIFF`"
+if test "x$LOCKPROG_PATH" != "x"; then
+    ENV_PATH="$ENV_PATH:$LOCKPROG_PATH"
+fi
 
 if test $RCSSYS = "cvs" ; then
     AC_PATH_PROG(CVS,cvs,no)

@@ -4,7 +4,7 @@ Ollie.  However, unlike the patch, which places all of the rancid collections
 into one repository rooted at rancid.conf:$BASEDIR, we've chosen to use
 separate respositories as remote located in rancid.conf:$BASEDIR.  This allows
 the code to be same whether the master repository is local or remote and allows
-each to be in a different location and autonomous.
+each to be in a different location and autonomous.  Also see rancid-cvs(1).
 
 RANCiD 3.0
 3.0 requires minimum revisions of perl 5.10 and expect 5.43.

@@ -171,7 +171,7 @@ PAR_COUNT=${PAR_COUNT:-5}
 # Number of times failed collections should be retried.  Minimum 0.
 MAX_ROUNDS=${MAX_ROUNDS:-4}
 if [ $MAX_ROUNDS -lt 0 ] ; then
-    echo "Error: MAX_ROUNDS must be at least 0 or greater."
+    echo "Error: MAX_ROUNDS must be at least 0 or greater." >&2
     MAX_ROUNDS=1
 fi
 
@@ -399,15 +399,15 @@ if [ $RALL -ne 0 -o $RDOWN -ne 0 -o $RUP -ne 0 ] ; then
 fi
 mv -f routers.all.new routers.all
 if [ $? -ne 0 ] ; then
-    echo "Error: could not rename routers.all.new"
+    echo "Error: could not rename routers.all.new" >&2
 fi
 mv -f routers.down.new routers.down
 if [ $? -ne 0 ] ; then
-    echo "Error: could not rename routers.down.new"
+    echo "Error: could not rename routers.down.new" >&2
 fi
 mv -f routers.up.new routers.up
 if [ $? -ne 0 ] ; then
-    echo "Error: could not rename routers.up.new"
+    echo "Error: could not rename routers.up.new" >&2
 fi
 rm -f routers.db
 trap 'rm -fr $TMP;' 1 2 15
@@ -564,7 +564,7 @@ do
 	else
 	    mv -f $router.new $router
 	    if [ $? -ne 0 ] ; then
-		echo "Error: could not rename $router.new to $router"
+		echo "Error: could not rename $router.new to $router" >&2
 		rm -f $router.new
 	    fi
 	fi

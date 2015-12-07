@@ -181,9 +181,10 @@ git )
     if [ ! -f .gitignore ] ; then
 	rm -rf .gitignore
 	cat > .gitignore <<EOF
-routers.all
-routers.down
-routers.up
+/routers.all
+/routers.down
+/routers.single
+/routers.up
 EOF
 	git add .gitignore
     fi
@@ -204,6 +205,7 @@ cvs | svn )
 .cvsignore
 routers.all
 routers.down
+routers.single
 routers.up
 EOF
     fi

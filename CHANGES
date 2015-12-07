@@ -1,7 +1,7 @@
 3.2.99
 	control_rancid: scm-ignore routers.single, -r option temp file
 
-	rancid-run: improve locking by using mktemp, fall-back to touch
+	rancid-run: improve locking by using an exclusive open
 
 	anlogin: openssh reduced what ssh ciphers are available
 	(https://bbs.archlinux.org/viewtopic.php?id=188613); allow ssh to

@@ -165,7 +165,7 @@ END
 	    rm -f $TMPDIR/.$GROUP.old
 	else
 	    trap 'rm -fr $LOCKFILE;exit 1' 1 2 3 6 10 15
-	    @LOCKPROG@ $LOCKFILE
+	    perl -e 'use POSIX;sysopen(FH, $ARGV[1], O_RDWR|O_CREAT|O_EXCL, 0660) or exit 1;print FH "$ARGV[0]\n";' -- $$ $LOCKFILE
 	    if [ $? -eq 0 ] ; then
 		control_rancid $CR_ARGV $GROUP
 		trap ''  1 2 3 6 10 15

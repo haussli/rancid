@@ -67,7 +67,6 @@ auto_edit = sed \
 	-e 's,@PERLV_PATH\@,$(PERLV_PATH),g' \
 	-e 's,@LG_PING_CMD\@,$(LG_PING_CMD),g' \
 	-e 's,@ADMINMAILPLUS\@,$(ADMINMAILPLUS),g' \
-	-e 's,@LOCKPROG\@,$(LOCKPROG),g' \
 	-e 's,@MAILPLUS\@,$(MAILPLUS),g' \
 	-e 's,@PACKAGE\@,$(PACKAGE),g' \
 	-e 's,@SVN_FSTYPE\@,$(SVN_FSTYPE),g' \

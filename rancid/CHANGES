@@ -1,4 +1,6 @@
 3.2.99
+	rancid-run: exit status 1 if group is locked
+
 	control_rancid: scm-ignore routers.single, -r option temp file
 
 	rancid-run: improve locking by using an exclusive open

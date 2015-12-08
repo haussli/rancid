@@ -163,6 +163,7 @@ END
 		) | $SENDMAIL -t $MAILOPTS
 	    fi
 	    rm -f $TMPDIR/.$GROUP.old
+	    exit 1
 	else
 	    trap 'rm -fr $LOCKFILE;exit 1' 1 2 3 6 10 15
 	    perl -e 'use POSIX;sysopen(FH, $ARGV[1], O_RDWR|O_CREAT|O_EXCL, 0660) or exit 1;print FH "$ARGV[0]\n";' -- $$ $LOCKFILE

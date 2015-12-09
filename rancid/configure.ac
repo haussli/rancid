@@ -298,6 +298,14 @@ if test $EXPECT_PATH = no; then
 fi
 AC_SUBST(EXPECT_PATH)
 
+# look for lockfile utility
+AC_PATH_PROG(MKTEMP_PATH,mktemp,no)
+if test $MKTEMP_PATH = no; then
+    unset ac_cv_path_MKTEMP_PATH
+    AC_MSG_ERROR([can't locate a mktemp(1).])
+fi
+AC_SUBST(MKTEMP)
+
 # locate ping and it's syntax
 AC_PATH_PROG(PING_PATH,[ping],[no],
 	     [$PATH$PATH_SEPARATOR/sbin$PATH_SEPARATOR/usr/sbin])
@@ -333,7 +341,7 @@ rd_cv_lg_ping_cmd=$LG_PING_CMD
 # to be sure that we pick up the the proper diff and ucbmail in
 # etc/rancid.conf.
 ENV_PATH="`dirname $PERLV_PATH`:`dirname $EXPECT_PATH`:`dirname \"$SENDMAIL\"`"
-ENV_PATH="$ENV_PATH:`dirname $DIRNAME`:`dirname $DIFF`"
+ENV_PATH="$ENV_PATH:`dirname $DIRNAME`:`dirname $DIFF`:`dirname $MKTEMP`"
 
 if test $RCSSYS = "cvs" ; then
     AC_PATH_PROG(CVS,cvs,no)

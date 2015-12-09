@@ -6,6 +6,35 @@ separate respositories as remote located in rancid.conf:$BASEDIR.  This allows
 the code to be same whether the master repository is local or remote and allows
 each to be in a different location and autonomous.  Also see rancid-cvs(1).
 
+We do not want to instruct or help convert between SCMs; that is better left
+to those that provide the tools that do the conversion.  But, a few notes for
+a starting point:
+CVS to SVN:
+	% su - rancid
+	% cvs2svn -s `pwd`/.svn `pwd`/CVS/<rancid group name>
+	Now update the RCSSYS and CVSROOT variables in rancid.conf.
+SVN to GIT:
+	cvs to git did not work well; so recommend cvs to svn to git.  So,
+	assuming that your CVSROOT is ~/.svn from the conversion of cvs to svn,
+	convert to git as follows.  If you began with svn, then your CVSROOT
+	is probably ~/CVS.
+	% su - rancid
+	% cat > authors<<EOF
+(no author) = rancid <rancid@your mail domain>
+rancid = rancid <rancid@your mail domain>
+EOF
+	% mkdir .scm tmp
+	% cd tmp
+	% git init --bare `pwd`/.git
+	If you have more than one group, you must separate separate the groups
+	into individual git repositories: ~rancid/.scm/<group name1> etc.  You
+	must --exclude the other groups as you convert each one.
+	% svn2git file://`echo ~`/.svn --notags --nobranches --authors \
+		~/authors
+	% mv .git ~/.scm/<rancid group name>
+	Now update the RCSSYS and CVSROOT variables in rancid.conf.
+Please do not ask us for help with these tools.
+
 RANCiD 3.0
 3.0 requires minimum revisions of perl 5.10 and expect 5.43.
 

@@ -145,7 +145,12 @@ do
 	    if [ "X$LOCKTIME" = "X" ] ; then
 		LOCKTIME=4
 	    fi
-	    @PERLV@ -e "\$t = (stat(\"$LOCKFILE\"))[9]; print \"OLD\\n\" if (time() - \$t >= $LOCKTIME*60*60);" > $TMPDIR/.$GROUP.old
+	    GRPOLDFILE=`mktemp -q $TMPDIR/.$GROUP.XXXXXX`
+	    if [ $? -eq 0 ] ; then
+		echo "Could not create temporary file for error email" >&2
+		exit 1
+	    fi
+	    @PERLV@ -e "\$t = (stat(\"$LOCKFILE\"))[9]; print \"OLD\\n\" if (time() - \$t >= $LOCKTIME*60*60);" > $GRPOLDFILE
 	    if [ -s $TMPDIR/.$GROUP.old ]
 	    then
 		(
@@ -162,7 +167,7 @@ rancid $GROUP hung on `hostname`?  Old lockfile still exists:
 END
 		) | $SENDMAIL -t $MAILOPTS
 	    fi
-	    rm -f $TMPDIR/.$GROUP.old
+	    rm -f $GRPOLDFILE
 	    exit 1
 	else
 	    trap 'rm -fr $LOCKFILE;exit 1' 1 2 3 6 10 15

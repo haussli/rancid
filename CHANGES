@@ -1,4 +1,6 @@
 3.2.99
+	rancid-run: use mktemp for mail temporary file in the error path
+
 	rancid-run: exit status 1 if group is locked
 
 	control_rancid: scm-ignore routers.single, -r option temp file

@@ -33,7 +33,8 @@ EOF
 		~/authors
 	% mv .git ~/.scm/<rancid group name>
 	Now update the RCSSYS and CVSROOT variables in rancid.conf.
-Please do not ask us for help with these tools.
+Please do not ask us for help with these tools.  Also see
+https://github.com/svn-all-fast-export/svn2git.
 
 RANCiD 3.0
 3.0 requires minimum revisions of perl 5.10 and expect 5.43.

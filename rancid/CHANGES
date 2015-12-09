@@ -1,4 +1,6 @@
 3.2.99
+	rancid.conf: add option ACLFILTERSEQ for Hakala Reijo
+
 	rancid-run: use mktemp for mail temporary file in the error path
 
 	rancid-run: exit status 1 if group is locked

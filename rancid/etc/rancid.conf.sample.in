@@ -57,6 +57,10 @@ LOGDIR=$BASEDIR/logs; export LOGDIR
 # these requires manual conversions.
 RCSSYS=@RCSSYS@; export RCSSYS
 #
+# if ACLFILTERSEQ is NO, prefix-list/access-list sequence numbers will NOT be
+# filtered.  this option implies ACLSORT=NO for lists with sequence numbers.
+#ACLFILTERSEQ=YES; export FILTERSEQ
+#
 # if ACLSORT is NO, access-lists will NOT be sorted.
 #ACLSORT=YES; export ACLSORT
 #

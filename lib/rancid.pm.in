@@ -63,6 +63,7 @@ our $devtype;				# device type argument
 our $filter_commstr;			# SNMP community string filtering
 our $filter_pwds;			# password filtering mode
 our $aclsort;				# ACL sorting mode
+our $aclfilterseq;			# ACL sequence filtering mode
 our $log;				# log cmdline option
 our $debug;				# debug cmdline option
 our $file;				# file cmdline option
@@ -81,7 +82,7 @@ our @EXPORT = qw($VERSION $devtype $script $lscript @modules $inloop
 		@commandtable
 		%commands @commands $commandcnt
 		$commandstr $cmds_regexp
-		$filter_commstr $filter_pwds $aclsort
+		$filter_commstr $filter_pwds $aclsort $aclfilterseq
 		$log $debug $file $host $clean_run $found_end $timeo $prompt
 		rancidinit loadtype
 		ProcessHistory numerically keynsort keysort valsort numsort
@@ -122,6 +123,12 @@ sub rancidinit {
     if (defined($ENV{"ACLSORT"}) && $ENV{"ACLSORT"} =~ /no/i) {
 	$aclsort = "";
     }
+    if (defined($ENV{"ACLFILTERSEQ"}) && $ENV{"ACLFILTERSEQ"} =~ /no/i) {
+	$aclfilterseq = "0";
+    } else {
+	$aclfilterseq = "1";
+    }
+
     # determine community string filtering mode
     if (defined($ENV{"NOCOMMSTR"}) &&
 	($ENV{"NOCOMMSTR"} =~ /yes/i || $ENV{"NOCOMMSTR"} =~ /^$/)) {

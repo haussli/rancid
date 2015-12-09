@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid.conf" "5" "9 January 2015"
+.TH "rancid.conf" "5" "9 December 2015"
 .SH NAME
 rancid.conf \- rancid environment configuration file
 .SH DESCRIPTION
@@ -26,7 +26,14 @@ effect their run-time behavior or to enable them to find their resources.
 .SH VARIABLES
 The following variables are used (listed alphabetically):
 .PP
+.\"
+.TP
+.B ACLFILTERSEQ
 .Bl -tag -width flag
+Disables filtering of prefix-list/access-list sequence numbers.
+This option implies ACLSORT=NO for lists with sequence numbers.
+.sp
+Default: YES
 .\"
 .TP
 .B ACLSORT

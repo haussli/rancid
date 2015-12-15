@@ -1,3 +1,4 @@
+- allow -r to be specified multiple times for rancid-run/control_rancid
 - add description of the data path/process of a rancid script
 - add configure option to force the location of perl
 - would like router cmd-line timestamps based on login.  suggest .cloginrc
@@ -18,10 +19,10 @@
     in the authorization failure case:
 	return(-1) if (/command authorization failed/i);
 - '% clogin clogin' w/ ssh default produces a tcl traceback
-- sup2t show version info is missing
 - RSP440 show version info is missing, eg:
   !Chassis type: ASR9K Series - a ASR9K Series router
 - make *login and login.top.in cmdline options common among all scripts
+- sup2t show version info is missing
 - cpu info missing from sup-2t
    Index: configs/r01.londen01.uk.bb.gin.ntt.net
    ===================================================================
@@ -67,7 +68,6 @@
   Error: Couldn't login
   This happens on solaris only; linux and netbsd seem to be ok.
 - lg.conf(5) needs the query stuff documented.
-- configure OLDTIME per-group
 - could the cloginrc match function do a longest-match search instead of
   first match?
 - look at Andreas Dahl's Brocade switch collection scripts
@@ -85,7 +85,6 @@
   for same?  warning about filling logs?
 - on 6500, show boot and show bootvar produce the same output and both appear
   in the crunched config.  should one be filtered?
-- fix varargs for knf in util.c
 - isis filtering for foundry?
 - hlogin hangs when the procurve does not ask for passwords
 - share/ tool to prune cvs versions, excluding those with tags, by (all but
@@ -100,8 +99,6 @@
 - should *login emmit "clogin error:" or "*login error:" to make matches for
   login failures definitive?
 - would like hpuifilter to be more friendly to interactive logins
-- hpuifilter needs to allocate a pseudo terminal to work with ssh
-	Pseudo-terminal will not be allocated because stdin is not a terminal.
 - rancid with zebra via vtysh?
 - rancid for unix?
 - would be nice if it were possible to add additional commands to be run
@@ -113,8 +110,6 @@
 - detect 'same' vty configs
 	- ignoring length/width/passwd is a start, but need more
 - merge clogin and jlogin (or *login !!) into one.  possible?
-- flogin (for foundry) needs more testing and should be integrated with
-  clogin when foundry fixes their UI.
 - flogin needs to be fixed for the userpasswd bug seen in jlogin 1.17, but
   this is clouded by the UI mess.
 - rancid needs to treat the 3600s like the 7Ks and 12Ks...

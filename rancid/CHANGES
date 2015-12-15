@@ -1,4 +1,7 @@
 3.2.99
+	control_rancid: always recreate the .{cvs,git}ignore file(s) and
+	append .{cvs,git}ignore.locale if it exists
+
 	rancid.conf: add option ACLFILTERSEQ for Hakala Reijo
 
 	rancid-run: use mktemp for mail temporary file in the error path

@@ -179,43 +179,51 @@ fi
 case $RCSSYS in
 git )
     if [ ! -f .gitignore ] ; then
-	rm -rf .gitignore
-	cat > .gitignore <<EOF
+	touch .gitignore
+	git add .gitignore
+    fi
+    rm -rf .gitignore
+    cat > .gitignore <<EOF
 /routers.all
 /routers.down
 /routers.single
 /routers.up
-EOF
-	git add .gitignore
-    fi
-    if [ ! -f configs/.gitignore ] ; then
-	rm -rf configs/.gitignore
-	cat > configs/.gitignore <<EOF
 .old
 *.new
 *.raw
 EOF
-	git add configs/.gitignore
+    if [ -e .gitignore.locale ] ; then
+	cat .gitignore.locale >> .gitignore
     fi
     ;;
 cvs | svn )
     if [ ! -f .cvsignore ] ; then
-	rm -rf .cvsignore
-	cat >.cvsignore <<EOF
+	touch .cvsignore
+	$RCSSYS add .cvsignore
+    fi
+    rm -rf .cvsignore
+    cat >.cvsignore <<EOF
 .cvsignore
 routers.all
 routers.down
 routers.single
 routers.up
 EOF
+    if [ -e .cvsignore.locale ] ; then
+	cat .cvsignore.locale >> .cvsignore
     fi
     if [ ! -f configs/.cvsignore ] ; then
-	rm -rf configs/.cvsignore
-	cat > configs/.cvsignore <<EOF2
+	touch configs/.cvsignore
+	$RCSSYS add configs/.cvsignore
+    fi
+    rm -rf configs/.cvsignore
+    cat > configs/.cvsignore <<EOF2
 .old
 *.new
 *.raw
 EOF2
+    if [ -e configs/.cvsignore.locale ] ; then
+	cat configs/.cvsignore.locale >> configs/.cvsignore
     fi
     if [ $RCSSYS = svn ] ; then
 	svn propset svn:ignore -F .cvsignore .

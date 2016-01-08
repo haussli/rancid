@@ -45,6 +45,14 @@ avocent;login;avologin
 baynet;script;brancid
 baynet;login;blogin
 #
+# Ciena Waveserver t100 (XXX WiP)
+# ciena-ws;script;rancid -t cienna-ws
+# ciena-ws;login;clogin
+# ciena-ws;module;XXX
+# ciena-ws;command;XXX::ShowChassis;chassis show
+# ciena-ws;command;XXX::WriteTerm;configuration show
+#
+# Cisco Catalyst 5k (all catalyst o/s switches)
 cat5;script;cat5rancid
 cat5;login;clogin
 #

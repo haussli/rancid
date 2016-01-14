@@ -1,4 +1,6 @@
 3.2.99
+	hlogin: save config prompt changed - Per-Olaf Olsson
+
 	control_rancid: always recreate the .{cvs,git}ignore file(s) and
 	append .{cvs,git}ignore.locale if it exists
 

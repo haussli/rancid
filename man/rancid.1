@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "rancid" "1" "18 May 2015"
+.TH "rancid" "1" "15 January 2016"
 .SH NAME
 rancid \- Cisco configuration filter
 .SH SYNOPSIS
@@ -36,8 +36,9 @@ vendor-specific
 .B rancid
 scripts.
 It uses the device_type specified with the -t option to look-up a device
-description that defines what it does to collect and process device
-information.
+description (see
+.BR rancid.types.conf (5))
+that defines what it does to collect and process device information.
 .PP
 There are scripts complementary to
 .B rancid
@@ -79,8 +80,8 @@ Fortinet Firewalls
 .TP
 .B rancid
 The generic rancid script; supporting Allied Telesis AW+ devices, Arbor
-Networks Appliances, Cisco IOS, Cisco IOS-XR, Cisco WLC, Dell switches,
-Compass EOS, and Juniper JUNOS.
+Networks Appliances, Ciena Waverserver, Cisco IOS, Cisco IOS-XR, Cisco
+NX-OS, Cisco WLC, Dell switches, Compass EOS, and Juniper JUNOS.
 It uses the device O/S modules for parsing routines.
 See
 .BR rancid (3)
@@ -95,9 +96,6 @@ Hitachi Routers
 .B jerancid
 Juniper Networks E-series
 .TP
-.B jrancid
-Juniper Networks
-.TP
 .B mrancid
 MRTd
 .TP
@@ -109,9 +107,6 @@ Netscreen firewalls
 .TP
 .B nsrancid
 Netscaler
-.TP
-.B nxrancid
-Cisco Nexus boxes
 .TP
 .B prancid
 Procket Networks
@@ -128,17 +123,11 @@ SMC switch (some Dell OEMs)
 .B trancid
 Netopia sDSL/T1 routers
 .TP
-.B tntrancid
-Lucent TNT
-.TP
 .B xirancid
 Xirrus arrays
 .TP
 .B xrancid
 Extreme switches
-.TP
-.B xrrancid
-Cisco IOS-XR boxes
 .TP
 .B zrancid
 Zebra routing software

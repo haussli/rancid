@@ -12,7 +12,8 @@ AUTOMAKE_OPTIONS=foreign no-dependencies
 
 my_pkglibdir = $(pkglibdir)
 my_pkglib_DATA = rancid.pm arbor.pm ciscowlc.pm dell.pm eos.pm foundry.pm \
-		 ios.pm iosxr.pm junos.pm mrv.pm nxos.pm panos.pm rbt.pm
+		 ios.pm iosxr.pm junos.pm mrv.pm nxos.pm panos.pm rbt.pm \
+		 wavesvros.pm
 pkglib_in = $(my_pkglib_DATA:%=%.in)
 
 RANLIB= :
@@ -45,7 +46,9 @@ auto_edit = sed \
 	-e 's,@PACKAGE\@,$(PACKAGE),g' \
 	-e 's,@SVN_FSTYPE\@,$(SVN_FSTYPE),g' \
 	-e 's,@VERSION\@,$(VERSION),g' \
-	-e 's,@COPYYEARS\@,$(COPYYEARS),g'
+	-e 's,@COPYYEARS\@,$(COPYYEARS),g' \
+	-e '/@copyright@/r ../COPYING' \
+	-e '/@copyright@/d'
 
 $(pkglib_in:%.in=%): Makefile $(top_builddir)/config.status
 	rm -f $@ $@.tmp; \
@@ -67,3 +70,4 @@ mrv.pm: mrv.pm.in
 nxos.pm: nxos.pm.in
 panos.pm: panos.pm.in
 rbt.pm: rbt.pm.in
+wavesvros.pm: wavesvros.pm.in

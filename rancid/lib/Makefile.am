@@ -3,10 +3,6 @@
 
 ## $Id: Makefile.am 2481 2012-05-24 17:39:33Z heas $
 ##
-## Copyright (c) 1997-2015 by Terrapin Communications, Inc.
-## All rights reserved.
-##
-## Please see the file COPYING for the text of the license.
 
 AUTOMAKE_OPTIONS=foreign no-dependencies
 

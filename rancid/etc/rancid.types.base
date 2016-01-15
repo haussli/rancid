@@ -46,11 +46,13 @@ baynet;script;brancid
 baynet;login;blogin
 #
 # Ciena Waveserver t100 (XXX WiP)
-# ciena-ws;script;rancid -t cienna-ws
-# ciena-ws;login;clogin
-# ciena-ws;module;XXX
-# ciena-ws;command;XXX::ShowChassis;chassis show
-# ciena-ws;command;XXX::WriteTerm;configuration show
+ciena-ws;script;rancid -t ciena-ws
+ciena-ws;login;hlogin
+ciena-ws;module;wavesvros
+ciena-ws;inloop;wavesvros::inloop
+ciena-ws;command;wavesvros::ShowVersion;software show
+ciena-ws;command;wavesvros::ShowChassis;chassis show
+ciena-ws;command;wavesvros::WriteTerm;configuration show
 #
 # Cisco Catalyst 5k (all catalyst o/s switches)
 cat5;script;cat5rancid

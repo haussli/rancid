@@ -189,9 +189,9 @@ sub Dir {
 
 	ProcessHistory("COMMENTS","keysort","D1","! $_");
     }
+    ProcessHistory("COMMENTS","keysort","D1","!\n");
     return(0);
 }
-
 
 sub ShowVer {
     print STDERR "    In ShowVer: $_" if ($debug);
@@ -232,6 +232,7 @@ sub ShowSys {
 	if (/Temperature \(Celsius\)/) {
 	    ProcessHistory("COMMENTS","keysort","C1","! $_");
 	    ProcessHistory("COMMENTS","keysort","C1","! Unit\tStatus\n");
+	    ProcessHistory("COMMENTS","keysort","C1","! ----\t------\n");
 	    while (<INPUT>) {
 		s/^\s+\015//g;
 		tr/\015//d;

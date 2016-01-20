@@ -1,4 +1,6 @@
 3.2.99
+	ios.pm: collect iosxe license info suggested by Roman Hochuli
+
 	wavesvros: initial Ciena Waveserver o/s support
 
 	hlogin: save config prompt changed - Per-Olaf Olsson

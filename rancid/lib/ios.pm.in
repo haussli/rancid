@@ -473,6 +473,27 @@ sub ShowDetail {
     return(0);
 }
 
+# This routine parses "show license" & "show license udi"
+sub ShowLicense {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowMTU: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+	return(0) if (/% no licensable udi in the system/i);	# show udi on old box
+	return(0) if (/% license not supported on this device/i);# show lic on old box
+	return(1) if (/Line has invalid autocommand /);
+	return(1) if (/(invalid (input|command) detected|type help or )/i);
+
+	ProcessHistory("COMMENTS","keysort","LICENSE","! $_");
+    }
+    ProcessHistory("COMMENTS","keysort","LICENSE","!\n");
+    return(0);
+}
+
 # This routine parses "showMTU"
 sub ShowMTU {
     my($INPUT, $OUTPUT, $cmd) = @_;

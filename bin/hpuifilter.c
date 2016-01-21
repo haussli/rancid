@@ -123,7 +123,7 @@ int		debug,
 		timeo = 5;				/* default timeout   */
 pid_t		child;
 
-int		expectmore(char *buf, int len);
+int		complete_esc(char *buf, int len);
 int		filter(char *, int);
 size_t		mystrcspn(const char *, const char *);
 RETSIGTYPE	reapchild(int);
@@ -386,7 +386,7 @@ main(int argc, char **argv, char **ev)
 	/* write tbuf (aka telnet/ptym/pfds[2]) -> hlogin (stdout/pfds[1]) */
 	if ((pfds[1].revents & POLLOUT) && tlen) {
 	    /*
-	     * if there is an escape char that didnt get filter()'d,
+	     * if there is an escape char that was not filtered by filter(),
 	     * we need to write only up to that point and wait for
 	     * the bits that complete the escape sequence.  if at least
 	     * two bytes follow it and it doesn't look like we should expect
@@ -395,22 +395,16 @@ main(int argc, char **argv, char **ev)
 	    bytes = tlen;
 	    idx = mystrcspn(tbuf, tbufstr);
 	    if (idx) {
-		if (tbuf[idx] == ESC) {
-		    if (tlen - idx < 2 || expectmore(&tbuf[idx], tlen - idx)) {
-			bytes = idx;
-		    }
-		}
+		if (tbuf[idx] == ESC)
+		    bytes = idx + complete_esc(&tbuf[idx], tlen - idx);
 		if (tbuf[idx] == '\r' || tbuf[idx] == '\n') {
 		    bytes = ++idx;
 		    if (tbuf[idx] == '\r' || tbuf[idx] == '\n')
 			bytes++;
 		}
 	    } else {
-		if (tbuf[0] == ESC) {
-		    if (tlen < 2 || expectmore(tbuf, tlen)) {
-			bytes = 0;
-		    }
-		}
+		if (tbuf[0] == ESC)
+		    bytes = complete_esc(tbuf, tlen);
 		if (tbuf[0] == '\r' || tbuf[0] == '\n') {
 		    bytes = 1;
 		    if (tbuf[1] == '\r' || tbuf[1] == '\n')
@@ -503,32 +497,35 @@ main(int argc, char **argv, char **ev)
 }
 
 /*
- * return non-zero if the escape sequence beginning with buf appears to be
- * incomplete (and the caller should wait for more data).
+ * return zero if the escape sequence beginning with buf appears to be
+ * incomplete (and the caller should wait for more data); or else returns
+ * the index of the first character past the end of the sequence.
  */
 int
-expectmore(char *buf, int len)
+complete_esc(char *buf, int len)
 {
     int	i;
 
+    if (len < 2)
+	return 0;
     if (buf[1] == '[' || isdigit((int)buf[1])) {
 	/* look for a char that ends the sequence */
 	for (i = 2; i < len; i++) {
 	    if (isalpha((int)buf[i]))
-		return(0);
+		return(i + 10);
 	}
-	return(1);
+	return(0);
     }
     if (buf[1] == '#') {
 	/* look for terminating digit */
 	for (i = 2; i < len; i++) {
 	    if (isdigit((int)buf[i]))
-		return(0);
+		return(i + 1);
 	}
-	return(1);
+	return(0);
     }
 
-    return(0);
+    return(1);  /* we don't understand this ESC sequence, consume it */
 }
 
 /*

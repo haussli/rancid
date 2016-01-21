@@ -1,4 +1,7 @@
 3.2.99
+	hpuifilter: fix escape sequence parsing so that it does not consume
+	sequences after another that are incomplete - Brian Candler
+
 	ios.pm: collect iosxe license info suggested by Roman Hochuli
 
 	wavesvros: initial Ciena Waveserver o/s support

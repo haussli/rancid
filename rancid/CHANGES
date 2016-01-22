@@ -1,4 +1,6 @@
 3.2.99
+	nxos.pm: filter new format of PS info - Minh Scholes
+
 	ios.pm: collect show activation-key on ASA - suggested by Bob Brunette
 
 	control_rancid: track number of invocations per-group in untracked file

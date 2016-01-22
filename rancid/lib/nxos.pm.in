@@ -376,7 +376,7 @@ sub ShowEnvPower {
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
 
-# Cut out Actual Output/Draw.
+# Filter Actual Output/Draw.
 #Power                              Actual        Total
 #Supply    Model                    Output     Capacity    Status
 #                                 (Watts )     (Watts )
@@ -389,7 +389,39 @@ sub ShowEnvPower {
 #-------  -------------------  -----------  -----------  --------------
 #2        NURBURGRING                N/A          573 W    Powered-Up
 #fan1                                N/A          720 W    Powered-Up
+#
+# ELSE
+#
+# nexus# sh environment power
+# Power Supply:
+# Voltage: 12 Volts
+# Power                             Actual      Actual        Total
+# Supply    Model                   Output      Input      Capacity    Status
+#                                 (Watts )    (Watts )     (Watts )  
+# -------  -------------------  ----------  ----------  ----------
+# --------------
+# 1        N9K-PAC-650W-B             65 W        76 W       649 W     Ok
+# 2        N9K-PAC-650W-B             70 W        84 W       649 W     Ok 
+#  
+#  
+# Power Usage Summary:
+# --------------------
+# Power Supply redundancy mode (configured)                PS-Redundant
+# Power Supply redundancy mode (operational)               PS-Redundant
+#          
+# Total Power Capacity (based on configured mode)             649.92 W
+# Total Grid-A (first half of PS slots) Power Capacity        649.92 W 
+# Total Grid-B (second half of PS slots) Power Capacity       649.92 W
+# Total Power of all Inputs (cumulative)                     1299.84 W
+# Total Power Output (actual draw)                            136.00 W
+# Total Power Input (actual draw)                             161.00 W
+# Total Power Allocated (budget)                                N/A
+# Total Power Available for additional modules                  N/A  
+# 
+# nexus#
 	if ( /(.* +)(\d+ W)( +\d+ W.*)/) {
+	    $_ = sprintf("%s%-". length($2)."s%s\n", $1, "", $3);
+	} elsif ( /(.* +)(\d+ W)( +\d+ W.*)/) {
 	    $_ = sprintf("%s%-". length($2)."s%s\n", $1, "", $3);
 	}
 

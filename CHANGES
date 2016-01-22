@@ -1,4 +1,8 @@
 3.2.99
+	control_rancid: track number of invocations per-group in untracked file
+	runcount; after 100, perform extra-cleanup.  Currently only applies to
+	git repos.
+
 	hpuifilter: fix escape sequence parsing so that it does not consume
 	sequences after another that are incomplete - Brian Candler
 

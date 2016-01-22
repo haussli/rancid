@@ -188,6 +188,7 @@ git )
 /routers.down
 /routers.single
 /routers.up
+/runcount
 .old
 *.new
 *.raw
@@ -208,6 +209,7 @@ routers.all
 routers.down
 routers.single
 routers.up
+runcount
 EOF
     if [ -e .cvsignore.locale ] ; then
 	cat .cvsignore.locale >> .cvsignore
@@ -625,15 +627,27 @@ else
     subject="$GROUP $subject"
 fi
 
-# working-directory maintenance
+# working-directory maintenance & cleanup every 100 runs
+if [ -e "runcount" ] ; then
+    read RUNCOUNT < ./runcount
+    RUNCOUNT=`expr $RUNCOUNT + 1`
+else
+    RUNCOUNT=1
+fi
 case $RCSSYS in
 svn )
     svn cleanup
     ;;
 git )
     git push
+    if [ $RUNCOUNT -gt 100 ] ; then
+	git gc --quiet
+	RUNCOUNT=0
+    fi
     ;;
 esac
+rm -f ./runcount
+echo $RUNCOUNT > ./runcount
 
 # Mail out the diffs (if there are any).
 if [ -s $TMP.diff ] ; then

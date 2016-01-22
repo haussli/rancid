@@ -1,4 +1,6 @@
 3.2.99
+	ios.pm: collect show activation-key on ASA - suggested by Bob Brunette
+
 	control_rancid: track number of invocations per-group in untracked file
 	runcount; after 100, perform extra-cleanup.  Currently only applies to
 	git repos.

@@ -431,6 +431,59 @@ LINE:		while (<$INPUT>) {
     return(0);
 }
 
+# This routine parses "show activation-key" on ASA
+sub ShowActivationKey {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowMTU: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+	return(1) if (/Line has invalid autocommand /);
+	return(1) if (/(invalid (input|command) detected|type help or )/i);
+	# the pager can not be disabled per-session on the PIX
+	if (/^(<-+ More -+>)/) {
+	    my($len) = length($1);
+	    s/^$1\s{$len}//;
+	}
+
+	if (/^(failover|licensed) .* for this platform:/i ||
+	    /^active .* activation key/i) {
+	    ProcessHistory("COMMENTS","keysort","LICENSE","! $_");
+	    # parse license features/permanents/etc until an empty line
+	    while (<$INPUT>) {
+		tr/\015//d;
+		goto OUT if (/^$prompt/);	# should not occur
+		# the pager can not be disabled per-session on the PIX
+		if (/^(<-+ More -+>)/) {
+		    my($len) = length($1);
+		    s/^$1\s{$len}//;
+		}
+		if (/^\s*$/) {
+		    ProcessHistory("COMMENTS","keysort","LICENSE","!\n");
+		    last;
+		}
+		if (/^([^:]+: \S+\s+)(.*)/) {
+		    my($L) = $1;
+		    my($T) = $2;
+		    if ($T !~ /perpetual/i) {
+			$T = "limited";
+		    }
+	    	    ProcessHistory("COMMENTS","keysort","LICENSE","! $L $T\n");
+		} else {
+		    ProcessHistory("COMMENTS","keysort","LICENSE","! $_\n");
+		}
+	    }
+	    next;
+	}
+	ProcessHistory("COMMENTS","keysort","LICENSE","! $_");
+    }
+OUT:ProcessHistory("COMMENTS","keysort","LICENSE","!\n");
+    return(0);
+}
+
 # This routine parses "showCellular"
 sub ShowCellular {
     my($INPUT, $OUTPUT, $cmd) = @_;

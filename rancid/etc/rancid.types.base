@@ -77,6 +77,7 @@ cisco;command;ios::ShowBoot;show variables boot
 cisco;command;ios::ShowLicense;show license udi
 cisco;command;ios::ShowLicense;show license feature
 cisco;command;ios::ShowLicense;show license
+cisco;command;ios::ShowActivationKey;show activation-key;ASA/PIX
 cisco;command;ios::ShowFlash;show flash
 cisco;command;ios::DirSlotN;dir /all nvram:
 cisco;command;ios::DirSlotN;dir /all bootflash:

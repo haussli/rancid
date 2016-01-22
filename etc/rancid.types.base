@@ -179,6 +179,7 @@ cisco-xr;command;rancid::RunCommand;terminal no-timestamp;Disable timestamps XR 
 cisco-xr;command;rancid::RunCommand;terminal exec prompt no-timestamp;Disable timestamps XR 3.8
 cisco-xr;command;iosxr::ShowVersion;admin show version
 cisco-xr;command;iosxr::ShowInstallSummary;admin show install summary;XR image
+cisco-xr;command;iosxr::ShowLicense;admin show license udi;XR image
 cisco-xr;command;iosxr::ShowLicense;admin show license;XR image
 cisco-xr;command;iosxr::ShowBootVar;admin show variables boot;XR image
 cisco-xr;command;iosxr::ShowHWfpd;admin show hw-module fpd location all;XR LC images

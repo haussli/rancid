@@ -1,4 +1,6 @@
 3.2.99
+	iosxr.pm: collect license udi & clean-up license info
+
 	nxos.pm: filter new format of PS info - Minh Scholes
 
 	ios.pm: collect show activation-key on ASA - suggested by Bob Brunette
@@ -10,7 +12,7 @@
 	hpuifilter: fix escape sequence parsing so that it does not consume
 	sequences after another that are incomplete - Brian Candler
 
-	ios.pm: collect iosxe license info suggested by Roman Hochuli
+	ios.pm: collect ios & iosxe license info suggested by Roman Hochuli
 
 	wavesvros: initial Ciena Waveserver o/s support
 

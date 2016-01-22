@@ -859,14 +859,13 @@ sub ShowInventory {
     return(0);
 }
 
-# This routine parses "admin show license"
+# This routine parses "admin show license" & "admin show license udi"
 sub ShowLicense {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowLicense: $_" if ($debug);
 
     while (<$INPUT>) {
 	# delete non-ascii chars, except new line
-	tr/ -~\n//cd;
 	last if (/^$prompt/);
 	next if (/\s*$cmd\s*$/);
 	# filter the bloody cmd-line timestamp
@@ -878,6 +877,10 @@ sub ShowLicense {
 	return(1) if (/Ambiguous command/i);
 	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
 	return(-1) if (/command authorization failed/i);
+	return(0) if (/info\s*: there are no features or licenses to display/i);# show lic on o/s w/o licenses
+
+	# file feature status line (ASR9k, others?)
+	next if (/\s*status: /i);
 
 	# skip blank lines
 	next if (/^\s*$/);
@@ -887,7 +890,7 @@ sub ShowLicense {
 
 	ProcessHistory("COMMENTS", "keysort", "C20", "! $_");
     }
-    ProcessHistory("COMMENTS", "keysort", "C29", "!\n");
+    ProcessHistory("COMMENTS", "keysort", "C20", "!\n");
 
     return(0);
 }

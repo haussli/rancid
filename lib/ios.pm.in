@@ -469,7 +469,7 @@ sub ShowActivationKey {
 		    my($L) = $1;
 		    my($T) = $2;
 		    if ($T !~ /perpetual/i) {
-			$T = "limited";
+			$T = "<limited>";
 		    }
 	    	    ProcessHistory("COMMENTS","keysort","LICENSE","! $L $T\n");
 		} else {

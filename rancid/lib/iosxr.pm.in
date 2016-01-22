@@ -877,7 +877,9 @@ sub ShowLicense {
 	return(1) if (/Ambiguous command/i);
 	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
 	return(-1) if (/command authorization failed/i);
-	return(0) if (/info\s*: there are no features or licenses to display/i);# show lic on o/s w/o licenses
+
+	# show lic on o/s w/o licenses
+	s/info\s*: //;
 
 	# file feature status line (ASR9k, others?)
 	next if (/\s*status: /i);

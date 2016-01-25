@@ -873,6 +873,7 @@ sub ShowLicense {
 	return(1) if (/^\s*\^\s*$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(1) if (/^(-+\^|syntax error: element does not exist)$/i);# NCS
 	return(1) if (/^(-+\^|syntax error: unknown argument)$/i);	# NCS
 	return(1) if (/Ambiguous command/i);
 	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);

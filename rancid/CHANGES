@@ -1,4 +1,7 @@
 3.2.99
+	iosxr.pm: add another unknown command filter for NCS - why have one
+	error message that means "unknown command" when you can have two or more
+
 	iosxr.pm: collect license udi & clean-up license info
 
 	nxos.pm: filter new format of PS info - Minh Scholes

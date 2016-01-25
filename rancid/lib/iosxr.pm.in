@@ -129,6 +129,7 @@ sub ShowVersion {
 	next if (/^\w{3} \w{3,4} {1,3}\d{1,2} {1,2}\d{1,2}:\d+:\d+\.\d+ \S+$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	next if (/^(\e\[.\d+h)?sysadmin-vm:[^#]+# /i);			# NCS
 	return(1) if (/^(-+\^|syntax error: unknown argument)$/i);	# NCS
 	return(0) if ($found_version);		# Only do this routine once
 	return(-1) if (/command authorization failed/i);
@@ -372,6 +373,7 @@ sub AdminShowDiag {
 	next if (/^\w{3} \w{3,4} {1,3}\d{1,2} {1,2}\d{1,2}:\d+:\d+\.\d+ \S+$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	next if (/^(\e\[.\d+h)?sysadmin-vm:[^#]+# /i);			# NCS
 	return(1) if (/^(-+\^|syntax error: unknown argument)$/i);	# NCS
 	return(-1) if (/command authorization failed/i);
 
@@ -408,6 +410,7 @@ sub AdminShowRunning {
 	next if (/^\w{3} \w{3,4} {1,3}\d{1,2} {1,2}\d{1,2}:\d+:\d+\.\d+ \S+$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	next if (/^(\e\[.\d+h)?sysadmin-vm:[^#]+# /i);			# NCS
 	return(1) if (/^(-+\^|syntax error: unknown argument)$/i);	# NCS
 	return(-1) if (/command authorization failed/i);
 
@@ -444,6 +447,7 @@ sub ShowHWfpd {
 	next if (/^\w{3} \w{3,4} {1,3}\d{1,2} {1,2}\d{1,2}:\d+:\d+\.\d+ \S+$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	next if (/^(\e\[.\d+h)?sysadmin-vm:[^#]+# /i);			# NCS
 	return(1) if (/^(-+\^|syntax error: unknown argument)$/i);	# NCS
 	return(-1) if (/command authorization failed/i);
 
@@ -475,6 +479,7 @@ sub ShowRedundancy {
 	next if (/^\w{3} \w{3,4} {1,3}\d{1,2} {1,2}\d{1,2}:\d+:\d+\.\d+ \S+$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	next if (/^(\e\[.\d+h)?sysadmin-vm:[^#]+# /i);			# NCS
 	return(1) if (/^(-+\^|syntax error: unknown argument)$/i);	# NCS
 
 	if (/^Version information for secondary in slot (\d+):/) {
@@ -530,6 +535,7 @@ sub ShowEnv {
 	next if (/^\w{3} \w{3,4} {1,3}\d{1,2} {1,2}\d{1,2}:\d+:\d+\.\d+ \S+$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	next if (/^(\e\[.\d+h)?sysadmin-vm:[^#]+# /i);			# NCS
 	return(1) if (/^(-+\^|syntax error: unknown argument)$/i);	# NCS
 	return(0) if ($found_env);		# Only do this routine once
 	return(-1) if (/command authorization failed/i);
@@ -664,6 +670,7 @@ sub ShowBootVar {
 	return(1) if (/^\s*\^\s*$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	next if (/^(\e\[.\d+h)?sysadmin-vm:[^#]+# /i);			# NCS
 	return(1) if (/^(-+\^|syntax error: unknown argument)$/i);	# NCS
 	return(1) if (/Ambiguous command/i);
 	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
@@ -788,6 +795,7 @@ sub ShowInstallSummary {
 	return(1) if (/^\s*\^\s*$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	next if (/^(\e\[.\d+h)?sysadmin-vm:[^#]+# /i);			# NCS
 	return(1) if (/^(-+\^|syntax error: unknown argument)$/i);	# NCS
 	return(1) if (/Ambiguous command/i);
 	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
@@ -822,6 +830,7 @@ sub ShowInventory {
 	next if (/^\w{3} \w{3,4} {1,3}\d{1,2} {1,2}\d{1,2}:\d+:\d+\.\d+ \S+$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	next if (/^(\e\[.\d+h)?sysadmin-vm:[^#]+# /i);			# NCS
 	return(1) if (/^(-+\^|syntax error: unknown argument)$/i);	# NCS
 	return(-1) if (/command authorization failed/i);
 
@@ -865,16 +874,19 @@ sub ShowLicense {
     print STDERR "    In ShowLicense: $_" if ($debug);
 
     while (<$INPUT>) {
+	tr/\015//d;
 	# delete non-ascii chars, except new line
 	last if (/^$prompt/);
 	next if (/\s*$cmd\s*$/);
 	# filter the bloody cmd-line timestamp
 	next if (/^\w{3} \w{3,4} {1,3}\d{1,2} {1,2}\d{1,2}:\d+:\d+\.\d+ \S+$/);
 	return(1) if (/^\s*\^\s*$/);
+	next if (/^-+\^$/i);	# NCS cmd-line error pointer
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
-	return(1) if (/^(-+\^|syntax error: element does not exist)$/i);# NCS
-	return(1) if (/^(-+\^|syntax error: unknown argument)$/i);	# NCS
+	next if (/^(\e\[.\d+h)?sysadmin-vm:[^#]+# /i);			# NCS
+	return(1) if (/^syntax error: element does not exist$/i);	# NCS
+	return(1) if (/^syntax error: unknown argument$/i);		# NCS
 	return(1) if (/Ambiguous command/i);
 	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
 	return(-1) if (/command authorization failed/i);

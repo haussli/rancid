@@ -1,4 +1,6 @@
 3.2.99
+	iosxr.pm: filter the vm crap from admin commands on NCS
+
 	iosxr.pm: add another unknown command filter for NCS - why have one
 	error message that means "unknown command" when you can have two or more
 

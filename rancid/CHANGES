@@ -1,4 +1,6 @@
 3.2.99
+	wavesvros.pm: fix handling of prompt that changes with unsaved config
+
 	iosxr.pm: filter the vm crap from admin commands on NCS
 
 	iosxr.pm: add another unknown command filter for NCS - why have one

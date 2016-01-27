@@ -67,6 +67,8 @@ TOP: while (<$INPUT>) {
 	    if (!defined($prompt)) {
 		$prompt = ($_ =~ /^([^>]+>)/)[0];
 		$prompt =~ s/([][}{)(\\])/\\$1/g;
+		# prompt changes when config is unsaved - "foo*> "
+		$prompt =~ s/\*/\\\*/;
 		print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
 	    }
 	    print STDERR ("HIT COMMAND:$_") if ($debug);
@@ -100,7 +102,8 @@ sub ShowChassis {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassisClocks: $_" if ($debug);
 
-    s/^[a-z]+@//;
+    # include the command
+    s/^[a-z]+@//; s/^([^ ]+)\*>/$1>/;
     ProcessHistory("","","","! $_");
     while (<$INPUT>) {
 	tr/\015//d;
@@ -127,7 +130,8 @@ sub ShowVersion {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowVersion: $_" if ($debug);
 
-    s/^[a-z]+@//;
+    # include the command
+    s/^[a-z]+@//; s/^([^ ]+)\*>/$1>/;
     ProcessHistory("","","","! $_");
     # skip software state info
     while (<$INPUT>) {
@@ -155,7 +159,8 @@ sub WriteTerm {
     my($snmp) = 0;
     print STDERR "    In ShowConfiguration: $_" if ($debug);
 
-    s/^[a-z]+@//;
+    # include the command
+    s/^[a-z]+@//; s/^([^ ]+)\*>/$1>/;
     ProcessHistory("","","","! $_");
     while (<$INPUT>) {
 	tr/\015//d;

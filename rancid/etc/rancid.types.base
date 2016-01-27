@@ -45,7 +45,7 @@ avocent;login;avologin
 baynet;script;brancid
 baynet;login;blogin
 #
-# Ciena Waveserver t100 (XXX WiP)
+# Ciena Waveserver (XXX WiP)
 ciena-ws;script;rancid -t ciena-ws
 ciena-ws;login;hlogin
 ciena-ws;module;wavesvros

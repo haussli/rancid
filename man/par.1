@@ -137,3 +137,22 @@ epoch and N is the par process number ([0..]).
 .SH "HISTORY"
 .B par
 was ported from the perl version.
+It differs in the following manner:
+.sp
+.TP
+A)
+If
+.B par
+receives a HUP/INT/TERM/QUIT signal, it does not print the commands that
+will not be run.
+.sp
+.TP
+B)
+If
+.B par
+received a HUP/INT/TERM/QUIT signal, it does not exit immediately after
+sending kill to running jobs.  it waits for them to exit so that they are
+cleaned-up properly.
+If a second signal is received, it dies immediately.
+.El
+

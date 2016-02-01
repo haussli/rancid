@@ -41,7 +41,7 @@ if test $LN -ne 0; then
     exit 1
 fi
 
-echo "Testing cmd in input file A with -qc"
+echo "Testing command-line command on input file B with -qnc"
 ../bin/par -q -n 1 -c 'echo -n {}' par.b.in > par.b.out
 svn diff par.b.out >par.tmp
 if test $? -ne 0; then
@@ -51,6 +51,19 @@ fi
 LN=`wc -l par.tmp | sed -Ee 's/([0-9]+).*/\1/'`
 if test $LN -ne 0; then
     echo "FAIL: par.b.out does not match expected output" >&2
+    exit 1
+fi
+
+echo "Testing command-line command on two input files (A + B) with -qnc"
+../bin/par -q -n 1 -c 'echo -n {}' par.a.in par.b.in > par.ab.out
+svn diff par.ab.out >par.tmp
+if test $? -ne 0; then
+    echo "FAIL: svn diff par.ab.out does not failed" >&2
+    exit 1
+fi
+LN=`wc -l par.tmp | sed -Ee 's/([0-9]+).*/\1/'`
+if test $LN -ne 0; then
+    echo "FAIL: par.ab.out does not match expected output" >&2
     exit 1
 fi
 

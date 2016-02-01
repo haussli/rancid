@@ -1,6 +1,6 @@
 .\" $Id$
 .hys 50
-.TH "par" "1" "15 January 2014"
+.TH "par" "1" "1 February 2016"
 .SH NAME
 par \- parallel command processing
 .SH SYNOPSIS
@@ -26,11 +26,12 @@ with a colon (:) or a pound-sign (#).  If a colon, the remainder of the
 line is a command to run for each of the subsequent lines.  If a pound-sign,
 then each subsequent line is a (self-contained) command, unless the
 .B \-c
-option was specified, in which case it operates as if the argument to
+option was specified, in which case the lines become the arguments replacing
+the braces ({}s) in the
 .B \-c
-had followed a colon on the first line.
+argument.
 .PP
-In each of the cases where the lines of the file following the first are
+In each of the cases where the lines of the file, following the first, are
 not commands (ie: colon or -c), instances of open-close braces ({}) in the
 command will be replaced by these values.
 .PP

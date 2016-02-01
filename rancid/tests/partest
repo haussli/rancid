@@ -1,6 +1,9 @@
 #! /bin/sh
 
-echo "Testing par\n"
+rm -f par.tmp par.log.*
+trap 'rm -fr par.tmp;' 1 2 15
+
+echo "Testing par"; echo
 
 echo "Testing cmd in input file A"
 ../bin/par par.a.in
@@ -11,18 +14,43 @@ for f in par.log*; do
 	exit 1
     fi
 done
-
-echo "Testing cmd in input file A with -q"
-../bin/par -q par.a.in |sort -n > par.a.out
-trap 'rm -fr par.tmp;' 1 2 15
+egrep -v '^(!|Ending: )' par.log.* | cut -d: -f 2 | sort > par.a.out
 svn diff par.a.out >par.tmp
-if test $? != 0; then
+if test $? -ne 0; then
     echo "FAIL: svn diff par.a.out does not failed" >&2
     exit 1
 fi
-LN=`wc -l par.tmp`
-if test $LN != 0; then
+LN=`wc -l par.tmp | sed -Ee 's/([0-9]+).*/\1/'`
+if test $LN -ne 0; then
     echo "FAIL: par.a.out does not match expected output" >&2
+    exit 1
+fi
+rm -f par.tmp par.log.*
+
+
+echo "Testing cmd in input file A with -q"
+../bin/par -q par.a.in |sort -n > par.a.out
+svn diff par.a.out >par.tmp
+if test $? -ne 0; then
+    echo "FAIL: svn diff par.a.out does not failed" >&2
+    exit 1
+fi
+LN=`wc -l par.tmp | sed -Ee 's/([0-9]+).*/\1/'`
+if test $LN -ne 0; then
+    echo "FAIL: par.a.out does not match expected output" >&2
+    exit 1
+fi
+
+echo "Testing cmd in input file A with -qc"
+../bin/par -q -n 1 -c 'echo -n {}' par.b.in > par.b.out
+svn diff par.b.out >par.tmp
+if test $? -ne 0; then
+    echo "FAIL: svn diff par.b.out does not failed" >&2
+    exit 1
+fi
+LN=`wc -l par.tmp | sed -Ee 's/([0-9]+).*/\1/'`
+if test $LN -ne 0; then
+    echo "FAIL: par.b.out does not match expected output" >&2
     exit 1
 fi
 
@@ -30,5 +58,5 @@ fi
 #clogin  -c "show users" hostname
 
 
-rm -f par.log.*
+rm -f par.tmp par.log.*
 echo PASS

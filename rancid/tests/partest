@@ -80,5 +80,18 @@ if test $LN -ne 0; then
     exit 1
 fi
 
+echo "Testing command-per-line on stdin input file C with -qn1"
+cat par.c.in | ../bin/par -q -n 1 > par.c.out
+svn diff par.c.out >par.tmp
+if test $? -ne 0; then
+    echo "FAIL: svn diff par.c.out does not failed" >&2
+    exit 1
+fi
+LN=`wc -l par.tmp | sed -Ee 's/([0-9]+).*/\1/'`
+if test $LN -ne 0; then
+    echo "FAIL: par.c.out does not match expected output" >&2
+    exit 1
+fi
+
 rm -f par.tmp par.log.*
 echo PASS

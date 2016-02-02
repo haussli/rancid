@@ -1,4 +1,7 @@
 3.2.99
+	par: fix quote handling in spliting input file lines.  Also clean-up
+	some error messages.
+
 	wavesvros.pm: fix handling of prompt that changes with unsaved config
 
 	iosxr.pm: filter the vm crap from admin commands on NCS

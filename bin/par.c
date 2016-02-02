@@ -558,6 +558,7 @@ arg_replace(char **cmd, char **args, char **tail, char ***new)
 		c++;
 		if ((tick = index(ptr + c, '\'')) == NULL) {
 		    /* unmatched quotes */
+		    fprintf(errfp, "Error: unmatched single quotes\n");
 		    return(EX_DATAERR);
 		}
 		len = tick - (ptr + c);
@@ -639,8 +640,10 @@ arg_replace(char **cmd, char **args, char **tail, char ***new)
 	}
 	buf[b] = '\0';
 
-	if (quotes)
+	if (quotes) {
+	    fprintf(errfp, "Error: unmatched double quotes\n");
 	    return(EX_DATAERR);
+	}
 
 	/* copy the full arg */
 	if (asprintf(&(*new)[n], "%s", buf) == -1)
@@ -794,13 +797,13 @@ execcmd(child *c, char **cmd)
 int
 line_split(const char *line, char ***args)
 {
+    char	*cp;
     int		argn = 0;			/* current arg */
     size_t	b,
 		c,
 		llen,				/* length of line */
 		nargs = 0;
-    int		quotes = 0,			/* track double quotes */
-		tick;				/* ptr to single quote */
+    int		quotes = 0;			/* track double quotes */
 
     if (args == NULL)
 	abort();
@@ -840,39 +843,47 @@ line_split(const char *line, char ***args)
 	 * copy the args into place.
 	 * preserve and observe shell style quoting as we go.
 	 */
-	for (tick = b = c = 0; 1; ) {
+	for (b = c = 0; 1; ) {
 	    switch(line[c]) {
-	    case '\'':
-		tick ^= 1;
-		c++;
-		break;
 	    case '\\':
-		if (! tick) {
-		    c++;
-		    if (line[c] == '\0') {
-			fprintf(errfp, "Error: premature end of input\n");
+		c++;
+		if (line[c] == '\0') {
+		    fprintf(errfp, "Error: premature end of input\n");
 				/* XXX: not the right return code */
-			return(ENOMEM);
-		    }
+		    return(ENOMEM);
 		}
 		c++;
 		break;
+	    case '\'':
+		c++;
+		if ((cp = index(&line[c], '\'')) == NULL) {
+		    /* unmatched quotes */
+		    fprintf(errfp, "Error: unmatched single quotes\n");
+		    return(EINVAL);
+		}
+		c += cp - &line[c] + 1;
+		break;
 	    case '\"':
-		if (! tick)
-		    quotes ^= 1;
+		quotes ^= 1;
 		c++;
 		break;
 	    case '\0':
-		if (tick || quotes) {
+		if (quotes) {
 		    fprintf(errfp, "Error: unmatched quotes\n");
 			/* XXX: not the right return code */
-		    return(ENOMEM);
+		    fprintf(errfp, "Error: unmatched single quotes\n");
+		    return(EINVAL);
 		}
 	    case '\t':
 	    case ' ':
+		if (quotes) {
+		    c++;
+		    continue;
+		}
 		if (((*args)[argn] =
-		     malloc(sizeof(char) * (c - b + 1))) == NULL)
+		     malloc(sizeof(char) * (c - b + 1))) == NULL) {
 		    return(ENOMEM);
+		}
 
 		memcpy((*args)[argn], &line[b], (c - b));
 		(*args)[argn][c - b] = '\0';
@@ -952,8 +963,7 @@ read_input(char *fname, FILE **F, int *line, char ***cmd, char ***args)
 	    } /* else
 		XXX: finish this, we didnt get the whole line */
 	    if ((e = line_split(buf, cmd))) {
-			/* XXX: is strerror(e) right? */
-		fprintf(errfp, "Error: %s\n", strerror(e));
+		fprintf(errfp, "Error: parsing command: %s\n", strerror(e));
 		fclose(*F); *F = NULL;
 		return(e);
 	    }
@@ -962,8 +972,7 @@ read_input(char *fname, FILE **F, int *line, char ***cmd, char ***args)
 	    ungetc(e, *F);
 	    if (*cmd == NULL && c_opt != NULL)
 		if ((e = line_split(c_opt, cmd))) {
-			/* XXX: is strerror(e) right? */
-		    fprintf(errfp, "Error: %s\n", strerror(e));
+		    fprintf(errfp, "Error: parsing command: %s\n", strerror(e));
 		    fclose(*F); *F = NULL;
 		    return(e);
 		}
@@ -994,7 +1003,6 @@ NEXT:
 
     /* split the line into an args[][] */
     if ((e = line_split(buf, args))) {
-		/* XXX: is strerror(e) right? */
 	fprintf(errfp, "Error: parsing args: %s\n", strerror(e));
 	return(e);
     }

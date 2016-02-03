@@ -1,4 +1,4 @@
-Frequently Asked Questions about rancid - last updated 20150611.
+Frequently Asked Questions about rancid - last updated 20160203.
 
 This FAQ contains information that may not apply directly to versions of
 rancid prior to 3.0.  It also contains paths containing tags such as
@@ -253,7 +253,7 @@ A. Our usual diagnostic procedure for this is:
    - Then see if the correct rancid commands work against the router.  For
      example:
 
-        rancid cisco_router
+        rancid -t cisco cisco_router
 
      Should produce a cisco_router.new file (cooked to a golden rancid-style
      colour) in the current directory.  If it does not, try again with the

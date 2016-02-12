@@ -115,6 +115,8 @@ for {set i 0} {$i < $argc} {incr i} {
 	    set do_script 1
 	# save config on exit
 	} -S* {
+	    # may not be supported by the script and may not be applicable to
+	    # the platform
 	    set do_saveconfig 1
 	# Timeout
 	} -t* {

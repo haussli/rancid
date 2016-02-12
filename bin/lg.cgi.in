@@ -132,7 +132,7 @@ sub readconf
 	eval $cmds;
     } else {
 	printf(STDERR "ERROR: couldn\'t open the configuration file: " .
-							"$conffile: $!\n");
+	       "$conffile: $!\n");
 	exit(1);
     }
 
@@ -168,7 +168,7 @@ sub readrouters
 	    foreach $dir (@dirs) {
 		if (! opendir(DIR, "$LOCALSTATEDIR/$dir")) {
 		    dolog(LOG_ERR,
-			"ERROR: couldn\'t read $LOCALSTATEDIR/$dir: $!\n");
+			  "ERROR: couldn\'t read $LOCALSTATEDIR/$dir: $!\n");
 		    next;
 		}
 		closedir(DIR);
@@ -176,7 +176,7 @@ sub readrouters
 		if (open(RTR, "< $LOCALSTATEDIR/$dir/router.db")) {
 		    while (<RTR>) {
 			next if (/^\s*(#|$)/);
-			# fqdn:mfg:state
+			# fqdn;mfg;state
 			@record = split('\;', $_);
 			next if ($record[2] !~ /up/i || $record[1] !~ /(cisco|foundry|juniper)/);
 			push(@rtrlist, join(':', ($record[0], $record[1])));
@@ -185,7 +185,7 @@ sub readrouters
 		    close(RTR);
 		} else {
 		    dolog(LOG_ERR, "ERROR: couldn\'t open the router.db " .
-				"file: $LOCALSTATEDIR/$dir/router.db: $!\n");
+			  "file: $LOCALSTATEDIR/$dir/router.db: $!\n");
 		}
 	    }
 	}
@@ -193,7 +193,7 @@ sub readrouters
 	if (open(RTR, "< $rtrdb")) {
 	    while (<RTR>) {
 		next if (/^\s*(#|$)/);
-		# fqdn:mfg:state
+		# fqdn;mfg;state
 		@record = split('\;', $_);
 		next if ($record[2] !~ /up/i || $record[1] !~ /(cisco|foundry|juniper)/);
 		push(@rtrlist, join(':', ($record[0], $record[1])));
@@ -202,7 +202,7 @@ sub readrouters
 	    close(RTR);
 	} else {
 	    dolog(LOG_ERR, "ERROR: couldn\'t open the router.db file: " .
-								"$rtrdb: $!\n");
+		  "$rtrdb: $!\n");
 	    exit(1);
 	}
     }
@@ -306,7 +306,6 @@ sub DoCmd
 }
 
 ##
-#  Subroutine:  Error
 #       Usage:  &Error("msg"));
 # Description:  displays an error and exits.
 ##
@@ -892,8 +891,8 @@ $| = 1;
 start_page();
 
 # cache the following
-if ($type eq "summary" || $type eq "mbgpsu" || $type eq "damp"
-							|| $type eq "log") {
+if ($type eq "summary" || $type eq "mbgpsu" || $type eq "damp" ||
+    $type eq "log") {
     if (!$arg) {
 	# cache requests with no addr/argument
 	local(*CACHE);

@@ -1,4 +1,6 @@
 3.3.99
+	mrv.pm: filter temps from Optiswitch 960G - Christian Rohmann
+
 	a10 load balancer support - Robert Minsk
 
 3.3

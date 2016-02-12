@@ -73,7 +73,7 @@ TOP: while(<$INPUT>) {
 		last TOP;
 	    }
 	    if (! defined(&{$commands{$cmd}})) {
-		printf(STDERR "$host: undefined function - \"%s\"\n",  
+		printf(STDERR "$host: undefined function - \"%s\"\n",
 		       $commands{$cmd});
 		$clean_run = 0;
 		last TOP;
@@ -110,6 +110,9 @@ sub ShowVersion {
 	# skip voltage
 	/\s+\d+V\s*\:\s*\d+\.?\d*/ && next;
 	/Internal\ Temperature/i && next;
+	/^Temperature:/i && next;
+	/^PP\s*: \d+C \/ \d+F/ && next;
+	/^Device\s*: \d+C \/ \d+F/ && next;
 	/u-boot/i &&
 	    ProcessHistory("COMMENTS","keysort","C1", "!ROM: $_") && next;
 

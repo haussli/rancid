@@ -5,6 +5,18 @@
 # with a different type name.  If you override existing types, it will be harder
 # to provide support to you and I will make a voodoo doll in your likeness.
 #
+a10;script;rancid -t a10
+a10;login;a10login
+a10;module;acos
+a10;inloop;acos::inloop
+a10;command;acos::ShowVersion;show version
+a10;command;acos::ShowLicense;show license
+a10;command;acos::ShowBootimage;show bootimage
+a10;command;acos::ShowAdmin;show admin
+a10;command;acos::ShowVlan;show vlan
+a10;command;acos::ShowAflex;show aflex all-partitions
+a10;command;acos::ShowRunningConfig;show running-config all-partitions
+#
 agm;script;agmrancid
 #
 # XXX This was the start of support for adtran, but it is incomplete.

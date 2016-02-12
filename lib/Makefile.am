@@ -7,9 +7,9 @@
 AUTOMAKE_OPTIONS=foreign no-dependencies
 
 my_pkglibdir = $(pkglibdir)
-my_pkglib_DATA = rancid.pm arbor.pm ciscowlc.pm dell.pm eos.pm foundry.pm \
-		 ios.pm iosxr.pm junos.pm mrv.pm nxos.pm panos.pm rbt.pm \
-		 wavesvros.pm
+my_pkglib_DATA = rancid.pm acos.pm arbor.pm ciscowlc.pm dell.pm eos.pm \
+                 foundry.pm ios.pm iosxr.pm junos.pm mrv.pm nxos.pm panos.pm \
+                 rbt.pm wavesvros.pm
 pkglib_in = $(my_pkglib_DATA:%=%.in)
 
 RANLIB= :
@@ -53,6 +53,7 @@ $(pkglib_in:%.in=%): Makefile $(top_builddir)/config.status
 	mv $@.tmp $@
 # XXX there must be a better way to produce these dependencies, perhaps in
 #     configure.
+acos.pm: acos.pm.in
 arbor.pm: arbor.pm.in
 dell.pm: dell.pm.in
 ciscowlc.pm: ciscowlc.pm.in

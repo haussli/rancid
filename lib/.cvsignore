@@ -1,5 +1,6 @@
 .deps
 Makefile
+acos.pm
 adtran.pm
 arbor.pm
 ciscowlc.pm

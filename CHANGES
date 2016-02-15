@@ -1,4 +1,6 @@
 3.3.99
+	configure: fix login_top inclusion - Robert Minsk
+
 	mrv.pm: filter temps from Optiswitch 960G - Christian Rohmann
 
 	a10 load balancer support - Robert Minsk

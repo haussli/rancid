@@ -39,15 +39,20 @@ PATH=@bindir@:@ENV_PATH@; export PATH
 # below).
 SENDMAIL="@SENDMAIL@"
 #
-# Location of the CVS/SVN/GIT repository.  Be careful changing this.
+# Location of the CVS/SVN/GIT repository(ies).  Be careful changing this.
 # If RCSSYS is svn or git, this can be:
 # - an (absolute) path (a subdirectory of BASEDIR by default).  BASEDIR/CVS,
-#   BASEDIR/.svn, or BASEDIR/.git, but it does not matter.
-# - any URL that git/subversion understand, but beware that:
+#   BASEDIR/.svn, or BASEDIR/.scm; the name does not matter, but do not use
+#   BASEDIR/.git, as it will confuse git.
+# - for git, there will be a repository under CVSROOT for each rancid group.
+# - any URL that git or subversion understand, but beware that:
 #   - no attempt will be made to create the repository when running rancid-cvs.
 #   - authentication credentials, if necessary, MUST be cached (see the SVN
 #     book, Ch. 3, Network Model, Caching credentials) before non-interactive
 #     commands can run, e.g. by running rancid-cvs after installation.
+#   - for git, it is likely easiest to leave CVSROOT as a local path, use
+#     rancid-cvs to create the repository for groups, then move those
+#     repositories to the remote and update the group's .git/config.
 CVSROOT=$BASEDIR/CVS; export CVSROOT
 # Location of log files produced by rancid-run(1).
 LOGDIR=$BASEDIR/logs; export LOGDIR

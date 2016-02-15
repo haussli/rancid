@@ -121,4 +121,4 @@ rancid-run: Makefile $(srcdir)/rancid-run.in
 	mv rancid-run.tmp rancid-run
 
 $(bin_PROGRAMS) $(bin_SCRIPTS): ../include/version.h
-$(bin_SCRIPTS): ../COPYING login_top.in
+$(bin_SCRIPTS): ../COPYING login_top

@@ -469,10 +469,11 @@ extern int		errno;
 ])
 AC_CONFIG_HEADERS(include/config.h)
 
+AC_CONFIG_FILES(bin/login_top)
 AC_SUBST_FILE([copyright])
 AC_SUBST_FILE([login_top])
 copyright=$srcdir/COPYING
-login_top=$srcdir/bin/login_top.in
+login_top=$srcdir/bin/login_top
 
 AC_CONFIG_FILES(bin/control_rancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/a10login, [chmod a+x $ac_file])

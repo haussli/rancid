@@ -350,8 +350,8 @@ top_srcdir = @top_srcdir@
 
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS = foreign
-bin_SCRIPTS = a10login agmrancid anlogin arancid arrancid avologin \
-	avorancid blogin brancid cat5rancid clogin complogin \
+bin_SCRIPTS = a10login alogin agmrancid anlogin arancid arrancid \
+	avologin avorancid blogin brancid cat5rancid clogin complogin \
 	control_rancid cssrancid dllogin elogin erancid f5rancid \
 	f10rancid flogin fnlogin fnrancid hlogin hrancid htlogin \
 	htrancid jerancid jlogin mrancid mrvlogin mtlogin mtrancid \

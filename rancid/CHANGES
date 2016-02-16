@@ -1,3 +1,6 @@
+3.5
+	configure: fix error in filtering '.' from ENV_PATH and filter [\r\n].
+
 3.4
 	configure: fix login_top inclusion - Robert Minsk
 

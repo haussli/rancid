@@ -376,10 +376,9 @@ ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_TOUCH`"
 ENV_PATH="$ENV_PATH:/usr/local/bin:/usr/bin"
 AC_SUBST(ENV_PATH)
 
-ENV_PATH=`echo $ENV_PATH | $PERLV_PATH -e 'foreach $x(split(":",<>)){next unless (length($x));next if (/^\.$/);push(@F, $x),$seen{$x}=1 unless (defined $seen{$x});}print join(":",@F);'`
+ENV_PATH=`echo $ENV_PATH | $PERLV_PATH -e 'foreach $x(split(":",<>)){next unless (length($x));next if ($x =~ /^\.$/);$x =~ s/[\n\r]*//;push(@F, $x),$seen{$x}=1 unless (defined $seen{$x});}print join(":",@F);'`
 ac_cv_env_path=$ENV_PATH
 AC_SUBST(ENV_PATH)
-
 
 AC_CONFIG_FILES(Makefile)
 AC_CONFIG_FILES(bin/Makefile)

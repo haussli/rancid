@@ -604,7 +604,7 @@ sub DirSlotN {
 	# filter frequently changing files from IOX bootflash, hardiska,
 	# and nvram
 	if ($dev =~ /(bootflash|harddisk|nvram)/) {
-	    if (/(ce_switch.log|genstr_cont|temp_cont|temp_static_data|uptime_cont|volt_cont)\s*$/) {
+	    if (/(ce_switch.log|errmsg_cont|genstr_cont|temp_cont|temp_static_data|uptime_cont|volt_cont)\s*$/) {
 		# change
 		# 57          -rw-  23100       <no date>              volt_cont
 		# 614788      drwx  4096        Fri Aug 20 12:06:25 2010  temp_cont

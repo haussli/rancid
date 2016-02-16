@@ -65,7 +65,7 @@ TOP: while(<$INPUT>) {
 		last TOP;
 	    }
 	    if (! defined(&{$commands{$cmd}})) {
-		printf(STDERR "$host: undefined function - \"%s\"\n",  
+		printf(STDERR "$host: undefined function - \"%s\"\n",
 		       $commands{$cmd});
 		$clean_run = 0;
 		last TOP;
@@ -175,6 +175,25 @@ sub ShowFlash {
     }
     ProcessHistory("","","","!\n");
     return;
+}
+
+# This routine parses "show media *"
+sub ShowMedia {
+    my($INPUT, $OUTPUT) = @_;
+    print STDERR "    In ShowMedia: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	return(1) if (/Invalid input (->|detected)/);
+	return(1) if (/^\s+\^$/);		# edgeiron invalid command
+	next if (/^\s*$/);
+	next if (/:\s*$/);
+
+	ProcessHistory("MEDIA","","","!Media: $_");
+    }
+    ProcessHistory("","","","!\n");
+    return(0);
 }
 
 # This routine parses "show module"

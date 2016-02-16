@@ -306,6 +306,8 @@ foundry;inloop;foundry::inloop
 foundry;command;foundry::ShowVersion;show version
 foundry;command;foundry::ShowChassis;show chassis
 foundry;command;foundry::ShowModule;show module
+foundry;command;foundry::ShowMedia;show media
+foundry;command;foundry::ShowMedia;show media validation
 foundry;command;foundry::ShowFlash;show flash
 foundry;command;foundry::WriteTerm;write term
 foundry;command;foundry::WriteTerm;show running-config

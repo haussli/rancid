@@ -99,12 +99,12 @@ mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
 CONFIG_CLEAN_FILES = login_top control_rancid a10login agmrancid \
 	alogin arancid anlogin arrancid avologin avorancid blogin \
-	brancid cat5rancid clogin complogin cssrancid dllogin elogin \
-	erancid f5rancid f10rancid flogin fnlogin fnrancid hlogin \
-	hrancid htlogin htrancid jlogin jerancid mrancid mrvlogin \
-	mtrancid mtlogin nlogin nrancid nslogin nsrancid panlogin \
-	prancid rblogin rivlogin rivrancid rrancid rtftpcopy srancid \
-	tlogin trancid xilogin xirancid xrancid wlogin zrancid
+	brancid brlogin cat5rancid clogin complogin cssrancid dllogin \
+	elogin erancid f5rancid f10rancid flogin fnlogin fnrancid \
+	hlogin hrancid htlogin htrancid jlogin jerancid mrancid \
+	mrvlogin mtrancid mtlogin nlogin nrancid nslogin nsrancid \
+	panlogin prancid rblogin rivlogin rivrancid rrancid rtftpcopy \
+	srancid tlogin trancid xilogin xirancid xrancid wlogin zrancid
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -201,10 +201,11 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/a10login.in \
 	$(srcdir)/anlogin.in $(srcdir)/arancid.in \
 	$(srcdir)/arrancid.in $(srcdir)/avologin.in \
 	$(srcdir)/avorancid.in $(srcdir)/blogin.in \
-	$(srcdir)/brancid.in $(srcdir)/cat5rancid.in \
-	$(srcdir)/clogin.in $(srcdir)/complogin.in \
-	$(srcdir)/control_rancid.in $(srcdir)/cssrancid.in \
-	$(srcdir)/dllogin.in $(srcdir)/elogin.in $(srcdir)/erancid.in \
+	$(srcdir)/brancid.in $(srcdir)/brlogin.in \
+	$(srcdir)/cat5rancid.in $(srcdir)/clogin.in \
+	$(srcdir)/complogin.in $(srcdir)/control_rancid.in \
+	$(srcdir)/cssrancid.in $(srcdir)/dllogin.in \
+	$(srcdir)/elogin.in $(srcdir)/erancid.in \
 	$(srcdir)/f10rancid.in $(srcdir)/f5rancid.in \
 	$(srcdir)/flogin.in $(srcdir)/fnlogin.in $(srcdir)/fnrancid.in \
 	$(srcdir)/hlogin.in $(srcdir)/hrancid.in $(srcdir)/htlogin.in \
@@ -351,14 +352,14 @@ top_srcdir = @top_srcdir@
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS = foreign
 bin_SCRIPTS = a10login alogin agmrancid anlogin arancid arrancid \
-	avologin avorancid blogin brancid cat5rancid clogin complogin \
-	control_rancid cssrancid dllogin elogin erancid f5rancid \
-	f10rancid flogin fnlogin fnrancid hlogin hrancid htlogin \
-	htrancid jerancid jlogin mrancid mrvlogin mtlogin mtrancid \
-	nlogin nrancid nslogin nsrancid panlogin plogin rancid rblogin \
-	rivlogin rivrancid rrancid rtftpcopy srancid tlogin trancid \
-	wlogin xilogin xirancid xrancid zrancid lg.cgi lgform.cgi \
-	rancid-cvs rancid-fe rancid-run
+	avologin avorancid blogin brancid brlogin cat5rancid clogin \
+	complogin control_rancid cssrancid dllogin elogin erancid \
+	f5rancid f10rancid flogin fnlogin fnrancid hlogin hrancid \
+	htlogin htrancid jerancid jlogin mrancid mrvlogin mtlogin \
+	mtrancid nlogin nrancid nslogin nsrancid panlogin plogin \
+	rancid rblogin rivlogin rivrancid rrancid rtftpcopy srancid \
+	tlogin trancid wlogin xilogin xirancid xrancid zrancid lg.cgi \
+	lgform.cgi rancid-cvs rancid-fe rancid-run
 # XXX hack for the rancid to get pkglibdir, see corresponding XXX below
 bin_in = plogin.in rancid.in
 EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in \
@@ -460,6 +461,8 @@ avorancid: $(top_builddir)/config.status $(srcdir)/avorancid.in
 blogin: $(top_builddir)/config.status $(srcdir)/blogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 brancid: $(top_builddir)/config.status $(srcdir)/brancid.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+brlogin: $(top_builddir)/config.status $(srcdir)/brlogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 cat5rancid: $(top_builddir)/config.status $(srcdir)/cat5rancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

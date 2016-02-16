@@ -57,6 +57,22 @@ avocent;login;avologin
 baynet;script;brancid
 baynet;login;blogin
 #
+# Brocade
+#XXX brocade;script;rancid -t brocade
+brocade;login;brlogin
+#XXX brocade;module; XXX
+#XXX brocade;inloop; XXX
+#XXX brocade;command;XXX::ChassisShow;chassisShow
+#XXX brocade;command;XXX::FirmwareShow;firmwareShow
+#XXX brocade;command;XXX::FirmwareShow;version
+#XXX brocade;command;XXX::FirmwareShow;zoneshow
+#XXX brocade;command;XXX::FirmwareShow;portcfgshow
+#XXX brocade;command;XXX::Fosconfig;fosConfig --show
+#XXX brocade;command;XXX::IpAddrShow;ipAddrShow
+#XXX brocade;command;XXX::LicenseShow;licenseShow
+#XXX brocade;command;XXX::DomainsShow;domainsShow
+#XXX brocade;command;XXX::ConfigShow;configShow
+#
 # Ciena Waveserver (XXX WiP)
 ciena-ws;script;rancid -t ciena-ws
 ciena-ws;login;hlogin

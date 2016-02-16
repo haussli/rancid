@@ -6056,7 +6056,6 @@ ENV_PATH=`echo $ENV_PATH | $PERLV_PATH -e 'foreach $x(split(":",<>)){next unless
 ac_cv_env_path=$ENV_PATH
 
 
-
 ac_config_files="$ac_config_files Makefile"
 
 ac_config_files="$ac_config_files bin/Makefile"
@@ -6104,6 +6103,8 @@ ac_config_files="$ac_config_files bin/arrancid"
 ac_config_files="$ac_config_files bin/avologin bin/avorancid"
 
 ac_config_files="$ac_config_files bin/blogin bin/brancid"
+
+ac_config_files="$ac_config_files bin/brlogin"
 
 ac_config_files="$ac_config_files bin/cat5rancid bin/clogin"
 
@@ -6925,6 +6926,7 @@ do
     "bin/avorancid") CONFIG_FILES="$CONFIG_FILES bin/avorancid" ;;
     "bin/blogin") CONFIG_FILES="$CONFIG_FILES bin/blogin" ;;
     "bin/brancid") CONFIG_FILES="$CONFIG_FILES bin/brancid" ;;
+    "bin/brlogin") CONFIG_FILES="$CONFIG_FILES bin/brlogin" ;;
     "bin/cat5rancid") CONFIG_FILES="$CONFIG_FILES bin/cat5rancid" ;;
     "bin/clogin") CONFIG_FILES="$CONFIG_FILES bin/clogin" ;;
     "bin/complogin") CONFIG_FILES="$CONFIG_FILES bin/complogin" ;;
@@ -7705,6 +7707,7 @@ $as_echo X"$file" |
     "bin/avorancid":F) chmod a+x $ac_file ;;
     "bin/blogin":F) chmod a+x $ac_file ;;
     "bin/brancid":F) chmod a+x $ac_file ;;
+    "bin/brlogin":F) chmod a+x $ac_file ;;
     "bin/cat5rancid":F) chmod a+x $ac_file ;;
     "bin/clogin":F) chmod a+x $ac_file ;;
     "bin/complogin":F) chmod a+x $ac_file ;;

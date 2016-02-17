@@ -1,6 +1,6 @@
 #! @PERLV_PATH@
 ##
-## $Id: xirancid.in 2246 2010-09-08 01:36:07Z heas $
+## $Id$
 ##
 ## @PACKAGE@ @VERSION@
 ## Copyright (c) @COPYYEARS@ by Terrapin Communications, Inc.

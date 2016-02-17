@@ -1,6 +1,6 @@
 #! @EXPECT_PATH@ --
 ##
-## $Id: clogin.in 3201 2015-11-05 00:48:01Z heas $
+## $Id$
 ##
 ## @PACKAGE@ @VERSION@
 @copyright@

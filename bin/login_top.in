@@ -144,6 +144,8 @@ for {set i 0} {$i < $argc} {incr i} {
 	    exit 0
 	# Enable Username
 	} -w* {
+	    # may not be supported by the script and may not be applicable to
+	    # the platform
 	    if {! [regexp .\[wW\](.+) $arg ignore enauser]} {
 		incr i
 		set enausername [lindex $argv $i]

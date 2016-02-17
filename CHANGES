@@ -1,4 +1,6 @@
 3.4.99
+	flogin: build with login_top
+
 	foundry.pm: add 'show media' and 'show media validation', tested on
 	Brocade ICX 6650 and Brocade CER 2024, but not available on pre-8
 	firmware - Chris Wopat

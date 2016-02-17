@@ -1,6 +1,6 @@
 #! @EXPECT_PATH@ --
 ##
-## $Id: fnlogin.in,v 1.51 2009/04/16 21:22:58 heas Exp $
+## $Id$
 ## patched to accomplish fortinet from nlogin
 ## by: Daniel G. Epstein <dan at rootlike.com>
 ## adapted by: Diego Ercolani <diego.ercolani at ssis.sm>

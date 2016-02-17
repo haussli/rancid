@@ -1,6 +1,6 @@
 #! @EXPECT_PATH@ --
 ##
-## $Id: xilogin.in 2255 2010-10-06 20:31:24Z heas $
+## $Id$
 ##
 ## @PACKAGE@ @VERSION@
 @copyright@

@@ -365,7 +365,6 @@ LINE:		while (<$INPUT>) {
 		$type = "12400";
 	    } elsif ($proc =~ /AIR-L?AP1[12][1234][[1234]/ ) {
 		$type="Aironet";
-		$device="wireless access point";
 	    } else {
 		$type = $proc;
 	    }

@@ -363,6 +363,9 @@ LINE:		while (<$INPUT>) {
 		$type = "12000";
 	    } elsif ($proc =~ /1240[48]\/(GRP|PRP)/ || $proc =~ /1241[06]\/(GRP|PRP)/) {
 		$type = "12400";
+	    } elsif ($proc =~ /AIR-L?AP1[12][1234][[1234]/ ) {
+		$type="Aironet";
+		$device="wireless access point";
 	    } else {
 		$type = $proc;
 	    }
@@ -1932,6 +1935,11 @@ sub ShowVLAN {
 	}
 
 	next if (/total.*packets.*(input|output)/i);
+
+	# Aironet AP's traffic counters
+	next if (/\d+\s+bytes.*(input|output)/i);
+	next if (/^\s*Other\s+\d+\s+\d+\s*$/i);
+	next if (/^\s*Bridging\s+Bridge.Group.\d+\s+\d+\s+\d+\s*$/i);
 
 	ProcessHistory("COMMENTS","keysort","IO","!VLAN: $_");
     }

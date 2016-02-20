@@ -1,4 +1,7 @@
 3.4.99
+	ios.pm: recognize aironet in ShowVersion & filter counters in ShowVlan -
+	Howard Jones
+
 	rancid-cvs: do not set git config --global, local only
 
 	flogin: build with login_top

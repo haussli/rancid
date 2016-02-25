@@ -436,7 +436,7 @@ for router in `cut -d\; -f1 ../routers.up` ; do
 	fi
 	;;
     svn )
-	if [ ! -e $router ] ; then
+	if [ ! -f $router ] ; then
 	    touch $router
 	fi
 	svn status $router | grep '^?' > /dev/null 2>&1
@@ -447,7 +447,7 @@ for router in `cut -d\; -f1 ../routers.up` ; do
 	fi
         ;;
     git )
-	if [ ! -e $router ] ; then
+	if [ ! -f $router ] ; then
 	    touch $router
 	fi
 	git status $router | grep '^?' > /dev/null 2>&1

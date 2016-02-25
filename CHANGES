@@ -1,4 +1,6 @@
 3.4.99
+	control_rancid: test -e -> -f for old shells
+
 	hpuifilter: missing include for solaris
 
 	ios.pm: recognize aironet in ShowVersion & filter counters in ShowVlan -

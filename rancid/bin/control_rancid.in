@@ -146,7 +146,7 @@ if [ ! -d $DIR ] ; then
     exit 1
 fi
 cd $DIR
-if [ -e "rancid.conf" ] ; then
+if [ -f "rancid.conf" ] ; then
     . ./rancid.conf
 fi
 
@@ -193,7 +193,7 @@ git )
 *.new
 *.raw
 EOF
-    if [ -e .gitignore.locale ] ; then
+    if [ -f .gitignore.locale ] ; then
 	cat .gitignore.locale >> .gitignore
     fi
     ;;
@@ -211,7 +211,7 @@ routers.single
 routers.up
 runcount
 EOF
-    if [ -e .cvsignore.locale ] ; then
+    if [ -f .cvsignore.locale ] ; then
 	cat .cvsignore.locale >> .cvsignore
     fi
     if [ ! -f configs/.cvsignore ] ; then
@@ -224,7 +224,7 @@ EOF
 *.new
 *.raw
 EOF2
-    if [ -e configs/.cvsignore.locale ] ; then
+    if [ -f configs/.cvsignore.locale ] ; then
 	cat configs/.cvsignore.locale >> configs/.cvsignore
     fi
     if [ $RCSSYS = svn ] ; then
@@ -628,7 +628,7 @@ else
 fi
 
 # working-directory maintenance & cleanup every 100 runs
-if [ -e "runcount" ] ; then
+if [ -f "runcount" ] ; then
     read RUNCOUNT < ./runcount
     RUNCOUNT=`expr $RUNCOUNT + 1`
 else

@@ -119,7 +119,7 @@ void		arg_free(char ***);
 int		arg_mash(char **, char **);
 int		arg_replace(char **, char **, char **, char ***);
 #ifndef HAVE_ASPRINTF
-int		asprintf(char **, char const *, ...)
+int		asprintf(char **, char const *, ...);
 #endif
 int		dispatch_cmd(char **, char **);
 int		execcmd(child *, char **);

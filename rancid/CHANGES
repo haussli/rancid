@@ -1,4 +1,6 @@
 3.4.99
+	hpuifilter: missing include for solaris
+
 	ios.pm: recognize aironet in ShowVersion & filter counters in ShowVlan -
 	Howard Jones
 

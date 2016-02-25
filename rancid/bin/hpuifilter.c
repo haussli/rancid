@@ -107,6 +107,7 @@
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <termios.h>
+#include <wait.h>
 #if HAVE_UTIL_H
 # include <util.h>
 #elif HAVE_LIBUTIL_H

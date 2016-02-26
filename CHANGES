@@ -1,4 +1,6 @@
 3.4.99
+	plogin: wrong variable used in error msg - randy bush
+
 	control_rancid: test -e -> -f for old shells
 
 	hpuifilter: missing include for solaris

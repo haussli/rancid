@@ -142,5 +142,5 @@ if (! defined($lscript)) {
     die "login script not defined for device type $rancid::devtype\n";
 }
 exec($lscript . " $cmd") ||
-printf(STDERR "exec($script) failed router manufacturer $devtype: $!\n");
+printf(STDERR "exec($lscript) failed router manufacturer $devtype: $!\n");
 exit(-1);

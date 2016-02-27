@@ -1,5 +1,6 @@
 3.4.99
-	ios.pm: trim trailing WS is show license, formatting problem on old ASAs
+	ios.pm: trim trailing WS is show activation key, formatting problem on
+	old ASAs
 
 	plogin: wrong variable used in error msg - randy bush
 

@@ -458,6 +458,7 @@ sub ShowActivationKey {
 	    while (<$INPUT>) {
 		tr/\015//d;
 		goto OUT if (/^$prompt/);	# should not occur
+		s/\s*$//;			# trim trailing WS
 		# the pager can not be disabled per-session on the PIX
 		if (/^(<-+ More -+>)/) {
 		    my($len) = length($1);

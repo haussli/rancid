@@ -541,8 +541,15 @@ sub ShowLicense {
 	next if (/^\s+\^$/);
 	return(0) if (/% no licensable udi in the system/i);	# show udi on old box
 	return(0) if (/% license not supported on this device/i);# show lic on old box
+	return(0) if (/% incomplete command/i);                 # show lic on old XE box
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(invalid (input|command) detected|type help or )/i);
+
+	next if (/period used:/i);
+	if (/(^\s*period left:\s*)\d+/i) {
+	    ProcessHistory("COMMENTS","keysort","LICENSE","! $1<limited>\n");
+	    next;
+	}
 
 	ProcessHistory("COMMENTS","keysort","LICENSE","! $_");
     }

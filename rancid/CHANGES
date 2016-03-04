@@ -1,4 +1,6 @@
 3.4.99
+	iosxr.pm: ASR show version chassis line changed - tip top work cisco
+
 	ios.pm: strip license period from 2900
 
 	ios.pm: show license is an incomplete cmd on older XE images

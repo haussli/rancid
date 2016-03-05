@@ -170,7 +170,9 @@ do
 	    ;;
 	git )
 	    git init --bare $CVSROOT/$GROUP
+	    echo "$GROUP RANCiD repository" > $CVSROOT/$GROUP/description
 	    git clone $CVSROOT/$GROUP .
+	    echo "$GROUP RANCiD repository" > .git/description
 	    git config user.name RANCiD
 	    git config user.email $USER$MAILDOMAIN
 	    git config push.default current

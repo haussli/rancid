@@ -1,4 +1,6 @@
 3.4.99
+	jlogin: missing catch for wait in login()
+
 	rancid-cvs: initialize .git/description
 
 	iosxr.pm: ASR show version chassis line changed - tip top work cisco

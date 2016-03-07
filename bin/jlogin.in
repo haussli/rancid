@@ -100,16 +100,16 @@ proc login { router user passwd cmethod cyphertype identfile} {
 		   send_user "\nError: Connection Refused ($prog)\n"; return 1
 		}
 	    }
-            eof { send_user "\nError: Couldn't login\n"; wait; return 1
+            eof { send_user "\nError: Couldn't login\n"; catch {wait}; return 1
 	    } -nocase "unknown host\r\n" {
 		catch {close}; catch {wait};
-		send_user "\nError: Unknown host\n"; wait; return 1
+		send_user "\nError: Unknown host\n"; catch {wait}; return 1
 	    } "Host is unreachable" {
 		catch {close}; catch {wait};
-		send_user "\nError: Host Unreachable!\n"; wait; return 1
+		send_user "\nError: Host Unreachable!\n"; catch {wait}; return 1
 	    } "No address associated with name" {
 		catch {close}; catch {wait};
-		send_user "\nError: Unknown host\n"; wait; return 1
+		send_user "\nError: Unknown host\n"; catch {wait}; return 1
 	    }
 	    "Login incorrect" {
 			  send_user "\nError: Check your password for $router\n"

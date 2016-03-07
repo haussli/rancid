@@ -110,7 +110,7 @@ sub ShowChassisClocks {
 	next if (/^system (shutdown message from|going down )/i);
 	next if (/^\{(master|backup)(:\d+)?\}/);
 
-	/error: the chassis subsystem is not running/ && return(-1);
+	/error: the chassis(-control)? subsystem is not r/ && return(-1);
 	/Couldn\'t initiate connection/ && return(-1);
 	/Unrecognized command/ && return(1);
 	/command is not valid/ && return(1);
@@ -154,7 +154,7 @@ sub ShowChassisEnvironment {
 	next if (/^system (shutdown message from|going down )/i);
 	next if (/^\{(master|backup)(:\d+)?\}/);
 
-	/error: the chassis subsystem is not running/ && return(-1);
+	/error: the chassis(-control)? subsystem is not r/ && return(-1);
 	/Couldn\'t initiate connection/ && return(-1);
 	/Unrecognized command/ && return(1);
 	/command is not valid/ && return(1);
@@ -191,7 +191,7 @@ sub ShowChassisFirmware {
 	next if (/^system (shutdown message from|going down )/i);
 	next if (/^\{(master|backup)(:\d+)?\}/);
 
-	/error: the chassis subsystem is not running/ && return(-1);
+	/error: the chassis(-control)? subsystem is not r/ && return(-1);
 	/Couldn\'t initiate connection/ && return(-1);
 	/Unrecognized command/ && return(1);
 	/command is not valid/ && return(1);
@@ -217,7 +217,7 @@ sub ShowChassisFpcDetail {
 	next if (/^system (shutdown message from|going down )/i);
 	next if (/^\{(master|backup)(:\d+)?\}/);
 
-	/error: the chassis subsystem is not running/ && return(-1);
+	/error: the chassis(-control)? subsystem is not r/ && return(-1);
 	/Couldn\'t initiate connection/ && return(-1);
 	/Unrecognized command/ && return(1);
 	/command is not valid/ && return(1);
@@ -246,7 +246,7 @@ sub ShowChassisHardware {
 	next if (/^system (shutdown message from|going down )/i);
 	next if (/^\{(master|backup)(:\d+)?\}/);
 
-	/error: the chassis subsystem is not running/ && return(-1);
+	/error: the chassis(-control)? subsystem is not r/ && return(-1);
 	/Couldn\'t initiate connection/ && return(-1);
 	/Unrecognized command/ && return(1);
 	/command is not valid/ && return(1);
@@ -272,7 +272,7 @@ sub ShowChassisRoutingEngine {
 	next if (/^system (shutdown message from|going down )/i);
 	next if (/^\{(master|backup)(:\d+)?\}/);
 
-	/error: the chassis subsystem is not running/ && return(-1);
+	/error: the chassis(-control)? subsystem is not r/ && return(-1);
 	/Couldn\'t initiate connection/ && return(-1);
 	/Unrecognized command/ && return(1);
 	/command is not valid/ && return(1);
@@ -307,7 +307,7 @@ sub ShowChassisSCB {
 	next if (/^\{(master|backup)(:\d+)?\}/);
 
 	return(0) if ($junos::ShowChassisSCB);
-	/error: the chassis subsystem is not running/ && return(-1);
+	/error: the chassis(-control)? subsystem is not r/ && return(-1);
 	/Couldn\'t initiate connection/ && return(-1);
 	/Unrecognized command/ && return(1);
 	/command is not valid/ && return(1);

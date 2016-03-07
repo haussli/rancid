@@ -1,4 +1,9 @@
 3.4.99
+	junos.pm: chassis command error changed/differs in vMX:
+		error: the chassis subsystem is not running
+		to
+		error: the chassis-control subsystem is not responding to ...
+
 	jlogin: missing catch for wait in login()
 
 	rancid-cvs: initialize .git/description

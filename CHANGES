@@ -1,4 +1,6 @@
 3.4.99
+	flogin: merge ssh key code from jlogin
+
 	junos.pm: chassis command error changed/differs in vMX:
 		error: the chassis subsystem is not running
 		to

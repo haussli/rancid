@@ -27,8 +27,8 @@ set send_human {.2 .1 .4 .2 1}
 
 # Log into the router.
 # returns: 0 on success, 1 on failure
-proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
-    global spawn_id in_proc do_command do_script
+proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile } {
+    global spawn_id in_proc do_command do_script passphrase
     global prompt u_prompt p_prompt e_prompt sshcmd
     set in_proc 1
     set uprompt_seen 0
@@ -48,11 +48,15 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 		send_user "\nError: telnet failed: $reason\n"
 		return 1
 	    }
-	} elseif ![string compare $prog "ssh"] {
+	} elseif [string match "ssh*" $prog] {
+	    # ssh to the router & try to login with or without an identfile.
 	    regexp {ssh(:([^[:space:]]+))*} $prog methcmd suffix port
 	    set cmd $sshcmd
 	    if {"$port" != ""} {
 		set cmd "$cmd -p $port"
+	    }
+	    if {"$identfile" != ""} {
+		set cmd "$cmd -i $identfile"
 	    }
 	    set retval [ catch {eval spawn [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason ]
 	    if { $retval } {
@@ -171,6 +175,12 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 					  # ssh pwd prompt
 					  send -h -- "$userpswd\r"
 					  exp_continue
+				}
+	-re "Enter passphrase.*: " {
+				  # sleep briefly to allow time for stty -echo
+				  sleep .3
+				  send -- "$passphrase\r"
+				  exp_continue
 				}
 	-re "$u_prompt"		{
 				  send -h -- "$user\r"
@@ -386,6 +396,19 @@ foreach router [lrange $argv $i end] {
 	set e_prompt [join [lindex $e_prompt 0] ""]
     }
 
+    # Figure out identity file to use
+    set identfile [join [lindex [find identity $router] 0] ""]
+
+    # Figure out passphrase to use
+    if {[info exists avpassphrase]} {
+	set passphrase $avpassphrase
+    } else {
+	set passphrase [join [lindex [find passphrase $router] 0] ""]
+    }
+    if { ! [string length "$passphrase"]} {
+	set passphrase $passwd
+    }
+
     # Figure out cypher tpye
     if {[info exists cypher]} {
       # command line cypher type
@@ -404,7 +427,7 @@ foreach router [lrange $argv $i end] {
     if { "$sshcmd" == "" } { set sshcmd {ssh} }
 
     # Login to the router
-    if {[login $router $ruser $userpswd $passwd $enapasswd $cmethod $cyphertype]} {
+    if {[login $router $ruser $userpswd $passwd $enapasswd $cmethod $cyphertype $identfile ]} {
 	incr exitval
 	continue
     }

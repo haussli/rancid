@@ -5,6 +5,7 @@ adtran.pm
 arbor.pm
 ciscowlc.pm
 dell.pm
+edgemax.pm
 eos.pm
 foundry.pm
 ios.pm

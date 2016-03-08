@@ -1,4 +1,6 @@
 3.4.99
+	edgemax.pm: https://www.ubnt.com/edgemax/
+
 	flogin: merge ssh key code from jlogin
 
 	junos.pm: chassis command error changed/differs in vMX:

@@ -277,6 +277,19 @@ dell;inloop;dell::inloop
 dell;command;dell::GetSystem;show switch
 dell;command;dell::GetConf;show config current_config
 #
+# UBNT Edgemax
+edgemax;script;rancid -t edgemax
+edgemax;login;clogin
+edgemax;module;edgemax
+edgemax;inloop;edgemax::inloop
+edgemax;command;edgemax::ShowVersion;show version
+edgemax;command;edgemax::ShowHardware;show hardware
+edgemax;command;edgemax::ShowBootvar;show bootvar
+edgemax;command;edgemax::ShowEnvironment;show environment
+edgemax;command;edgemax::ShowDebug;show debug
+edgemax;command;edgemax::DirSlotN;dir
+edgemax;command;edgemax::WriteTerm;show running-config
+#
 enterasys;script;rivrancid
 enterasys;login;rivlogin
 #

@@ -2379,7 +2379,7 @@ TOP:
     }
     # The ContentEngine lacks a definitive "end of config" marker.  If we
     # know that it is a CE, SAN, or NXOS and we have seen at least 5 lines
-    # of write term output, we can be reasonably sure that we got the config.
+    # of write term output, we can be reasonably sure that we have the config.
     if (($type eq "CE" || $type eq "SAN" || $type eq "NXOS" ) && $linecnt > 5) {
 	$found_end = 1;
 	return(0);

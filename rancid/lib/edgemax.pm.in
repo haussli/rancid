@@ -197,10 +197,17 @@ sub ShowEnvironment {
 	    }
 	    next;
 	}
+	/^(temperature status:.*)/i &&
+	    ProcessHistory("ENV","","","!$_!\n") && next;
+
 	next if (/^fan speed level:/i);
-	s/^(unit\s+power supply\s+description\s+type\s+state)/$1/i;
-	s/^(\w+\s+\w+\s+\w+\s+\w+\s+\w-+)/$1/;
-	
+
+	# trim PS info from:
+	# Unit     Power supply   Description        Type          State           Consumed(W)   Voltage(V)  Current(mA)
+	# ----     ------------   ----------------   ----------    -------------- ------------ ------------ ------------
+	# 1        1              PS-1               Fixed         Powering                N/A          N/A          N/A
+	s/^(\S+\s+(\S+ )?\S+\s+\S+\s+\S+\s+\S+).*/$1/;
+
 	ProcessHistory("ENV","","","!$_");
     }
     ProcessHistory("","","","!\n");

@@ -197,8 +197,8 @@ sub ShowEnvironment {
 	    }
 	    next;
 	}
-	next if (/^fan speed level :/i);
-	s/^(unit\s+power supply\s+description\s+type\s+state)/$1/;
+	next if (/^fan speed level:/i);
+	s/^(unit\s+power supply\s+description\s+type\s+state)/$1/i;
 	s/^(\w+\s+\w+\s+\w+\s+\w+\s+\w-+)/$1/;
 	
 	ProcessHistory("ENV","","","!$_");
@@ -242,9 +242,9 @@ sub WriteTerm {
 	next if (/^\s*$/);
 	$linecnt++;
 
-	/^current configuration\s*:/i && next;
-	/^system (description|software|up\s?time)/i && next;
-	/^current sntp synch/i && next;
+	/^!current configuration\s*:/i && next;
+	/^!system (description|software|up\s?time)/i && next;
+	/^!current sntp synch/i && next;
 #	/building configuration\.+\s*/i && next;
 #	/building running-config, please wait/i && next;	# edgeiron
 #	/^$/ && next;						# blank lines

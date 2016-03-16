@@ -309,8 +309,8 @@ sub WriteTerm {
 #	    ProcessHistory("","","","! $1<removed>\n");
 #	    next;
 #	}
-	# delete user password
-	if (/^(username \w+ password) \w+ (level .*$) / && $filter_pwds >= 2) {
+	# filter user password
+	if (/^(username \S+ password) \S+ (level .*)$/ && $filter_pwds >= 2) {
 	    ProcessHistory("","","","!$1 <removed> $2\n");
 	    next;
 	}

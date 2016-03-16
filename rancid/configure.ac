@@ -299,9 +299,9 @@ fi
 AC_SUBST(EXPECT_PATH)
 
 # look for lockfile utility
-AC_PATH_PROG(MKTEMP_PATH,mktemp,no)
-if test $MKTEMP_PATH = no; then
-    unset ac_cv_path_MKTEMP_PATH
+AC_PATH_PROG(MKTEMP,mktemp,no)
+if test $MKTEMP = no; then
+    unset ac_cv_path_MKTEMP
     AC_MSG_ERROR([can't locate a mktemp(1).])
 fi
 AC_SUBST(MKTEMP)

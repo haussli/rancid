@@ -22,7 +22,7 @@ bin_SCRIPTS = a10login alogin agmrancid anlogin arancid arrancid \
 	rivrancid rrancid rtftpcopy srancid tlogin trancid wlogin \
 	xilogin xirancid xrancid zrancid
 # XXX hack for the rancid to get pkglibdir, see corresponding XXX below
-bin_in = plogin.in rancid.in
+bin_in = plogin.in rancid.in srancid.in
 
 bin_SCRIPTS += lg.cgi lgform.cgi rancid-cvs rancid-fe rancid-run
 EXTRA_DIST= lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in \

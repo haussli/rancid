@@ -1,4 +1,7 @@
 3.4.99
+	srancid: Add 'terminal dump' cmd for Dell PowerConnect 3524/3548 -
+	Wellie W. Chao
+
 	iosxr.pm: fail on temp error in admin show install
 
 	configure: fix mktemp variable inconsistency - Lee

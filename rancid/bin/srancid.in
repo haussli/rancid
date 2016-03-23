@@ -55,8 +55,17 @@
 #	DELL PowerConnect 62xx
 #	DELL 34xx (partially; configuration is incomplete)
 #
+use 5.010;
+no warnings 'uninitialized';
+use Exporter;
 use Getopt::Std;
 getopts('dflt:CV');
+BEGIN {
+    push(@INC, "@pkglibdir@");
+}
+use rancid;
+our @ISA = qw(Exporter rancid);
+
 if ($opt_V) {
     print "@PACKAGE@ @VERSION@\n";
     exit(0);
@@ -372,6 +381,7 @@ sub WriteTerm {
 
 # Main
 @commandtable = (
+	{'terminal datadump'		=> 'RunCommand'},
 	{'show system'			=> 'ShowSys'},
 	{'show version'			=> 'ShowVer'},
 	{'dir'				=> 'Dir'},

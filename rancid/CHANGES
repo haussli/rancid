@@ -1,4 +1,6 @@
 3.4.99
+	iosxr.pm: fail on temp error in admin show install
+
 	configure: fix mktemp variable inconsistency - Lee
 
 	edgemax.pm: https://www.ubnt.com/edgemax/

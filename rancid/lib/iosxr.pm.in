@@ -731,6 +731,7 @@ sub ShowInstallSummary {
 	return(1) if (/Ambiguous command/i);
 	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
 	return(-1) if (/command authorization failed/i);
+	return(-1) if (/inventory summary cannot be output/i);	# temp error
 
 	# skip blank lines
 	next if (/^\s*$/);

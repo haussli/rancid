@@ -104,7 +104,7 @@ CONFIG_CLEAN_FILES = login_top control_rancid a10login agmrancid \
 	hlogin hrancid htlogin htrancid jlogin jerancid mrancid \
 	mrvlogin mtrancid mtlogin nlogin nrancid nslogin nsrancid \
 	panlogin prancid rblogin rivlogin rivrancid rrancid rtftpcopy \
-	srancid tlogin trancid xilogin xirancid xrancid wlogin zrancid
+	tlogin trancid xilogin xirancid xrancid wlogin zrancid
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -218,8 +218,8 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/a10login.in \
 	$(srcdir)/prancid.in $(srcdir)/rblogin.in \
 	$(srcdir)/rivlogin.in $(srcdir)/rivrancid.in \
 	$(srcdir)/rrancid.in $(srcdir)/rtftpcopy.in \
-	$(srcdir)/srancid.in $(srcdir)/tlogin.in $(srcdir)/trancid.in \
-	$(srcdir)/wlogin.in $(srcdir)/xilogin.in $(srcdir)/xirancid.in \
+	$(srcdir)/tlogin.in $(srcdir)/trancid.in $(srcdir)/wlogin.in \
+	$(srcdir)/xilogin.in $(srcdir)/xirancid.in \
 	$(srcdir)/xrancid.in $(srcdir)/zrancid.in \
 	$(top_srcdir)/depcomp $(top_srcdir)/mkinstalldirs
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -365,7 +365,9 @@ EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in \
 	$(bin_in) login_top.in
 
 #dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
-CLEANFILES = lg.cgi lgform.cgi plogin rancid rancid-cvs rancid-fe rancid-run
+CLEANFILES = lg.cgi lgform.cgi plogin rancid rancid-cvs rancid-fe rancid-run \
+	srancid
+
 #CLEANFILES= $(bin_SCRIPTS)
 hpuifilter_SOURCES = hpuifilter.c
 par_SOURCES = par.c
@@ -528,8 +530,6 @@ rivrancid: $(top_builddir)/config.status $(srcdir)/rivrancid.in
 rrancid: $(top_builddir)/config.status $(srcdir)/rrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 rtftpcopy: $(top_builddir)/config.status $(srcdir)/rtftpcopy.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-srancid: $(top_builddir)/config.status $(srcdir)/srancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 tlogin: $(top_builddir)/config.status $(srcdir)/tlogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

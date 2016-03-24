@@ -458,6 +458,7 @@ riverbed;command;rbt::WriteTerm;show configuration
 riverstone;script;rivrancid
 riverstone;login;rivlogin
 #
+# SMC and Dell PowerConnect 35xx
 smc;script;srancid
 smc;login;hlogin
 #

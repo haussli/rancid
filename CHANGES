@@ -1,4 +1,6 @@
 3.4.99
+	iosxr.pm: ShowInstallSummary() return error if active install operation
+
 	iosxr.pm: filter perpetually changing file aaa
 
 	srancid: Add 'terminal dump' cmd for Dell PowerConnect 3524/3548 -

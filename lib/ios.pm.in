@@ -2271,15 +2271,67 @@ TOP:
 	/^access-list\s+(\d\d\d)\s+(\S+)\s+(\S+)\s+any/ &&
 	    ProcessHistory("EACL $1 $2","$aclsort","0.0.0.0","$_") && next;
 	}
-	# order arp lists
-	/^arp\s+(\d+\.\d+\.\d+\.\d+)\s+/ &&
-	    ProcessHistory("ARP","$aclsort","$1","$_") && next;
 	if ($aclfilterseq) {
 	    /^ip(v6)? prefix-list\s+(\S+)\s+seq\s+(\d+)\s+(permit|deny)\s+(\S+)(.*)/
 		&& ProcessHistory("PACL $2 $4","$aclsort","$5",
 				  "ip$1 prefix-list $2 $4 $5$6\n")
 		&& next;
 	}
+	# sort ipv{4,6} access-lists
+	if ($aclfilterseq && /^ipv(4|6) access-list (\S+)\s*$/) {
+	    my($nlri, $key) = ($1, $2);
+	    my($seq, $cmd);
+	    ProcessHistory("ACL $nlri $key","","","$_");
+print STDERR "ACL $nlri $key\n";
+	    while (<$INPUT>) {
+		tr/\015//d;
+		last if (/^$prompt/ || /^\S/);
+		# ipv4 access-list name
+		#  remark NTP
+   		#  deny ipv4 host 224.0.1.1 any
+		#  deny ipv4 239.0.0.0 0.255.255.255 any
+		#  permit udp any eq 123 any
+		#  permit ipv4 nnn.nnn.nnn.nnn/nn any
+		#  permit nnn.nnn.nnn.nnn/nn
+		# ipv6 access-list name
+		#  permit ipv6 host 2001:nnnn::nnnn any
+		#  permit ipv6 2001:nnn::/nnn any
+		#  permit 2001:nnnn::/64 any
+		#  permit udp any eq 123 any
+		#
+		# line might begin with " sequence nnn permit ..."
+		s/^\s+(sequence (\d+)) / /;
+		my($seq) = $1;
+		my($cmd, $resid) = ($_ =~ /^\s+(\w+) (.+)/);
+		if ($cmd =~ /(permit|deny)/) {
+		    my($ip);
+		    my(@w) = ($resid =~ /(\S+) (\S+) (\S+\s)?(.+)/);
+		    for (my($i) = 0; $i < $#w; $i++) {
+			if ($w[$i] eq "any") {
+			    if ($nlri eq "ipv4") {
+				$ip = "255.255.255.255/32";
+			    } else {
+				$ip = "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff/128";
+			    }
+			    last;
+			} elsif ($w[$i] =~ /^[:0-9]/ ||
+				 $2[$i] =~ /^[a-fA-F]{1,4}:/) {
+			    $ip = $w[$i];
+			    $ip =~ s/\s+$//;		# trim trailing WS
+			    last;
+			}
+		    }
+		    ProcessHistory("ACL $nlri $key $cmd", "$aclsort", "$ip",
+				   " $cmd $resid\n");
+		} else {
+		    ProcessHistory("ACL $nlri $key $cmd", "", "",
+				   " $cmd $resid\n");
+		}
+	    }
+	}
+	# order arp lists
+	/^arp\s+(\d+\.\d+\.\d+\.\d+)\s+/ &&
+	    ProcessHistory("ARP","$aclsort","$1","$_") && next;
 	# order logging statements
 	/^logging (\d+\.\d+\.\d+\.\d+)/ &&
 	    ProcessHistory("LOGGING","ipsort","$1","$_") && next;

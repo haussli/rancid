@@ -532,7 +532,7 @@ sub ShowDetail {
 # This routine parses "show license" & "show license udi"
 sub ShowLicense {
     my($INPUT, $OUTPUT, $cmd) = @_;
-    print STDERR "    In ShowMTU: $_" if ($debug);
+    print STDERR "    In ShowLicense: $_" if ($debug);
 
     while (<$INPUT>) {
 	tr/\015//d;

@@ -2282,7 +2282,6 @@ TOP:
 	    my($nlri, $key) = ($1, $2);
 	    my($seq, $cmd);
 	    ProcessHistory("ACL $nlri $key","","","$_");
-print STDERR "ACL $nlri $key\n";
 	    while (<$INPUT>) {
 		tr/\015//d;
 		last if (/^$prompt/ || /^\S/);

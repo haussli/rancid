@@ -26,6 +26,7 @@ our $commandstr;			# command string for lscript -c
 our $cmds_regexp;			# command regex for matching input
 our $devtype;				# device type argument
 our $filter_commstr;			# SNMP community string filtering
+our $filter_osc;			# oscillating data filtering mode
 our $filter_pwds;			# password filtering mode
 our $aclsort;				# ACL sorting mode
 our $aclfilterseq;			# ACL sequence filtering mode
@@ -47,7 +48,7 @@ our @EXPORT = qw($VERSION $devtype $script $lscript @modules $inloop
 		@commandtable
 		%commands @commands $commandcnt
 		$commandstr $cmds_regexp
-		$filter_commstr $filter_pwds $aclsort $aclfilterseq
+		$filter_commstr $filter_osc $filter_pwds $aclsort $aclfilterseq
 		$log $debug $file $host $clean_run $found_end $timeo $prompt
 		rancidinit loadtype
 		ProcessHistory numerically keynsort keysort valsort numsort
@@ -100,6 +101,12 @@ sub rancidinit {
 	$filter_commstr = 1;
     } else {
 	$filter_commstr = 0;
+    }
+    # determine oscillating data filtering mode
+    if (defined($ENV{"FILTER_OSC"}) && $ENV{"FILTER_OSC"} =~ /no/i) {
+	$filter_osc = 0;
+    } else {
+	$filter_osc = 1;
     }
     # determine password filtering mode
     if (defined($ENV{"FILTER_PWDS"}) && $ENV{"FILTER_PWDS"} =~ /no/i) {

@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid.conf" "5" "9 December 2015"
+.TH "rancid.conf" "5" "3 April 2016"
 .SH NAME
 rancid.conf \- rancid environment configuration file
 .SH DESCRIPTION
@@ -81,6 +81,24 @@ The default is defined in control_rancid and only improves readability.
 Example: DIFFSCRIPT="sed -e '/^=/d' | expand"; export DIFFSCRIPT
 .\"
 .TP
+.B FILTER_OSC
+Determines if oscillating data such as keys, passwords, etc are filtered
+from configs.  The value may be "NO" or "YES".  The
+.B FILTER_PWDS
+variable may override this.
+.sp
+Default: YES
+.sp
+Note: a value of "NO" will most likely produce large repositories and
+frequent diff e-mail.  A value of "YES" is encouraged.
+.sp
+Note:
+.B FILTER_OSC
+does not currently affect the handling of SNMP community strings.  see
+.B NOCOMMSTR
+below.
+.\"
+.TP
 .B FILTER_PWDS
 Determines which passwords will be filtered from configs.  The value may be
 "NO", "YES", or "ALL" to filter none of the passwords, only those which are
@@ -97,8 +115,11 @@ does not affect the handling of SNMP community strings.  see
 .B NOCOMMSTR
 below.
 .sp
-Note: passwords whose value cycles and would produce erroneous diffs
-are always filtered (e.g.: Alteon passwords).
+Note: passwords whose value cycles (oscillates) and would produce erroneous
+diffs may be filtered (e.g.: Alteon passwords).
+See the
+.B FILTER_OSC
+variable.
 .\"
 .TP
 .B LIST_OF_GROUPS

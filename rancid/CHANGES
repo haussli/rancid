@@ -1,4 +1,7 @@
 3.4.99
+	rancid.conf: add variable FILTER_OSC to control filtering oscillating
+	data.  See rancid.conf(5).  This may not yet be applied in all places.
+
 	rancid: change logging of missed commands to preserve order to make it
 	easier for us to parse when providing support.  also, only log to stderr
 	and not just with -d.

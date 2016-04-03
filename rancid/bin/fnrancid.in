@@ -211,21 +211,21 @@ sub GetConf {
 	next if (/^#?conf_file_ver=/);
 
 	# filter cycling RSA private keys
-	if (/^\s*set private-key "-----BEGIN RSA PRIVATE KEY-----/) {
+	if (/^\s*set private-key "-----BEGIN (RSA|ENCRYPTED) PRIVATE KEY-----/) {
 	    ProcessHistory("","","","#$_");
 	    ProcessHistory("","","","# <removed>");
 	    while (<INPUT>) {
 		tr/\015//d;
 		last if (/$prompt/);
 
-		if (/^\s*-----END RSA PRIVATE KEY-----"/) {
+		if (/^\s*-----END (RSA|ENCRYPTED) PRIVATE KEY-----"/) {
 	    	    ProcessHistory("","","","#$_");
 		    last;
 		}
 	    }
 	}
 	# filter cycling password encryption
-	if (/^\s*(set [^\s]*)\s(enc\s[^\s]+)(.*)/i && $filter_pwds > 0 ) {
+	if (/^(\s*set \S*)\s(enc\s\S+)(.*)/i && $filter_pwds > 0 ) {
 	    ProcessHistory("ENC","","","#$1 ENC <removed> $3\n");
 	    next;
 	}

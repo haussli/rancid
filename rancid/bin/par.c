@@ -139,8 +139,6 @@ RETSIGTYPE	reapchild(int);
 int
 main(int argc, char **argv, char **envp)
 {
-    extern char		*optarg;
-    extern int		optind;
     time_t		t;
     int			i,
 			line;

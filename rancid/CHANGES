@@ -1,7 +1,7 @@
 3.4.99
-        rancid: change logging of missed commands to preserve order to make it
-        easier for us to parse when providing support.  also, only log to stderr
-        and not just with -d.
+	rancid: change logging of missed commands to preserve order to make it
+	easier for us to parse when providing support.  also, only log to stderr
+	and not just with -d.
 
 	fnrancid: filter new private key format and fix filtering of encryptd
 	passwords

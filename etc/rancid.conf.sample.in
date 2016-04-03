@@ -80,6 +80,11 @@ RCSSYS=@RCSSYS@; export RCSSYS
 # if NOCOMMSTR is set, snmp community strings will be stripped from the configs
 #NOCOMMSTR=YES; export NOCOMMSTR
 #
+# FILTER_OSC determines if oscillating data such as keys, passwords, etc are
+# filtered from configs by the value set (NO | YES).  FILTER_PWDS may override
+# this.  see rancid.conf(5).
+#FILTER_OSC=YES; export FILTER_OSC
+#
 # How many times failed collections are retried (for each run) before
 # giving up.  Minimum: 0
 #MAX_ROUNDS=4; export MAX_ROUNDS

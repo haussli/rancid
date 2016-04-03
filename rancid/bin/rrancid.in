@@ -346,13 +346,10 @@ select(OUTPUT);
 if ($debug) { $| = 1; }
 
 if ($file) {
-    print STDERR "opening file $host\n" if ($debug);
-    print STDOUT "opening file $host\n" if ($log);
+    print(STDERR "opening file $host\n") if ($debug || $log);
     open(INPUT,"<$host") || die "open failed for $host: $!\n";
 } else {
-    print STDERR "executing clogin -t $timeo -c\"$redback_cmds\" $host\n" if ($debug);
-    print STDOUT "executing clogin -t $timeo -c\"$redback_cmds\" $host\n" if ($log);
-
+    print(STDERR "executing clogin -t $timeo -c\"$redback_cmds\" $host\n") if ($debug || $log);
     if (defined($ENV{NOPIPE}) && $ENV{NOPIPE} =~ /^YES/i) {
 	system "clogin -t $timeo -c \"$redback_cmds\" $host </dev/null > $host.raw" || die "clogin failed for $host: $!\n";
 	open(INPUT, "< $host.raw") || die "clogin failed for $host: $!\n";
@@ -434,12 +431,23 @@ if (scalar(%commands) || !$clean_run || !$found_end) {
     if (scalar(keys %commands) eq $commandcnt) {
 	printf(STDERR "$host: missed cmd(s): all commands\n");
     } elsif (scalar(%commands)) {
-	printf(STDOUT "$host: missed cmd(s): %s\n", join(',', keys(%commands)));
-	printf(STDERR "$host: missed cmd(s): %s\n", join(',', keys(%commands))) if ($debug);
+	my($count, $i) = 0;
+	for ($i = 0; $i < $#commands; $i++) {
+	    if ($commands{$commands[$i]}) {
+		if (!$count) {
+		    printf(STDERR "$host: missed cmd(s): %s", $commands[$i]);
+		} else {
+		    printf(STDERR ", %s", $commands[$i]);
+		}
+		$count++;
+	    }
+	}
+	if ($count) {
+	    printf(STDERR "\n");
+	}
     }
     if (!$clean_run || !$found_end) {
-	print STDOUT "$host: End of run not found\n";
-	print STDERR "$host: End of run not found\n" if ($debug);
+	print(STDERR "$host: End of run not found\n");
 	system("/usr/bin/tail -1 $host.new");
     }
     unlink "$host.new" if (! $debug);

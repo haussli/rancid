@@ -302,8 +302,21 @@ extreme;login;clogin
 ezt3;script;erancid
 ezt3;login;elogin
 #
+# f5 big-ip <=v10
 f5;script;f5rancid
 f5;login;clogin
+# f5 big-ip v11
+bigip;script;rancid -t bigip
+bigip;login;clogin
+bigip;module;bigip
+bigip;inloop;bigip::inloop
+bigip;command;bigip::ShowVersion;tmsh show /sys version
+bigip;command;bigip::ShowHardware;tmsh show /sys hardware
+bigip;command;bigip::ShowLicense;tmsh show /sys license
+bigip;command;bigip::ShowZebOSconf;cat /config/ZebOS.conf
+bigip;command;bigip::ShowZebOSsockets;lsof -i :179
+bigip;command;bigip::ShowRouteStatic;tmsh show /net route static
+bigip;command;bigip::WriteTermTMSH;tmsh -q list
 #
 force10;script;f10rancid
 force10;login;clogin

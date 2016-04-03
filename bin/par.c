@@ -662,24 +662,52 @@ arg_replace(char **cmd, char **args, char **tail, char ***new)
 #ifndef HAVE_ASPRINTF
 /* crude emulation of asprintf() */
 int
-asprintf(char **str, char const *fmt, va_list ap)
+asprintf(char **ret, const char *format, ...)
 {
-    int len;
-    va_list apc;
+    va_list	ap;
+    char	*newbuf;
+    int		len,
+		vlen;
 
-    va_copy(apc, ap);
-    len = vsnprintf(NULL, 0, fmt, apc);
-    va_end(apc);
-    if (len < 0)
-	return len;
-    if ((*str = malloc(len + 1)) == NULL)
-	return -1;
-    if ((len = vsnprintf(*str, len + 1, fmt, ap)) >= 0)
-	return len;
-    len = errno;
-    free(*str);
-    errno = len;
-    return -1;
+    if (ret == NULL) {
+	errno = EINVAL;
+	return(-1);
+    }
+
+    if (format == NULL) {
+	*ret = NULL;
+	return(0);
+    }
+
+    va_start(ap, format);
+    len = strlen(format) + 1;
+    if (ap != NULL)
+	len = len * 2;
+    va_end(ap);
+
+    if ((*ret = (char *) malloc(len)) == NULL) {
+	errno = ENOMEM;
+	*ret = NULL;
+	return(-1);
+    }
+
+    while (1) {
+	va_start(ap, format);
+	if ((vlen = vsnprintf(*ret, len, format, ap)) < len &&
+	    (vlen != -1)) {
+	    va_end(ap);
+	    return(vlen);
+	}
+	va_end(ap);
+	len = vlen + 1;
+	if ((newbuf = realloc((void **) ret, len)) == NULL) {
+	    free(*ret);
+	    *ret = NULL;
+	    errno = ENOMEM;
+	    return(-1);
+	}
+	*ret = newbuf;
+    }
 }
 #endif
 

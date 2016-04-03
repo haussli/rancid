@@ -1,4 +1,7 @@
 3.4.99
+	fnrancid: filter new private key format and fix filtering of encryptd
+	passwords
+
 	ios.pm: filter/sort new ipv4/6 access-list format where list names are
 	omitted from rule lines.
 

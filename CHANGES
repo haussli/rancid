@@ -1,4 +1,6 @@
 3.4.99
+	rancid.conf: change NOCOMMSTR to require "YES", not just defined
+
 	arrancid, aeos.pm: convert Arista to a module
 
 	ios.pm: add show license summary for older XE images, such as C4500e

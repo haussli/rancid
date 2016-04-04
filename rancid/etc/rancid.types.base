@@ -316,7 +316,7 @@ bigip;command;bigip::ShowLicense;tmsh show /sys license
 bigip;command;bigip::ShowZebOSconf;cat /config/ZebOS.conf
 bigip;command;bigip::ShowZebOSsockets;lsof -i :179
 bigip;command;bigip::ShowRouteStatic;tmsh show /net route static
-bigip;command;bigip::WriteTermTMSH;tmsh -q list
+bigip;command;bigip::WriteTerm;tmsh -q list
 #
 force10;script;f10rancid
 force10;login;clogin

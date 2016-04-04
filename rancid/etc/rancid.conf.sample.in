@@ -77,7 +77,8 @@ RCSSYS=@RCSSYS@; export RCSSYS
 # value set (NO | YES | ALL).  see rancid.conf(5).
 #FILTER_PWDS=YES; export FILTER_PWDS
 #
-# if NOCOMMSTR is set, snmp community strings will be stripped from the configs
+# if NOCOMMSTR is set to YES, snmp community strings will be stripped from the
+# configs.
 #NOCOMMSTR=YES; export NOCOMMSTR
 #
 # FILTER_OSC determines if oscillating data such as keys, passwords, etc are

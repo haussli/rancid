@@ -96,10 +96,10 @@ sub rancidinit {
     }
 
     # determine community string filtering mode
-    if (defined($ENV{"NOCOMMSTR"}) && $ENV{"NOCOMMSTR"} =~ /no/i) {
-	$filter_commstr = 0;
-    } else {
+    if (defined($ENV{"NOCOMMSTR"}) && $ENV{"NOCOMMSTR"} =~ /yes/i) {
 	$filter_commstr = 1;
+    } else {
+	$filter_commstr = 0;
     }
     # determine oscillating data filtering mode
     if (defined($ENV{"FILTER_OSC"}) && $ENV{"FILTER_OSC"} =~ /no/i) {

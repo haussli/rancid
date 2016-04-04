@@ -63,6 +63,7 @@ $timeo = 90;				# clogin timeout in seconds
 my(@commandtable, %commands, @commands);# command lists
 my($aclsort) = ("ipsort");		# ACL sorting mode
 my($filter_commstr);			# SNMP community string filtering
+my($filter_osc);			# oscillating data filtering mode
 my($filter_pwds);			# password filtering mode
 
 # This routine is used to print out the router configuration
@@ -415,21 +416,21 @@ sub WriteTerm {
 	}
 	# isis interface passwords
 	if (/^(\s+isis authentication-key \S+)( \d)? \S+/ &&
-							$filter_pwds >= 1) {
+	    $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>$'\n"); next;
 	}
 	if (/^(\s+isis message-digest-key \d+ hmac-md5)( \d)?( \S+)/ &&
-							$filter_pwds >= 1) {
+	    $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>$'"); next;
 	}
 
 	# this is reversable, despite 'md5' in the cmd
 	if (/^(\s+ip ospf authentication-key \S+)( \d)? \S+/ &&
-							$filter_pwds >= 1) {
+	    $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>$'\n"); next;
 	}
 	if (/^(\s+ip ospf message-digest-key \d+ hmac-md5)( \d)?( \S+)/ &&
-							$filter_pwds >= 1) {
+	    $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>$'"); next;
 	}
 	if (/^( ip ospf message-digest-key \d+ md5) / && $filter_pwds >= 1) {
@@ -438,21 +439,22 @@ sub WriteTerm {
 
 	# filter VRRP passwords
 	if (/^(\s+ip vrrp authentication-key \d+)( \d)? \s+ / &&
-							$filter_pwds >= 1) {
+	    $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
 
 	# ftp host encrypted password oscillates
 	if (/^(host \S+ \S+ ftp) /) {
 	    my($prefix) = $1;
-	    if ($filter_pwds >= 1 || /^host \S+ \S+ ftp \d /) {
+	    if (($filter_osc || $filter_pwds >= 1) && /^host \S+ \S+ ftp \d /) {
 		ProcessHistory("","","","!$prefix <removed>\n"); next;
 	    }
 	}
 	# mpls ldp encrypted password oscillates
 	if (/^(mpls ldp neighbor \S+ password)/) {
 	    my($prefix) = $1;
-	    if ($filter_pwds >= 1 || /^mpls ldp neighbor \S+ password \d /) {
+	    if (($filter_osc || $filter_pwds >= 1) &&
+		/^mpls ldp neighbor \S+ password \d /) {
 		ProcessHistory("","","","!$prefix <removed>\n"); next;
 	    }
 	}
@@ -649,6 +651,17 @@ if (defined($ENV{"NOCOMMSTR"}) &&
     $filter_commstr = 1;
 } else {
     $filter_commstr = 0;
+}
+if (defined($ENV{"FILTER_OSC"}) && $ENV{"FILTER_OSC"} =~ /no/i) {
+    $filter_osc = 0;
+} else {
+    $filter_osc = 1;
+}
+# determine oscillating data filtering mode
+if (defined($ENV{"FILTER_OSC"}) && $ENV{"FILTER_OSC"} =~ /no/i) {
+    $filter_osc = 0;
+} else {
+    $filter_osc = 1;
 }
 # determine password filtering mode
 if ($ENV{"FILTER_PWDS"} =~ /no/i) {

@@ -60,6 +60,9 @@ $clean_run = 0;
 $timeo = 90;				# xilogin timeout in seconds
 
 my(@commandtable, %commands, @commands);# command lists
+my($filter_commstr);			# SNMP community string filtering
+my($filter_osc);			# oscillating data filtering mode
+my($filter_pwds);			# password filtering mode
 
 # This routine is used to print out the router configuration
 sub ProcessHistory {
@@ -141,6 +144,28 @@ if ($file) {
     } else {
 	open(INPUT,"xilogin -t $timeo -c \"$xirrus_cmds\" $host </dev/null |") || die "xilogin failed for $host: $!\n";
     }
+}
+
+# determine community string filtering mode
+if (defined($ENV{"NOCOMMSTR"}) &&
+    ($ENV{"NOCOMMSTR"} =~ /yes/i || $ENV{"NOCOMMSTR"} =~ /^$/)) {
+    $filter_commstr = 1;
+} else {
+    $filter_commstr = 0;
+}
+# determine oscillating data filtering mode
+if (defined($ENV{"FILTER_OSC"}) && $ENV{"FILTER_OSC"} =~ /no/i) {
+    $filter_osc = 0;
+} else {
+    $filter_osc = 1;
+}
+# determine password filtering mode
+if ($ENV{"FILTER_PWDS"} =~ /no/i) {
+    $filter_pwds = 0;
+} elsif ($ENV{"FILTER_PWDS"} =~ /all/i) {
+    $filter_pwds = 2;
+} else {
+    $filter_pwds = 1;
 }
 
 ProcessHistory("","","","!RANCID-CONTENT-TYPE: xirrus\n!\n");

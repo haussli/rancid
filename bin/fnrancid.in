@@ -64,6 +64,7 @@ $timeo = 90;				# fnlogin timeout in seconds
 my(@commandtable, %commands, @commands);# command lists
 my($aclsort) = ("ipsort");		# ACL sorting mode
 my($filter_commstr);			# SNMP community string filtering
+my($filter_osc);			# oscillating data filtering mode
 my($filter_pwds);			# password filtering mode
 
 # This routine is used to print out the router configuration
@@ -211,7 +212,8 @@ sub GetConf {
 	next if (/^#?conf_file_ver=/);
 
 	# filter cycling RSA private keys
-	if (/^\s*set private-key "-----BEGIN (RSA|ENCRYPTED) PRIVATE KEY-----/) {
+	if ($filter_osc &&
+	    /^\s*set private-key "-----BEGIN (RSA|ENCRYPTED) PRIVATE KEY-----/) {
 	    ProcessHistory("","","","#$_");
 	    ProcessHistory("","","","# <removed>");
 	    while (<INPUT>) {
@@ -225,7 +227,8 @@ sub GetConf {
 	    }
 	}
 	# filter cycling password encryption
-	if (/^(\s*set \S*)\s(enc\s\S+)(.*)/i && $filter_pwds > 0 ) {
+	if (/^(\s*set \S*)\s(enc\s\S+)(.*)/i &&
+	    ($filter_osc || $filter_pwds > 0)) {
 	    ProcessHistory("ENC","","","#$1 ENC <removed> $3\n");
 	    next;
 	}
@@ -290,6 +293,12 @@ if (defined($ENV{"NOCOMMSTR"}) &&
     $filter_commstr = 1;
 } else {
     $filter_commstr = 0;
+}
+# determine oscillating data filtering mode
+if (defined($ENV{"FILTER_OSC"}) && $ENV{"FILTER_OSC"} =~ /no/i) {
+    $filter_osc = 0;
+} else {
+    $filter_osc = 1;
 }
 # determine password filtering mode
 if ($ENV{"FILTER_PWDS"} =~ /no/i) {

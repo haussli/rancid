@@ -1,4 +1,7 @@
 3.4.99
+	ios.pm: add show license summary for older XE images, such as C4500e
+	3.04/15.1
+
 	bigip.pm: module for F5 BIG-IP >=v11
 
 	rancid.conf: add variable FILTER_OSC to control filtering oscillating

@@ -244,7 +244,7 @@ TABLEHEAD
 
 foreach $sub_type (sort keys(%$queries)) {
     next if (! scalar(%{$queries->{$sub_type}}));
-    print $query->radio_group (-name => 'query',
+    print $query->radio_group(-name => 'query',
 				-values => $queries->{$sub_type},
 				-default => '-', -linebreak => 'true');
     print "\n" . $query->hr . "\n";

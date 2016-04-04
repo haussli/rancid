@@ -63,6 +63,7 @@ $timeo = 90;				# clogin timeout in seconds
 my(@commandtable, %commands, @commands);# command lists
 my($aclsort) = ("ipsort");		# ACL sorting mode
 my($filter_commstr);			# SNMP community string filtering
+my($filter_osc);			# oscillating data filtering mode
 my($filter_pwds);			# password filtering mode
 
 # force a terminal type so as not to confuse Linux
@@ -388,6 +389,12 @@ if (defined($ENV{"NOCOMMSTR"}) &&
     $filter_commstr = 1;
 } else {
     $filter_commstr = 0;
+}
+# determine oscillating data filtering mode
+if (defined($ENV{"FILTER_OSC"}) && $ENV{"FILTER_OSC"} =~ /no/i) {
+    $filter_osc = 0;
+} else {
+    $filter_osc = 1;
 }
 # determine password filtering mode
 if ($ENV{"FILTER_PWDS"} =~ /no/i) {

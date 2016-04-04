@@ -62,7 +62,8 @@ $found_env = 0;
 $found_diag = 0;
 $timeo = 90;			# clogin timeout in seconds
 
-my(%filter_pwds);		# password filtering mode
+my($filter_osc);			# oscillating data filtering mode
+my(%filter_pwds);			# password filtering mode
 
 # This routine is used to print out the router configuration
 sub ProcessHistory {
@@ -258,6 +259,12 @@ if ($file) {
     }
 }
 
+# determine oscillating data filtering mode
+if (defined($ENV{"FILTER_OSC"}) && $ENV{"FILTER_OSC"} =~ /no/i) {
+    $filter_osc = 0;
+} else {
+    $filter_osc = 1;
+}
 # determine password filtering mode
 if ($ENV{"FILTER_PWDS"} =~ /no/i) {
     $filter_pwds = 0;

@@ -48,7 +48,7 @@ arbor;command;arbor::ShowVersion;system version
 arbor;command;arbor::ShowHardware;system hardware
 arbor;command;arbor::ShowConfig;config show
 #
-arista;script;rancid -t aeos
+arista;script;rancid -t arista
 arista;login;clogin
 arista;module;aeos
 arista;inloop;aeos::inloop

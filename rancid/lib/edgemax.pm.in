@@ -252,12 +252,8 @@ sub WriteTerm {
 	/^!current configuration\s*:/i && next;
 	/^!system (description|software|up\s?time)/i && next;
 	/^!current sntp synch/i && next;
-#	/building configuration\.+\s*/i && next;
-#	/building running-config, please wait/i && next;	# edgeiron
-#	/^$/ && next;						# blank lines
-#	/^ver \d+\.\d+/ && next;
-#	/^module \d+ / && next;
-#
+	/^$/ && next;						# blank lines
+
 #	/^ntp clock-period /    && next; # kill ntp clock-period
 #	/^ length /		&& next; # kill length on serial lines
 #	/^ width /		&& next; # kill width on serial lines
@@ -270,19 +266,24 @@ sub WriteTerm {
 #	# OR filter them? XXX
 #	#next if (/secure-mac-address/);
 #	
-#	# order access-lists
-#	/^access-list\s+(\d+)\s+(perm|deny)\s+(\d\S+)(\/\d+)\s*$/ &&
+	# order access-lists
+#	/^access-list\s+(\d+)\s+(permit|deny)\s+(\d\S+)(\/\d+)\s*$/ &&
 #	    ProcessHistory("PACL $1 $2","$aclsort","$3","$_")
 #	    && next;
-#	/^access-list\s+(\d\d?)\s+(\S+)\s+(\S+)/ &&
-#	    ProcessHistory("ACL $1 $2","$aclsort","$3","$_") && next;
-#	# order extended access-lists
+	/^access-list\s+(\d\d?)\s+(\S+)\s+([a-zA-Z]\S+)/ &&
+	    ProcessHistory("ACL $1 $2","$aclsort","-1","$_") && next;
+	/^access-list\s+(\d\d?)\s+(\S+)\s+(\S+)/ &&
+	    ProcessHistory("ACL $1 $2","$aclsort","$3","$_") && next;
+	# order extended access-lists
 #	/^access-list\s+(\d\d\d)\s+(\S+)\s+ip\s+host\s+(\S+)/ &&
 #	    ProcessHistory("EACL $1 $2","$aclsort","$3","$_") && next;
 #	/^access-list\s+(\d\d\d)\s+(\S+)\s+ip\s+(\d\S+)/ &&
 #	    ProcessHistory("EACL $1 $2","$aclsort","$3","$_") && next;
 #	/^access-list\s+(\d\d\d)\s+(\S+)\s+ip\s+any/ &&
 #	    ProcessHistory("EACL $1 $2","$aclsort","0.0.0.0","$_") && next;
+	# oreder ip routes
+	/^ip route\s+(\S+)\s+/ &&
+	    ProcessHistory("ROUTE","ipsort","$1","$_") && next;
 #	# order arp lists
 #	/^arp\s+(\d+\.\d+\.\d+\.\d+)\s+/ &&
 #	    ProcessHistory("ARP","$aclsort","$1","$_") && next;

@@ -1,4 +1,6 @@
 3.4.99
+	bigip.pm: module for F5 BIG-IP >=v11
+
 	rancid.conf: add variable FILTER_OSC to control filtering oscillating
 	data.  See rancid.conf(5).  This may not yet be applied in all places.
 
@@ -997,7 +999,7 @@
 
 	rancid: filter filesize and date of tracelogs dir on IOS-XE
 
-	rancid: summarize bytes free for IOS-XE like XR 
+	rancid: summarize bytes free for IOS-XE like XR
 
 	nsrancid/nslogin: updates for netscalar version 8 - Marco Schirrmeister
 

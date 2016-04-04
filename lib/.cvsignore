@@ -3,6 +3,7 @@ Makefile
 acos.pm
 adtran.pm
 arbor.pm
+bigip.pm
 ciscowlc.pm
 dell.pm
 edgemax.pm

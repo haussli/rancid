@@ -77,7 +77,7 @@ TOP: while(<$INPUT>) {
 		$clean_run = 0;
 		last TOP;
 	    }
-	    $rval = &{$commands{$cmd}}(*INPUT, *OUTPUT, $cmd);
+	    $rval = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
 	    delete($commands{$cmd});
 	    if ($rval == -1) {
 		$clean_run = 0;
@@ -100,13 +100,13 @@ sub ShowVersion {
 	return(0) if ($found_version);		# Only do this routine once
 
 	next if (/uptime is/);			# Older AOS show uptime
-        ( $key, $val ) = split( /:\s+/, $_, 2 );
-        if ( ! $val ) {
+        my($key, $val) = split(/:\s+/, $_, 2);
+        if (! $val) {
            # Must be the model name if there's no colon
            ProcessHistory("COMMENTS", "", "", "!Model: $_" );
            next;
         }
-        if ( $key ne 'Uptime' and $key ne 'Free memory' ) {
+        if ($key ne 'Uptime' and $key ne 'Free memory') {
            ProcessHistory("COMMENTS", "", "", "!$key: $val" );
         }
     }
@@ -139,9 +139,8 @@ sub DiffConfig {
 sub ShowEnv {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowEnv: $_" if ($debug);
+    my($fans, $supplies, $E0) = (0, 0, undef);
 
-    $fans = 0;
-    $supplies = 0;
     while (<$INPUT>) {
 	tr/\015//d;
 	if (/^$prompt/) { $found_env = 1; last};
@@ -177,6 +176,7 @@ sub ShowEnv {
 sub ShowBoot {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowBoot: $_" if ($debug);
+    my($B0) = (undef);
 
     while (<$INPUT>) {
 	tr/\015//d;
@@ -197,6 +197,7 @@ sub ShowBoot {
 sub ShowBootExt {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowBootExt: $_" if ($debug);
+    my($C0) = (undef);
 
     while (<$INPUT>) {
 	tr/\015//d;
@@ -218,6 +219,7 @@ sub ShowBootExt {
 sub ShowExt {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowExt: $_" if ($debug);
+    my($D0) = (undef);
 
     while (<$INPUT>) {
 	tr/\015//d;
@@ -303,6 +305,7 @@ sub WriteRibd {
 sub WriteTerm {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In WriteTerm: $_" if ($debug);
+    my($lineauto, $sortkey) = (0, 0);
 
     while (<$INPUT>) {
 	tr/\015//d;

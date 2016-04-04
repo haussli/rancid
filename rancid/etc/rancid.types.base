@@ -48,8 +48,21 @@ arbor;command;arbor::ShowVersion;system version
 arbor;command;arbor::ShowHardware;system hardware
 arbor;command;arbor::ShowConfig;config show
 #
-arista;script;arrancid
+arista;script;rancid -t aeos
 arista;login;clogin
+arista;module;aeos
+arista;inloop;aeos::inloop
+arista;command;aeos::ShowVersion;show version
+arista;command;aeos::ShowBoot;show boot-config
+arista;command;aeos::ShowEnv;show env all
+arista;command;aeos::ShowFlash;dir flash:
+arista;command;aeos::ShowInventory;show inventory
+arista;command;aeos::ShowBootExt;show boot-extensions
+arista;command;aeos::ShowExt;show extensions
+arista;command;aeos::DiffConfig;diff startup-config running-config
+#arista;command;aeos::WriteRibd;show tech ribd running
+arista;command;aeos::WriteTerm;show running-config
+#
 #
 avocent;script;avorancid
 avocent;login;avologin

@@ -1,6 +1,7 @@
 .deps
 Makefile
 acos.pm
+aeos.pm
 adtran.pm
 arbor.pm
 bigip.pm

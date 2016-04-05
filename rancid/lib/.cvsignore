@@ -8,6 +8,7 @@ bigip.pm
 ciscowlc.pm
 dell.pm
 edgemax.pm
+edgerouter.pm
 eos.pm
 foundry.pm
 ios.pm

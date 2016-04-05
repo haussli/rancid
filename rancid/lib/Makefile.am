@@ -8,8 +8,8 @@ AUTOMAKE_OPTIONS=foreign no-dependencies
 
 my_pkglibdir = $(pkglibdir)
 my_pkglib_DATA = rancid.pm acos.pm aeos.pm arbor.pm bigip.pm ciscowlc.pm \
-		 dell.pm edgemax.pm eos.pm foundry.pm ios.pm iosxr.pm junos.pm \
-		 mrv.pm nxos.pm panos.pm rbt.pm wavesvros.pm
+		 dell.pm edgemax.pm edgerouter.pm eos.pm foundry.pm ios.pm \
+		 iosxr.pm junos.pm mrv.pm nxos.pm panos.pm rbt.pm wavesvros.pm
 pkglib_in = $(my_pkglib_DATA:%=%.in)
 
 RANLIB= :
@@ -60,6 +60,7 @@ bigip.pm: bigip.pm.in
 ciscowlc.pm: ciscowlc.pm.in
 dell.pm: dell.pm.in
 edgemax.pm: edgemax.pm.in
+edgerouter.pm: edgerouter.pm.in
 eos.pm: eos.pm.in
 foundry.pm: foundry.pm.in
 ios.pm: ios.pm.in

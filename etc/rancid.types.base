@@ -291,7 +291,7 @@ dell;inloop;dell::inloop
 dell;command;dell::GetSystem;show switch
 dell;command;dell::GetConf;show config current_config
 #
-# UBNT Edgemax
+# UBNT EdgeMAX
 edgemax;script;rancid -t edgemax
 edgemax;login;clogin
 edgemax;module;edgemax
@@ -303,6 +303,23 @@ edgemax;command;edgemax::ShowEnvironment;show environment
 edgemax;command;edgemax::ShowDebug;show debug
 edgemax;command;edgemax::DirSlotN;dir
 edgemax;command;edgemax::WriteTerm;show running-config
+#
+# UBNT EdgeRouter
+edgerouter;script;rancid -t edgerouter
+edgerouter;login;clogin
+edgerouter;module;edgerouter
+edgerouter;inloop;edgerouter::inloop
+# XXX cli-shell-api showConfig --show-active-only 
+# XXX cat /config/config.boot
+# XXX cat /config/opt/bird/etc/bird.conf
+# XXX cat /config/opt/bird/etc/bird6.conf
+edgerouter;command;edgerouter::ShowVersion;show version
+edgerouter;command;edgerouter::ShowHardware;show hardware
+edgerouter;command;edgerouter::ShowBootvar;show bootvar
+edgerouter;command;edgerouter::ShowEnvironment;show environment
+edgerouter;command;edgerouter::ShowDebug;show debug
+edgerouter;command;edgerouter::DirSlotN;dir
+edgerouter;command;edgerouter::WriteTerm;show running-config
 #
 enterasys;script;rivrancid
 enterasys;login;rivlogin

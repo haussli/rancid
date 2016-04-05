@@ -7,7 +7,7 @@ package edgemax;
 #
 #  RANCID - Really Awesome New Cisco confIg Differ
 #
-#  edgemax.pm - Ubiquity ("UBNT") Edgemax switch rancid procedures
+#  edgemax.pm - Ubiquity ("UBNT") EdgeMAX switch rancid procedures
 
 use 5.010;
 use strict 'vars';

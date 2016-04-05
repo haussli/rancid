@@ -409,6 +409,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 					  send -- "$userpswd\r"
 					  exp_continue
 					}
+	"Last login:"		{ exp_continue; }
 	-re "$u_prompt"		{
 				  send -- "$user\r"
 				  set uprompt_seen 1
@@ -701,16 +702,6 @@ foreach router [lrange $argv $i end] {
 	    continue
 	}
     } elseif { $do_script } {
-	# XXX
-	# If the prompt is (enable), then we are on a switch and the
-	# command is "set length 0"; otherwise its "term length 0".
-	if [regexp -- ".*> .*enable" "$prompt"] {
-	    #send "set length 0\r"
-	    #send "set logging session disable\r"
-	} else {
-	    #send "term length 0\r"
-	}
-	expect -re $prompt	{}
 	source $sfile
 	catch {close};
     } else {

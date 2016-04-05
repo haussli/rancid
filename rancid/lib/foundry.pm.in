@@ -245,7 +245,7 @@ sub WriteTerm {
 	    ProcessHistory("SECMAC","keysort","$1","$_") && next;
 	# OR filter them? XXX
 	#next if (/secure-mac-address/);
-	
+
 	# order access-lists
 	/^access-list\s+(\d+)\s+(perm|deny)\s+(\d\S+)(\/\d+)\s*$/ &&
 	    ProcessHistory("PACL $1 $2","$aclsort","$3","$_")

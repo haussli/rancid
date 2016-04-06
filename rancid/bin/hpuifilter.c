@@ -118,8 +118,6 @@
 # include <libutil.h>
 #endif
 
-#include <dmalloc.h>
-
 #define	BUFSZ	(LINE_MAX * 2)
 #define	ESC	0x1b
 

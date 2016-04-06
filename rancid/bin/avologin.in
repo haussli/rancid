@@ -409,7 +409,9 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 					  send -- "$userpswd\r"
 					  exp_continue
 					}
-	"Last login:"		{ exp_continue; }
+	-nocase -re "last login: \[\r\n]" {
+				  exp_continue
+				}
 	-re "$u_prompt"		{
 				  send -- "$user\r"
 				  set uprompt_seen 1

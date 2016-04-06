@@ -94,26 +94,6 @@ sub ShowVersion {
         return(1) if (/invalid (input|command) detected/i);
 	next if /^\s*$/;
 
-#	next if (/^(The system |Crash time)/);
-#	next if (/^(System|(Active|Standby) Management|LP Slot \d+|Switch Fabric Module \d+) (uptime|Up Time) is/);
-#	# remove uptime on newer switches
-#	s/(STACKID \d+)\s+system uptime is.*$/$1/;
-#
-#	s/^\s*(HW|SW)/$1/;
-#	s/^\s*(Compiled on)/SW: $1/;
-#	s/^\s*(\(\d+ bytes\) from )/SW: $1/;
-#
-#	#s/^(HW.*)/$1\n/;
-#	if (/^SL (\d+)/) {
-#	    $slot = "Slot $1";
-#	    s/^SL \d+/$slot/;
-#	}
-#	if (/MHz .* processor/) {
-#	    $slot = "MGMT";
-#	}
-#	s/^(\s*\d+ )/$slot:$1/;
-#	s/^===*//;
-
 	ProcessHistory("VERSION","","","!$_");
     }
     ProcessHistory("VERSION","","","!\n");

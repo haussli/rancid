@@ -6155,6 +6155,8 @@ ac_config_files="$ac_config_files bin/xilogin bin/xirancid"
 
 ac_config_files="$ac_config_files bin/xrancid"
 
+ac_config_files="$ac_config_files bin/ulogin"
+
 ac_config_files="$ac_config_files bin/wlogin"
 
 ac_config_files="$ac_config_files bin/zrancid"
@@ -6959,6 +6961,7 @@ do
     "bin/xilogin") CONFIG_FILES="$CONFIG_FILES bin/xilogin" ;;
     "bin/xirancid") CONFIG_FILES="$CONFIG_FILES bin/xirancid" ;;
     "bin/xrancid") CONFIG_FILES="$CONFIG_FILES bin/xrancid" ;;
+    "bin/ulogin") CONFIG_FILES="$CONFIG_FILES bin/ulogin" ;;
     "bin/wlogin") CONFIG_FILES="$CONFIG_FILES bin/wlogin" ;;
     "bin/zrancid") CONFIG_FILES="$CONFIG_FILES bin/zrancid" ;;
     "share/rtrfilter") CONFIG_FILES="$CONFIG_FILES share/rtrfilter" ;;
@@ -7738,6 +7741,7 @@ $as_echo X"$file" |
     "bin/xilogin":F) chmod a+x $ac_file ;;
     "bin/xirancid":F) chmod a+x $ac_file ;;
     "bin/xrancid":F) chmod a+x $ac_file ;;
+    "bin/ulogin":F) chmod a+x $ac_file ;;
     "bin/wlogin":F) chmod a+x $ac_file ;;
     "bin/zrancid":F) chmod a+x $ac_file ;;
     "share/rtrfilter":F) chmod a+x $ac_file ;;

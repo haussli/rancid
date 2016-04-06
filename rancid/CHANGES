@@ -1,4 +1,6 @@
 3.4.99
+	hpuifilter: fix handling of buffer when it drains
+
 	rancid.conf: change NOCOMMSTR to require "YES", not just defined
 
 	arrancid, aeos.pm: convert Arista to a module

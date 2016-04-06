@@ -1,7 +1,7 @@
 /*
  * $Id$
  *
- * Copyright (c) 1997-2015 by Terrapin Communications, Inc.
+ * Copyright (c) 1997-2016 by Terrapin Communications, Inc.
  * All rights reserved.
  *
  * This code is derived from software contributed to and maintained by
@@ -117,6 +117,8 @@
 #elif HAVE_LIBUTIL_H
 # include <libutil.h>
 #endif
+
+#include <dmalloc.h>
 
 #define	BUFSZ	(LINE_MAX * 2)
 #define	ESC	0x1b
@@ -377,9 +379,10 @@ main(int argc, char **argv, char **ev)
 		break;
 	    } else if (bytes > 0) {
 		hlen -= bytes;
-		memmove(hbuf, hbuf + bytes, hlen + 1);
 		if (hlen < 1)
-		     pfds[2].events &= ~POLLOUT;
+		    pfds[2].events &= ~POLLOUT;
+		else
+		    memmove(hbuf, hbuf + bytes, hlen + 1);
 	    }
 	}
 	if (pfds[2].revents & POLLEXP) {
@@ -427,9 +430,10 @@ main(int argc, char **argv, char **ev)
 		break;
 	    } else if (bytes > 0) {
 		tlen -= bytes;
-		memmove(tbuf, tbuf + bytes, tlen + 1);
 		if (tlen < 1)
 		    pfds[1].events &= ~POLLOUT;
+		else
+		    memmove(tbuf, tbuf + bytes, tlen + 1);
 	    }
 	}
 	if (pfds[1].revents & POLLEXP) {

@@ -377,9 +377,10 @@ main(int argc, char **argv, char **ev)
 		break;
 	    } else if (bytes > 0) {
 		hlen -= bytes;
-		if (hlen < 1)
+		if (hlen < 1) {
 		    pfds[2].events &= ~POLLOUT;
-		else
+		    hbuf[0] = '\0';
+		} else
 		    memmove(hbuf, hbuf + bytes, hlen + 1);
 	    }
 	}
@@ -428,9 +429,10 @@ main(int argc, char **argv, char **ev)
 		break;
 	    } else if (bytes > 0) {
 		tlen -= bytes;
-		if (tlen < 1)
+		if (tlen < 1) {
+		    tbuf[0] = '\0';
 		    pfds[1].events &= ~POLLOUT;
-		else
+		} else
 		    memmove(tbuf, tbuf + bytes, tlen + 1);
 	    }
 	}

@@ -549,7 +549,28 @@ A. You should first search the rancid-discuss mail list and the web for
 
 
 5) O/S specific
-5a) Linux
+5a) General
+Q. After an O/S upgrade, ssh logins are failing errors such as:
+	Unable to negotiate with IP port 22: no matching key exchange method found. Their offer: diffie-hellman-group1-sha1
+   or
+	%SSH-3-DH_RANGE_FAIL: Client DH key range mismatch with maximum configured DH key on server.
+
+A. The latest openssh has dropped support for less secure ciphers, but many devices
+   do not support the newer ciphers, kex, etc.  Work-arounds:
+
+   Set a different cipher in your .cloginrc, eg:
+	add cyphertype * {aes256-cbc}
+
+   Re-enable the old kex method in your ssh_config (weakdh.org):
+	Host *
+		GSSAPIAuthentication yes
+		KexAlgorithms +diffie-hellman-group1-sha1
+
+   Increase the key size in Cisco config:
+	ip ssh dh min size 4096
+
+
+5b) Linux
 Q. Some device collections have erroneously duplicated characters and which
    characters are duplicated often change between collections.  Such as:
    - access-list 1 permit x.x.x.101

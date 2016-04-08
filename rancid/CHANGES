@@ -1,4 +1,6 @@
 3.4.99
+	FAQ: add notes about openssh client changes for logjam
+
 	hpuifilter: fix handling of buffer when it drains
 
 	rancid.conf: change NOCOMMSTR to require "YES", not just defined

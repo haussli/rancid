@@ -501,6 +501,8 @@ sub ShowVersion {
 	next if (/^\{(master|backup)(:\d+)?\}/);
 	/# error: abnormal / && return(-1);
 
+	/warning: .* subsystem not running - not needed by configuration/ && next;
+
 	/^Juniper Networks is:/ && ProcessHistory("","","","# \n# $_") && next;
 	ProcessHistory("","","","# $_");
     }

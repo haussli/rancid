@@ -1,4 +1,6 @@
 3.4.99
+	junos.pm: filter benign subsystem warnings
+
 	ios.pm: filter license broker BS
 
 	FAQ: add notes about openssh client changes for logjam

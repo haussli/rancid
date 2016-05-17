@@ -419,9 +419,9 @@ sub ShowEnvPower {
 # Total Power Available for additional modules                  N/A  
 # 
 # nexus#
-	if ( /(.* +)(\d+ W)( +\d+ W.*)/) {
+	if (/(.* +)(\d+ W +\d+ W)( +\d+ W.+)/) {
 	    $_ = sprintf("%s%-". length($2)."s%s\n", $1, "", $3);
-	} elsif ( /(.* +)(\d+ W)( +\d+ W.*)/) {
+	} elsif (/(.* +)(\d+ W)( +\d+ W.+)/) {
 	    $_ = sprintf("%s%-". length($2)."s%s\n", $1, "", $3);
 	}
 

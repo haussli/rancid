@@ -327,8 +327,17 @@ enterasys;login;rivlogin
 erx;script;jerancid
 erx;login;clogin
 #
-extreme;script;xrancid
+extreme;script;rancid -t extreme
 extreme;login;clogin
+extreme;module;exos
+extreme;inloop;exos::inloop  
+extreme;command;exos::ShowVersion;show version
+extreme;command;exos::ShowMemory;show memory
+extreme;command;exos::ShowDiag;show diag
+extreme;command;exos::ShowSwitch;show switch
+extreme;command;exos::ShowSlot;show slot
+extreme;command;exos::WriteTerm;show configuration detail
+extreme;command;exos::WriteTerm;show configuration
 #
 ezt3;script;erancid
 ezt3;login;elogin

@@ -1,5 +1,5 @@
 Name:           rancid
-Version:        3.0a
+Version:        3.5
 Release:        1%{?dist}
 Summary:        Really Awesome New Cisco confIg Differ
 
@@ -8,8 +8,25 @@ License:        non-free
 URL:            http://www.shrubbery.net/rancid/
 Source:         %{name}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-root
+
 Requires:       cvs 
+Requires:       findutils
+Requires:       expect >= 5.40
+Requires:       iputils
+Requires:       logrotate
+Requires:       openssh-client
+Requires:       perl
+Requires:       postfix
+Requires:       telnet
+
+BuildRequires:  telnet
+BuildRequires:  automake, autoconf
+BuildRequires:  cvs
 BuildRequires:  expect >= 5.40
+BuildRequires:  iputils
+BuildRequires:  openssh-clients
+BuildRequires:  perl
+BuildRequires:  postfix
 
 %package lg
 Summary:        RANCID Looking Glass CGI scripts

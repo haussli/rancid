@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid" "3" "17 December 2014"
+.TH "rancid" "3" "23 May 2016"
 .SH NAME
 rancid \- rancid perl module
 .SH INTRODUCTION
@@ -69,7 +69,7 @@ ProcessHistory("TAG","valsort","","!D0\\n");
 A numerical sort routine (ascending).
 .\"
 .TP
-.B ipsort(IPv4/v6 dotted-quad)
+.B ipsort(IPv4 dotted-quad/v6 address)
 A sort routine that will sort on the ip address when the IP address is
 anywhere in the strings.
 .sp

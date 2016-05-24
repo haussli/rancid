@@ -109,7 +109,7 @@ sub ShowVersion {
 	    ProcessHistory("COMMENTS","keysort","D1","#\n#Bootrom: $1\n")
 	    && next;
 
-#heas: need to collect this from show vers for ShowSlot where rev #s are excluded
+#XXX: need to collect this from show vers for ShowSlot where rev #s are excluded
 #SLOT 1 :  702005-06  0025S-00877 CPLD Rev <FF>
 #SLOT 2 :  702005-06  0021S-00131 CPLD Rev 02
 #SLOT 3 :  702009-06  0024S-00170 CPLD Rev <FF>

@@ -1,4 +1,6 @@
 3.4.99
+	foundry.pm: summarize flash free space
+
 	xrancid, exos.pm, xlogin: convert extreme to a module and hack clogin
 	into xlogin to deal some weird terminal handling in EXOS >11.0 that
 	uses terminal manipulation to reprint the login prompt (telnet) or

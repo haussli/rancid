@@ -171,6 +171,23 @@ sub ShowFlash {
 	next if (/^\s*$/);
 	return(1) if (/^\s+\^$/);		# edgeiron invalid command
 
+	if (/code flash free space = (\d+)/i) {
+	    my($tmp) = $1;
+	    if ($tmp >= (1024 * 1024 * 1024)) {
+		$tmp = int($tmp / (1024 * 1024 * 1024));
+		$_ = "code flash free space = $tmp GB\n";
+	    } elsif ($tmp >= (1024 * 1024)) {
+		$tmp = int($tmp / (1024 * 1024));
+		$_ = "code flash free space = $tmp MB\n";
+	    } elsif ($tmp >= (1024)) {
+		$tmp = int($tmp / 1024);
+		$_ = "code flash free space = $tmp KB\n";
+	    } elsif ($tmp > 0) {
+		$_ = "code flash free space = < 1KB\n";
+	    } else {
+		$_ = "code flash free space = 0 bytes\n";
+	    }
+	}
 	ProcessHistory("FLASH","","","!Flash: $_");
     }
     ProcessHistory("","","","!\n");

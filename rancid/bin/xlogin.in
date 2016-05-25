@@ -684,7 +684,7 @@ foreach router [lrange $argv $i end] {
 					  # the first prompt after ssh login so
 					  # we do not become out of sync with
 					  # the prompts.
-					  exp_continue; }
+					  exp_continue;
 					}
 		-re "\[^\r\n]*\[\r\n]+"	{ exp_continue; }
 		-re "^$prompt"		{}

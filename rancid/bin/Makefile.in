@@ -104,7 +104,7 @@ CONFIG_CLEAN_FILES = login_top control_rancid a10login agmrancid \
 	hrancid htlogin htrancid jlogin jerancid mrancid mrvlogin \
 	mtrancid mtlogin nlogin nrancid nslogin nsrancid panlogin \
 	prancid rblogin rivlogin rivrancid rrancid rtftpcopy tlogin \
-	trancid xilogin xirancid xrancid ulogin wlogin zrancid
+	trancid xilogin xirancid xlogin ulogin wlogin zrancid
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -219,8 +219,8 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/a10login.in \
 	$(srcdir)/rrancid.in $(srcdir)/rtftpcopy.in \
 	$(srcdir)/tlogin.in $(srcdir)/trancid.in $(srcdir)/ulogin.in \
 	$(srcdir)/wlogin.in $(srcdir)/xilogin.in $(srcdir)/xirancid.in \
-	$(srcdir)/xrancid.in $(srcdir)/zrancid.in \
-	$(top_srcdir)/depcomp $(top_srcdir)/mkinstalldirs
+	$(srcdir)/xlogin.in $(srcdir)/zrancid.in $(top_srcdir)/depcomp \
+	$(top_srcdir)/mkinstalldirs
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 ADMINMAILPLUS = @ADMINMAILPLUS@
@@ -356,7 +356,7 @@ bin_SCRIPTS = a10login alogin agmrancid anlogin arancid avologin \
 	htrancid jerancid jlogin mrancid mrvlogin mtlogin mtrancid \
 	nlogin nrancid nslogin nsrancid panlogin plogin rancid rblogin \
 	rivlogin rivrancid rrancid rtftpcopy srancid tlogin trancid \
-	ulogin wlogin xilogin xirancid xrancid zrancid lg.cgi \
+	ulogin wlogin xilogin xirancid xlogin zrancid lg.cgi \
 	lgform.cgi rancid-cvs rancid-fe rancid-run
 # XXX hack for the rancid to get pkglibdir, see corresponding XXX below
 bin_in = plogin.in rancid.in srancid.in
@@ -536,7 +536,7 @@ xilogin: $(top_builddir)/config.status $(srcdir)/xilogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 xirancid: $(top_builddir)/config.status $(srcdir)/xirancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-xrancid: $(top_builddir)/config.status $(srcdir)/xrancid.in
+xlogin: $(top_builddir)/config.status $(srcdir)/xlogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 ulogin: $(top_builddir)/config.status $(srcdir)/ulogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

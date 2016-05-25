@@ -6153,7 +6153,7 @@ ac_config_files="$ac_config_files bin/trancid"
 
 ac_config_files="$ac_config_files bin/xilogin bin/xirancid"
 
-ac_config_files="$ac_config_files bin/xrancid"
+ac_config_files="$ac_config_files bin/xlogin"
 
 ac_config_files="$ac_config_files bin/ulogin"
 
@@ -6960,7 +6960,7 @@ do
     "bin/trancid") CONFIG_FILES="$CONFIG_FILES bin/trancid" ;;
     "bin/xilogin") CONFIG_FILES="$CONFIG_FILES bin/xilogin" ;;
     "bin/xirancid") CONFIG_FILES="$CONFIG_FILES bin/xirancid" ;;
-    "bin/xrancid") CONFIG_FILES="$CONFIG_FILES bin/xrancid" ;;
+    "bin/xlogin") CONFIG_FILES="$CONFIG_FILES bin/xlogin" ;;
     "bin/ulogin") CONFIG_FILES="$CONFIG_FILES bin/ulogin" ;;
     "bin/wlogin") CONFIG_FILES="$CONFIG_FILES bin/wlogin" ;;
     "bin/zrancid") CONFIG_FILES="$CONFIG_FILES bin/zrancid" ;;
@@ -7740,7 +7740,7 @@ $as_echo X"$file" |
     "bin/trancid":F) chmod a+x $ac_file ;;
     "bin/xilogin":F) chmod a+x $ac_file ;;
     "bin/xirancid":F) chmod a+x $ac_file ;;
-    "bin/xrancid":F) chmod a+x $ac_file ;;
+    "bin/xlogin":F) chmod a+x $ac_file ;;
     "bin/ulogin":F) chmod a+x $ac_file ;;
     "bin/wlogin":F) chmod a+x $ac_file ;;
     "bin/zrancid":F) chmod a+x $ac_file ;;

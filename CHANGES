@@ -1,4 +1,9 @@
 3.4.99
+	xrancid, exos.pm, xlogin: convert extreme to a module and hack clogin
+	into xlogin to deal some weird terminal handling in EXOS >11.0 that
+	uses terminal manipulation to reprint the login prompt (telnet) or
+	the first cli prompt (ssh). - thanks to Nick Hilliard
+
 	nxos.pm: fix PS wattage filtering - Kyle Wilson
 
 	junos.pm: filter benign subsystem warnings

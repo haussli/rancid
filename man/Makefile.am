@@ -27,7 +27,7 @@ man_nogen_MANS = agmrancid.1 alogin.1 anlogin.1 anrancid.1 arancid.1 \
 		rancid-cvs.1 rancid-run.1 rancid.1 \
 		rancid.types.base.5 rancid_intro.1 rivlogin.1 rivrancid.1 \
 		router.db.5 rrancid.1 srancid.1 tlogin.1 ulogin.1 wlogin.1 \
-		xilogin.1 xirancid.1 trancid.1 \
+		xilogin.1 xlogin.1 xirancid.1 trancid.1 \
 		zrancid.1
 
 man_MANS = $(man_nogen_MANS) $(man_gen_MANS)

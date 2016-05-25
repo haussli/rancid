@@ -75,7 +75,6 @@ bin/
 	srancid.in	Version of rancid.in for SMC switches.
 	trancid.in	Version of rancid.in for Netopia routers.
 	xirancid.in	Version of rancid.in for Xirrus arrays.
-	xrancid.in	Version of rancid.in for Extreme switches.
 	zrancid.in	Version of rancid.in for Zebra routers.
 
         a10login.in     Version of clogin.in for A10 load balancers.
@@ -108,6 +107,7 @@ bin/
 	rivlogin.in	Version of clogin.in for Riverstone routers.
 	tlogin.in	Version of clogin.in for Netopia devices.
 	wlogin.in	Version of clogin.in for Cisco Wireless Lan Controllers.
+	xlogin.in	Version of clogin.in for Extreme devices.
 	xilogin.in	Version of clogin.in for Xirrus arrays.
 lib/
         acos.pm.in      rancid library for A10 Networks appliances.
@@ -115,6 +115,7 @@ lib/
 	ciscowlc.pm.in	rancid library for some Cisco Wireless Lan Controllers.
 	dell.pm.in	rancid library for some Dell D-Link models.
 	eos.pm.in	rancid library for Compass EOS.
+	exos.in		rancid library for Extreme switches.
 	foundry.pm.in	rancid library for Foundry (Brocade) switches.
 	ios.pm.in	rancid library for Cisco IOS and IOS-XE.
 	iosxr.pm.in	rancid library for Cisco IOS-XR.

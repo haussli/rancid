@@ -796,6 +796,53 @@ sub WriteTerm {
 	    ProcessHistory("","","","! $1 password <removed>\n");
 	    next;
 	}
+	# sort ipv{4,6} access-lists
+	if ($aclfilterseq && /^ip(v4|v6)? access-list (\S+)\s*$/) {
+	    my($nlri, $key) = ($1, $2);
+	    my($seq, $cmd);
+	    if (length($nlri) eq 0) {
+		$nlri = "ipv4";	# assume ip will become ipv4 at some point
+	    }
+	    ProcessHistory("ACL $nlri $key","","","$_");
+	    while (<$INPUT>) {
+		tr/\015//d;
+		last if (/^$prompt/ || /^\S/);
+		# ip access-list copp-system-acl-bgp
+		#   10 permit tcp any gt 1024 any eq bgp 
+		#   20 permit tcp any eq bgp any gt 1024 
+		# ipv6 access-list copp-system-acl-bgp6
+		#   10 permit tcp any gt 1024 any eq bgp 
+		#   20 permit tcp any eq bgp any gt 1024 
+		# XXX this may need more format handling; going off email with
+		#     a user.
+		my($seq, $cmd, $resid) = ($_ =~ /^\s+(\d+) (\w+) (.+)/);
+		if ($cmd =~ /(permit|deny)/) {
+		    my($ip);
+		    my(@w) = ($resid =~ /(\S+) (\S+) (\S+\s)?(.+)/);
+		    for (my($i) = 0; $i < $#w; $i++) {
+			if ($w[$i] eq "any") {
+			    if ($nlri eq "ipv4") {
+				$ip = "255.255.255.255/32";
+			    } else {
+				$ip = "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff/128";
+			    }
+			    last;
+			} elsif ($w[$i] =~ /^[:0-9]/ ||
+				 $2[$i] =~ /^[a-fA-F]{1,4}:/) {
+			    $ip = $w[$i];
+			    $ip =~ s/\s+$//;		# trim trailing WS
+			    last;
+			}
+		    }
+		    ProcessHistory("ACL $nlri $key $cmd", "$aclsort", "$ip",
+				   " $cmd $resid\n");
+		} else {
+		    ProcessHistory("ACL $nlri $key $cmd", "", "",
+				   " $cmd $resid\n");
+		}
+	    }
+	}
+
 	# Why was this commented out? It shows up in the raw text...
 	if (/^(snmp-server community) (\S+)/) {
 	    if ($filter_commstr) {

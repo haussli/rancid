@@ -1,4 +1,6 @@
 3.4.99
+	nxos.pm: sort ip{v6} access-lists & filter sequence numbers
+
 	foundry.pm: summarize flash free space
 
 	xrancid, exos.pm, xlogin: convert extreme to a module and hack clogin

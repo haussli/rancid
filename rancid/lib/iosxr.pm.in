@@ -95,7 +95,7 @@ CMD:	if (/[>#]\s?exit$/) {
 		last TOP;
 	    }
 	    if (! defined(&{$commands{$cmd}})) {
-		printf(STDERR "$host: undefined function - \"%s\"\n",  
+		printf(STDERR "$host: undefined function - \"%s\"\n",
 		       $commands{$cmd});
 		$clean_run = 0;
 		last TOP;
@@ -898,7 +898,7 @@ sub WriteTerm {
     my($lineauto,$comment,$linecnt) = (0,0,0);
 
     while (<$INPUT>) {
-	tr/\015//d;
+REPEAT:	tr/\015//d;
 	last if (/^$prompt/);
 	# filter the bloody cmd-line timestamp
 	next if (/^\w{3} \w{3,4} {1,3}\d{1,2} {1,2}\d{1,2}:\d+:\d+\.\d+ \S+$/);
@@ -1128,7 +1128,11 @@ sub WriteTerm {
 	    ProcessHistory("ACL $nlri $key","","","$_");
 	    while (<$INPUT>) {
 		tr/\015//d;
-		last if (/^$prompt/ || /^\S/);
+		goto REPEAT if (/^$prompt/ || !/^(\s|\d|!)/);
+		if (/^\s*!/) {
+		    ProcessHistory("ACL $nlri $key !", "", "", "$_");
+		    next;
+		}
 		# ipv4 access-list name
 		#  remark NTP
    		#  deny ipv4 host 224.0.1.1 any
@@ -1141,7 +1145,7 @@ sub WriteTerm {
 		#  permit ipv6 2001:nnn::/nnn any
 		#  permit 2001:nnnn::/64 any
 		#  permit udp any eq 123 any
-		my($seq, $cmd, $resid) = ($_ =~ /^\s+(\d+) (\w+) (.+)/);
+		my($seq, $cmd, $resid) = ($_ =~ /^\s*(\d+) (\w+) (.+)/);
 		if ($cmd =~ /(permit|deny)/) {
 		    my($ip);
 		    my(@w) = ($resid =~ /(\S+) (\S+) (\S+\s)?(.+)/);

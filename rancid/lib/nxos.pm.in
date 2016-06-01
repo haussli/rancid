@@ -98,7 +98,7 @@ TOP: while(<$INPUT>) {
 		last TOP;
 	    }
 	    if (! defined(&{$commands{$cmd}})) {
-		printf(STDERR "$host: undefined function - \"%s\"\n",  
+		printf(STDERR "$host: undefined function - \"%s\"\n",
 		       $commands{$cmd});
 		$clean_run = 0;
 		last TOP;
@@ -401,7 +401,7 @@ sub ShowEnvPower {
 # -------  -------------------  ----------  ----------  ----------
 # --------------
 # 1        N9K-PAC-650W-B             65 W        76 W       649 W     Ok
-# 2        N9K-PAC-650W-B             70 W        84 W       649 W     Ok 
+# 2        N9K-PAC-650W-B             70 W        84 W       649 W     Ok
 #  
 #  
 # Power Usage Summary:
@@ -759,7 +759,7 @@ sub WriteTerm {
     my($lineauto,$comment,$linecnt) = (0,0,0);
 
     while (<$INPUT>) {
-	tr/\015//d;
+REPEAT:	tr/\015//d;
 	last if (/^$prompt/);
 	return(1) if /Line has invalid autocommand /;
 	return(1) if (/(Invalid input detected|Type help or )/i);
@@ -806,16 +806,20 @@ sub WriteTerm {
 	    ProcessHistory("ACL $nlri $key","","","$_");
 	    while (<$INPUT>) {
 		tr/\015//d;
-		last if (/^$prompt/ || /^\S/);
+		goto REPEAT if (/^$prompt/ || /^(\s|\d|!)/);
+		if (/^\s*!/) {
+		    ProcessHistory("ACL $nlri $key !", "", "", "$_");
+		    next;
+		}
 		# ip access-list copp-system-acl-bgp
-		#   10 permit tcp any gt 1024 any eq bgp 
-		#   20 permit tcp any eq bgp any gt 1024 
+		#   10 permit tcp any gt 1024 any eq bgp
+		#   20 permit tcp any eq bgp any gt 1024
 		# ipv6 access-list copp-system-acl-bgp6
-		#   10 permit tcp any gt 1024 any eq bgp 
-		#   20 permit tcp any eq bgp any gt 1024 
+		#   10 permit tcp any gt 1024 any eq bgp
+		#   20 permit tcp any eq bgp any gt 1024
 		# XXX this may need more format handling; going off email with
 		#     a user.
-		my($seq, $cmd, $resid) = ($_ =~ /^\s+(\d+) (\w+) (.+)/);
+		my($seq, $cmd, $resid) = ($_ =~ /^\s*(\d+) (\w+) (.+)/);
 		if ($cmd =~ /(permit|deny)/) {
 		    my($ip);
 		    my(@w) = ($resid =~ /(\S+) (\S+) (\S+\s)?(.+)/);

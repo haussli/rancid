@@ -106,13 +106,17 @@ sub ShowVersion {
 	return(-1) if (/command authorization failed/i);
 
 	/copyright/i && next;
-	/^up/ && next;
+	/^up\s+/ && next;
+	/Cannot get uptime:Timeout expired/ && next;
 	# skip voltage
 	/\s+\d+V\s*\:\s*\d+\.?\d*/ && next;
 	/Internal\ Temperature/i && next;
 	/^Temperature:/i && next;
 	/^PP\s*: \d+C \/ \d+F/ && next;
-	/^Device\s*: \d+C \/ \d+F/ && next;
+	/^Device([^:]*)?: \d+C \/ \d+F/ && next;
+	/^Fans:$/ && next;
+	/^Fan \d: (NOT )?ACTIVE$/ && next;
+	/^users: remote - \d/ && next;
 	/u-boot/i &&
 	    ProcessHistory("COMMENTS","keysort","C1", "!ROM: $_") && next;
 
@@ -170,6 +174,7 @@ sub ShowSlots {
 	last if (/online diag status/i);
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /(Invalid input detected|Type help or )/;
 	return(-1) if (/command authorization failed/i);
 
 	ProcessHistory("SLOTS","","","!$_");

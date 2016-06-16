@@ -1,4 +1,8 @@
 3.4.99
+	cisco: Change command show flash to show flash:.  The first has been
+	dropped from the 15.5M and the latter seems to be supported back as I
+	can check. - Onno Ossendrijver
+
 	mrvlogin, mrv.pm: fixes for MRV Optiswitch devices - Christian Rohmann
 
 	iosxr.pm: fix handling of comments in access-lists

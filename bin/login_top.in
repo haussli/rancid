@@ -3,17 +3,17 @@
 
 # Find the user in the ENV, or use the unix userid.
 if {![info exists default_user] && [info exists env(CISCO_USER)]} {
-    if {[string length $env(CISCO_USER)]}
+    if {[string length $env(CISCO_USER)]} {
 	set default_user $env(CISCO_USER)
     }
 }
 if {![info exists default_user] && [info exists env(USER)]} {
-    if {[string length $env(USER)]}
+    if {[string length $env(USER)]} {
 	set default_user $env(USER)
     }
 }
 if {![info exists default_user] && [info exists env(LOGNAME)]} {
-    if {[string length $env(LOGNAME)]}
+    if {[string length $env(LOGNAME)]} {
 	set default_user $env(LOGNAME)
     }
 }

@@ -328,7 +328,7 @@ erx;script;jerancid
 erx;login;clogin
 #
 extreme;script;rancid -t extreme
-extreme;login;clogin
+extreme;login;xlogin
 extreme;module;exos
 extreme;inloop;exos::inloop  
 extreme;command;exos::ShowVersion;show version

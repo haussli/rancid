@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "router.db" "5" "14 June 2016"
+.TH "router.db" "5" "17 June 2016"
 .SH NAME
 router.db \- rancid group configuration file
 .SH DESCRIPTION
@@ -158,7 +158,9 @@ A Hitachi router.
 .TP
 .ID 15n
 .B hp
-A HP Procurve switch such as the 2524 or 4108 procurve switches.  Also see the
+A HP Procurve switch such as the 2524, 4108 or J9086A (aka. 2610) procurve
+switches, J9091A, and J8698A.
+Also see the
 .B foundry
 type.
 .TP
@@ -203,7 +205,7 @@ A Riverstone NAS or Cabletron (starting with version ~9.0.3) router.
 .ID 15n
 .B smc
 A SMC switch, which also account for some Dell OEMs.
-Including Dell PowerConnect 35xx (3524, 3524P, 3548, 3548P).
+Including Dell PowerConnect 35xx (3524, 3524P, 3548, 3548P) and 7048.
 .TP
 .ID 15n
 .B ciscowlc

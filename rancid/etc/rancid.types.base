@@ -358,6 +358,7 @@ bigip;command;bigip::ShowZebOSsockets;lsof -i :179
 bigip;command;bigip::ShowRouteStatic;tmsh show /net route static
 bigip;command;bigip::WriteTerm;tmsh -q list
 #
+# Force 10 and Dell Force10.
 force10;script;f10rancid
 force10;login;clogin
 #
@@ -381,6 +382,8 @@ foundry;command;foundry::WriteTerm;show running-config
 hitachi;script;htrancid
 hitachi;login;htlogin
 #
+# HP Procurve switch such as the 2524, 4108 or J9086A (aka. 2610) procurve 
+# switches, J9091A, and J8698A.  
 hp;script;hrancid
 hp;login;hlogin
 #
@@ -512,7 +515,7 @@ riverbed;command;rbt::WriteTerm;show configuration
 riverstone;script;rivrancid
 riverstone;login;rivlogin
 #
-# SMC and Dell PowerConnect 35xx
+# SMC and Dell PowerConnect 35xx (3524, 3524P, 3548, 3548P) and 7048
 smc;script;srancid
 smc;login;hlogin
 #

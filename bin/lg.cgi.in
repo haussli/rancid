@@ -504,8 +504,10 @@ if ($mfg eq "cisco") {
 		log => "show logging",
 		# Interface Queries
 		framerelay => "show frame-relay pvc",
-		interface => "show interface",
 		intbrief => "show ip interface",	# switch in {interface}
+		intdescr => "show interfaces description",
+		interface => "show interface",
+		#intwanphy => "show controllers wanphy",# XXX whats cmd on ios?
 		# Routing Queries
 		damp => "show ip bgp dampened-paths",
 		neighbor => "show ip bgp neighbor",
@@ -545,8 +547,10 @@ if ($mfg eq "cisco") {
 		log => "show logging",
 		# Interface Queries
 		framerelay => "show frame-relay pvc",
-		interface => "show interface",
 		intbrief => "show ipv4 interface",
+		intdescr => "show interfaces description",
+		interface => "show interface",
+		intwanphy => "show controllers wanphy",
 		# Routing Queries
 		damp => "show bgp all all dampened-paths",
 		neighbor => "show bgp neighbor",
@@ -589,6 +593,7 @@ if ($mfg eq "cisco") {
 		# Interface Queries
 		#framerelay => "show frame-relay pvc",	# no compatible command
 		interface => "show interface",
+		#intwanphy => "show controllers wanphy",# XXX whats cmd on fdry?
 		# Routing Queries
 		damp => "show ip bgp dampened-paths",
 		neighbor => "show ip bgp neighbor",
@@ -627,8 +632,10 @@ if ($mfg eq "cisco") {
 		trace => "traceroute",
 		# Interface Queries
 		framerelay => "show frame-relay pvc",
+		intbrief => "show ip interface",	# switch in {interface}
+		intdescr => "show interfaces descriptions",
 		interface => "show interface",
-		#intbrief => "show ip interface",	# switch in {interface}
+		intwanphy => "show interface",		# XXX "<intf> media"
 		# Routing Queries
 		damp => "show route damping suppressed terse table inet.0",
 		neighbor => "show bgp neighbor",
@@ -742,6 +749,25 @@ if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
 		$arg .= " extensive";
 	    }
 	    $optind += 1;
+	}
+    }
+} elsif ($type eq "intwanphy") {
+    # arg 0 may be an intf name or a display option, but there can
+    # only be 2 args
+    if ($#arg < 0 || $arg[0] =~ /^\s*$/) {
+	&Error("show interface wanphy requires an interface argument.\n");
+    }
+    if ($mfg =~ /(cisco-xr)/) {
+	if ($arg[0] =~ /^[^0-9]*(\d+[^[:space:]]*)/i) {
+	    $arg = "$1 all";
+	} else {
+	    &Error("Interface argument $arg[0] did not match interface regex.\n");
+	}
+    } elsif ($mfg =~ /juniper/) {
+	if ($arg[0] =~ /^([a-z0-9]{2}\-\d+\/\d+\/\d+(:\d+)?)/i) {
+	    $arg = "$1 media";
+	} else {
+	    &Error("Interface argument $arg[0] did not match interface regex.\n");
 	}
     }
 } elsif ($type eq "log") {

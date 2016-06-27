@@ -1,4 +1,6 @@
 3.4.99
+	lg.cgi: add show interfaces wanphy for cisco-xr & juniper
+
 	cisco: Change command show flash to show flash:.  The first has been
 	dropped from the 15.5M and the latter seems to be supported back as I
 	can check. - Onno Ossendrijver

@@ -128,7 +128,9 @@ $queries = {};
 # Interface queries
 $queries->{"interface"} = {
 	framerelay => "show frame-relay PVC [DLCI]",
-	interface => "show interface [interface]"
+	intdescr => "show interface description",
+	interface => "show interface [interface]",
+	intwanphy => "show interface wanphy <interface>"
 };
 #
 # Routing queries

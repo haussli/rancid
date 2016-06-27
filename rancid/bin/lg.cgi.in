@@ -635,7 +635,7 @@ if ($mfg eq "cisco") {
 		intbrief => "show ip interface",	# switch in {interface}
 		intdescr => "show interfaces descriptions",
 		interface => "show interface",
-		intwanphy => "show interface",		# XXX "<intf> media"
+		intwanphy => "show interface",		# XXX "<intf> media detail"
 		# Routing Queries
 		damp => "show route damping suppressed terse table inet.0",
 		neighbor => "show bgp neighbor",
@@ -765,7 +765,7 @@ if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
 	}
     } elsif ($mfg =~ /juniper/) {
 	if ($arg[0] =~ /^([a-z0-9]{2}\-\d+\/\d+\/\d+(:\d+)?)/i) {
-	    $arg = "$1 media";
+	    $arg = "$1 media detail";
 	} else {
 	    &Error("Interface argument $arg[0] did not match interface regex.\n");
 	}

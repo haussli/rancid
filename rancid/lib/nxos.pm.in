@@ -325,7 +325,7 @@ sub ShowEnvTemp {
 	return(1) if /Line has invalid autocommand /;
 	return(1) if /(Invalid input detected|Type help or )/;
 	return(1) if (/No token match at /);	# 1000v
-	return(-1) if (/\% Invalid command at /);
+	return(1) if (/\% Invalid command at /);# 1000v has no support
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
 

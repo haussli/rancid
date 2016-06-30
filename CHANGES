@@ -1,4 +1,6 @@
 3.4.99
+	nxos.pm: show env temp does not exist on 1000v
+
 	lg.cgi: add show interfaces wanphy for cisco-xr & juniper
 
 	cisco: Change command show flash to show flash:.  The first has been

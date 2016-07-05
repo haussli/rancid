@@ -773,7 +773,7 @@ sub ShowInventory {
 
 	# remove spaces after quotes
 	s/\"\s+/\"/g;
-	if (/^(NAME: "[^"]*",) (DESCR: "[^"]+")/) {
+	if (/^(name: "[^"]*",) (descr: "[^"]+")/i) {
 	    ProcessHistory("INVENTORY","","", sprintf("!%-30s %s\n", $1, $2));
 	    next;
 	}

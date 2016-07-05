@@ -1,4 +1,6 @@
 3.4.99
+	iosxr.pm: differences in NCS6k show inventory
+
 	nxos.pm: show env temp does not exist on 1000v
 
 	lg.cgi: add show interfaces wanphy for cisco-xr & juniper

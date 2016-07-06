@@ -53,6 +53,7 @@
 #	DELL PowerConnect M6348
 #	DELL PowerConnect N2048, N4032F and N4064.
 #	DELL PowerConnect 62xx
+#	DELL PowerConnect 7048
 #	DELL 34xx (partially; configuration is incomplete)
 #
 use 5.010;
@@ -237,7 +238,7 @@ sub ShowSys {
 	# Remove Uptime
 	/ up time/i && next;
 
-	# filter temperature sensor info for Dell 6428 stacks
+	# filter temperature sensor info for Dell 6428 stacks, Powerconnect 7048
 	# /Temperature Sensors:/
 	if (/Temperature \(Celsius\)/) {
 	    ProcessHistory("COMMENTS","keysort","C1","! $_");

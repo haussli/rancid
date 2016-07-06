@@ -1,4 +1,6 @@
 3.4.99
+	srancid: filter oscillating file aaafile.prv - Wellie W. Chao
+
 	nxos.pm: reverse VTP test for nexus without vtp
 
 	ios.pm: filter ios-xe requested time from show inventory feature

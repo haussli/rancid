@@ -386,7 +386,7 @@ sub WriteTerm {
 
 # Main
 @commandtable = (
-	{'terminal datadump'		=> 'RunCommand'},
+	{'terminal datadump'		=> 'RunCommand'},	# dump all output of a show command without prompting
 	{'show system'			=> 'ShowSys'},
 	{'show version'			=> 'ShowVer'},
 	{'dir'				=> 'Dir'},

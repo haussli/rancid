@@ -53,7 +53,7 @@ sub init {
     $C0 = 0;				# output formatting control
     $E0 = 0;
     $H0 = 0;
-    $DO_SHOW_VLAN = 0;
+    $DO_SHOW_VLAN = 1;
 
     # add content lines and separators
     ProcessHistory("","","","!RANCID-CONTENT-TYPE: $devtype\n!\n");
@@ -613,8 +613,9 @@ sub ShowVTP {
 	    s/^$1\s{$len}//;
 	}
 
-	if (/^VTP Operating Mode\s+:\s+(Transparent|Server)/) {
-	    $DO_SHOW_VLAN = 1;
+	# Nexus 5k and 1000v do note support vtp
+	if (!/^VTP Operating Mode\s+:\s+(Transparent|Server)/) {
+	    $DO_SHOW_VLAN = 0;
 	}
 	ProcessHistory("COMMENTS","","","!VTP: $_");
     }

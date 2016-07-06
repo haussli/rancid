@@ -1,4 +1,6 @@
 3.4.99
+	nxos.pm: reverse VTP test for nexus without vtp
+
 	ios.pm: filter ios-xe requested time from show inventory feature
 
 	iosxr.pm: differences in NCS6k show inventory

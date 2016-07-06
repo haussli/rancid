@@ -198,6 +198,9 @@ sub Dir {
 	# pager remnants like: ^H^H^H    ^H^H^H content
 	s/[\b]+\s*[\b]*//g;
 
+	# filter oscillating files
+	next if /^aaafile\.prv/;
+
 	ProcessHistory("COMMENTS","keysort","D1","! $_");
     }
     ProcessHistory("COMMENTS","keysort","D1","!\n");

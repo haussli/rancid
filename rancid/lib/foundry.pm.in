@@ -53,6 +53,12 @@ TOP: while(<$INPUT>) {
 	}
 	while (/[>#]\s*($cmds_regexp)\s*$/) {
 	    $cmd = $1;
+	    # Some devices can give an error that looks a lot like a prompt
+	    # for deprecated commands like "write term".  Ignore that.
+	    if (/^invalid input -> /i) {
+		print STDERR ("Ignoring invalid command: $cmd\n") if ($debug);
+		last;
+	    }
 	    if (!defined($prompt)) {
 		$prompt = ($_ =~ /^([^#]+#)/)[0];
 		$prompt =~ s/([][}{)(\\])/\\$1/g;

@@ -1,4 +1,7 @@
 3.4.99
+	foundry.pm: ignore invalid command errors in inloop found on Ironware
+	5.5 for MLX - Erik Muller
+
 	srancid: filter oscillating file aaafile.prv - Wellie W. Chao
 
 	nxos.pm: reverse VTP test for nexus without vtp

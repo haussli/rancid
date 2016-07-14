@@ -1,36 +1,3 @@
-# env(CLOGIN) may contain:
-#	x == do not set xterm banner or name
-
-# Find the user in the ENV, or use the unix userid.
-if {![info exists default_user] && [info exists env(CISCO_USER)]} {
-    if {[string length $env(CISCO_USER)]} {
-	set default_user $env(CISCO_USER)
-    }
-}
-if {![info exists default_user] && [info exists env(USER)]} {
-    if {[string length $env(USER)]} {
-	set default_user $env(USER)
-    }
-}
-if {![info exists default_user] && [info exists env(LOGNAME)]} {
-    if {[string length $env(LOGNAME)]} {
-	set default_user $env(LOGNAME)
-    }
-}
-if (![info exists default_user]) {
-    # This uses "id" which I think is portable.  At least it has existed
-    # (without options) on all machines/OSes I've been on recently -
-    # unlike whoami or id -nu.
-    if [catch {exec id} reason] {
-	send_error "\nError: could not exec id: $reason\n"
-	exit 1
-    }
-    regexp {\(([^)]*)} "$reason" junk default_user
-}
-if {[info exists env(CLOGINRC)]} {
-    set password_file $env(CLOGINRC)
-}
-
 # Usage line
 set usage "Usage: $argv0 \[-dhSV\] \[-m|M\] \[-autoenable\] \[-noenable\] \
 \[-c command\] \[-Evar=x\] \[-e enable-password\] \[-f cloginrc-file\] \
@@ -63,6 +30,39 @@ if {! [info exists timeoutdflt]} {
 # intialize cloginrc parsing stacks
 set int_file {}
 set int_lineno {}
+
+# env(CLOGIN) may contain:
+#	x == do not set xterm banner or name
+
+# Find the user in the ENV, or use the unix userid.
+if {![info exists default_user] && [info exists env(CISCO_USER)]} {
+    if {[string length $env(CISCO_USER)]} {
+	set default_user $env(CISCO_USER)
+    }
+}
+if {![info exists default_user] && [info exists env(USER)]} {
+    if {[string length $env(USER)]} {
+	set default_user $env(USER)
+    }
+}
+if {![info exists default_user] && [info exists env(LOGNAME)]} {
+    if {[string length $env(LOGNAME)]} {
+	set default_user $env(LOGNAME)
+    }
+}
+if (![info exists default_user]) {
+    # This uses "id" which I think is portable.  At least it has existed
+    # (without options) on all machines/OSes I've been on recently -
+    # unlike whoami or id -nu.
+    if [catch {exec id} reason] {
+	send_error "\nError: could not exec id: $reason\n"
+	exit 1
+    }
+    regexp {\(([^)]*)} "$reason" junk default_user
+}
+if {[info exists env(CLOGINRC)]} {
+    set password_file $env(CLOGINRC)
+}
 
 # Process the command line
 for {set i 0} {$i < $argc} {incr i} {

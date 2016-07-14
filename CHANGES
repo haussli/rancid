@@ -1,4 +1,7 @@
 3.4.99
+	login_top: move variable initialization so it doesnt override env()s -
+	Bill Fenner
+
 	foundry.pm: ignore invalid command errors in inloop found on Ironware
 	5.5 for MLX - Erik Muller
 

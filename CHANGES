@@ -1,4 +1,6 @@
 3.4.99
+	flogin: eat spaces followed by ^H - from Allen
+
 	login_top: move variable initialization so it doesnt override env()s -
 	Bill Fenner
 

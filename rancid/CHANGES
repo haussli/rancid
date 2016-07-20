@@ -1,4 +1,7 @@
 3.4.99
+	hpuifilter: only turn off echo on the tty, not also the slave pty,
+	which fixes the echoing problem with Ubiquity Edgerouters
+
 	a10login: fix cut-n-paste bug - Romanens Xavier
 
 	flogin: eat spaces followed by ^H - from Allen

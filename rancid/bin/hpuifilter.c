@@ -215,7 +215,6 @@ main(int argc, char **argv, char **ev)
 		strerror(errno));
 	return(EX_OSERR);
     }
-    tios.c_lflag &= ~ECHO;
     tios.c_lflag &= ~ICANON;
 #ifdef VMIN
     tios.c_cc[VMIN] = 1;
@@ -231,6 +230,7 @@ main(int argc, char **argv, char **ev)
      * if a tty, make it raw as the hp echos _everything_, including
      * passwords.
      */
+    tios.c_lflag &= ~ECHO;
     if (isatty(fileno(stdin))) {
 	if (tcgetattr(fileno(stdin), &tios)) {
 	    fprintf(stderr, "%s: tcgetattr() failed: %s\n", progname,

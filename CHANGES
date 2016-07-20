@@ -1,4 +1,7 @@
 3.4.99
+	hlogin: when refactoring prompt, eat full lines before looking for the
+	prompt
+
 	hpuifilter: only turn off echo on the tty, not also the slave pty,
 	which fixes the echoing problem with Ubiquity Edgerouters
 

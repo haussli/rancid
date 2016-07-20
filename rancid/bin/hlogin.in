@@ -505,14 +505,14 @@ proc run_commands { prompt command } {
     regsub -all {[)(]} $reprompt {\\&} reprompt
     append reprompt {([^#>\r\n]+)?[#>](\\([^)\\r\\n]+\\))?}
     expect {
-	-re $reprompt	{}
 	-re "\[\n\r]+"	{ exp_continue }
+	-re $reprompt	{}
     }
     # Ciena Waveserver o/s
     send "system shell session set more off\r"
     expect {
-	-re $reprompt	{}
 	-re "\[\n\r]+"	{ exp_continue }
+	-re $reprompt	{}
     }
     # this is the only way i see to get rid of more prompts in o/p..grrrrr
     log_user 0

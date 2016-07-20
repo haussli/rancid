@@ -306,20 +306,29 @@ edgemax;command;edgemax::WriteTerm;show running-config
 #
 # UBNT EdgeRouter
 edgerouter;script;rancid -t edgerouter
-edgerouter;login;clogin
+edgerouter;login;ulogin -noenable
 edgerouter;module;edgerouter
 edgerouter;inloop;edgerouter::inloop
-# XXX cli-shell-api showConfig --show-active-only 
-# XXX cat /config/config.boot
-# XXX cat /config/opt/bird/etc/bird.conf
-# XXX cat /config/opt/bird/etc/bird6.conf
+edgerouter;command;rancid::RunCommand;terminal length 0
 edgerouter;command;edgerouter::ShowVersion;show version
-edgerouter;command;edgerouter::ShowHardware;show hardware
-edgerouter;command;edgerouter::ShowBootvar;show bootvar
-edgerouter;command;edgerouter::ShowEnvironment;show environment
-edgerouter;command;edgerouter::ShowDebug;show debug
-edgerouter;command;edgerouter::DirSlotN;dir
-edgerouter;command;edgerouter::WriteTerm;show running-config
+edgerouter;command;edgerouter::ShowHardware;show hardware cpu
+edgerouter;command;edgerouter::ShowOffload;show ubnt offload
+edgerouter;command;edgerouter::WriteTerm;cli-shell-api showConfig --show-active-only
+# XXX show configuration | no-more
+#
+# UBNT EdgeRouter - according to Clemens, ie: with bird.
+edgerouterbird;script;rancid -t edgerouterbird
+edgerouterbird;login;ulogin -noenable
+edgerouterbird;module;edgerouter
+edgerouterbird;inloop;edgerouter::inloop
+edgerouterbird;command;rancid::RunCommand;terminal length 0
+edgerouterbird;command;edgerouter::ShowVersion;show version
+edgerouterbird;command;edgerouter::ShowHardware;show hardware cpu
+edgerouterbird;command;edgerouter::ShowOffload;show ubnt offload
+#edgerouterbird;command;edgerouter::WriteTerm;cat /config/config.boot
+edgerouterbird;command;edgerouter::WriteTerm;cli-shell-api showConfig --show-active-only
+edgerouterbird;command;edgerouter::WriteTerm;cat /config/opt/bird/etc/bird.conf
+edgerouterbird;command;edgerouter::WriteTerm;cat /config/opt/bird/etc/bird6.conf
 #
 enterasys;script;rivrancid
 enterasys;login;rivlogin

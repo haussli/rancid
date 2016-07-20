@@ -1,4 +1,6 @@
 3.4.99
+	a10login: fix cut-n-paste bug - Romanens Xavier
+
 	flogin: eat spaces followed by ^H - from Allen
 
 	login_top: move variable initialization so it doesnt override env()s -

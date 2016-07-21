@@ -1,4 +1,7 @@
 3.4.99
+	edgerouter.pm: filter passwords, snmp community, keys, GC some unused
+	code, & fix comment character.
+
 	ciscowlc.pm: some older code fails to echo <CR> after logout - Bill
 	Fenner
 

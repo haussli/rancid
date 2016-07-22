@@ -183,6 +183,7 @@ sub ShowRunningConfig {
 sub ShowAflex {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowAflex: $_" if ($debug);
+
     while (<$INPUT>) {
 	tr/\015//d;
 	next if /^\s*$/;

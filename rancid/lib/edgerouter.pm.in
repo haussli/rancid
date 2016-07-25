@@ -163,6 +163,7 @@ sub WriteTerm {
 	# filter out any RCS/CVS tags to avoid confusing local CVS storage
 	s/\$(Revision|Id):/ $1:/;
 
+	# XXX TBD
 	## order access-lists
 	#/^access-list\s+(\d\d?)\s+(\S+)\s+([a-zA-Z]\S+)/ &&
 	#    ProcessHistory("ACL $1 $2","$aclsort","-1","$_") && next;
@@ -189,6 +190,7 @@ sub WriteTerm {
 	#	ProcessHistory("SNMPSERVERHOST","ipsort","$2","$_") && next;
 	#    }
 	#}
+
 	if (/^(\s*community)\s+(\S+)/) {
 	    if ($filter_commstr) {
 		ProcessHistory("SNMPSERVERCOMM","keysort","$_","#$1 <removed>$'") && next;

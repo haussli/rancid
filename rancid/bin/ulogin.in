@@ -329,7 +329,7 @@ foreach router [lrange $argv $i end] {
     # Default prompt.
     set prompt [join [find prompt $router] ""]
     if { [llength $prompt] == 0 } {
-        set prompt "\[$#] ?"
+        set prompt "\[^ ]\[$#] ?"
     }
 
     # look for autoenable option in .cloginrc & cmd-line

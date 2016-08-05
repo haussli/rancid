@@ -1,4 +1,7 @@
 3.4.99
+	fnlogin: fix pager disabling for newer o/s - Romanens Xavier, Michael
+	Newton confirms working for older 4.x o/s
+
 	edgerouter.pm: filter passwords, snmp community, keys, GC some unused
 	code, & fix comment character.
 

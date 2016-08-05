@@ -417,12 +417,6 @@ proc run_commands { prompt command } {
     global in_proc
     set in_proc 1
 
-    # Disable output paging.
-    send -- "config system console\r"
-    expect -re $prompt; send -- "set output standard\r"
-    expect -re $prompt; send -- "end\r"
-    expect -re $prompt;
-
     # handle escaped ;s in commands, and ;; and ^;
     regsub -all {([^\\]);;} $command "\\1;\u002;" esccommand
     regsub {^;} $esccommand "\u002;" command
@@ -550,17 +544,23 @@ foreach router [lrange $argv $i end] {
 	};
     }
 
+    if { $do_command || $do_script } {
+	# Disable output paging.
+	send "config global\r"
+	expect -re $prompt	{}
+	send "config system console\r"
+	expect -re $prompt	{}
+	send "set output standard\r"
+	expect -re $prompt	{}
+	send "end\r"
+	expect -re $prompt	{}
+    }
     if { $do_command } {
 	if {[run_commands $prompt $command]} {
 	    incr exitval
 	    continue
 	}
     } elseif { $do_script } {
-	# Disable output paging.
-	send "config system console\r"
-	send "set output standard\r"
-	send "end\r"
-	expect -re $prompt	{}
 	source $sfile
 	catch {close};
     } else {

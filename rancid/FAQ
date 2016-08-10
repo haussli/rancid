@@ -29,17 +29,6 @@ ToC
 8) License
 
 1) Platform/Device specific
-Q. clogin to a Cisco ASR IOS-XE is failing producing the log message:
-   %SSH-3-DH_RANGE_FAIL: Client DH key range mismatch with maximum configured DH key on server
-A. Cisco bug CSCuo76464.  See https://tools.cisco.com/bugsearch/bug/CSCuo76464
-   and http://stackoverflow.com/questions/25341773/cisco-ssh-key-exchange-fails-from-ubuntu-14-04-client-dh-key-range-mismatch.
-
-   Suggested fix is adding the below to /etc/ssh/ssh_config or ~/.ssh/config:
-
-    Host *
-           KexAlgorithms +diffie-hellman-group1-sha1
-
-
 Q. I have a Cisco Catalyst 6500 series switch running the IOS (NOT catOS)
    software, is the router.db device type cisco or cat5?
 A. A catalyst running IOS is type "cisco".  The 'show version' output will
@@ -228,6 +217,7 @@ Q. I have upgraded to rancid >=3.0 and I am not receiving updates for any
 A. Have you updated the format of your router.db files?  The field separator
    changed in 3.0.  See the UPGRADING file or router.db(5).
 
+
 Q. I have a (set of) device(s) on which collection fails.  How can I debug
    this?
 A. Our usual diagnostic procedure for this is:
@@ -296,6 +286,7 @@ A. It means that the lockfile for <group> already exists and rancid-run is
    dependant upon what is hanging.  It has been observed that some devies
    have had bugs that cause interactive sessions to hang at exit and exhibit
    other exciting behaviors.
+
 
 Q. Are there any characters in the banner that rancid has problems with OR
    I changed the device's command prompt and now collection is failing?
@@ -482,6 +473,33 @@ A. You can adjust PAR_COUNT in rancid.conf to achieve maximum efficiency
    other processes.
 
 
+Q. *login is failing to connect to devices via ssh with an error about the lack
+   of a matching key or cipher, etc..
+A. openssh has disabled (or removed from the default list offered) a number of
+   legacy cryptography algorithms, but many devices are still running old code
+   without support for newer algorithms.  Also, as of RANCiD 3.5, the ssh -c
+   option default of "3des" has been dropped from all of the login scripts due
+   to its affect on offered ssh version 2 (sshv2) ciphers, allowing sshv2
+   negotiation to proceed as normal.
+
+   See http://www.openssh.com/legacy.html, use ssh -v to display details about
+   the connection negotiation to see what the remote device supports.  Also see
+   Cisco bug https://tools.cisco.com/bugsearch/bug/CSCuo76464 and
+   http://stackoverflow.com/questions/25341773/cisco-ssh-key-exchange-fails-from-ubuntu-14-04-client-dh-key-range-mismatch.
+
+   Suggested fixes for these failures may include the following options being
+   added to /etc/ssh/ssh_config or ~/.ssh/config:
+
+   Host *
+	KexAlgorithms +diffie-hellman-group1-sha1
+	Cipher 3des
+	Ciphers 3des-cbc
+
+   Options can also be set in .cloginrc, such as:
+
+   add sshcmd * {ssh\ -o\ KexAlgorithms=+diffie-hellman-group1-sha1}
+
+
 Q. What else can I do with rancid?
 A. The possibilities are endless...rancid is non-toxic when applied properly.
    see Joe Abley and Stephen Stuart's NANOG presentation:
@@ -498,6 +516,7 @@ A. Yes.  The device type must be added to etc/rancid.types.conf such as:
 	DeviceTypeName;script;RancidScriptName
 	DeviceTypeName;login;LoginScriptName
    See rancid.types.conf(5)
+
 
 Q. I Have a device that is not supported by rancid.  How can I added support
    for it?
@@ -614,6 +633,7 @@ A. A discussion list is available, rancid-discuss@shrubbery.net.  You must
    Please, no questions about Unix or MTAs.  This is not a Unix, MTA, or
    Perl help list.  If you ask such questions, you will most likely be
    ignored.
+
 
 8) License
 Q. Please explain the RANCID license.

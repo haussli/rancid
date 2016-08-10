@@ -94,7 +94,7 @@ sub ShowConfig {
         tr/\020//d;
 
 	next if (/^\s*rogue ap classify/);
-	next if (/^\s*rogue adhoc alert/);
+	next if (/^\s*rogue (adhoc|client) alert/);
 
 	$linecnt++;
 

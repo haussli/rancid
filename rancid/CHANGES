@@ -1,4 +1,7 @@
 3.4.99
+	ciscowlc.pm: filter rogue client config that are added/removed
+	automatically - Reuben Farrelly
+
 	fnlogin: fix pager disabling for newer o/s - Romanens Xavier, Michael
 	Newton confirms working for older 4.x o/s
 

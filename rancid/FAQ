@@ -1,4 +1,4 @@
-Frequently Asked Questions about rancid - last updated 20160203.
+Frequently Asked Questions about rancid - last updated 20160808.
 
 This FAQ contains information that may not apply directly to versions of
 rancid prior to 3.0.  It also contains paths containing tags such as
@@ -37,7 +37,7 @@ A. Cisco bug CSCuo76464.  See https://tools.cisco.com/bugsearch/bug/CSCuo76464
    Suggested fix is adding the below to /etc/ssh/ssh_config or ~/.ssh/config:
 
     Host *
-           KexAlgorithms diffie-hellman-group1-sha1
+           KexAlgorithms +diffie-hellman-group1-sha1
 
 
 Q. I have a Cisco Catalyst 6500 series switch running the IOS (NOT catOS)

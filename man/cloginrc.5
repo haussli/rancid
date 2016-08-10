@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "cloginrc" "5" "25 September 2014"
+.TH "cloginrc" "5" "10 August 2016"
 .SH NAME
  \.cloginrc \- clogin configuration file
 .SH DESCRIPTION
@@ -108,12 +108,12 @@ directive.
 .\"
 .TP
 .B add cyphertype <router name glob> {<ssh encryption type>}
-cyphertype defines which encryption algorithm is used with ssh.  A device
-may not support the type ssh uses by default.  See
+cyphertype defines which encryption algorithm is used with ssh version 1.
+A device may not support the type ssh uses by default.  See
 .BR ssh (1)'s\c
  \-c option for details.
 .sp
-Default: {3des}
+Default: empty
 .\"
 .TP
 .B add enableprompt <router name glob> {"<enable prompt>"}
@@ -239,6 +239,11 @@ option to specify the protocol version, but other implementations use
 a separate binary such as "ssh1".
 .B sshcmd
 allows this to be adjusted as necessary for the local environment.
+.sp
+.B sshcmd
+also allows the user to add any other command-line options, such as altering
+the offered key exchange algorithms.
+For example: add sshcmd * {ssh\\ -o\\ KexAlgorithms=+diffie-hellman-group1-sha1}
 .sp
 Default: ssh
 .\"

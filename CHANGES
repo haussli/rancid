@@ -1,4 +1,7 @@
 3.4.99
+	*login: do not default to ssh -c 3des; as openssh removes more legacy
+	algorithms.  note work-arounds in the FAQ S3 & adjust manpages.
+
 	ciscowlc.pm: filter OUI classification failures - Reuben Farrelly
 
 	ciscowlc.pm: filter rogue client config that are added/removed

@@ -303,13 +303,15 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	} elseif [string match "ssh*" $prog] {
 	    # ssh to the router & try to login with or without an identfile.
 	    regexp {ssh(:([^[:space:]]+))*} $prog methcmd suffix port
+	    set cmd $sshcmd
 	    if {"$port" == ""} {
-		set cmd [join [lindex $sshcmd 0] " "]
-		set retval [ catch {eval spawn [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason ]
-	    } else {
-		set cmd [join [lindex $sshcmd 0] " "]
-		set retval [ catch {eval spawn [split "$cmd -c $cyphertype -x -l $user -p $port $router" { }]} reason ]
+		# XXX set cmd [join [lindex $sshcmd 0] " "]
+		set cmd "$cmd -p $port"
 	    }
+	    if {"$cyphertype" != ""} {
+		set cmd "$cmd -c $cyphertype"
+	    }
+	    set retval [catch {eval spawn [split "$cmd -x -l $user $router" { }]} reason]
 	    if { $retval } {
 		send_user "\nError: $sshcmd failed: $reason\n"
 		return 1
@@ -796,7 +798,6 @@ foreach router [lrange $argv $i end] {
         set cyphertype $cypher
     } else {
         set cyphertype [find cyphertype $router]
-        if { "$cyphertype" == "" } { set cyphertype "3des" }
     }
 
     # Figure out connection method

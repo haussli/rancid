@@ -276,7 +276,10 @@ proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype } {
 	    if {"$port" != ""} {
 		set cmd "$cmd -p $port"
 	    }
-	    set retval [ catch {eval spawn [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason ]
+	    if {"$cyphertype" != ""} {
+		set cmd "$cmd -c $cyphertype"
+	    }
+	    set retval [ catch {eval spawn [split "$cmd -x -l $user $router" { }]} reason ]
 	    if { $retval } {
 		send_user "\nError: $cmd failed: $reason\n"
 		return 1
@@ -514,7 +517,6 @@ foreach router [lrange $argv $i end] {
       set cyphertype $cypher
     } else {
       set cyphertype [find cyphertype $router]
-      if { "$cyphertype" == "" } { set cyphertype "3des" }
     }
 
     # Figure out connection method

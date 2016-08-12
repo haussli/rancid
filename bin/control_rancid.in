@@ -482,15 +482,15 @@ cd $DIR
 
 # no routers, empty list or all 'down'
 if [ ! -s routers.up ] ; then
-    # commit router.db
+    # commit router.db, etc
     message="updates of group $GROUP"
     case $RCSSYS in
     cvs | svn )
-	$RCSSYS commit -m "$message" router.db
+	$RCSSYS commit -m "$message"
 	;;
     git )
 	git add router.db
-	git commit -m "$message" router.db
+	git commit -am "$message"
 	;;
     esac
     exit;

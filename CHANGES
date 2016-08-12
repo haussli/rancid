@@ -1,4 +1,7 @@
 3.4.99
+	control_rancid: if the router list is empty, commit everything, not
+	just router.db.  .cvsignore, rancid.conf, etc.
+
 	*login: do not default to ssh -c 3des; as openssh removes more legacy
 	algorithms.  note work-arounds in the FAQ S3 & adjust manpages.
 

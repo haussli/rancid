@@ -291,7 +291,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	incr progs -1
 	if [string match "telnet*" $prog] {
 	    regexp {telnet(:([^[:space:]]+))*} $prog methcmd suffix port
-	    if {"$port" == ""} {
+	    if {"$port" != ""} {
 		set retval [catch {spawn telnet $router} reason]
 	    } else {
 		set retval [catch {spawn telnet $router $port} reason]
@@ -304,7 +304,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	    # ssh to the router & try to login with or without an identfile.
 	    regexp {ssh(:([^[:space:]]+))*} $prog methcmd suffix port
 	    set cmd $sshcmd
-	    if {"$port" == ""} {
+	    if {"$port" != ""} {
 		# XXX set cmd [join [lindex $sshcmd 0] " "]
 		set cmd "$cmd -p $port"
 	    }

@@ -123,8 +123,11 @@ elif [ "$LIST_OF_GROUPS" = "" ] ; then
     exit 1
 fi
 
+# LOGDIR location
+LOGDIR=${LOGDIR:=$BASEDIR/logs};
 if [ ! -d $LOGDIR ] ; then
-    mkdir $LOGDIR || (echo "Could not create log directory: $LOGDIR"; exit 1)
+    mkdir -p $LOGDIR || (echo "Could not create log directory: $LOGDIR" >&2;
+			 exit 1)
 fi
 
 for GROUP in $LIST_OF_GROUPS

@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid.conf" "5" "3 April 2016"
+.TH "rancid.conf" "5" "15 August 2016"
 .SH NAME
 rancid.conf \- rancid environment configuration file
 .SH DESCRIPTION
@@ -163,6 +163,8 @@ starts to complain about a hung collection.  The default is 4 hours.
 Directory where
 .B rancid-run
 places log files.
+This can not be set or altered effectively in a group-specific
+.B rancid.conf.
 .sp
 Default: $BASEDIR/logs
 .\"
@@ -315,6 +317,9 @@ may produce quite unexpected results.
 .TP
 .B @sysconfdir@/rancid.conf
 Configuration file described here.
+.TP
+.B <group>/rancid.conf
+Group-specific configuration file described here.
 .El
 .\"
 .SH "SEE ALSO"

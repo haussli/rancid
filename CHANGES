@@ -1,4 +1,7 @@
 3.4.99
+	rancid-cvs, rancid-run, rancid.conf: use LOGDIR from rancid.conf, set a
+	default, and makes manpage notes - David Jones
+
 	complogin: correct ssh/telnet port variable check
 
 	control_rancid: if the router list is empty, commit everything, not

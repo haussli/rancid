@@ -134,9 +134,11 @@ git)
     ;;
 esac
 
-# Log dir
-if [ ! -d logs ]; then
-    mkdir logs
+# LOGDIR location
+LOGDIR=${LOGDIR:=$BASEDIR/logs};
+if [ ! -d $LOGDIR ]; then
+    mkdir -p $LOGDIR || (echo "Could not create log directory: $LOGDIR" >&2;    
+			 exit 1)
 fi
 
 # Which groups to do

@@ -1,4 +1,6 @@
 3.4.99
+	complogin: correct ssh/telnet port variable check
+
 	control_rancid: if the router list is empty, commit everything, not
 	just router.db.  .cvsignore, rancid.conf, etc.
 

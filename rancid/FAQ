@@ -492,8 +492,8 @@ A. openssh has disabled (or removed from the default list offered) a number of
 
    Host *
 	KexAlgorithms +diffie-hellman-group1-sha1
-	Cipher 3des
-	Ciphers 3des-cbc
+	Cipher +3des
+	Ciphers +3des-cbc
 
    Options can also be set in .cloginrc, such as:
 

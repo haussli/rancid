@@ -52,7 +52,7 @@ sub inloop {
 
 TOP: while(<$INPUT>) {
 	tr/\015//d;
-	if (/[>#]\s?exit$/) {
+CMD:	if (/[>#]\s?exit$/) {
 	    $clean_run = 1;
 	    last;
 	}
@@ -82,6 +82,11 @@ TOP: while(<$INPUT>) {
 	    if ($rval == -1) {
 		$clean_run = 0;
 		last TOP;
+	    }
+	    if (defined($prompt)) {
+		if (/$prompt/) {
+		    goto CMD;
+		}
 	    }
 	}
     }

@@ -1,4 +1,4 @@
-3.4.99
+3.5
 	aeos.pm: handle returning from a function with a prompt in $_
 
 	rancid-cvs, rancid-run, rancid.conf: use LOGDIR from rancid.conf, set a

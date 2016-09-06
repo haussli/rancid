@@ -1,3 +1,6 @@
+3.5.1
+	hlogin: missed an ssh -c option among the clean-up - Mark Felder
+
 3.5
 	aeos.pm: handle returning from a function with a prompt in $_
 

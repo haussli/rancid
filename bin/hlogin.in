@@ -317,7 +317,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 		set cmd "$cmd -i $identfile"
 	    }
 	    if { $do_command || $do_script } {
-		set retval [ catch {eval spawn hpuifilter -- [split "$cmd -c $cyphertype -x -l $user $router" { }]} reason ]
+		set retval [ catch {eval spawn hpuifilter -- [split "$cmd -x -l $user $router" { }]} reason ]
 	    } else {
 		set retval [ catch {eval spawn [split "$cmd -x -l $user $router" { }]} reason ]
 	    }

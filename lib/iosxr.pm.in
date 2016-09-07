@@ -446,6 +446,8 @@ sub ShowInstallActive {
 	return(1) if (/^(-+\^|syntax error: unknown argument)$/i);	# NCS
 	return(-1) if (/command authorization failed/i);
 
+	next if (/fpd upgrade has ended/i);	# useless message
+
 	ProcessHistory("COMMENTS","keysort","F5","!Image: $_") && next;
     }
     return(0);

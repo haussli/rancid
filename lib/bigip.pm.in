@@ -258,6 +258,11 @@ sub WriteTerm {
             ProcessHistory("ENABLE","","","# $1 <removed>\n");
             next;
         }
+        if (/(auth-password-encrypted) / && 
+	    ($filter_osc || $filter_pwds > 1)) {
+            ProcessHistory("ENABLE","","","# $1 <removed>\n");
+            next;
+        }
 
         # catch anything that wasnt matched above.
         ProcessHistory("","","","$_");

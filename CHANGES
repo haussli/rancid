@@ -1,4 +1,6 @@
 3.5.99
+	bigip.pm: filter snmpv3 oscillating auth-password-encrypted
+
 	iosxr.pm: filter useless FPD upgrade message
 
 3.5.1

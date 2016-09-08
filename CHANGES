@@ -1,4 +1,6 @@
 3.5.99
+	fnrancid: fix formatting around removal of private-keys
+
 	bigip.pm: filter snmpv3 oscillating auth-password-encrypted
 
 	iosxr.pm: filter useless FPD upgrade message

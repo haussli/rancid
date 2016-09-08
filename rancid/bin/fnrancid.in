@@ -215,7 +215,7 @@ sub GetConf {
 	if ($filter_osc &&
 	    /^\s*set private-key "-----BEGIN (RSA|ENCRYPTED) PRIVATE KEY-----/) {
 	    ProcessHistory("","","","#$_");
-	    ProcessHistory("","","","# <removed>");
+	    ProcessHistory("","","","# <removed>\n");
 	    while (<INPUT>) {
 		tr/\015//d;
 		last if (/$prompt/);
@@ -225,6 +225,7 @@ sub GetConf {
 		    last;
 		}
 	    }
+	    next;
 	}
 	# filter cycling password encryption
 	if (/^(\s*set \S*)\s(enc\s\S+)(.*)/i &&

@@ -1,4 +1,7 @@
 3.5.99
+	control_rancid: use git ls-files instead of git status for .gitignore
+	and <group>/rancid.conf
+
 	fnrancid: fix formatting around removal of private-keys
 
 	bigip.pm: filter snmpv3 oscillating auth-password-encrypted

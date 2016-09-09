@@ -181,6 +181,11 @@ git )
     if [ ! -f .gitignore ] ; then
 	touch .gitignore
 	git add .gitignore
+    else
+	git ls-files .gitignore --error-unmatch > /dev/null 2>&1
+	if [ $? -ne 0 ] ; then
+	    git add .gitignore
+	fi
     fi
     rm -rf .gitignore
     cat > .gitignore <<EOF
@@ -247,7 +252,7 @@ if [ -f rancid.conf ] ; then
 	LN=`(svn ls rancid.conf | wc -l) 2>/dev/null`
 	;;
     git )
-	git status -s rancid.conf | grep '^?'
+	git ls-files rancid.conf --error-unmatch > /dev/null 2>&1
 	if [ $? -eq 0 ] ; then LN=1; else LN=0; fi
         ;;
     esac

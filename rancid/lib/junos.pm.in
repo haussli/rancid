@@ -496,6 +496,7 @@ sub ShowVersion {
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
+	return -1 if (/select: protocol failure /i);	# fail sending cmd
 	next if (/^\s*$/);
 	next if (/^system (shutdown message from|going down )/i);
 	next if (/^\{(master|backup)(:\d+)?\}/);

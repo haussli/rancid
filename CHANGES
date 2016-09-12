@@ -1,4 +1,6 @@
 3.5.99
+	junos.pm: handle a transient cmd protocol failure seen in show version
+
 	control_rancid: use git ls-files instead of git status for .gitignore
 	and <group>/rancid.conf
 

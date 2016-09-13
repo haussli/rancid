@@ -496,6 +496,7 @@ if [ ! -s routers.up ] ; then
     git )
 	git add router.db
 	git commit -am "$message"
+	git push
 	;;
     esac
     exit;

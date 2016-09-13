@@ -130,6 +130,7 @@ $queries->{"interface"} = {
 	framerelay => "show frame-relay PVC [DLCI]",
 	intdescr => "show interface description",
 	interface => "show interface [interface]",
+	intoptics => "show interface optics <interface>",
 	intwanphy => "show interface wanphy <interface>"
 };
 #

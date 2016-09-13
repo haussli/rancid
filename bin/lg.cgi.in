@@ -3,12 +3,12 @@
 ## $Id$
 ##
 ## @PACKAGE@ @VERSION@
-## Copyright (c) @COPYYEARS@ by Terrapin Communications, Inc.
+## Copyright (c) @COPYYEARS@ by Henry Kilmer and John Heasley
 ## All rights reserved.
 ##
 ## This code is derived from software contributed to and maintained by
-## Terrapin Communications, Inc. by Henry Kilmer, John Heasley, Andrew Partan,
-## Pete Whiting, Austin Schutz, and Andrew Fort.
+## Henry Kilmer, John Heasley, Andrew Partan, Pete Whiting, Austin Schutz,
+## and Andrew Fort.
 ##
 ## Redistribution and use in source and binary forms, with or without
 ## modification, are permitted provided that the following conditions
@@ -20,15 +20,15 @@
 ##    documentation and/or other materials provided with the distribution.
 ## 3. All advertising materials mentioning features or use of this software
 ##    must display the following acknowledgement:
-##        This product includes software developed by Terrapin Communications,
-##        Inc. and its contributors for RANCID.
-## 4. Neither the name of Terrapin Communications, Inc. nor the names of its
+##        This product includes software developed by Henry Kilmer and John
+##        Heasley and its contributors for RANCID.
+## 4. Neither the name of RANCID nor the names of its
 ##    contributors may be used to endorse or promote products derived from
 ##    this software without specific prior written permission.
 ## 5. It is requested that non-binding fixes and modifications be contributed
-##    back to Terrapin Communications, Inc.
+##    back to RANCID.
 ##
-## THIS SOFTWARE IS PROVIDED BY Terrapin Communications, INC. AND CONTRIBUTORS
+## THIS SOFTWARE IS PROVIDED BY Henry Kilmer, John Heasley AND CONTRIBUTORS
 ## ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
 ## TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
 ## PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COMPANY OR CONTRIBUTORS
@@ -39,6 +39,13 @@
 ## CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ## ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 ## POSSIBILITY OF SUCH DAMAGE.
+##
+## It is the request of the authors, but not a condition of license, that
+## parties packaging or redistributing RANCID NOT distribute altered versions
+## of the etc/rancid.types.base file nor alter how this file is processed nor
+## when in relation to etc/rancid.types.conf.  The goal of this is to help
+## suppress our support costs.  If it becomes a problem, this could become a
+## condition of license.
 #
 # The original original lookingglass s/w was written by Ed Kern.  It was
 # a single script that used to be available at http://nitrous.digex.net/.
@@ -507,6 +514,7 @@ if ($mfg eq "cisco") {
 		intbrief => "show ip interface",	# switch in {interface}
 		intdescr => "show interfaces description",
 		interface => "show interface",
+		#intoptics => "show controllers",	# XXX whats cmd on ios?
 		#intwanphy => "show controllers wanphy",# XXX whats cmd on ios?
 		# Routing Queries
 		damp => "show ip bgp dampened-paths",
@@ -550,6 +558,7 @@ if ($mfg eq "cisco") {
 		intbrief => "show ipv4 interface",
 		intdescr => "show interfaces description",
 		interface => "show interface",
+		intoptics => "show controllers",
 		intwanphy => "show controllers wanphy",
 		# Routing Queries
 		damp => "show bgp all all dampened-paths",
@@ -593,6 +602,7 @@ if ($mfg eq "cisco") {
 		# Interface Queries
 		#framerelay => "show frame-relay pvc",	# no compatible command
 		interface => "show interface",
+		#intoptics => "show controllers",	# XXX whats cmd on fdry?
 		#intwanphy => "show controllers wanphy",# XXX whats cmd on fdry?
 		# Routing Queries
 		damp => "show ip bgp dampened-paths",
@@ -635,7 +645,8 @@ if ($mfg eq "cisco") {
 		intbrief => "show ip interface",	# switch in {interface}
 		intdescr => "show interfaces descriptions",
 		interface => "show interface",
-		intwanphy => "show interface",		# XXX "<intf> media detail"
+		intoptics => "show interfaces diagnostics optics", # <intf>
+		intwanphy => "show interface",		# "<intf> media detail"
 		# Routing Queries
 		damp => "show route damping suppressed terse table inet.0",
 		neighbor => "show bgp neighbor",
@@ -749,6 +760,25 @@ if ($type eq "prefix" || $type eq "mbgp" || $type eq "route" ) {
 		$arg .= " extensive";
 	    }
 	    $optind += 1;
+	}
+    }
+} elsif ($type eq "intoptics") {
+    # arg 0 may be an intf name or a display option, but there can
+    # only be 2 args
+    if ($#arg < 0 || $arg[0] =~ /^\s*$/) {
+&Error("show interface optics requires an interface argument.\n");
+    }
+    if ($mfg =~ /cisco-xr/) {
+	if ($arg[0] =~ /^([^0-9]* ?\d+[^[:space:]]*)/i) {
+	    $arg = "$1 phy";
+	} else {
+	    &Error("Interface argument $arg[0] did not match interface regex.\n");
+	}
+    } elsif ($mfg =~ /juniper/) {
+	if ($arg[0] =~ /^([a-z0-9]{2}\-\d+\/\d+\/\d+(:\d+)?)/i) {
+	    $arg = "$1";
+	} else {
+	    &Error("Interface argument $arg[0] did not match interface regex.\n");
 	}
     }
 } elsif ($type eq "intwanphy") {

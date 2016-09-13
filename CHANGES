@@ -1,4 +1,6 @@
 3.5.99
+	lg: Add show interface optics 
+
 	iosxr.pm: More useless FPD messages
 
 	junos.pm: handle a transient cmd protocol failure seen in show version

@@ -530,7 +530,7 @@ smc;login;hlogin
 #
 # ALU/Nokia TimOS
 timos;script;rancid -t timos
-timos;login;clogin
+timos;login;allogin
 timos;module;timos
 timos;inloop;timos::inloop
 timos;command;timos::ShowSystemInfo;show system information

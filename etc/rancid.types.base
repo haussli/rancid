@@ -534,8 +534,10 @@ timos;login;clogin
 timos;module;timos
 timos;inloop;timos::inloop
 timos;command;timos::ShowSystemInfo;show system information
+timos;command;timos::ShowRedundancy;show redundancy synchronization
 timos;command;timos::ShowChassis;show chassis
 timos;command;timos::ShowChassisEnv;show chassis environment
+timos;command;timos::ShowChassisPS;show chassis power-supply
 timos;command;timos::ShowCardState;show card state
 timos;command;timos::BootLog;file type bootlog.txt
 timos;command;timos::ShowDebug;show debug

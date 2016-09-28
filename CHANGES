@@ -1,4 +1,6 @@
 3.5.99
+	ios.pm: also filter IPv6 PDP addresses
+
 	ios.pm: evaluation license periods are displayed differently
 
 	lg: Add show interface optics 

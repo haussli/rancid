@@ -501,8 +501,8 @@ sub ShowCellular {
 	return(1) if (/(invalid (input|command) detected|type help or )/i);
 
 	# Ignore the PDP address and assigned DNS servers
-	next if (/^PDP address/);
-	next if (/^\s*(Primary|Secondary) DNS address/);
+	next if (/^pdp (ipv6 )?address/i);
+	next if (/^\s*(primary|secondary) DNS (ipv6 )?address/i);
 
 	ProcessHistory("COMMENTS","keysort","CELL","!CELL: $_");
     }

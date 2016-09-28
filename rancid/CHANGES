@@ -1,5 +1,5 @@
 3.5.99
-	ios.pm: also filter IPv6 PDP addresses
+	ios.pm: also filter IPv6 PDP addresses - Reuben Farrelly
 
 	ios.pm: evaluation license periods are displayed differently
 

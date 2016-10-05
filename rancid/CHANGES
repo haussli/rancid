@@ -1,4 +1,8 @@
 3.5.99
+	hlogin: set tty init options when there is no controlling tty and set
+	set the term width to 132 when there is no controlling tty and for -[sc]
+	so that the hp device does not wrap lines.
+
 	ios.pm: also filter IPv6 PDP addresses - Reuben Farrelly
 
 	ios.pm: evaluation license periods are displayed differently

@@ -1,4 +1,6 @@
 3.5.99
+	plogin: add -m & -M
+
 	rancid.pm: missing variable initialization
 
 	nxos.pm: fix bug in recognizing the end of an access-list

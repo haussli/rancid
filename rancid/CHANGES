@@ -1,4 +1,6 @@
 3.5.99
+	nxos.pm: fix bug in recognizing the end of an access-list
+
 	hlogin: set tty init options when there is no controlling tty and set
 	set the term width to 132 when there is no controlling tty and for -[sc]
 	so that the hp device does not wrap lines.

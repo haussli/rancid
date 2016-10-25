@@ -807,7 +807,7 @@ REPEAT:	tr/\015//d;
 	    ProcessHistory("ACL $nlri $key","","","$_");
 	    while (<$INPUT>) {
 		tr/\015//d;
-		goto REPEAT if (/^$prompt/ || /^(\s|\d|!)/);
+		goto REPEAT if (/^$prompt/ || !/^\s/);
 		if (/^\s*!/) {
 		    ProcessHistory("ACL $nlri $key !", "", "", "$_");
 		    next;

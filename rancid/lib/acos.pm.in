@@ -101,7 +101,7 @@ sub basicFilter {
 
     while (<$INPUT>) {
 	tr/\015//d;
-	next if /^\s*$/;
+	next if (/^\s*$/);
 	last if (/$prompt/);
 	ProcessHistory($prefix,"","","!$prefix: $_");
     }
@@ -146,8 +146,8 @@ sub ShowRunningConfig {
 
     while (<$INPUT>) {
 	tr/\015//d;
-	next if /^\s*$/;
-	next if /^\s*^$/;				# cli cmd error marker
+	next if (/^\s*$/);
+	next if (/^\s*\^$/);				# cli cmd error marker
 	return(1) if (/% unrecognized command/i);	# cli cmd error
 	last if (/^$prompt/);
 

@@ -1,4 +1,7 @@
 3.5.99
+	acos.pm: recognize invalid cmd error in ShowRunningConfig() and filter
+	the config size comment
+
 	fnlogin: missing "end" to exit global mode for -[csx] - Richard Goode
 
 	plogin: add -m & -M

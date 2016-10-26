@@ -107,7 +107,12 @@ sub basicFilter {
     while (<$INPUT>) {
 	tr/\015//d;
 	next if (/^\s*$/);
+	next if (/^\s*\^$/);				# cli cmd error marker
+	return(1) if (/% unrecognized command/i);	# cli cmd error
+	return(1) if (/% incomplete command/i);		# cli cmd error
 	last if (/$prompt/);
+
+	s/\s*$/\n/;					# trim trailing WS
 	ProcessHistory($prefix,"","","!$prefix: $_");
     }
     ProcessHistory($prefix,"","","!\n");
@@ -195,15 +200,19 @@ sub ShowAflex {
 	tr/\015//d;
 	next if /^\s*$/;
 	last if (/^$prompt/);
+
+	s/\s*$/\n/;					# trim trailing WS
         ProcessHistory("AFLEX", "", "", "!AFLEX: $_");
     }
     while (/show aflex (\S+) partition/) {
-        my $name = $1;
-        my $found_content = 0;
+        my($name) = $1;
+        my($found_content) = 0;
+
         ProcessHistory("AFLEX-$name", "", "", "aflex create $name\n");
         while (<$INPUT>) {
 	    tr/\015//d;
 	    last if (/^$prompt/);
+
             if ($found_content) {
 		ProcessHistory("AFLEX-$name", "", "", "$_");
             } elsif (/^Content:/) {

@@ -14,8 +14,10 @@ a10;command;acos::ShowLicense;show license
 a10;command;acos::ShowBootimage;show bootimage
 a10;command;acos::ShowAdmin;show admin
 a10;command;acos::ShowVlan;show vlan
+a10;command;acos::ShowVlan;show vlans
 a10;command;acos::ShowAflex;show aflex all-partitions
 a10;command;acos::ShowRunningConfig;show running-config all-partitions
+a10;command;acos::ShowRunningConfig;show partition-config all
 #
 agm;script;agmrancid
 #

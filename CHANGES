@@ -1,4 +1,11 @@
 3.5.99
+	acos.pm: filter trailing WS & recognize incomplete/invalid command
+	error in basicFilter()
+
+	acos.pm: filter trailing WS in ShowAflex()
+
+	acos.pm: 'show vlan' is 'show vlans' in ACOS 4.x.
+
 	acos.pm: Add cmd 'show partition-config all' for ACOS 4.x, where
 	'show running-config all-partitions' does not work.
 

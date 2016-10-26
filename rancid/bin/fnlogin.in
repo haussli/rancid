@@ -556,6 +556,8 @@ foreach router [lrange $argv $i end] {
 	expect -re $prompt	{}
 	send "end\r"
 	expect -re $prompt	{}
+	send "end\r"
+	expect -re $prompt	{}
     }
     if { $do_command } {
 	if {[run_commands $prompt $command]} {

@@ -1,4 +1,6 @@
 3.5.99
+	fnlogin: missing "end" to exit global mode for -[csx] - Richard Goode
+
 	plogin: add -m & -M
 
 	rancid.pm: missing variable initialization

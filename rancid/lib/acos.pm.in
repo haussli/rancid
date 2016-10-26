@@ -42,7 +42,7 @@ sub inloop {
 
 TOP: while(<$INPUT>) {
 	tr/\015//d;
-	if (/[>#]\s?exit$/) {
+CMD:	if (/[>#]\s?exit$/) {
 	    $clean_run = 1;
 	    last;
 	}
@@ -70,6 +70,11 @@ TOP: while(<$INPUT>) {
 	    if ($rval == -1) {
 		$clean_run = 0;
 	        last TOP;
+	    }
+	    if (defined($prompt)) {
+		if (/$prompt/) {
+		    goto CMD;
+		}
 	    }
 	}
     }
@@ -150,6 +155,7 @@ sub ShowRunningConfig {
 	next if (/^\s*\^$/);				# cli cmd error marker
 	return(1) if (/% unrecognized command/i);	# cli cmd error
 	last if (/^$prompt/);
+	return(1) if (/invalid (input|command) detected/i);
 
 	# skip consecutive comment lines
 	if (/^!\s*$/) {
@@ -162,20 +168,19 @@ sub ShowRunningConfig {
 
         next if (/^!(current configuration:|configuration last)/i);
         next if (/^vcs config-info/);
+	if ((/^(.* password encrypted )\S+(.*)/ ||
+	     /^(.* secret secret-encrypted )\w+( .*)/) && $filter_pwds >= 1) {
+	    ProcessHistory("CONFIG", "", "", "$1<removed>$2\n");
+	    next;
+	}
+	if (/^(snmp-server community \S+ )\S+(.*)/ && $filter_commstr >= 1) {
+	    ProcessHistory("CONFIG", "", "", "!$1<removed>$2\n");
+	    next;
+	}
         ProcessHistory("CONFIG","","","$_");
-        if ((/^(.* password encrypted )\S+(.*)/ ||
-             /^(.* secret secret-encrypted )\w+( .*)/) && $filter_pwds >= 1) {
-            ProcessHistory("CONFIG", "", "", "$1<removed>$2\n");
-            next;
-        }
-        if (/^(snmp-server community \S+ )\S+(.*)/ && $filter_commstr >= 1) {
-            ProcessHistory("CONFIG", "", "", "$1<removed>$2\n");
-            next;
-        }
 	if (/^end/) {
 	    $found_end = 1;
-            return(0);
-        }
+	}
     }
     ProcessHistory("CONFIG","","","\n");
 

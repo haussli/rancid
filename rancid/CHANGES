@@ -1,4 +1,7 @@
 3.5.99
+	acos.pm: Add cmd 'show partition-config all' for ACOS 4.x, where
+	'show running-config all-partitions' does not work.
+
 	acos.pm: recognize invalid cmd error in ShowRunningConfig() and filter
 	the config size comment
 

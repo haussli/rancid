@@ -284,6 +284,7 @@ compass;command;eos::ShowConfig;show configuration detail
 css;script;cssrancid
 css;login;clogin
 #
+# Dell DES-3010F, DES-3052P, DES-3526, DES-3550
 dell;script;rancid -t dell
 dell;login;dllogin
 dell;module;dell

@@ -364,7 +364,6 @@ sub ipaddrval {
 
 # sortbyipaddr(IPaddr, IPaddr) compares two IPv4/v6 addresses like strcmp().
 sub sortbyipaddr {
-    my($a, $b) = @_;
     &ipaddrval($a) cmp &ipaddrval($b);
 }
 

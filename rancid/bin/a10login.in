@@ -280,62 +280,63 @@ proc run_commands { prompt command } {
     for {set i 0} {$i < $num_commands} { incr i} {
 	set command [string trim [lindex $commands $i]]
 	send -- "[subst -nocommands $command]\r"
+	# XXX this is absolutely the wrong place to do this special handling.
 	if {[string equal $command {show aflex all-partitions}]} {
 	    set partitions {}
 	    set partition {}
 	    set arules {}
 	    expect {
 		-re {partition: (\w+)}	{
-						    send_user -- "$expect_out(buffer)"
-						    if {[string length $partition] != 0} {
+					  send_user -- "$expect_out(buffer)"
+					  if {[string length $partition] != 0} {
 							lappend partitions $arules
-						    }
-						    set partition $expect_out(1,string)
-						    lappend partitions $partition
-						    set arules {}
-						    exp_continue
-						}
+					  }
+					  set partition $expect_out(1,string)
+					  lappend partitions $partition
+					  set arules {}
+					  exp_continue
+					}
 		-re {^([-\w]+)\s+Check}	{
-						    send_user -- "$expect_out(buffer)"
-						    set arule $expect_out(1,string)
-						    lappend arules $arule
-						    exp_continue
-						}
-		-re "\b+"			{ exp_continue }
+					  send_user -- "$expect_out(buffer)"
+					  set arule $expect_out(1,string)
+					  lappend arules $arule
+					  exp_continue
+					}
+		-re "\b+"		{ exp_continue }
 		-re "^\[^\n\r *]*$reprompt"	{
-						    send_user -- "$expect_out(buffer)"
-						    if {[string length $partition] != 0} {
-							lappend partitions $arules
-						    }
-						}
+					  send_user -- "$expect_out(buffer)"
+					  if {[string length $partition] != 0} {
+						lappend partitions $arules
+					  }
+					}
 		-re "^\[^\n\r]*$reprompt."	{
-						    send_user -- "$expect_out(buffer)"
-						    exp_continue
-						}
-		-re "\[^\r\n]*\[\n\r]+"		{
-						    send_user -- "$expect_out(buffer)"
-						    exp_continue
-						}
+					  send_user -- "$expect_out(buffer)"
+					  exp_continue
+					}
+		-re "\[^\r\n]*\[\n\r]+"	{
+					  send_user -- "$expect_out(buffer)"
+					  exp_continue
+					}
 	    }
 	    foreach {partition arules} $partitions {
 		foreach {arule} $arules {
 		    send -- "show aflex $arule partition $partition\r"
 		    expect {
-			-re "\b+"			{ exp_continue }
+			-re "\b+"		{ exp_continue }
 			-re "^\[^\n\r *]*$reprompt"	{
-							    send_user -- "$expect_out(buffer)"
-							    if {[string length $partition] != 0} {
-								lappend partitions $arules
-							    }
-							}
+						  send_user -- "$expect_out(buffer)"
+						  if {[string length $partition] != 0} {
+							lappend partitions $arules
+						  }
+						}
 			-re "^\[^\n\r]*$reprompt."	{
-							    send_user -- "$expect_out(buffer)"
-							    exp_continue
-							}
-			-re "\[^\r\n]*\[\n\r]+"		{
-							    send_user -- "$expect_out(buffer)"
-							    exp_continue
-							}
+						  send_user -- "$expect_out(buffer)"
+						  exp_continue
+						}
+			-re "\[^\r\n]*\[\n\r]+"	{
+						  send_user -- "$expect_out(buffer)"
+						  exp_continue
+						}
 		    }
 		}
 	    }

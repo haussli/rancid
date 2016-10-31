@@ -1,4 +1,7 @@
 3.5.99
+	rancid.types.conf, iosshtech.pm: Add device type ciscoshtech for
+	example purposes
+
 	acos.pm: filter trailing WS & recognize incomplete/invalid command
 	error in basicFilter()
 

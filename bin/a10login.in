@@ -289,7 +289,7 @@ proc run_commands { prompt command } {
 		-re {partition: (\w+)}	{
 					  send_user -- "$expect_out(buffer)"
 					  if {[string length $partition] != 0} {
-							lappend partitions $arules
+						lappend partitions $arules
 					  }
 					  set partition $expect_out(1,string)
 					  lappend partitions $partition
@@ -322,21 +322,21 @@ proc run_commands { prompt command } {
 		foreach {arule} $arules {
 		    send -- "show aflex $arule partition $partition\r"
 		    expect {
-			-re "\b+"		{ exp_continue }
+			-re "\b+"	{ exp_continue }
 			-re "^\[^\n\r *]*$reprompt"	{
-						  send_user -- "$expect_out(buffer)"
-						  if {[string length $partition] != 0} {
-							lappend partitions $arules
-						  }
-						}
+					  send_user -- "$expect_out(buffer)"
+					  if {[string length $partition] != 0} {
+						lappend partitions $arules
+					  }
+					}
 			-re "^\[^\n\r]*$reprompt."	{
-						  send_user -- "$expect_out(buffer)"
-						  exp_continue
-						}
+					  send_user -- "$expect_out(buffer)"
+					  exp_continue
+					}
 			-re "\[^\r\n]*\[\n\r]+"	{
-						  send_user -- "$expect_out(buffer)"
-						  exp_continue
-						}
+					  send_user -- "$expect_out(buffer)"
+					  exp_continue
+					}
 		    }
 		}
 	    }

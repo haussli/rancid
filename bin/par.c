@@ -1,7 +1,7 @@
 /*
  * $Id: par.c 4910 2014-01-16 20:12:45Z heas $
  *
- * Copyright (C) 2002-2016 by Henry Kilmer, Andrew Partan, John Heasley
+ * Copyright (C) 2002-2017 by Henry Kilmer, Andrew Partan, John Heasley
  * All rights reserved.
  *
  * This software may be freely copied, modified and redistributed without
@@ -99,7 +99,9 @@ int		debug = 0,
 int		devnull;			/* /dev/null */
 
 /* args */
-int		e_opt = 0,
+int		F_opt = 0,
+		H_opt = 0,
+		e_opt = 0,
 		f_opt = 0,
 		i_opt = 0,
 		n_opt = 3,
@@ -166,8 +168,14 @@ main(int argc, char **argv, char **envp)
     } else
 	errfp = stderr;
 
-    while ((i = getopt(argc, argv, "defhiqxvc:e:l:n:p:")) != -1 )
+    while ((i = getopt(argc, argv, "FHdefhiqxvc:e:l:n:p:")) != -1 )
 	switch (i) {
+	case 'F':
+	    F_opt = 1;
+	    break;
+	case 'H':
+	    H_opt = 1;
+	    break;
 	case 'c':	/* command to run */
 	    c_opt = optarg;
 	    break;
@@ -767,7 +775,7 @@ execcmd(child *c, char **cmd)
     /* block sigchld so we quickly reap it ourselves */
     sigprocmask(SIG_BLOCK, &set_chld, NULL);
 
-    if (c->logfile) {
+    if (c->logfile && !H_opt) {
 	char	*ct;
 	t = time(NULL);
 		/* XXX: build a complete cmd line */
@@ -1154,7 +1162,7 @@ shcmd(child *c, char **cmd)
     /* block sigchld so we quickly reap it ourselves */
     sigprocmask(SIG_BLOCK, &set_chld, NULL);
 
-    if (c->logfile) {
+    if (c->logfile && !H_opt) {
 	char	*ct;
 	t = time(NULL);
 	ct = ctime(&t); ct[strlen(ct) - 1] = '\0';
@@ -1230,7 +1238,7 @@ xtermcmd(child *c, char **cmd)
     /* block sigchld so we quickly reap it ourselves */
     sigprocmask(SIG_BLOCK, &set_chld, NULL);
 
-    if (c->logfile) {
+    if (c->logfile && !H_opt) {
 	char	*ct;
 	t = time(NULL);
 		/* XXX: build a complete cmd line */
@@ -1396,7 +1404,7 @@ reapchild(int sig)
 			fprintf(errfp, "%d finished (logfile %s)\n",
 				(uint32_t)pid, progeny[i].logfname);
 		}
-		if (progeny[i].logfile != NULL) {
+		if (progeny[i].logfile != NULL && !F_opt) {
 		    str = ctime(&t); str[strlen(str) - 1] = '\0';
 		    fprintf(progeny[i].logfile, "Ending: %s: pid = %d\n",
 			    str, (uint32_t)pid);

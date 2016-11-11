@@ -1,4 +1,6 @@
 3.5.99
+	par: add -FH options
+
 	rancid.types.conf, iosshtech.pm: Add device type ciscoshtech for
 	example purposes
 

@@ -1435,7 +1435,7 @@ reapchild(int sig)
 void
 usage(void)
 {
-    fprintf(errfp, "usage: %s [-dfiqvx] [-n #] [-p n] [-l logfile] [-c "
+    fprintf(errfp, "usage: %s [-FHdfiqvx] [-n #] [-p n] [-l logfile] [-c "
 		   "command] [<command file>]\n", progname);
     return;
 }

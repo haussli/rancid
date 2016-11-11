@@ -1,11 +1,11 @@
 .\" $Id$
 .hys 50
-.TH "par" "1" "1 February 2016"
+.TH "par" "1" "10 November 2016"
 .SH NAME
 par \- parallel command processing
 .SH SYNOPSIS
 .B par
-[\fB\-defiqx\fP]
+[\fB\-FHdefiqx\fP]
 [\c
 .BI \-c\ 
 command]
@@ -64,6 +64,14 @@ will produce the following output (order will vary):
 .PP
 The command-line options are as follows:
 .PP
+.TP
+.B \-F
+Omit the footer that normally follows the output of each job.
+.\"
+.TP
+.B \-H
+Omit the header that normally precedes the output of each job.
+.\"
 .TP
 .B \-c
 Command to be run on each of the arguments following the command-line

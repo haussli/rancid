@@ -1,4 +1,7 @@
 3.5.99
+	rancid.pm: check for existence of functions for given device type after
+	loading the modules for the type.  return failure if any are missing.
+
 	par: add -FH options
 
 	rancid.types.conf, iosshtech.pm: Add device type ciscoshtech for

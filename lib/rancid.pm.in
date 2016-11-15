@@ -169,8 +169,8 @@ sub loadtype {
 	    next if ($type ne $devtype);
 	    if (!$matched) {
 		$matched++;
-		print STDERR "loadtype: found device type ".
-			     "$devtype in $file\n" if ($debug);
+		printf(STDERR "loadtype: found device type %s in %s\n",
+		       $devtype, $file) if ($debug);
 	    }
 	    if ($directive eq "script") {
 		$script = $value;
@@ -183,8 +183,8 @@ sub loadtype {
 	    } elsif ($directive eq "command") {
 		push(@commandtable, {$value2, $value});
 	    } else {
-		print STDERR "loadtype: unknown directive ".
-			     "$directive at $file:$line\n";
+		printf(STDERR "loadtype: unknown directive %s at %s:%s\n",
+		       $directive, $file, $line);
 		close(INPUT);
 		return(-1);
 	    }
@@ -225,6 +225,19 @@ sub loadtype {
 
     $commandstr = join(";", @commands);
     $cmds_regexp = join("|", map quotemeta($_), @commands);
+
+    # check that the functions exist
+    if ($commandcnt) {
+	my($func);
+	foreach $func (values(%commands)) {
+	    if (! defined(&{$func})) {
+		printf(STDERR "loadtype: undefined function in %s: %s\n",
+		       $devtype, $func);
+		close(INPUT);
+		return(-1);
+	    }
+	}
+    }
 
     if ($main::opt_C) {
 	if (!defined($lscript)) {

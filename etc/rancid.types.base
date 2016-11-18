@@ -396,7 +396,7 @@ hitachi;login;htlogin
 #
 # HP Procurve switch such as the 2524, 4108 or J9086A (aka. 2610) procurve 
 # switches, J9091A, and J8698A.  
-hp;script;hrancid
+hp;script;hrancid -t hp
 hp;login;hlogin
 #
 juniper;script;rancid -t juniper

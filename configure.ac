@@ -4,10 +4,8 @@ AC_PREREQ(2.69)
 
 dnl	VERSION needs to be updated such that 'make dist' uses the correct
 dnl	filename for the directory name and tarball.
-dnl VERSION=`sed -n 's/.*version.*"\(.*\)".*/\1/p' $srcdir/include/version.h.in|tr -d ' '`
-dnl PACKAGE=`sed -n 's/.*package.*"\(.*\)".*/\1/p' $srcdir/include/version.h.in|tr -d ' '`
-VERSION=`$srcdir/configure.vers package_name`
-PACKAGE=`$srcdir/configure.vers package_version`
+PACKAGE=`$srcdir/configure.vers package_name`
+VERSION=`$srcdir/configure.vers package_version`
 AC_SUBST(VERSION)
 AC_SUBST(PACKAGE)
 AC_INIT(m4_esyscmd(configure.vers package_name),
@@ -492,7 +490,7 @@ AC_CONFIG_FILES(bin/f5rancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/f10rancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/flogin, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/fnlogin bin/fnrancid, [chmod a+x $ac_file])
-AC_CONFIG_FILES(bin/hlogin bin/hrancid, [chmod a+x $ac_file])
+AC_CONFIG_FILES(bin/hlogin, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/htlogin bin/htrancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/jlogin bin/jerancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/mrancid bin/mrvlogin, [chmod a+x $ac_file])
@@ -505,7 +503,6 @@ AC_CONFIG_FILES(bin/rblogin, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/rivlogin bin/rivrancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/rrancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/rtftpcopy, [chmod a+x $ac_file])
-dnl AC_CONFIG_FILES(bin/srancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/tlogin, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/trancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/xilogin bin/xirancid, [chmod a+x $ac_file])

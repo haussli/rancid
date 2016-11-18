@@ -1,4 +1,6 @@
 3.5.99
+	hrancid: use rancid.pm (removes code duplication)
+
 	rancid.pm: check for existence of functions for given device type after
 	loading the modules for the type.  return failure if any are missing.
 

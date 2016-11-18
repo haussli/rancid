@@ -75,13 +75,12 @@ auto_edit = sed \
 	-e 's,@SENDMAIL\@,$(SENDMAIL),g' \
 	-e 's,@VERSION\@,$(VERSION),g' \
 	-e 's,@COPYYEARS\@,$(COPYYEARS),g' \
-	-e '/@copyright@/r ../COPYING' \
-	-e '/@copyright@/d'
+	-e '/@copyright@/r ../COPYING' -e '/@copyright@/d'
 
 # XXX this is the generic version for the rest of bin_scripts that comes from
 #     configure.in now.  perhaps change to use this.
 #$(bin_SCRIPTS): Makefile $(top_builddir)/config.status
-$(bin_in:%.in=%): Makefile $(top_builddir)/config.status
+$(bin_in:%.in=%): Makefile $(top_builddir)/config.status $@.in
 	rm -f $@ $@.tmp; \
 	$(auto_edit) $(srcdir)/$@.in >$@.tmp; \
 	chmod +x $@.tmp; \

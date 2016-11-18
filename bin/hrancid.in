@@ -47,8 +47,20 @@
 #
 # usage: hrancid [-dltCV] [-f filename | hostname]
 #
+use 5.010;
+use strict 'vars';
+use warnings;
+no warnings 'uninitialized';
+use Exporter;
 use Getopt::Std;
+our($opt_d, $opt_f, $opt_h, $opt_l, $opt_t, $opt_C, $opt_V);
 getopts('dflt:CV');
+BEGIN {
+    push(@INC, "@pkglibdir@");
+}
+use rancid;
+our @ISA = qw(Exporter rancid);
+
 if ($opt_V) {
     print "@PACKAGE@ @VERSION@\n";
     exit(0);
@@ -68,106 +80,8 @@ my($filter_osc);			# oscillating data filtering mode
 my($filter_pwds);			# password filtering mode
 
 my($systeminfo) = 0;			# show system-information
-
-# This routine is used to print out the router configuration
-sub ProcessHistory {
-    my($new_hist_tag,$new_command,$command_string,@string) = (@_);
-    if ((($new_hist_tag ne $hist_tag) || ($new_command ne $command))
-	&& scalar(%history)) {
-	print eval "$command \%history";
-	undef %history;
-    }
-    if (($new_hist_tag) && ($new_command) && ($command_string)) {
-	if ($history{$command_string}) {
-	    $history{$command_string} = "$history{$command_string}@string";
-	} else {
-	    $history{$command_string} = "@string";
-	}
-    } elsif (($new_hist_tag) && ($new_command)) {
-	$history{++$#history} = "@string";
-    } else {
-	print "@string";
-    }
-    $hist_tag = $new_hist_tag;
-    $command = $new_command;
-    1;
-}
-
-sub numerically { $a <=> $b; }
-
-# This is a sort routine that will sort numerically on the
-# keys of a hash as if it were a normal array.
-sub keynsort {
-    local(%lines) = @_;
-    local($i) = 0;
-    local(@sorted_lines);
-    foreach $key (sort numerically keys(%lines)) {
-	$sorted_lines[$i] = $lines{$key};
-	$i++;
-    }
-    @sorted_lines;
-}
-
-# This is a sort routine that will sort on the
-# keys of a hash as if it were a normal array.
-sub keysort {
-    local(%lines) = @_;
-    local($i) = 0;
-    local(@sorted_lines);
-    foreach $key (sort keys(%lines)) {
-	$sorted_lines[$i] = $lines{$key};
-	$i++;
-    }
-    @sorted_lines;
-}
-
-# This is a sort routine that will sort on the
-# values of a hash as if it were a normal array.
-sub valsort{
-    local(%lines) = @_;
-    local($i) = 0;
-    local(@sorted_lines);
-    foreach $key (sort values %lines) {
-	$sorted_lines[$i] = $key;
-	$i++;
-    }
-    @sorted_lines;
-}
-
-# This is a numerical sort routine (ascending).
-sub numsort {
-    local(%lines) = @_;
-    local($i) = 0;
-    local(@sorted_lines);
-    foreach $num (sort {$a <=> $b} keys %lines) {
-	$sorted_lines[$i] = $lines{$num};
-	$i++;
-    }
-    @sorted_lines;
-}
-
-# This is a sort routine that will sort on the
-# ip address when the ip address is anywhere in
-# the strings.
-sub ipsort {
-    local(%lines) = @_;
-    local($i) = 0;
-    local(@sorted_lines);
-    foreach $addr (sort sortbyipaddr keys %lines) {
-	$sorted_lines[$i] = $lines{$addr};
-	$i++;
-    }
-    @sorted_lines;
-}
-
-# These two routines will sort based upon IP addresses
-sub ipaddrval {
-    my(@a) = ($_[0] =~ m#^(\d+)\.(\d+)\.(\d+)\.(\d+)$#);
-    $a[3] + 256 * ($a[2] + 256 * ($a[1] +256 * $a[0]));
-}
-sub sortbyipaddr {
-    &ipaddrval($a) <=> &ipaddrval($b);
-}
+our $cmd;
+our @EXPORT = qw($cmd);
 
 # This routine parses "show config files"
 sub ShowConfigFiles {
@@ -514,7 +428,7 @@ sub WriteTerm {
 	}
 	# order ntp peers/servers
 	if (/^ntp (server|peer) (\d+)\.(\d+)\.(\d+)\.(\d+)/) {
-	    $sortkey = sprintf("$1 %03d%03d%03d%03d",$2,$3,$4,$5);
+	    my($sortkey) = sprintf("$1 %03d%03d%03d%03d",$2,$3,$4,$5);
 	    ProcessHistory("NTP","keysort",$sortkey,"$_");
 	    next;
 	}
@@ -534,6 +448,8 @@ sub WriteTerm {
 }
 
 # Main
+rancidinit();
+
 @commandtable = (
 	{'show version'			=> 'ShowVersion'},
 	{'show flash'			=> 'ShowFlash'},
@@ -647,7 +563,7 @@ TOP: while(<INPUT>) {
 	    $clean_run = 0;
 	    last TOP;
 	}
-	$rval = &{$commands{$cmd}}(*INPUT, *OUTPUT, $cmd);
+	my($rval) = &{$commands{$cmd}}(*INPUT, *OUTPUT, $cmd);
 	delete($commands{$cmd});
 	if ($rval == -1) {
 	    $clean_run = 0;
@@ -655,7 +571,7 @@ TOP: while(<INPUT>) {
 	}
     }
 }
-print STDOUT "Done $logincmd: $_\n" if ($log);
+print STDOUT "Done $lscript: $_\n" if ($log);
 # Flush History
 ProcessHistory("","","","");
 # Cleanup

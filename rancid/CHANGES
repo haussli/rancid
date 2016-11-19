@@ -1,4 +1,6 @@
 3.5.99
+	control_rancid: create <group>/configs if it does not exist
+
 	hrancid: use rancid.pm (removes code duplication)
 
 	rancid.pm: check for existence of functions for given device type after

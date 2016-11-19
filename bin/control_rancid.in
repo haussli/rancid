@@ -427,6 +427,18 @@ fi
 rm -f routers.db
 trap 'rm -fr $TMP;' 1 2 15
 
+if [ ! -d $DIR/configs ] ; then
+    mkdir $DIR/configs
+    if [ $? -ne 0 ] ; then
+	echo "Error: could not create missing configs directory" >&2
+	exit
+    fi
+    case $RCSSYS in
+    cvs | svn)
+	$RCSSYS add configs
+	;;
+    esac
+fi
 cd $DIR/configs
 # check for 'up' routers missing in RCS.  no idea how this happens to some folks
 for router in `cut -d\; -f1 ../routers.up` ; do

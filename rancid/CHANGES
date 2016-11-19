@@ -1,4 +1,7 @@
 3.5.99
+	a10login: remove the aflex-specific stuff.  This is the wrong way to
+	do this and it doesn't work properly anyway.
+
 	control_rancid: create <group>/configs if it does not exist
 
 	hrancid: use rancid.pm (removes code duplication)

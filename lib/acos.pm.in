@@ -80,27 +80,6 @@ CMD:	if (/[>#]\s?exit$/) {
     }
 }
 
-# parses show version
-sub ShowVersion {
-    my($INPUT, $OUTPUT, $cmd) = @_;
-
-    print STDERR "    In ShowVersion: $_" if ($debug);
-
-    while (<$INPUT>) {
-	tr/\015//d;
-	next if /^\s*$/;
-	last if (/$prompt/);
-
-        next if (/Current time is/);
-	next if (/The system has been up/);
-        next if (/Last configuration saved/);
-        next if (/Free Memory/);
-	ProcessHistory("VERSION","","","!VERSION: $_");
-    }
-    ProcessHistory("VERSION","","","!\n");
-    return(0);
-}
-
 sub basicFilter {
     my($INPUT, $OUTPUT, $cmd, $prefix) = @_;
 
@@ -119,25 +98,24 @@ sub basicFilter {
     return(0);
 }
 
-# parses show vlan
-sub ShowVlan {
+# parses show version
+sub ShowVersion {
     my($INPUT, $OUTPUT, $cmd) = @_;
-    print STDERR "    In ShowVlan: $_" if ($debug);
-    return basicFilter($INPUT, $OUTPUT, $cmd, "VLAN");
-}
+    print STDERR "    In ShowVersion: $_" if ($debug);
 
-# parses show license
-sub ShowLicense {
-    my($INPUT, $OUTPUT, $cmd) = @_;
-    print STDERR "    In ShowLicense: $_" if ($debug);
-    return basicFilter($INPUT, $OUTPUT, $cmd, "LICENSE");
-}
+    while (<$INPUT>) {
+	tr/\015//d;
+	next if /^\s*$/;
+	last if (/$prompt/);
 
-# parses show bootimage
-sub ShowBootimage {
-    my($INPUT, $OUTPUT, $cmd) = @_;
-    print STDERR "    In ShowBootimage: $_" if ($debug);
-    return basicFilter($INPUT, $OUTPUT, $cmd, "BootImage");
+        next if (/Current time is/);
+	next if (/The system has been up/);
+        next if (/Last configuration saved/);
+        next if (/Free Memory/);
+	ProcessHistory("VERSION","","","!VERSION: $_");
+    }
+    ProcessHistory("VERSION","","","!\n");
+    return(0);
 }
 
 # parses show admin
@@ -147,11 +125,59 @@ sub ShowAdmin {
     return basicFilter($INPUT, $OUTPUT, $cmd, "Users");
 }
 
+sub ShowAflex {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowAflex: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	next if /^\s*$/;
+	last if (/^$prompt/);
+
+	s/\s*$/\n/;					# trim trailing WS
+        ProcessHistory("AFLEX", "", "", "!AFLEX: $_");
+    }
+    while (/show aflex (\S+) partition/) {
+        my($name) = $1;
+        my($found_content) = 0;
+
+        ProcessHistory("AFLEX-$name", "", "", "aflex create $name\n");
+        while (<$INPUT>) {
+	    tr/\015//d;
+	    last if (/^$prompt/);
+
+            if ($found_content) {
+		ProcessHistory("AFLEX-$name", "", "", "$_");
+            } elsif (/^Content:/) {
+                $found_content = 1
+            }
+        }
+        if ($found_content) {
+	    ProcessHistory("AFLEX-$name", "", "", ".\n");
+        }
+    }
+    ProcessHistory("ADMIN","","","!\n");
+    return(0);
+}
+
+# parses show bootimage
+sub ShowBootimage {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowBootimage: $_" if ($debug);
+    return basicFilter($INPUT, $OUTPUT, $cmd, "BootImage");
+}
+
+# parses show license
+sub ShowLicense {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowLicense: $_" if ($debug);
+    return basicFilter($INPUT, $OUTPUT, $cmd, "LICENSE");
+}
+
 # parses show running-config
 sub ShowRunningConfig {
     my($INPUT, $OUTPUT, $cmd) = @_;
     my $comment = 0;
-
     print STDERR "    In ShowRunningConfig: $_" if ($debug);
 
     while (<$INPUT>) {
@@ -192,39 +218,11 @@ sub ShowRunningConfig {
     return(0);
 }
 
-sub ShowAflex {
+# parses show vlan
+sub ShowVlan {
     my($INPUT, $OUTPUT, $cmd) = @_;
-    print STDERR "    In ShowAflex: $_" if ($debug);
-
-    while (<$INPUT>) {
-	tr/\015//d;
-	next if /^\s*$/;
-	last if (/^$prompt/);
-
-	s/\s*$/\n/;					# trim trailing WS
-        ProcessHistory("AFLEX", "", "", "!AFLEX: $_");
-    }
-    while (/show aflex (\S+) partition/) {
-        my($name) = $1;
-        my($found_content) = 0;
-
-        ProcessHistory("AFLEX-$name", "", "", "aflex create $name\n");
-        while (<$INPUT>) {
-	    tr/\015//d;
-	    last if (/^$prompt/);
-
-            if ($found_content) {
-		ProcessHistory("AFLEX-$name", "", "", "$_");
-            } elsif (/^Content:/) {
-                $found_content = 1
-            }
-        }
-        if ($found_content) {
-	    ProcessHistory("AFLEX-$name", "", "", ".\n");
-        }
-    }
-    ProcessHistory("ADMIN","","","!\n");
-    return(0);
+    print STDERR "    In ShowVlan: $_" if ($debug);
+    return basicFilter($INPUT, $OUTPUT, $cmd, "VLAN");
 }
 
 1;

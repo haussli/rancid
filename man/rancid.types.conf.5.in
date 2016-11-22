@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid.types.conf" "5" "12 February 2014"
+.TH "rancid.types.conf" "5" "22 November 2016"
 .SH NAME
 rancid.types.conf \- rancid device type configuration file
 .SH DESCRIPTION
@@ -76,6 +76,7 @@ Intended for
 .IR rancid(1),
 .B inloop
 defines a function to loop over the input from the device.
+It must have the calling signature f($INPUT, $OUTPUT).
 .TP
 .B login
 Defines the login script used for the <device_type>, which does not need to

@@ -531,24 +531,6 @@ riverstone;login;rivlogin
 smc;script;srancid
 smc;login;hlogin
 #
-# ALU/Nokia TimOS
-timos;script;rancid -t timos
-timos;login;allogin
-timos;module;timos
-timos;inloop;timos::inloop
-timos;command;timos::ShowSystemInfo;show system information
-timos;command;timos::ShowRedundancy;show redundancy synchronization
-timos;command;timos::ShowChassis;show chassis
-timos;command;timos::ShowChassisEnv;show chassis environment
-timos;command;timos::ShowChassisPS;show chassis power-supply
-timos;command;timos::ShowCardState;show card state
-timos;command;timos::BootLog;file type bootlog.txt
-timos;command;timos::ShowDebug;show debug
-timos;command;timos::ConfigDBG;file type config.dbg
-timos;command;timos::ShowBOF;show bof
-timos;command;timos::WriteTermIndex;admin display-config index
-timos;command;timos::WriteTerm;admin display-config
-#
 xirrus;script;xirancid
 xirrus;login;xilogin
 #

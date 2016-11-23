@@ -194,20 +194,31 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	    catch {close}; catch {wait};
 	    return 1
 	}
-	-re "(Host key not found |The authenticity of host .* be established).*\\(yes\/no\\)\\?" {
-	    send "yes\r"
-	    send_user "\nHost $router added to the list of known hosts.\n"
+	-re "(Host key not found |The authenticity of host .* be established)" {
+	    expect {
+		-re "\\(yes\/no\\)\\?"	{ send "yes\r";
+					  send_user "\nHost $router added to the list of known hosts.\n"
+					 }
+		-re "\[^\r\n]*\[\r\n]+"	{ exp_continue; }
+	    }
 	    exp_continue
 	}
-	-re "HOST IDENTIFICATION HAS CHANGED.* \\(yes\/no\\)\\?" {
-	    send "no\r"
+	-re "HOST IDENTIFICATION HAS CHANGED" {
 	    send_user "\nError: The host key for $router has changed.  Update the SSH known_hosts file accordingly.\n"
+	    expect {
+		-re "\\(yes\/no\\)\\?"	{ send "no\r" }
+		-re " strict checking\.\[\r\n]+" { }
+		-re "\[^\r\n]*\[\r\n]+"	{ exp_continue; }
+	    }
 	    catch {close}; catch {wait};
 	    return 1
 	}
-	-re "Offending key for .* \\(yes\/no\\)\\?" {
-	    send "no\r"
+	-re "Offending key for " {
 	    send_user "\nError: host key mismatch for $router.  Update the SSH known_hosts file accordingly.\n"
+	    expect {
+		-re "\\(yes\/no\\)\\?"	{ send "no\r" }
+		-re "\[^\r\n]*\[\r\n]+"	{ exp_continue; }
+	    }
 	    catch {close}; catch {wait};
 	    return 1
 	}

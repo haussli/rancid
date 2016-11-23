@@ -659,6 +659,7 @@ foreach router [lrange $argv $i end] {
 				  # which may have an * at the beginning.
 				  # save the whole prompt to match once below.
 				  set lastprompt $expect_out(0,string)
+				  regsub -all {[*]} $lastprompt {\\&} lastprompt
 				  set junk $expect_out(1,string)
 				  regsub -all "^\\\* " $expect_out(1,string) {} junk
 				  regsub -all "\[\]\[\(\)]" $junk {\\&} junk;

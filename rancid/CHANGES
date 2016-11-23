@@ -1,4 +1,6 @@
 3.5.99
+	xlogin: escape the * in lastprompt - Mattieu Beretti
+
 	*login: change handling of ssh key-related prompts to one line at a time
 	to eliminate timing-related problem.
 

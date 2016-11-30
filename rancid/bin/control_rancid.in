@@ -157,7 +157,7 @@ if [ $RCSSYS != "cvs" -a $RCSSYS != "svn" -a $RCSSYS != "git" ] ; then
     exit 1
 fi
 
-# the receipient(s) of diffs & mail options
+# the recipient(s) of diffs & mail options
 mailrcpt=${mailrcpt:-"@MAILPLUS@${GROUP}${MAILDOMAIN}"}; export mailrcpt
 adminmailrcpt=${adminmailrcpt:-"@ADMINMAILPLUS@${GROUP}${MAILDOMAIN}"};
 export adminmailrcpt
@@ -173,6 +173,20 @@ MAX_ROUNDS=${MAX_ROUNDS:-4}
 if [ $MAX_ROUNDS -lt 0 ] ; then
     echo "Error: MAX_ROUNDS must be at least 0 or greater." >&2
     MAX_ROUNDS=1
+fi
+
+# Check for missing configs dir.
+if [ ! -d $DIR/configs ] ; then
+    mkdir $DIR/configs
+    if [ $? -ne 0 ] ; then
+	echo "Error: could not create missing configs directory" >&2
+	exit
+    fi
+    case $RCSSYS in
+    cvs | svn)
+	$RCSSYS add configs
+	;;
+    esac
 fi
 
 # create a .cvsignore/.gitignore
@@ -427,18 +441,6 @@ fi
 rm -f routers.db
 trap 'rm -fr $TMP;' 1 2 15
 
-if [ ! -d $DIR/configs ] ; then
-    mkdir $DIR/configs
-    if [ $? -ne 0 ] ; then
-	echo "Error: could not create missing configs directory" >&2
-	exit
-    fi
-    case $RCSSYS in
-    cvs | svn)
-	$RCSSYS add configs
-	;;
-    esac
-fi
 cd $DIR/configs
 # check for 'up' routers missing in RCS.  no idea how this happens to some folks
 for router in `cut -d\; -f1 ../routers.up` ; do

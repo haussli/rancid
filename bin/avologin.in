@@ -320,17 +320,19 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	# This helps cleanup each expect clause.
 	expect_after {
 	    timeout {
+		global in_proc
 		send_user "\nError: TIMEOUT reached\n"
 		catch {close}; catch {wait};
-		if { $in_proc} {
+		if {$in_proc} {
 		    return 1
 		} else {
 		    continue
 		}
 	    } eof {
+		global in_proc
 		send_user "\nError: EOF received\n"
 		catch {close}; catch {wait};
-		if { $in_proc} {
+		if {$in_proc} {
 		    return 1
 		} else {
 		    continue

@@ -1,4 +1,7 @@
 3.5.99
+	*login: in_proc must be global in expect_after.  had trouble reproducing
+	the original error, but this should be the correct fix.
+
 	xlogin: escape the * in lastprompt - Mattieu Beretti
 
 	*login: change handling of ssh key-related prompts to one line at a time

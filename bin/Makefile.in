@@ -98,13 +98,13 @@ DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
 CONFIG_CLEAN_FILES = login_top control_rancid a10login agmrancid \
-	allogin alogin arancid anlogin avologin avorancid blogin \
-	brancid brlogin cat5rancid clogin complogin cssrancid dllogin \
-	elogin erancid f5rancid f10rancid flogin fnlogin fnrancid \
-	hlogin htlogin htrancid jlogin jerancid mrancid mrvlogin \
-	mtrancid mtlogin nlogin nrancid nslogin nsrancid panlogin \
-	prancid rblogin rivlogin rivrancid rrancid rtftpcopy tlogin \
-	trancid xilogin xirancid xlogin ulogin wlogin zrancid
+	alogin arancid anlogin avologin avorancid blogin brancid \
+	brlogin cat5rancid clogin complogin cssrancid dllogin elogin \
+	erancid f5rancid f10rancid flogin fnlogin fnrancid hlogin \
+	htlogin htrancid jlogin jerancid mrancid mrvlogin mtrancid \
+	mtlogin nlogin nrancid nslogin nsrancid panlogin prancid \
+	rblogin rivlogin rivrancid rrancid rtftpcopy tlogin trancid \
+	xilogin xirancid xlogin ulogin wlogin zrancid
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -197,8 +197,8 @@ am__define_uniq_tagged_files = \
 ETAGS = etags
 CTAGS = ctags
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/a10login.in \
-	$(srcdir)/agmrancid.in $(srcdir)/allogin.in \
-	$(srcdir)/alogin.in $(srcdir)/anlogin.in $(srcdir)/arancid.in \
+	$(srcdir)/agmrancid.in $(srcdir)/alogin.in \
+	$(srcdir)/anlogin.in $(srcdir)/arancid.in \
 	$(srcdir)/avologin.in $(srcdir)/avorancid.in \
 	$(srcdir)/blogin.in $(srcdir)/brancid.in $(srcdir)/brlogin.in \
 	$(srcdir)/cat5rancid.in $(srcdir)/clogin.in \
@@ -444,8 +444,6 @@ control_rancid: $(top_builddir)/config.status $(srcdir)/control_rancid.in
 a10login: $(top_builddir)/config.status $(srcdir)/a10login.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 agmrancid: $(top_builddir)/config.status $(srcdir)/agmrancid.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-allogin: $(top_builddir)/config.status $(srcdir)/allogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 alogin: $(top_builddir)/config.status $(srcdir)/alogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

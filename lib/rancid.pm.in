@@ -353,7 +353,7 @@ sub ipaddrval {
 	my($l);
 	($a, $l) = split(/\//, $a);
 	if (!defined($l)) {
-	    $l ||= 128;
+	    $l = 128;
 	}
 	$norder = inet_pton(AF_INET6, $a);
 	if (defined($norder)) {

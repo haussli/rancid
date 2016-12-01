@@ -1,4 +1,6 @@
 3.5.99
+	rancid.pm: ipaddrval() if IPv6 prefix length is missing, simply set 128.
+
 	*login: in_proc must be global in expect_after.  had trouble reproducing
 	the original error, but this should be the correct fix.
 

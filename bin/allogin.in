@@ -634,13 +634,13 @@ foreach router [lrange $argv $i end] {
 	    }
 	}
     }
-    # we are logged in, now figure out the full prompt
+    # we are logged in, now figure out the full prompt:
+    # cli prompt:
+    # A:some.domain.name# configure 
+    # config prompt:
+    # A:some.domain.name>config# vrrp
+    # A:some.domain.name>config>vrrp# 
     send "\r"
-# cli prompt
-# A:dcg-3.router.nl.coloclue.net# configure 
-# config prompt:
-# A:dcg-3.router.nl.coloclue.net>config# vrrp
-# A:dcg-3.router.nl.coloclue.net>config>vrrp# 
     regsub -all {^(\^*)(.*)} $prompt {\2} reprompt
     expect {
 	-re "\[\r\n]+"		{ exp_continue; }
@@ -658,25 +658,15 @@ foreach router [lrange $argv $i end] {
 				}
     }
     if { $do_command || $do_script } {
-	if { [string compare "extreme" "$platform"] } {
-	    # If the prompt is (enable), then we are on a switch and the
-	    # command is "set length 0"; otherwise its "terminal length 0".
-	    if [regexp -- ".*> .*enable" "$prompt"] {
-		send "set length 0\r"
-		expect -re $prompt  	{}
-		send "set width 132\r"
-		expect -re $prompt	{}
-		send "set logging session disable\r"
-	    } else {
-		send "terminal length 0\r"
-		expect -re $prompt  	{}
-		send "terminal width 132\r"
-	    }
-	    expect -re $prompt		{}
-	} else {
-	    send "disable clipaging\r"
-	    expect -re $prompt		{}
-	}
+	# disable the pager
+	send "environment no more\r"
+	expect -re $prompt	{}
+	# XXX term length only works on the console?
+	# send "environment terminal length 512\r"
+	# expect -re $prompt	{}
+	# XXX term width only works on the console?
+	# send "environment terminal width 132\r"
+	# expect -re $prompt	{}
     }
     if { $do_command } {
 	if {[run_commands $prompt $command]} {

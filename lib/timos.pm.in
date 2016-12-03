@@ -1,0 +1,150 @@
+package timos;
+##
+## $Id$
+##
+## @PACKAGE@ @VERSION@
+@copyright@
+#
+#  RANCID - Really Awesome New Cisco confIg Differ
+#
+#  timos.pm - Alcatel-Lucent TiMOS/SR-OS rancid procedures
+
+use 5.010;
+use strict 'vars';
+use warnings;
+no warnings 'uninitialized';
+require(Exporter);
+our @ISA = qw(Exporter);
+
+use rancid @VERSION@;
+
+@ISA = qw(Exporter rancid main);
+#XXX @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands);
+
+# load-time initialization
+sub import {
+    0;
+}
+
+# post-open(collection file) initialization
+sub init {
+
+    # add content lines and separators
+    ProcessHistory("","","","!RANCID-CONTENT-TYPE: $devtype\n!\n");
+    ProcessHistory("COMMENTS","keysort","B0","!\n");
+    ProcessHistory("COMMENTS","keysort","D0","!\n");
+    ProcessHistory("COMMENTS","keysort","F0","!\n");
+    ProcessHistory("COMMENTS","keysort","G0","!\n");
+
+    0;
+}
+
+# main loop of input of device output
+sub inloop {
+    my($INPUT, $OUTPUT) = @_;
+    my($cmd, $rval);
+
+TOP: while(<$INPUT>) {
+	tr/\015//d;
+	if (/[>#]\s?exit$/) {
+	    $clean_run = 1;
+	    last;
+	}
+	if (/^Error:/) {
+	    print STDOUT ("$host clogin error: $_");
+	    print STDERR ("$host clogin error: $_") if ($debug);
+	    $clean_run = 0;
+	    last;
+	}
+	while (/[>#]\s*($cmds_regexp)\s*$/) {
+	    $cmd = $1;
+	    if (!defined($prompt)) {
+		$prompt = ($_ =~ /^([^#>]+[#>])/)[0];
+		$prompt =~ s/([][}{)(+\\])/\\$1/g;
+		print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
+	    }
+	    print STDERR ("HIT COMMAND:$_") if ($debug);
+	    if (! defined($commands{$cmd})) {
+		print STDERR "$host: found unexpected command - \"$cmd\"\n";
+		$clean_run = 0;
+		last TOP;
+	    }
+	    if (! defined(&{$commands{$cmd}})) {
+		printf(STDERR "$host: undefined function - \"%s\"\n",
+		       $commands{$cmd});
+		$clean_run = 0;
+		last TOP;
+	    }
+	    $rval = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
+	    delete($commands{$cmd});
+	    if ($rval == -1) {
+		$clean_run = 0;
+		last TOP;
+	    }
+	}
+    }
+}
+
+# This routine parses "file type bootlog.txt"
+sub BootLog {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In BootLog: $_" if ($debug);
+}
+# This routine parses "show bof"
+sub ShowBOF {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowBOF: $_" if ($debug);
+}
+# This routine parses "file type config.dbg"
+sub ConfigDBG {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ConfigDBG: $_" if ($debug);
+}
+# This routine parses "show card state"
+sub ShowCardState {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowCardState: $_" if ($debug);
+}
+# This routine parses "show chassis"
+sub ShowChassis {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowChassis: $_" if ($debug);
+}
+# This routine parses "show chassis environment"
+sub ShowChassisEnv {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowChassisEnv: $_" if ($debug);
+}
+# This routine parses "show chassis power-supply"
+sub ShowChassisPS {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowChassisPS: $_" if ($debug);
+}
+# This routine parses "show debug"
+sub ShowDebug {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowDebug: $_" if ($debug);
+}
+# This routine parses "show redundancy synchronization"
+sub ShowRedundancy {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowRedundancy: $_" if ($debug);
+}
+# This routine parses "show system information"
+sub ShowSystemInfo {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowSystemInfo: $_" if ($debug);
+}
+# This routine parses "admin display-config index"
+sub WriteTermIndex {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In WriteTermIndex: $_" if ($debug);
+}
+# This routine parses "admin display-config"
+sub WriteTerm {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In WriteTerm: $_" if ($debug);
+    my($comment, $linecnt) = (0,0);
+}
+
+1;

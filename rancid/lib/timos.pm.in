@@ -18,6 +18,8 @@ our @ISA = qw(Exporter);
 
 use rancid @VERSION@;
 
+our $proc;
+
 @ISA = qw(Exporter rancid main);
 #XXX @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands);
 
@@ -28,13 +30,16 @@ sub import {
 
 # post-open(collection file) initialization
 sub init {
+    $proc = "";
 
     # add content lines and separators
-    ProcessHistory("","","","!RANCID-CONTENT-TYPE: $devtype\n!\n");
-    ProcessHistory("COMMENTS","keysort","B0","!\n");
-    ProcessHistory("COMMENTS","keysort","D0","!\n");
-    ProcessHistory("COMMENTS","keysort","F0","!\n");
-    ProcessHistory("COMMENTS","keysort","G0","!\n");
+    ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n#\n");
+    ProcessHistory("COMMENTS","keysort","B0","#\n");	# chassis summary
+    ProcessHistory("COMMENTS","keysort","C0","#\n");	# memory summary
+    ProcessHistory("COMMENTS","keysort","D0","#\n");	# Processor summary
+    ProcessHistory("COMMENTS","keysort","E0","#\n");	# 
+    ProcessHistory("COMMENTS","keysort","F0","#\n");	# chassis
+    ProcessHistory("COMMENTS","keysort","G0","#\n");	# boot log
 
     0;
 }
@@ -89,62 +94,219 @@ TOP: while(<$INPUT>) {
 sub BootLog {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In BootLog: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+
+	/time from clock is/i && next;
+	/^(text:|executing|login:)/i && next;
+	/^=+$/i && next;
+	if (/chassis serial number is \'(\S+)\'/i) {
+	    ProcessHistory("COMMENTS","keysort","C1",
+			   "#Processor ID: $1\n");
+	}
+	if (/total memory:\s+(\S+)\s+chassis type:\s+(\S+)\s+card type:\s+(\S+)/i) {
+	    ProcessHistory("COMMENTS","keysort","B1",
+			   "#Memory: $1\n");
+	    ProcessHistory("COMMENTS","keysort","A2",
+			   "#Chassis code: $2\n");
+	    ProcessHistory("COMMENTS","keysort","C2",
+			   "#Processor type: $3\n");
+	}
+
+	ProcessHistory("COMMENTS","keysort","G0","# $_");
+    }
 }
 # This routine parses "show bof"
 sub ShowBOF {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowBOF: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+    }
 }
 # This routine parses "file type config.dbg"
 sub ConfigDBG {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ConfigDBG: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+    }
 }
 # This routine parses "show card state"
 sub ShowCardState {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowCardState: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+    }
 }
 # This routine parses "show chassis"
 sub ShowChassis {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassis: $_" if ($debug);
+    ProcessHistory("COMMENTS","keysort","F1","#\n");
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+
+	/^=+$/i && next;
+	ProcessHistory("COMMENTS","keysort","F1","# $_");
+    }
 }
 # This routine parses "show chassis environment"
 sub ShowChassisEnv {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassisEnv: $_" if ($debug);
+    ProcessHistory("COMMENTS","keysort","F1","#\n");
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+
+	/^=+$/i && next;
+	ProcessHistory("COMMENTS","keysort","F1","# $_");
+    }
 }
 # This routine parses "show chassis power-supply"
 sub ShowChassisPS {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassisPS: $_" if ($debug);
+    ProcessHistory("COMMENTS","keysort","F1","#\n");
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+
+	/^=+$/i && next;
+	ProcessHistory("COMMENTS","keysort","F1","# $_");
+    }
 }
 # This routine parses "show debug"
 sub ShowDebug {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowDebug: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+    }
 }
 # This routine parses "show redundancy synchronization"
 sub ShowRedundancy {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowRedundancy: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+
+	/^=+$/i && next;
+	/standby up time/i && next;
+	/last config file sync time/i && next;
+	/last boot env sync time/i && next;
+	/last rollback sync time/i && next;
+	/last cert sync time/i && next;
+
+	ProcessHistory("COMMENTS","keysort","E2","# $_");
+    }
 }
 # This routine parses "show system information"
 sub ShowSystemInfo {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowSystemInfo: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+
+	/^=+$/i && next;
+	/system up time/i && next;
+	/time last saved/i && next;
+	if (/system type\s+:\s+(.*)/) {
+	    $proc = $1;
+	    ProcessHistory("COMMENTS","keysort","A1",
+			   "#Chassis type: $proc\n");
+	}
+	ProcessHistory("COMMENTS","keysort","E1","# $_");
+    }
 }
 # This routine parses "admin display-config index"
 sub WriteTermIndex {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In WriteTermIndex: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+
+    }
 }
 # This routine parses "admin display-config"
 sub WriteTerm {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In WriteTerm: $_" if ($debug);
     my($comment, $linecnt) = (0,0);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+#A:dcg-3.router.nl.coloclue.net# show running
+#                                     ^
+#Error: Invalid parameter. 
+
+
+	/^#-+$/i && next;
+	next if (/^# finished /i);
+	s/echo \"(.*)\"/# $1/i;
+	ProcessHistory("","","","$_");
+	# end of config.
+	# XXX appears multiple timess; so not the end
+	#if (/^exit all$/) {
+	#    $found_end = 1;
+	#    return(0);
+	#}
+    }
+    # The thing lacks a definitive "end of config" marker.  If we have seen
+    # at least 5 lines of write term output, we can be reasonably sure that
+    # we have the config.
+    if ($linecnt > 5) {
+	$found_end = 1;
+    }
+
+    return(0);
 }
 
 1;

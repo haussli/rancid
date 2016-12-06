@@ -12,6 +12,7 @@ edgerouter.pm
 exos.pm
 foundry.pm
 ios.pm
+iossb.pm
 iosshtech.pm
 iosxr.pm
 junos.pm

@@ -217,9 +217,12 @@ cisco-nx;command;nxos::WriteTerm;show running-config
 #
 cisco-sb;script;rancid -t cisco
 cisco-sb;login;clogin
-# XXX cisco-sb;module;iossb
-# XXX cisco-sb;inloop;iossb::inloop
-# XXX cisco-sb;command;iossb::ShowVersion;show version
+cisco-sb;module;iossb
+cisco-sb;inloop;iossb::inloop
+cisco-sb;command;iossb::ShowVersion;show version
+cisco-sb;command;iossb::ShowSystem;show system
+cisco-sb;command;iossb::ShowVersion;show version
+cisco-sb;command;iossb::WriteTerm;show running-config
 #
 cisco-xr;script;rancid -t cisco-xr
 cisco-xr;login;clogin

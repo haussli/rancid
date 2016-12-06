@@ -71,7 +71,10 @@ sub inloop {
 
 TOP: while(<$INPUT>) {
 	tr/\015//d;
-CMD:	if (/[>#]\s?exit$/) {
+        # note: this match sucks rocks, but currently the cisco-sb bits are
+        # unreliable about echoing the '\n' after exit.  this match might
+        # really be a bad idea, but instead rely upon WriteTerm's found_end?
+CMD:	if (/[>#]\s?exit(Connection( to \S+)? closed)?/ && $found_end) {
 	    $clean_run = 1;
 	    last;
 	}

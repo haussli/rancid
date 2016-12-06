@@ -19,6 +19,7 @@ our @ISA = qw(Exporter);
 use rancid @VERSION@;
 
 our $proc;
+our $memoryseen;
 
 @ISA = qw(Exporter rancid main);
 #XXX @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands);
@@ -31,6 +32,7 @@ sub import {
 # post-open(collection file) initialization
 sub init {
     $proc = "";
+    $memoryseen = 0;
 
     # add content lines and separators
     ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n#\n");
@@ -51,7 +53,7 @@ sub inloop {
 
 TOP: while(<$INPUT>) {
 	tr/\015//d;
-	if (/[>#]\s?exit$/) {
+CMD:	if (/[#]\s?logout\s*$/) {
 	    $clean_run = 1;
 	    last;
 	}
@@ -61,10 +63,10 @@ TOP: while(<$INPUT>) {
 	    $clean_run = 0;
 	    last;
 	}
-	while (/[>#]\s*($cmds_regexp)\s*$/) {
+	while (/[#]\s*($cmds_regexp)\s*$/) {
 	    $cmd = $1;
 	    if (!defined($prompt)) {
-		$prompt = ($_ =~ /^([^#>]+[#>])/)[0];
+		$prompt = ($_ =~ /^[*]?([^#>]+[#])/)[0];
 		$prompt =~ s/([][}{)(+\\])/\\$1/g;
 		print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
 	    }
@@ -86,6 +88,11 @@ TOP: while(<$INPUT>) {
 		$clean_run = 0;
 		last TOP;
 	    }
+	    if (defined($prompt)) {
+		if (/$prompt/) {
+		    goto CMD;
+		}
+	    }
 	}
     }
 }
@@ -100,6 +107,8 @@ sub BootLog {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	next if (/^\s+\^$/);
+	return(-1) if (/error: invalid parameter/i);
+	return(-1) if (/minor: cli command not allowed for this user/i);
 
 	/time from clock is/i && next;
 	/^(text:|executing|login:)/i && next;
@@ -109,6 +118,7 @@ sub BootLog {
 			   "#Processor ID: $1\n");
 	}
 	if (/total memory:\s+(\S+)\s+chassis type:\s+(\S+)\s+card type:\s+(\S+)/i) {
+	    next if ($memoryseen++);
 	    ProcessHistory("COMMENTS","keysort","B1",
 			   "#Memory: $1\n");
 	    ProcessHistory("COMMENTS","keysort","A2",
@@ -124,12 +134,18 @@ sub BootLog {
 sub ShowBOF {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowBOF: $_" if ($debug);
+    ProcessHistory("BOF","","","#\n");
 
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	next if (/^\s+\^$/);
+	return(-1) if (/error: invalid parameter/i);
+	return(-1) if (/minor: cli command not allowed for this user/i);
+
+	/^=+$/i && next;
+	ProcessHistory("BOF","","","# $_");
     }
 }
 # This routine parses "file type config.dbg"
@@ -142,18 +158,28 @@ sub ConfigDBG {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	next if (/^\s+\^$/);
+	return(-1) if (/error: invalid parameter/i);
+	return(-1) if (/minor: cli command not allowed for this user/i);
+
+	ProcessHistory("DBG","","","# $_");
     }
 }
 # This routine parses "show card state"
 sub ShowCardState {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowCardState: $_" if ($debug);
+    ProcessHistory("COMMENTS","keysort","F4","#\n");
 
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	next if (/^\s+\^$/);
+	return(-1) if (/error: invalid parameter/i);
+	return(-1) if (/minor: cli command not allowed for this user/i);
+
+	/^=+$/i && next;
+	ProcessHistory("COMMENTS","keysort","F4","# $_");
     }
 }
 # This routine parses "show chassis"
@@ -165,8 +191,10 @@ sub ShowChassis {
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
-	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^(\s*$cmd\s*)$/);
 	next if (/^\s+\^$/);
+	return(-1) if (/error: invalid parameter/i);
+	return(-1) if (/minor: cli command not allowed for this user/i);
 
 	/^=+$/i && next;
 	ProcessHistory("COMMENTS","keysort","F1","# $_");
@@ -176,32 +204,36 @@ sub ShowChassis {
 sub ShowChassisEnv {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassisEnv: $_" if ($debug);
-    ProcessHistory("COMMENTS","keysort","F1","#\n");
+    ProcessHistory("COMMENTS","keysort","F2","#\n");
 
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	next if (/^\s+\^$/);
+	return(-1) if (/error: invalid parameter/i);
+	return(-1) if (/minor: cli command not allowed for this user/i);
 
 	/^=+$/i && next;
-	ProcessHistory("COMMENTS","keysort","F1","# $_");
+	ProcessHistory("COMMENTS","keysort","F2","# $_");
     }
 }
 # This routine parses "show chassis power-supply"
 sub ShowChassisPS {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassisPS: $_" if ($debug);
-    ProcessHistory("COMMENTS","keysort","F1","#\n");
+    ProcessHistory("COMMENTS","keysort","F3","#\n");
 
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	next if (/^\s+\^$/);
+	return(-1) if (/error: invalid parameter/i);
+	return(-1) if (/minor: cli command not allowed for this user/i);
 
 	/^=+$/i && next;
-	ProcessHistory("COMMENTS","keysort","F1","# $_");
+	ProcessHistory("COMMENTS","keysort","F3","# $_");
     }
 }
 # This routine parses "show debug"
@@ -214,6 +246,8 @@ sub ShowDebug {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	next if (/^\s+\^$/);
+	return(-1) if (/error: invalid parameter/i);
+	return(-1) if (/minor: cli command not allowed for this user/i);
     }
 }
 # This routine parses "show redundancy synchronization"
@@ -226,6 +260,8 @@ sub ShowRedundancy {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	next if (/^\s+\^$/);
+	return(-1) if (/error: invalid parameter/i);
+	return(-1) if (/minor: cli command not allowed for this user/i);
 
 	/^=+$/i && next;
 	/standby up time/i && next;
@@ -247,6 +283,8 @@ sub ShowSystemInfo {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	next if (/^\s+\^$/);
+	return(-1) if (/error: invalid parameter/i);
+	return(-1) if (/minor: cli command not allowed for this user/i);
 
 	/^=+$/i && next;
 	/system up time/i && next;
@@ -263,47 +301,60 @@ sub ShowSystemInfo {
 sub WriteTermIndex {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In WriteTermIndex: $_" if ($debug);
+    ProcessHistory("","","","#\n");
 
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	next if (/^\s+\^$/);
+	return(-1) if (/error: invalid parameter/i);
+	return(-1) if (/minor: cli command not allowed for this user/i);
 
+	/# (timos-|all rights reserved|built on)/i && next;
+	/# Generated /i && next;
+
+	/^#-+$/i && next;
+	s/echo \"(.*)\"/# $1/i;
+
+	next if (/^# finished \S{3} \S{3} /i);
+	ProcessHistory("","","","$_");
     }
 }
 # This routine parses "admin display-config"
 sub WriteTerm {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In WriteTerm: $_" if ($debug);
-    my($comment, $linecnt) = (0,0);
+    ProcessHistory("","","","#\n");
 
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	next if (/^\s+\^$/);
-#A:dcg-3.router.nl.coloclue.net# show running
-#                                     ^
-#Error: Invalid parameter. 
+	return(-1) if (/error: invalid parameter/i);
+	return(-1) if (/minor: cli command not allowed for this user/i);
 
+	/# (timos-|all rights reserved|built on)/i && next;
+	/# Generated /i && next;
 
 	/^#-+$/i && next;
-	next if (/^# finished /i);
 	s/echo \"(.*)\"/# $1/i;
-	ProcessHistory("","","","$_");
+	if (/^(\s+community) "[^"]*" /) {
+	    if ($filter_commstr) {
+		ProcessHistory("SNMPSERVERCOMM","keysort","$_",
+			       "!$1 <removed> $'") && next;
+	    } else {
+		ProcessHistory("SNMPSERVERCOMM","keysort","$_","$_") && next;
+	    }
+	}
+
 	# end of config.
-	# XXX appears multiple timess; so not the end
-	#if (/^exit all$/) {
-	#    $found_end = 1;
-	#    return(0);
-	#}
-    }
-    # The thing lacks a definitive "end of config" marker.  If we have seen
-    # at least 5 lines of write term output, we can be reasonably sure that
-    # we have the config.
-    if ($linecnt > 5) {
-	$found_end = 1;
+	if (/^# finished \S{3} \S{3} /i) {
+	    $found_end = 1;
+	    return(0);
+	}
+	ProcessHistory("","","","$_");
     }
 
     return(0);

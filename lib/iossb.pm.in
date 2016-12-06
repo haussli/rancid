@@ -71,7 +71,7 @@ sub inloop {
 
 TOP: while(<$INPUT>) {
 	tr/\015//d;
-	if (/[>#]\s?exit$/) {
+CMD:	if (/[>#]\s?exit$/) {
 	    $clean_run = 1;
 	    last;
 	}
@@ -106,6 +106,11 @@ TOP: while(<$INPUT>) {
 		$clean_run = 0;
 		last TOP;
 	    }
+	    if (defined($prompt)) {
+		if (/$prompt/) {
+		    goto CMD;
+		}
+	    }
 	}
     }
 }
@@ -118,8 +123,13 @@ sub ShowSystem {
 
     while (<$INPUT>) {
 	tr/\015//d;
+	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	next if (/^\s+\^$/);
+
+	/system description:\s+(.*)$/i &&
+	    ProcessHistory("COMMENTS","keysort","B0","! Chassis type: $1\n") &&
+	    next;
     }
     return(0);
 }
@@ -133,8 +143,11 @@ sub ShowVersion {
 
     while (<$INPUT>) {
 	tr/\015//d;
+	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	next if (/^\s+\^$/);
+
+	ProcessHistory("COMMENTS","keysort","E0","! Image: $_");
     }
     return(0);
 }
@@ -143,22 +156,51 @@ sub ShowVersion {
 # This routine parses "show running-config"
 sub WriteTerm {
     my($INPUT, $OUTPUT, $cmd) = @_;
-    my($slave, $slaveslot);
+    my($comment, $linecnt) = (0,0);
     print STDERR "    In WriteTerm: $_" if ($debug);
 
     while (<$INPUT>) {
 	tr/\015//d;
+	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	next if (/^\s+\^$/);
 
+	# skip emtpy lines at the beginning
+	if (!$linecnt && /^\s*$/) {
+	    next;
+	}
+	$linecnt++;
+
+	# order/prune snmp-server host statements
+	# we only prune lines of the form
+	# snmp-server host 198.58.5.69 traps version 2c <community>
+	if (/^(snmp-server host (\d+\.\d+\.\d+\.\d+) traps.* )(\S+)$/) {
+            if ($filter_commstr) {
+                ProcessHistory("SNMPSERVERHOST","ipsort","$2","! $1<removed>\n");
+            } else {
+                ProcessHistory("SNMPSERVERHOST","ipsort","$2","$_");
+            }
+            next;
+	}
+
 	# catch anything that wasnt matched above.
 	ProcessHistory("","","","$_");
-	# end of config.  the ": " game is for the PIX
-	if (/^exit$/) {
-	    $found_end = 1;
-	    return(0);
-	}
+	# end of config.
+	# XXX no definitive end of config marker.
+	#if (/^exit$/) {
+	#    $found_end = 1;
+	#    return(0);
+	#}
     }
+
+    # The ContentEngine lacks a definitive "end of config" marker.  If we
+    # know that it is a CE, SAN, or NXOS and we have seen at least 5 lines
+    # of write term output, we can be reasonably sure that we have the config.
+    if ($linecnt > 5) {
+        $found_end = 1;
+        return(0);
+    }
+
     return(0);
 }
 

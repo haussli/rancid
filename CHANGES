@@ -1,4 +1,6 @@
 3.99.99
+	csblogin: start Cisco small business device support
+
 	complogin, eos.pm: Compass EOS support removed.  RiP
 
 	allogin, timos.pm: TimOS support

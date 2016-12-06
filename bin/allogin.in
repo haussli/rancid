@@ -369,7 +369,7 @@ proc run_commands { prompt command } {
 	    -re "\[^\r\n]*\[\n\r]+"		{ send_user -- "$expect_out(buffer)"
 						  exp_continue
 						}
-	    -re "\[^\r\n]*Press any key to continue \(Q to quit\)" {
+	    -re "\[^\r\n]*Press any key to continue \\\(Q to quit\\\)" {
 						  send " "
 						  # bloody ^[[2K after " "
 						  expect {

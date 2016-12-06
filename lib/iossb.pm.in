@@ -173,12 +173,21 @@ sub WriteTerm {
 
 	# order/prune snmp-server host statements
 	# we only prune lines of the form
-	# snmp-server host 198.58.5.69 traps version 2c <community>
+	# snmp-server host <ip> traps version 2c <community>
 	if (/^(snmp-server host (\d+\.\d+\.\d+\.\d+) traps.* )(\S+)$/) {
             if ($filter_commstr) {
-                ProcessHistory("SNMPSERVERHOST","ipsort","$2","! $1<removed>\n");
+                ProcessHistory("SNMPTRAPHOST","ipsort","$2","! $1<removed>\n");
             } else {
-                ProcessHistory("SNMPSERVERHOST","ipsort","$2","$_");
+                ProcessHistory("SNMPTRAPHOST","ipsort","$2","$_");
+            }
+            next;
+	}
+	# snmp-server community <community> ro <ip> view Default
+	if (/^(snmp-server community )\S+ (\w+) (\d+\.\d+\.\d+\.\d+)(.*)$/) {
+            if ($filter_commstr) {
+                ProcessHistory("SNMPSERVERHOST","ipsort","$3","! $1<removed> $2 $3$4\n");
+            } else {
+                ProcessHistory("SNMPSERVERHOST","ipsort","$3","$_");
             }
             next;
 	}

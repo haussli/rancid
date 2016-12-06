@@ -1,4 +1,6 @@
 3.99.99
+	hlogin: do not use hpuifilter for interactive telnet with non-std port
+
 	csblogin: start Cisco small business device support
 
 	complogin, eos.pm: Compass EOS support removed.  RiP

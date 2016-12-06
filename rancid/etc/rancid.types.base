@@ -216,7 +216,7 @@ cisco-nx;command;nxos::ShowFex;show fex
 cisco-nx;command;nxos::WriteTerm;show running-config
 #
 cisco-sb;script;rancid -t cisco
-cisco-sb;login;clogin
+cisco-sb;login;csblogin
 cisco-sb;module;iossb
 cisco-sb;inloop;iossb::inloop
 cisco-sb;command;iossb::ShowVersion;show version

@@ -1,5 +1,7 @@
 3.99.99
-	allogin: start timos support
+	complogin, eos.pm: Compass EOS support removed.  RiP
+
+	allogin, timos.pm: TimOS support
 
 3.6
 	rancid.pm: ipaddrval() if IPv6 prefix length is missing, simply set 128.

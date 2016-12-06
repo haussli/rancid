@@ -221,7 +221,6 @@ cisco-sb;module;iossb
 cisco-sb;inloop;iossb::inloop
 cisco-sb;command;iossb::ShowVersion;show version
 cisco-sb;command;iossb::ShowSystem;show system
-cisco-sb;command;iossb::ShowVersion;show version
 cisco-sb;command;iossb::WriteTerm;show running-config
 #
 cisco-xr;script;rancid -t cisco-xr

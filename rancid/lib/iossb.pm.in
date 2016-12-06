@@ -171,6 +171,23 @@ sub WriteTerm {
 	}
 	$linecnt++;
 
+	# these appear to be reversables
+	# enable password level 15 encrypted z9111212555bd4b0d3bec0b98f7ddd6346
+        if (/^(enable )?(password|passwd)( level \d+)? / && $filter_pwds >= 1) {
+            ProcessHistory("ENABLE","","","!$1$2$3 <removed>\n");
+            next;
+        }
+	# username cisco password encrypted z9111212555bd4b0d3bec0b98f7ddd6346 privilege 15
+        if (/^username (\S+)(\s.*)? password encrypted (\S+)/) {
+            if ($filter_pwds >= 1){
+                ProcessHistory("USER","keysort","$1",
+                               "!username $1$2 password encrypted <removed>$'");
+            } else {
+                ProcessHistory("USER","keysort","$1","$_");
+            }
+            next;
+        }
+
 	# order/prune snmp-server host statements
 	# we only prune lines of the form
 	# snmp-server host <ip> traps version 2c <community>
@@ -190,6 +207,13 @@ sub WriteTerm {
                 ProcessHistory("SNMPSERVERHOST","ipsort","$3","$_");
             }
             next;
+	}
+
+	# encrypted tacacs-server host <ip> key <keyhash> priority 1
+	# encrypted tacacs-server key <keyhash>
+	if (/^(encrypted (tacacs|radius)-server\s.*\s?key) (\S+)/
+	    && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 <removed>$'"); next;
 	}
 
 	# catch anything that wasnt matched above.

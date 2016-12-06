@@ -297,7 +297,11 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 		    set retval [ catch {spawn telnet $router} reason ]
 		}
 	    } else {
-		set retval [ catch {spawn hpuifilter -- telnet $router $port} reason ]
+		if { $do_command || $do_script } {
+		    set retval [ catch {spawn hpuifilter -- telnet $router $port} reason ]
+		} else {
+		    set retval [ catch {spawn telnet $router $port} reason ]
+		}
 	    }
 	    if { $retval } {
 		send_user "\nError: telnet failed: $reason\n"

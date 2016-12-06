@@ -350,13 +350,13 @@ top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign
 bin_SCRIPTS = a10login allogin alogin agmrancid anlogin arancid \
 	avologin avorancid blogin brancid brlogin cat5rancid clogin \
-	complogin control_rancid cssrancid dllogin elogin erancid \
-	f5rancid f10rancid flogin fnlogin fnrancid hlogin hrancid \
-	htlogin htrancid jerancid jlogin mrancid mrvlogin mtlogin \
-	mtrancid nlogin nrancid nslogin nsrancid panlogin plogin \
-	rancid rblogin rivlogin rivrancid rrancid rtftpcopy srancid \
-	tlogin trancid ulogin wlogin xilogin xirancid xlogin zrancid \
-	lg.cgi lgform.cgi rancid-cvs rancid-fe rancid-run
+	control_rancid cssrancid dllogin elogin erancid f5rancid \
+	f10rancid flogin fnlogin fnrancid hlogin hrancid htlogin \
+	htrancid jerancid jlogin mrancid mrvlogin mtlogin mtrancid \
+	nlogin nrancid nslogin nsrancid panlogin plogin rancid rblogin \
+	rivlogin rivrancid rrancid rtftpcopy srancid tlogin trancid \
+	ulogin wlogin xilogin xirancid xlogin zrancid lg.cgi \
+	lgform.cgi rancid-cvs rancid-fe rancid-run
 # XXX hack for the rancid to get pkglibdir, see corresponding XXX below
 bin_in = hrancid.in plogin.in rancid.in srancid.in
 EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in \

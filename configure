@@ -6107,8 +6107,6 @@ ac_config_files="$ac_config_files bin/brlogin"
 
 ac_config_files="$ac_config_files bin/cat5rancid bin/clogin"
 
-ac_config_files="$ac_config_files bin/complogin"
-
 ac_config_files="$ac_config_files bin/cssrancid"
 
 ac_config_files="$ac_config_files bin/dllogin"
@@ -6928,7 +6926,6 @@ do
     "bin/brlogin") CONFIG_FILES="$CONFIG_FILES bin/brlogin" ;;
     "bin/cat5rancid") CONFIG_FILES="$CONFIG_FILES bin/cat5rancid" ;;
     "bin/clogin") CONFIG_FILES="$CONFIG_FILES bin/clogin" ;;
-    "bin/complogin") CONFIG_FILES="$CONFIG_FILES bin/complogin" ;;
     "bin/cssrancid") CONFIG_FILES="$CONFIG_FILES bin/cssrancid" ;;
     "bin/dllogin") CONFIG_FILES="$CONFIG_FILES bin/dllogin" ;;
     "bin/elogin") CONFIG_FILES="$CONFIG_FILES bin/elogin" ;;
@@ -7708,7 +7705,6 @@ $as_echo X"$file" |
     "bin/brlogin":F) chmod a+x $ac_file ;;
     "bin/cat5rancid":F) chmod a+x $ac_file ;;
     "bin/clogin":F) chmod a+x $ac_file ;;
-    "bin/complogin":F) chmod a+x $ac_file ;;
     "bin/cssrancid":F) chmod a+x $ac_file ;;
     "bin/dllogin":F) chmod a+x $ac_file ;;
     "bin/elogin":F) chmod a+x $ac_file ;;

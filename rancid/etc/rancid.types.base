@@ -215,6 +215,8 @@ cisco-nx;command;nxos::ShowFex;show module fex
 cisco-nx;command;nxos::ShowFex;show fex
 cisco-nx;command;nxos::WriteTerm;show running-config
 #
+# Cisco small business devices.  These are peculiar; most likely this will not
+# work with all of them.
 cisco-sb;script;rancid -t cisco-sb
 cisco-sb;login;csblogin
 cisco-sb;module;iossb

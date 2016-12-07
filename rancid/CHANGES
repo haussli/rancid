@@ -1,4 +1,6 @@
 3.99.99
+	iossb.pm: Cisco small business rancid module
+
 	hlogin: do not use hpuifilter for interactive telnet with non-std port
 
 	csblogin: start Cisco small business device support

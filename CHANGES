@@ -10,6 +10,8 @@
 	allogin, timos.pm: TimOS support
 
 3.6.1
+	fnrancid: filter oscillating md5-keys
+
 	par.c: fix misplaced pointer deref
 
 3.6

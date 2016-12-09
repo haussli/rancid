@@ -693,7 +693,7 @@ asprintf(char **ret, const char *format, ...)
 	len = len * 2;
     va_end(ap);
 
-    if ((*ret = (char *) malloc(len)) == NULL) {
+    if ((*ret = (char *)malloc(len)) == NULL) {
 	errno = ENOMEM;
 	*ret = NULL;
 	return(-1);
@@ -708,7 +708,7 @@ asprintf(char **ret, const char *format, ...)
 	}
 	va_end(ap);
 	len = vlen + 1;
-	if ((newbuf = realloc((void **) ret, len)) == NULL) {
+	if ((newbuf = realloc((void *)*ret, len)) == NULL) {
 	    free(*ret);
 	    *ret = NULL;
 	    errno = ENOMEM;

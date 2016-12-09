@@ -1,6 +1,3 @@
-3.6.1
-	par.c: fix misplaced pointer deref
-
 3.6
 	rancid.pm: ipaddrval() if IPv6 prefix length is missing, simply set 128.
 

@@ -547,6 +547,7 @@ sub ShowLicense {
 
 	# filter the BS from license broker
 	next if (/(renewal attempt|communication attempt):/i);
+	next if (/next registration attempt:/i);		# timestamp
 	next if (/(period used:|requested time:)/i);		# show lic feature
 	if (/(^\s*(evaluation )?period (left|remaining):\s*)\d+/i) {
 	    ProcessHistory("COMMENTS","keysort","LICENSE","! $1<limited>\n");

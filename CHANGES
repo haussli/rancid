@@ -1,4 +1,6 @@
 3.6.1
+	ios.pm: filter license registration timestamp
+ 
 	par.c: fix misplaced pointer deref
 
 3.6

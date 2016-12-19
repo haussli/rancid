@@ -409,23 +409,31 @@ sub ShowSystemLicense {
 	next if (/^\{(master|backup)(:\d+)?\}/);
 
 	# licenses used changes constantly.  distill it to a percentage.
+	# example input:
+	# License usage:
+	#                                  Licenses     Licenses    Licenses    Expiry
+	#   Feature name                       used    installed      needed
+	#   dynamic-vpn                           1            2           0    permanent
 	if (/^(\s+(?:dynamic-vpn|scale-subscriber))(\s+)(\d+)(\s+\d+)(.*$)/) {
 	    my($a, $sp, $used, $avail, $rem) = ($1, $2, $3, $4, $5);
 	    my($spl, $usedl) = (length($sp), length($used));
-	    my($pcnt);
-	    my($usage);
+	    my($pcnt, $usage, $usagel);
 	    if ($avail < 1) {
 		$pcnt = ">100";
-	    } elsif ($avail < 100) {
-		# if license count is small, percentage doesn't do much to
-		# stabilize the output - just skip it.
-		$usage = "--";
 	    } else {
-		$pcnt = int(($used + 0.0) / ($avail + 0.0) * 100);
+		if ($filter_osc) {
+		    $usage = "--";
+		} elsif ($avail < 100) {
+		    # if license count is small, percentage doesn't do much to
+		    # stabilize the output - just skip it.
+		    $usage = "--";
+		} else {
+		    $pcnt = int(($used + 0.0) / ($avail + 0.0) * 100);
+		    $usage = sprintf("%s%%", $pcnt);
+		}
 	    }
-	    if (defined $pcnt) { $usage = sprintf("%s%%",$pcnt) };
-	    my($pcntl) = length($usage) ;
-	    $spl = $spl + $usedl - $pcntl;
+	    $usagel = length($usage) ;
+	    $spl = $spl + $usedl - $usagel;
 
 	    my($fmt) = "%s%-" . $spl . "s%s%s%s\n";
 	    $_ = sprintf($fmt, $a, "", $usage, $avail, $rem);

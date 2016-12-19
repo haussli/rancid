@@ -1,4 +1,7 @@
 3.99.99
+	junos.pm: also summarize dynamic-vpn licenses & use a blank percentage
+	for features with < 100 licenses - Erik Muller
+
 	iossb.pm: Cisco small business rancid module
 
 	hlogin: do not use hpuifilter for interactive telnet with non-std port

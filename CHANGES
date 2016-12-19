@@ -1,4 +1,7 @@
 3.99.99
+	junos.pm: apply FILTER_OSC option to licenses summarization - Erik
+	Muller et al
+
 	junos.pm: also summarize dynamic-vpn licenses & use a blank percentage
 	for features with < 100 licenses - Erik Muller
 

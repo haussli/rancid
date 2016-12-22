@@ -133,7 +133,7 @@ sub ShowSystem {
 	/system description:\s+(.*)$/i &&
 	    ProcessHistory("COMMENTS","keysort","B0","! Chassis type: $1\n") &&
 	    next;
-	# # filter individual card temperature
+	# # filter individual unit temperature XXX sg500 unit temps
 	# if (/unit\stemperature/i) {
 	#     while (<$INPUT>) {
 	# 	tr/\015//d;

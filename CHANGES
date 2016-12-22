@@ -1,4 +1,7 @@
 3.99.99
+	rancid-run, control_rancid: add -c option to specify a SCM commit
+	message - Mischa Diehm
+
 	rancid.pm, junos.pm: add ALL option to FILTER_OSC and apply this to
 	junos license info summarization and summarize more of the feature
 	license info - Erik Muller et al

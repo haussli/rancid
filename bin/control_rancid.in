@@ -50,10 +50,12 @@ pr_usage() {
 
 # command-line options
 # -V print version string
+# -c <SCM commit message>
 # -f <group config file name>
 # -m <mail recipients>
 # -r <device name>
 alt_mailrcpt=0
+alt_commitmsg=0
 if [ $# -ge 1 ] ; then
 
     while [ 1 ] ; do
@@ -61,6 +63,17 @@ if [ $# -ge 1 ] ; then
 	-V)
 	    echo "@PACKAGE@ @VERSION@"
 	    exit 0
+	    ;;
+	-c)
+	    shift
+	    # next arg is the commit message
+	    alt_commitmsg=1
+	    if [ -z "$commitmsg" ] ; then
+		commitmsg="$1"
+	    else
+		commitmsg="$commitmsg,$1"
+	    fi
+	    shift
 	    ;;
 	-f)
 	    shift
@@ -161,6 +174,13 @@ fi
 mailrcpt=${mailrcpt:-"@MAILPLUS@${GROUP}${MAILDOMAIN}"}; export mailrcpt
 adminmailrcpt=${adminmailrcpt:-"@ADMINMAILPLUS@${GROUP}${MAILDOMAIN}"};
 export adminmailrcpt
+if [ -z "$commitmsg" ] ; then
+    commitmsg="updates"
+    if [ $alt_mailrcpt -eq 1 ] ; then
+	commitmsg="$commitmsg - courtesy of $mailrcpt"
+    fi
+    export commitmsg
+fi
 set | grep MAILHEADERS= > /dev/null 2>&1
 if [ $? -ne 0 ] ; then
     MAILHEADERS="Precedence: bulk\nAuto-submitted: auto-generated\nX-Auto-Response-Suppress: All"; export MAILHEADERS
@@ -631,19 +651,14 @@ if [ $alt_mailrcpt -eq 1 ] ; then
 else
     subject="router config diffs"
 fi
+if [ $RCSSYS = git ] ; then
+    $RCSSYS commit -am "$commitmsg"
+else
+    $RCSSYS commit -m "$commitmsg"
+fi
 if [ "X$device" != "X" ] ; then
-    if [ $RCSSYS = git ] ; then
-	$RCSSYS commit -am "updates - courtesy of $mailrcpt"
-    else
-	$RCSSYS commit -m "updates - courtesy of $mailrcpt"
-    fi
     subject="$GROUP/$device $subject"
 else
-    if [ $RCSSYS = git ] ; then
-	$RCSSYS commit -am updates
-    else
-	$RCSSYS commit -m updates
-    fi
     subject="$GROUP $subject"
 fi
 
@@ -686,6 +701,10 @@ if [ -s $TMP.diff ] ; then
 	  echo "Subject: $subject"
 	  echo "$MAILHEADERS" | awk '{L = "";LN = $0;while (LN ~ /\\n/) { I = index(LN,"\\n");L = L substr(LN,0,I-1) "\n";LN = substr(LN,I+2,length(LN)-I-1);}print L LN;}'
 	  echo ""
+	  if [ $alt_commitmsg -eq 1 ] ; then
+		echo "Commit message: $commitmsg"
+		echo ""
+	  fi
 	  cat $TMP.diff
 	) | $SENDMAIL -t $MAILOPTS
     else
@@ -713,6 +732,10 @@ if [ -s $TMP.diff ] ; then
 		fi
 		echo "$MAILHEADERS" | awk '{L = "";LN = $0;while (LN ~ /\\n/) { I = index(LN,"\\n");L = L substr(LN,0,I-1) "\n";LN = substr(LN,I+2,length(LN)-I-1);}print L LN;}'
 		echo ""
+		if [ $alt_commitmsg -eq 1 ] ; then
+		    echo "Commit message: $commitmsg"
+		    echo ""
+		fi
 		cat $file
 		) | $SENDMAIL -t $MAILOPTS
 		LASTIDS="$LASTIDS $MSGID"

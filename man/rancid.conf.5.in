@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid.conf" "5" "15 August 2016"
+.TH "rancid.conf" "5" "19 December 2016"
 .SH NAME
 rancid.conf \- rancid environment configuration file
 .SH DESCRIPTION
@@ -83,7 +83,9 @@ Example: DIFFSCRIPT="sed -e '/^=/d' | expand"; export DIFFSCRIPT
 .TP
 .B FILTER_OSC
 Determines if oscillating data such as keys, passwords, etc are filtered
-from configs.  The value may be "NO" or "YES".  The
+from configs.  The value may be "NO", "YES" or "ALL".
+YES is less aggressive than ALL.
+The
 .B FILTER_PWDS
 variable may override this.
 .sp

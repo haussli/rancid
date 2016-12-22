@@ -1,6 +1,7 @@
 3.99.99
-	junos.pm: apply FILTER_OSC option to licenses summarization - Erik
-	Muller et al
+	rancid.pm, junos.pm: add ALL option to FILTER_OSC and apply this to
+	junos license info summarization and summarize more of the feature
+	license info - Erik Muller et al
 
 	junos.pm: also summarize dynamic-vpn licenses & use a blank percentage
 	for features with < 100 licenses - Erik Muller

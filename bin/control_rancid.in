@@ -45,7 +45,7 @@
 
 # print a usage message to stderr
 pr_usage() {
-    echo "usage: $0 [-V] [-f group_config_file] [-r device_name] [-m mail rcpt] group" >&2;
+    echo "usage: $0 [-V] [-c commit_msg] [-f group_config_file] [-r device_name] [-m mail rcpt] group" >&2;
 }
 
 # command-line options

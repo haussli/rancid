@@ -1,11 +1,14 @@
 .\"
 .hys 50
-.TH "control_rancid" "1" "11 March 2015"
+.TH "control_rancid" "1" "22 December 2016"
 .SH NAME
 control_rancid \- run rancid for devices of a group
 .SH SYNOPSIS
 .B control_rancid
 [\fB\-V\fR] [\c
+.BI \-c\ \c
+commit_msg]\ \c
+[\c
 .BI \-f\ \c
 config_file]\ \c
 [\c
@@ -35,6 +38,9 @@ The command-line options are as follows:
 .TP
 .B \-V
 Prints package name and version strings.
+.TP
+.B \-c commit_msg
+Specify an alternative SCM commit message.
 .TP
 .B \-f group_config_file
 Specify an alternative rancid.conf.  The global rancid.conf file is read by

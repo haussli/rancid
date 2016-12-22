@@ -59,6 +59,7 @@ pr_usage() {
 
 # command-line options
 # -V
+# -c <SCM commit msg>
 # -f <config file name>
 # -m <mailto address>
 # -r <device name>
@@ -68,6 +69,12 @@ if [ $# -ge 1 ] ; then
 	-V)
 	    echo "@PACKAGE@ @VERSION@"
 	    exit 0
+	    ;;
+	-c)
+	    shift
+	    # next arg is the commit message
+	    CR_ARGV="$CR_ARGV -c \"$1\""; export CR_ARGV
+	    shift
 	    ;;
 	-f)
 	    shift

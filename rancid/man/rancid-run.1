@@ -1,11 +1,14 @@
 .\"
 .hys 50
-.TH "rancid-run" "1" "17 December 2014"
+.TH "rancid-run" "1" "22 December 2016"
 .SH NAME
 rancid-run \- run rancid for each of the groups
 .SH SYNOPSIS
 .B rancid-run
 [\fB\-V\fR] [\c
+.BI \-c\ \c
+commit_msg]\ \c
+[\c
 .BI \-f\ \c
 rancid.conf]\ \c
 [\c
@@ -71,6 +74,9 @@ The command-line options are as follows:
 .TP
 .B \-V
 Prints package name and version strings.
+.TP
+.B \-c commit_msg
+Specify an alternative SCM commit message.
 .TP
 .B \-f rancid.conf
 Specify an alternate configuration file.

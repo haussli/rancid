@@ -414,14 +414,14 @@ sub ShowSystemLicense {
 	#                                  Licenses     Licenses    Licenses    Expiry
 	#   Feature name                       used    installed      needed
 	#   dynamic-vpn                           1            2           0    permanent
-	if (/^(\s+(?:dynamic-vpn|scale-subscriber))(\s+)(\d+)(\s+\d+)(.*$)/) {
+	if (/^(\s+(?:dynamic|mobile|scale|service|subscriber)-\S+)(\s+)(\d+)(\s+\d+)(.*$)/) {
 	    my($a, $sp, $used, $avail, $rem) = ($1, $2, $3, $4, $5);
 	    my($spl, $usedl) = (length($sp), length($used));
 	    my($pcnt, $usage, $usagel);
 	    if ($avail < 1) {
 		$pcnt = ">100";
 	    } else {
-		if ($filter_osc) {
+		if ($filter_osc >= 2) {
 		    $usage = "--";
 		} elsif ($avail < 100) {
 		    # if license count is small, percentage doesn't do much to

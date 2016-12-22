@@ -104,6 +104,8 @@ sub rancidinit {
     # determine oscillating data filtering mode
     if (defined($ENV{"FILTER_OSC"}) && $ENV{"FILTER_OSC"} =~ /no/i) {
 	$filter_osc = 0;
+    } elsif (defined($ENV{"FILTER_OSC"}) && $ENV{"FILTER_OSC"} =~ /all/i) {
+	$filter_osc = 2;
     } else {
 	$filter_osc = 1;
     }

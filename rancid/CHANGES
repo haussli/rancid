@@ -1,4 +1,6 @@
 3.99.99
+	nxos.pm: pull snmp trap host filtering from ios.pm - Brandon Ewing
+
 	rancid-run, control_rancid: add -c option to specify a SCM commit
 	message - Mischa Diehm
 

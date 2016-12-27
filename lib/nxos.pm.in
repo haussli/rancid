@@ -857,7 +857,37 @@ REPEAT:	tr/\015//d;
 		ProcessHistory("SNMPSERVERCOMM","keysort","$_","$_") && next;
 	    }
 	}
-
+	# order/prune snmp-server host statements
+	# we only prune lines of the form
+	# snmp-server host a.b.c.d <community>
+	if (/^snmp-server host (\d+\.\d+\.\d+\.\d+) /) {
+	    if ($filter_commstr) {
+		my($ip) = $1;
+		my($line) = "snmp-server host $ip";
+		my(@tokens) = split(' ', $');
+		my($token);
+		while ($token = shift(@tokens)) {
+		    if ($token eq 'version') {
+			$line .= " " . join(' ', ($token, shift(@tokens)));
+			if ($token eq '3') {
+			    $line .= " " . join(' ', ($token, shift(@tokens)));
+			}
+		    } elsif ($token eq 'vrf') {
+			$line .= " " . join(' ', ($token, shift(@tokens)));
+		    } elsif ($token =~ /^(informs?|traps?|(no)?auth)$/) {
+			$line .= " " . $token;
+		    } else {
+			$line = "!$line " . join(' ', ("<removed>",
+						 join(' ',@tokens)));
+			last;
+		    }
+		}
+		ProcessHistory("SNMPSERVERHOST","ipsort","$ip","$line\n");
+	    } else {
+		ProcessHistory("SNMPSERVERHOST","ipsort","$1","$_");
+	    }
+	    next;
+	}
 	# Sort snmp user and delete passwords.
 	if (/^snmp-server user (\S+) (\S+) auth md5 (\S+) priv (\S+) localizedkey$/) {
 	    if ($filter_pwds >= 2) {

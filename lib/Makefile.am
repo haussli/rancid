@@ -10,7 +10,7 @@ my_pkglibdir = $(pkglibdir)
 my_pkglib_DATA = rancid.pm acos.pm aeos.pm arbor.pm bigip.pm ciscowlc.pm \
 		 dell.pm edgemax.pm edgerouter.pm exos.pm foundry.pm \
 		 ios.pm iossb.pm iosshtech.pm iosxr.pm junos.pm mrv.pm nxos.pm \
-		 panos.pm rbt.pm timos.pm wavesvros.pm
+		 panos.pm rbt.pm sros.pm wavesvros.pm
 pkglib_in = $(my_pkglib_DATA:%=%.in)
 
 RANLIB= :
@@ -74,5 +74,5 @@ mrv.pm: mrv.pm.in
 nxos.pm: nxos.pm.in
 panos.pm: panos.pm.in
 rbt.pm: rbt.pm.in
-timos.pm: timos.pm.in
+sros.pm: sros.pm.in
 wavesvros.pm: wavesvros.pm.in

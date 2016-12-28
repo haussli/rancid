@@ -98,11 +98,11 @@ DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
 CONFIG_CLEAN_FILES = login_top control_rancid a10login agmrancid \
-	allogin alogin arancid anlogin avologin avorancid blogin \
-	brancid brlogin cat5rancid clogin csblogin cssrancid dllogin \
-	elogin erancid f5rancid f10rancid flogin fnlogin fnrancid \
-	hlogin htlogin htrancid jlogin jerancid mrancid mrvlogin \
-	mtrancid mtlogin nlogin nrancid nslogin nsrancid panlogin \
+	alogin arancid anlogin avologin avorancid blogin brancid \
+	brlogin cat5rancid clogin csblogin cssrancid dllogin elogin \
+	erancid f5rancid f10rancid flogin fnlogin fnrancid hlogin \
+	htlogin htrancid jlogin jerancid mrancid mrvlogin mtrancid \
+	mtlogin nlogin nrancid noklogin nslogin nsrancid panlogin \
 	prancid rblogin rivlogin rivrancid rrancid rtftpcopy tlogin \
 	trancid xilogin xirancid xlogin ulogin wlogin zrancid
 CONFIG_CLEAN_VPATH_FILES =
@@ -197,8 +197,8 @@ am__define_uniq_tagged_files = \
 ETAGS = etags
 CTAGS = ctags
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/a10login.in \
-	$(srcdir)/agmrancid.in $(srcdir)/allogin.in \
-	$(srcdir)/alogin.in $(srcdir)/anlogin.in $(srcdir)/arancid.in \
+	$(srcdir)/agmrancid.in $(srcdir)/alogin.in \
+	$(srcdir)/anlogin.in $(srcdir)/arancid.in \
 	$(srcdir)/avologin.in $(srcdir)/avorancid.in \
 	$(srcdir)/blogin.in $(srcdir)/brancid.in $(srcdir)/brlogin.in \
 	$(srcdir)/cat5rancid.in $(srcdir)/clogin.in \
@@ -211,7 +211,8 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/a10login.in \
 	$(srcdir)/jerancid.in $(srcdir)/jlogin.in \
 	$(srcdir)/login_top.in $(srcdir)/mrancid.in \
 	$(srcdir)/mrvlogin.in $(srcdir)/mtlogin.in \
-	$(srcdir)/mtrancid.in $(srcdir)/nlogin.in $(srcdir)/nrancid.in \
+	$(srcdir)/mtrancid.in $(srcdir)/nlogin.in \
+	$(srcdir)/noklogin.in $(srcdir)/nrancid.in \
 	$(srcdir)/nslogin.in $(srcdir)/nsrancid.in \
 	$(srcdir)/panlogin.in $(srcdir)/prancid.in \
 	$(srcdir)/rblogin.in $(srcdir)/rivlogin.in \
@@ -349,15 +350,15 @@ top_srcdir = @top_srcdir@
 
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS = foreign
-bin_SCRIPTS = a10login allogin alogin agmrancid anlogin arancid \
-	avologin avorancid blogin brancid brlogin cat5rancid clogin \
+bin_SCRIPTS = a10login alogin agmrancid anlogin arancid avologin \
+	avorancid blogin brancid brlogin cat5rancid clogin \
 	control_rancid csblogin cssrancid dllogin elogin erancid \
 	f5rancid f10rancid flogin fnlogin fnrancid hlogin hrancid \
 	htlogin htrancid jerancid jlogin mrancid mrvlogin mtlogin \
-	mtrancid nlogin nrancid nslogin nsrancid panlogin plogin \
-	rancid rblogin rivlogin rivrancid rrancid rtftpcopy srancid \
-	tlogin trancid ulogin wlogin xilogin xirancid xlogin zrancid \
-	lg.cgi lgform.cgi rancid-cvs rancid-fe rancid-run
+	mtrancid nlogin noklogin nrancid nslogin nsrancid panlogin \
+	plogin rancid rblogin rivlogin rivrancid rrancid rtftpcopy \
+	srancid tlogin trancid ulogin wlogin xilogin xirancid xlogin \
+	zrancid lg.cgi lgform.cgi rancid-cvs rancid-fe rancid-run
 # XXX hack for the rancid to get pkglibdir, see corresponding XXX below
 bin_in = hrancid.in plogin.in rancid.in srancid.in
 EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in \
@@ -445,8 +446,6 @@ a10login: $(top_builddir)/config.status $(srcdir)/a10login.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 agmrancid: $(top_builddir)/config.status $(srcdir)/agmrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-allogin: $(top_builddir)/config.status $(srcdir)/allogin.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 alogin: $(top_builddir)/config.status $(srcdir)/alogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 arancid: $(top_builddir)/config.status $(srcdir)/arancid.in
@@ -508,6 +507,8 @@ mtlogin: $(top_builddir)/config.status $(srcdir)/mtlogin.in
 nlogin: $(top_builddir)/config.status $(srcdir)/nlogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 nrancid: $(top_builddir)/config.status $(srcdir)/nrancid.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+noklogin: $(top_builddir)/config.status $(srcdir)/noklogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 nslogin: $(top_builddir)/config.status $(srcdir)/nslogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

@@ -1,4 +1,4 @@
-package timos;
+package sros;
 ##
 ## $Id$
 ##
@@ -7,7 +7,7 @@ package timos;
 #
 #  RANCID - Really Awesome New Cisco confIg Differ
 #
-#  timos.pm - Alcatel-Lucent TiMOS/SR-OS rancid procedures
+#  sros.pm - Alcatel-Lucent TiMOS/SR-OS rancid procedures
 
 use 5.010;
 use strict 'vars';

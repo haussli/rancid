@@ -6093,8 +6093,6 @@ ac_config_files="$ac_config_files bin/a10login"
 
 ac_config_files="$ac_config_files bin/agmrancid"
 
-ac_config_files="$ac_config_files bin/allogin"
-
 ac_config_files="$ac_config_files bin/alogin bin/arancid"
 
 ac_config_files="$ac_config_files bin/anlogin"
@@ -6134,6 +6132,8 @@ ac_config_files="$ac_config_files bin/mrancid bin/mrvlogin"
 ac_config_files="$ac_config_files bin/mtrancid bin/mtlogin"
 
 ac_config_files="$ac_config_files bin/nlogin bin/nrancid"
+
+ac_config_files="$ac_config_files bin/noklogin"
 
 ac_config_files="$ac_config_files bin/nslogin bin/nsrancid"
 
@@ -6917,7 +6917,6 @@ do
     "bin/control_rancid") CONFIG_FILES="$CONFIG_FILES bin/control_rancid" ;;
     "bin/a10login") CONFIG_FILES="$CONFIG_FILES bin/a10login" ;;
     "bin/agmrancid") CONFIG_FILES="$CONFIG_FILES bin/agmrancid" ;;
-    "bin/allogin") CONFIG_FILES="$CONFIG_FILES bin/allogin" ;;
     "bin/alogin") CONFIG_FILES="$CONFIG_FILES bin/alogin" ;;
     "bin/arancid") CONFIG_FILES="$CONFIG_FILES bin/arancid" ;;
     "bin/anlogin") CONFIG_FILES="$CONFIG_FILES bin/anlogin" ;;
@@ -6949,6 +6948,7 @@ do
     "bin/mtlogin") CONFIG_FILES="$CONFIG_FILES bin/mtlogin" ;;
     "bin/nlogin") CONFIG_FILES="$CONFIG_FILES bin/nlogin" ;;
     "bin/nrancid") CONFIG_FILES="$CONFIG_FILES bin/nrancid" ;;
+    "bin/noklogin") CONFIG_FILES="$CONFIG_FILES bin/noklogin" ;;
     "bin/nslogin") CONFIG_FILES="$CONFIG_FILES bin/nslogin" ;;
     "bin/nsrancid") CONFIG_FILES="$CONFIG_FILES bin/nsrancid" ;;
     "bin/panlogin") CONFIG_FILES="$CONFIG_FILES bin/panlogin" ;;
@@ -7697,7 +7697,6 @@ $as_echo X"$file" |
     "bin/control_rancid":F) chmod a+x $ac_file ;;
     "bin/a10login":F) chmod a+x $ac_file ;;
     "bin/agmrancid":F) chmod a+x $ac_file ;;
-    "bin/allogin":F) chmod a+x $ac_file ;;
     "bin/alogin":F) chmod a+x $ac_file ;;
     "bin/arancid":F) chmod a+x $ac_file ;;
     "bin/anlogin":F) chmod a+x $ac_file ;;
@@ -7729,6 +7728,7 @@ $as_echo X"$file" |
     "bin/mtlogin":F) chmod a+x $ac_file ;;
     "bin/nlogin":F) chmod a+x $ac_file ;;
     "bin/nrancid":F) chmod a+x $ac_file ;;
+    "bin/noklogin":F) chmod a+x $ac_file ;;
     "bin/nslogin":F) chmod a+x $ac_file ;;
     "bin/nsrancid":F) chmod a+x $ac_file ;;
     "bin/panlogin":F) chmod a+x $ac_file ;;

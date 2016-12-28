@@ -528,23 +528,23 @@ riverstone;login;rivlogin
 smc;script;srancid
 smc;login;hlogin
 #
-# ALU/Nokia TimOS
-timos;script;rancid -t timos
-timos;login;allogin
-timos;module;timos
-timos;inloop;timos::inloop
-timos;command;timos::ShowSystemInfo;show system information
-timos;command;timos::BootLog;file type bootlog.txt
-timos;command;timos::ShowRedundancy;show redundancy synchronization
-timos;command;timos::ShowChassis;show chassis
-timos;command;timos::ShowChassisEnv;show chassis environment
-timos;command;timos::ShowChassisPS;show chassis power-supply
-timos;command;timos::ShowCardState;show card state
-timos;command;timos::ShowDebug;show debug
-timos;command;timos::ConfigDBG;file type config.dbg
-timos;command;timos::ShowBOF;show bof
-timos;command;timos::WriteTermIndex;admin display-config index
-timos;command;timos::WriteTerm;admin display-config
+# ALU/Nokia SROS
+sros;script;rancid -t sros
+sros;login;noklogin
+sros;module;sros
+sros;inloop;sros::inloop
+sros;command;sros::ShowSystemInfo;show system information
+sros;command;sros::BootLog;file type bootlog.txt
+sros;command;sros::ShowRedundancy;show redundancy synchronization
+sros;command;sros::ShowChassis;show chassis
+sros;command;sros::ShowChassisEnv;show chassis environment
+sros;command;sros::ShowChassisPS;show chassis power-supply
+sros;command;sros::ShowCardState;show card state
+sros;command;sros::ShowDebug;show debug
+sros;command;sros::ConfigDBG;file type config.dbg
+sros;command;sros::ShowBOF;show bof
+sros;command;sros::WriteTermIndex;admin display-config index
+sros;command;sros::WriteTerm;admin display-config
 #
 xirrus;script;xirancid
 xirrus;login;xilogin

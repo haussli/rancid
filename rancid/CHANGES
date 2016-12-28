@@ -1,4 +1,6 @@
 3.99.99
+	timeos -> sros & allogin -> noklogin, at the request of nokia
+
 	nxos.pm: pull snmp trap host filtering from ios.pm - Brandon Ewing
 
 	rancid-run, control_rancid: add -c option to specify a SCM commit

@@ -154,6 +154,7 @@ sub ShowBOF {
 sub ConfigDBG {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ConfigDBG: $_" if ($debug);
+    ProcessHistory("DBG","","","#\n");
 
     while (<$INPUT>) {
 	tr/\015//d;

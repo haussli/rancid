@@ -5,7 +5,7 @@
 ## @PACKAGE@ @VERSION@
 @copyright@
 #
-# allogin - Alcatel-Lucent TiMOS/SR-OS login
+# allogin - Nokia TiMOS/SR-OS login
 #
 # Most options are intuitive for logging into a Cisco router.
 # The default is to enable (thus -noenable).  Some folks have
@@ -339,7 +339,7 @@ proc run_commands { prompt command } {
     global do_saveconfig in_proc
     set in_proc 1
 
-    # match timos config mode prompts too, such as A:name>mode>mode#
+    # match sros config mode prompts too, such as A:name>mode>mode#
     # or *A:name>...#.
     regsub -all -- {#$} $prompt {[^\r\n# ]*#} reprompt
 

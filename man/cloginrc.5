@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "cloginrc" "5" "10 August 2016"
+.TH "cloginrc" "5" "28 December 2016"
 .SH NAME
  \.cloginrc \- clogin configuration file
 .SH DESCRIPTION
@@ -42,8 +42,9 @@ include {<file>}
 .PP
 Note: the braces ({}) surrounding the values is significant when the values
 include TCL meta-characters.  Best common practice is to always enclose the
-values in braces.  If a value includes a (left or right) brace or space
-character, it must be backslash-escaped, as in:
+values in braces.  If a value includes a (left or right) brace, space
+character, ampersand or blackslash, those characters must be
+backslash-escaped, as in:
 .PP
 .in +1i
 .nf
@@ -51,6 +52,8 @@ add user <hostname glob> {foo\\}bar}
 add user <hostname glob> {foo\\ bar}
 .fi
 .in -1i
+.PP
+Other special characters may be escaped without error, if desired.
 .PP
 As
 .B .cloginrc

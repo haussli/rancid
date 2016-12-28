@@ -16,6 +16,7 @@
 # Details on each of these follows.  Also see cloginrc(5).
 #
 # add password <router name glob> <vty passwd> <enable passwd>
+#	Special characters must be escaped.  See cloginrc(5).
 #
 # add user <router name glob> <username>
 #	The default user is $USER (i.e.: the user running clogin).

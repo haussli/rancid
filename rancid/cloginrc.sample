@@ -65,7 +65,10 @@
 #	include a secondary .cloginrc file
 #
 #
-# Note: The first match for a hostname takes precedence.
+# Note: The first match for a hostname takes precedence.  The -[Mm] options
+#	are useful for debugging cloginrc issues.
+#
+# Also see cloginrc(5) and clogin(1).
 
 #add password sl-bb*-dc	cow24
 #add password sl-gw*-dc	geeks

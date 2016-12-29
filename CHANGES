@@ -1,4 +1,6 @@
 3.99.99
+	sros.pm: config.dbg doesnt exist w/o a saved debug config, ignore errors
+
 	ios.pm: remove fan speed from fan status on ASR901 - Emille Blanc
 
 	cloginrc.5: make note of special-character escaping precise - Lee

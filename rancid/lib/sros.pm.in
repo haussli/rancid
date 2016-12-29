@@ -163,6 +163,7 @@ sub ConfigDBG {
 	next if (/^\s+\^$/);
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
+	return(0) if (/minor: cli could not access file/i);
 
 	ProcessHistory("DBG","","","# $_");
     }

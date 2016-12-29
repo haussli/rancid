@@ -1,4 +1,6 @@
 3.99.99
+	ios.pm: remove fan speed from fan status on ASR901 - Emille Blanc
+
 	cloginrc.5: make note of special-character escaping precise - Lee
 
 	timeos -> sros & allogin -> noklogin, at the request of nokia

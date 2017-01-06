@@ -1,4 +1,6 @@
 3.99.99
+	alogin: missing global variable
+
 	sros.pm: config.dbg doesnt exist w/o a saved debug config, ignore errors
 
 	ios.pm: remove fan speed from fan status on ASR901 - Emille Blanc

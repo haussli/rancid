@@ -98,6 +98,7 @@ bin/
 	login_top.in	Common login code included in all login scripts.
 	mtlogin.in	Version of clogin.in for Microtik routers.
 	nlogin.in	Version of clogin.in for Netscreen firewalls.
+	noklogin.in	Version of clogin.in for Nokia (Alcatel-Lucent) routers.
 	nslogin.in	Version of clogin.in for Netscalars.
 	panlogin.in	Version of clogin.in for Palo Alto Networks devices.
 	plogin.in	Poly-login version of clogin.in; it uses router.db

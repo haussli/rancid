@@ -7,7 +7,7 @@ package sros;
 #
 #  RANCID - Really Awesome New Cisco confIg Differ
 #
-#  sros.pm - Nokia TiMOS/SR-OS rancid procedures
+#  sros.pm - Nokia (Alcatel-Lucent) SR OS rancid procedures
 
 use 5.010;
 use strict 'vars';

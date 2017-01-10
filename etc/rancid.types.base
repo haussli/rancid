@@ -528,7 +528,7 @@ riverstone;login;rivlogin
 smc;script;srancid
 smc;login;hlogin
 #
-# ALU/Nokia SROS
+# Nokia (Alcatel-Lucent) SR OS (TimOS)
 sros;script;rancid -t sros
 sros;login;noklogin
 sros;module;sros

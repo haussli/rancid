@@ -5,7 +5,7 @@
 ## @PACKAGE@ @VERSION@
 @copyright@
 #
-# allogin - Nokia TiMOS/SR-OS login
+# allogin - Nokia (Alcatel-Lucent) SR OS login
 #
 # Most options are intuitive for logging into a Cisco router.
 # The default is to enable (thus -noenable).  Some folks have

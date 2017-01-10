@@ -31,6 +31,9 @@
 
 	allogin, timos.pm: TimOS support
 
+3.6.2
+	Fix etc/Makefile for rancid.types.conf handling.
+
 3.6.1
 	ios.pm: filter license registration timestamp
 

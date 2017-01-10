@@ -8,7 +8,7 @@
 AUTOMAKE_OPTIONS=foreign
 
 sysconf_DATA= rancid.types.base
-pkgdata_nogen = 
+pkgdata_nogen = rancid.types.conf
 pkgdata_gen = lg.conf.sample rancid.conf.sample
 pkgdata_DATA = $(pkgdata_nogen) $(pkgdata_gen)
 

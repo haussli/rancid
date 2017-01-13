@@ -613,7 +613,7 @@ sub ShowVTP {
 	    s/^$1\s{$len}//;
 	}
 
-	# Nexus 5k and 1000v do note support vtp
+	# Nexus 5k and 1000v do not support vtp
 	if (!/^VTP Operating Mode\s+:\s+(Transparent|Server)/) {
 	    $DO_SHOW_VLAN = 0;
 	}

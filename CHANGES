@@ -1,4 +1,7 @@
 3.99.99
+	alogin: respond to modified config saving & peer syncing appropriately -
+	thanks Bob Franzke
+
 	alogin: missing global variable
 
 	sros.pm: config.dbg doesnt exist w/o a saved debug config, ignore errors

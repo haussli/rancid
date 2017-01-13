@@ -422,7 +422,7 @@ proc login { router user userpswd passwd prompt cmethod cyphertype } {
 
 # Run commands given on the command line.
 proc run_commands { prompt command } {
-    global in_proc cmethod
+    global do_saveconfig in_proc cmethod
     set in_proc 1
 
     send "lines 0\r"
@@ -457,7 +457,19 @@ proc run_commands { prompt command } {
     send "exit\r"
     expect {
 	-re "^WARNING: There are unsaved configuration changes." {
-						 send "y\r"
+						 if {$do_saveconfig} {
+						   catch {send "y\r"}
+						 } else {
+						   catch {send "n\r"}
+						 }
+						 exp_continue
+						}
+	-re "^Confirm Sync to Peer \[^:]*: "	{
+						 if {$do_saveconfig} {
+						   catch {send "y\r"}
+						 } else {
+						   catch {send "n\r"}
+						 }
 						 exp_continue
 						}
 	"\n"					{ exp_continue }

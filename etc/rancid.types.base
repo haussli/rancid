@@ -541,7 +541,6 @@ sros;command;sros::ShowChassisEnv;show chassis environment
 sros;command;sros::ShowChassisPS;show chassis power-supply
 sros;command;sros::ShowCardState;show card state
 sros;command;sros::ShowDebug;show debug
-sros;command;sros::ConfigDBG;file type config.dbg
 sros;command;sros::ShowBOF;show bof
 sros;command;sros::WriteTermIndex;admin display-config index
 sros;command;sros::WriteTerm;admin display-config

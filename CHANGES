@@ -1,4 +1,6 @@
 3.99.99
+	sros.pm: drop unnecessary command: file type config.dbg - Greg Hankins
+
 	alogin: respond to modified config saving & peer syncing appropriately -
 	thanks Bob Franzke
 

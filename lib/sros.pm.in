@@ -152,24 +152,6 @@ sub ShowBOF {
 	ProcessHistory("BOF","","","# $_");
     }
 }
-# This routine parses "file type config.dbg"
-sub ConfigDBG {
-    my($INPUT, $OUTPUT, $cmd) = @_;
-    print STDERR "    In ConfigDBG: $_" if ($debug);
-    ProcessHistory("DBG","","","#\n# $_");
-
-    while (<$INPUT>) {
-	tr/\015//d;
-	last if (/^$prompt/);
-	next if (/^(\s*|\s*$cmd\s*)$/);
-	next if (/^\s+\^$/);
-	return(-1) if (/error: invalid parameter/i);
-	return(-1) if (/minor: cli command not allowed for this user/i);
-	last if (/minor: cli could not access file/i);
-
-	ProcessHistory("DBG","","","# $_");
-    }
-}
 # This routine parses "show card state"
 sub ShowCardState {
     my($INPUT, $OUTPUT, $cmd) = @_;

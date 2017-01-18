@@ -217,6 +217,11 @@ sub GetConf {
 	next if (/^\s*!System time:/);
 	# remove occurrances of conf_file_ver
 	next if (/^#?conf_file_ver=/);
+	# filter last-login
+	if (/^(\s*set)\slast-login\s(.*)/ && $filter_osc) {
+	    ProcessHistory("","","","#$1 last-login <removed>\n");
+	    next;
+	}
 
 	# filter cycling RSA private keys
 	if ($filter_osc &&

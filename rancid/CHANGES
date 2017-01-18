@@ -1,4 +1,6 @@
 3.99.99
+	fnrancid: filter last-login - Merijn Evertse
+
 	sros.pm: drop unnecessary command: file type config.dbg - Greg Hankins
 
 	alogin: respond to modified config saving & peer syncing appropriately -

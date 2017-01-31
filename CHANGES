@@ -1,4 +1,7 @@
 3.99.99
+	f10rancid: WS after filenames in some versions cause the dir and
+	parent dir filters to fail.
+
 	fnrancid: filter last-login - Merijn Evertse
 
 	sros.pm: drop unnecessary command: file type config.dbg - Greg Hankins

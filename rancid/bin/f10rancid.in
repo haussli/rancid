@@ -345,7 +345,7 @@ sub DirSlotN {
 
 	/Directory of/ && next;
 	# . & ..
-	/ \.{1,2}$/ && next;
+	/ \.{1,2}\s+$/ && next;
 
 	# clean up totals line
 	if (/.* (\d+) bytes total/) {

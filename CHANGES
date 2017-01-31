@@ -1,4 +1,6 @@
 3.99.99
+	f10rancid: remove s4048 PS fan speed
+
 	f10rancid: WS after filenames in some versions cause the dir and
 	parent dir filters to fail.
 

@@ -241,7 +241,7 @@ sub ShowChassis {
 
     while (<INPUT>) {
 	tr/\015//d;
-	last if (/^$prompt/);
+REDO:	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if /(Invalid input|Type help or )/;
 	return(1) if /( *\^$)/;
@@ -259,6 +259,42 @@ sub ShowChassis {
 	# E600 AC PSMs
 	/Status        : up/ && next;
 	/High line/ && next;
+	# PS fans
+	if (/power\s+supplies/i) {
+	    ProcessHistory("COMMENTS","keysort","CHASSIS","!Chassis: $_");
+
+	    while (<INPUT>) {
+		tr/\015//d;
+		if (/^$prompt/) {
+		    goto OUT;
+		}
+		last if (/^$/);
+		# remove any trailing WS
+		s/\s+$//;
+		next if (/^----+$/);
+		# s4048 style
+		if (/(Unit\s+Bay\s+Status\s+Type\s+FanStatus)\s+FanSpeed/) {
+		    ProcessHistory("COMMENTS","keysort","CHASSIS",
+		    		   "!Chassis: $1\n");
+		    while (<INPUT>) {
+			tr/\015//d;
+			if (/^$prompt/) {
+			    goto OUT;
+			}
+			last if (/^$/);
+			# remove any trailing WS
+			s/\s+$//;
+			# consume the following separator line
+			next if (/^----+$/);
+			/^(\s+\d+\s+\d+\s+\S+\s+\S+\s+\S+)\s+\S+/ &&
+			    ProcessHistory("COMMENTS","keysort","CHASSIS",
+			    "!Chassis: $1\n") && next;
+			last;
+		    }
+		    goto REDO;
+		}
+	    }
+	}
 	# fans
 	if (/Fan\s+Status/i) {
 	    ProcessHistory("COMMENTS","keysort","CHASSIS","!Chassis: $_");

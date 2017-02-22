@@ -24,7 +24,7 @@ our($opt_d, $opt_S, $opt_V, $opt_autoenable, $opt_noenable, $opt_c, @opt_E,
 GetOptions('d' => \$opt_d, 'S' => \$opt_S, 'V' => \$opt_V,
 	'autoenable' => \$opt_autoenable, 'noenable' => \$opt_noenable,
 	'c=s' => \$opt_c, "E=s@" => \@opt_E, 'e=s' => \$opt_e, 'f=s' => \$opt_f,
-	'h=s' => \$opt_h, 'm' => \$opt_m, 'M' => \$opt_M, 'p=s' => \$opt_p,
+	'h' => \$opt_h, 'm' => \$opt_m, 'M' => \$opt_M, 'p=s' => \$opt_p,
 	'r=s' => \$opt_r, 's=s' => \$opt_s, 't=s' => \$opt_t, 'u=s' => \$opt_u,
 	'v=s' => \$opt_v, 'w=s' => \$opt_w, 'x=s' => \$opt_x, 'y=s' => \$opt_y,
 	'z=s' => \$opt_z);

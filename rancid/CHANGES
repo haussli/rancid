@@ -1,4 +1,6 @@
 3.99.99
+	plogin: fix cmd-line option spec - Erik Muller
+
 	f10rancid: remove s4048 PS fan speed
 
 	f10rancid: WS after filenames in some versions cause the dir and

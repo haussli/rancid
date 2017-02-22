@@ -13,7 +13,7 @@ AUTOMAKE_OPTIONS=foreign no-dependencies
 @SET_MAKE@
 
 man_gen_MANS = lg.conf.5 rancid.3 rancid.conf.5 rancid.types.conf.5 lg_intro.1
-man_nogen_MANS = agmrancid.1 noklogin.1 alogin.1 anlogin.1 anrancid.1 \
+man_nogen_MANS = agmrancid.1 alogin.1 anlogin.1 anrancid.1 \
 		arancid.1 arrancid.1 avologin.1 avorancid.1 blogin.1 brancid.1 \
 		cat5rancid.1 clogin.1 cloginrc.5 control_rancid.1 csblogin.1 \
 		cssrancid.1 \
@@ -21,7 +21,7 @@ man_nogen_MANS = agmrancid.1 noklogin.1 alogin.1 anlogin.1 anrancid.1 \
 		elogin.1 erancid.1 f5rancid.1 f10rancid.1 flogin.1 fnlogin.1 \
 		fnrancid.1 hlogin.1 hrancid.1 htlogin.1 \
 		htrancid.1 jerancid.1 jlogin.1 mrancid.1 \
-		mrvlogin.1 mtlogin.1 mtrancid.1 nlogin.1 \
+		mrvlogin.1 mtlogin.1 mtrancid.1 nlogin.1 noklogin.1 \
 		nrancid.1 nslogin.1 nsrancid.1 nxrancid.1 \
 		panlogin.1 par.1 plogin.1 prancid.1 \
 		rancid-cvs.1 rancid-run.1 rancid.1 \

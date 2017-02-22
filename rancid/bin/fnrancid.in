@@ -397,6 +397,9 @@ if (scalar(%commands) || !$found_end) {
     }
     if (!$found_end) {
 	print(STDERR "$host: End of run not found\n");
+	if ($debug) {
+	    print(STDERR "$host: found_end is false\n") if (!$found_end);
+	}
 	system("/usr/bin/tail -1 $host.new");
     }
     unlink "$host.new" if (! $debug);

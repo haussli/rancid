@@ -472,6 +472,9 @@ if (scalar(%commands) || !$clean_run) {
     }
     if (!$clean_run) {
 	print(STDERR "$host: End of run not found\n");
+	if ($debug) {
+	    print(STDERR "$host: clean_run is false\n") if (!$clean_run);
+	}
 	system("/usr/bin/tail -1 $host.new");
     }
     unlink "$host.new" if (! $debug);

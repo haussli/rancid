@@ -1,4 +1,6 @@
 3.99.99
+	*rancid: print which of found_end or clean_run are false with -d option
+
 	plogin: fix cmd-line option spec - Erik Muller
 
 	f10rancid: remove s4048 PS fan speed

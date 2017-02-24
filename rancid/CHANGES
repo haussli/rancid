@@ -1,4 +1,7 @@
 3.99.99
+	noklogin: SROS has no concept of enable mode; remove such code so that
+	autoenable/etc are not needed
+
 	sros.pm: add show card detail - Erik Muller
 
 	ios.pm: filter flash:smart-log/agentlog, debug file turd that changes

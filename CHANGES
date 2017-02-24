@@ -1,4 +1,6 @@
 3.99.99
+	sros.pm: add show card detail - Erik Muller
+
 	ios.pm: filter flash:smart-log/agentlog, debug file turd that changes
 	size in perpetuity
 

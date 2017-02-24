@@ -8,10 +8,6 @@
 # noklogin - Nokia (Alcatel-Lucent) SR OS login
 #
 # Most options are intuitive for logging into a Cisco router.
-# The default is to enable (thus -noenable).  Some folks have
-# setup tacacs to have a user login at priv-lvl = 15 (enabled)
-# so the -autoenable flag was added for this case (don't go through
-# the process of enabling and the prompt will be the "#" prompt.
 # The default username password is the same as the vty password.
 #
 
@@ -24,7 +20,7 @@ set send_human {.2 .1 .4 .2 1}
 
 # Log into the router.
 # returns: 0 on success, 1 on failure, -1 if rsh was used successfully
-proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile } {
+proc login { router user userpswd passwd cmethod cyphertype identfile } {
     global command spawn_id in_proc do_command do_script passphrase
     global prompt prompt_match u_prompt p_prompt e_prompt sshcmd
     set in_proc 1
@@ -299,41 +295,6 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
     return 0
 }
 
-# Enable
-proc do_enable { enauser enapasswd } {
-    global do_saveconfig in_proc
-    global prompt u_prompt e_prompt enacmd
-    set in_proc 1
-
-    send "$enacmd\r"
-    expect {
-	-re "$u_prompt"	{ send -- "$enauser\r"; exp_continue}
-	-re "$e_prompt"	{ send -- "$enapasswd\r"; exp_continue}
-	"#"		{ set prompt "#" }
-	"% Invalid input" {
-			  send_user "\nError: Unrecognized command, check your enable command\n";
-			  return 1
-			}
-	-re "(denied|Sorry|Incorrect)"	{
-			  # % Access denied - from local auth and poss. others
-			  send_user "\nError: Check your Enable passwd\n";
-			  return 1
-			}
-	"% Error in authentication" {
-			  send_user "\nError: Check your Enable passwd\n"
-			  return 1
-			}
-	"% Bad passwords" {
-			  send_user "\nError: Check your Enable passwd\n"
-			  return 1
-			}
-    }
-    # We set the prompt variable (above) so script files don't need
-    # to know what it is.
-    set in_proc 0
-    return 0
-}
-
 # Run commands given on the command line.
 proc run_commands { prompt command } {
     global do_saveconfig in_proc
@@ -455,41 +416,16 @@ foreach router [lrange $argv $i end] {
 	set prompt "#"
     }
 
-    # look for autoenable option in .cloginrc & cmd-line
-    set ae [find autoenable $router]
-    if { "$ae" == "1" || $avautoenable } {
-	set autoenable 1
-    } else {
-	set autoenable 0
-    }
-    # look for enable options in .cloginrc & cmd-line
-    if { $avenable == 0 } {
-	set enable 0
-    } else {
-	set ne [find noenable $router]
-	if { "$ne" == "1" || "$autoenable" == "1" } {
-	    set enable 0
-	} else {
-	    set enable 1
-	}
-    }
-
     # Figure out passwords
-    if { $do_passwd || $do_enapasswd } {
+    if { $do_passwd } {
       set pswd [find password $router]
       if { [llength $pswd] == 0 } {
 	send_user -- "\nError: no password for $router in $password_file.\n"
 	continue
       }
-      if { $enable && $do_enapasswd && $autoenable == 0 && [llength $pswd] < 2 } {
-	send_user -- "\nError: no enable password for $router in $password_file.\n"
-	continue
-      }
       set passwd [join [lindex $pswd 0] ""]
-      set enapasswd [join [lindex $pswd 1] ""]
     } else {
 	set passwd $userpasswd
-	set enapasswd $enapasswd
     }
 
     # Figure out username
@@ -510,19 +446,6 @@ foreach router [lrange $argv $i end] {
       if { "$userpswd" == "" } { set userpswd $passwd }
     }
 
-    # Figure out enable username
-    if {[info exists enausername]} {
-      # command line enausername
-      set enauser $enausername
-    } else {
-      set enauser [join [find enauser $router] ""]
-      if { "$enauser" == "" } { set enauser $ruser }
-    }
-
-    # Figure out enable command
-    set enacmd [join [find enablecmd $router] ""]
-    if { "$enacmd" == "" } { set enacmd "enable" }
-
     # Figure out prompts
     set u_prompt [find userprompt $router]
     if { "$u_prompt" == "" } {
@@ -535,12 +458,6 @@ foreach router [lrange $argv $i end] {
 	set p_prompt "(\[Pp]assword|passwd|Enter password for \[^ :]+):"
     } else {
 	set p_prompt [join [lindex $p_prompt 0] ""]
-    }
-    set e_prompt [find enableprompt $router]
-    if { "$e_prompt" == "" } {
-	set e_prompt "\[Pp]assword:"
-    } else {
-	set e_prompt [join [lindex $e_prompt 0] ""]
     }
 
     # Figure out identity file to use
@@ -576,23 +493,10 @@ foreach router [lrange $argv $i end] {
     if { $do_cloginrcdbg > 0 } { continue; }
 
     # Login to the router
-    if {[login $router $ruser $userpswd $passwd $enapasswd $cmethod $cyphertype $identfile]} {
+    if {[login $router $ruser $userpswd $passwd $cmethod $cyphertype $identfile]} {
 	incr exitval
 	# if login failed or rsh was unsuccessful, move on to the next device
 	continue
-    }
-    # Figure out the prompt.
-    if { [regexp -- "#" $prompt_match junk] == 1 } {
-	set enable 0
-    }
-    if { $enable } {
-	if {[do_enable $enauser $enapasswd]} {
-	    if { $do_command || $do_script } {
-		incr exitval
-		catch {close}; catch {wait};
-		continue
-	    }
-	}
     }
     # we are logged in, now figure out the full prompt:
     # cli prompt:

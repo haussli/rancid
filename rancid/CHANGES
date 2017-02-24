@@ -1,4 +1,7 @@
 3.99.99
+	ios.pm: filter flash:smart-log/agentlog, debug file turd that changes
+	size in perpetuity
+
 	sros.pm: filter passwords & trap communities - Erik Muller
 
 	ios.pm: ASAv 9.6(2) has a bug with a cycling debug file:

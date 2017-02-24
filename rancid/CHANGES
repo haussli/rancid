@@ -1,4 +1,9 @@
 3.99.99
+	sros.pm: filter passwords & trap communities - Erik Muller
+
+	ios.pm: ASAv 9.6(2) has a bug with a cycling debug file:
+	smart-log/agentlog
+
 	*rancid: print which of found_end or clean_run are false with -d option
 
 	plogin: fix cmd-line option spec - Erik Muller

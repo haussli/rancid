@@ -39,7 +39,7 @@ sub init {
     ProcessHistory("COMMENTS","keysort","B0","#\n");	# chassis summary
     ProcessHistory("COMMENTS","keysort","C0","#\n");	# memory summary
     ProcessHistory("COMMENTS","keysort","D0","#\n");	# Processor summary
-    ProcessHistory("COMMENTS","keysort","E0","#\n");	# 
+    ProcessHistory("COMMENTS","keysort","E0","#\n");	#
     ProcessHistory("COMMENTS","keysort","F0","#\n");	# chassis
     ProcessHistory("COMMENTS","keysort","G0","#\n");	# boot log
 
@@ -336,12 +336,28 @@ sub WriteTerm {
 
 	/^#-+$/i && next;
 	s/echo \"(.*)\"/# $1/i;
+
+	# password/community filtering
 	if (/^(\s+community) "[^"]*" /) {
 	    if ($filter_commstr) {
 		ProcessHistory("SNMPSERVERCOMM","keysort","$_",
 			       "#$1 <removed> $'") && next;
 	    } else {
 		ProcessHistory("SNMPSERVERCOMM","keysort","$_","$_") && next;
+	    }
+	}
+	if (/^(\s+trap-target\s+.*)\s+(notify-community)\s+("\S+")/) {
+	    if ($filter_commstr) {
+		ProcessHistory("","","","#$1 $2 <removed>$'") && next;
+	    } else {
+		ProcessHistory("","","","$_") && next;
+	    }
+	}
+	if (/^(\s+password)\s+("\$\S+")/) {
+	    if ($filter_pwds) {
+		ProcessHistory("","","","#$1 <removed>$'") && next;
+	    } else {
+		ProcessHistory("","","","$_") && next;
 	    }
 	}
 

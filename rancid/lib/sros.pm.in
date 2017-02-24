@@ -354,7 +354,7 @@ sub WriteTerm {
 	    }
 	}
 	if (/^(\s+password)\s+("\$\S+")/) {
-	    if ($filter_pwds) {
+	    if ($filter_pwds >= 2) {
 		ProcessHistory("","","","#$1 <removed>$'") && next;
 	    } else {
 		ProcessHistory("","","","$_") && next;

@@ -540,6 +540,7 @@ sros;command;sros::ShowChassis;show chassis
 sros;command;sros::ShowChassisEnv;show chassis environment
 sros;command;sros::ShowChassisPS;show chassis power-supply
 sros;command;sros::ShowCardState;show card state
+sros;command;sros::ShowCardDetail;show card detail
 sros;command;sros::ShowDebug;show debug
 sros;command;sros::ShowBOF;show bof
 sros;command;sros::WriteTermIndex;admin display-config index

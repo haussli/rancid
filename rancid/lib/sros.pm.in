@@ -152,6 +152,28 @@ sub ShowBOF {
 	ProcessHistory("BOF","","","# $_");
     }
 }
+# This routine parses "show card detail"
+sub ShowCardDetail {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowCardDetail: $_" if ($debug);
+    ProcessHistory("COMMENTS","keysort","F5","#\n# $_");
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+	return(-1) if (/error: invalid parameter/i);
+	return(-1) if (/minor: cli command not allowed for this user/i);
+
+	# temp varies in "show card detail"
+	next if (/^(\s+Temperature\s+:)\s+\d+C/);
+	next if (/^Config file last (saved|modified)\s+:/ && $filter_osc);
+
+	#/^[-=]+$/i && next;
+	ProcessHistory("COMMENTS","keysort","F5","# $_");
+    }
+}
 # This routine parses "show card state"
 sub ShowCardState {
     my($INPUT, $OUTPUT, $cmd) = @_;

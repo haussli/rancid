@@ -975,26 +975,36 @@ sub ShowFlash {
 	/\s+(private-multiple-fs|multiple-fs|LISP-MapCache-IPv\S+|nv_hdr)$/ &&
 	    next;
 
-	if (/(\d+) bytes (available|total) \((\d+) bytes used\)/) {
-	    my($tmp);
+	if (/(\d+) bytes (available|total) \((\d+) bytes (free|used)\)/) {
+	    my($avail);
+	    my($preamble) = "";
 	    if ($2 eq "available") {
-		$tmp = $1;
+		$avail = $1;
 	    } else {
-		$tmp = $1 - $3;
+		$preamble = "$1 bytes total";
+		if ($4 eq "free") {
+		    $avail = $3;
+		} else {
+		    $avail = $1 - $3;
+		}
 	    }
-	    if ($tmp >= (1024 * 1024 * 1024)) {
-		$tmp = int($tmp / (1024 * 1024 * 1024));
-		$_ = "$tmp GB free\n";
-	    } elsif ($tmp >= (1024 * 1024)) {
-		$tmp = int($tmp / (1024 * 1024));
-		$_ = "$tmp MB free\n";
-	    } elsif ($tmp >= (1024)) {
-		$tmp = int($tmp / 1024);
-		$_ = "$tmp KB free\n";
-	    } elsif ($tmp > 0) {
+	    if ($avail >= (1024 * 1024 * 1024)) {
+		$avail = int($avail / (1024 * 1024 * 1024));
+		$_ = "$avail GB free\n";
+	    } elsif ($avail >= (1024 * 1024)) {
+		$avail = int($avail / (1024 * 1024));
+		$_ = "$avail MB free\n";
+	    } elsif ($avail >= (1024)) {
+		$avail = int($avail / 1024);
+		$_ = "$avail KB free\n";
+	    } elsif ($avail > 0) {
 		$_ = "< 1KB free\n";
 	    } else {
 		$_ = "0 bytes free\n";
+	    }
+	    if (length($preamble)) {
+		chomp($_);
+		$_ = "$preamble ($_)\n";
 	    }
 	}
 	ProcessHistory("FLASH","","","!Flash: $_");

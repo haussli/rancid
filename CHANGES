@@ -1,4 +1,6 @@
 3.99.99
+	ios.pm: summarize bytes free on flash
+
 	noklogin: SROS has no concept of enable mode; remove such code so that
 	autoenable/etc are not needed
 

@@ -1,4 +1,6 @@
 3.99.99
+	edgerouter.pm: add match for transient show version command failure
+
 	ios.pm: summarize bytes free on flash
 
 	noklogin: SROS has no concept of enable mode; remove such code so that

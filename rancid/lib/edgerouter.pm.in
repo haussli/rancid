@@ -92,6 +92,7 @@ sub ShowVersion {
 	last if (/^$prompt/);
 	next if (/^\s+\^$/);
         return(1) if (/invalid (input|command) detected/i);
+        return(-1) if (/^plat exception:/i);	# failure to connect?
 	next if /^\s*$/;
 
 	next if (/^(uptime|copyright):/i);

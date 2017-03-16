@@ -446,8 +446,8 @@ proc run_commands { prompt command } {
 						}
 	    -gl "--More--"			{ send " "
 						  exp_continue
-	    -re "\[\n\r]+"			{ exp_continue }
 						}
+	    -re "\[\n\r]+"			{ exp_continue }
 	}
      }
      expect {

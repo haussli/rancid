@@ -1,4 +1,6 @@
 3.99.99
+	fnlogin: fix missing/extra brace - Daniel Fussell
+
 	edgerouter.pm: add match for transient show version command failure
 
 	ios.pm: summarize bytes free on flash

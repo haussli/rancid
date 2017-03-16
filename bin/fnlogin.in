@@ -441,7 +441,7 @@ proc run_commands { prompt command } {
     for {set i 0} {$i < $num_commands} { incr i} {
 	send -- "[subst -nocommands [lindex $commands $i]]\r"
 	expect {
-            -re "$prompt"			{ send "\r"
+            -re "$prompt"			{
 						  sleep 0.5
 						}
 	    -gl "--More--"			{ send " "

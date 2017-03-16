@@ -1,4 +1,6 @@
 3.99.99
+	fnlogin: do not send \r to the prompt in run_commands() - Daniel Fussell
+
 	fnlogin: fix missing/extra brace - Daniel Fussell
 
 	edgerouter.pm: add match for transient show version command failure

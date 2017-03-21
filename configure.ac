@@ -159,7 +159,20 @@ AC_ARG_WITH(svn,
 	AC_MSG_ERROR([unknown svn fs-type $withval])
   esac
 ], [AC_MSG_RESULT(no)
-    RCSSYS="cvs"
+    AC_ARG_WITH(git,
+	AS_HELP_STRING([--with-git], [use git instead of cvs]),
+    [ case "$withval" in
+      yes)
+	AC_MSG_RESULT(yes)
+	RCSSYS="git"
+	;;
+      no)
+	AC_MSG_RESULT(no)
+	RCSSYS="cvs"
+      esac
+    ], [AC_MSG_RESULT(no)
+        RCSSYS="cvs"
+    ])
 ])
 AC_SUBST(RCSSYS)
 AC_SUBST(SVN_FSTYPE)

@@ -759,6 +759,7 @@ enable_dependency_tracking
 enable_mk_localstatedir
 enable_conf_install
 with_svn
+with_git
 enable_mail_plus
 enable_adminmail_plus
 '
@@ -1408,6 +1409,7 @@ Optional Packages:
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
   --with-svn=fstype       use subversion instead of cvs, with optional svn
                           fstype (fsfs|bdb)
+  --with-git              use git instead of cvs
 
 Some influential environment variables:
   CC          C compiler command
@@ -4936,7 +4938,28 @@ $as_echo "no" >&6; }
 else
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
-    RCSSYS="cvs"
+
+# Check whether --with-git was given.
+if test "${with_git+set}" = set; then :
+  withval=$with_git;  case "$withval" in
+      yes)
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+	RCSSYS="git"
+	;;
+      no)
+	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	RCSSYS="cvs"
+      esac
+
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+        RCSSYS="cvs"
+
+fi
+
 
 fi
 

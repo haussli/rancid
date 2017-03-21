@@ -1,4 +1,6 @@
 3.99.99
+	configure: fix --with-git
+
 	fnlogin: do not send \r to the prompt in run_commands() - Daniel Fussell
 
 	fnlogin: fix missing/extra brace - Daniel Fussell

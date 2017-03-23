@@ -1,4 +1,7 @@
 3.99.99
+	junos.pm: add VMX-SCALE & VMX-BANDWIDTH to license filter - Brad
+	Dreisbach
+
 	rancid.spec: fix omissions - Brad Dreisbach
 
 	configure: fix --with-git

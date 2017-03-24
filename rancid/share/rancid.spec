@@ -14,7 +14,7 @@ Requires:       findutils
 Requires:       expect >= 5.40
 Requires:       iputils
 Requires:       logrotate
-Requires:       openssh-client
+Requires:       openssh-clients
 Requires:       perl
 Requires:       postfix
 Requires:       telnet

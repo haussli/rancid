@@ -515,7 +515,7 @@ Q. I wrote scripts for an unsupported device in rancid 2.x, but I am upgrading
 A. Yes.  The device type must be added to etc/rancid.types.conf such as:
 	DeviceTypeName;script;RancidScriptName
 	DeviceTypeName;login;LoginScriptName
-   See rancid.types.conf(5)
+   See rancid.types.conf(5).
 
 
 Q. I Have a device that is not supported by rancid.  How can I added support
@@ -565,6 +565,18 @@ A. You should first search the rancid-discuss mail list and the web for
    After the login script works, work on the rancid library.  First the inloop
    function, followed by the filter functions.  See tips regarding rancid -d
    and the environment variable NOPIPE earlier in this FAQ.
+
+
+Q. I wish to extend an existing rancid device type with an additional command
+   or alter the filtering of an existing command.  What is the recommended way
+   to do this?
+
+A. It is recommended that a new device type is defined, so that future upgrades
+   can proceed more smoothly.  To do so, read the previous question in this FAQ
+   and see the device type iosshtech in rancid.types.conf(5) for an example of
+   altering the commands run for an existing device type ("ios"), adding a
+   command and adding a new filtering function.
+   
 
 
 5) O/S specific

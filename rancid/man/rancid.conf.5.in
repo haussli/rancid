@@ -199,7 +199,7 @@ Example: MAILOPTS="-f bounces.go.here@example.com"
 .TP
 .B MAILSPLIT
 Defines the maximum BODY size of diffs in kilobytes, such that diffs are
-split clunks no larger than N kbytes.
+split into clunks no larger than N kbytes.
 The minimum is 0, which disables splitting.
 .sp
 Default: 0.

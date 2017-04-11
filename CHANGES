@@ -1,4 +1,6 @@
 3.99.99
+	junos.pm: ShowVersion: fail on no route to secondary RE
+
 	ios.pm: ShowDiag misinterprets PVDM slots - Rybakov Evgeny
 
 	junos.pm: add VMX-SCALE & VMX-BANDWIDTH to license filter - Brad

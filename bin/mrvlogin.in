@@ -6,66 +6,13 @@
 @copyright@
 #
 # mrvlogin - MRV login
-#
-# Most options are intuitive for logging into a Cisco router.
-# The default is to enable (thus -noenable).  Some folks have
-# setup tacacs to have a user login at priv-lvl = 15 (enabled)
-# so the -autoenable flag was added for this case (don't go through
-# the process of enabling and the prompt will be the "#" prompt.
-# The default username password is the same as the vty password.
-#
 
-# Usage line
-set usage "Usage: $argv0 \[-dSV\] \[-autoenable\] \[-noenable\] \[-c command\] \
-\[-Evar=x\] \[-e enable-password\] \[-f cloginrc-file\] \[-p user-password\] \
-\[-s script-file\] \[-t timeout\] \[-u username\] \
-\[-v vty-password\] \[-w enable-username\] \[-x command-file\] \
-\[-y ssh_cypher_type\] router \[router...\]\n"
-
-# env(CLOGIN) may contain:
-#	x == do not set xterm banner or name
-
-# Password file
-set password_file $env(HOME)/.cloginrc
-# Default is to login to the router
-set do_command 0
-set do_script 0
-# The default is to automatically enable
-set avenable 1
-# The default is that you login non-enabled (tacacs can have you login already
-# enabled)
-set avautoenable 0
-# The default is to look in the password file to find the passwords.  This
-# tracks if we receive them on the command line.
-set do_passwd 1
-set do_enapasswd 1
-# Save config, if prompted
-set do_saveconfig 0
 # Sometimes routers take awhile to answer (the default is 10 sec)
 set timeoutdflt 45
 # Some CLIs having problems if we write too fast (Extreme, PIX, Cat)
 set send_human {.2 .1 .4 .2 1}
 
-# Find the user in the ENV, or use the unix userid.
-if {[ info exists env(CISCO_USER) ]} {
-    set default_user $env(CISCO_USER)
-} elseif {[ info exists env(USER) ]} {
-    set default_user $env(USER)
-} elseif {[ info exists env(LOGNAME) ]} {
-    set default_user $env(LOGNAME)
-} else {
-    # This uses "id" which I think is portable.  At least it has existed
-    # (without options) on all machines/OSes I've been on recently -
-    # unlike whoami or id -nu.
-    if [ catch {exec id} reason ] {
-	send_error "\nError: could not exec id: $reason\n"
-	exit 1
-    }
-    regexp {\(([^)]*)} "$reason" junk default_user
-}
-if {[ info exists env(CLOGINRC) ]} {
-    set password_file $env(CLOGINRC)
-}
+@login_top@
 
 # Process the command line
 for {set i 0} {$i < $argc} {incr i} {
@@ -192,93 +139,12 @@ for {set i 0} {$i < $argc} {incr i} {
 	}
     }
 }
-# Process routers...no routers listed is an error.
-if { $i == $argc } {
-    send_user "\nError: $usage"
-}
-
-# Only be quiet if we are running a script (it can log its output
-# on its own)
-if { $do_script } {
-    log_user 0
-} else {
-    log_user 1
-}
-
-#
-# Done configuration/variable setting.  Now run with it...
-#
-
-# Sets Xterm title if interactive...if its an xterm and the user cares
-proc label { host } {
-    global env
-    # if CLOGIN has an 'x' in it, don't set the xterm name/banner
-    if [info exists env(CLOGIN)] {
-	if {[string first "x" $env(CLOGIN)] != -1} { return }
-    }
-    # take host from ENV(TERM)
-    if [info exists env(TERM)] {
-	if [ regexp \^(xterm|vs) $env(TERM) ignore ] {
-	    send_user "\033]1;[lindex [split $host "."] 0]\a"
-	    send_user "\033]2;$host\a"
-	}
-    }
-}
-
-# This is a helper function to make the password file easier to
-# maintain.  Using this the password file has the form:
-# add password sl*	pete cow
-# add password at*	steve
-# add password *	hanky-pie
-proc add {var args} { global int_$var ; lappend int_$var $args}
-proc include {args} {
-    global env
-    regsub -all "(^{|}$)" $args {} args
-    if { [ regexp "^/" $args ignore ] == 0 } {
-	set args $env(HOME)/$args
-    }
-    source_password_file $args
-}
-
-proc find {var router} {
-    upvar int_$var list
-    if { [info exists list] } {
-	foreach line $list {
-	    if { [string match -nocase [lindex $line 0] $router ] } {
-		return [lrange $line 1 end]
-	    }
-	}
-    }
-    return {}
-}
-
-# Loads the password file.  Note that as this file is tcl, and that
-# it is sourced, the user better know what to put in there, as it
-# could install more than just password info...  I will assume however,
-# that a "bad guy" could just as easy put such code in the clogin
-# script, so I will leave .cloginrc as just an extention of that script
-proc source_password_file { password_file } {
-    global env
-    if { ! [file exists $password_file] } {
-	send_user "\nError: password file ($password_file) does not exist\n"
-	exit 1
-    }
-    file stat $password_file fileinfo
-    if { [expr ($fileinfo(mode) & 007)] != 0000 } {
-	send_user "\nError: $password_file must not be world readable/writable\n"
-	exit 1
-    }
-    if [ catch {source $password_file} reason ] {
-	send_user "\nError: $reason\n"
-	exit 1
-    }
-}
 
 # Log into the router.
 # returns: 0 on success, 1 on failure
 proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
     global command spawn_id in_proc do_command do_script
-    global prompt u_prompt p_prompt e_prompt sshcmd
+    global prompt u_prompt p_prompt e_prompt sshcmd telnetcmd
     set in_proc 1
     set uprompt_seen 0
 
@@ -289,9 +155,9 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	if [string match "telnet*" $prog] {
 	    regexp {telnet(:([^[:space:]]+))*} $prog methcmd suffix port
 	    if {"$port" == ""} {
-		set retval [ catch {spawn telnet $router} reason ]
+		set retval [ catch {eval spawn [split "$telnetcmd $router"]} reason ]
 	    } else {
-		set retval [ catch {spawn telnet $router $port} reason ]
+		set retval [ catch {eval spawn [split "$telnetcmd $router $port"]} reason ]
 	    }
 	    if { $retval } {
 		send_user "\nError: telnet failed: $reason\n"
@@ -710,6 +576,13 @@ foreach router [lrange $argv $i end] {
     # Figure out the SSH executable name
     set sshcmd [join [lindex [find sshcmd $router] 0] ""]
     if { "$sshcmd" == "" } { set sshcmd {ssh} }
+
+    # Figure out the telnet executable name
+    set telnetcmd [join [lindex [find telnetcmd $router] 0] ""]
+    if { "$telnetcmd" == "" } { set telnetcmd "@TELNET_CMD@" }
+
+    # if [-mM], skip do not login
+    if { $do_cloginrcdbg > 0 } { continue; }
 
     # Login to the router
     if {[login $router $ruser $userpswd $passwd $enapasswd $cmethod $cyphertype]} {

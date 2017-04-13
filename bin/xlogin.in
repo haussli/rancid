@@ -26,7 +26,7 @@ set send_human {.2 .1 .4 .2 1}
 # returns: 0 on success, 1 on failure, -1 if rsh was used successfully
 proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile } {
     global command spawn_id in_proc do_command do_script platform passphrase
-    global prompt prompt_match u_prompt p_prompt e_prompt sshcmd
+    global prompt prompt_match u_prompt p_prompt e_prompt sshcmd telnetcmd
     set in_proc 1
     set uprompt_seen 0
 
@@ -40,9 +40,9 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 		set port 23
 	    }
 	    if { $do_command || $do_script } {
-		set retval [catch {spawn telnet $router $port} reason]
+		set retval [catch {eval spawn [split "$telnetcmd $router $port"]} reason]
 	    } else {
-		set retval [catch {spawn telnet $router $port} reason]
+		set retval [catch {eval spawn [split "$telnetcmd $router $port"]} reason]
 	    }
 	    if { $retval } {
 		send_user "\nError: telnet failed: $reason\n"
@@ -628,6 +628,10 @@ foreach router [lrange $argv $i end] {
     # Figure out the SSH executable name
     set sshcmd [join [lindex [find sshcmd $router] 0] ""]
     if { "$sshcmd" == "" } { set sshcmd {ssh} }
+
+    # Figure out the telnet executable name
+    set telnetcmd [join [lindex [find telnetcmd $router] 0] ""]
+    if { "$telnetcmd" == "" } { set telnetcmd "@TELNET_CMD@" }
 
     # if [-mM], skip do not login
     if { $do_cloginrcdbg > 0 } { continue; }

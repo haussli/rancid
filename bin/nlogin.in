@@ -247,7 +247,7 @@ proc source_password_file { password_file } {
 # returns: 0 on success, 1 on failure
 proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile } {
     global command spawn_id in_proc do_command do_script passphrase
-    global prompt prompt_match u_prompt p_prompt sshcmd
+    global prompt prompt_match u_prompt p_prompt sshcmd telnetcmd
     set in_proc 1
     set uprompt_seen 0
 
@@ -258,9 +258,9 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 	if [string match "telnet*" $prog] {
 	    regexp {telnet(:([^[:space:]]+))*} $prog methcmd suffix port
 	    if {"$port" == ""} {
-		set retval [catch {spawn telnet $router} reason]
+		set retval [catch {eval spawn [split "$telnetcmd $router"]} reason]
 	    } else {
-		set retval [catch {spawn telnet $router $port} reason]
+		set retval [catch {eval spawn [split "$telnetcmd $router $port"]} reason]
 	    }
 	    if { $retval } {
 		send_user "\nError: telnet failed: $reason\n"
@@ -550,6 +550,14 @@ foreach router [lrange $argv $i end] {
     # Figure out the SSH executable name
     set sshcmd [join [lindex [find sshcmd $router] 0] ""]
     if { "$sshcmd" == "" } { set sshcmd {ssh} }
+
+    # Figure out the telnet executable name
+    set telnetcmd [join [lindex [find telnetcmd $router] 0] ""]
+    if { "$telnetcmd" == "" } { set telnetcmd "@TELNET_CMD@" }
+
+# XXX need to import login_top.
+#    # if [-mM], skip do not login
+#    if { $do_cloginrcdbg > 0 } { continue; }
 
     # Login to the router
     if {[login $router $ruser $userpswd $passwd $enapasswd $cmethod $cyphertype $identfile]} {

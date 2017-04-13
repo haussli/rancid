@@ -11,7 +11,9 @@ set password_file $env(HOME)/.cloginrc
 set do_command 0
 set do_script 0
 # The default is to automatically enable
-set avenable 1
+if {! [info exists avenable]} {
+    set avenable 1
+}
 # The default is that you login non-enabled (tacacs can have you login already
 # enabled)
 set avautoenable 0
@@ -83,6 +85,13 @@ for {set i 0} {$i < $argc} {incr i} {
 		set command [lindex $argv $i]
 	    }
 	    set do_command 1
+	# Enable Password
+	} -e* {
+	    if {! [regexp .\[e\](.+) $arg ignore enapasswd]} {
+		incr i
+		set enapasswd [lindex $argv $i]
+	    }
+	    set do_enapasswd 0
 	# Environment variable to pass to -s scripts
 	} -E* {
 	    if {[regexp .\[E\](.+)=(.+) $arg ignore varname varvalue]} {
@@ -121,7 +130,7 @@ for {set i 0} {$i < $argc} {incr i} {
 		incr i
 		set sfile [lindex $argv $i]
 	    }
-	    if { ! [file readable $sfile] } {
+	    if {! [file readable $sfile]} {
 		send_user "\nError: Can't read $sfile\n"
 		exit 1
 	    }
@@ -163,13 +172,6 @@ for {set i 0} {$i < $argc} {incr i} {
 		incr i
 		set enausername [lindex $argv $i]
 	    }
-	# Enable Password
-	} -e* {
-	    if {! [regexp .\[e\](.+) $arg ignore enapasswd]} {
-		incr i
-		set enapasswd [lindex $argv $i]
-	    }
-	    set do_enapasswd 0
 	# 'ssh -c' cypher type
 	} -y* {
 	    if {! [regexp .\[eE\](.+) $arg ignore cypher]} {
@@ -207,13 +209,13 @@ for {set i 0} {$i < $argc} {incr i} {
     }
 }
 # Process routers...no routers listed is an error.
-if { $i == $argc } {
+if {$i == $argc} {
     send_user "\nError: $usage"
 }
 
 # Only be quiet if we are running a script (it can log its output
 # on its own)
-if { $do_script } {
+if {$do_script} {
     log_user 0
 } else {
     log_user 1
@@ -224,7 +226,7 @@ if { $do_script } {
 #
 
 # Sets Xterm title if interactive...if its an xterm and the user cares
-proc label { host } {
+proc label {host} {
     global env
     # if CLOGIN has an 'x' in it, don't set the xterm name/banner
     if [info exists env(CLOGIN)] {
@@ -253,7 +255,7 @@ proc add {var args} {
 proc include {args} {
     global env
     regsub -all "(^{|}$)" $args {} args
-    if { [regexp "^/" $args ignore] == 0 } {
+    if {[regexp "^/" $args ignore] == 0} {
 	set args $env(HOME)/$args
     }
     source_password_file $args
@@ -262,13 +264,13 @@ proc include {args} {
 proc find {var router} {
     global do_cloginrcdbg
     upvar int_$var list
-    if { [info exists list] } {
+    if {[info exists list]} {
 	foreach line $list {
-	    if { [string match -nocase [lindex $line 1] $router] } {
-		if { $do_cloginrcdbg > 0 } {
+	    if {[string match -nocase [lindex $line 1] $router]} {
+		if {$do_cloginrcdbg > 0} {
 		    send_error -- [join [list [lindex $line 0] [lrange $line 1 end] "\r\n"]]
 		}
-		if { $do_cloginrcdbg == 2 } {
+		if {$do_cloginrcdbg == 2} {
 		    # save return value
 		    if {! [info exists result]} {
 			set result [lrange $line 2 end]
@@ -280,7 +282,7 @@ proc find {var router} {
 	}
     }
 
-    if { $do_cloginrcdbg == 2 } {
+    if {$do_cloginrcdbg == 2} {
 	if {[info exists result]} {
 	    return $result
 	}
@@ -293,14 +295,14 @@ proc find {var router} {
 # could install more than just password info...  I will assume however,
 # that a "bad guy" could just as easy put such code in the clogin
 # script, so I will leave .cloginrc as just an extention of that script
-proc source_password_file { file } {
+proc source_password_file {file} {
     global env int_file int_lineno
-    if { ! [file exists $file] } {
+    if {! [file exists $file]} {
 	send_user "\nError: password file ($file) does not exist\n"
 	exit 1
     }
     file stat $file fileinfo
-    if { [expr ($fileinfo(mode) & 007)] != 0000 } {
+    if {[expr ($fileinfo(mode) & 007)] != 0000} {
 	send_user "\nError: $file must not be world readable/writable\n"
 	exit 1
     }
@@ -310,7 +312,7 @@ proc source_password_file { file } {
     }
     set int_file [linsert $int_file 0 $file]
     set int_lineno [linsert $int_lineno 0 0]
-    while { [gets $fd line] >= 0 } {
+    while {[gets $fd line] >= 0} {
 	set tmp [lindex $int_lineno 0]; incr tmp
 	lset int_lineno 0 $tmp
 	eval $line

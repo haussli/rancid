@@ -1,5 +1,5 @@
 # comments are cool, as is whitespace
-# clogin supports a number of add directives:
+# clogin supports a number of add directives (non-exhaustive):
 #	password
 #	user
 #	userprompt

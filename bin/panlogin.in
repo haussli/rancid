@@ -14,248 +14,21 @@
 # cribbed)
 #
 
-# Usage line
-set usage "Usage: $argv0 \[-dSV\] \[-c command\] \[-Evar=x\] \
-\[-f cloginrc-file\] \[-p user-password\] \[-r passphrase\] \[-s script-file\] \
-\[-u username\] \[-t timeout\] \[-x command-file\] \[-y ssh_cypher_type\] \
-router \[router...\]\n"
-
-# env(CLOGIN) may contain:
-#	x == do not set xterm banner or name
-
-# Password file
-set password_file $env(HOME)/.cloginrc
-# Default is to login to the router
-set do_command 0
-set do_script 0
-# The default is to automatically enable
-set avenable 1
 # The default is that you login non-enabled (tacacs can have you login already
-# enabled)
-set avautoenable 1
-# The default is to look in the password file to find the passwords.  This
-# tracks if we receive them on the command line.
-set do_passwd 1
+# enabled).  PAN has no enable-mode concept.
+
 # Sometimes routers take awhile to answer (the default is 10 sec)
 set timeoutdflt 120
 # Some CLIs having problems if we write too fast (Extreme, PIX, Cat)
 set send_human {.2 .1 .4 .2 1}
 
-# Find the user in the ENV, or use the unix userid.
-if {[ info exists env(CISCO_USER) ]} {
-    set default_user $env(CISCO_USER)
-} elseif {[ info exists env(USER) ]} {
-    set default_user $env(USER)
-} elseif {[ info exists env(LOGNAME) ]} {
-    set default_user $env(LOGNAME)
-} else {
-    # This uses "id" which I think is portable.  At least it has existed
-    # (without options) on all machines/OSes I've been on recently -
-    # unlike whoami or id -nu.
-    if [ catch {exec id} reason ] {
-	send_error "\nError: could not exec id: $reason\n"
-	exit 1
-    }
-    regexp {\(([^)]*)} "$reason" junk default_user
-}
-if {[ info exists env(CLOGINRC) ]} {
-    set password_file $env(CLOGINRC)
-}
-
-# Sometimes routers take awhile to answer (the default is 10 sec)
-set timeout 25
-
-# Process the command line
-for {set i 0} {$i < $argc} {incr i} {
-    set arg [lindex $argv $i]
-
-    switch  -glob -- $arg {
-	# Command to run.
-	-c* {
-	    if {! [  regexp .\[cC\](.+) $arg ignore command]} {
-		incr i
-		set command [ lindex $argv $i ]
-	    }
-	    set do_command 1
-	# Expect debug mode
-	} -d* {
-	    exp_internal 1
-	# Environment variable to pass to -s scripts
-	} -E* {
-	    if {[ regexp .\[E\](.+)=(.+) $arg ignore varname varvalue]} {
-		set E$varname $varvalue
-	    } else {
-		send_user "\nError: invalid format for -E in $arg\n"
-		exit 1
-	    }
-	# alternate cloginrc file
-	} -f* {
-	    if {! [ regexp .\[fF\](.+) $arg ignore password_file]} {
-		incr i
-		set password_file [ lindex $argv $i ]
-	    }
-	# user Password
-	} -p* {
-	    if {! [  regexp .\[pP\](.+) $arg ignore userpasswd]} {
-		incr i
-		set userpasswd [ lindex $argv $i ]
-	    }
-	    set do_passwd 0
-	# ssh passphrase
-	} -r* {
-	    if {! [  regexp .\[rR\](.+) $arg ignore passphrase]} {
-		incr i
-		set avpassphrase [ lindex $argv $i ]
-	    }
-	# VTY Password
-	} -v* {
-	    # ignore -v
-	# Version string
-	} -V* {
-	    send_user "@PACKAGE@ @VERSION@\n"
-	    exit 0
-	# Expect script to run.
-	} -s* {
-	    if {! [  regexp .\[sS\](.+) $arg ignore sfile]} {
-		incr i
-		set sfile [ lindex $argv $i ]
-	    }
-	    if { ! [ file readable $sfile ] } {
-		send_user "\nError: Can't read $sfile\n"
-		exit 1
-	    }
-	    set do_script 1
-	# save config on exit
-	} -S* {
-	    set do_saveconfig 1
-	# Timeout
-	} -t* {
-	    if {! [ regexp .\[tT\](.+) $arg ignore timeout]} {
-		incr i
-		set timeoutdflt [ lindex $argv $i ]
-	    }
-	# Username
-	} -u* {
-	    if {! [  regexp .\[uU\](.+) $arg ignore user]} {
-		incr i
-		set username [ lindex $argv $i ]
-	    }
-	# command file
-	} -x* {
-	    if {! [  regexp .\[xX\](.+) $arg ignore cmd_file]} {
-		incr i
-		set cmd_file [ lindex $argv $i ]
-	    }
-	    if [ catch {set cmd_fd [open $cmd_file r]} reason ] {
-		send_user "\nError: $reason\n"
-		exit 1
-	    }
-            set cmd_text [read $cmd_fd]
-            close $cmd_fd
-            set command [join [split $cmd_text \n] \;]
-            set do_command 1
-	# 'ssh -c' cypher type
-	} -y* {
-	    if {! [  regexp .\[yY\](.+) $arg ignore cypher]} {
-		incr i
-		set cypher [ lindex $argv $i ]
-	    }
-	} -* {
-	    send_user "\nError: Unknown argument! $arg\n"
-	    send_user $usage
-	    exit 1
-	} default {
-	    break
-	}
-    }
-}
-# Process routers...no routers listed is an error.
-if { $i == $argc } {
-    send_user "\nError: $usage"
-}
-
-# Only be quiet if we are running a script (it can log its output
-# on its own)
-if { $do_script } {
-    log_user 0
-} else {
-    log_user 1
-}
-
-#
-# Done configuration/variable setting.  Now run with it...
-#
-
-# Sets Xterm title if interactive...if its an xterm and the user cares
-proc label { host } {
-    global env
-    # if CLOGIN has an 'x' in it, don't set the xterm name/banner
-    if [info exists env(CLOGIN)] {
-	if {[string first "x" $env(CLOGIN)] != -1} { return }
-    }
-    # take host from ENV(TERM)
-    if [info exists env(TERM)] {
-	if [regexp \^(xterm|vs) $env(TERM) ignore ] {
-	    send_user "\033]1;[lindex [split $host "."] 0]\a"
-	    send_user "\033]2;$host\a"
-        }
-    }
-}
-
-# This is a helper function to make the password file easier to
-# maintain.  Using this the password file has the form:
-# add password sl* 	pete cow
-# add password at* 	steve
-# add password *	hanky-pie
-proc add {var args} { global int_$var ; lappend int_$var $args}
-proc include {args} {
-    global env
-    regsub -all "(^{|}$)" $args {} args
-    if { [ regexp "^/" $args ignore ] == 0 } {
-	set args $env(HOME)/$args
-    }
-    source_password_file $args
-}
-
-proc find {var router} {
-  upvar int_$var list
-  if { [info exists list] } {
-    foreach line $list {
-      if { [string match -nocase [lindex $line 0] $router ] } {
-	return [lrange $line 1 end]
-      }
-    }
-  }
-  return {}
-}
-
-# Loads the password file.  Note that as this file is tcl, and that
-# it is sourced, the user better know what to put in there, as it
-# could install more than just password info...  I will assume however,
-# that a "bad guy" could just as easy put such code in the clogin
-# script, so I will leave .cloginrc as just an extention of that script
-proc source_password_file { password_file } {
-    global env
-    if { ! [file exists $password_file] } {
-	send_user "\nError: password file ($password_file) does not exist\n"
-	exit 1
-    }
-    file stat $password_file fileinfo
-    if { [expr ($fileinfo(mode) & 007)] != 0000 } {
-	send_user "\nError: $password_file must not be world readable/writable\n"
-	exit 1
-    }
-    if [ catch {source $password_file} reason ] {
-	send_user "\nError: $reason\n"
-	exit 1
-    }
-}
+@login_top@
 
 # Log into the router.
 # returns: 0 on success, 1 on failure, -1 if rsh was used successfully
 proc login { router user userpswd passwd cmethod cyphertype identfile } {
     global spawn_id in_proc do_command do_script platform
-    global prompt u_prompt p_prompt e_prompt sshcmd
+    global prompt u_prompt p_prompt e_prompt sshcmd telnetcmd
     set in_proc 1
     set uprompt_seen 0
 
@@ -266,9 +39,9 @@ proc login { router user userpswd passwd cmethod cyphertype identfile } {
 	if [string match "telnet*" $prog] {
 	    regexp {telnet(:([^[:space:]]+))*} $prog command suffix port
 	    if {"$port" == ""} {
-		set retval [ catch {spawn telnet $router} reason ]
+		set retval [ catch {eval spawn [split "$telnetcmd $router"]} reason ]
 	    } else {
-		set retval [ catch {spawn telnet $router $port} reason ]
+		set retval [ catch {eval spawn [split "$telnetcmd $router $port"]} reason ]
 	    }
 	    if { $retval } {
 		send_user "\nError: telnet failed: $reason\n"
@@ -528,7 +301,7 @@ proc run_commands { prompt command } {
 
     #exp_internal 1
     # send "set cli pager off\r"
-	send "\r"
+    send "\r"
     expect -re $prompt {}
 
     regsub  ">$" $prompt {[>#]} reprompt
@@ -579,7 +352,13 @@ foreach router [lrange $argv $i end] {
     set router [string tolower $router]
     send_user "$router\n"
 
-    # palo alto doesn't have an enable mode
+    # device timeout
+    set timeout [find timeout $router]
+    if { [llength $timeout] == 0 } {
+	set timeout $timeoutdflt
+    }
+
+    # palo alto doesn't have an enable mode. XXX is this necessary?
     set autoenable 1
     set enable 1
 
@@ -638,6 +417,10 @@ foreach router [lrange $argv $i end] {
     # Figure out the SSH executable name
     set sshcmd [join [lindex [find sshcmd $router] 0] ""]
     if { "$sshcmd" == "" } { set sshcmd {ssh} }
+
+    # Figure out the telnet executable name
+    set telnetcmd [join [lindex [find telnetcmd $router] 0] ""]
+    if { "$telnetcmd" == "" } { set telnetcmd "@TELNET_CMD@" }
 
     # Login to the router
     if {[login $router $ruser $userpswd $passwd $cmethod $cyphertype $identfile ]} {

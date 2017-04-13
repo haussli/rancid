@@ -1,4 +1,13 @@
 3.99.99
+	*login: add cloginrc telnetcmd directive and with the defualt telnet -K
+	(no automatic login) if -K is supported, which otherwise can break
+	logins if the unix username and device username are not the same.
+
+	dllogin, hlogin, mrvlogin, nslogin, panlogin: include common functions
+	and cmd-line opts from login_top
+
+	rivlogin: normalize this a bit; its still a mess
+
 	junos.pm: ShowVersion: fail on no route to secondary RE
 
 	ios.pm: ShowDiag misinterprets PVDM slots - Rybakov Evgeny

@@ -303,6 +303,7 @@ SVN = @SVN@
 SVN_FSTYPE = @SVN_FSTYPE@
 TAR = @TAR@
 TELNET = @TELNET@
+TELNET_CMD = @TELNET_CMD@
 TOUCH = @TOUCH@
 VERSION = @VERSION@
 abs_builddir = @abs_builddir@

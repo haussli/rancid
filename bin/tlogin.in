@@ -11,6 +11,8 @@
 #
 # Modified by Ed Ravin for Netopia.
 
+# XXX need to import login_top.
+
 # Usage line
 set usage "Usage: $argv0 \[-dSV\] \[-autoenable\] \[-noenable\] \[-c command\] \
 \[-Evar=x\] \[-e enable-password\] \[-f cloginrc-file\] \[-p user-password\] \

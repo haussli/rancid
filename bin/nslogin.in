@@ -353,9 +353,8 @@ foreach router [lrange $argv $i end] {
     set sshcmd [join [lindex [find sshcmd $router] 0] ""]
     if { "$sshcmd" == "" } { set sshcmd {ssh} }
 
-# XXX need to import login_top.
-#    # if [-mM], skip do not login
-#    if { $do_cloginrcdbg > 0 } { continue; }
+    # if [-mM], skip do not login
+    if { $do_cloginrcdbg > 0 } { continue; }
 
     # Login to the router
     if {[login $router $ruser $userpswd $passwd $enapasswd $cmethod $cyphertype]} {

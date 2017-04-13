@@ -10,6 +10,8 @@
 # Most options are intuitive for logging into an ADC EZT3 mux.
 #
 
+# XXX need to import login_top.
+
 # Usage line
 set usage "Usage: $argv0 \[-dSV\] \[-noenable\] \[-c command\] \
 \[-Evar=x\] \[-f cloginrc-file\] \[-p user-password\] \
@@ -35,10 +37,10 @@ set avautoenable 0
 set do_passwd 1
 # Save config, if prompted
 set do_saveconfig 0
-# Sometimes routers take awhile to answer (the default is 10 sec)
-set timeoutdflt 45
 # cloginrc debugging knob
 set do_cloginrcdbg 0
+# Sometimes routers take awhile to answer (the default is 10 sec)
+set timeoutdflt 45
 # Some CLIs having problems if we write too fast (Extreme, PIX, Cat)
 set send_human {.2 .1 .4 .2 1}
 

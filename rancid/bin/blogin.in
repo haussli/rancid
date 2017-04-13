@@ -46,6 +46,9 @@ set do_saveconfig 0
 set do_cloginrcdbg 0
 # Sometimes routers take awhile to answer (the default is 10 sec)
 set timeoutdflt 45
+# intialize cloginrc parsing stacks
+set int_file {}
+set int_lineno {}
 # Some CLIs having problems if we write too fast (Extreme, PIX, Cat)
 set send_human {.2 .1 .4 .2 1}
 
@@ -84,6 +87,11 @@ for {set i 0} {$i < $argc} {incr i} {
 		incr i
 		set username [ lindex $argv $i ]
 	    }
+	# cloginrc debugging knobs
+	} -m* {
+	    set do_cloginrcdbg 1
+	} -M* {
+	    set do_cloginrcdbg 2
 	# VTY Password
 	} -p* {
 	    if {! [  regexp .\[pP\](.+) $arg ignore userpasswd]} {

@@ -422,6 +422,9 @@ foreach router [lrange $argv $i end] {
     set telnetcmd [join [lindex [find telnetcmd $router] 0] ""]
     if { "$telnetcmd" == "" } { set telnetcmd "@TELNET_CMD@" }
 
+    # if [-mM], skip do not login
+    if { $do_cloginrcdbg > 0 } { continue; }
+
     # Login to the router
     if {[login $router $ruser $userpswd $passwd $cmethod $cyphertype $identfile ]} {
 	continue

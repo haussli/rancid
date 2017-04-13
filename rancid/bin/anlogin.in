@@ -8,6 +8,8 @@
 # anlogin - Arbor Networks login
 #
 
+# XXX need to import login_top.
+
 # Usage line
 set usage "Usage: $argv0 \[-dSV\] \[-autoenable\] \[-noenable\] \[-c command\] \
 \[-Evar=x\] \[-e enable-password\] \[-f cloginrc-file\] \[-p user-password\] \
@@ -34,6 +36,8 @@ set do_passwd 1
 set do_enapasswd 1
 # Save config, if prompted
 set do_saveconfig 0
+# cloginrc debugging knob
+set do_cloginrcdbg 0
 # Sometimes routers take awhile to answer (the default is 10 sec)
 set timeoutdflt 45
 # Some CLIs having problems if we write too fast (Extreme, PIX, Cat)
@@ -721,9 +725,8 @@ foreach router [lrange $argv $i end] {
     set telnetcmd [join [lindex [find telnetcmd $router] 0] ""]
     if { "$telnetcmd" == "" } { set telnetcmd "@TELNET_CMD@" }
 
-# XXX need to import login_top.
-#    # if [-mM], skip do not login
-#    if { $do_cloginrcdbg > 0 } { continue; }
+    # if [-mM], skip do not login
+    if { $do_cloginrcdbg > 0 } { continue; }
 
     # Login to the router
     if {[login $router $ruser $userpswd $passwd $enapasswd $cmethod $cyphertype $identfile]} {

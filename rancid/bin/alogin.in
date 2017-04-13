@@ -11,6 +11,8 @@
 # (andrew fort)
 #
 
+# XXX need to import login_top.
+
 # Usage line
 set usage "Usage: $argv0 \[-dSV\] \[-c command\] \[-Evar=x\] \
 \[-f cloginrc-file\] \[-s script-file\] \[-t timeout\] \[-u username\] \
@@ -35,6 +37,8 @@ set avautoenable 0
 set do_passwd 1
 # Save config, if prompted
 set do_saveconfig 0
+# cloginrc debugging knob
+set do_cloginrcdbg 0
 # default timeout
 set timeoutdflt 45
 # Some CLIs having problems if we write too fast (Extreme, PIX, Cat)
@@ -566,9 +570,8 @@ foreach router [lrange $argv $i end] {
     set telnetcmd [join [lindex [find telnetcmd $router] 0] ""]
     if { "$telnetcmd" == "" } { set telnetcmd "@TELNET_CMD@" }
 
-# XXX need to import login_top.
-#    # if [-mM], skip do not login
-#    if { $do_cloginrcdbg > 0 } { continue; }
+    # if [-mM], skip do not login
+    if { $do_cloginrcdbg > 0 } { continue; }
 
     # Login to the router
     if {[login $router $ruser $userpswd $passwd $prompt $cmethod $cyphertype]} {

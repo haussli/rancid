@@ -19,6 +19,8 @@
 #	netscreen does not have the concept of "enable", once logged in, a
 #	users permissions can not change.
 
+# XXX need to import login_top.
+
 # Usage line
 set usage "Usage: $argv0 \[-dSV\] \[-c command\] \[-Evar=x\] \
 \[-f cloginrc-file\] \[-p user-password\] \
@@ -543,9 +545,8 @@ foreach router [lrange $argv $i end] {
     set telnetcmd [join [lindex [find telnetcmd $router] 0] ""]
     if { "$telnetcmd" == "" } { set telnetcmd "@TELNET_CMD@" }
 
-# XXX need to import login_top.
-#    # if [-mM], skip do not login
-#    if { $do_cloginrcdbg > 0 } { continue; }
+    # if [-mM], skip do not login
+    if { $do_cloginrcdbg > 0 } { continue; }
 
     # Login to the router
     if {[login $router $ruser $userpswd $passwd $enapasswd $prompt $cmethod $cyphertype]} {

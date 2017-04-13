@@ -214,7 +214,7 @@ if { $do_script } {
 #
 
 # Sets Xterm title if interactive...if its an xterm and the user cares
-proc label { host } {
+proc label {host} {
     global env
     # if CLOGIN has an 'x' in it, don't set the xterm name/banner
     if [info exists env(CLOGIN)] {
@@ -222,7 +222,7 @@ proc label { host } {
     }
     # take host from ENV(TERM)
     if [info exists env(TERM)] {
-	if [regexp \^(xterm|vs) $env(TERM) ignore ] {
+	if [regexp \^(xterm|vs) $env(TERM) ignore] {
 	    send_user "\033]1;[lindex [split $host "."] 0]\a"
 	    send_user "\033]2;$host\a"
 	}
@@ -234,7 +234,12 @@ proc label { host } {
 # add password sl*	pete cow
 # add password at*	steve
 # add password *	hanky-pie
-proc add {var args} { global int_$var ; lappend int_$var $args}
+proc add {var args} {
+    global int_file int_lineno int_$var
+    set file [lindex $int_file 0]
+    set lineno [lindex $int_lineno 0]
+    lappend int_$var "$var:$file:$lineno: $args"
+}
 proc include {args} {
     global env
     regsub -all "(^{|}$)" $args {} args
@@ -245,12 +250,29 @@ proc include {args} {
 }
 
 proc find {var router} {
+    global do_cloginrcdbg
     upvar int_$var list
-    if { [info exists list] } {
+    if {[info exists list]} {
 	foreach line $list {
-	    if { [string match -nocase [lindex $line 0] $router ] } {
-		return [lrange $line 1 end]
+	    if {[string match -nocase [lindex $line 1] $router]} {
+		if {$do_cloginrcdbg > 0} {
+		    send_error -- [join [list [lindex $line 0] [lrange $line 1 end] "\r\n"]]
+		}
+		if {$do_cloginrcdbg == 2} {
+		    # save return value
+		    if {! [info exists result]} {
+			set result [lrange $line 2 end]
+		    }
+		} else {
+		    return [lrange $line 2 end]
+		}
 	    }
+	}
+    }
+
+    if {$do_cloginrcdbg == 2} {
+	if {[info exists result]} {
+	    return $result
 	}
     }
     return {}
@@ -259,23 +281,33 @@ proc find {var router} {
 # Loads the password file.  Note that as this file is tcl, and that
 # it is sourced, the user better know what to put in there, as it
 # could install more than just password info...  I will assume however,
-# that a "bad guy" could just as easy put such code in the avologin
+# that a "bad guy" could just as easy put such code in the clogin
 # script, so I will leave .cloginrc as just an extention of that script
-proc source_password_file { password_file } {
-    global env
-    if { ! [file exists $password_file] } {
-	send_user "\nError: password file ($password_file) does not exist\n"
+proc source_password_file {file} {
+    global env int_file int_lineno
+    if {! [file exists $file]} {
+	send_user "\nError: password file ($file) does not exist\n"
 	exit 1
     }
-    file stat $password_file fileinfo
-    if { [expr ($fileinfo(mode) & 007)] != 0000 } {
-	send_user "\nError: $password_file must not be world readable/writable\n"
+    file stat $file fileinfo
+    if {[expr ($fileinfo(mode) & 007)] != 0000} {
+	send_user "\nError: $file must not be world readable/writable\n"
 	exit 1
     }
-    if [catch {source $password_file} reason] {
+    if [catch {set fd [open $file "r"]} reason] {
 	send_user "\nError: $reason\n"
 	exit 1
     }
+    set int_file [linsert $int_file 0 $file]
+    set int_lineno [linsert $int_lineno 0 0]
+    while {[gets $fd line] >= 0} {
+	set tmp [lindex $int_lineno 0]; incr tmp
+	lset int_lineno 0 $tmp
+	eval $line
+    }
+    set int_file [lrange $int_file 1 end]
+    set int_lineno [lrange $int_lineno 1 end]
+    close $fd
 }
 
 # Log into the router.

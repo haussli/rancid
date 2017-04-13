@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "cloginrc" "5" "28 December 2016"
+.TH "cloginrc" "5" "12 April 2017"
 .SH NAME
  \.cloginrc \- clogin configuration file
 .SH DESCRIPTION
@@ -268,6 +268,19 @@ Default: device dependent
 .\" .sp
 .\" Example: add rc *.domain.net {terminal monitor;show version}
 .\"
+.\"
+.TP
+.B add telnetcmd <router name glob> {<telnet>}
+<telnet> is the name of the telnet executable.
+.B telnetcmd
+allows this to be adjusted as necessary for the local environment.
+.sp
+.B telnetcmd
+also allows the user to add any other command-line options, such as force
+IPv4.
+For example: add telnetcmd * {telnet\\ -K4}
+.sp
+Default: @TELNET_CMD@
 .TP
 .B add user <router name glob> {<username>}
 Specifies a username

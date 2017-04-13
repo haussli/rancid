@@ -382,6 +382,14 @@ AC_PATH_PROG(SSH,ssh,no)
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_SSH`"
 AC_PATH_PROG(TELNET,telnet,no)
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_TELNET`"
+# test if telnet accepts -K
+$ac_cv_path_TELNET -K < /dev/null > /dev/null 2>&1
+if test $? -eq 0 ; then
+    TELNET_CMD="telnet -K"
+else
+    TELNET_CMD="telnet"
+fi
+AC_SUBST(TELNET_CMD)
 AC_PATH_PROG(TOUCH,touch,no)
 ENV_PATH="$ENV_PATH:`dirname $ac_cv_path_TOUCH`"
 ENV_PATH="$ENV_PATH:/usr/local/bin:/usr/bin"

@@ -42,7 +42,8 @@ set logging 0
 set config_mode 0
 # Save config, if prompted
 set do_saveconfig 0
-
+# cloginrc debugging knob
+set do_cloginrcdbg 0
 # Password file for routers to access
 set password_file $env(HOME)/.cloginrc
 
@@ -61,43 +62,57 @@ set do_enapasswd 1
 #
 set send_human {.4 .4 .7 .3 5}
 
+# intialize cloginrc parsing stacks
+set int_file {}
+set int_lineno {}
+
+# env(CLOGIN) may contain:
+#	x == do not set xterm banner or name
+
 # Find the user in the ENV, or use the unix userid.
-if {[ info exists env(CISCO_USER) ]} {
-    set default_user $env(CISCO_USER)
-} elseif {[ info exists env(USER) ]} {
-    set default_user $env(USER)
-} elseif {[ info exists env(LOGNAME) ]} {
-    set default_user $env(LOGNAME)
-} else {
+if {![info exists default_user] && [info exists env(CISCO_USER)]} {
+    if {[string length $env(CISCO_USER)]} {
+	set default_user $env(CISCO_USER)
+    }
+}
+if {![info exists default_user] && [info exists env(USER)]} {
+    if {[string length $env(USER)]} {
+	set default_user $env(USER)
+    }
+}
+if {![info exists default_user] && [info exists env(LOGNAME)]} {
+    if {[string length $env(LOGNAME)]} {
+	set default_user $env(LOGNAME)
+    }
+}
+if (![info exists default_user]) {
     # This uses "id" which I think is portable.  At least it has existed
     # (without options) on all machines/OSes I've been on recently -
     # unlike whoami or id -nu.
-    if [ catch {exec id} reason ] {
+    if [catch {exec id} reason] {
 	send_error "\nError: could not exec id: $reason\n"
 	exit 1
     }
     regexp {\(([^)]*)} "$reason" junk default_user
 }
-if {[ info exists env(CLOGINRC) ]} {
+if {[info exists env(CLOGINRC)]} {
     set password_file $env(CLOGINRC)
 }
 
-# Procedures Section
-
-
 #
+# Done configuration/variable setting.  Now run with it...
+#
+
 # Sets Xterm title if interactive...if its an xterm and the user cares
-#
 proc label { host } {
     global env
-
     # if CLOGIN has an 'x' in it, don't set the xterm name/banner
     if [info exists env(CLOGIN)] {
 	if {[string first "x" $env(CLOGIN)] != -1} { return }
     }
-
+    # take host from ENV(TERM)
     if [info exists env(TERM)] {
-	if [regexp \^(xterm|vs) $env(TERM) ignore ] {
+	if [regexp \^(xterm|vs) $env(TERM) ignore] {
 	    send_user "\033]1;[lindex [split $host "."] 0]\a"
 	    send_user "\033]2;$host\a"
 	}
@@ -105,15 +120,52 @@ proc label { host } {
 }
 
 # This is a helper function to make the password file easier to
-# maintain.
-# NOTES: Using this the password file has the form:
+# maintain.  Using this the password file has the form:
 # add password sl*	pete cow
 # add password at*	steve
 # add password *	hanky-pie
-proc add { var args } {
+proc add {var args} {
+    global int_file int_lineno int_$var
+    set file [lindex $int_file 0]
+    set lineno [lindex $int_lineno 0]
+    lappend int_$var "$var:$file:$lineno: $args"
+}
+proc include {args} {
+    global env
+    regsub -all "(^{|}$)" $args {} args
+    if { [regexp "^/" $args ignore] == 0 } {
+	set args $env(HOME)/$args
+    }
+    source_password_file $args
+}
 
-    global $var
-    lappend $var $args
+proc find {var router} {
+    global do_cloginrcdbg
+    upvar int_$var list
+    if { [info exists list] } {
+	foreach line $list {
+	    if { [string match -nocase [lindex $line 1] $router] } {
+		if { $do_cloginrcdbg > 0 } {
+		    send_error -- [join [list [lindex $line 0] [lrange $line 1 end] "\r\n"]]
+		}
+		if { $do_cloginrcdbg == 2 } {
+		    # save return value
+		    if {! [info exists result]} {
+			set result [lrange $line 2 end]
+		    }
+		} else {
+		    return [lrange $line 2 end]
+		}
+	    }
+	}
+    }
+
+    if { $do_cloginrcdbg == 2 } {
+	if {[info exists result]} {
+	    return $result
+	}
+    }
+    return {}
 }
 
 # Loads the password file.  Note that as this file is tcl, and that
@@ -121,45 +173,31 @@ proc add { var args } {
 # could install more than just password info...  I will assume however,
 # that a "bad guy" could just as easy put such code in the clogin
 # script, so I will leave .cloginrc as just an extention of that script
-proc source_password_file { } {
-    global env password_file read_password_file
-
-    if { [info exists read_password_file] } {
-	return  1
+proc source_password_file { file } {
+    global env int_file int_lineno
+    if { ! [file exists $file] } {
+	send_user "\nError: password file ($file) does not exist\n"
+	exit 1
     }
-
-    if { [info exists password_file] == 0 } {
-	set password_file $env(HOME)/.cloginrc
-    }
-
-    set read_password_file 1
-    file stat $password_file fileinfo
-
+    file stat $file fileinfo
     if { [expr ($fileinfo(mode) & 007)] != 0000 } {
-	puts "ERROR: $password_file must not be group or world readable and writable\n"
-	return 1
+	send_user "\nError: $file must not be world readable/writable\n"
+	exit 1
     }
-
-    source $password_file
-}
-
-# pre: var is x, router is y
-# post: return routerr entry from database else null string
-proc find { var router } {
-
-    if {[ source_password_file ] == 0 } {
-	return {}
+    if [catch {set fd [open $file "r"]} reason] {
+	send_user "\nError: $reason\n"
+	exit 1
     }
-
-    upvar $var list
-    if { [info exists list] } {
-	foreach line $list {
-	    if { [string match -nocase [lindex $line 0] $router ] } {
-		return [lrange $line 1 end]
-	    }
-	}
+    set int_file [linsert $int_file 0 $file]
+    set int_lineno [linsert $int_lineno 0 0]
+    while { [gets $fd line] >= 0 } {
+	set tmp [lindex $int_lineno 0]; incr tmp
+	lset int_lineno 0 $tmp
+	eval $line
     }
-    return {}
+    set int_file [lrange $int_file 1 end]
+    set int_lineno [lrange $int_lineno 1 end]
+    close $fd
 }
 
 # pre: login completed ok
@@ -197,7 +235,7 @@ proc login { router user userpswd passwd enapasswd } {
 	puts "DEBUG: login enapasswd = $enapasswd"
     }
 
-    spawn  -noecho telnet $router
+    eval spawn -noecho [split "$telnetcmd $router"]
     set telnet_id $spawn_id
 
     if { $telnet_id == 0 } {
@@ -897,6 +935,10 @@ foreach router [lrange $argv $idx end] {
 	    exit 1
 	}
     }
+
+    # Figure out the telnet executable name
+    set telnetcmd [join [lindex [find telnetcmd $router] 0] ""]
+    if { "$telnetcmd" == "" } { set telnetcmd "@TELNET_CMD@" }
 
     # run in one of three modes
     if { $do_command } {

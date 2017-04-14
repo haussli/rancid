@@ -1,4 +1,6 @@
 3.99.99
+	ios.pm: ShowDiag misinterprets WIC/VIC/HWIC slots - Rybakov Evgeny
+
 	*login: add cloginrc telnetcmd directive and with the defualt telnet -K
 	(no automatic login) if -K is supported, which otherwise can break
 	logins if the unix username and device username are not the same.

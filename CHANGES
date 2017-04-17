@@ -1,4 +1,6 @@
 3.99.99
+	ios.pm: filter ASR901 fan speed - Nick Peelman
+
 	ios.pm: ShowDiag misinterprets WIC/VIC/HWIC slots - Rybakov Evgeny
 
 	*login: add cloginrc telnetcmd directive and with the defualt telnet -K

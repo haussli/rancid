@@ -790,6 +790,7 @@ sub ShowEnv {
 	if (/^\s*((FAN|fan-tray) (\d|is) .*)/i) {
 	    my($tmp) = ($1);
 	    $tmp =~ s/, \S+ speed setting//;
+	    $tmp =~ s/, is running at \d{1,3}\s* percent speed//;
 	    ProcessHistory("COMMENTS","keysort","E3","!FAN: $tmp\n");
 	    next;
 	}

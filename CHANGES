@@ -1,4 +1,6 @@
 3.99.99
+	ios.pm: fail if show license can not retrieve license info
+
 	ios.pm: filter ASR901 fan speed - Nick Peelman
 
 	ios.pm: ShowDiag misinterprets WIC/VIC/HWIC slots - Rybakov Evgeny

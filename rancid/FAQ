@@ -518,7 +518,7 @@ A. Yes.  The device type must be added to etc/rancid.types.conf such as:
    See rancid.types.conf(5).
 
 
-Q. I Have a device that is not supported by rancid.  How can I added support
+Q. I Have a device that is not supported by rancid.  How can I add support
    for it?
 A. You should first search the rancid-discuss mail list and the web for
    previous art.  Someone may have already accomplished or begun the task.

@@ -1,5 +1,8 @@
 3.99.99
-	nxof.pm: Filter vtp_debug.log and vtp_debug_old.log CDETS bug CSCuy87611	- Mark Felder
+	ios.pm: Filter perpetually changing file "snooping" - Mark Felder
+
+	nxof.pm: Filter vtp_debug.log and vtp_debug_old.log CDETS bug CSCuy87611
+	- Mark Felder
 
 	aeos.pm: skip some junk in the config output
 

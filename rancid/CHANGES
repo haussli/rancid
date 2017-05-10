@@ -1,4 +1,8 @@
 3.99.99
+	nxof.pm: Filter vtp_debug.log and vtp_debug_old.log CDETS bug CSCuy87611	- Mark Felder
+
+	aeos.pm: skip some junk in the config output
+
 	ios.pm: fail if show license can not retrieve license info
 
 	ios.pm: filter ASR901 fan speed - Nick Peelman

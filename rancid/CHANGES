@@ -1,4 +1,6 @@
 3.99.99
+	clogin: respond to prompt from config:file prompt noisy
+
 	ios.pm: Filter perpetually changing file "snooping" - Mark Felder
 
 	nxof.pm: Filter vtp_debug.log and vtp_debug_old.log CDETS bug CSCuy87611

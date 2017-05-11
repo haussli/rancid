@@ -400,6 +400,11 @@ proc run_commands { prompt command } {
 	    -re "\[^\r\n]*\[\n\r]+"		{ send_user -- "$expect_out(buffer)"
 						  exp_continue
 						}
+	    # respond to prompt from "file prompt noisy" config
+	    -nocase -re "^display filename \\\[\[^]]*]\\?" 	{
+						  send "\r"
+						  exp_continue
+						}
 	    -re "\[^\r\n]*Press <SPACE> to cont\[^\r\n]*"	{
 						  send " "
 						  # bloody ^[[2K after " "

@@ -22,6 +22,10 @@ use rancid @VERSION@;
 
 # load-time initialization
 sub import {
+    # force a terminal type so as not to confuse the POS with "network".
+    # Seems that it might also support "dumb".
+    $ENV{'TERM'} = "vt100";
+
     0;
 }
 

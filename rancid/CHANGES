@@ -1,4 +1,7 @@
 3.99.99
+	arbor.pm: force a terminal type so as not to confuse the PoS with
+	"network."  Seems that it might also support "dumb".
+
 	clogin: respond to prompt from config:file prompt noisy
 
 	ios.pm: Filter perpetually changing file "snooping" - Mark Felder

@@ -1,4 +1,7 @@
 3.99.99
+	hpuitfilter: add 3 CR replacements, fixing hp5412 J8697A or hp5406 -
+	Kalani Sanders
+
 	arbor.pm: force a terminal type so as not to confuse the PoS with
 	"network."  Seems that it might also support "dumb".
 

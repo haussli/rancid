@@ -551,8 +551,8 @@ int
 filter(char *buf, int len)
 {
     static regmatch_t	pmatch[1];
-#define	N_REG		16		/* number of regexes in reg[][] */
-#define	N_CRs		2		/* number of CR replacements */
+#define	N_REG		19		/* number of regexes in reg[][] */
+#define	N_CRs		5		/* number of CR replacements */
     static regex_t	preg[N_REG];
     static char		reg[N_REG][50] = {	/* vt100/220 escape codes */
 				"\x1B""7\x1B\\[1;24r\x1B""8",	/* ds */
@@ -576,6 +576,9 @@ filter(char *buf, int len)
 				/* replace these with CR */
 				"\x1B\\[0m",			/* me */
 				"\x1B""E",
+				"\x1B\\[\\?7h",			/* autowrap */
+				"\x1B\\[1L",			/* insert line*/
+				"\x1B\\[1M",			/* md */
 			};
     char		bufstr[3] = {ESC, '\x07', '\0'},
 			ebuf[256];

@@ -38,7 +38,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 		if { $do_command || $do_script } {
 		    set retval [ catch {eval spawn [split "hpuifilter -- $telnetcmd $router $port"]} reason ]
 		} else {
-		    set retval [ catcheval spawn [split "$telnetcmd $router $port"]} reason ]
+		    set retval [ catch {eval spawn [split "$telnetcmd $router $port"]} reason ]
 		}
 	    }
 	    if { $retval } {

@@ -487,6 +487,9 @@ sub DirSlotN {
 	# Drop ee.log
 	/\s+ee\.log(?:\..*)?$/ && next;
 
+	# Drop bootvar_debug log files
+	/\s+bootvar_debug\./ && next;
+
 	# Drop accounting.log
 	/\s+accounting\.log$/ && next;
 

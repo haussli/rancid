@@ -515,14 +515,14 @@ foreach router [lrange $argv $i end] {
 	    }
 	}
     }
-    # we are logged in, now figure out the full prompt
-    send "\r"
-    expect {
-	-re "\[\r\n]+"		{ exp_continue; }
-	-re "^.+$prompt"	{ set prompt $expect_out(0,string); }
-    }
 
     if { $do_command || $do_script } {
+	# we are logged in, now figure out the full prompt
+	send "\r"
+	expect {
+	    -re "\[\r\n]+"	{ exp_continue; }
+	    -re "^.+$prompt"	{ set prompt $expect_out(0,string); }
+	}
 	# set a wide tty width.
 	set stty_init "cols 132"
 	# disable the pager

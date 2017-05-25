@@ -1,4 +1,6 @@
 3.99.99
+	junos.pm: filter cycling & useless last commit config line
+
 	hlogin: prompt matching not needed for interactive - Per-Olof Olsson
 
 	nxos.pm: drop bootvar_debug.* log files reported on the ML

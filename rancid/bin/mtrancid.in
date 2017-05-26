@@ -217,6 +217,9 @@ sub SystemRouterboardPrint {
 		return(1) if /(bad command name )/;
 		s/^\s+//g;
 
+		# license renewal timestamp
+		next if (/^next-renewal-at:/i);
+
 		ProcessHistory("COMMENTS","keysort","C1","# $_");
 	}
 

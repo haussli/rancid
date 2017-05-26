@@ -1,4 +1,6 @@
 3.99.99
+	mtrancid: remove license renewal timestamp
+
 	junos.pm: filter cycling & useless last commit config line
 
 	hlogin: prompt matching not needed for interactive - Per-Olof Olsson

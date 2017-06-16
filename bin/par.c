@@ -914,7 +914,7 @@ line_split(const char *line, char ***args)
 		    continue;
 		}
 		if (((*args)[argn] =
-		     malloc(sizeof(char) * (c - b + 1))) == NULL) {
+		     (char *)malloc(sizeof(char) * (c - b + 1))) == NULL) {
 		    return(ENOMEM);
 		}
 

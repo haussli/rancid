@@ -1,4 +1,6 @@
 3.99.99
+	hlogin: recognize username prompt User Name:
+
 	mtrancid: remove license renewal timestamp
 
 	junos.pm: filter cycling & useless last commit config line

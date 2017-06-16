@@ -58,7 +58,7 @@
 
 	ios.pm: summarize bytes free on flash
 
-	noklogin: SROS has no concept of enable mode; remove such code so that
+	noklogin: SR OS has no concept of enable mode; remove such code so that
 	autoenable/etc are not needed
 
 	sros.pm: add show card detail - Erik Muller
@@ -117,7 +117,7 @@
 
 	complogin, eos.pm: Compass EOS support removed.  RiP
 
-	allogin, timos.pm: TimOS support
+	allogin, timos.pm: TiMOS support
 
 3.6.2
 	Fix etc/Makefile for rancid.types.conf handling.

@@ -1,4 +1,8 @@
 3.99.99
+	control_rancid: check for duplicated device names in the router.db of
+	the active group.  print a warning and drop the dumplicate.
+	http://www.shrubbery.net/pipermail/rancid-discuss/2017-June/009661.html
+
 	hlogin: recognize username prompt User Name:
 
 	mtrancid: remove license renewal timestamp

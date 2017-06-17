@@ -35,13 +35,15 @@ sub init {
     $memoryseen = 0;
 
     # add content lines and separators
-    ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n#\n");
+    ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n");
+# suppress newline A0
+    ProcessHistory("COMMENTS","keysort","A0","#\n");	# memory summary
+# suppress newline B0
     ProcessHistory("COMMENTS","keysort","B0","#\n");	# chassis summary
-    ProcessHistory("COMMENTS","keysort","C0","#\n");	# memory summary
-    ProcessHistory("COMMENTS","keysort","D0","#\n");	# Processor summary
-    ProcessHistory("COMMENTS","keysort","E0","#\n");	#
-    ProcessHistory("COMMENTS","keysort","F0","#\n");	# chassis
-    ProcessHistory("COMMENTS","keysort","G0","#\n");	# boot log
+    ProcessHistory("COMMENTS","keysort","C0","#\n");	# show information
+    ProcessHistory("COMMENTS","keysort","D0","#\n");    # show redundancy
+    ProcessHistory("COMMENTS","keysort","E0","#\n");	# show chassis
+    ProcessHistory("COMMENTS","keysort","F0","#\n");	# show bootlog
 
     0;
 }
@@ -101,7 +103,7 @@ CMD:	if (/[#]\s?logout\s*$/) {
 sub BootLog {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In BootLog: $_" if ($debug);
-    ProcessHistory("COMMENTS","keysort","G0","#\n# $_");
+    ProcessHistory("COMMENTS","keysort","F0","# $_");
 
     while (<$INPUT>) {
 	tr/\015//d;
@@ -110,6 +112,8 @@ sub BootLog {
 	next if (/^\s+\^$/);
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
+        # if file doesn't exist, return 0
+        return(0) if (/minor: cli could not access file/i);
 
 	/time from clock is/i && next;
 	/^(text:|executing|login:)/i && next;
@@ -118,20 +122,20 @@ sub BootLog {
 	/executed [0-9,]+ lines in [0-9.]+ seconds/i && next;
 
 	if (/chassis serial number is \'(\S+)\'/i) {
-	    ProcessHistory("COMMENTS","keysort","C1",
-			   "#Processor ID: $1\n");
+	    ProcessHistory("COMMENTS","keysort","B3",
+			   "#Chassis serial number: $1\n");
 	}
 	if (/total memory:\s+(\S+)\s+chassis type:\s+(\S+)\s+card type:\s+(\S+)/i) {
 	    next if ($memoryseen++);
+	    ProcessHistory("COMMENTS","keysort","A1",
+			   "#Total memory: $1\n");
 	    ProcessHistory("COMMENTS","keysort","B1",
-			   "#Memory: $1\n");
-	    ProcessHistory("COMMENTS","keysort","A2",
-			   "#Chassis code: $2\n");
-	    ProcessHistory("COMMENTS","keysort","C2",
-			   "#Processor type: $3\n");
+			   "#Chassis type: $2\n");
+	    ProcessHistory("COMMENTS","keysort","B2",
+			   "#Card type: $3\n");
 	}
 
-	ProcessHistory("COMMENTS","keysort","G0","# $_");
+	ProcessHistory("COMMENTS","keysort","F0","# $_");
     }
 }
 # This routine parses "show bof"
@@ -156,7 +160,7 @@ sub ShowBOF {
 sub ShowCardDetail {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowCardDetail: $_" if ($debug);
-    ProcessHistory("COMMENTS","keysort","F5","#\n# $_");
+    ProcessHistory("COMMENTS","keysort","E6","#\n# $_");
 
     while (<$INPUT>) {
 	tr/\015//d;
@@ -171,14 +175,14 @@ sub ShowCardDetail {
 	next if (/^Config file last (saved|modified)\s+:/ && $filter_osc);
 
 	#/^[-=]+$/i && next;
-	ProcessHistory("COMMENTS","keysort","F5","# $_");
+	ProcessHistory("COMMENTS","keysort","E6","# $_");
     }
 }
 # This routine parses "show card state"
 sub ShowCardState {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowCardState: $_" if ($debug);
-    ProcessHistory("COMMENTS","keysort","F4","#\n# $_");
+    ProcessHistory("COMMENTS","keysort","E5","#\n# $_");
 
     while (<$INPUT>) {
 	tr/\015//d;
@@ -189,14 +193,14 @@ sub ShowCardState {
 	return(-1) if (/minor: cli command not allowed for this user/i);
 
 	/^[-=]+$/i && next;
-	ProcessHistory("COMMENTS","keysort","F4","# $_");
+	ProcessHistory("COMMENTS","keysort","E5","# $_");
     }
 }
 # This routine parses "show chassis"
 sub ShowChassis {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassis: $_" if ($debug);
-    ProcessHistory("COMMENTS","keysort","F1","#\n# $_");
+    ProcessHistory("COMMENTS","keysort","E1","# $_");
 
     while (<$INPUT>) {
 	tr/\015//d;
@@ -207,14 +211,14 @@ sub ShowChassis {
 	return(-1) if (/minor: cli command not allowed for this user/i);
 
 	/^[-=]+$/i && next;
-	ProcessHistory("COMMENTS","keysort","F1","# $_");
+	ProcessHistory("COMMENTS","keysort","E1","# $_");
     }
 }
 # This routine parses "show chassis environment"
 sub ShowChassisEnv {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassisEnv: $_" if ($debug);
-    ProcessHistory("COMMENTS","keysort","F2","#\n# $_");
+    ProcessHistory("COMMENTS","keysort","E2","#\n# $_");
 
     while (<$INPUT>) {
 	tr/\015//d;
@@ -225,8 +229,11 @@ sub ShowChassisEnv {
 	return(-1) if (/minor: cli command not allowed for this user/i);
 
 	/speed/i && next;
+	/volts/i && next;
+	/watts/i && next;
+	/amps/i && next;
 	/^=+$/i && next;
-	ProcessHistory("COMMENTS","keysort","F2","# $_");
+	ProcessHistory("COMMENTS","keysort","E2","# $_");
     }
 }
 # This routine parses "show chassis power-supply"
@@ -282,21 +289,22 @@ sub ShowDebug {
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
 
-	ProcessHistory("","","","# $_");
+	ProcessHistory("","","","$_");
     }
 }
 # This routine parses "show redundancy synchronization"
 sub ShowRedundancy {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowRedundancy: $_" if ($debug);
-    ProcessHistory("COMMENTS","keysort","E2","#\n# $_");
+    ProcessHistory("COMMENTS","keysort","D2","# $_");
 
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	next if (/^\s+\^$/);
-	return(-1) if (/error: invalid parameter/i);
+        # not on 7210 SAS, return 0
+	return(0) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
 
 	/synchronization .* only supported on dual/i && return(0);
@@ -308,14 +316,15 @@ sub ShowRedundancy {
 	/last rollback sync time/i && next;
 	/last cert sync time/i && next;
 
-	ProcessHistory("COMMENTS","keysort","E2","# $_");
+	ProcessHistory("COMMENTS","keysort","D2","# $_");
     }
 }
 # This routine parses "show system information"
 sub ShowSystemInfo {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowSystemInfo: $_" if ($debug);
-    ProcessHistory("COMMENTS","keysort","E1","#\n# $_");
+    $_ =~ s/ +/ /;
+    ProcessHistory("COMMENTS","keysort","C1","# $_");
 
     while (<$INPUT>) {
 	tr/\015//d;
@@ -328,12 +337,17 @@ sub ShowSystemInfo {
 	/^[-=]+$/i && next;
 	/system up time/i && next;
 	/time last saved/i && next;
-	if (/system type\s+:\s+(.*)/) {
+	if (/system type\s+:\s+(.*)/i) {
 	    $proc = $1;
-	    ProcessHistory("COMMENTS","keysort","A1",
-			   "#Chassis type: $proc\n");
+	    ProcessHistory("COMMENTS","keysort","B4",
+			   "#System type: $proc\n");
 	}
-	ProcessHistory("COMMENTS","keysort","E1","# $_");
+	if (/system version\s+:\s+(.*)/i) {
+	    $proc = $1;
+	    ProcessHistory("COMMENTS","keysort","B5",
+			   "#System version: $proc\n");
+	}
+	ProcessHistory("COMMENTS","keysort","C1","# $_");
     }
 }
 # This routine parses "admin display-config index"

@@ -352,6 +352,7 @@ trap 'rm -fr routers.db routers.all.new routers.down.new routers.up.new \
     $F[0] =~ tr@A-Z@a-z@;
     if (defined($A{$F[0]})) {
       printf STDERR "WARNING: %s appears in routers.db multiple times\n", $F[0];
+      next;
     } $A{$F[0]} = "$F[1];$F[2]";}
     END { foreach $k (sort((keys(%A)))) {print "$k;$A{$k}\n";} }' \
     router.db > routers.db

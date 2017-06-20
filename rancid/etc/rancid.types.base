@@ -525,7 +525,7 @@ riverstone;script;rivrancid
 riverstone;login;rivlogin
 #
 # SMC and Dell PowerConnect N2048, 35xx (3524, 3524P, 3548, 3548P), N4032F,
-# N4064, M6348, 64xx (6428), 7048, and M8024(-k)
+# N4064, M6348, 64xx (6428), 7048, M8024(-k), and R1-2401.
 smc;script;srancid
 smc;login;hlogin
 #

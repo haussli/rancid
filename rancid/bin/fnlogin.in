@@ -601,8 +601,7 @@ foreach router [lrange $argv $i end] {
 	-re "\[\r\n]+"		{ exp_continue; }
 	-re "^(.+$prompt)"	{
 				  regsub -all "^\[#\\$]+\[#\\$] " $expect_out(0,string) {} junk
-				  regsub -all "\[\]\[\(\)]" $junk {\\&} junk;
-				  set prompt "^$junk";
+				  regsub -all "\[\]\[\(\)]" $junk {\\&} prompt;
 			  	}
     }
 

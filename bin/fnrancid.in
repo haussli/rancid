@@ -245,6 +245,12 @@ sub GetConf {
 	    ProcessHistory("ENC","","","#$1 ENC <removed> $4\n");
 	    next;
 	}
+	# filter ospf md5-keys
+	if (/^(\s*set)\smd5-key\s(.)\s(.*)/ && $filter_osc) {
+	    ProcessHistory("","","","#$1 md5-key $2 <removed>\n");
+	    next;
+	}
+
 	ProcessHistory("","","","$_");
     }
     $found_end = 1;

@@ -1,4 +1,6 @@
 3.99.99
+	srancid: add username/enable password filtering
+
 	nxos.pm: adjust regex for nexus with decimal wattages - Howard Jones
 
 	fnlogin: fix full prompt gleaning code - Merijn Evertse

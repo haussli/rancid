@@ -599,12 +599,11 @@ foreach router [lrange $argv $i end] {
     send "\r"
     expect {
 	-re "\[\r\n]+"		{ exp_continue; }
-	-re "^(.+$prompt)"	{ set junk $expect_out(0,string); }
-	if {[$junk = "(^\\$ $)"]} {
-	  set prompt $junk;
-	} else {
-	  if {[$junk = "(^# $)"]} { set prompt $junk ; }
-	};
+	-re "^(.+$prompt)"	{
+				  regsub -all "^\[#\\$]+\[#\\$] " $expect_out(0,string) {} junk
+				  regsub -all "\[\]\[\(\)]" $junk {\\&} junk;
+				  set prompt "^$junk";
+			  	}
     }
 
     if { $do_command || $do_script } {

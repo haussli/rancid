@@ -1,4 +1,6 @@
 3.99.99
+	fnlogin: fix full prompt gleaning code - Merijn Evertse
+
 	fnrancid: filter oscillating ospf md5 keys - Merijn Evertse
 
 	sros.pm: final formatting tweaks - Greg Hankins

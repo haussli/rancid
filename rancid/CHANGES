@@ -1,4 +1,6 @@
 3.99.99
+	nxos.pm: adjust regex for nexus with decimal wattages - Howard Jones
+
 	fnlogin: fix full prompt gleaning code - Merijn Evertse
 
 	fnrancid: filter oscillating ospf md5 keys - Merijn Evertse

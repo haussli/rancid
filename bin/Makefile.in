@@ -871,10 +871,12 @@ $(bin_in:%.in=%): Makefile $(top_builddir)/config.status ../COPYING
 	mv $@.tmp $@
 # XXX there must be a better way to produce these dependencies, perhaps in
 #     configure, but more likely need a depend target.
+alogin: $(srcdir)/alogin.in
 hlogin: $(srcdir)/hlogin.in
 hrancid: $(srcdir)/hrancid.in
 plogin: $(srcdir)/plogin.in
 rancid: $(srcdir)/rancid.in
+srancid: $(srcdir)/srancid.in
 
 lg.cgi: Makefile $(srcdir)/lg.cgi.in
 	rm -f lg.cgi lg.cgi.tmp; \

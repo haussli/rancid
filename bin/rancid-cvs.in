@@ -48,7 +48,7 @@
 ## condition of license.
 #
 # Create all of the misc files & dirs needed for each group and import them
-# into CVS or Subversion.
+# into CVS, git or Subversion.
 #
 # rancid-cvs
 #

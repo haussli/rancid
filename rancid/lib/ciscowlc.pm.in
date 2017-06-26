@@ -123,12 +123,10 @@ sub ShowConfig {
 
 	$linecnt++;
 	if (! /^$prompt/) {
-	    print(STDERR "      ShowConfig Data: $_") if ($debug);
 	    ProcessHistory("","","","$_");
 	}
     }
     ProcessHistory("","","","\n!--WLC End Config Data--!\n");
-    print STDERR "    Exiting ShowConfig: $_" if ($debug);
     # WLC lacks a definitive "end of config" marker.
     if ($linecnt > 5) {
 	$found_end = 1;
@@ -159,13 +157,11 @@ sub ShowSysinfo {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	if (! /^$prompt/) {
 		if (! $skipprocess) {
-			print STDERR "      ShowSysinfo Data: $_" if ($debug);
 			ProcessHistory("","","","! $_");
 		}
 	}
     }
     ProcessHistory("","","","!\n!WLC Show Sysinfo End\n");
-    print STDERR "    Exiting ShowSysinfo: $_" if ($debug);
     return(0);
 }
 
@@ -180,11 +176,9 @@ sub ShowUdi {
 
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
-	print STDERR "      ShowUdi Data: $_" if ($debug);
 	ProcessHistory("","","","! $_");
     }
     ProcessHistory("","","","!\n!WLC Show Udi End\n");
-    print STDERR "    Exiting ShowSysinfo: $_" if ($debug);
     return(0);
 }
 

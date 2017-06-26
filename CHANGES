@@ -1,4 +1,6 @@
 3.99.99
+	rancid.types.base: add cisco-wlc8 with longer default timeout
+
 	ciscowlc.pm: remove noisy debugging o/p
 
 	srancid: add username/enable password filtering

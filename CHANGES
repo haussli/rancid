@@ -1,4 +1,6 @@
 3.99.99
+	ciscowlc.pm: remove noisy debugging o/p
+
 	srancid: add username/enable password filtering
 
 	nxos.pm: adjust regex for nexus with decimal wattages - Howard Jones

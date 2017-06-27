@@ -513,7 +513,7 @@ main(int argc, char **argv, char **ev)
 
 /*
  * return zero if the escape sequence beginning with buf appears to be
- * incomplete (and the caller should wait for more data); or else returns
+ * incomplete (and the caller should wait for more data); else return
  * the index of the first character past the end of the sequence.
  */
 int
@@ -527,7 +527,7 @@ complete_esc(char *buf, int len)
 	/* look for a char that ends the sequence */
 	for (i = 2; i < len; i++) {
 	    if (isalpha((int)buf[i]))
-		return(i + 10);
+		return(i + 1);
 	}
 	return(0);
     }

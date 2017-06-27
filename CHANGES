@@ -1,4 +1,8 @@
 3.99.99
+	hpuifilter: fix an error in patch import in r3233: hpuifilter: fix
+	escape sequence parsing so that it does not consume sequences after
+	another that are incomplete - Brian Candler
+
 	rancid.types.base: add cisco-wlc8 with longer default timeout
 
 	ciscowlc.pm: remove noisy debugging o/p

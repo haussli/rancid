@@ -1,4 +1,7 @@
 3.99.99
+	arbor.pm: filter cmosh timer error that is intermitent and does appear
+	to affect collection
+
 	hpuifilter: fix an error in patch import in r3233: hpuifilter: fix
 	escape sequence parsing so that it does not consume sequences after
 	another that are incomplete - Brian Candler

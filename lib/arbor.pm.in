@@ -96,6 +96,9 @@ sub ShowConfig {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if (/invalid command/i);
 
+	# some stupid timer error from this half-assed device
+	next if (/comsh: timer error, idle timeout will be unavailable/i);
+
 	# sort mgmt ACLs
 	if (/ip access add (\S+) all (\S+)/) {
 	    ProcessHistory("IPACCESS_$1","$aclsort","$2","$_"); next;
@@ -178,6 +181,9 @@ sub ShowHardware {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if (/invalid command/i);
 
+	# some stupid timer error from this half-assed device
+	next if (/comsh: timer error, idle timeout will be unavailable/i);
+
 	next if (/^boot time: /i);
 	next if (/^load averages: /i);
 
@@ -197,6 +203,9 @@ sub ShowVersion {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if (/invalid command/i);
+
+	# some stupid timer error from this half-assed device
+	next if (/comsh: timer error, idle timeout will be unavailable/i);
 
 	ProcessHistory("Version","","","# $_");
     }

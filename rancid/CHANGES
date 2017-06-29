@@ -1,4 +1,7 @@
 3.99.99
+	rancid.types.base, ios.pm: add 'show inventory' w/o raw argument for
+	ASA/PIX
+
 	arbor.pm: filter cmosh timer error that is intermitent and does appear
 	to affect collection
 

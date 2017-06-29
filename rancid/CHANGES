@@ -1,4 +1,6 @@
 3.99.99
+	ios.pm: ignore size of throughput_monitor_params on XE - Emille Blanc
+
 	rancid.types.base, ios.pm: add 'show inventory' w/o raw argument for
 	ASA/PIX
 

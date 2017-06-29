@@ -23,6 +23,7 @@ our $ios;
 our $found_version;
 our $found_env;
 our $found_diag;
+our $found_inventory;
 our $config_register;			# configuration register value
 
 our %hwbuf;				# defined in ShowContCbus
@@ -58,6 +59,7 @@ sub init {
     $found_version = 0;
     $found_env = 0;
     $found_diag = 0;
+    $found_inventory = 0;
     $config_register = undef;		# configuration register value
 
     $supbootdisk = 0;			# skip sup-bootflash if sup-bootdisk
@@ -1630,7 +1632,7 @@ REDUX:	tr/\015//d;
 		# trying to process this pcb stuff.  Check for a
 		# prompt so we can get out.
 		if (/^$prompt/) {
-		    $found_diag=1;
+		    $found_diag = 1;
 		    goto PerlSucks;
 		}
 
@@ -1693,12 +1695,13 @@ sub ShowInventory {
     while (<$INPUT>) {
 	tr/\015//d;
 	return if (/^\s*\^$/);
-	last if (/^$prompt/);
+	if (/^$prompt/) { $found_inventory = 1; last};
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if (/Line has invalid autocommand /);
 	next if (/^\s+\^\s*$/);
 	return(1) if (/(invalid (input|command) detected|type help or )/i);
 	return(-1) if (/command authorization failed/i);
+	return(0) if ($found_inventory);	# Only do this routine once
 	# the pager can not be disabled per-session on the PIX
 	if (/^(<-+ More -+>)/) {
 	    my($len) = length($1);

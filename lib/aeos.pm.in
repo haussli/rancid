@@ -328,6 +328,9 @@ sub WriteTerm {
 	/^ speed / && $lineauto	&& next; # kill speed on serial lines
 	/^ clockrate /		&& next; # kill clockrate on serial interfaces
 	/^! Time: /		&& next; # EOS gives the time that a "show running" command was run
+
+	next if (/(^\*+$|unsaved changes exist)/i);
+
 	if (/^(enable )?(password|passwd)( level \d+)? / && $filter_pwds >= 1) {
 	    ProcessHistory("ENABLE","","","!$1$2$3 <removed>\n");
 	    next;

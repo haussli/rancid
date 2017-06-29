@@ -1099,7 +1099,7 @@ sub DirSlotN {
 		s/$1 bytes free/0 bytes free/;
 	    }
 	}
-	if ($ios eq "XE" && /^((\s+)?\d+\s+\S+)\s+\d+.*(tracelogs$)/) {
+	if ($ios eq "XE" && /^((\s+)?\d+\s+\S+)\s+\d+.*(tracelogs|throughput_monitor_params)$/) {
 	    $_ = "$1" . sprintf("%43s", "") . "$3\n";
 	}
 	# the pager can not be disabled per-session on the PIX

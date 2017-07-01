@@ -416,6 +416,10 @@ LINE:		while (<$INPUT>) {
 		"!Memory: pcmcia $2$3 $1\n");
 	    next;
 	}
+	if (/^(\d+[kK]) bytes of physical memory/i) {
+	    ProcessHistory("COMMENTS","keysort","B1", "!Memory: physical $1\n");
+	    next;
+	}
 	if (/^WARNING/) {
 	    if (!$I0) {
 		$I0 = 1;

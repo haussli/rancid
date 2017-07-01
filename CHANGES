@@ -1,4 +1,7 @@
 3.99.99
+	ios.pm: filter config archive file names running-config-archive-*; no
+	reasonable file name suggestion found in docs.
+
 	aeos.pm: filter unsaved config changes notification
 
 	ios.pm: ignore size of throughput_monitor_params on XE - Emille Blanc

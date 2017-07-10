@@ -1,4 +1,6 @@
 3.99.99
+	iosxr.pm: fail if install director is not up or ready
+
 	ios.pm: report physical memory for XE devices
 
 	ios.pm: filter config archive file names running-config-archive-*; no

@@ -742,6 +742,7 @@ sub ShowInstallSummary {
 	return(-1) if (/command authorization failed/i);
 	return(-1) if (/inventory summary cannot be output/i);	# temp error
 	return(-1) if (/currently affected by install operation/i);# temp error
+	return(-1) if (/install director is not up or ready/i);# temp error
 
 	# skip blank lines
 	next if (/^\s*$/);

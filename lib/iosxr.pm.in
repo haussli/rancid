@@ -445,6 +445,7 @@ sub ShowInstallActive {
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
 	return(1) if (/^(-+\^|syntax error: unknown argument)$/i);	# NCS
 	return(-1) if (/command authorization failed/i);
+	return(-1) if (/install director is not up or ready/i);# temp error
 
 	# FPD upgrade in progress on some hardware, reload/configuration change
 	# on those is not recommended as it might cause HW programming failure

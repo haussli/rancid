@@ -1,4 +1,6 @@
 3.99.99
+	rancid.types.base: argument missing for cisco-wlc8 - Reuben Farrelly
+
 	iosxr.pm: fail if install director is not up or ready
 
 	ios.pm: report physical memory for XE devices

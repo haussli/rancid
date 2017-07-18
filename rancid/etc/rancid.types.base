@@ -287,7 +287,7 @@ cisco-wlc8;module;ciscowlc
 cisco-wlc8;inloop;ciscowlc::inloop
 cisco-wlc8;command;ciscowlc::ShowUdi;show udi
 cisco-wlc8;command;ciscowlc::ShowSysinfo;show sysinfo
-cisco-wlc8;command;ciscowlc::ShowConfig;show run-config
+cisco-wlc8;command;ciscowlc::ShowConfig;show run-config commands
 #
 css;script;cssrancid
 css;login;clogin

@@ -81,7 +81,7 @@ sub rancidinit {
     $host = defined($ARGV[0]) ? $ARGV[0] : "";
     $clean_run = 0;
     $found_end = 0;
-    # XXX $timeo = 90;			# login script timeout in seconds
+    $timeo = 90;			# login script timeout in seconds
 
     $aclsort = "ipsort";		# ACL sorting mode
 
@@ -244,14 +244,16 @@ sub loadtype {
     }
 
     if ($main::opt_C) {
+	my($cmd);
 	if (!defined($lscript)) {
 	    printf(STDERR "$devtype: login script not defined\n");
 	    exit(1);
 	}
+	$cmd = $lscript;
 	if (defined($timeo)) {
-	    $lscript .= " -t $timeo";
+	    $cmd .= " -t $timeo";
 	}
-	print "$lscript -c \'$commandstr\' $host\n";
+	print "$cmd -c \'$commandstr\' $host\n";
 	exit(0);
     }
 

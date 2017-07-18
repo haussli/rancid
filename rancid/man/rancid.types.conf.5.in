@@ -97,6 +97,7 @@ be an FQPN, but then must be found in the path.
 .TP
 .B timeout
 Defines the rancid login script timeout in seconds.
+In general, the defaut 90 seconds, but some modules themselves alter this.
 .\"
 .PP
 .SH FILES

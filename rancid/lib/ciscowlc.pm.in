@@ -24,7 +24,6 @@ use rancid @VERSION@;
 
 # load-time initialization
 sub import {
-    $timeo = 90;			# wlogin timeout in seconds
     0;
 }
 

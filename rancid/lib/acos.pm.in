@@ -22,8 +22,6 @@ use rancid @VERSION@;
 
 # load-time initialization
 sub import {
-    $timeo = 90;
-
     0;
 }
 

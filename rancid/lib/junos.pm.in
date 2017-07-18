@@ -26,8 +26,6 @@ our $ShowChassisSCB;			# Only run ShowChassisSCB() once
 
 # load-time initialization
 sub import {
-    $timeo = 120;			# jlogin timeout in seconds
-
     0;
 }
 

@@ -31,8 +31,6 @@ sub import {
 
 # post-open(collection file) initialization
 sub init {
-    $timeo = 90;			# anlogin timeout in seconds
-
     # add content lines and separators
     ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n#\n");
     0;

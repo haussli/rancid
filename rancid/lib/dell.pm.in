@@ -40,9 +40,6 @@ our $found_version;
 
 # load-time initialization
 sub import {
-    $timeo = 300;		# dllogin timeout in seconds (some of these
-				# devices are remarkably slow to read config)
-
     0;
 }
 

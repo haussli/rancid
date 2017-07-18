@@ -91,6 +91,7 @@ brocade;login;brlogin
 # Ciena Waveserver (XXX WiP)
 ciena-ws;script;rancid -t ciena-ws
 ciena-ws;login;hlogin
+ciena-ws;timeout;120
 ciena-ws;module;wavesvros
 ciena-ws;inloop;wavesvros::inloop
 ciena-ws;command;wavesvros::ShowVersion;software show
@@ -294,8 +295,11 @@ css;script;cssrancid
 css;login;clogin
 #
 # Dell DES-3010F, DES-3052P, DES-3526, DES-3550
+# Some of these devices are remarkably slow to read config, so the timeout is
+# rather long.
 dell;script;rancid -t dell
 dell;login;dllogin
+dell;timeout;300
 dell;module;dell
 dell;inloop;dell::inloop
 dell;command;dell::GetSystem;show switch
@@ -408,6 +412,7 @@ hp;login;hlogin
 #
 juniper;script;rancid -t juniper
 juniper;login;jlogin
+juniper;timeout;120
 juniper;module;junos
 juniper;inloop;junos::inloop
 juniper;command;junos::ShowChassisClocks;show chassis clocks

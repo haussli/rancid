@@ -1,4 +1,7 @@
 3.99.99
+	rancid.pm, rancid.types.conf: add timeout directive to set a default
+	login timeout
+
 	rancid.types.base: argument missing for cisco-wlc8 - Reuben Farrelly
 
 	iosxr.pm: fail if install director is not up or ready

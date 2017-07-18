@@ -1,4 +1,6 @@
 3.99.99
+	wlogin: fix use of exitval
+
 	rancid.pm, rancid.types.base: add timeout directive to set a default
 	login timeout.  Move timeouts from the modules to rancid.types.
 

@@ -249,7 +249,7 @@ sub loadtype {
 	    exit(1);
 	}
 	if (defined($timeo)) {
-	    $lscript =. " -t $timeo";
+	    $lscript .= " -t $timeo";
 	}
 	print "$lscript -c \'$commandstr\' $host\n";
 	exit(0);

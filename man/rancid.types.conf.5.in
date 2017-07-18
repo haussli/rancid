@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid.types.conf" "5" "22 November 2016"
+.TH "rancid.types.conf" "5" "18 July 2017"
 .SH NAME
 rancid.types.conf \- rancid device type configuration file
 .SH DESCRIPTION
@@ -40,6 +40,7 @@ One directive is listed per-line, where the syntax is one of:
 <device_type>;prescript;<rancid_script> XXX temporary knob?  add this?
 <device_type>;postscript;<rancid_script> XXX temporary knob?  add this?
 <device_type>;script;<rancid_script>
+<device_type>;timeout;<login_program_timeout>
 .fi
 .in -1i
 .PP
@@ -47,6 +48,7 @@ For example:
 .in +1i
 .nf
 cisco;login;clogin
+cisco;timeout;120
 cisco;module;rancid::ios
 cisco;inloop;ios::inloop
 cisco;command;ShowVersion;show version
@@ -92,6 +94,9 @@ order they appear.
 .B script
 Defines the rancid script used for the <device_type>, which does not need to
 be an FQPN, but then must be found in the path.
+.TP
+.B timeout
+Defines the rancid login script timeout in seconds.
 .\"
 .PP
 .SH FILES

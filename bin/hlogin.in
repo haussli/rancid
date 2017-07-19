@@ -332,7 +332,7 @@ proc run_commands { prompt command } {
 						  exp_continue
 						}
 	-re "\[\r\n]+"				{ exp_continue }
-	-re "^.+>"				{
+	-re "^.+\[#>]"				{
 						  catch {send -h "exit\r"}
 						  exp_continue
 						}

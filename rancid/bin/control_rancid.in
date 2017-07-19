@@ -149,6 +149,11 @@ unset noclobber > /dev/null 2>&1
 
 # SENDMAIL location
 SENDMAIL=${SENDMAIL:=sendmail};
+# default MAILHEADERS
+set | grep MAILHEADERS= > /dev/null 2>&1
+if [ $? -ne 0 ] ; then
+    MAILHEADERS="Precedence: bulk\nAuto-submitted: auto-generated\nX-Auto-Response-Suppress: All"; export MAILHEADERS
+fi
 
 # Bail if we do not have the necessary info to run
 if [ ! -d $DIR ] ; then
@@ -187,10 +192,6 @@ if [ -z "$commitmsg" ] ; then
 	commitmsg="$commitmsg - courtesy of $mailrcpt"
     fi
     export commitmsg
-fi
-set | grep MAILHEADERS= > /dev/null 2>&1
-if [ $? -ne 0 ] ; then
-    MAILHEADERS="Precedence: bulk\nAuto-submitted: auto-generated\nX-Auto-Response-Suppress: All"; export MAILHEADERS
 fi
 
 # Number of things par should run in parallel.

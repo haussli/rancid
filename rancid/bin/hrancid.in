@@ -19,6 +19,7 @@ no warnings 'uninitialized';
 use Exporter;
 use Getopt::Std;
 our($opt_d, $opt_f, $opt_h, $opt_l, $opt_t, $opt_C, $opt_V);
+$opt_t = "hp";
 getopts('dflt:CV');
 BEGIN {
     push(@INC, "@pkglibdir@");

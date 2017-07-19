@@ -1,4 +1,6 @@
 3.99.99
+	wlogin: GC some stuff from clogin, disable pager & fix the prompt regex
+
 	anlogin: disable pager on arbor
 
 	wlogin: fix use of exitval

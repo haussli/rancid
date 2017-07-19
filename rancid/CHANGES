@@ -1,4 +1,7 @@
 3.99.99
+	ciscowlc.pm: filter bogus & oscillating mgmt address disaplay - Reuben
+	Farrelly
+
 	wlogin: GC some stuff from clogin, disable pager & fix the prompt regex
 
 	anlogin: disable pager on arbor

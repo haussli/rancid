@@ -816,6 +816,10 @@ foreach router [lrange $argv $i end] {
 				  regsub -all "\[\]\[\(\)]" $junk {\\&} prompt;
 				}
     }
+    if { $do_command || $do_script } {
+	send "system lines set 0\r"
+	expect -re "$prompt"	{}
+    }
     if { $do_command } {
 	if {[run_commands $prompt $command]} {
 	    incr exitval

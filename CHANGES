@@ -1,4 +1,6 @@
 3.99.99
+	anlogin: disable pager on arbor
+
 	wlogin: fix use of exitval
 
 	rancid.pm, rancid.types.base: add timeout directive to set a default

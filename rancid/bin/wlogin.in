@@ -330,7 +330,7 @@ proc source_password_file {file} {
 # Log into the router.
 # returns: 0 on success, 1 on failure, -1 if rsh was used successfully
 proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
-    global spawn_id in_proc do_command do_script platform
+    global spawn_id in_proc do_command do_script
     global prompt u_prompt p_prompt e_prompt sshcmd telnetcmd
     set in_proc 1
     set uprompt_seen 0
@@ -629,35 +629,13 @@ proc do_enable { enauser enapasswd } {
 
 # Run commands given on the command line.
 proc run_commands { prompt command } {
-    global in_proc platform
+    global in_proc
     set in_proc 1
 
-    # If the prompt is (enable), then we are on a switch and the
-    # command is "set length 0"; otherwise its "term length 0".
-    # skip if its an extreme (since the pager can not be disabled on a
-    # per-vty basis).
-    if { [ string compare "extreme" "$platform" ] } {
-	if [ regexp -- ".*> .*enable" "$prompt" ] {
-	    send "set length 0\r"
-	    # This is ugly, but reduces code duplication, allowing the
-	    # subsequent expects to handle everything as normal.
-	    set command "set logging session disable;$command"
-	} else {
-	    send "term length 0\r"
-	}
-	# match cisco config mode prompts too, such as router(config-if)#,
-	# but catalyst does not change in this fashion.
-	regsub -all {^(.{1,11}).*([#>])$} $prompt {\1} reprompt
-	# escape any parens in the prompt, such as "(enable)"
-	regsub -all {[)(]} $reprompt {\\&} reprompt
-	append reprompt {([^#>\r\n]+)?[#>](\\([^)\\r\\n]+\\))?}
-	expect {
-	    -re $reprompt	{}
-	    -re "\[\n\r]+"	{ exp_continue }
-	}
-    } else {
-	regsub -all "\[)(]" $prompt {\\&} reprompt
-    }
+    # match cisco config mode prompts too, such as router(config-if)#,
+    # but catalyst does not change in this fashion.
+    regsub -all {^(.{1,11}).*([#>])$} $prompt {\1} reprompt
+    append reprompt {([^#>\r\n]+)?[#>](\\([^)\\r\\n]+\\))?}
 
     # this is the only way i see to get rid of more prompts in o/p..grrrrr
     log_user 0
@@ -744,8 +722,6 @@ set in_proc 0
 set exitval 0
 foreach router [lrange $argv $i end] {
     set router [string tolower $router]
-    # attempt at platform switching.
-    set platform ""
     send_user -- "$router\n"
 
     # device timeout
@@ -884,43 +860,21 @@ foreach router [lrange $argv $i end] {
     send "\r"
     expect {
 	-re "\[\r\n]+"		{ exp_continue; }
-	-re "^(.+\[:.])1 $prompt" { # stoopid extreme cmd-line numbers and
-				  # prompt based on state of config changes,
-				  # which may have an * at the beginning.
-				  set junk $expect_out(1,string)
-				  regsub -all "^\\\* " $expect_out(1,string) {} junk
-				  set prompt ".? ?$junk\[0-9]+ $expect_out(2,string)";
-				  set platform "extreme"
-				}
 	-re "^.+$prompt"	{ set junk $expect_out(0,string);
-				  regsub -all "\[\]\[]" $junk {\\&} prompt;
+				  regsub -all "\[\]\[)(]" $junk {\\&} prompt;
 				}
-	-re "^.+> \\\(enable\\\)"	{
-				  set junk $expect_out(0,string);
-				  regsub -all "\[\]\[]" $junk {\\&} prompt;
-				}
-	-re "\(Cisco Controller\) \>"       {
-                                  set junk $expect_out(0,string);
-                                  regsub -all "\[\]\[]" $junk {\\&} prompt;
-                                }
-
     }
 
+    if { $do_command || $do_script } {
+	send "config paging disable\r"
+	expect -re $prompt	{}
+    }
     if { $do_command } {
 	if {[run_commands $prompt $command]} {
 	    incr exitval
 	    continue
 	}
     } elseif { $do_script } {
-	# If the prompt is (enable), then we are on a switch and the
-	# command is "set length 0"; otherwise its "term length 0".
-	if [ regexp -- ".*> .*enable" "$prompt" ] {
-	    send "set length 0\r"
-	    send "set logging session disable\r"
-	} else {
-	    send "term length 0\r"
-	}
-	expect -re $prompt	{}
 	source $sfile
 	close
     } else {

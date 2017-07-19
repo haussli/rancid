@@ -66,7 +66,7 @@ TOP: while(<$INPUT>) {
 		last TOP;
 	    }
 	    if (! defined(&{$commands{$cmd}})) {
-		printf(STDERR "$host: undefined function - \"%s\"\n",  
+		printf(STDERR "$host: undefined function - \"%s\"\n",
 		       $commands{$cmd});
 		$clean_run = 0;
 		last TOP;
@@ -94,6 +94,7 @@ sub ShowConfig {
 
 	next if (/^\s*rogue ap classify/);
 	next if (/^\s*rogue (adhoc|client) alert/);
+	next if (/^\s*interface nat-address management set -?[0-9]{4,}\./);
 
 	$linecnt++;
 

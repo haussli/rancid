@@ -1,4 +1,6 @@
 3.99.99
+	acos.pm: show aflex may not be supported
+
 	wlogin: support -S
 
 	wlogin: use login_top & GC the code to enable - tested by Reuben

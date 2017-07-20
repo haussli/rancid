@@ -131,6 +131,7 @@ sub ShowAflex {
 	tr/\015//d;
 	next if /^\s*$/;
 	last if (/^$prompt/);
+	return(1) if (/% unrecognized command\./i);
 
 	s/\s*$/\n/;					# trim trailing WS
         ProcessHistory("AFLEX", "", "", "!AFLEX: $_");

@@ -987,7 +987,7 @@ sub ShowFlash {
 	# 9          660 Jan 15 2011 20:43:54 +00:00 running-config-archive-Jul--1-16-50-27.123-113
 	# to:
 	#                                     running-config-archive-<removed>
-	#                                            running-config-archive-<removed>
+	#                                     running-config-archive-<removed>
 	if (/(running-config-archive-)\S+\s*$/) {
 	    my($arc) = $1;
 	    if (/(\s*\d+)(\s+[-rwx]+\s+)(\d+)(\s+)(\w+ \d+\s+\d+ \d+:\d+:\d+ .\d+:\d+)/) {

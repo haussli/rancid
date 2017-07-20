@@ -1,4 +1,6 @@
 3.99.99
+	fnlogin.in: Fortiweb 5.8 changed password prompt
+
 	acos.pm: show aflex is not be supported in the CGN/LSN image
 
 	wlogin: support -S

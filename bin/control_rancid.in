@@ -607,7 +607,7 @@ do
 	rm -f $DIR/routers.up.missed
 	round=`expr $round + 1`
     else
-	echo "All routers sucessfully completed."
+	echo "All routers successfully completed."
 	round=`expr $pass + 1`
     fi
 done

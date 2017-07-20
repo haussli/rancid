@@ -288,7 +288,7 @@ proc login { router user userpswd passwd cmethod cyphertype } {
 
 # Run commands given on the command line.
 proc run_commands { prompt command } {
-    global in_proc
+    global in_proc do_saveconfig
     set in_proc 1
 
     # match cisco config mode prompts too, such as router(config-if)#,

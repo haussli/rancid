@@ -1,4 +1,7 @@
 3.99.99
+	wlogin: use login_top & GC the code to enable - tested by Reuben
+	Farrelly
+
 	ciscowlc.pm: filter bogus & oscillating mgmt address disaplay - Reuben
 	Farrelly
 

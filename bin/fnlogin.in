@@ -296,6 +296,7 @@ proc source_password_file {file} {
 # returns: 0 on success, 1 on failure
 proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype } {
     global spawn_id in_proc do_command do_script sshcmd telnetcmd
+    global u_prompt p_prompt
     set in_proc 1
     set uprompt_seen 0
 
@@ -441,7 +442,7 @@ proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype } {
 				  send_user "\nError: Check your passwd for $router\n";
 				  catch {close}; catch {wait}; return 1
 				 }
-	-re "(login:)"			{
+	-re "$u_prompt"			{
 					  sleep 1;
 					  send -- "$user\r"
 					  set uprompt_seen 1
@@ -453,7 +454,7 @@ proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype } {
 					  send -- "$userpswd\r"
 					  exp_continue
 					}
-	"\[Pp]assword:"			{
+	-re "$p_prompt"			{
 					  sleep 1;
 					  if {$uprompt_seen == 1} {
 						send -- "$userpswd\r"
@@ -564,6 +565,19 @@ foreach router [lrange $argv $i end] {
       if { "$userpswd" == "" } { set userpswd $passwd }
     }
 
+    # Figure out prompts
+    set u_prompt [find userprompt $router]
+    if { "$u_prompt" == "" } {
+	set u_prompt "(\[Ll]ogin):"
+    } else {
+	set u_prompt [join [lindex $u_prompt 0] ""]
+    }
+    set p_prompt [find passprompt $router]
+    if { "$p_prompt" == "" } {
+	set p_prompt "(\[Pp]assword|passwd|Enter password for \[^ :]+):"
+    } else {
+	set p_prompt [join [lindex $p_prompt 0] ""]
+    }
 
     # Figure out cypher type
     if {[info exists cypher]} {

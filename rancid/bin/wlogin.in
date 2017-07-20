@@ -363,7 +363,11 @@ proc run_commands { prompt command } {
 						  exp_continue;
 						}
 	-re "Would you like to save them .+"	{
-						  send "n\r"
+						  if {$do_saveconfig} {
+						    catch {send "y\r"}
+						  } else {
+						    catch {send "n\r"}
+						  }
 						  exp_continue
 						}
 	-re "\[\n\r]+"				{ exp_continue }

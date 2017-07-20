@@ -1,4 +1,6 @@
 3.99.99
+	wlogin: support -S
+
 	wlogin: use login_top & GC the code to enable - tested by Reuben
 	Farrelly
 

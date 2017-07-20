@@ -1,5 +1,5 @@
 3.99.99
-	acos.pm: show aflex may not be supported
+	acos.pm: show aflex is not be supported in the CGN/LSN image
 
 	wlogin: support -S
 

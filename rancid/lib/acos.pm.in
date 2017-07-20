@@ -131,7 +131,7 @@ sub ShowAflex {
 	tr/\015//d;
 	next if /^\s*$/;
 	last if (/^$prompt/);
-	return(1) if (/% unrecognized command\./i);
+	return(1) if (/% unrecognized command\./i);	# not in CGN/LSN image
 
 	s/\s*$/\n/;					# trim trailing WS
         ProcessHistory("AFLEX", "", "", "!AFLEX: $_");

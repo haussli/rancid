@@ -1,4 +1,7 @@
 3.99.99
+	waveserver.pm: prompt could be # or >, depending on access level -
+	Chris Wopat tested
+
 	fnlogin.in: Fortiweb 5.8 changed password prompt
 
 	acos.pm: show aflex is not be supported in the CGN/LSN image

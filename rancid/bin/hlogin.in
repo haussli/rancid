@@ -332,7 +332,9 @@ proc run_commands { prompt command } {
 						  exp_continue
 						}
 	-re "\[\r\n]+"				{ exp_continue }
-	-re "^.+\[#>]"				{
+	-re "^.+\[#>]"				{ # some require logout from
+						  # enabled, then the login, and
+						  # some do not have logout cmd
 						  catch {send -h "exit\r"}
 						  exp_continue
 						}

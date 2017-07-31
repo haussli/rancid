@@ -65,10 +65,13 @@ TOP: while (<$INPUT>) {
 	while (/[>#]\s*($cmds_regexp)\s*$/) {
 	    $cmd = $1;
 	    if (!defined($prompt)) {
-		$prompt = ($_ =~ /^([^>#]+[>#])/)[0];
+		$_ =~ /^([^>#*^]+)([*^])?([>#])/;
+		$prompt = $1;
+		my($tail) = $3;
 		$prompt =~ s/([][}{)(\\])/\\$1/g;
-		# prompt changes when config is unsaved - "foo*> "
-		$prompt =~ s/\*/\\\*/;
+		# prompt changes when config is unsaved - "foo*> " and may be
+		# "foo$> " for some unknown reason.
+		$prompt .= "[*^]?" . $tail . " ?";
 		print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
 	    }
 	    print STDERR ("HIT COMMAND:$_") if ($debug);

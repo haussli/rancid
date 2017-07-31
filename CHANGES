@@ -1,4 +1,7 @@
 3.99.99
+	waveserver.pm: adjust prompt for the case where a ^ appears in the
+	prompt after displaying the config.
+
 	waveserver.pm: prompt could be # or >, depending on access level -
 	Chris Wopat tested
 

@@ -188,6 +188,8 @@ sub GetSystem {
 	next if (/^\s*Extended DB: .*/);
 	next if (/^\s*IPS-DB: .*/);
 	next if (/^FortiClient application signature package:/);
+	# Cluster uptime
+	next if (/^\s*Cluster uptime:/);
 
 	ProcessHistory("","","","#$_");
     }

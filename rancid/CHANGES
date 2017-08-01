@@ -1,4 +1,6 @@
 3.99.99
+	fnrancid: filter cluster uptime
+
 	waveserver.pm: adjust prompt for the case where a ^ appears in the
 	prompt after displaying the config.
 

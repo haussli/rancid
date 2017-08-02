@@ -531,6 +531,9 @@ foreach router [lrange $argv $i end] {
 	send "no page\r"
 	expect -re $prompt	{}
 	# Ciena Waveserver o/s
+	# system shell session set window-height <NUMBER: 0..999>
+	# system shell session set window-width <NUMBER: 0..999>
+	# system shell session set more (off|on)
 	send "system shell session set more off\r"
 	expect -re $prompt	{}
     }

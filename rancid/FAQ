@@ -1,4 +1,4 @@
-Frequently Asked Questions about rancid - last updated 20170426.
+Frequently Asked Questions about rancid - last updated 20170912.
 
 This FAQ contains information that may not apply directly to versions of
 rancid prior to 3.0.  It also contains paths containing tags such as
@@ -103,6 +103,26 @@ A. The directory was not imported into CVS properly or was not properly checked
    replace the router.db file.  If the CVS import was also performed manually,
    cd to <LOCALSTATEDIR> and use 'cvs co <rancid group>' to create all the CVS
    control bits.
+
+
+Q. Errors are showing up in the logs like:
+	cvs commit: Up-to-date check failed for `filename'
+A. This could mean that the version of the file that rancid has is older than
+   the one in repository or that the file is missing.  That could be due to a
+   filesystem error, a system crash, a rancid crash or premature termination,
+   or some third party altering the repository or rancid's local repository.
+   Third parties should NOT alter the repository or rancid's local repository,
+   except for editing the router.db file.  All other modificiations should be
+   left to rancid's automation.
+
+   To recover, run cvs update in the group's directory as the rancid user.  If
+   the update fails or creates conflict, the files can be removed and the cvs
+   update re-run.  Some files are not saved in cvs, but these will be
+   re-created without harm..
+
+   Some have asked why rancid does not run a cvs (or svn or git) update itself.
+   If it did, it could inherit malicious modifications in the repository meant
+   to hide the modifications.
 
 
 Q. I keep receiving the same diff for a (or set of) devices, but I know the

@@ -1,4 +1,6 @@
 3.99.99
+	arbor.pm: fail on intermittent h/w retrieval failure
+
 	iosxr.pm: recognize another possible intermittent failure in show
 	install active
 

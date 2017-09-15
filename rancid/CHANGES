@@ -1,4 +1,7 @@
 3.99.99
+	sros.pm: fix prompt match to correctly handle the prompt with a modified
+	config & remove the atom from the output
+
 	arbor.pm: fail on intermittent h/w retrieval failure
 
 	iosxr.pm: recognize another possible intermittent failure in show

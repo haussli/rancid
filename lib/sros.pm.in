@@ -69,7 +69,8 @@ CMD:	if (/[#]\s?logout\s*$/) {
 	    $cmd = $1;
 	    if (!defined($prompt)) {
 		$prompt = ($_ =~ /^[*]?([^#>]+[#])/)[0];
-		$prompt =~ s/([][}{)(+\\])/\\$1/g;
+		$prompt =~ s/([][}{)(+*\\])/\\$1/g;
+		$prompt = "[*]?$prompt";
 		print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
 	    }
 	    print STDERR ("HIT COMMAND:$_") if ($debug);
@@ -84,6 +85,8 @@ CMD:	if (/[#]\s?logout\s*$/) {
 		$clean_run = 0;
 		last TOP;
 	    }
+	    # filter the modified config indicator from the line.
+	    /^$prompt/ && s/^[*]//;
 	    $rval = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
 	    delete($commands{$cmd});
 	    if ($rval == -1) {

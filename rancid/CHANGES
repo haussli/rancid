@@ -1,4 +1,4 @@
-3.99.99
+3.7
 	sros.pm: fix prompt match to correctly handle the prompt with a modified
 	config & remove the atom from the output
 

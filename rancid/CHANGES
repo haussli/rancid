@@ -1,3 +1,7 @@
+3.99.99
+	ulogin: increase default timeout to 30s for slower Edgeroute Lite -
+	Andreas Herrmann
+
 3.7
 	sros.pm: fix prompt match to correctly handle the prompt with a modified
 	config & remove the atom from the output

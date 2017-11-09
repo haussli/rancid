@@ -1,4 +1,6 @@
 3.99.99
+	junos.pm: filter scale-subscriber license counters
+
 	ulogin: increase default timeout to 30s for slower Edgeroute Lite -
 	Andreas Herrmann
 

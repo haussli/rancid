@@ -1,4 +1,6 @@
 3.99.99
+	ciscowlc.pm: filter rogue client Unknowns - Bill Fenner
+
 	junos.pm: filter scale-subscriber license counters
 
 	ulogin: increase default timeout to 30s for slower Edgeroute Lite -

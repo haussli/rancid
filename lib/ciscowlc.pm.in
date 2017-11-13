@@ -93,7 +93,7 @@ sub ShowConfig {
         tr/\020//d;
 
 	next if (/^\s*rogue ap classify/);
-	next if (/^\s*rogue (adhoc|client) alert/);
+	next if (/^\s*rogue (adhoc|client) (alert|unknown)/i);
 	next if (/^\s*interface nat-address management set -?[0-9]{4,}\./);
 
 	$linecnt++;

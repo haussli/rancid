@@ -243,7 +243,7 @@ sub ShowChassisEnv {
 sub ShowChassisPS {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassisPS: $_" if ($debug);
-    ProcessHistory("COMMENTS","keysort","F3","#\n# $_");
+    ProcessHistory("COMMENTS","keysort","E3","#\n# $_");
 
     while (<$INPUT>) {
 	tr/\015//d;
@@ -254,7 +254,7 @@ sub ShowChassisPS {
 	return(-1) if (/minor: cli command not allowed for this user/i);
 
 	/^=+$/i && next;
-	ProcessHistory("COMMENTS","keysort","F3","# $_");
+	ProcessHistory("COMMENTS","keysort","E3","# $_");
     }
 }
 # This routine parses "show chassis power-management"

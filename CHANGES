@@ -1,4 +1,6 @@
 3.99.99
+	fnrancid: update md5-keys filter for Fortigate 5.4.6
+
 	sros.pm: move show chassis power-supply o/p - Greg Hankins
 
 	ciscowlc.pm: filter rogue client Unknowns - Bill Fenner

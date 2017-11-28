@@ -241,15 +241,15 @@ sub GetConf {
 	    }
 	    next;
 	}
+	# filter ospf md5-keys
+	if (/^(\s*set)\smd5-key\s(\d+)\s(.*)/ && $filter_osc) {
+	    ProcessHistory("","","","#$1 md5-key $2 <removed>\n");
+	    next;
+	}
 	# filter cycling password encryption
 	if (/^(\s*set \S*( \d+)?)\s("?enc\s\S+"?)(.*)/i &&
 	    ($filter_osc || $filter_pwds > 0)) {
 	    ProcessHistory("ENC","","","#$1 ENC <removed> $4\n");
-	    next;
-	}
-	# filter ospf md5-keys
-	if (/^(\s*set)\smd5-key\s(.)\s(.*)/ && $filter_osc) {
-	    ProcessHistory("","","","#$1 md5-key $2 <removed>\n");
 	    next;
 	}
 

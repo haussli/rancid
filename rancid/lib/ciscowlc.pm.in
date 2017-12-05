@@ -42,7 +42,7 @@ sub inloop {
 
 TOP: while(<$INPUT>) {
 	tr/\015//d;
-	if (/^.*logout(Connection.*closed.)?$/)  {
+	if (/^.*logout(\s*Connection.*closed.)?$/)  {
 	    $clean_run = 1;
 	    last;
 	}

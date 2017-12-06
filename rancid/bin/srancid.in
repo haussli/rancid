@@ -151,6 +151,35 @@ sub ShowSys {
 	    }
 	}
 
+	# filter power rates and tmestamps from 7024 power supply info
+	# Power Supplies:
+	#  
+	# Unit  Description    Status     Average     Current          Since
+	#                                  Power       Power         Date/Time
+	#                                 (Watts)     (Watts)
+	# ----  -----------  -----------  ----------  --------  -------------------
+	# 1     System       OK            1.4        65.2
+	# 1     Internal     OK           N/A         N/A       10/05/2017 20:18:35
+	if (/power supplies/i) {
+	    ProcessHistory("COMMENTS","keysort","C1",
+		"! Unit\tDescription\tStatus\n");
+	    ProcessHistory("COMMENTS","keysort","C1",
+		"! ----\t-----------\t------\n");
+	    while (<INPUT>) {
+		s/^\s+\015//g;
+		tr/\015//d;
+		/^(unit\s|--+\s|\s)/i && next;
+		if (/(\d+)\s+(\w+)\s+(\w+(\s\w+)?)\s/) {
+		    if (length($2) >= 8) {
+			ProcessHistory("COMMENTS","keysort","C1","! $1\t$2\t$3\n");
+		    } else {
+			ProcessHistory("COMMENTS","keysort","C1","! $1\t$2\t\t$3\n");
+		    }
+		}
+		/^\s*$/ && last;
+	    }
+	}
+
 	/system description: (.*)/i &&
 	    ProcessHistory("COMMENTS","keysort","A1", "!Chassis type: $1\n") &&
 	    next;

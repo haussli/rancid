@@ -1,4 +1,6 @@
 3.99.99
+	srancid: filter power rates and tmestamps from 7024 power supply info
+
 	ciscowlc.pm: handle variant of logout bug
 
 	fnrancid: update md5-keys filter for Fortigate 5.4.6

@@ -181,7 +181,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 	    send -- "$passphrase\r"
 	    exp_continue
 	}
-	-nocase -re "last login: \[\r\n]" {
+	-nocase -re "last login: \[^\r\n]" {
 	     exp_continue;
 	}
 	-re "$u_prompt"	{ send -- "$user\r"

@@ -1,4 +1,6 @@
 3.99.99
+	ulogin: fix regex typo for skipping last login msg in login sequence
+
 	srancid: filter power rates and tmestamps from 7024 power supply info
 
 	ciscowlc.pm: handle variant of logout bug

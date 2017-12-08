@@ -159,19 +159,20 @@ sub ShowEnv {
 	}
         /^(System \S+ status is|Action on overheat|Airflow)/ &&
 	    ProcessHistory("COMMENTS","keysort","E0","!$_") && next;
-        if ( /^Fan\s+Status\s+/ ) {
+        if (/^Fan\s+Status\s+/) {
             $fans = 1;
             next;
         }
         $fans && /^\s*(\d+)\s+(\S+)/ &&
             ProcessHistory("COMMENTS","keysort","E1","!Fan $1: $2\n") && next;
-        if ( /^Supply\s+Model\s+Capacity/ ) {
+        if (/^Supply\s+Model\s+Capacity/) {
             $fans = 0;
             $supplies = 1;
             next;
         }
         $supplies && /^\s*(\d+)\s+(\S+)\s+(\S+)\s+\S+\s+\S+\s+\S+\s+(.+)/ &&
-            ProcessHistory("COMMENTS","keysort","E2","!Power Supply $1: $2 $3 $4\n" ) && next;
+            ProcessHistory("COMMENTS","keysort","E2","!Power Supply $1: $2 $3 $4\n" ) &&
+	    next;
     }
     ProcessHistory("COMMENTS","","","!\n");
     return(0);

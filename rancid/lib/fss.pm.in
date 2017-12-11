@@ -1,0 +1,240 @@
+package fss;
+##
+## $Id: junos.pm.in 3736 2017-11-09 18:05:12Z heas $
+##
+## @PACKAGE@ @VERSION@
+@copyright@
+# 
+#  RANCID - Really Awesome New Cisco confIg Differ
+#
+#  onefinity.pm - Fujitsu FSS/1finity rancid procedures
+#
+
+use 5.010;
+use strict 'vars';
+use warnings;
+require(Exporter);
+our @ISA = qw(Exporter);
+$Exporter::Verbose=1;
+
+use rancid @VERSION@;
+
+@ISA = qw(Exporter rancid main);
+#our @EXPORT = qw($VERSION)
+
+# load-time initialization
+sub import {
+    0;
+}
+
+# post-open(collection file) initialization
+sub init {
+    # add content lines and separators
+    ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n#\n");
+    ProcessHistory("COMMENTS","keysort","A0","!\n");
+    ProcessHistory("COMMENTS","keysort","G0","!\n");
+
+    0;
+}
+
+# main loop of input of device output
+sub inloop {
+    my($INPUT, $OUTPUT) = @_;
+    my($cmd, $rval);
+
+TOP: while (<$INPUT>) {
+	tr/\015//d;
+	if (/^Error:/) {
+	    print STDOUT ("$host jlogin error: $_");
+	    print STDERR ("$host jlogin error: $_") if ($debug);
+	    $clean_run=0;
+	    last;
+	}
+	if (/System shutdown message/) {
+	    print STDOUT ("$host shutdown msg: $_");
+	    print STDERR ("$host shutdown msg: $_") if ($debug);
+	    $clean_run = 0;
+	    last;
+	}
+	if (/error: cli version does not match Managment Daemon/i) {
+	    print STDOUT ("$host mgd version mismatch: $_");
+	    print STDERR ("$host mgd version mismatch: $_") if ($debug);
+	    $clean_run = 0;
+	    last;
+	}
+	while (/>\s*($cmds_regexp)\s*$/) {
+	    $cmd = $1;
+	    if (!defined($prompt)) {
+		$prompt = ($_ =~ /^([^>]+>)/)[0];
+		$prompt =~ s/([][}{)(\\])/\\$1/g;
+		print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
+	    }
+	    print STDERR ("HIT COMMAND:$_") if ($debug);
+	    if (! defined($commands{$cmd})) {
+		print STDERR "$host: found unexpected command - \"$cmd\"\n";
+		$clean_run = 0;
+		last TOP;
+	    }
+	    if (! defined(&{$commands{$cmd}})) {
+		printf(STDERR "$host: undefined function - \"%s\"\n",  
+		       $commands{$cmd});
+		$clean_run = 0;
+		last TOP;
+	    }
+	    $rval = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
+	    delete($commands{$cmd});
+	    if ($rval == -1) {
+		$clean_run = 0;
+		last TOP;
+	    }
+	}
+	if (/>\s*quit/) {
+	    $clean_run=1;
+	    last;
+	}
+    }
+}
+
+# This routine parses "show fw-info"
+sub ShowFWinfo {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowFWinfo: $_" if ($debug);
+
+    s/^[a-z]+@//;
+    ProcessHistory("","","","# $_");
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if /\[ok\]\[/i;
+
+	ProcessHistory("FWINFO","","","# $_");
+    }
+    return(0);
+}
+
+# This routine parses "show inventory"
+sub ShowInventory {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowInventory: $_" if ($debug);
+
+    s/^[a-z]+@//;
+    ProcessHistory("","","","# $_");
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if /\[ok\]\[/i;
+
+	next if (/^inventory\s*$/i);
+
+	ProcessHistory("INVENTORY","","","# $_");
+    }
+    return(0);
+}
+
+# This routine parses "show system"
+sub ShowSystem {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowSystem: $_" if ($debug);
+
+    s/^[a-z]+@//;
+    ProcessHistory("","","","# $_");
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if /\[ok\]\[/i;
+
+	next if /system uptime/i;
+	/system neType\s+(.*)/ &&
+	    ProcessHistory("COMMENTS","keysort","A1","#Chassis type: $1") &&
+	    next;
+	/system softwareVersion\s+(.*)/ &&
+	    ProcessHistory("COMMENTS","keysort","G1","#Image: $1") && next;
+
+	ProcessHistory("","","","# $_");
+    }
+    return(0);
+}
+
+# This routine parses "show all"
+sub ShowAll {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    my($lines) = 0;
+    my($snmp) = 0;
+    print STDERR "    In ShowAll: $_" if ($debug);
+
+    s/^[a-z]+@//;
+    ProcessHistory("","","","# $_");
+    while (<$INPUT>) {
+	tr/\015//d;
+	next if (/^\s*$/);
+
+	# end of config - hopefully.  FSS does not have a reliable
+	# end-of-config tag.  appears to end with "\nPROMPT>", but not sure.
+	if (/^$prompt/ || /^\[ok\]\[/) {
+	    $found_end++;
+	    last;
+	}
+	next if (/^\s+(last-changed|last-updated|uptime)\s+/i);
+	next if (/^\s+(replay-log-creation-time|replay-log-aged-time)\s+/i);
+	next if (/^\s+sys-vstimer\s+/i);
+	next if (/^\s+softwareversion\s+/i);
+	next if (/^\s+(netype|vendor)\s+/i);
+	$lines++;
+
+
+	s/ # SECRET-DATA$//;
+	s/ ## SECRET-DATA$//;
+	# filter snmp community, when in snmp { stanza }
+	/^snmp/ && $snmp++;
+	/^}/ && ($snmp = 0);
+	if ($snmp && /^(\s*)(community|trap-group) [^ ;]+(\s?[;{])$/) {
+		if ($filter_commstr) {
+		    $_ = "$1$2 \"<removed>\"$3\n";
+		}
+	}
+	if (/(\s*authentication-key )[^ ;]+/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","#$1<removed>$'");
+	    next;
+	}
+	if (/(\s*md5 \d+ key )[^ ;]+/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","#$1<removed>$'");
+	    next;
+	}
+	if (/(\s*hello-authentication-key )[^ ;]+/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","#$1<removed>$'");
+	    next;
+	}
+	# don't filter this one - there is no secret here.
+	if (/^\s*permissions .* secret /) {
+	    ProcessHistory("","","","$_");
+	    next;
+	}
+	if (/^(.*\s(secret|simple-password) )[^ ;]+/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","#$1<removed>$'");
+	    next;
+	}
+	if (/(\s+encrypted-password )[^ ;]+/ && $filter_pwds >= 2) {
+	    ProcessHistory("","","","#$1<removed>$'");
+	    next;
+	}
+	if (/(\s+ssh-(rsa|dsa) )\"/ && $filter_pwds >= 2) {
+	    ProcessHistory("","","","#$1<removed>;\n");
+	    next;
+	}
+	if (/^(\s+(pre-shared-|)key (ascii-text|hexadecimal) )[^ ;]+/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","#$1<removed>$'");
+	    next;
+	}
+	ProcessHistory("","","","$_");
+    }
+
+    if ($lines < 3) {
+	printf(STDERR "ERROR: $host configuration appears truncated.\n");
+	$found_end = 0;
+	return(-1);
+    }
+
+    return(0);
+}
+
+1;

@@ -1,4 +1,6 @@
 3.99.99
+	fss.pm, et al: add Fujitsu FSS/1finity support
+
 	ulogin: fix regex typo for skipping last login msg in login sequence
 
 	srancid: filter power rates and tmestamps from 7024 power supply info

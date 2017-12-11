@@ -402,6 +402,19 @@ foundry;command;foundry::ShowFlash;show flash
 foundry;command;foundry::WriteTerm;write term
 foundry;command;foundry::WriteTerm;show running-config
 #
+# Fujitsu T100 FSS/1finity
+fss;script;rancid -t fss
+fss;login;jlogin
+fss;module;fss
+fss;inloop;fss::inloop
+fss;command;rancid::RunCommand;set complete-on-space false
+fss;command;rancid::RunCommand;set screen width 132
+fss;command;rancid::RunCommand;set paginate false 
+fss;command;fss::ShowSystem;show system
+fss;command;fss::ShowInventory;show inventory 
+fss;command;fss::ShowFWinfo;show fw-info 
+fss;command;fss::ShowAll;show configuration
+#
 hitachi;script;htrancid
 hitachi;login;htlogin
 #

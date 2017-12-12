@@ -1,4 +1,6 @@
 3.99.99
+	aeos.pm: handle new power supply output format
+
 	fss.pm, et al: add Fujitsu FSS/1finity support
 
 	ulogin: fix regex typo for skipping last login msg in login sequence

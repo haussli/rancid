@@ -1,4 +1,4 @@
-package fss;
+package fss2;
 ##
 ## $Id: junos.pm.in 3736 2017-11-09 18:05:12Z heas $
 ##
@@ -7,7 +7,7 @@ package fss;
 # 
 #  RANCID - Really Awesome New Cisco confIg Differ
 #
-#  onefinity.pm - Fujitsu FSS/1finity rancid procedures
+#  onefinity.pm - Fujitsu FSS2/1finity rancid procedures
 #
 
 use 5.010;
@@ -168,7 +168,7 @@ sub ShowAll {
 	tr/\015//d;
 	next if (/^\s*$/);
 
-	# end of config - hopefully.  FSS does not have a reliable
+	# end of config - hopefully.  FSS2 does not have a reliable
 	# end-of-config tag.  appears to end with "\nPROMPT>", but not sure.
 	if (/^$prompt/ || /^\[ok\]\[/) {
 	    $found_end++;

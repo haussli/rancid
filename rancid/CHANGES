@@ -1,4 +1,6 @@
 3.99.99
+	rancid.conf.sample: move UID check after setting PATH
+
 	aeos.pm: handle new power supply output format
 
 	fss2.pm, et al: add Fujitsu FSS2/1finity support

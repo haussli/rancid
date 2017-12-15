@@ -8,12 +8,6 @@ TERM=network;export TERM
 # Collating locale
 LC_COLLATE="POSIX"; export LC_COLLATE
 #
-# Check that the effective UID is not root, which could lead to permissions
-# problems for user who is supposed to be running rancid.  If you know what
-# you are doing, disable this check by commenting these lines.
-uid=`perl -e 'print "$>"'`
-test "$uid" -eq 0 && echo "Do not run $0 as root!" && exit 1
-#
 # Create files w/o world read/write/exec permissions, but read/exec permissions
 # for group.
 umask 027
@@ -33,6 +27,12 @@ TMPDIR=/tmp; export TMPDIR
 # relative.
 BASEDIR=@localstatedir@; export BASEDIR
 PATH=@bindir@:@ENV_PATH@; export PATH
+#
+# Check that the effective UID is not root, which could lead to permissions
+# problems for user who is supposed to be running rancid.  If you know what
+# you are doing, disable this check by commenting these lines.
+uid=`perl -e 'print "$>"'`
+test "$uid" -eq 0 && echo "Do not run $0 as root!" && exit 1
 #
 # Set to the name of the sendmail executable (or script) that will accept the
 # -t option to take its rcpt and other headers from std-in and $MAILOPTS (see

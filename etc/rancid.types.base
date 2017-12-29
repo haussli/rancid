@@ -88,7 +88,7 @@ brocade;login;brlogin
 #XXX brocade;command;XXX::DomainsShow;domainsShow
 #XXX brocade;command;XXX::ConfigShow;configShow
 #
-# Ciena Waveserver (XXX WiP)
+# Ciena Waveserver
 ciena-ws;script;rancid -t ciena-ws
 ciena-ws;login;hlogin
 ciena-ws;timeout;120
@@ -413,7 +413,7 @@ fss2;command;rancid::RunCommand;set paginate false
 fss2;command;fss2::ShowSystem;show system
 fss2;command;fss2::ShowInventory;show inventory 
 fss2;command;fss2::ShowFWinfo;show fw-info 
-fss2;command;fss2::ShowAll;show configuration
+fss2;command;fss2::WriteTerm;show configuration
 #
 hitachi;script;htrancid
 hitachi;login;htlogin

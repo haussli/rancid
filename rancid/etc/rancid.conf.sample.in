@@ -32,7 +32,10 @@ PATH=@bindir@:@ENV_PATH@; export PATH
 # problems for user who is supposed to be running rancid.  If you know what
 # you are doing, disable this check by commenting these lines.
 uid=`perl -e 'print "$>"'`
-test "$uid" -eq 0 && echo "Do not run $0 as root!" && exit 1
+if [ -e /proc/1/cgroup ] ; then
+    DOCKER=`cat /proc/1/cgroup | grep "cpu.*\/docker"`
+fi
+test "x$DOCKER" = "x" && test "$uid" -eq 0 && echo "Do not run $0 as root!" && exit 1
 #
 # Set to the name of the sendmail executable (or script) that will accept the
 # -t option to take its rcpt and other headers from std-in and $MAILOPTS (see

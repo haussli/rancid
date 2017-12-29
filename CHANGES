@@ -1,4 +1,8 @@
 3.99.99
+	rancid.conf:  add check for docker environment where the root user check
+	is skipped.  this allows rancid.conf to be sourced inside a dcoker build
+	environment.
+
 	clogin: add tty settings when a real tty doesnt exist; hoping this will
 	help with the long command problem on ASA devices that I have not been
 	able to replicate on ASAs I can access

@@ -1,4 +1,6 @@
 3.99.99
+	nx.pm: filter debug_logs/ in flash output - Charles T. Brooks
+
 	rancid.conf:  add check for docker environment where the root user check
 	is skipped.  this allows rancid.conf to be sourced inside a dcoker build
 	environment.

@@ -31,8 +31,8 @@ sub import {
 sub init {
     # add content lines and separators
     ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n#\n");
-    ProcessHistory("COMMENTS","keysort","A0","!\n");
-    ProcessHistory("COMMENTS","keysort","G0","!\n");
+    ProcessHistory("COMMENTS","keysort","A0","#\n");
+    ProcessHistory("COMMENTS","keysort","B0","#\n");
 
     0;
 }
@@ -101,7 +101,7 @@ sub ShowFWinfo {
     print STDERR "    In ShowFWinfo: $_" if ($debug);
 
     s/^[a-z]+@//;
-    ProcessHistory("","","","# $_");
+    ProcessHistory("FWINFO","","","#\n# $_");
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
@@ -118,7 +118,7 @@ sub ShowInventory {
     print STDERR "    In ShowInventory: $_" if ($debug);
 
     s/^[a-z]+@//;
-    ProcessHistory("","","","# $_");
+    ProcessHistory("INVENTORY","","","#\n# $_");
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
@@ -137,7 +137,7 @@ sub ShowSystem {
     print STDERR "    In ShowSystem: $_" if ($debug);
 
     s/^[a-z]+@//;
-    ProcessHistory("","","","# $_");
+    ProcessHistory("COMMENTS","keysort","C","#\n# $_");
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
@@ -145,10 +145,10 @@ sub ShowSystem {
 
 	next if /system uptime/i;
 	/system neType\s+(.*)/ &&
-	    ProcessHistory("COMMENTS","keysort","A1","#Chassis type: $1") &&
+	    ProcessHistory("COMMENTS","keysort","A1","#Chassis type: $1\n") &&
 	    next;
 	/system softwareVersion\s+(.*)/ &&
-	    ProcessHistory("COMMENTS","keysort","G1","#Image: $1") && next;
+	    ProcessHistory("COMMENTS","keysort","B1","#Image: $1\n") && next;
 
 	ProcessHistory("","","","# $_");
     }
@@ -163,7 +163,7 @@ sub ShowAll {
     print STDERR "    In ShowAll: $_" if ($debug);
 
     s/^[a-z]+@//;
-    ProcessHistory("","","","# $_");
+    ProcessHistory("COMMENTS","","","#\n# $_");
     while (<$INPUT>) {
 	tr/\015//d;
 	next if (/^\s*$/);
@@ -229,7 +229,7 @@ sub ShowAll {
     }
 
     if ($lines < 3) {
-	printf(STDERR "ERROR: $host configuration appears truncated.\n");
+	printf(STDERR "ERROR: $host configuration appears to be truncated.\n");
 	$found_end = 0;
 	return(-1);
     }

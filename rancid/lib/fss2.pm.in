@@ -189,6 +189,11 @@ sub WriteTerm {
 		    $_ = "$1$2 \"<removed>\"$3\n";
 		}
 	}
+	# this is either cleartext or *; either way, it should be filtered.
+	if (/(\s+password\s+)[^ ;]+/) {
+	    ProcessHistory("","","","#$1<removed>$'");
+	    next;
+	}
 	if (/(\s+crypt-password\s+)[^ ;]+/ && $filter_pwds >= 2) {
 	    ProcessHistory("","","","#$1<removed>$'");
 	    next;

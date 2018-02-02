@@ -140,9 +140,9 @@ proc login { router user userpswd passwd prompt cmethod cyphertype } {
 	    exp_continue;
 	}
 	-re "NOTICE:\[^\n\r]* - display now \[^\n\r]*:" {
-	    send "no\r"
-	    exp_continue
-	}
+					  send "no\r"
+					  exp_continue
+					}
 	-re "$u_prompt"			{
 					  send -- "$user\r"
 					  set uprompt_seen 1

@@ -532,6 +532,7 @@ sub DirSlotN {
 	return(1) if (/^(-+\^|syntax error: unknown argument)$/i);	# NCS
 	return(1) if (/(No such device|Error Sending Request)/i);
 	return(1) if (/: path doesnot exists/i);	# NCS
+	return(1) if (/: Path does not exist/i);	# NCS
 	return(1) if (/\%Error: No such file or directory/);
 	return(1) if (/\%Error: No route to host/);
 	return(1) if (/No space information available/);
@@ -546,7 +547,7 @@ sub DirSlotN {
 	# filter frequently changing files from IOX bootflash, hardiska,
 	# and nvram
 	if ($dev =~ /(bootflash|disk0|harddisk|nvram)/) {
-	    if (/\s(aaa|ce_switch.log|errmsg_cont|genstr_cont|temp_cont|temp_static_data|uptime_cont|volt_cont)\s*$/) {
+	    if (/\s(\.python-history|aaa|ce_switch.log|errmsg_cont|genstr_cont|temp_cont|temp_static_data|uptime_cont|volt_cont)\s*$/) {
 		# change
 		# 57          -rw-  23100       <no date>              volt_cont
 		# 614788      drwx  4096        Fri Aug 20 12:06:25 2010  temp_cont
@@ -558,6 +559,14 @@ sub DirSlotN {
 		    my($szl) = length($sz);
 		    my($fmt) = "%s%-". $szl ."s%s%s%s";
 		    $_ = sprintf($fmt, $a, "", $c, $dt, $rem);
+		} elsif (/(\s*\d+)(\s+\S+\s+\d+\s+)(\d+\s+\w+\s+\d+\s+\d+:\d+)/) {
+		    # XR >= 6.3; dir disk0:, but harddisk: is diff format.  wtf
+		    # drop fileno size, & date.
+		    # " 8002 drwxr-xr-x 2 4096 Jan 17 15:27 np"
+		    my($fn, $perm, $dt, $rem) = ($1, $2, $3, $');
+		    my($fnl, $dtl) = (length($fn), length($dt));
+		    my($fmt) = "%-". $fnl ."s%s%-". $dtl ."s%s";
+		    $_ = sprintf($fmt, "", $perm, "", $rem);
 		} elsif (/(\s*\d+\s+\S+\s+)(\d+)(\s+)(\w+ \w+\s+\d+ \d+:\d+:\d+ \d+)/) {
 		    my($a, $sz, $c, $dt, $rem) = ($1, $2, $3, $4, $');
 		    my($szl, $dtl) = (length($sz), length($dt));

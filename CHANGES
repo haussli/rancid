@@ -1,4 +1,6 @@
 3.99.99
+	iosxr.pm: filter .python-history flash file & non-existent paths/devs
+
 	ulogin: trim match of "last login:" for timing reasons
 
 	nx.pm: filter debug_logs/ in flash output - Charles T. Brooks

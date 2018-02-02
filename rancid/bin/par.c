@@ -1,18 +1,48 @@
 /*
  * $Id: par.c 4910 2014-01-16 20:12:45Z heas $
  *
- * Copyright (C) 2002-2017 by Henry Kilmer, Andrew Partan, John Heasley
+ * Copyright (c) 1997-2018 by Henry Kilmer and John Heasley
  * All rights reserved.
  *
- * This software may be freely copied, modified and redistributed without
- * fee for non-commerical purposes provided that this copyright notice is
- * preserved intact on all copies and modified copies.
+ * This code is derived from software contributed to and maintained by
+ * Henry Kilmer, John Heasley, Andrew Partan,
+ * Pete Whiting, Austin Schutz, and Andrew Fort.
  *
- * There is no warranty or other guarantee of fitness of this software.
- * It is provided solely "as is". The author(s) disclaim(s) all
- * responsibility and liability with respect to this software's usage
- * or its effect upon hardware, computer systems, other software, or
- * anything else.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of RANCID nor the names of its
+ *    contributors may be used to endorse or promote products derived from
+ *    this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY Henry Kilmer, John Heasley AND CONTRIBUTORS
+ * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COMPANY OR CONTRIBUTORS
+ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * It is the request of the authors, but not a condition of license, that
+ * parties packaging or redistributing RANCID NOT distribute altered versions
+ * of the etc/rancid.types.base file nor alter how this file is processed nor
+ * when in relation to etc/rancid.types.conf.  The goal of this is to help
+ * suppress our support costs.  If it becomes a problem, this could become a
+ * condition of license.
+ * 
+ *  The expect login scripts were based on Erik Sherk's gwtn, by permission.
+ * 
+ *  The original looking glass software was written by Ed Kern, provided by
+ *  permission and modified beyond recognition.
  *
  * perl version of par is Copyright (C) 1997-2002 by Henry Kilmer, Erik
  * Sherk and Pete Whiting.

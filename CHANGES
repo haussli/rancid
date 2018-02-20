@@ -1,4 +1,6 @@
 3.99.99
+	hrancid: filter timestamp bug in show tech transceivers
+
 	nxos.pm: filter show redundancy/show env fex when unsupported
 
 	iosxr.pm: filter .python-history flash file & non-existent paths/devs

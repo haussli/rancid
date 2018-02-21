@@ -1,4 +1,6 @@
 3.99.99
+	ios.pm: filter new "% free" string from dir slot in new ASA code
+
 	hrancid: filter timestamp bug in show tech transceivers
 
 	nxos.pm: filter show redundancy/show env fex when unsupported

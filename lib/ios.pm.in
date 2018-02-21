@@ -1017,7 +1017,7 @@ sub ShowFlash {
 	/\s+(private-multiple-fs|multiple-fs|LISP-MapCache-IPv\S+|nv_hdr)$/ &&
 	    next;
 
-	if (/(\d+) bytes (available|total) \((\d+) bytes (free|used)\)/) {
+	if (/(\d+) bytes (available|total) \((\d+) bytes (free|used)(\/\s+% free)?\)/) {
 	    my($avail);
 	    my($preamble) = "";
 	    if ($2 eq "available") {
@@ -1143,7 +1143,7 @@ sub DirSlotN {
 	# on dual RP ASR systems
 	next if (/\.issu_loc_lock\s*$/);
 
-	if (/.*\((\d+) bytes free\)/) {
+	if (/.*\((\d+) bytes free(\/\d+% free)?\)/) {
 	    my($tmp) = $1;
 	    if ($tmp >= (1024 * 1024 * 1024)) {
 		$tmp = int($tmp / (1024 * 1024 * 1024));
@@ -1159,6 +1159,7 @@ sub DirSlotN {
 	    } else {
 		s/$1 bytes free/0 bytes free/;
 	    }
+	    s/\/\d+% free//;
 	}
 	if ($ios eq "XE" && /^((\s+)?\d+\s+\S+)\s+\d+.*(tracelogs|throughput_monitor_params)$/) {
 	    $_ = "$1" . sprintf("%43s", "") . "$3\n";

@@ -388,7 +388,26 @@ force10;login;clogin
 fortigate;script;fnrancid
 fortigate;login;fnlogin
 #
-# Foundry and HP procurve OEMs of Foundry (Brocade ICX-6450s, HP9304M)
+# Foundry and HP procurve OEMs of Foundry (Brocade ICX-6450s, HP9304M).
+# Reportedly functional on:
+# J4899[BC] 2650,
+# J4899C 2650,
+# J4900[AB] 2626,
+# J4903A 2824,
+# J9019A 2510-24,
+# J9019B 2510B-24,
+# J9020A 2510-48,
+# J9021A 2810-24G,
+# J9022A 2810-48G,
+# J9145A 2910al-24G,
+# J9279A 2510G-24,
+# J9280A 2510G-48,
+# J9772A 2530-48G-PoEP,
+# J9775A 2530-48G,
+# J9778A 2530-48-PoEP,
+# J9779A 2530-24-PoEP,
+# J9780A 2530-8-PoEP
+# 29[12]0
 foundry;script;rancid -t foundry
 foundry;login;flogin
 foundry;module;foundry

@@ -550,6 +550,30 @@ sub ShowModule {
     return(0);
 }
 
+# This routine parses "show interface transceiver".
+sub ShowIntTransceiver {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowtTransceiver: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	return if (/^\s*\^$/);
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /Line has invalid autocommand /;
+	return(1) if /(Invalid input detected|Type help or )/;
+	return(1) if (/\% Invalid command at /);
+	return(-1) if (/No token match at /);	# 1000v
+	return(-1) if (/\% Permission denied/);
+	return(-1) if (/command authorization failed/i);
+
+	ProcessHistory("COMMENTS","","","!$_");
+    }
+    ProcessHistory("COMMENTS","","","!\n");
+
+    return(0);
+}
+
 # This routine parses "show inventory".
 sub ShowInventory {
     my($INPUT, $OUTPUT, $cmd) = @_;

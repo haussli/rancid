@@ -1,4 +1,6 @@
 3.99.99
+	mrv.pm: add show inventory
+
 	ios.pm: filter new "% free" string from dir slot in new ASA code
 
 	hrancid: filter timestamp bug in show tech transceivers

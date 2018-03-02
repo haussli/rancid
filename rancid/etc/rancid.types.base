@@ -208,6 +208,7 @@ cisco-nx;command;nxos::ShowModule;show module xbar
 #cisco-nx;command;nxos::ShowModule;show module X;add, but wait for show all
 #cisco-nx;command;nxos::ShowModule;show module X epld;add, but wait for show all
 cisco-nx;command;nxos::ShowInventory;show inventory
+cisco-nx;command;nxos::ShowIntTransceiver;show interface transceiver
 cisco-nx;command;nxos::ShowVTP;show vtp status;drop?
 cisco-nx;command;nxos::ShowVLAN;show vlan
 cisco-nx;command;nxos::ShowDebug;show debug

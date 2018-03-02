@@ -1,4 +1,6 @@
 3.99.99
+	nxos.pm: add show interface transceiver
+
 	mrv.pm: add show inventory
 
 	ios.pm: filter new "% free" string from dir slot in new ASA code

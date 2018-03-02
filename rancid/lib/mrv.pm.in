@@ -128,8 +128,8 @@ sub ShowVersion {
 # This will create arrays for hw info.
 sub ShowChassis {
     my($INPUT, $OUTPUT, $cmd) = @_;
-    my($newfmt) = 0;
     # Skip if this is not a 1200n.
+    my($newfmt) = 0;
     print STDERR "    In ShowChassis: $_" if ($debug);
 
     while (<$INPUT>) {
@@ -160,6 +160,28 @@ sub ShowChassis {
     ProcessHistory("COMMENTS","","","!\n");
     return(0);
 }
+
+# This routine parses "show inventory" for the gsr
+# This will create arrays for hw info.
+sub ShowInventory {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowInventory: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*$cmd\s*)$/);
+	return(1) if /(Invalid input detected|Type help or )/;
+	return(-1) if (/command authorization failed/i);
+
+	s/\s+$//;
+
+	ProcessHistory("COMMENTS","keysort","C1","!$_\n");
+    }
+    ProcessHistory("COMMENTS","","","!\n");
+    return(0);
+}
+
 
 # This routine parses "show slots".
 sub ShowSlots {

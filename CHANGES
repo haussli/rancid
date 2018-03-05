@@ -1,4 +1,6 @@
 3.99.99
+	clogin: new info in ASA login sequence matched as login prompt
+
 	nxos.pm: add show interface transceiver
 
 	mrv.pm: add show inventory

@@ -1,4 +1,8 @@
 3.99.99
+	vrp.pm: add Hauwei VRP support - very much alpha quality ATM
+
+	xilogin: few change to support Hauwei VRP
+
 	clogin: new info in ASA login sequence matched as login prompt
 
 	nxos.pm: add show interface transceiver

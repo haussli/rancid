@@ -369,6 +369,7 @@ ezt3;login;elogin
 # f5 big-ip <=v10
 f5;script;f5rancid
 f5;login;clogin
+#
 # f5 big-ip v11
 bigip;script;rancid -t bigip
 bigip;login;clogin
@@ -597,6 +598,20 @@ sros;command;sros::ShowDebug;show debug
 sros;command;sros::ShowBOF;show bof
 sros;command;sros::WriteTermIndex;admin display-config index
 sros;command;sros::WriteTerm;admin display-config
+#
+# Hauwei VRP (S5720)
+vrp;script;rancid -t vrp
+vrp;login;xilogin
+vrp;module;vrp
+vrp;inloop;vrp::inloop
+vrp;command;vrp::DispVersion;display version
+vrp;command;vrp::DispStartup;display startup
+vrp;command;vrp::DispDevice;display device
+vrp;command;vrp::DispDeviceMfg;display device manufacture-info
+vrp;command;vrp::DispTransciever;display transceiver verbose
+vrp;command;vrp::DispDebug;display debugging
+vrp;command;vrp::DirSlotN;dir /all /all-filesystems
+vrp;command;vrp::WriteTerm;display current-configuration
 #
 xirrus;script;xirancid
 xirrus;login;xilogin

@@ -246,52 +246,17 @@ sub DirSlotN {
 	    next if (/volt_cont\s*$/);
 	}
 
-	# filter frequently changing files (dhcp & vlan database)
+	# filter frequently changing files/dirs
 	# change from:
-	#    9  -rw-         660  Jan 15 2011 20:43:54 vlan.dat
-	#    9  -rw-         660  Jan 15 2011 20:43:54 +00:00  vlan.dat
+	#     8  drw-              -  Mar 24 2018 05:46:04   logfile
 	# to:
-	#       -rw-                                   vlan.dat
-	#       -rw-                                           vlan.dat
-	if (/(dhcp_[^. ]*\.txt|vlan\.dat|sflog|snooping|syslog|underlying-config)\s*$/) {
-	    if (/(\s*\d+)(\s+\S+\s+)(\d+)(\s+)(\w+ \d+\s+\d+ \d+:\d+:\d+ .\d+:\d+)/) {
+	#        drw-                                        logfile
+	if (/(logfile|vrpcfg.zip)\s*$/) {
+	    if (/(\s*\d+)(\s+\S+\s+)([\d,]+|-)(\s+)(\w+ \d+\s+\d+ \d+:\d+:\d+ )/) {
 		my($fn, $a, $sz, $c, $dt, $rem) = ($1, $2, $3, $4, $5, $');
 		my($fnl, $szl, $dtl) = (length($fn), length($sz), length($dt));
 		my($fmt) = "%-". $fnl ."s%s%-". $szl ."s%s%-". $dtl ."s%s";
 		$_ = sprintf($fmt, "", $a, "", $c, "", $rem);
-	    } elsif (/(\s*\d+)(\s+\S+\s+)(\d+)(\s+)(\w+ \d+\s+\d+ \d+:\d+:\d+)/) {
-		my($fn, $a, $sz, $c, $dt, $rem) = ($1, $2, $3, $4, $5, $');
-		my($fnl, $szl, $dtl) = (length($fn), length($sz), length($dt));
-		my($fmt) = "%-". $fnl ."s%s%-". $szl ."s%s%-". $dtl ."s%s";
-		$_ = sprintf($fmt, "", $a, "", $c, "", $rem);
-	    } elsif (/(\s*\d+)(\s+\S+\s+)(\d+)(\s+<no date>)/i) {
-		# 32771  -rw-            24520                    <no date>  underlying-config
-		my($fn, $a, $sz, $dt, $rem) = ($1, $2, $3, $4, $');
-		my($fnl, $szl) = (length($fn), length($sz));
-		my($fmt) = "%-". $fnl ."s%s%-". $szl ."s%s%s";
-		$_ = sprintf($fmt, "", $a, "", $dt, $rem);
-	    }
-	}
-
-	# filter frequently changing files of the config archive feature
-	# change from:
-	#    9  -rw-         660  Jan 15 2011 20:43:54 running-config-archive-Jul--1-16-50-27.123-113
-	#    9  -rw-         660  Jan 15 2011 20:43:54 +00:00  running-config-archive-Jul--1-16-50-27.123-113
-	# to:
-	#       -rw-                                   running-config-archive-Jul--1-16-50-27.123-113
-	#       -rw-                                           running-config-archive-Jul--1-16-50-27.123-113
-	if (/(running-config-archive-)\S+\s*$/) {
-	    my($arc) = $1;
-	    if (/(\s*\d+)(\s+\S+\s+)(\d+)(\s+)(\w+ \d+\s+\d+ \d+:\d+:\d+ .\d+:\d+)/) {
-		my($fn, $a, $sz, $c, $dt, $rem) = ($1, $2, $3, $4, $5, $');
-		my($fnl, $szl, $dtl) = (length($fn), length($sz), length($dt));
-		my($fmt) = "%-". $fnl ."s%s%-". $szl ."s%s%-". $dtl ."s%s%s\n";
-		$_ = sprintf($fmt, "", $a, "", $c, "", $arc, "<removed>");
-	    } elsif (/(\s*\d+)(\s+\S+\s+)(\d+)(\s+)(\w+ \d+\s+\d+ \d+:\d+:\d+)/) {
-		my($fn, $a, $sz, $c, $dt, $rem) = ($1, $2, $3, $4, $5, $');
-		my($fnl, $szl, $dtl) = (length($fn), length($sz), length($dt));
-		my($fmt) = "%-". $fnl ."s%s%-". $szl ."s%s%-". $dtl ."s%s%s\n";
-		$_ = sprintf($fmt, "", $a, "", $c, "", $arc, "<removed>");
 	    }
 	}
 

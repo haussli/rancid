@@ -616,7 +616,7 @@ foreach router [lrange $argv $i end] {
 	-re "^(.+$prompt)"	{
 				  regsub -all "^\[#\\$]+\[#\\$] " $expect_out(0,string) {} junk
 				  regsub -all "\[\]\[\(\)]" $junk {\\&} junk;
-				  regsub "(.*) (\[#\\$]) " $junk {\1 (\([^ ]+\) )?\2 } prompt;
+				  regsub "(.*) (\[#\\$]) " $junk {\1 (\([^ ]+\) )?\\\2 } prompt;
 			  	}
     }
 

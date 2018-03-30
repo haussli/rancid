@@ -1,4 +1,6 @@
 3.99.99
+	iosxr.pm: filter date/size of cisco_support file
+
 	ios.pm: match WIC/VIC/HWIC slots - Rybakov Evgeny
 
 	vrp.pm: drop file number in filesystem filters

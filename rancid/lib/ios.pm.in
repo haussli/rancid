@@ -1600,7 +1600,7 @@ REDUX:	tr/\015//d;
 	}
 	# 7200, 3800, 3600, 2600, and 1700 stuff
 	if (/^(Slot)\s+(\d+(\/\d+)?):/
-	    || /^\s+(PVDM|WIC|VIC|WIC\/VIC) Slot (\d):/
+	    || /^\s+(PVDM|WIC|VIC|WIC\/VIC||WIC\/VIC\/HWIC) Slot (\d):/
 	    || /^(Encryption AIM) (\d):/
 	    || /^(AIM Module in slot:) (\d)/) {
 	    if ($1 eq "PVDM") {
@@ -1610,6 +1610,8 @@ REDUX:	tr/\015//d;
 	    } elsif ($1 eq "VIC") {
 		$WIC = "/$2";
 	    } elsif ($1 eq "WIC/VIC") {
+		$WIC = "/$2";
+	    } elsif ($1 eq "WIC/VIC/HWIC") {
 		$WIC = "/$2";
 	    } elsif ($1 eq "DSP") {
 		$WIC = "/$2";

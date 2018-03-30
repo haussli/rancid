@@ -1,4 +1,6 @@
 3.99.99
+	ios.pm: match WIC/VIC/HWIC slots - Rybakov Evgeny
+
 	vrp.pm: drop file number in filesystem filters
 
 	vrp.pm: add filesystem filters

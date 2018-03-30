@@ -1600,7 +1600,7 @@ REDUX:	tr/\015//d;
 	}
 	# 7200, 3800, 3600, 2600, and 1700 stuff
 	if (/^(Slot)\s+(\d+(\/\d+)?):/
-	    || /^\s+(PVDM|WIC|VIC|WIC\/VIC||WIC\/VIC\/HWIC) Slot (\d):/
+	    || /^\s+(PVDM|WIC|VIC|WIC\/VIC|WIC\/VIC\/HWIC) Slot (\d):/
 	    || /^(Encryption AIM) (\d):/
 	    || /^(AIM Module in slot:) (\d)/) {
 	    if ($1 eq "PVDM") {

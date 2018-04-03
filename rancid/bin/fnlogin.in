@@ -484,7 +484,11 @@ proc run_commands { prompt command } {
     set commands [split $esccommand $sep]
     set num_commands [llength $commands]
     for {set i 0} {$i < $num_commands} { incr i} {
-	send -- "[subst -nocommands [lindex $commands $i]]\r"
+	if { [lindex $commands $i] == "\u002" } {
+	    send -- "\r"
+	} else {
+	    send -- "[subst -nocommands [lindex $commands $i]]\r"
+	}
 	expect {
             -re "$prompt"			{
 						  sleep 0.5

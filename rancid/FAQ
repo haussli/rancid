@@ -1,4 +1,4 @@
-Frequently Asked Questions about rancid - last updated 20170912.
+Frequently Asked Questions about rancid - last updated 20180403.
 
 This FAQ contains information that may not apply directly to versions of
 rancid prior to 3.0.  It also contains paths containing tags such as
@@ -653,6 +653,16 @@ A. No.  rancid-discuss@, etc. are not Mail Transport Agent (MTA) support
    mail to the per-rancid-group aliases manually using your favorite Mail User
    Agent (MUA) (Mail, mail, mutt, pine, etc) and see debugging options that
    your MTA and MUA offer for providing more logs, delivery receipts, etc.
+
+
+Q. I just want to store configrurations, I do not want to receive diffs.  How
+   can I accomplish this?
+A. Use procmail to filter them out of your inbox.
+   OR, redirect the mail aliases in your MTA's aliases file or database to a
+   mailman list with no subscribers.
+   OR, redirect the mail aliases to /dev/null.
+   OR, set DIFFSCRIPT in rancid.conf to something that eats it's input, such
+   as "dd of=/dev/null bs=16k".
 
 
 7) I am still stuck

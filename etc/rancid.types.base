@@ -370,6 +370,21 @@ ezt3;login;elogin
 f5;script;f5rancid
 f5;login;clogin
 #
+# Cisco FirePower / FX-OS
+# XXX need access to one these to write the module
+#fxos;script;rancid -t fxos
+#fxos;login;clogin
+#fxos;module;fxos
+#fxos;inloop;fxos::inloop
+#fxos;command;fxos::ShowVersion;show chassis firmware detail
+#fxos;command;fxos::ShowVersion;show chassis detail
+#fxos;command;fxos::ShowVersion;show chassis environment expand detail
+#fxos;command;fxos::ShowVersion;show chassis inventory detail
+#fxos;command;fxos::ShowVersion;show license all
+#fxos;command;fxos::ShowVersion;show fault
+#fxos;command;fxos::ShowVersion;show eth-uplink expand
+#fxos;command;fxos::WriteTerm;show configuration
+#
 # f5 big-ip v11
 bigip;script;rancid -t bigip
 bigip;login;clogin

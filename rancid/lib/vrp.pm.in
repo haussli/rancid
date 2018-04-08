@@ -218,8 +218,6 @@ sub DirSlotN {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In DirSlotN: $_" if ($debug);
 
-    my($dev) = (/\s([^\s]+):/);
-
     ProcessHistory("FLASH","","", "!\n");
     while (<$INPUT>) {
 	tr/\015//d;
@@ -232,19 +230,9 @@ sub DirSlotN {
 	return(1) if (/(wrong device|no such device|error sending request)/i);
 	return(1) if (/\%Error: No such file or directory/);
 	return(1) if (/No space information available/);
-	# Corrupt flash
-	/\%Error calling getdents / &&
-	    ProcessHistory("FLASH","","","!Flash: $dev: $_") && next;
 	return(-1) if (/\%Error calling/);
-	return(-1) if (/(: device being squeezed|ATA_Status time out)/i); # busy
-	return(-1) if (/\%Error opening \S+:\S+ \(Device or resource busy\)/i);
+	return(-1) if (/\%error opening \S+:\S+ \(device or resource busy\)/i);
 	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
-	# filter frequently changing files from IOX bootflash
-	if ($dev =~ /bootflash/) {
-	    next if (/temp_cont\s*$/);
-	    next if (/uptime_cont\s*$/);
-	    next if (/volt_cont\s*$/);
-	}
 
 	# filter frequently changing files/dirs
 	# change from:
@@ -269,31 +257,12 @@ sub DirSlotN {
 	}
 
 	# summarize the total/free line
-	if (/.*\(([\d,]+) (\S+) free\)/i) {
+	if (/^\s*([\d,]+ \S+)\s+total\s+\(([\d,]+ \S+) free\)/i) {
 	    my($sz, $mp) = ($1, $2);
-	    $sz =~ s/,//;
-	    if ($2 eq "KB") {
-		$sz = $sz * 1024;
-	    } elsif ($2 eq "MB") {
-		$sz = $sz * 1024 * 1024;
-	    }
-	    if ($sz >= (1024 * 1024 * 1024)) {
-		$sz = int($sz / (1024 * 1024 * 1024));
-		s/\(.* free/($sz GB free/;
-	    } elsif ($sz >= (1024 * 1024)) {
-		$sz = int($sz / (1024 * 1024));
-		s/\(.* free/($sz MB free/;
-	    } elsif ($sz >= (1024)) {
-		$sz = int($sz / 1024);
-		s/\(.* free/($sz KB free/;
-	    } elsif ($sz > 0) {
-		s/\(.* free/(< 1KB free/;
-	    } else {
-		s/\(.* free/(0 bytes free/;
-	    }
+	    $_ = diskszsummary($sz, $mp, undef) . "\n";
 	}
 
-	ProcessHistory("FLASH","","","!Flash: $dev: $_");
+	ProcessHistory("FLASH","","","!Flash: $_");
     }
     ProcessHistory("","","","!\n");
     return(0);

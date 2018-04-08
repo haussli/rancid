@@ -39,14 +39,14 @@ sub init {
     $I0 = 0;
 
     # add content lines and separators
-    ProcessHistory("","","","!RANCID-CONTENT-TYPE: $devtype\n!\n");
-    ProcessHistory("COMMENTS","keysort","B0","!\n");
-    ProcessHistory("COMMENTS","keysort","C0","!\n");
-    ProcessHistory("COMMENTS","keysort","D0","!\n");
-    ProcessHistory("COMMENTS","keysort","E0","!\n");
-    ProcessHistory("COMMENTS","keysort","E2","!\n");
-    ProcessHistory("COMMENTS","keysort","F0","!\n");
-    ProcessHistory("COMMENTS","keysort","G0","!\n");
+    ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n#\n");
+    ProcessHistory("COMMENTS","keysort","B0","#\n");
+    ProcessHistory("COMMENTS","keysort","C0","#\n");
+    ProcessHistory("COMMENTS","keysort","D0","#\n");
+    ProcessHistory("COMMENTS","keysort","E0","#\n");
+    ProcessHistory("COMMENTS","keysort","E2","#\n");
+    ProcessHistory("COMMENTS","keysort","F0","#\n");
+    ProcessHistory("COMMENTS","keysort","G0","#\n");
 
     0;
 }
@@ -118,16 +118,16 @@ sub DispVersion {
 
 	s/\s+uptime\s.*//;
 	/^huawei\s(.*)/i &&
-	    ProcessHistory("COMMENTS","keysort","A1", "!Chassis type: $1\n") && next;
+	    ProcessHistory("COMMENTS","keysort","A1", "#Chassis type: $1\n") && next;
 	if (/^DDR\s*Memory\s*Size\s*:\s(.*)/i) {
 	    $_ = $1;
 	    s/  */ /g;
-	    ProcessHistory("COMMENTS","keysort","B1", "!Memory: $_\n") && next;
+	    ProcessHistory("COMMENTS","keysort","B1", "#Memory: $_\n") && next;
 	}
 	/^software\s*version\s*:\s(.*)/i &&
-	    ProcessHistory("COMMENTS","keysort","D1", "!Image: $1\n");
+	    ProcessHistory("COMMENTS","keysort","D1", "#Image: $1\n");
 
-	ProcessHistory("COMMENTS","keysort","E3", "!$_");
+	ProcessHistory("COMMENTS","keysort","E3", "#$_");
     }
     return(0);
 }
@@ -145,7 +145,7 @@ sub DispStartup {
 	return(1) if (/((invalid|unrecognized) (input|command) detected|type help or )/i);
 	return(-1) if (/failed to pass the authorization/i);
 
-	ProcessHistory("COMMENTS","keysort","D2", "!$_") && next;
+	ProcessHistory("COMMENTS","keysort","D2", "#$_") && next;
     }
     return(0);
 }
@@ -165,7 +165,7 @@ sub DispDevice {
 
 	/device status:/i && next;
 
-	ProcessHistory("COMMENTS","keysort","F1", "!$_") && next;
+	ProcessHistory("COMMENTS","keysort","F1", "#$_") && next;
     }
     return(0);
 }
@@ -183,7 +183,7 @@ sub DispDeviceMfg {
 	return(1) if (/((invalid|unrecognized) (input|command) detected|type help or )/i);
 	return(-1) if (/failed to pass the authorization/i);
 
-	ProcessHistory("COMMENTS","keysort","E1", "!$_") && next;
+	ProcessHistory("COMMENTS","keysort","E1", "#$_") && next;
     }
     return(0);
 }
@@ -208,7 +208,7 @@ sub DispTransciever {
 	/^----*/i && next;
 	/^diagnostic information/i && last;
 
-	ProcessHistory("COMMENTS","keysort","G1", "!$_") && next;
+	ProcessHistory("COMMENTS","keysort","G1", "#$_") && next;
     }
     return(0);
 }
@@ -218,7 +218,7 @@ sub DirSlotN {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In DirSlotN: $_" if ($debug);
 
-    ProcessHistory("FLASH","","", "!\n");
+    ProcessHistory("FLASH","","", "#\n");
     while (<$INPUT>) {
 	tr/\015//d;
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -262,9 +262,9 @@ sub DirSlotN {
 	    $_ = diskszsummary($sz, $mp, undef) . "\n";
 	}
 
-	ProcessHistory("FLASH","","","!Flash: $_");
+	ProcessHistory("FLASH","","","#Flash: $_");
     }
-    ProcessHistory("","","","!\n");
+    ProcessHistory("","","","#\n");
     return(0);
 }
 
@@ -282,11 +282,11 @@ sub DispDebug {
 	return(1) if (/((invalid|unrecognized) (input|command) detected|type help or )/i);
 	return(-1) if (/failed to pass the authorization/i);
 
-	ProcessHistory("COMMENTS","keysort","J1","!DEBUG: $_");
+	ProcessHistory("COMMENTS","keysort","J1","#DEBUG: $_");
 	$lines++;
     }
     if ($lines) {
-	ProcessHistory("COMMENTS","keysort","J0","!\n");
+	ProcessHistory("COMMENTS","keysort","J0","#\n");
     }
     return(0);
 }
@@ -323,7 +323,7 @@ TOP:
 	if (/^ local-user (\S+)(\s.*)? cipher (\S+)/) {
 	    if ($filter_pwds >= 1) {
 		ProcessHistory("USER","keysort","$1",
-			       "!local-user $1$2 cipher <removed>\n");
+			       "#local-user $1$2 cipher <removed>\n");
 	    } else {
 		ProcessHistory("USER","keysort","$1","$_");
 	    }
@@ -332,7 +332,7 @@ TOP:
 	if (/^ local-user (\S+)(\s.*)? irreversible-cipher (\S+)/) {
 	    if ($filter_pwds >= 2) {
 		ProcessHistory("USER","keysort","$1",
-			       "!local-user $1$2 irreversible-cipher <removed>\n");
+			       "#local-user $1$2 irreversible-cipher <removed>\n");
 	    } else {
 		ProcessHistory("USER","keysort","$1","$_");
 	    }
@@ -343,7 +343,7 @@ TOP:
 
 # XXX how are bgp neighbors configured on VRP?
 #	if (/^\s*(.*?neighbor.*?) (\S*) password / && $filter_pwds >= 1) {
-#	    ProcessHistory("","","","! $1 $2 password <removed>\n");
+#	    ProcessHistory("","","","# $1 $2 password <removed>\n");
 #	    next;
 #	}
 # XXX how is bgp policy configured on VRP?
@@ -463,7 +463,7 @@ TOP:
 #		    } elsif ($token =~ /^(informs?|traps?|(no)?auth)$/) {
 #			$line .= " " . $token;
 #		    } else {
-#			$line = "!$line " . join(' ', ("<removed>",
+#			$line = "#$line " . join(' ', ("<removed>",
 #						 join(' ',@tokens)));
 #			last;
 #		    }
@@ -478,7 +478,7 @@ TOP:
 #	# prune tacacs/radius server keys
 #	if (/^((tacacs|radius)-server\s(\w*[-\s(\s\S+])*\s?key) (\d )?\S+/
 #	    && $filter_pwds >= 1) {
-#	    ProcessHistory("","","","!$1 <removed>$'"); next;
+#	    ProcessHistory("","","","#$1 <removed>$'"); next;
 #	}
 # XXX how are static clns hosts configured on VRP?
 #	# order clns host statements
@@ -487,7 +487,7 @@ TOP:
 # XXX how is ntp configured on VRP?
 #	# delete ntp auth password - this md5 is a reversable too
 #	if (/^(ntp authentication-key \d+ md5) / && $filter_pwds >= 1) {
-#	    ProcessHistory("","","","!$1 <removed>\n"); next;
+#	    ProcessHistory("","","","#$1 <removed>\n"); next;
 #	}
 #	# order ntp peers/servers
 #	if (/^ntp (server|peer) (\d+)\.(\d+)\.(\d+)\.(\d+)/) {

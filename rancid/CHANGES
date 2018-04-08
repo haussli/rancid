@@ -1,4 +1,6 @@
 3.99.99
+	rancid.pm: add bytes2human(), diskszsummary(), human2bytes()
+
 	junos.pm: adjust match for backup RE communication failure.
 
 	ios.pm: filter date/size of underlying-config file

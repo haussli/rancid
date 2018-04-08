@@ -51,8 +51,10 @@ our @EXPORT = qw($VERSION $devtype $script $lscript @modules $inloop
 		$filter_commstr $filter_osc $filter_pwds $aclsort $aclfilterseq
 		$log $debug $file $host $clean_run $found_end $timeo $prompt
 		rancidinit loadtype
-		ProcessHistory numerically keynsort keysort valsort numsort
-		ipsort ipaddrval sortbyipaddr
+		
+		ProcessHistory bytes2human diskszsummary human2bytes
+		ipsort ipaddrval
+		keynsort keysort numerically numsort sortbyipaddr valsort
 		RunCommand);
 
 BEGIN {
@@ -288,6 +290,72 @@ sub ProcessHistory {
     $command = $new_command;
 
     1;
+}
+
+# convert bytes to human-readable format (ie GB/MB/KB/etc)
+sub bytes2human {
+    my($cnt) = @_;
+
+    if ($cnt >= (1024 * 1024 * 1024)) {
+	$cnt = int($cnt / (1024 * 1024 * 1024));
+	return("$cnt GB");
+    } elsif ($cnt >= (1024 * 1024)) {
+	$cnt = int($cnt / (1024 * 1024));
+	return("$cnt MB");
+    } elsif ($cnt >= (1024)) {
+	$cnt = int($cnt / 1024);
+	return("$cnt KB");
+    } elsif ($cnt > 0) {
+	return("<1KB");
+    } else {
+	return("0 KB");
+    }
+}
+
+# summarize total flash/disk space as human-readable form and remaining space
+# as a percentage.  unknown variables should be 'undef'.  returns a string,
+# without a trailing <CR>.
+sub diskszsummary {
+    my($total, $free, $used) = @_;
+    my($pcnt);
+
+    # remove commas
+    $total = human2bytes($total) if (defined($total));
+    $free = human2bytes($free) if (defined($free));
+    $used = human2bytes($used) if (defined($used));
+
+    if (defined($free)) {
+	$pcnt = int($free / $total * 100);
+    } elsif (defined($used)) {
+	$pcnt = int(($total - $used) / $total * 100);
+    } else {
+	$total = $free + $used;
+	$pcnt = int($free / $total * 100);
+    }
+
+    $total = bytes2human($total);
+
+    return("$total total ($pcnt% free)");
+}
+
+# convert human-readable format (ie GB/MB/KB/etc) to bytes
+sub human2bytes {
+    my($cnt) = @_;
+    my($mp);
+
+    $cnt =~ s/,//g;
+
+    if ($cnt =~ /gb/i) {
+	$mp = 1024 * 1024 * 1024;
+    } elsif ($cnt =~ /mb/i) {
+	$mp = 1024 * 1024;
+    } elsif ($cnt =~ /kb/i) {
+	$mp = 1024;
+    } else {
+	$mp = 1;
+    }
+    $cnt =~ /(\d+)/;
+    return($1 * $mp);
 }
 
 sub numerically { $a <=> $b; }

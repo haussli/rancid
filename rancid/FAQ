@@ -1,4 +1,4 @@
-Frequently Asked Questions about rancid - last updated 20180403.
+Frequently Asked Questions about rancid - last updated 20180408.
 
 This FAQ contains information that may not apply directly to versions of
 rancid prior to 3.0.  It also contains paths containing tags such as
@@ -249,10 +249,11 @@ A. Our usual diagnostic procedure for this is:
 
         clogin cisco_router
 
-     Should login to cisco_router and produce a router prompt that you can
-     use normally, as if clogin were not used (i.e.: telnet cisco_router).
+     This should login to cisco_router and produce a router prompt that you
+     can use normally (interactively), as if clogin were not used (i.e.:
+     telnet cisco_router).  Also, see the next FAQ entry.
 
-   - See if commands can be executed on the router via clogin.  This will
+   - Verify that commands can be executed on the router via clogin.  This will
      exercise the *login functionality needed for rancid.  For example:
 
         clogin -c 'show version; show diag' cisco_router
@@ -274,6 +275,12 @@ A. Our usual diagnostic procedure for this is:
 
    If all of these work, make sure that the device's entry in the group's
    router.db file is correct and check the group's last log file for errors.
+
+
+Q. A login script is failing to login to a device with an authentication error.
+   I have the correct information in my .cloginrc.
+A. It is useful to verify that the information that you this is used, really
+   id.  See clogin(1) for the [Mm] options.
 
 
 Q. I am receiving persistent diffs for up/down/added/deleted devices in

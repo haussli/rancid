@@ -465,6 +465,7 @@ sub ShowBoot {
 sub DirSlotN {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In DirSlotN: $_" if ($debug);
+    my($free);
 
     my($dev) = (/\s([^\s]+):/);
 
@@ -513,9 +514,13 @@ sub DirSlotN {
 	    }
 	}
 
-	if (/^\s*(\d+) bytes /) {
-	    my($tmp) = int($1 / (1024 * 1024));
-	    s/$1 bytes /$tmp MB /;
+	if (/^\s*(\d+) bytes free/i) {
+	    $free = $1;
+	    next;
+	} elsif (/^\s*(\d+) bytes used/i) {
+	    next;
+	} elsif (/^\s*(\d+) bytes total/i) {
+	    $_ = diskszsummary($1, $free, undef) . "\n";
 	}
 
 	ProcessHistory("COMMENTS","","","!Flash: $dev: $_");

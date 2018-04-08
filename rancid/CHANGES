@@ -1,4 +1,6 @@
 3.99.99
+	nxos.pm: use diskszsummary() for disk space
+
 	rancid.pm: add bytes2human(), diskszsummary(), human2bytes()
 
 	junos.pm: adjust match for backup RE communication failure.

@@ -338,7 +338,7 @@ sub diskszsummary {
     return("$total total ($pcnt% free)");
 }
 
-# convert human-readable format (ie GB/MB/KB/etc) to bytes
+# convert human-readable format (like "300,024 GB/MB/KB/etc") to bytes
 sub human2bytes {
     my($cnt) = @_;
     my($mp);

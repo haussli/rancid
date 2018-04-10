@@ -1,4 +1,7 @@
 3.99.99
+	rancid.type.base: remove dir command from edgemax, no useful data and
+	produces endless diffs - Reuben Farrelly & Clemens Shrimpe
+
 	nxos.pm: use diskszsummary() for disk space
 
 	rancid.pm: add bytes2human(), diskszsummary(), human2bytes()

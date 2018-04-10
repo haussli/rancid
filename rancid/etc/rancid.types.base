@@ -316,7 +316,6 @@ edgemax;command;edgemax::ShowHardware;show hardware
 edgemax;command;edgemax::ShowBootvar;show bootvar
 edgemax;command;edgemax::ShowEnvironment;show environment
 edgemax;command;edgemax::ShowDebug;show debug
-edgemax;command;edgemax::DirSlotN;dir
 edgemax;command;edgemax::WriteTerm;show running-config
 #
 # UBNT EdgeRouter

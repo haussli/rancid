@@ -100,26 +100,6 @@ sub ShowVersion {
     return(0);
 }
 
-# This routine parses "Dir"
-sub DirSlotN {
-    my($INPUT, $OUTPUT) = @_;
-    my($slot);
-
-    print STDERR "    In DirSlotN: $_" if ($debug);
-
-    while (<$INPUT>) {
-	tr/\015//d;
-	last if (/^$prompt/);
-	next if (/^\s+\^$/);
-        return(1) if (/invalid (input|command) detected/i);
-	next if /^\s*$/;
-
-	ProcessHistory("FLASH","","","!$_");
-    }
-    ProcessHistory("FLASH","","","!\n");
-    return(0);
-}
-
 # This routine parses "show bootvar"
 sub ShowBootvar {
     my($INPUT, $OUTPUT) = @_;

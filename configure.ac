@@ -493,7 +493,6 @@ AC_SUBST_FILE([login_top])
 copyright=$srcdir/COPYING
 login_top=$srcdir/bin/login_top
 
-AC_CONFIG_FILES(bin/control_rancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/a10login, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/agmrancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/alogin bin/arancid, [chmod a+x $ac_file])

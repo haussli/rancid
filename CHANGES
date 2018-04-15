@@ -1,4 +1,6 @@
 3.99.99
+	control_rancid: @sysconfdir@ not fully expanded
+
 	rancid.type.base: remove dir command from edgemax, no useful data and
 	produces endless diffs - Reuben Farrelly & Clemens Shrimpe
 

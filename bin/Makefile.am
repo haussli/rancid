@@ -23,7 +23,7 @@ bin_SCRIPTS = a10login alogin agmrancid anlogin arancid \
 	rivrancid rrancid rtftpcopy srancid tlogin trancid ulogin wlogin \
 	xilogin xirancid xlogin zrancid
 # XXX hack for the rancid to get pkglibdir, see corresponding XXX below
-bin_in = hrancid.in plogin.in rancid.in srancid.in
+bin_in = control_rancid.in hrancid.in plogin.in rancid.in srancid.in
 
 bin_SCRIPTS += lg.cgi lgform.cgi rancid-cvs rancid-fe rancid-run
 EXTRA_DIST= lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in \
@@ -64,6 +64,7 @@ auto_edit = sed \
 	-e 's,@localstatedir\@,$(localstatedir),g' \
 	-e 's,@pkglibdir\@,$(pkglibdir),g' \
 	-e 's,@sysconfdir\@,$(sysconfdir),g' \
+	-e 's,@DIFF_CMD\@,$(DIFF_CMD),g' \
 	-e 's,@EXPECT_PATH\@,$(EXPECT_PATH),g' \
 	-e 's,@PERLV\@,$(PERLV),g' \
 	-e 's,@PERLV_PATH\@,$(PERLV_PATH),g' \
@@ -88,6 +89,7 @@ $(bin_in:%.in=%): Makefile $(top_builddir)/config.status ../COPYING
 # XXX there must be a better way to produce these dependencies, perhaps in
 #     configure, but more likely need a depend target.
 alogin: $(srcdir)/alogin.in
+control_rancid: $(srcdir)/control_rancid.in
 hlogin: $(srcdir)/hlogin.in
 hrancid: $(srcdir)/hrancid.in
 plogin: $(srcdir)/plogin.in

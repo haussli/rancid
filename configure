@@ -6119,8 +6119,6 @@ ac_config_files="$ac_config_files bin/login_top"
 copyright=$srcdir/COPYING
 login_top=$srcdir/bin/login_top
 
-ac_config_files="$ac_config_files bin/control_rancid"
-
 ac_config_files="$ac_config_files bin/a10login"
 
 ac_config_files="$ac_config_files bin/agmrancid"
@@ -6946,7 +6944,6 @@ do
     "include/version.h") CONFIG_FILES="$CONFIG_FILES include/version.h" ;;
     "include/config.h") CONFIG_HEADERS="$CONFIG_HEADERS include/config.h" ;;
     "bin/login_top") CONFIG_FILES="$CONFIG_FILES bin/login_top" ;;
-    "bin/control_rancid") CONFIG_FILES="$CONFIG_FILES bin/control_rancid" ;;
     "bin/a10login") CONFIG_FILES="$CONFIG_FILES bin/a10login" ;;
     "bin/agmrancid") CONFIG_FILES="$CONFIG_FILES bin/agmrancid" ;;
     "bin/alogin") CONFIG_FILES="$CONFIG_FILES bin/alogin" ;;
@@ -7726,7 +7723,6 @@ $as_echo X"$file" |
   done
 }
  ;;
-    "bin/control_rancid":F) chmod a+x $ac_file ;;
     "bin/a10login":F) chmod a+x $ac_file ;;
     "bin/agmrancid":F) chmod a+x $ac_file ;;
     "bin/alogin":F) chmod a+x $ac_file ;;

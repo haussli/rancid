@@ -97,14 +97,14 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES = login_top control_rancid a10login agmrancid \
-	alogin arancid anlogin avologin avorancid blogin brancid \
-	brlogin cat5rancid clogin csblogin cssrancid dllogin elogin \
-	erancid f5rancid f10rancid flogin fnlogin fnrancid hlogin \
-	htlogin htrancid jlogin jerancid mrancid mrvlogin mtrancid \
-	mtlogin nlogin nrancid noklogin nslogin nsrancid panlogin \
-	prancid rblogin rivlogin rivrancid rrancid rtftpcopy tlogin \
-	trancid xilogin xirancid xlogin ulogin wlogin zrancid
+CONFIG_CLEAN_FILES = login_top a10login agmrancid alogin arancid \
+	anlogin avologin avorancid blogin brancid brlogin cat5rancid \
+	clogin csblogin cssrancid dllogin elogin erancid f5rancid \
+	f10rancid flogin fnlogin fnrancid hlogin htlogin htrancid \
+	jlogin jerancid mrancid mrvlogin mtrancid mtlogin nlogin \
+	nrancid noklogin nslogin nsrancid panlogin prancid rblogin \
+	rivlogin rivrancid rrancid rtftpcopy tlogin trancid xilogin \
+	xirancid xlogin ulogin wlogin zrancid
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -202,9 +202,8 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/a10login.in \
 	$(srcdir)/avologin.in $(srcdir)/avorancid.in \
 	$(srcdir)/blogin.in $(srcdir)/brancid.in $(srcdir)/brlogin.in \
 	$(srcdir)/cat5rancid.in $(srcdir)/clogin.in \
-	$(srcdir)/control_rancid.in $(srcdir)/csblogin.in \
-	$(srcdir)/cssrancid.in $(srcdir)/dllogin.in \
-	$(srcdir)/elogin.in $(srcdir)/erancid.in \
+	$(srcdir)/csblogin.in $(srcdir)/cssrancid.in \
+	$(srcdir)/dllogin.in $(srcdir)/elogin.in $(srcdir)/erancid.in \
 	$(srcdir)/f10rancid.in $(srcdir)/f5rancid.in \
 	$(srcdir)/flogin.in $(srcdir)/fnlogin.in $(srcdir)/fnrancid.in \
 	$(srcdir)/hlogin.in $(srcdir)/htlogin.in $(srcdir)/htrancid.in \
@@ -361,7 +360,7 @@ bin_SCRIPTS = a10login alogin agmrancid anlogin arancid avologin \
 	srancid tlogin trancid ulogin wlogin xilogin xirancid xlogin \
 	zrancid lg.cgi lgform.cgi rancid-cvs rancid-fe rancid-run
 # XXX hack for the rancid to get pkglibdir, see corresponding XXX below
-bin_in = hrancid.in plogin.in rancid.in srancid.in
+bin_in = control_rancid.in hrancid.in plogin.in rancid.in srancid.in
 EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in \
 	$(bin_in) login_top.in
 
@@ -392,6 +391,7 @@ auto_edit = sed \
 	-e 's,@localstatedir\@,$(localstatedir),g' \
 	-e 's,@pkglibdir\@,$(pkglibdir),g' \
 	-e 's,@sysconfdir\@,$(sysconfdir),g' \
+	-e 's,@DIFF_CMD\@,$(DIFF_CMD),g' \
 	-e 's,@EXPECT_PATH\@,$(EXPECT_PATH),g' \
 	-e 's,@PERLV\@,$(PERLV),g' \
 	-e 's,@PERLV_PATH\@,$(PERLV_PATH),g' \
@@ -440,8 +440,6 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
 login_top: $(top_builddir)/config.status $(srcdir)/login_top.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-control_rancid: $(top_builddir)/config.status $(srcdir)/control_rancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 a10login: $(top_builddir)/config.status $(srcdir)/a10login.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
@@ -872,6 +870,7 @@ $(bin_in:%.in=%): Makefile $(top_builddir)/config.status ../COPYING
 # XXX there must be a better way to produce these dependencies, perhaps in
 #     configure, but more likely need a depend target.
 alogin: $(srcdir)/alogin.in
+control_rancid: $(srcdir)/control_rancid.in
 hlogin: $(srcdir)/hlogin.in
 hrancid: $(srcdir)/hrancid.in
 plogin: $(srcdir)/plogin.in

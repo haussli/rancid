@@ -341,7 +341,7 @@ TOP:
 	/^ local-user (\S+)(\s.*)? / &&
 	    ProcessHistory("USER","keysort","$1", "$_") && next;
 
-# XXX how are bgp neighbors configured on VRP?
+	# bgp neighbor passwords
 	if (/^(\s+peer \S* password simple)/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","# $1 <removed>\n");
 	    next;

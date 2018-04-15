@@ -317,7 +317,7 @@ TOP:
 
 	$linecnt++;
 	# skip the crap
-	/^! software version/i && next;
+	/^!\s*software version/i && next;
 
 	# Dog gone Cool matches to process the rest of the config
 	if (/^ local-user (\S+)(\s.*)? cipher (\S+)/) {
@@ -342,10 +342,14 @@ TOP:
 	    ProcessHistory("USER","keysort","$1", "$_") && next;
 
 # XXX how are bgp neighbors configured on VRP?
-#	if (/^\s*(.*?neighbor.*?) (\S*) password / && $filter_pwds >= 1) {
-#	    ProcessHistory("","","","# $1 $2 password <removed>\n");
-#	    next;
-#	}
+	if (/^(\s+peer \S* password simple)/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","# $1 <removed>\n");
+	    next;
+	}
+	if (/^(\s+peer \S* password cipher)/ && $filter_pwds >= 2) {
+	    ProcessHistory("","","","# $1 <removed>\n");
+	    next;
+	}
 # XXX how is bgp policy configured on VRP?
 #	# sort route-maps
 #	if (/^route-map (\S+)/) {

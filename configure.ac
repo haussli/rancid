@@ -418,7 +418,7 @@ AH_TOP([
 AH_BOTTOM([
 
 /* damned linux... */
-#ifdef LINUX
+#if defined(LINUX) || defined(linux)
 # define _GNU_SOURCE
 #endif
 

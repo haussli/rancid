@@ -440,6 +440,11 @@ proc run_commands { prompt command } {
 						  send -h "exit\r"
 						  exp_continue;
 						}
+	-re "^\[^\n\r *]*Use .quit. to end"	{
+						  # the F5 >=11 uses quit
+						  send -h "quit\r"
+						  exp_continue;
+						}
 	"The system has unsaved changes"	{ # Force10 SFTOS
 						  if {$do_saveconfig} {
 						    catch {send "y\r"}

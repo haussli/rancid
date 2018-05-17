@@ -371,10 +371,10 @@ f5;login;clogin
 #
 # Cisco FirePower / FX-OS
 # XXX need access to one these to write the module
-#fxos;script;rancid -t fxos
-#fxos;login;clogin
-#fxos;module;fxos
-#fxos;inloop;fxos::inloop
+fxos;script;rancid -t fxos
+fxos;login;clogin
+fxos;module;fxos
+fxos;inloop;fxos::inloop
 #fxos;command;fxos::ShowVersion;show chassis firmware detail
 #fxos;command;fxos::ShowVersion;show chassis detail
 #fxos;command;fxos::ShowVersion;show chassis environment expand detail
@@ -383,6 +383,21 @@ f5;login;clogin
 #fxos;command;fxos::ShowVersion;show fault
 #fxos;command;fxos::ShowVersion;show eth-uplink expand
 #fxos;command;fxos::WriteTerm;show configuration
+fxos;command;fxos::ShowInventory;show inventory
+fxos;command;fxos::ShowModel;show model
+fxos;command;fxos::ShowDisk;show disk
+fxos;command;fxos::DirSlotN;dir /all
+fxos;command;fxos::ShowMode;show mode
+fxos;command;fxos::ShowNetwork;show network
+fxos;command;fxos::ShowNetwork;show network-static-routes
+fxos;command;fxos::ShowNetwork;show network-dhcp-server
+fxos;command;fxos::WriteTerm;show running-config
+fxos;command;fxos::WriteTerm;show startup-config
+fxos;command;fxos::RunCommand;connect fxos # and change prompt
+fxos;command;fxos::RunCommand;term len 0
+fxos;command;fxos::WriteTerm;show configuration
+fxos;command;fxos::ShowFirmware;show system firmware detail
+fxos;command;fxos::ShowChassis;show chassis inventory detail
 #
 # f5 big-ip v11
 bigip;script;rancid -t bigip

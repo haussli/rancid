@@ -1,4 +1,6 @@
 3.99.99
+	rancid.type.base: add bigip13 for >=13.x -  Howard Jones
+
 	control_rancid: @sysconfdir@ not fully expanded
 
 	rancid.type.base: remove dir command from edgemax, no useful data and

@@ -1,4 +1,6 @@
 3.99.99
+	clogin: add clause to recognize F5 >=11 "exit" command error msg
+
 	rancid.type.base: add bigip13 for >=13.x -  Howard Jones
 
 	control_rancid: @sysconfdir@ not fully expanded

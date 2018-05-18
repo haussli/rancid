@@ -66,7 +66,7 @@ $ENV{PATH}="@prefix@/bin:@ENV_PATH@";
 #
 #
 # LG_ROUTERDB	is the router.db in rancid's router.db format, listing
-#		the routers and their platform that should be available to
+#		the routers and their platform that should be available in
 #		the looking glass.  if defined, the LG will use this variable
 #		to find the router.db.  if not defined, it will look for it
 #		at <prefix>/<sysconfdir>/router.db.  if it does not exist, it

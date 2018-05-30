@@ -456,6 +456,7 @@ fxos;command;fxos::ShowModel;show model
 fxos;command;fxos::ShowInventory;show inventory
 fxos;command;fxos::DirSlotN;dir /all
 fxos;command;fxos::ShowMode;show mode
+fxos;command;fxos::ShowManagers;show managers
 fxos;command;fxos::ShowNetwork;show network
 fxos;command;fxos::ShowNetwork;show network-static-routes
 fxos;command;fxos::ShowNetwork;show network-dhcp-server

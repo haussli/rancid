@@ -1,4 +1,6 @@
 3.99.99
+	fxlogin, fxos: initial FX-OS support - thanks Erik Muller
+
 	sros: filter change since last save line
 
 	clogin: add clause to recognize F5 >=11 "exit" command error msg

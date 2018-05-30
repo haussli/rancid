@@ -339,7 +339,14 @@ sub ShowSystemInfo {
 
 	/^[-=]+$/i && next;
 	/system up time/i && next;
+	# User Last Modified     : someuname
+	# Time Last Modified     : 2018/05/29 09:15:32
+	/(user|time) last modified/i && next;
+	# Changes Since Last Save: Yes
+	/changes since last save/i && next;
 	/time last saved/i && next;
+
+
 	if (/system type\s+:\s+(.*)/i) {
 	    $proc = $1;
 	    ProcessHistory("COMMENTS","keysort","B4",

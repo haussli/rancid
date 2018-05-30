@@ -6151,6 +6151,8 @@ ac_config_files="$ac_config_files bin/flogin"
 
 ac_config_files="$ac_config_files bin/fnlogin bin/fnrancid"
 
+ac_config_files="$ac_config_files bin/fxlogin"
+
 ac_config_files="$ac_config_files bin/hlogin"
 
 ac_config_files="$ac_config_files bin/htlogin bin/htrancid"
@@ -6966,6 +6968,7 @@ do
     "bin/flogin") CONFIG_FILES="$CONFIG_FILES bin/flogin" ;;
     "bin/fnlogin") CONFIG_FILES="$CONFIG_FILES bin/fnlogin" ;;
     "bin/fnrancid") CONFIG_FILES="$CONFIG_FILES bin/fnrancid" ;;
+    "bin/fxlogin") CONFIG_FILES="$CONFIG_FILES bin/fxlogin" ;;
     "bin/hlogin") CONFIG_FILES="$CONFIG_FILES bin/hlogin" ;;
     "bin/htlogin") CONFIG_FILES="$CONFIG_FILES bin/htlogin" ;;
     "bin/htrancid") CONFIG_FILES="$CONFIG_FILES bin/htrancid" ;;
@@ -7745,6 +7748,7 @@ $as_echo X"$file" |
     "bin/flogin":F) chmod a+x $ac_file ;;
     "bin/fnlogin":F) chmod a+x $ac_file ;;
     "bin/fnrancid":F) chmod a+x $ac_file ;;
+    "bin/fxlogin":F) chmod a+x $ac_file ;;
     "bin/hlogin":F) chmod a+x $ac_file ;;
     "bin/htlogin":F) chmod a+x $ac_file ;;
     "bin/htrancid":F) chmod a+x $ac_file ;;

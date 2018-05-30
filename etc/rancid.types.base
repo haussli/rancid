@@ -369,36 +369,6 @@ ezt3;login;elogin
 f5;script;f5rancid
 f5;login;clogin
 #
-# Cisco FirePower / FX-OS
-# XXX need access to one these to write the module
-fxos;script;rancid -t fxos
-fxos;login;clogin
-fxos;module;fxos
-fxos;inloop;fxos::inloop
-#fxos;command;fxos::ShowVersion;show chassis firmware detail
-#fxos;command;fxos::ShowVersion;show chassis detail
-#fxos;command;fxos::ShowVersion;show chassis environment expand detail
-#fxos;command;fxos::ShowVersion;show chassis inventory detail
-#fxos;command;fxos::ShowVersion;show license all
-#fxos;command;fxos::ShowVersion;show fault
-#fxos;command;fxos::ShowVersion;show eth-uplink expand
-#fxos;command;fxos::WriteTerm;show configuration
-fxos;command;fxos::ShowInventory;show inventory
-fxos;command;fxos::ShowModel;show model
-fxos;command;fxos::ShowDisk;show disk
-fxos;command;fxos::DirSlotN;dir /all
-fxos;command;fxos::ShowMode;show mode
-fxos;command;fxos::ShowNetwork;show network
-fxos;command;fxos::ShowNetwork;show network-static-routes
-fxos;command;fxos::ShowNetwork;show network-dhcp-server
-fxos;command;fxos::WriteTerm;show running-config
-fxos;command;fxos::WriteTerm;show startup-config
-fxos;command;fxos::RunCommand;connect fxos # and change prompt
-fxos;command;fxos::RunCommand;term len 0
-fxos;command;fxos::WriteTerm;show configuration
-fxos;command;fxos::ShowFirmware;show system firmware detail
-fxos;command;fxos::ShowChassis;show chassis inventory detail
-#
 # f5 big-ip v11
 bigip;script;rancid -t bigip
 bigip;login;clogin
@@ -476,6 +446,29 @@ fss2;command;fss2::ShowSystem;show system
 fss2;command;fss2::ShowInventory;show inventory 
 fss2;command;fss2::ShowFWinfo;show fw-info 
 fss2;command;fss2::WriteTerm;show configuration
+#
+# Cisco FirePower / FX-OS
+fxos;script;rancid -t fxos
+fxos;login;fxlogin
+fxos;module;fxos
+fxos;inloop;fxos::inloop
+fxos;command;fxos::ShowModel;show model
+fxos;command;fxos::ShowInventory;show inventory
+fxos;command;fxos::DirSlotN;dir /all
+fxos;command;fxos::ShowMode;show mode
+fxos;command;fxos::ShowNetwork;show network
+fxos;command;fxos::ShowNetwork;show network-static-routes
+fxos;command;fxos::ShowNetwork;show network-dhcp-server
+fxos;command;fxos::WriteTermFTD;show running-config
+fxos;command;fxos::RunCommand;connect fxos; prompt changes
+fxos;command;fxos::RunCommand;term len 0
+fxos;command;fxos::ShowFirmware;show system firmware detail
+fxos;command;fxos::ShowChassis;show chassis detail
+fxos;command;fxos::ShowChassis;show chassis inventory detail
+fxos;command;fxos::ShowChassis;show chassis environment expand detail
+#fxos;command;fxos::XXX;show license all; does not seem to exist
+#fxos;command;fxos::XXX;show fault; seems like stuff for an NMS
+fxos;command;fxos::WriteTerm;show configuration
 #
 hitachi;script;htrancid
 hitachi;login;htlogin

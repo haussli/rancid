@@ -466,8 +466,6 @@ fxos;command;fxos::ShowFirmware;show system firmware detail
 fxos;command;fxos::ShowChassis;show chassis detail
 fxos;command;fxos::ShowChassis;show chassis inventory detail
 fxos;command;fxos::ShowChassis;show chassis environment expand detail
-#fxos;command;fxos::XXX;show license all; does not seem to exist
-#fxos;command;fxos::XXX;show fault; seems like stuff for an NMS
 fxos;command;fxos::WriteTerm;show configuration
 #
 hitachi;script;htrancid

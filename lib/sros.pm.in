@@ -36,9 +36,7 @@ sub init {
 
     # add content lines and separators
     ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n");
-# suppress newline A0
     ProcessHistory("COMMENTS","keysort","A0","#\n");	# memory summary
-# suppress newline B0
     ProcessHistory("COMMENTS","keysort","B0","#\n");	# chassis summary
     ProcessHistory("COMMENTS","keysort","C0","#\n");	# show information
     ProcessHistory("COMMENTS","keysort","D0","#\n");    # show redundancy

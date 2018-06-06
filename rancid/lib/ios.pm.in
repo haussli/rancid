@@ -1080,11 +1080,29 @@ sub DirSlotN {
 	return(-1) if (/\%Error opening \S+:\S+ \(Device or resource busy\)/i);
 	return(-1) if (/command authorization failed/i);
 	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
+	# the pager can not be disabled per-session on the PIX
+	if (/^(<-+ More -+>)/) {
+	    my($len) = length($1);
+	    s/^$1\s{$len}//;
+	}
+
 	# skip dir sup-bootflash if dir sup-bootdisk was successful, duplicates
 	if ($cmd =~ / sup-bootdisk/) {
 	    $supbootdisk++;
 	} elsif ($supbootdisk && $cmd =~ / sup-bootflash/) {
 	    return(0);
+	}
+
+	# Drop LISP cache.
+	/\s+LISP-MapCache-IPv\S+$/ && next;
+
+	# Filter internal file used by ISSU (In-Service Software Upgrade)
+	# on dual RP ASR systems
+	next if (/\.issu_loc_lock\s*$/);
+
+	# XXX
+	if ($ios eq "XE" && /^((\s+)?\d+\s+\S+)\s+\d+.*(tracelogs|throughput_monitor_params)$/) {
+	    $_ = "$1" . sprintf("%43s", "") . "$3\n";
 	}
 
 	# filter frequently changing files (dhcp & vlan database)
@@ -1130,13 +1148,6 @@ sub DirSlotN {
 	    }
 	}
 
-	# Drop LISP cache.
-	/\s+LISP-MapCache-IPv\S+$/ && next;
-
-	# Filter internal file used by ISSU (In-Service Software Upgrade)
-	# on dual RP ASR systems
-	next if (/\.issu_loc_lock\s*$/);
-
 	if (/.*\((\d+) bytes free(\/\d+% free)?\)/) {
 	    my($tmp) = $1;
 	    if ($tmp >= (1024 * 1024 * 1024)) {
@@ -1154,14 +1165,6 @@ sub DirSlotN {
 		s/$1 bytes free/0 bytes free/;
 	    }
 	    s/\/\d+% free//;
-	}
-	if ($ios eq "XE" && /^((\s+)?\d+\s+\S+)\s+\d+.*(tracelogs|throughput_monitor_params)$/) {
-	    $_ = "$1" . sprintf("%43s", "") . "$3\n";
-	}
-	# the pager can not be disabled per-session on the PIX
-	if (/^(<-+ More -+>)/) {
-	    my($len) = length($1);
-	    s/^$1\s{$len}//;
 	}
 
 	ProcessHistory("FLASH","","","!Flash: $dev: $_");

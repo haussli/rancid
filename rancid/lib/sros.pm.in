@@ -83,7 +83,7 @@ CMD:	if (/[#]\s?logout\s*$/) {
 		$clean_run = 0;
 		last TOP;
 	    }
-	    # filter the modified config indicator from the line.
+	    # filter the modified-config indicator ("*") from the line.
 	    /^$prompt/ && s/^[*]//;
 	    $rval = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
 	    delete($commands{$cmd});

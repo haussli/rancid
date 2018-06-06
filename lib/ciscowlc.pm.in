@@ -150,6 +150,7 @@ sub ShowSysinfo {
 	if (/^fan status/i) { $skipprocess = 1; }
 	if (/^Number of Active Clients/) { $skipprocess = 1; }
 	if (/^OUI Classification Failure Count/) { $skipprocess = 1; }
+	if (/^(memory|cpu) (current|average)/i) { $skipprocess = 1; }
 	if (/^(internal|external) temperature/i) { $skipprocess=1; }
 	if (/rpm$/) { $skipprocess = 1; }
 

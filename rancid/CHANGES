@@ -1,4 +1,6 @@
 3.99.99
+	ciscowlc: fix logout match, like ASA, it missed the CR sometimes
+
 	fxlogin, fxos: initial FX-OS support - thanks Erik Muller
 
 	sros: filter change since last save line

@@ -1,4 +1,6 @@
 3.99.99
+	ios.pm: DirSlotN(): drop XR-specific filter
+
 	ciscowlc: skip new oscillating o/p for WLC 8.8 - Reuden Farrelly
 
 	ciscowlc: fix logout match, like ASA, it missed the CR sometimes

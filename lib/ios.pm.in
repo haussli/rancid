@@ -1086,12 +1086,6 @@ sub DirSlotN {
 	} elsif ($supbootdisk && $cmd =~ / sup-bootflash/) {
 	    return(0);
 	}
-	# filter frequently changing files from IOX bootflash
-	if ($dev =~ /bootflash/) {
-	    next if (/temp_cont\s*$/);
-	    next if (/uptime_cont\s*$/);
-	    next if (/volt_cont\s*$/);
-	}
 
 	# filter frequently changing files (dhcp & vlan database)
 	# change from:

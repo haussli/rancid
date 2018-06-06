@@ -1,4 +1,7 @@
 3.99.99
+	ios.pm: DirSlotN(): roll XE-specific filter into the generic and drop
+	the file number from all files.
+
 	ios.pm: DirSlotN(): drop XR-specific filter
 
 	ciscowlc: skip new oscillating o/p for WLC 8.8 - Reuden Farrelly

@@ -1,4 +1,6 @@
 3.99.99
+	ios.pm: DirSlotN(): sort by filename
+
 	ios.pm: DirSlotN(): roll XE-specific filter into the generic and drop
 	the file number from all files.
 

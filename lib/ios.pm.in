@@ -1126,6 +1126,9 @@ sub DirSlotN {
 		my($fmt) = "%s%-". $szl ."s%s%s";
 		$_ = sprintf($fmt, $a, "", $dt, $rem);
 	    }
+	    /\s+(\S+)\s*$/ &&
+		ProcessHistory("FLASH","keysort","$1","!Flash: $dev: $_") &&
+		next;
 	} elsif (/(running-config-archive-)\S+\s*$/) {
 	    my($arc) = $1;
 
@@ -1147,6 +1150,9 @@ sub DirSlotN {
 		my($fmt) = "%s%-". $szl ."s%s%-". $dtl ."s%s%s\n";
 		$_ = sprintf($fmt, $a, "", $c, "", $arc, "<removed>");
 	    }
+	    /\s+(\S+)\s*$/ &&
+		ProcessHistory("FLASH","keysort","$1","!Flash: $dev: $_") &&
+		next;
 	} else {
 	    # drop file number (from the various formats):
 	    #     3  -rw-             1011                    <no date>  ifIndex-table
@@ -1160,6 +1166,9 @@ sub DirSlotN {
 		#my($fmt) = "%-". $fnl ."s%s%s\n";
 		#$_ = sprintf($fmt, "", $a, $rem);
 		$_ = $2 . $';
+		/\s+(\S+)\s*$/ &&
+		    ProcessHistory("FLASH","keysort","$1","!Flash: $dev: $_") &&
+		    next;
 	    }
 	}
 

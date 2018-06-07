@@ -1109,22 +1109,22 @@ sub DirSlotN {
 	#       -rw-                                           vlan.dat
 	if (/(dhcp_[^. ]*\.txt|vlan\.dat|sflog|snooping|syslog)\s*$/ ||
 	    /(tracelogs|throughput_monitor_params|underlying-config)\s*$/) {
-	    if (/(\s*\d+)(\s+\S+\s+)(\d+)(\s+)(\w+ \d+\s+\d+ \d+:\d+:\d+ .\d+:\d+)/) {
+	    if (/(\s*\d+\s+)(\S+\s+)(\d+)(\s+)(\w+ \d+\s+\d+ \d+:\d+:\d+ .\d+:\d+)/) {
 		my($fn, $a, $sz, $c, $dt, $rem) = ($1, $2, $3, $4, $5, $');
 		my($fnl, $szl, $dtl) = (length($fn), length($sz), length($dt));
-		my($fmt) = "%-". $fnl ."s%s%-". $szl ."s%s%-". $dtl ."s%s";
-		$_ = sprintf($fmt, "", $a, "", $c, "", $rem);
-	    } elsif (/(\s*\d+)(\s+\S+\s+)(\d+)(\s+)(\w+ \d+\s+\d+ \d+:\d+:\d+)/) {
+		my($fmt) = "%s%-". $szl ."s%s%-". $dtl ."s%s";
+		$_ = sprintf($fmt, $a, "", $c, "", $rem);
+	    } elsif (/(\s*\d+\s+)(\S+\s+)(\d+)(\s+)(\w+ \d+\s+\d+ \d+:\d+:\d+)/) {
 		my($fn, $a, $sz, $c, $dt, $rem) = ($1, $2, $3, $4, $5, $');
 		my($fnl, $szl, $dtl) = (length($fn), length($sz), length($dt));
-		my($fmt) = "%-". $fnl ."s%s%-". $szl ."s%s%-". $dtl ."s%s";
-		$_ = sprintf($fmt, "", $a, "", $c, "", $rem);
-	    } elsif (/(\s*\d+)(\s+\S+\s+)(\d+)(\s+<no date>)/i) {
+		my($fmt) = "%s%-". $szl ."s%s%-". $dtl ."s%s";
+		$_ = sprintf($fmt, $a, "", $c, "", $rem);
+	    } elsif (/(\s*\d+\s+)(\S+\s+)(\d+)(\s+<no date>)/i) {
 		# 32771  -rw-            24520                    <no date>  underlying-config
 		my($fn, $a, $sz, $dt, $rem) = ($1, $2, $3, $4, $');
 		my($fnl, $szl) = (length($fn), length($sz));
-		my($fmt) = "%-". $fnl ."s%s%-". $szl ."s%s%s";
-		$_ = sprintf($fmt, "", $a, "", $dt, $rem);
+		my($fmt) = "%s%-". $szl ."s%s%s";
+		$_ = sprintf($fmt, $a, "", $dt, $rem);
 	    }
 	} elsif (/(running-config-archive-)\S+\s*$/) {
 	    my($arc) = $1;
@@ -1136,29 +1136,30 @@ sub DirSlotN {
 	# to:
 	#       -rw-                                   running-config-archive-Jul--1-16-50-27.123-113
 	#       -rw-                                           running-config-archive-Jul--1-16-50-27.123-113
-	    if (/(\s*\d+)(\s+\S+\s+)(\d+)(\s+)(\w+ \d+\s+\d+ \d+:\d+:\d+ .\d+:\d+)/) {
+	    if (/(\s*\d+\s+)(\S+\s+)(\d+)(\s+)(\w+ \d+\s+\d+ \d+:\d+:\d+ .\d+:\d+)/) {
 		my($fn, $a, $sz, $c, $dt, $rem) = ($1, $2, $3, $4, $5, $');
 		my($fnl, $szl, $dtl) = (length($fn), length($sz), length($dt));
-		my($fmt) = "%-". $fnl ."s%s%-". $szl ."s%s%-". $dtl ."s%s%s\n";
-		$_ = sprintf($fmt, "", $a, "", $c, "", $arc, "<removed>");
-	    } elsif (/(\s*\d+)(\s+\S+\s+)(\d+)(\s+)(\w+ \d+\s+\d+ \d+:\d+:\d+)/) {
+		my($fmt) = "%s%-". $szl ."s%s%-". $dtl ."s%s%s\n";
+		$_ = sprintf($fmt, $a, "", $c, "", $arc, "<removed>");
+	    } elsif (/(\s*\d+\s+)(\S+\s+)(\d+)(\s+)(\w+ \d+\s+\d+ \d+:\d+:\d+)/) {
 		my($fn, $a, $sz, $c, $dt, $rem) = ($1, $2, $3, $4, $5, $');
 		my($fnl, $szl, $dtl) = (length($fn), length($sz), length($dt));
-		my($fmt) = "%-". $fnl ."s%s%-". $szl ."s%s%-". $dtl ."s%s%s\n";
-		$_ = sprintf($fmt, "", $a, "", $c, "", $arc, "<removed>");
+		my($fmt) = "%s%-". $szl ."s%s%-". $dtl ."s%s%s\n";
+		$_ = sprintf($fmt, $a, "", $c, "", $arc, "<removed>");
 	    }
 	} else {
 	    # drop file number (from the various formats):
 	    #     3  -rw-             1011                    <no date>  ifIndex-table
 	    #    9  -rw-         660  Jan 15 2011 20:43:54 vlan.dat
 	    #   16  -rw-             5437  Jan 16 2016 02:22:32 +00:00  licenses
-	    if (/(\s*\d+)(\s+\S+\s+\d+\s+\w+ \d+\s+\d+ \d+:\d+:\d+ .\d+:\d+)/ ||
-	        /(\s*\d+)(\s+\S+\s+\d+\s+\w+ \d+\s+\d+ \d+:\d+:\d+)/ ||
-	        /(\s*\d+)(\s+\S+\s+\d+\s+<no date>\s+\S+)/) {
-		my($fn, $a, $rem) = ($1, $2, $');
-		my($fnl) = length($fn);
-		my($fmt) = "%-". $fnl ."s%s%s\n";
-		$_ = sprintf($fmt, "", $a, $rem);
+	    if (/(\s*\d+\s+)(\S+\s+\d+\s+\w+ \d+\s+\d+ \d+:\d+:\d+ .\d+:\d+)/ ||
+	        /(\s*\d+\s+)(\S+\s+\d+\s+\w+ \d+\s+\d+ \d+:\d+:\d+)/ ||
+	        /(\s*\d+\s+)(\S+\s+\d+\s+<no date>\s+\S+)/) {
+		#my($fn, $a, $rem) = ($1, $2, $');
+		#my($fnl) = length($fn);
+		#my($fmt) = "%-". $fnl ."s%s%s\n";
+		#$_ = sprintf($fmt, "", $a, $rem);
+		$_ = $2 . $';
 	    }
 	}
 

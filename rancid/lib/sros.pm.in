@@ -57,7 +57,7 @@ CMD:	if (/[#]\s?logout\s*$/) {
 	    $clean_run = 1;
 	    last;
 	}
-	if (/^Error:/) {
+	if (/^Error:/ && ! /^Error: Invalid parameter\./) {
 	    print STDOUT ("$host clogin error: $_");
 	    print STDERR ("$host clogin error: $_") if ($debug);
 	    $clean_run = 0;

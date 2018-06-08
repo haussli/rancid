@@ -170,6 +170,8 @@ sub ShowCardDetail {
 	next if (/^\s+\^$/);
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
+	# context lines
+	/^\[]$/i && next;
 
 	# temp varies in "show card detail"
 	next if (/^(\s+Temperature\s+:)\s+\d+C/);
@@ -192,6 +194,8 @@ sub ShowCardState {
 	next if (/^\s+\^$/);
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
+	# context lines
+	/^\[]$/i && next;
 
 	/^[-=]+$/i && next;
 	ProcessHistory("COMMENTS","keysort","E5","# $_");
@@ -210,6 +214,8 @@ sub ShowChassis {
 	next if (/^\s+\^$/);
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
+	# context lines
+	/^\[]$/i && next;
 
 	/^[-=]+$/i && next;
 	ProcessHistory("COMMENTS","keysort","E1","# $_");
@@ -228,6 +234,8 @@ sub ShowChassisEnv {
 	next if (/^\s+\^$/);
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
+	# context lines
+	/^\[]$/i && next;
 
 	/speed/i && next;
 	/volts/i && next;
@@ -250,6 +258,8 @@ sub ShowChassisPS {
 	next if (/^\s+\^$/);
 	return(0) if (/error: invalid parameter/i);	# cmd for 7750 SR only
 	return(-1) if (/minor: cli command not allowed for this user/i);
+	# context lines
+	/^\[]$/i && next;
 
 	/^=+$/i && next;
 	ProcessHistory("COMMENTS","keysort","E3","# $_");
@@ -307,6 +317,8 @@ sub ShowRedundancy {
         # not on 7210 SAS, return 0
 	return(0) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
+	# context lines
+	/^\[]$/i && next;
 
 	/synchronization .* only supported on dual/i && return(0);
 
@@ -334,6 +346,8 @@ sub ShowSystemInfo {
 	next if (/^\s+\^$/);
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
+	# context lines
+	/^\[]$/i && next;
 
 	/^[-=]+$/i && next;
 	/system up time/i && next;
@@ -395,6 +409,8 @@ sub WriteTerm {
 	next if (/^\s+\^$/);
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
+	# context lines
+	/^\[]$/i && next;
 
 	/# (timos-|all rights reserved|built on)/i && next;
 	/# Generated /i && next;

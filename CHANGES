@@ -1,4 +1,6 @@
 3.99.99
+	sros.pm: ignore "Error: Invalid parameter" error from MD cli
+
 	ios.pm: DirSlotN(): sort by filename
 
 	ios.pm: DirSlotN(): roll XE-specific filter into the generic and drop

@@ -410,8 +410,6 @@ sub WriteTerm {
 	next if (/^\s+\^$/);
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
-	# context lines
-	/^\[]$/i && next;
 
 	/# (timos-|all rights reserved|built on)/i && next;
 	/# Generated /i && next;
@@ -426,6 +424,63 @@ sub WriteTerm {
 			       "#$1 <removed> $'") && next;
 	    } else {
 		ProcessHistory("SNMPSERVERCOMM","keysort","$_","$_") && next;
+	    }
+	}
+	if (/^(\s+trap-target\s+.*)\s+(notify-community)\s+("\S+")/) {
+	    if ($filter_commstr) {
+		ProcessHistory("","","","#$1 $2 <removed>$'") && next;
+	    } else {
+		ProcessHistory("","","","$_") && next;
+	    }
+	}
+	if (/^(\s+password)\s+("\$\S+")/) {
+	    if ($filter_pwds >= 2) {
+		ProcessHistory("","","","#$1 <removed>$'") && next;
+	    } else {
+		ProcessHistory("","","","$_") && next;
+	    }
+	}
+
+	# end of config.
+	if (/^# finished \S{3} \S{3} /i) {
+	    $found_end = 1;
+	    return(0);
+	}
+	ProcessHistory("","","","$_");
+    }
+
+    return(0);
+}
+
+# This routine parses "admin display-config" on MD cli
+sub WriteTermMD {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In WriteTermMD: $_" if ($debug);
+    ProcessHistory("","","","#\n# $_");
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+	return(-1) if (/error: invalid parameter/i);
+	return(-1) if (/minor: cli command not allowed for this user/i);
+	# context lines
+	/^\[]$/i && next;
+
+	/# (timos-|all rights reserved|built on)/i && next;
+	/# Generated /i && next;
+
+	/^#-+$/i && next;
+	s/echo \"(.*)\"/# $1/i;
+
+	# password/community filtering
+	if (/^(\s+community) "[^"]*" /) {
+	    if ($filter_commstr) {
+		ProcessHistory("SNMPSERVERCOMM","","", "#$1 <removed> $'") &&
+		next;
+	    } else {
+		ProcessHistory("SNMPSERVERCOMM","","","$_") && next;
 	    }
 	}
 	if (/^(\s+trap-target\s+.*)\s+(notify-community)\s+("\S+")/) {

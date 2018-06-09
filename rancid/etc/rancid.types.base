@@ -632,6 +632,25 @@ sros;command;sros::ShowBOF;show bof
 sros;command;sros::WriteTermIndex;admin display-config index
 sros;command;sros::WriteTerm;admin display-config
 #
+# Nokia (Alcatel-Lucent) SR OS MD-CLI (TiMOS)
+# 7750 SR and 7950 XRS routers
+sros-md;script;rancid -t sros-md
+sros-md;login;noklogin
+sros-md;module;sros
+sros-md;inloop;sros::inloop
+sros-md;command;sros::ShowSystemInfo;show system information
+#XXX sros-md;command;sros::BootLog;file type bootlog.txt
+sros-md;command;sros::ShowRedundancy;show redundancy synchronization
+sros-md;command;sros::ShowChassis;show chassis
+sros-md;command;sros::ShowChassisEnv;show chassis environment
+sros-md;command;sros::ShowChassisPS;show chassis power-supply
+#XXX sros-md;command;sros::ShowChassisPM;show chassis power-management
+sros-md;command;sros::ShowCardState;show card state
+sros-md;command;sros::ShowCardDetail;show card detail
+#XXX sros-md;command;sros::ShowDebug;show debug
+#XXX sros-md;command;sros::ShowBOF;show bof
+sros-md;command;sros::WriteTerm;admin show configuration
+#
 # Hauwei VRP (S5720)
 vrp;script;rancid -t vrp
 vrp;login;xilogin

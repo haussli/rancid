@@ -1,4 +1,10 @@
 3.99.99
+	sros.pm: separate WriteTermMD() for MD cli
+
+	rancid.types.base: add sros-md type (wip)
+
+	noklogin: disable pager in MD cli
+
 	sros.pm: ignore "Error: Invalid parameter" error from MD cli
 
 	ios.pm: DirSlotN(): sort by filename

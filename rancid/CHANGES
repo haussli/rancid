@@ -1,4 +1,6 @@
 3.99.99
+	sros.pm: add non-native commands for MD cli
+
 	sros.pm: separate WriteTermMD() for MD cli
 
 	rancid.types.base: add sros-md type (wip)

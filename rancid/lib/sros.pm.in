@@ -115,6 +115,9 @@ sub BootLog {
 	return(-1) if (/minor: cli command not allowed for this user/i);
         # if file doesn't exist, return 0
         return(0) if (/minor: cli could not access file/i);
+	# context lines
+	/^\[]$/i && next;
+	/^INFO: CLI #\d+: Switching to the .* engine/ && next;
 
 	/time from clock is/i && next;
 	/^(text:|executing|login:)/i && next;
@@ -152,6 +155,10 @@ sub ShowBOF {
 	next if (/^\s+\^$/);
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
+	# context lines
+	/^\[]$/i && next;
+	/^INFO: CLI #\d+: Switching to the .* engine/ && next;
+
 
 	/^[-=]+$/i && next;
 	ProcessHistory("BOF","","","# $_");
@@ -299,6 +306,9 @@ sub ShowDebug {
 	next if (/^\s+\^$/);
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
+	# context lines
+	/^\[]$/i && next;
+	/^INFO: CLI #\d+: Switching to the .* engine/ && next;
 
 	ProcessHistory("","","","$_");
     }

@@ -1,4 +1,6 @@
 3.99.99
+	noklogin: disable pager in classic cli, from DM
+
 	sros.pm: add non-native commands for MD cli
 
 	sros.pm: separate WriteTermMD() for MD cli

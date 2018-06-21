@@ -951,14 +951,17 @@ sub ShowFlash {
 	/\s+(private-multiple-fs|multiple-fs|LISP-MapCache-IPv\S+|nv_hdr)$/ &&
 	    next;
 
-	# filter frequently changing files (dhcp & vlan database) from flash
-	# change from:
-	# 9          660 Jan 15 2011 20:43:54 vlan.dat
-	# 9          660 Jan 15 2011 20:43:54 +00:00 vlan.dat
-	# to:
-	#                                     vlan.dat
-	#                                            vlan.dat
-	if (/(dhcp_[^. ]*\.txt|vlan\.dat|sflog|snooping|smart-log\/agentlog|syslog)\s*$/) {
+	if (/^(\s*-+#-+)(\s+.*)/) {
+	    ProcessHistory("FLASH","","","!Flash: $1$2\n") && next;
+	} elsif (/(dhcp_[^. ]*\.txt|vlan\.dat|sflog|snooping)/ ||
+		 /(smart-log\/agentlog|syslog)\s*$/) {
+	    # filter frequently changing files (dhcp & vlan database) from flash
+	    # change from:
+	    # 9          660 Jan 15 2011 20:43:54 vlan.dat
+	    # 9          660 Jan 15 2011 20:43:54 +00:00 vlan.dat
+	    # to:
+	    #                                     vlan.dat
+	    #                                            vlan.dat
 	    if (/(\s*\d+)(\s+[-rwx]+\s+)(\d+)(\s+)(\w+ \d+\s+\d+ \d+:\d+:\d+ .\d+:\d+)/) {
 		my($fn, $a, $sz, $c, $dt, $rem) = ($1, $2, $3, $4, $5, $');
 		my($fnl, $szl, $dtl) = (length($fn), length($sz), length($dt));
@@ -983,16 +986,16 @@ sub ShowFlash {
 		my($fmt) = "%-". $fnl ."s%s%-". $szl ."s%s%-". $dtl ."s%s";
 		$_ = sprintf($fmt, "", $a, "", $c, "", $rem);
 	    }
-	}
-
-	# filter config archives from flash
-	# change from:
-	# 9          660 Jan 15 2011 20:43:54 running-config-archive-Jul--1-16-50-27.123-113
-	# 9          660 Jan 15 2011 20:43:54 +00:00 running-config-archive-Jul--1-16-50-27.123-113
-	# to:
-	#                                     running-config-archive-<removed>
-	#                                     running-config-archive-<removed>
-	if (/(running-config-archive-)\S+\s*$/) {
+	    /\s+(\S+)\s*$/ &&
+		ProcessHistory("FLASH","keysort","$1","!Flash: $_") && next;
+	} elsif (/(running-config-archive-)\S+\s*$/) {
+	    # filter config archives from flash
+	    # change from:
+	    # 9          660 Jan 15 2011 20:43:54 running-config-archive-Jul--1-16-50-27.123-113
+	    # 9          660 Jan 15 2011 20:43:54 +00:00 running-config-archive-Jul--1-16-50-27.123-113
+	    # to:
+	    #                                     running-config-archive-<removed>
+	    #                                     running-config-archive-<removed>
 	    my($arc) = $1;
 	    if (/(\s*\d+)(\s+[-rwx]+\s+)(\d+)(\s+)(\w+ \d+\s+\d+ \d+:\d+:\d+ .\d+:\d+)/) {
 		my($fn, $a, $sz, $c, $dt, $rem) = ($1, $2, $3, $4, $5, $');
@@ -1015,7 +1018,14 @@ sub ShowFlash {
 		my($fmt) = "%-". $fnl ."s%s%-". $szl ."s%s%-". $dtl ."s%s%s\n";
 		$_ = sprintf($fmt, "", $a, "", $c, "", $arc, "<removed>");
 	    }
-	}
+	    /\s+(\S+)\s*$/ &&
+		ProcessHistory("FLASH","keysort","$1","!Flash: $_") && next;
+	} elsif (/^(\s*\d+)(\s+[-rwx]+\s+\d+\s+\w+ \d+\s+\d+ \d+:\d+:\d+ .\d+:\d+\s+)(\S+)/ ||
+		 /^(\s*\d+)(\s+[-rwx]+\s+\d+\s+\w+ \d+\s+\d+ \d+:\d+:\d+\s+)(\S+)/ ||
+		 /^(\s*\d+)(\s+\d+\s+\w+ \d+\s+\d+ \d+:\d+:\d+ .\d+:\d+\s+)(\S+)/ ||
+		 /^(\s*\d+)(\s+\d+\s+\w+ \d+\s+\d+ \d+:\d+:\d+\s+)(\S+)/) {
+	    ProcessHistory("FLASH","keysort","$2","!Flash: $1$2$3\n") && next;
+        }
 
 	if (/(\d+) bytes (available|total) \((\d+) bytes (free|used)(\/\s+% free)?\)/) {
 	    my($avail);

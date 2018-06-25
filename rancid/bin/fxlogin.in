@@ -500,6 +500,7 @@ if [catch {open /dev/tty w} ttyid] {
     # no tty, ie: cron
     set spawnopts "-nottycopy"
     set stty_init "cols 132"
+    set stty_init "rows 4096"
 } else {
     catch {close ttyid} reason
 }

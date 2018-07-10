@@ -4,7 +4,7 @@
 
 	ios.pm: ShowFlast(): sort by file name
 
-	noklogin: disable pager in classic cli, from DM
+	noklogin: disable pager in classic cli, from MD cli
 
 	sros.pm: add non-native commands for MD cli
 

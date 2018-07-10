@@ -1,4 +1,7 @@
 3.99.99
+	sros.pm: make last config saved/modified info filtering dependent on
+	FILTER_OSC=ALL
+
 	ios.pm: ShowFlast(): sort by file name
 
 	noklogin: disable pager in classic cli, from DM

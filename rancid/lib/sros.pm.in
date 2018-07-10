@@ -364,10 +364,10 @@ sub ShowSystemInfo {
 	/system up time/i && next;
 	# User Last Modified     : someuname
 	# Time Last Modified     : 2018/05/29 09:15:32
-	/(user|time) last modified/i && next;
+	/(user|time) last modified/i && ($filter_osc >= 2) && next;
 	# Changes Since Last Save: Yes
 	/changes since last save/i && next;
-	/time last saved/i && next;
+	/time last saved/i && ($filter_osc >= 2) && next;
 
 
 	if (/system type\s+:\s+(.*)/i) {

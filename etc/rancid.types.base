@@ -612,8 +612,8 @@ riverstone;login;rivlogin
 smc;script;srancid
 smc;login;hlogin
 #
-# Nokia (Alcatel-Lucent) SR OS (TiMOS)
-# 7705 SAR, 7210 SAS, 7750 SR and 7950 XRS routers
+# Nokia (Alcatel-Lucent) SR OS Classic CLI (TiMOS)
+# 7210 SAS, 7250 IXR, 7450 ESS, 7705 SAR, 7750 SR, 7950 XRS, CMG and VSR routers
 sros;script;rancid -t sros
 sros;login;noklogin
 sros;module;sros
@@ -644,7 +644,7 @@ sros-md;command;sros::ShowRedundancy;show redundancy synchronization
 sros-md;command;sros::ShowChassis;show chassis
 sros-md;command;sros::ShowChassisEnv;show chassis environment
 sros-md;command;sros::ShowChassisPS;show chassis power-supply
-#XXX sros-md;command;sros::ShowChassisPM;show chassis power-management
+sros-md;command;sros::ShowChassisPM;show chassis power-management
 sros-md;command;sros::ShowCardState;show card state
 sros-md;command;sros::ShowCardDetail;show card detail
 sros-md;command;sros::ShowDebug;//show debug

@@ -1,4 +1,6 @@
 3.99.99
+	sros.pm: misc cleanup - Greg Hankins
+
 	sros.pm: make last config saved/modified info filtering dependent on
 	FILTER_OSC=ALL
 

@@ -544,10 +544,21 @@ sub DirSlotN {
 	return(-1) if (/\%Error opening \S+:\S+ \(Device or resource busy\)/i);
 	return(-1) if (/command authorization failed/i);
 	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
+
+	# Filter dhcp database
+	if (/dhcp_[^. ]*\.txt/) {
+	    next;
+	}
+	# Filter debugging file dlbg.txt & dlbg.txt-1 only on ASR9k w/ XR
+	if ($proc =~ /ASR9K/ && /dlbg\.txt/) {
+	    next;
+	}
 	# filter frequently changing files from IOX bootflash, hardiska,
 	# and nvram
 	if ($dev =~ /(bootflash|disk0|harddisk|nvram)/) {
-	    if (/\s(\.python-history|aaa|\.bash_history|ce_switch.log|cisco_support|errmsg_cont|genstr_cont|temp_cont|temp_static_data|uptime_cont|volt_cont)\s*$/) {
+	    if (/\s(\.python-history|aaa|\.bash_history|ce_switch.log)\s*$/ ||
+	        /\s(cisco_support|errmsg_cont|genstr_cont|temp_cont)\s*$/ ||
+	        /\s(temp_cont|temp_static_data|uptime_cont|volt_cont)\s*$/) {
 		# change
 		# 57          -rw-  23100       <no date>              volt_cont
 		# 614788      drwx  4096        Fri Aug 20 12:06:25 2010  temp_cont
@@ -575,29 +586,13 @@ sub DirSlotN {
 		}
 	    }
 	}
-	# Filter dhcp database
-	if (/dhcp_[^. ]*\.txt/) {
+
+	# XR: 822083584 bytes total (821081600 bytes free)
+	# eXR: 990484 kbytes total (813208 kbytes free)
+	if (/^\s*(\d+ k?bytes) total\s+\((\d+ k?bytes) free\)/i) {
+	    ProcessHistory("FLASH","","","!Flash: $dev: " .
+			   diskszsummary($1, $2) . "\n");
 	    next;
-	}
-	# Filter debugging file dlbg.txt & dlbg.txt-1 only on ASR9k w/ XR
-	if ($proc =~ /ASR9K/ && /dlbg\.txt/) {
-	    next;
-	}
-	if (/.*\((\d+) (k?bytes) free\)/) {
- 	    my($tmp) = $1;
- 	    my($sz) = $2;
-	    $tmp *= 1024 if ($sz eq "kbytes");	# NCS summarizes in kbytes
-	
-	    if ($tmp >= (1024 * 1024 * 1024)) {
-		$tmp = int($tmp / (1024 * 1024 * 1024));
-		s/$1 $sz free/$tmp GB free/;
-	    } elsif ($tmp >= (1024 * 1024)) {
-		$tmp = int($tmp / (1024 * 1024));
-		s/$1 $sz free/$tmp MB free/;
-	    } else {
-		$tmp = int($tmp / 1024);
-		s/$1 $sz free/$tmp KB free/;
-	    }
 	}
 
 	ProcessHistory("FLASH","","","!Flash: $dev: $_");

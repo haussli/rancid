@@ -1,4 +1,7 @@
 3.99.99
+	ios.pm, iosxr.pm: re-organize the DirSlotN() filtering a bit toward
+	reducing fluctuations
+
 	sros.pm: misc cleanup - Greg Hankins
 
 	sros.pm: make last config saved/modified info filtering dependent on

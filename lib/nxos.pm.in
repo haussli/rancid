@@ -301,6 +301,8 @@ sub ShowEnv {
 	if (/(control temperature|monitor temperature)/i) {
 	    ProcessHistory("COMMENTS","","","!Env: $_");
 	    while (<$INPUT>) {
+		tr/\015//d;
+		goto EndShowEnv if (/^$prompt/);
 		if (/(.*\s+\d+\s+\d+\s+)(\d+)(.*$)/) {
 		    $_ = sprintf("%s%-". length($2)."s%s\n", $1, "", $3);
 		}
@@ -311,6 +313,7 @@ sub ShowEnv {
 	}
 	ProcessHistory("COMMENTS","","","!Env: $_");
     }
+EndShowEnv:
     ProcessHistory("COMMENTS","","","!\n");
     return(0);
 }

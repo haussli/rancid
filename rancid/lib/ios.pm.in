@@ -2344,7 +2344,6 @@ TOP:
 	    my($expath) = $_;
 	    while (<$INPUT>) {
 		tr/\015//d;
-		last if (/^$prompt/);
 		last if (/^$prompt/ || ! /^(ip explicit-path name |[ !])/);
 		if (/^ip explicit-path name (\S+)/) {
 		    ProcessHistory("EXPATH","keysort","$key","$expath");

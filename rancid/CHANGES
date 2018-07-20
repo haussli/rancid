@@ -1,4 +1,4 @@
-3.99.99
+3.8
 	nxos.pm: ShowEnv() missing prompt handling & CR filter - Frank Mogaddedi
 
 	ios.pm, iosxr.pm: re-organize the DirSlotN() filtering a bit toward

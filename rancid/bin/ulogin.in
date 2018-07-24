@@ -170,6 +170,12 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 	-nocase -re "^warning: remote host denied authentication agent forwarding." {
 	    exp_continue;
 	}
+	-nocase -re "last login:" {
+	    exp_continue
+	}
+	-nocase -re "failed login:" {   
+	    exp_continue
+	}
 	eof { send_user "\nError: Couldn't login\n"; wait; return 1 }
 	-nocase "unknown host\r" {
 	    catch {close}; catch {wait};

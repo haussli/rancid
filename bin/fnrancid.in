@@ -183,9 +183,13 @@ sub GetSystem {
 	last if (/$prompt/);
 
 	next if (/^system time:/i);
-	next if (/^\s*Virus-DB: .*/);
+	next if (/^\s*APP-DB: .*/);
+	next if (/^\s*Botnet DB: .*/);
 	next if (/^\s*Extended DB: .*/);
+	next if (/^\s*IPS Malicious URL Database: .*/);
 	next if (/^\s*IPS-DB: .*/);
+	next if (/^\s*IPS-ETDB: .*/);
+	next if (/^\s*Virus-DB: .*/);
 	next if (/^FortiClient application signature package:/);
 	# Cluster uptime
 	next if (/^\s*Cluster uptime:/);

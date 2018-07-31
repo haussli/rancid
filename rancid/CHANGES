@@ -1,4 +1,6 @@
 3.99.99
+	fnlogin: filter db version stamps - Chris Wopat
+
 	ulogin: parse (ignore) last (failed) login message at login time
 
 3.8

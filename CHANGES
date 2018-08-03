@@ -1,4 +1,6 @@
 3.99.99
+	rancid.conf.sample: note ALL option FILTER_OSC
+
 	fnrancid: filter db version stamps wrapped in FILTER_OSC - Chris Wopat
 
 	ulogin: parse (ignore) last (failed) login message at login time

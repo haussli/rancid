@@ -85,8 +85,8 @@ RCSSYS=@RCSSYS@; export RCSSYS
 #NOCOMMSTR=YES; export NOCOMMSTR
 #
 # FILTER_OSC determines if oscillating data such as keys, passwords, etc are
-# filtered from configs by the value set (NO | YES).  FILTER_PWDS may override
-# this.  see rancid.conf(5).
+# filtered from configs by the value set (NO | YES | ALL).  FILTER_PWDS may
+# override this.  see rancid.conf(5).
 #FILTER_OSC=YES; export FILTER_OSC
 #
 # How many times failed collections are retried (for each run) before

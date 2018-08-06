@@ -1,4 +1,8 @@
 3.99.99
+	jlogin: skip login tips that look like prompts, like:
+	JUNOS tip:
+	Use the configuration statement [system login class <name> login-tip]
+
 	rancid.conf.sample: note ALL option FILTER_OSC
 
 	fnrancid: filter db version stamps wrapped in FILTER_OSC - Chris Wopat

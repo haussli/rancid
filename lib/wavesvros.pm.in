@@ -103,6 +103,7 @@ TOP: while (<$INPUT>) {
 # This routine parses "chassis show"
 sub ShowChassis {
     my($INPUT, $OUTPUT, $cmd) = @_;
+    my($PSW) = 0;
     print STDERR "    In ShowChassisClocks: $_" if ($debug);
 
     # include the command
@@ -113,17 +114,33 @@ sub ShowChassis {
 	last if (/^$prompt/);
 	/no matching entry found/ && return(-1);	# unknown cmd
 
-	# skip fan status
-	if (/CFU FAN STATUS/) {
+	# skip fan status/chassis power draw
+	if (/(cfu fan status|chassis power summary)/i) {
 	    while (<$INPUT>) {
 		tr/\015//d;
 		return(-1) if (/^$prompt/);
 		last if (/^\s*$/);
 	    }
 	}
+	# filter PS wattage from power supply status
+	if (/power supply status/i) {
+	    ProcessHistory("","","","! $_");
+	    while (<$INPUT>) {
+		tr/\015//d;
+		goto EndShowChassis if (/^$prompt/);
+		$PSW = 1 if (/power \(w\)/i);
+		if ($PSW && /^((?:\|[^|]+){7,})\|\s+(?:[0-9.]+ \|)/) {
+		    ProcessHistory("","","","! $1|\n");
+		} else {
+		    ProcessHistory("","","","! $_");
+		}
+		last if (/^\s*$/);
+	    }
+	}
 
 	ProcessHistory("","","","! $_");
     }
+EndShowChassis:
     return(0);
 }
 

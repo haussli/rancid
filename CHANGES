@@ -1,4 +1,6 @@
 3.99.99
+	waverserver.pm: filter power support wattage, new in waveserveros 1.6
+
 	nxos.pm: in ShowEnvTemp() sub-input loop, catch prompt - Scott McInness
 
 	jlogin: skip login tips that look like prompts, like:

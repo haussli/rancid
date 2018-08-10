@@ -100,11 +100,11 @@ CONFIG_HEADER = $(top_builddir)/include/config.h
 CONFIG_CLEAN_FILES = login_top a10login agmrancid alogin arancid \
 	anlogin avologin avorancid blogin brancid brlogin cat5rancid \
 	clogin csblogin cssrancid dllogin elogin erancid f5rancid \
-	f10rancid flogin fnlogin fnrancid fxlogin hlogin htlogin \
-	htrancid jlogin jerancid mrancid mrvlogin mtrancid mtlogin \
-	nlogin nrancid noklogin nslogin nsrancid panlogin prancid \
-	rblogin rivlogin rivrancid rrancid rtftpcopy tlogin trancid \
-	xilogin xirancid xlogin ulogin wlogin zrancid
+	f10rancid flogin fnlogin fxlogin hlogin htlogin htrancid \
+	jlogin jerancid mrancid mrvlogin mtrancid mtlogin nlogin \
+	nrancid noklogin nslogin nsrancid panlogin prancid rblogin \
+	rivlogin rivrancid rrancid rtftpcopy tlogin trancid xilogin \
+	xirancid xlogin ulogin wlogin zrancid
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -206,12 +206,12 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/a10login.in \
 	$(srcdir)/csblogin.in $(srcdir)/cssrancid.in \
 	$(srcdir)/dllogin.in $(srcdir)/elogin.in $(srcdir)/erancid.in \
 	$(srcdir)/f10rancid.in $(srcdir)/f5rancid.in \
-	$(srcdir)/flogin.in $(srcdir)/fnlogin.in $(srcdir)/fnrancid.in \
-	$(srcdir)/fxlogin.in $(srcdir)/hlogin.in $(srcdir)/htlogin.in \
-	$(srcdir)/htrancid.in $(srcdir)/jerancid.in \
-	$(srcdir)/jlogin.in $(srcdir)/login_top.in \
-	$(srcdir)/mrancid.in $(srcdir)/mrvlogin.in \
-	$(srcdir)/mtlogin.in $(srcdir)/mtrancid.in $(srcdir)/nlogin.in \
+	$(srcdir)/flogin.in $(srcdir)/fnlogin.in $(srcdir)/fxlogin.in \
+	$(srcdir)/hlogin.in $(srcdir)/htlogin.in $(srcdir)/htrancid.in \
+	$(srcdir)/jerancid.in $(srcdir)/jlogin.in \
+	$(srcdir)/login_top.in $(srcdir)/mrancid.in \
+	$(srcdir)/mrvlogin.in $(srcdir)/mtlogin.in \
+	$(srcdir)/mtrancid.in $(srcdir)/nlogin.in \
 	$(srcdir)/noklogin.in $(srcdir)/nrancid.in \
 	$(srcdir)/nslogin.in $(srcdir)/nsrancid.in \
 	$(srcdir)/panlogin.in $(srcdir)/prancid.in \
@@ -354,13 +354,12 @@ AUTOMAKE_OPTIONS = foreign
 bin_SCRIPTS = a10login alogin agmrancid anlogin arancid avologin \
 	avorancid blogin brancid brlogin cat5rancid clogin \
 	control_rancid csblogin cssrancid dllogin elogin erancid \
-	f5rancid f10rancid flogin fnlogin fnrancid fxlogin hlogin \
-	hrancid htlogin htrancid jerancid jlogin mrancid mrvlogin \
-	mtlogin mtrancid nlogin noklogin nrancid nslogin nsrancid \
-	panlogin plogin rancid rblogin rivlogin rivrancid rrancid \
-	rtftpcopy srancid tlogin trancid ulogin wlogin xilogin \
-	xirancid xlogin zrancid lg.cgi lgform.cgi rancid-cvs rancid-fe \
-	rancid-run
+	f5rancid f10rancid flogin fnlogin fxlogin hlogin hrancid \
+	htlogin htrancid jerancid jlogin mrancid mrvlogin mtlogin \
+	mtrancid nlogin noklogin nrancid nslogin nsrancid panlogin \
+	plogin rancid rblogin rivlogin rivrancid rrancid rtftpcopy \
+	srancid tlogin trancid ulogin wlogin xilogin xirancid xlogin \
+	zrancid lg.cgi lgform.cgi rancid-cvs rancid-fe rancid-run
 # XXX hack for the rancid to get pkglibdir, see corresponding XXX below
 bin_in = control_rancid.in hrancid.in plogin.in rancid.in srancid.in
 EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in \
@@ -484,8 +483,6 @@ f10rancid: $(top_builddir)/config.status $(srcdir)/f10rancid.in
 flogin: $(top_builddir)/config.status $(srcdir)/flogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 fnlogin: $(top_builddir)/config.status $(srcdir)/fnlogin.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-fnrancid: $(top_builddir)/config.status $(srcdir)/fnrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 fxlogin: $(top_builddir)/config.status $(srcdir)/fxlogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

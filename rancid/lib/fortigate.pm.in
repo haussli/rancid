@@ -1,0 +1,199 @@
+package fortigate;
+##
+## $Id$
+##
+## @PACKAGE@ @VERSION@
+@copyright@
+#
+#  RANCID - Really Awesome New Cisco confIg Differ
+#
+#  A library built on Stephen Gill's Netscreen stuff to accomodate
+#  the Fortinet/Fortigate product line.  [d_pfleger@juniper.net]
+#
+#  fortigate.pm - Fortigate rancid procedures
+
+use 5.010;
+use strict 'vars';
+use warnings;
+no warnings 'uninitialized';
+require(Exporter);
+our @ISA = qw(Exporter);
+
+use rancid @VERSION@;
+
+@ISA = qw(Exporter rancid main);
+#XXX @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands);
+
+# load-time initialization
+sub import {
+    0;
+}
+
+# post-open(collection file) initialization
+sub init {
+    # add content lines and separators
+    ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n!\n");
+    ProcessHistory("COMMENTS","keysort","B0","!\n");
+    ProcessHistory("COMMENTS","keysort","D0","!\n");
+    ProcessHistory("COMMENTS","keysort","F0","!\n");
+    ProcessHistory("COMMENTS","keysort","G0","!\n");
+
+    0;
+}
+
+# main loop of input of device output
+sub inloop {
+    my($INPUT, $OUTPUT) = @_;
+    my($cmd, $rval);
+
+TOP: while(<$INPUT>) {
+	tr/\015//d;
+	if (/[>#]\s?exit$/) {
+	    $clean_run = 1;
+	    last;
+	}
+	if (/^Error:/) {
+	    print STDOUT ("$host fnlogin error: $_");
+	    print STDERR ("$host fnlogin error: $_") if ($debug);
+	    $clean_run = 0;
+	    last;
+	}
+	while (/^.+(#|\$)\s*($cmds_regexp)\s*$/) {
+	    $cmd = $2;
+	    # - FortiGate prompts end with either '#' or '$'. Further, they may
+	    # be prepended with a '~' if the hostname is too long. Therefore,
+	    # we need to figure out what our prompt really is.
+	    if (!defined($prompt)) {
+		if ($_ =~ m/^.+\~\$/) {
+		    $prompt = '\~\$ .*';
+		} else {
+		    if ($_ =~ m/^.+\$/) {
+			$prompt = ' \$ .*';
+		    } else {
+			if ($_ =~ m/^.+\~#/) {
+			    $prompt = '\~# .*';
+			} else {
+			    if ($_ =~ m/^.+#/) {
+				$prompt = ' # .*';
+			    }
+			}
+		    }
+		}
+	    }
+	    print STDERR ("HIT COMMAND:$_") if ($debug);
+	    if (!defined($commands{$cmd})) {
+		print STDERR "$host: found unexpected command - \"$cmd\"\n";
+		$clean_run = 0;
+		last TOP;
+	    }
+	    if (! defined(&{$commands{$cmd}})) {
+		printf(STDERR "$host: undefined function - \"%s\"\n",
+		       $commands{$cmd});
+		$clean_run = 0;
+		last TOP;
+	    }
+	    $rval = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
+	    delete($commands{$cmd});
+	    if ($rval == -1) {
+		$clean_run = 0;
+		last TOP;
+	    }
+	}
+    }
+}
+
+# This routine parses "get system"
+sub GetSystem {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In GetSystem: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	next if /^\s*$/;
+	last if (/$prompt/);
+
+	if ($filter_osc >= 2) {
+	    next if (/^\s*APP-DB: .*/);
+	    next if (/^\s*Botnet DB: .*/);
+	    next if (/^\s*IPS Malicious URL Database: .*/);
+	    next if (/^\s*IPS-ETDB: .*/);
+	}
+	next if (/^system time:/i);
+	next if (/^\s*Extended DB: .*/);
+	next if (/^\s*IPS-DB: .*/);
+	next if (/^\s*Virus-DB: .*/);
+	next if (/^FortiClient application signature package:/);
+	# Cluster uptime
+	next if (/^\s*Cluster uptime:/);
+
+	ProcessHistory("","","","#$_");
+    }
+    ProcessHistory("SYSTEM","","","\n");
+    return(0);
+}
+
+sub GetFile {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In GetFile: $_" if ($debug);
+
+    while (<$INPUT>) {
+	last if (/$prompt/);
+    }
+    ProcessHistory("FILE","","","\n");
+    return(0);
+}
+
+sub GetConf {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In GetConf: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	next if /^\s*$/;
+	last if (/$prompt/);
+
+	# System time is fortigate extraction time
+	next if (/^\s*!System time:/);
+	# remove occurrances of conf_file_ver
+	next if (/^#?conf_file_ver=/);
+	# filter last-login
+	if (/^(\s*set)\slast-login\s(.*)/ && $filter_osc) {
+	    ProcessHistory("","","","#$1 last-login <removed>\n");
+	    next;
+	}
+
+	# filter cycling RSA private keys
+	if ($filter_osc &&
+	    /^\s*set private-key "-----BEGIN (RSA|ENCRYPTED) PRIVATE KEY-----/) {
+	    ProcessHistory("","","","#$_");
+	    ProcessHistory("","","","# <removed>\n");
+	    while (<$INPUT>) {
+		tr/\015//d;
+		last if (/$prompt/);
+
+		if (/^\s*-----END (RSA|ENCRYPTED) PRIVATE KEY-----"/) {
+	    	    ProcessHistory("","","","#$_");
+		    last;
+		}
+	    }
+	    next;
+	}
+	# filter ospf md5-keys
+	if (/^(\s*set)\smd5-key\s(\d+)\s(.*)/ && $filter_osc) {
+	    ProcessHistory("","","","#$1 md5-key $2 <removed>\n");
+	    next;
+	}
+	# filter cycling password encryption
+	if (/^(\s*set \S*( \d+)?)\s("?enc\s\S+"?)(.*)/i &&
+	    ($filter_osc || $filter_pwds > 0)) {
+	    ProcessHistory("ENC","","","#$1 ENC <removed> $4\n");
+	    next;
+	}
+
+	ProcessHistory("","","","$_");
+    }
+    $found_end = 1;
+    return(1);
+}
+
+1;

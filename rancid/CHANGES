@@ -1,4 +1,6 @@
 3.99.99
+	fnrancid, fortigate.pm: convert fortigate to module
+
 	waverserver.pm: filter power support wattage, new in waveserveros 1.6
 
 	nxos.pm: in ShowEnvTemp() sub-input loop, catch prompt - Scott McInness

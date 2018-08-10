@@ -1,4 +1,6 @@
 3.99.99
+	nxos.pm: in ShowEnvTemp() sub-input loop, catch prompt - Scott McInness
+
 	jlogin: skip login tips that look like prompts, like:
 	JUNOS tip:
 	Use the configuration statement [system login class <name> login-tip]

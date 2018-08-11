@@ -1,4 +1,7 @@
 3.99.99
+	fortigate.pm: GC unnecessary output spacers & fix comment character -
+	Nick Nauwelaerts
+
 	fnlogin: fix logout sequence in run_commands() & used -h option of send
 
 	fnrancid, fortigate.pm: convert fortigate to module

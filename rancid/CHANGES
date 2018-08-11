@@ -1,4 +1,6 @@
 3.99.99
+	fnlogin: fix logout sequence in run_commands() & used -h option of send
+
 	fnrancid, fortigate.pm: convert fortigate to module
 
 	waverserver.pm: filter power support wattage, new in waveserveros 1.6

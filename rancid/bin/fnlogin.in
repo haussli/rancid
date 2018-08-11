@@ -490,24 +490,22 @@ proc run_commands { prompt command } {
 	    send -- "[subst -nocommands [lindex $commands $i]]\r"
 	}
 	expect {
-            -re "$prompt"			{
-						  sleep 0.5
-						}
-	    -gl "--More--"			{ send " "
+            -re "$prompt"			{ }
+	    -gl "--More--"			{ send -h " "
 						  exp_continue
 						}
 	    -re "\[\n\r]+"			{ exp_continue }
 	}
      }
+     send -h "exit\r"
      expect {
 	-re "$prompt$"				{
-						  send "exit\r"
-						  sleep 0.5
+						  send -h "exit\r"
 						  exp_continue
 						}
 	-re "\[\n\r]+"				{ exp_continue }
 	-gl "Configuration modified, save?"	{
-						  send "n\r"
+						  send -h "n\r"
 						  exp_continue
 						}
 	timeout					{ catch {close}; catch {wait};

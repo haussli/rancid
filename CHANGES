@@ -1,4 +1,6 @@
 3.99.99
+	wavesvros.pm: add cmds license file list, blade show, & alarm show
+
 	fortigate.pm: GC unnecessary output spacers & fix comment character -
 	Nick Nauwelaerts
 

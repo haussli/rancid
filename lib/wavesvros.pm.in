@@ -100,6 +100,25 @@ TOP: while (<$INPUT>) {
     }
 }
 
+# This routine parses a few commands generically
+sub GenericCmd {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In GenericCmd: $_" if ($debug);
+
+    # include the command
+    s/^[a-z]+@//; s/^([^ ]+)\*([>#])/$1$2/;
+    ProcessHistory("","","","! $_");
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+
+	ProcessHistory("","","","! $_");
+    }
+    ProcessHistory("","","","!\n");
+
+    return(0);
+}
+
 # This routine parses "chassis show"
 sub ShowChassis {
     my($INPUT, $OUTPUT, $cmd) = @_;
@@ -143,7 +162,6 @@ sub ShowChassis {
 EndShowChassis:
     return(0);
 }
-
 
 # This routine parses "software show"
 sub ShowVersion {

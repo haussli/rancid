@@ -95,7 +95,10 @@ ciena-ws;timeout;120
 ciena-ws;module;wavesvros
 ciena-ws;inloop;wavesvros::inloop
 ciena-ws;command;wavesvros::ShowVersion;software show
+ciena-ws;command;wavesvros::GenericCmd;license file list
 ciena-ws;command;wavesvros::ShowChassis;chassis show
+ciena-ws;command;wavesvros::GenericCmd;blade show
+ciena-ws;command;wavesvros::GenericCmd;alarm show
 ciena-ws;command;wavesvros::WriteTerm;configuration show
 #
 # Cisco Catalyst 5k (all catalyst o/s switches)

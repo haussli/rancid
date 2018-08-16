@@ -1,4 +1,6 @@
 3.99.99
+	fxlogin: missing escape in regex - Erik Muller
+
 	wavesvros.pm: add cmds license file list, blade show, & alarm show
 
 	fortigate.pm: GC unnecessary output spacers & fix comment character -

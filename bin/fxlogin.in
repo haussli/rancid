@@ -397,7 +397,7 @@ proc run_commands { prompt command } {
 	    -re "^\[^\n\r]*$reprompt."		{ send_user -- "$expect_out(buffer)"
 						  exp_continue
 						}
-	    -re "^[^-]*--More--\[^\r\n]*[\r\n]+"	{ # fxos FTP pager
+	    -re "^\[^-]*--More--\[^\r\n]*\[\r\n]+"	{ # fxos FTP pager
 						  send " "
 						  exp_continue
 						}

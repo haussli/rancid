@@ -1,4 +1,6 @@
 3.99.99
+	fortigate: wrap other DB signatures within FILTER_OSC
+
 	hlogin: allow prompts with ()s, still not a good idea imo
 
 	fxlogin: missing escape in regex - Erik Muller

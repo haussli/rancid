@@ -44,37 +44,22 @@ sub inloop {
 
 TOP: while(<$INPUT>) {
 	tr/\015//d;
-	if (/[>#]\s?exit$/) {
-	    $clean_run = 1;
-	    last;
-	}
 	if (/^Error:/) {
 	    print STDOUT ("$host fnlogin error: $_");
 	    print STDERR ("$host fnlogin error: $_") if ($debug);
 	    $clean_run = 0;
 	    last;
 	}
-	while (/^.+(#|\$)\s*($cmds_regexp)\s*$/) {
-	    $cmd = $2;
+	while (/^.+[#\$]\s*($cmds_regexp)\s*$/) {
+	    $cmd = $1;
 	    # FortiGate prompts end with either '#' or '$'. Further, they may
 	    # be prepended with a '~' if the hostname is too long. Therefore,
 	    # we need to figure out what our prompt really is.
 	    if (!defined($prompt)) {
-		if ($_ =~ /^.+\~\$/) {
-		    $prompt = '\~\$ .*';
-		} else {
-		    if ($_ =~ /^.+\$/) {
-			$prompt = ' \$ .*';
-		    } else {
-			if ($_ =~ /^.+\~#/) {
-			    $prompt = '\~# .*';
-			} else {
-			    if ($_ =~ /^.+#/) {
-				$prompt = ' # .*';
-			    }
-			}
-		    }
-		}
+		$prompt = ($_ =~ /^([^#\$]+~?[#\$])/)[0];
+		$prompt =~ s/([][}{)(\\])/\\$1/g;
+		# add the possible ~
+		$prompt =~ s/~?([#\$])/~?\\$1/g;
 		print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
 	    }
 	    print STDERR ("HIT COMMAND:$_") if ($debug);
@@ -95,6 +80,10 @@ TOP: while(<$INPUT>) {
 		$clean_run = 0;
 		last TOP;
 	    }
+	}
+	if (/[#\$]\s?exit$/) {
+	    $clean_run = 1;
+	    last;
 	}
     }
 }

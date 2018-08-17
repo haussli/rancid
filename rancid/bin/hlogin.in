@@ -256,12 +256,12 @@ proc run_commands { prompt command } {
 
     # Escape regex meta characters in the $prompt
     # match cisco config mode prompts too, such as router(config-if)#
-    regsub -all {^(.{1,11}).*([#>] ?)$} $prompt {\1} reprompt
-    # escape any parens in the prompt, such as "(enable)"
-    regsub -all {[)(]} $reprompt {\\&} reprompt
+    regsub -lineanchor -- {^(.{1,11}).*([#>] ?)$} $prompt {\1} reprompt
+    regsub -all -- {[\\]$} $reprompt {} reprompt
     append reprompt {([^#>\r\n]+)?[#>](\\([^)\\r\\n]+\\))?}
     # this is the only way i see to get rid of more prompts in o/p..grrrrr
     log_user 0
+send_user ">>>>>>>> $reprompt\r\n"
 
     # handle escaped ;s in commands, and ;; and ^;
     regsub -all {([^\\]);;} $command "\\1;\u002;" esccommand
@@ -523,7 +523,9 @@ foreach router [lrange $argv $i end] {
 	send "\r"
 	expect {
 	    -re "\[\r\n]+"	{ exp_continue; }
-	    -re "^.+$prompt"	{ set prompt $expect_out(0,string); }
+	    -re "^.+$prompt"	{ set junk $expect_out(0,string);
+				  regsub -all "\[\]\[\(\)+]" $junk {\\&} prompt;
+				}
 	}
 	# set a wide tty width.
 	set stty_init "cols 132"

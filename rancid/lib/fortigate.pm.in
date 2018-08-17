@@ -75,6 +75,7 @@ TOP: while(<$INPUT>) {
 			}
 		    }
 		}
+		print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
 	    }
 	    print STDERR ("HIT COMMAND:$_") if ($debug);
 	    if (!defined($commands{$cmd})) {

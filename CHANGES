@@ -1,4 +1,6 @@
 3.99.99
+	hlogin: allow prompts with ()s, still not a good idea imo
+
 	fxlogin: missing escape in regex - Erik Muller
 
 	wavesvros.pm: add cmds license file list, blade show, & alarm show

@@ -578,6 +578,9 @@ sub ShowIntTransceiver {
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
 
+	# filter out oscillating data from transceivers
+	next if (/(Temperature|Current|Power|Voltage)\s+:/);
+
 	ProcessHistory("COMMENTS","","","!$_");
     }
     ProcessHistory("COMMENTS","","","!\n");

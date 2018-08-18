@@ -1,4 +1,6 @@
 3.99.99
+	nxos.pm: filter out oscillating data from transceivers - Pavel Korovin
+
 	fortigate: wrap other DB signatures within FILTER_OSC
 
 	hlogin: allow prompts with ()s, still not a good idea imo

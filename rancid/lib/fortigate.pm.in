@@ -102,6 +102,7 @@ sub GetSystem {
 	    next if (/^\s*APP-DB: .*/);
 	    next if (/^\s*Botnet DB: .*/);
 	    next if (/^\s*Extended DB: .*/);
+	    next if (/^\s*industrial-db: .*/i);
 	    next if (/^\s*IPS-DB: .*/);
 	    next if (/^\s*IPS-ETDB: .*/);
 	    next if (/^\s*IPS Malicious URL Database: .*/);

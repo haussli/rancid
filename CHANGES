@@ -1,4 +1,6 @@
 3.99.99
+	fortigate: filter INDUSTRIAL-DB version - Chris Wopat
+
 	nxos.pm: filter out oscillating data from transceivers - Pavel Korovin
 
 	fortigate: wrap other DB signatures within FILTER_OSC

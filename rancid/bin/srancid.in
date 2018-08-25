@@ -123,6 +123,7 @@ sub ShowSys {
 	    while (<INPUT>) {
 		s/^\s+\015//g;
 		tr/\015//d;
+		goto ENDSHOWSYS if(/$prompt/);
 		/(\d+)\s+\d+\s+(.*)$/ &&
 		ProcessHistory("COMMENTS","keysort","C1","! $1\t$2\n");
 		/^\s*$/ && last;
@@ -145,6 +146,7 @@ sub ShowSys {
 		/\(celsius\)/i && next;
 		s/^\s+\015//g;
 		tr/\015//d;
+		goto ENDSHOWSYS if(/$prompt/);
 		/(\d+)\s+(\w+)\s+\d+\s+(.*)$/ &&
 		ProcessHistory("COMMENTS","keysort","C1","! $1\t$2\t\t$3\n");
 		/^\s*$/ && last;
@@ -161,6 +163,7 @@ sub ShowSys {
 	# 1     System       OK            1.4        65.2
 	# 1     Internal     OK           N/A         N/A       10/05/2017 20:18:35
 	if (/power supplies/i) {
+	    ProcessHistory("COMMENTS","keysort","C1", "!\n");
 	    ProcessHistory("COMMENTS","keysort","C1",
 		"! Unit\tDescription\tStatus\n");
 	    ProcessHistory("COMMENTS","keysort","C1",
@@ -168,6 +171,7 @@ sub ShowSys {
 	    while (<INPUT>) {
 		s/^\s+\015//g;
 		tr/\015//d;
+		goto ENDSHOWSYS if(/$prompt/);
 		/^(unit\s|--+\s|\s)/i && next;
 		if (/(\d+)\s+(\w+)\s+(\w+(\s\w+)?)\s/) {
 		    if (length($2) >= 8) {
@@ -186,6 +190,7 @@ sub ShowSys {
 
 	ProcessHistory("COMMENTS","keysort","C1","! $_");
     }
+ENDSHOWSYS:
     return(0);
 }
 

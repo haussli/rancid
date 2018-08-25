@@ -1,4 +1,6 @@
 3.99.99
+	srancid: prevent ShowSys() power supply handling from consuming too much
+
 	fortigate: filter INDUSTRIAL-DB version - Chris Wopat
 
 	nxos.pm: filter out oscillating data from transceivers - Pavel Korovin

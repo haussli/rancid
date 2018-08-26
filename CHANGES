@@ -1,4 +1,6 @@
 3.99.99
+	nx.pm: also ignore accounting_log.0 - Pavel Korovin
+
 	srancid: prevent ShowSys() power supply handling from consuming too much
 
 	fortigate: filter INDUSTRIAL-DB version - Chris Wopat

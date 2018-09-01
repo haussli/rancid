@@ -486,7 +486,10 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 				  send "K\r"
 				  exp_continue
 				}
-	-re "Last login:"	{
+	-nocase -re "last login:"	{
+				  exp_continue
+				}
+	-nocase -re "failed login:"	{
 				  exp_continue
 				}
 	-re "@\[^\r\n]+ $p_prompt"	{

@@ -496,9 +496,9 @@ proc run_commands { prompt command } {
 						}
 	    -re "\[\n\r]+"			{ exp_continue }
 	}
-     }
-     send -h "exit\r"
-     expect {
+    }
+    send -h "exit\r"
+    expect {
 	-re "$prompt$"				{
 						  send -h "exit\r"
 						  exp_continue

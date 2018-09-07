@@ -232,9 +232,9 @@ proc run_commands { prompt command } {
 	    -re "\[\n\r]+"			{ exp_continue }
 						}
 	}
-     }
+    }
 
-     expect {
+    expect {
 	  -re "$prompt$"			{
 						  send -h "logout\r"
 						  exp_continue
@@ -248,7 +248,7 @@ proc run_commands { prompt command } {
 						  return 0
 						}
 	  eof					{ return 0 }
-        }
+    }
     set in_proc 0
 }
 

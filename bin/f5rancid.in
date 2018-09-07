@@ -191,6 +191,12 @@ sub ShowBaseRun {
 	if (!$line++) {
 	    ProcessHistory("SHOWBASE","","","#\n#base:\n");
 	}
+	# filter oscillating "password crypt", "auth password crypt",
+	# "privacy password crypt"
+	if (/(password crypt) / && $filter_pwds >= 1) {
+	    ProcessHistory("LINE-PASS","","","# $`$1 <removed>\n");
+	    next;
+	}
 	if (/(auth-password-encrypted )\S+/) {
 	    ProcessHistory("SHOWBASE","","","# $1 <removed>");
 	    next;

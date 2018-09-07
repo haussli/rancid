@@ -683,8 +683,8 @@ foreach router [lrange $argv $i end] {
     }
     if { $do_command || $do_script } {
 	if { [string compare "extreme" "$platform"] } {
-	    # If the prompt is (enable), then we are on a switch and the
-	    # command is "set length 0"; otherwise its "terminal length 0".
+	    # If the prompt is (enable), then we are on a cataylyst switch and
+	    # the command is "set length 0"; otherwise its "terminal length 0".
 	    if [regexp -- ".*> .*enable" "$prompt"] {
 		send "set length 0\r"
 		expect -re $prompt  	{}

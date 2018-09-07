@@ -50,6 +50,13 @@ arbor;command;arbor::ShowVersion;system version
 arbor;command;arbor::ShowHardware;system hardware
 arbor;command;arbor::ShowConfig;config show
 #
+# Arrcus
+arcos;script;rancid -t arcos
+arcos;login;clogin
+arcos;module;arcos
+arcos;inloop;arcos::inloop
+#XXX arcos;command;arcos::ShowVersion;show version
+#
 arista;script;rancid -t arista
 arista;login;clogin
 arista;module;aeos
@@ -642,7 +649,7 @@ sros;command;sros::WriteTerm;admin display-config
 #
 # Nokia (Alcatel-Lucent) SR OS MD-CLI (TiMOS)
 # 7750 SR and 7950 XRS routers
-sros-md;script;rancid -t sros-md
+sros-md;script;rancid -t sros-md -d
 sros-md;login;noklogin
 sros-md;module;sros
 sros-md;inloop;sros::inloop

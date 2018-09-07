@@ -208,7 +208,7 @@ proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype ide
 
 # Run commands given on the command line.
 proc run_commands { prompt command } {
-    global in_proc
+    global do_interact in_proc
     set in_proc 1
 
     # Disable output paging.
@@ -232,6 +232,11 @@ proc run_commands { prompt command } {
 	    -re "\[\n\r]+"			{ exp_continue }
 						}
 	}
+    }
+
+    if { $do_interact == 1 } {
+	interact
+	return 0
     }
 
     expect {

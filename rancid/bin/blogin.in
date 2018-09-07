@@ -17,9 +17,9 @@
 # XXX need to import login_top.
 
 # Usage line
-set usage "Usage: $argv0 \[-dSV\] \[-autoenable\] \[-noenable\] \[-c command\] \
-\[-Evar=x\] \[-e enable-password\] \[-f cloginrc-file\] \[-p user-password\] \
-\[-s script-file\] \[-t timeout\] \[-u username\] \
+set usage "Usage: $argv0 \[-diSV\] \[-autoenable\] \[-noenable\] \
+\[-c command\] \[-Evar=x\] \[-e enable-password\] \[-f cloginrc-file\] \
+\[-p user-password\] \[-s script-file\] \[-t timeout\] \[-u username\] \
 \[-v vty-password\] \[-w enable-username\] \[-x command-file\] \
 \[-y ssh_cypher_type\] router \[router...\]\n"
 
@@ -30,6 +30,7 @@ set usage "Usage: $argv0 \[-dSV\] \[-autoenable\] \[-noenable\] \[-c command\] \
 set password_file $env(HOME)/.cloginrc
 # Default is to login to the router
 set do_command 0
+set do_interact 0
 set do_script 0
 # The default is to automatically enable
 set avenable 0
@@ -92,6 +93,9 @@ for {set i 0} {$i < $argc} {incr i} {
 	    set do_cloginrcdbg 1
 	} -M* {
 	    set do_cloginrcdbg 2
+	# interactive
+	} -i* {
+	    set do_interact 1
 	# VTY Password
 	} -p* {
 	    if {! [  regexp .\[pP\](.+) $arg ignore userpasswd]} {
@@ -494,7 +498,7 @@ proc do_enable { enauser enapasswd } {
 
 # Run commands given on the command line.
 proc run_commands { prompt command } {
-    global in_proc
+    global do_interact in_proc
     set in_proc 1
 
     send "more off\r"
@@ -519,6 +523,12 @@ proc run_commands { prompt command } {
 	    -re "\[\n\r]+"			{ exp_continue }
 	}
     }
+
+    if { $do_interact == 1 } {
+	interact
+	return 0
+    }
+
     send "logout\r"
     expect {
 	"\n"					{ exp_continue }

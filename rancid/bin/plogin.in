@@ -19,15 +19,15 @@ use Getopt::Long;
 #  use Getopt::Long qw(:config no_ignore_case bundling);
 Getopt::Long::Configure ("bundling", "no_ignore_case");
 our($opt_d, $opt_S, $opt_V, $opt_autoenable, $opt_noenable, $opt_c, @opt_E,
-    $opt_e, $opt_f, $opt_h, $opt_m, $opt_M, $opt_p, $opt_r, $opt_s, $opt_t,
-    $opt_u, $opt_v, $opt_w, $opt_x, $opt_y, $opt_z);
+    $opt_e, $opt_f, $opt_h, $opt_i, $opt_m, $opt_M, $opt_p, $opt_r, $opt_s,
+    $opt_t, $opt_u, $opt_v, $opt_w, $opt_x, $opt_y, $opt_z);
 GetOptions('d' => \$opt_d, 'S' => \$opt_S, 'V' => \$opt_V,
 	'autoenable' => \$opt_autoenable, 'noenable' => \$opt_noenable,
 	'c=s' => \$opt_c, "E=s@" => \@opt_E, 'e=s' => \$opt_e, 'f=s' => \$opt_f,
-	'h' => \$opt_h, 'm' => \$opt_m, 'M' => \$opt_M, 'p=s' => \$opt_p,
-	'r=s' => \$opt_r, 's=s' => \$opt_s, 't=s' => \$opt_t, 'u=s' => \$opt_u,
-	'v=s' => \$opt_v, 'w=s' => \$opt_w, 'x=s' => \$opt_x, 'y=s' => \$opt_y,
-	'z=s' => \$opt_z);
+	'h' => \$opt_h, 'i' => \$opt_$i, 'm' => \$opt_m, 'M' => \$opt_M,
+	'p=s' => \$opt_p, 'r=s' => \$opt_r, 's=s' => \$opt_s, 't=s' => \$opt_t,
+	'u=s' => \$opt_u, 'v=s' => \$opt_v, 'w=s' => \$opt_w, 'x=s' => \$opt_x,
+	'y=s' => \$opt_y, 'z=s' => \$opt_z);
 my($BASEDIR, $LIST_OF_GROUPS, $cmd, $i, $j, @routers);
 BEGIN {
     push(@INC, "@pkglibdir@");
@@ -54,6 +54,7 @@ if ($opt_V) {
     # do not exit; exec the script with -V and it will exit
 }
 $cmd .= " -d" if ($opt_d);
+$cmd .= " -i" if ($opt_i);
 $cmd .= " -m" if ($opt_m);
 $cmd .= " -M" if ($opt_M);
 $cmd .= " -S" if ($opt_S);

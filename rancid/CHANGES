@@ -1,4 +1,6 @@
 3.99.99
+	*login: add -i option
+
 	arcos.pm: initial arcos support - WIP
 
 	anlogin: copy last/failed login match from clogin

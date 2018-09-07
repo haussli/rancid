@@ -296,7 +296,7 @@ proc login { router user userpswd passwd cmethod cyphertype identfile } {
 
 # Run commands given on the command line.
 proc run_commands { prompt command } {
-    global in_proc
+    global do_interact in_proc
     set in_proc 1
 
     #exp_internal 1
@@ -330,6 +330,12 @@ proc run_commands { prompt command } {
 		-re "\[\n\r]+"			{ exp_continue }
 	}
     }
+
+    if { $do_interact == 1 } {
+	interact
+	return 0
+    }
+
     send "exit\r"
     expect {
 	"\n"					{ exp_continue }

@@ -1,13 +1,13 @@
 .\"
 .hys 50
-.TH "clogin" "1" "22 February 2017"
+.TH "clogin" "1" "7 September 2018"
 .SH NAME
 clogin \- Cisco login script
 .SH SYNOPSIS
 .B clogin
 [\fB\-autoenable\fP]
 [\fB\-noenable\fP]
-[\fB\-dhSV\fR]
+[\fB\-dhiSV\fR]
 [\fB\-m|M\fR]
 [\c
 .BI \-c\ 
@@ -159,6 +159,10 @@ Specifies an alternate configuration file.  The default is
 .TP
 .B \-h
 Display usage line and exit.
+.\"
+.TP
+.B \-i
+Enter interactive mode after processing -[cx] options.
 .\"
 .TP
 .B \-[mM]

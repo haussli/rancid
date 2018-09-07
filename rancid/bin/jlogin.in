@@ -190,7 +190,7 @@ proc login { router user passwd cmethod cyphertype identfile} {
 
 # Run commands given on the command line.
 proc run_commands { prompt command } {
-    global in_proc
+    global do_interact in_proc
     set in_proc 1
 
     send "set cli complete-on-space off\r"
@@ -214,6 +214,12 @@ proc run_commands { prompt command } {
 	    -re "(\r\n|\n)"			{ exp_continue }
 	}
     }
+
+    if { $do_interact == 1 } {
+	interact
+	return 0
+    }
+
     send "quit\r"
     expect {
 	"\n"					{ exp_continue }

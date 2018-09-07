@@ -1,0 +1,172 @@
+package arcos;
+##
+## $Id$
+##
+## @PACKAGE@ @VERSION@
+@copyright@
+#
+#  RANCID - Really Awesome New Cisco confIg Differ
+#
+#  arcos.pm - Arrcus Arcos rancid procedures
+
+use 5.010;
+use strict 'vars';
+use warnings;
+no warnings 'uninitialized';
+require(Exporter);
+our @ISA = qw(Exporter);
+
+use rancid @VERSION@;
+
+@ISA = qw(Exporter rancid main);
+#XXX @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands);
+
+# load-time initialization
+sub import {
+    0;
+}
+
+# post-open(collection file) initialization
+sub init {
+    # add content lines and separators
+    ProcessHistory("","","","!RANCID-CONTENT-TYPE: $devtype\n!\n");
+    ProcessHistory("COMMENTS","keysort","B0","!\n");
+    ProcessHistory("COMMENTS","keysort","D0","!\n");
+    ProcessHistory("COMMENTS","keysort","F0","!\n");
+    ProcessHistory("COMMENTS","keysort","G0","!\n");
+
+    0;
+}
+
+# main loop of input of device output
+sub inloop {
+    my($INPUT, $OUTPUT) = @_;
+    my($cmd, $rval);
+
+TOP: while(<$INPUT>) {
+	tr/\015//d;
+	if (/[>#]\s?exit$/) {
+	    $clean_run = 1;
+	    last;
+	}
+	if (/^Error:/) {
+	    print STDOUT ("$host clogin error: $_");
+	    print STDERR ("$host clogin error: $_") if ($debug);
+	    $clean_run = 0;
+	    last;
+	}
+	while (/[>#]\s*($cmds_regexp)\s*$/) {
+	    $cmd = $1;
+	    if (!defined($prompt)) {
+		$prompt = ($_ =~ /^([^#>]+[#>])/)[0];
+		$prompt =~ s/([][}{)(+\\])/\\$1/g;
+		print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
+	    }
+	    print STDERR ("HIT COMMAND:$_") if ($debug);
+	    if (! defined($commands{$cmd})) {
+		print STDERR "$host: found unexpected command - \"$cmd\"\n";
+		$clean_run = 0;
+		last TOP;
+	    }
+	    if (! defined(&{$commands{$cmd}})) {
+		printf(STDERR "$host: undefined function - \"%s\"\n",
+		       $commands{$cmd});
+		$clean_run = 0;
+		last TOP;
+	    }
+	    $rval = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
+	    delete($commands{$cmd});
+	    if ($rval == -1) {
+		$clean_run = 0;
+		last TOP;
+	    }
+	}
+    }
+}
+
+# This routine parses "show version"
+sub ShowVersion {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowVersion: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	if (/^$prompt/) { $found_version = 1; last};
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+	return(1) if (/Line has invalid autocommand /);
+	return(1) if (/(invalid (input|command) detected|type help or )/i);
+	return(0) if ($found_version);		# Only do this routine once
+	return(-1) if (/command authorization failed/i);
+
+	ProcessHistory("","","","$_");
+    }
+    return(0);
+}
+
+# This routine processes a "write term"
+sub WriteTerm {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In WriteTerm: $_" if ($debug);
+
+    while (<$INPUT>) {
+TOP:
+	tr/\015//d;
+	last if (/^$prompt/);
+	return(1) if (!$linecnt && /^\s+\^\s*$/);
+	next if (/^\s*$cmd\s*$/);
+	return(1) if (/Line has invalid autocommand /);
+	next if (/^\s+\^\s*$/);
+	return(1) if (/(invalid (input|command) detected|type help or )/i);
+	return(1) if (/\%Error: No such file or directory/);
+	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
+	return(0) if ($found_end);		# Only do this routine once
+	return(-1) if (/command authorization failed/i);
+	return(-1) if (/% ?configuration buffer full/i);
+
+	/^! no configuration change since last restart/i && next;
+
+	# skip emtpy lines at the beginning
+	if (!$linecnt && /^\s*$/) {
+	    next;
+	}
+	/Non-Volatile memory is in use/ && return(-1); # NvRAM is locked
+	/% Configuration buffer full, / && return(-1); # buffer is in use
+
+	# skip the crap
+	if (/^(##+|(building|current) configuration)/i) {
+	    while (<$INPUT>) {
+		next if (/^Current configuration\s*:/i);
+		next if (/^:/);
+		next if (/^([%!].*|\s*)$/);
+		next if (/^ip add.*ipv4:/);	# band-aid for 3620 12.0S
+		last;
+	    }
+	    tr/\015//d;
+	}
+	# config timestamp on MDS/NX-OS
+	/Time: / && next;
+
+	# skip consecutive comment lines to avoid oscillating extra comment
+	# line on some access servers.  grrr.
+	if (/^!\s*$/) {
+	    next if ($comment);
+	    ProcessHistory("","","",$_);
+	    $comment++;
+	    next;
+	}
+	$comment = 0;
+
+	# catch anything that wasnt matched above.
+	ProcessHistory("","","","$_");
+	# end of config.  the ": " game is for the PIX
+	if (/^(: +)?end$/) {
+	    $found_end = 1;
+	    return(0);
+	}
+    }
+
+    return(0);
+}
+
+1;

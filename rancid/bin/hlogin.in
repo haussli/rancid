@@ -291,6 +291,8 @@ proc run_commands { prompt command } {
 					  }
 					  exp_continue
 					}
+	    -re "^More: \[^\n\r]* line:" { catch {send " "}
+					  exp_continue }
 	    -re "^<-+ More -+>\[^\n\r]*" { catch {send " "}
 					  exp_continue }
 	    -re "^-+ MORE -+\[^\n\r]*"	{ catch {send " "}

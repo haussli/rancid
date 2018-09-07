@@ -4,6 +4,7 @@ acos.pm
 aeos.pm
 adtran.pm
 arbor.pm
+arcos.pm
 bigip.pm
 ciscowlc.pm
 dell.pm

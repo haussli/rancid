@@ -213,6 +213,7 @@ proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype ide
 proc run_commands { prompt command } {
     global in_proc
     set in_proc 1
+
     # Disable output paging.
     send -- "disable clipaging\r"
     expect -re $prompt;
@@ -227,7 +228,6 @@ proc run_commands { prompt command } {
     set num_commands [llength $commands]
     for {set i 0} {$i < $num_commands} { incr i} {
 	send -- "[subst [lindex $commands $i]]\r"
-#	send_user "**************** [subst [lindex $commands $i]] ************\n"
 	expect {
             -re "$prompt"			{ send "\r"
 						  sleep 0.5
@@ -238,7 +238,7 @@ proc run_commands { prompt command } {
 						}
 	}
      }
-#    send_user "******* fuori da ciclo for *******\n"
+
      expect {
 	  -re "$prompt$"				{
 						  send "logout\r"

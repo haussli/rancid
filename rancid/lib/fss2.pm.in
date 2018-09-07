@@ -1,6 +1,6 @@
 package fss2;
 ##
-## $Id: junos.pm.in 3736 2017-11-09 18:05:12Z heas $
+## $Id$
 ##
 ## @PACKAGE@ @VERSION@
 @copyright@

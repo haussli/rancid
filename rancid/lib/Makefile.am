@@ -7,7 +7,8 @@
 AUTOMAKE_OPTIONS=foreign no-dependencies
 
 my_pkglibdir = $(pkglibdir)
-my_pkglib_DATA = rancid.pm acos.pm aeos.pm arbor.pm bigip.pm ciscowlc.pm \
+my_pkglib_DATA = rancid.pm acos.pm aeos.pm arbor.pm arcos.pm \
+		 bigip.pm ciscowlc.pm \
 		 dell.pm edgemax.pm edgerouter.pm exos.pm \
 		 fortigate.pm foundry.pm fss2.pm fxos.pm \
 		 ios.pm iossb.pm iosshtech.pm iosxr.pm junos.pm mrv.pm nxos.pm \
@@ -58,6 +59,7 @@ $(pkglib_in:%.in=%): Makefile $(top_builddir)/config.status
 acos.pm: acos.pm.in
 aeos.pm: aeos.pm.in
 arbor.pm: arbor.pm.in
+arcos.pm: acos.pm.in
 bigip.pm: bigip.pm.in
 ciscowlc.pm: ciscowlc.pm.in
 dell.pm: dell.pm.in

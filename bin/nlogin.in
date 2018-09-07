@@ -18,7 +18,7 @@
 # XXX need to import login_top.
 
 # Usage line
-set usage "Usage: $argv0 \[-dSV\] \[-c command\] \[-Evar=x\] \
+set usage "Usage: $argv0 \[-diSV\] \[-c command\] \[-Evar=x\] \
 \[-f cloginrc-file\] \[-p user-password\] \
 \[-s script-file\] \[-t timeout\] \[-u username\] \
 \[-v vty-password\] \[-x command-file\] \
@@ -31,6 +31,7 @@ set usage "Usage: $argv0 \[-dSV\] \[-c command\] \[-Evar=x\] \
 set password_file $env(HOME)/.cloginrc
 # Default is to login to the firewall
 set do_command 0
+set do_interact 0
 set do_script 0
 # The default is to look in the password file to find the passwords.  This
 # tracks if we receive them on the command line.
@@ -88,6 +89,9 @@ for {set i 0} {$i < $argc} {incr i} {
 	    set do_cloginrcdbg 1
 	} -M* {
 	    set do_cloginrcdbg 2
+	# interactive
+	} -i* {
+	    set do_interact 1
 	# VTY Password
 	} -p* {
 	    if {! [regexp .\[pP\](.+) $arg ignore userpasswd]} {
@@ -472,7 +476,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 
 # Run commands given on the command line.
 proc run_commands { prompt command } {
-    global in_proc
+    global do_interact in_proc
     set in_proc 1
 
     send "set console page 0\r"
@@ -507,6 +511,12 @@ proc run_commands { prompt command } {
 	}
     }
     log_user 1
+
+    if { $do_interact == 1 } {
+	interact
+	return 0
+    }
+
     send "exit\r"
     expect {
 	-re "$prompt"				{

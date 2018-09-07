@@ -15,7 +15,7 @@
 # Returned to the RANCID crowd by andrew fort
 
 # Usage line
-set usage "Error: Usage: $argv0 \[-dV\] \[-noenable\] \
+set usage "Error: Usage: $argv0 \[-diV\] \[-noenable\] \
 \[-f cloginrc-file\] \[-c command\] \[-Evar=x\] \[-s script-file\] \
 \[-x command-file\] \[-t timeout\] \[-o output-file\] \
 router \[router...\]\n"
@@ -49,6 +49,7 @@ set password_file $env(HOME)/.cloginrc
 
 # If no -c or -s specified, just automate router login ala rsh
 set do_command 0
+set do_interact 0
 set do_script  0
 set log_user   0
 
@@ -472,7 +473,7 @@ proc start_logfile { output_file } {
 }
 
 proc run_commands { prompt cmdstring } {
-    global sendstring
+    global do_interact sendstring
 
     # handle escaped ;s in commands, and ;; and ^;
     regsub -all {([^\\]);;} $command "\\1;\u002;" esccommand
@@ -491,6 +492,12 @@ proc run_commands { prompt cmdstring } {
 	    return 1
 	}
     }
+
+    if { $do_interact == 1 } {
+	interact
+	return 0
+    }
+
     return 0
 }
 

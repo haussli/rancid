@@ -365,7 +365,7 @@ proc do_enable { enauser enapasswd } {
 
 # Run commands given on the command line.
 proc run_commands { prompt command } {
-    global do_saveconfig in_proc
+    global do_interact do_saveconfig in_proc
     set in_proc 1
 
     # match cisco config mode prompts too, such as router(config-if)#,
@@ -426,6 +426,11 @@ proc run_commands { prompt command } {
 	}
     }
     log_user 1
+
+    if { $do_interact == 1 } {
+	interact
+	return 0
+    }
 
     send -h "exit\r"
     expect {

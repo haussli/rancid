@@ -288,7 +288,7 @@ proc login { router user userpswd passwd cmethod cyphertype } {
 
 # Run commands given on the command line.
 proc run_commands { prompt command } {
-    global in_proc do_saveconfig
+    global do_interact in_proc do_saveconfig
     set in_proc 1
 
     # match cisco config mode prompts too, such as router(config-if)#,
@@ -350,6 +350,11 @@ proc run_commands { prompt command } {
 	}
     }
     log_user 1
+
+    if { $do_interact == 1 } {
+	interact
+	return 0
+    }
 
     # Send an Unconditional CTRL Z to exit out of any context the WLC prompt
     # may be in

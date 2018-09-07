@@ -1,5 +1,5 @@
 # Usage line
-set usage "Usage: $argv0 \[-dhSV\] \[-m|M\] \[-autoenable\] \[-noenable\] \
+set usage "Usage: $argv0 \[-dhiSV\] \[-m|M\] \[-autoenable\] \[-noenable\] \
 \[-c command\] \[-Evar=x\] \[-e enable-password\] \[-f cloginrc-file\] \
 \[-p user-password\] \[-r passphrase\] \[-s script-file\] \[-t timeout\] \
 \[-u username\] \[-v vty-password\] \[-w enable-username\] \[-x command-file\] \
@@ -9,6 +9,7 @@ set usage "Usage: $argv0 \[-dhSV\] \[-m|M\] \[-autoenable\] \[-noenable\] \
 set password_file $env(HOME)/.cloginrc
 # Default is to login to the router
 set do_command 0
+set do_interact 0
 set do_script 0
 # The default is to automatically enable
 if {! [info exists avenable]} {
@@ -106,6 +107,9 @@ for {set i 0} {$i < $argc} {incr i} {
 		incr i
 		set password_file [lindex $argv $i]
 	    }
+	# interactive
+	} -i* {
+	    set do_interact 1
 	# VTY Password
 	} -p* {
 	    if {! [regexp .\[pP\](.+) $arg ignore userpasswd]} {

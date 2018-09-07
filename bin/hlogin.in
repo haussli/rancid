@@ -251,7 +251,7 @@ proc do_enable { enauser enapasswd } {
 
 # Run commands given on the command line.
 proc run_commands { prompt command } {
-    global do_saveconfig in_proc
+    global do_interact do_saveconfig in_proc
     set in_proc 1
 
     # Escape regex meta characters in the $prompt
@@ -310,6 +310,12 @@ proc run_commands { prompt command } {
 	}
     }
     log_user 1
+
+    if { $do_interact == 1 } {
+	interact
+	return 0
+    }
+
     send -h "logout\r"
     expect {
 	-re "Do you want to save (the )?current configuration"	{

@@ -1,6 +1,6 @@
 package iossb;
 ##
-## $Id: ios.pm.in 3472 2016-09-28 21:32:23Z heas $
+## $Id$
 ##
 ## @PACKAGE@ @VERSION@
 @copyright@

@@ -1,4 +1,6 @@
 3.99.99
+	iosxr: also ignore ce_switch.log*
+
 	*login: add -i option
 
 	arcos.pm: initial arcos support - WIP

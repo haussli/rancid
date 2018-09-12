@@ -1,4 +1,7 @@
 3.99.99
+	iosxr: drop fileno from oscillating files to ignore the rotation by
+	renaming behavior seen with ce_switch.log and sort all files by filename
+
 	iosxr: also ignore ce_switch.log*
 
 	*login: add -i option

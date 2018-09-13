@@ -1,4 +1,6 @@
 3.99.99
+	noklogin: allocate a pty if not on a tty & set term width
+
 	iosxr: drop fileno from oscillating files to ignore the rotation by
 	renaming behavior seen with ce_switch.log and sort all files by filename
 

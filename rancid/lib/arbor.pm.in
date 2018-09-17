@@ -26,6 +26,8 @@ sub import {
     # Seems that it might also support "dumb".
     $ENV{'TERM'} = "vt100";
 
+    $timeo = 120;			# anlogin timeout in seconds
+
     0;
 }
 

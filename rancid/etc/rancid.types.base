@@ -649,7 +649,7 @@ sros;command;sros::WriteTerm;admin display-config
 #
 # Nokia (Alcatel-Lucent) SR OS MD-CLI (TiMOS)
 # 7750 SR and 7950 XRS routers
-sros-md;script;rancid -t sros-md -d
+sros-md;script;rancid -t sros-md
 sros-md;login;noklogin
 sros-md;module;sros
 sros-md;inloop;sros::inloop

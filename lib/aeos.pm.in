@@ -107,12 +107,12 @@ sub ShowVersion {
 	next if (/uptime is/);			# Older AOS show uptime
         my($key, $val) = split(/:\s+/, $_, 2);
         if (! $val) {
-           # Must be the model name if there's no colon
-           ProcessHistory("COMMENTS", "", "", "!Model: $_" );
-           next;
+	    # Must be the model name if there's no colon
+	    ProcessHistory("COMMENTS", "", "", "!Model: $_" );
+	    next;
         }
         if ($key ne 'Uptime' and $key ne 'Free memory') {
-           ProcessHistory("COMMENTS", "", "", "!$key: $val" );
+	    ProcessHistory("COMMENTS", "", "", "!$key: $val" );
         }
     }
     return(0);
@@ -160,11 +160,11 @@ sub ShowEnv {
         /^(System \S+ status is|Action on overheat|Airflow)/ &&
 	    ProcessHistory("COMMENTS","keysort","E0","!$_") && next;
         if (/^Fan\s+Status\s+/) {
-            $fans = 1;
-            next;
+	    $fans = 1;
+	    next;
         }
         $fans && /^\s*(\d+)\s+(\S+)/ &&
-            ProcessHistory("COMMENTS","keysort","E1","!Fan $1: $2\n") && next;
+	    ProcessHistory("COMMENTS","keysort","E1","!Fan $1: $2\n") && next;
         if (/^supply\s+model\s+capacity/i) {
 	    while (<$INPUT>) {
 		tr/\015//d;
@@ -176,7 +176,7 @@ sub ShowEnv {
 		/^\s*Total\s+\S+\s+(\S+)\s+/ &&
 		    ProcessHistory("COMMENTS","keysort","E2","!Power Total: $1\n") &&
 		    next;;
-            }
+	    }
         }
     }
     ProcessHistory("COMMENTS","","","!\n");

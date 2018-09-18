@@ -1,5 +1,5 @@
 3.99.99
-	arbor.pm: increate anlogin timeout for slow cli commands
+	arbor.pm: increase anlogin timeout for slow cli commands
 
 	noklogin: allocate a pty if not on a tty & set term width
 

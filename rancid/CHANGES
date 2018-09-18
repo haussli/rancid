@@ -1,4 +1,6 @@
 3.99.99
+	noklogin: remove ^H handling; its consuming too much
+
 	arbor.pm: increase anlogin timeout for slow cli commands
 
 	noklogin: allocate a pty if not on a tty & set term width

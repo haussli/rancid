@@ -322,7 +322,6 @@ proc run_commands { prompt command } {
 	    send -- "[subst -nocommands [lindex $commands $i]]\r"
 	}
 	expect {
-	    -re "\b+"				{ exp_continue }
 	    -re "^\[^\n\r *]*$reprompt"		{ send_user -- "$expect_out(buffer)"
 						}
 	    -re "^\[^\n\r]*$reprompt."		{ send_user -- "$expect_out(buffer)"

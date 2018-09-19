@@ -1,4 +1,6 @@
 3.99.99
+	anlogin: use login_top
+
 	sros.pm: take chassis type and s/n from show chassis instead of boot.log
 
 	noklogin: remove ^H handling; its consuming too much

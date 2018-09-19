@@ -30,6 +30,8 @@ set do_cloginrcdbg 0
 if {! [info exists timeoutdflt]} {
     set timeoutdflt 10
 }
+# spawn tty options
+set spawnopts {}
 # intialize cloginrc parsing stacks
 set int_file {}
 set int_lineno {}

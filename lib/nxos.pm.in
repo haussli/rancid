@@ -19,12 +19,6 @@ our @ISA = qw(Exporter);
 use rancid @VERSION@;
 
 our $proc;
-our $ios;
-our $found_version;
-our $found_env;
-our $found_diag;
-our $config_register;			# configuration register value
-
 our $type;				# device model, from ShowVersion
 
 our $C0;				# output formatting control
@@ -43,11 +37,6 @@ sub import {
 # post-open(collection file) initialization
 sub init {
     $proc = "";
-    $found_version = 0;
-    $found_env = 0;
-    $found_diag = 0;
-    $config_register = undef;		# configuration register value
-
     $type = undef;			# device model, from ShowVersion
 
     $C0 = 0;				# output formatting control

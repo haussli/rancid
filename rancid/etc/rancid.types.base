@@ -408,13 +408,23 @@ bigip13;command;bigip::WriteTerm;list all-properties recursive
 force10;script;f10rancid
 force10;login;clogin
 #
+# Fortinet Fortigate firewall
+# Normal or FULL configuration
 fortigate;script;rancid -t fortigate
 fortigate;login;fnlogin
 fortigate;timeout;90
 fortigate;module;fortigate
 fortigate;inloop;fortigate::inloop
 fortigate;command;fortigate::GetSystem;get system status
-fortigate;command;fortigate::GetConf;show full-configuration
+fortigate;command;fortigate::GetConf;show
+#
+fortigate-full;script;rancid -t fortigate
+fortigate-full;login;fnlogin
+fortigate-full;timeout;90
+fortigate-full;module;fortigate
+fortigate-full;inloop;fortigate::inloop
+fortigate-full;command;fortigate::GetSystem;get system status
+fortigate-full;command;fortigate::GetConf;show full-configuration
 #
 # Foundry and HP procurve OEMs of Foundry (Brocade ICX-6450s, HP9304M).
 # Reportedly functional on:

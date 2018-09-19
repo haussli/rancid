@@ -1,4 +1,7 @@
 3.99.99
+	fortigate: rename fortigate device type to fortigate-full and re-create
+	the fortigate type with 'show' (not 'full-configuration')
+
 	anlogin: use login_top
 
 	sros.pm: take chassis type and s/n from show chassis instead of boot.log

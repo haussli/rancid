@@ -178,12 +178,6 @@ for {set i 0} {$i < $argc} {incr i} {
 		incr i
 		set enausername [lindex $argv $i]
 	    }
-	# 'ssh -c' cypher type
-	} -y* {
-	    if {! [regexp .\[eE\](.+) $arg ignore cypher]} {
-		incr i
-		set cypher [lindex $argv $i]
-	    }
 	# Command file
 	} -x* {
 	    if {! [regexp .\[xX\](.+) $arg ignore cmd_file]} {
@@ -198,6 +192,12 @@ for {set i 0} {$i < $argc} {incr i} {
 	    close $cmd_fd
 	    set command [join [split $cmd_text \n] \;]
 	    set do_command 1
+	# 'ssh -c' cypher type
+	} -y* {
+	    if {! [regexp .\[eE\](.+) $arg ignore cypher]} {
+		incr i
+		set cypher [lindex $argv $i]
+	    }
 	# Do we enable?
 	} -noenable {
 	    set avenable 0

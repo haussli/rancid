@@ -23,6 +23,7 @@ set send_human {.2 .1 .4 .2 1}
 proc login { router user userpswd passwd cmethod cyphertype identfile } {
     global command spawn_id in_proc do_command do_script passphrase
     global prompt prompt_match u_prompt p_prompt e_prompt sshcmd telnetcmd
+    global spawnopts
     set in_proc 1
     set uprompt_seen 0
 
@@ -33,9 +34,9 @@ proc login { router user userpswd passwd cmethod cyphertype identfile } {
 	if [string match "telnet*" $prog] {
 	    regexp {telnet(:([^[:space:]]+))*} $prog methcmd suffix port
 	    if {"$port" == ""} {
-		set retval [catch {eval spawn [split "$telnetcmd $router"]} reason]
+		set retval [catch {eval spawn $spawnopts [split "$telnetcmd $router"]} reason]
 	    } else {
-		set retval [catch {eval spawn [split "$telnetcmd $router $port"]} reason]
+		set retval [catch {eval spawn $spawnopts [split "$telnetcmd $router $port"]} reason]
 	    }
 	    if { $retval } {
 		send_user "\nError: telnet failed: $reason\n"
@@ -54,7 +55,7 @@ proc login { router user userpswd passwd cmethod cyphertype identfile } {
 	    if {"$identfile" != ""} {
 		set cmd "$cmd -i $identfile"
 	    }
-	    set retval [catch {eval spawn [split "$cmd -x -l $user $router" { }]} reason]
+	    set retval [catch {eval spawn $spawnopts [split "$cmd -x -l $user $router" { }]} reason]
 	    if { $retval } {
 		send_user "\nError: $cmd failed: $reason\n"
 		return 1
@@ -516,7 +517,7 @@ foreach router [lrange $argv $i end] {
     }
     # we are logged in, now figure out the full prompt:
     # cli prompt:
-    # A:some.domain.name# configure 
+    # A:some.domain.name# configure
     # cli prompt when config is unsaved:
     # *A:some.domain.name# configure 
     # config prompt:

@@ -53,7 +53,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 	    if {"$cyphertype" != ""} {
 		set cmd "$cmd -c $cyphertype"
 	    }
-	    set retval [catch {eval spawn [split "$cmd -x -l $user $router" { }]} reason]
+	    set retval [catch {eval spawn $spawnopts [split "$cmd -x -l $user $router" { }]} reason]
 	    if { $retval } {
 		send_user "\nError: $cmd failed: $reason\n"
 		return 1

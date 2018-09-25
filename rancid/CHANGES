@@ -1,4 +1,6 @@
 3.99.99
+	anlogin, jlogin, noklogin: use spawnopts spawning ssh/telnet
+
 	nxos.pm: GC unused variables
 
 	fortigate: rename fortigate device type to fortigate-full and re-create

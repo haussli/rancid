@@ -20,6 +20,7 @@ set send_human {.2 .1 .4 .2 1}
 proc login { router user passwd cmethod cyphertype identfile} {
     global spawn_id in_proc do_command do_script passphrase prompt
     global sshcmd telnetcmd
+    global spawnopts
     set in_proc 1
 
     # try each of the connection methods in $cmethod until one is successful
@@ -29,9 +30,9 @@ proc login { router user passwd cmethod cyphertype identfile} {
 	if [string match "telnet*" $prog] {
 	    regexp {telnet(:([^[:space:]]+))*} $prog command suffix port
 	    if {"$port" == ""} {
-		set retval [ catch {eval spawn [split "$telnetcmd $router"]} reason ]
+		set retval [ catch {eval spawn $spawnopts [split "$telnetcmd $router"]} reason ]
 	    } else {
-		set retval [ catch {eval spawn [split "$telnetcmd $router $port"]} reason ]
+		set retval [ catch {eval spawn $spawnopts [split "$telnetcmd $router $port"]} reason ]
 	    }
 	    if { $retval } {
 		send_user "\nError: telnet failed: $reason\n"
@@ -52,7 +53,7 @@ proc login { router user passwd cmethod cyphertype identfile} {
 	    if {"$identfile" != ""} {
 		set cmd "$cmd -i $identfile"
 	    }
-	        set retval [ catch {eval spawn [split "$cmd -x -l $user $router" { }]} reason ]
+	        set retval [ catch {eval spawn $spawnopts [split "$cmd -x -l $user $router" { }]} reason ]
 	    if { $retval } {
 		send_user "\nError: $sshcmd failed: $reason\n"
 		return 1
@@ -211,7 +212,7 @@ proc run_commands { prompt command } {
 	expect {
 	    -re "^\[^\n\r *]*$prompt $"	{}
 	    -re "^\[^\n\r]*$prompt."	{ exp_continue }
-	    -re "(\r\n|\n)"			{ exp_continue }
+	    -re "(\r\n|\n)"		{ exp_continue }
 	}
     }
 

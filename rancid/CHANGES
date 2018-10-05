@@ -1,4 +1,6 @@
 3.99.99
+	fss2: filter sys-uptime
+
 	anlogin, jlogin, noklogin: use spawnopts spawning ssh/telnet
 
 	nxos.pm: GC unused variables

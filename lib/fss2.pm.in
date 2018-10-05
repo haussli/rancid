@@ -143,7 +143,7 @@ sub ShowSystem {
 	last if (/^$prompt/);
 	next if /\[ok\]\[/i;
 
-	next if /system uptime/i;
+	next if /system (sys-)?uptime/i;
 	/system neType\s+(.*)/ &&
 	    ProcessHistory("COMMENTS","keysort","A1","#Chassis type: $1\n") &&
 	    next;

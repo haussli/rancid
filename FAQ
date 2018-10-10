@@ -210,6 +210,20 @@ A. As far as I know, CVS does not provide a way to remove directories.  First,
 	% rm -rf fubar CVS/fubar
 
 
+Q. I would like to place my git repository on a remote machine.  How do I do
+   that?
+A. We suggest that you configure git to push a clone to the remote.  That is,
+   create the rancid group as normally done, including running rancid-cvs(1).
+   Then add a push url to the existing origin.
+
+	% cd $BASEDIR/<group>
+	% git remote add <somename> <giturlofexistingremote>
+	% git remote set-url --add --push origin $CVSROOT/all
+	% git remote set-url --add --push origin <giturlofexistingremote>
+
+   http://www.shrubbery.net/pipermail/rancid-discuss/2018-August/010348.html
+
+
 Q. I would like to place my CVS repository on a remote machine.  How do I do
    that?
 A. Assuming that you're starting fresh, its quite simple.  Before running

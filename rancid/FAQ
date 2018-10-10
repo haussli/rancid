@@ -218,7 +218,7 @@ A. We suggest that you configure git to push a clone to the remote.  That is,
 
 	% cd $BASEDIR/<group>
 	% git remote add <somename> <giturlofexistingremote>
-	% git remote set-url --add --push origin $CVSROOT/all
+	% git remote set-url --add --push origin $CVSROOT/<group>
 	% git remote set-url --add --push origin <giturlofexistingremote>
 
    http://www.shrubbery.net/pipermail/rancid-discuss/2018-August/010348.html

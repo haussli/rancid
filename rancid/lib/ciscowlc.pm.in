@@ -42,10 +42,6 @@ sub inloop {
 
 TOP: while(<$INPUT>) {
 	tr/\015//d;
-	if (/^.*logout(\s*Connection.*closed.*)?$/)  {
-	    $clean_run = 1;
-	    last;
-	}
 	if (/^Error:/) {
 	    print STDOUT ("$host wlogin error: $_");
 	    print STDERR ("$host wlogin error: $_") if ($debug);
@@ -78,6 +74,10 @@ TOP: while(<$INPUT>) {
 		last TOP;
 	    }
 	}
+	if (/^.*logout(\s*connection.*closed.*)?$/i) {
+	    $clean_run = 1;
+	    last;
+	}
     }
 }
 
@@ -91,6 +91,7 @@ sub ShowConfig {
     while (<$INPUT>) {
         tr/\015//d;
         tr/\020//d;
+	last if (/^$prompt/);
 
 	next if (/^\s*rogue ap classify/);
 	next if (/^\s*rogue (adhoc|client) (alert|unknown)/i);
@@ -118,7 +119,6 @@ sub ShowConfig {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
 
-	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 
 	$linecnt++;

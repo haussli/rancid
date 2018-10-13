@@ -1,4 +1,6 @@
 3.99.99
+	ciscowlc.pm: the device may not echo the \r\n at logout
+
 	fss2: filter sys-uptime
 
 	anlogin, jlogin, noklogin: use spawnopts spawning ssh/telnet

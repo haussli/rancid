@@ -467,6 +467,11 @@ proc login { router user userpswd passwd enapasswd prompt cmethod cyphertype } {
 					  }
 					  exp_continue
 					}
+	-nocase "(press 'a' to accept):" {
+					  ### accept banner
+					  send "a\r"
+					  exp_continue
+					}
 	-- "$prompt"			{ break; }
      }
     }

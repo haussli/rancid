@@ -256,8 +256,8 @@ Q. I have a (set of) device(s) on which collection fails.  How can I debug
    this?
 A. Our usual diagnostic procedure for this is:
    - Make sure that the appropriate *login (example: clogin for cisco) works.
-     This tests to make sure you don't have routing or firewall issues, DNS
-     or hostname errors, that your .cloginrc is correct, your banner does
+     Use these tests to make sure you don't have routing or firewall issues,
+     DNS or hostname errors, that your .cloginrc is correct, your banner does
      not have some character that *login does not like, and that the *login
      script doesn't have a bug of some sort.  For example:
 

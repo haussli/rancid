@@ -240,6 +240,12 @@ proc login { router user userpswd passwd cmethod cyphertype identfile } {
 				  send_user "\nError: Check your passwd for $router\n"
 				  catch {close}; wait; return 1
 				}
+	-nocase -re "successful login:"	{
+				  exp_continue
+				}
+	-nocase -re "failed login:"	{
+				  exp_continue
+				}
 	"Login failed"		{
 				  send_user "\nError: Check your passwd for $router\n"
 				  return 1

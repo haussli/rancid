@@ -1,4 +1,6 @@
 3.99.99
+	*login: address bug in escaping empty commands of -[cx]
+
 	sros.pm: use file type debug command only for total memory and card type
 
 	panlogin: copy/customize last/failed login match from clogin

@@ -1,4 +1,6 @@
 3.99.99
+	sros.pm: use file type debug command only for total memory and card type
+
 	panlogin: copy/customize last/failed login match from clogin
 
 	fnlogin: accept new banner prompt at login - Ni Ne

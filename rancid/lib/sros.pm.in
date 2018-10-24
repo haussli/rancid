@@ -104,7 +104,6 @@ CMD:	if (/[#]\s?logout\s*$/) {
 sub BootLog {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In BootLog: $_" if ($debug);
-    #ProcessHistory("COMMENTS","keysort","F0","# $_");
 
     while (<$INPUT>) {
 	tr/\015//d;
@@ -116,17 +115,6 @@ sub BootLog {
         # if file doesn't exist, return 0
         return(0) if (/minor: cli could not access file/i);
 
-	## context lines
-	#/^\[]$/i && next;
-	#/^INFO: CLI #\d+: Switching to the .* engine/ && next;
-	#/file type bootlog/i && next;
-
-	#/time from clock is/i && next;
-	#/^(text:|executing|login:)/i && next;
-	#/^File/i && next;
-	#/[-=]+$/i && next;
-	#/executed [0-9,]+ lines in [0-9.]+ seconds/i && next;
-
 	if (/total memory:\s+(\S+)\s+chassis type:\s+(\S+)\s+card type:\s+(\S+)/i) {
 	    next if ($memoryseen++);
 	    ProcessHistory("COMMENTS","keysort","A1",
@@ -134,8 +122,6 @@ sub BootLog {
 	    ProcessHistory("COMMENTS","keysort","B2",
 			   "#Card type: $3\n");
 	}
-
-	#ProcessHistory("COMMENTS","keysort","F0","# $_");
     }
 }
 # This routine parses "show bof"

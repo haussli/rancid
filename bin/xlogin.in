@@ -83,11 +83,12 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 	    }
 
 	    # handle escaped ;s in commands, and ;; and ^;
-	    regsub -all {([^\\]);;} $command "\\1;\u002;" esccommand
-	    regsub {^;} $esccommand "\u002;" command
-	    set sep "\\1\u001"
-	    regsub -all {([^\\])\;} $command "$sep" esccommand
-	    set sep "\u001"
+	    regsub -all {([^\\]);} $command "\\1\u002;" esccommand
+	    regsub -all {([^\\]);;} $esccommand "\\1;\u002;" command
+	    regsub {^;} $command "\u002;" esccommand
+	    regsub -all {[\\];} $esccommand ";" command
+	    regsub -all {\u002;} $command "\u002" esccommand
+	    set sep "\u002"
 	    set commands [split $esccommand $sep]
 	    set num_commands [llength $commands]
 	    set rshfail 0
@@ -383,22 +384,19 @@ proc run_commands { prompt command } {
     log_user 0
 
     # handle escaped ;s in commands, and ;; and ^;
-    regsub -all {([^\\]);;} $command "\\1;\u002;" esccommand
-    regsub {^;} $esccommand "\u002;" command
-    set sep "\\1\u001"
-    regsub -all {([^\\])\;} $command "$sep" esccommand
-    set sep "\u001"
+    regsub -all {([^\\]);} $command "\\1\u002;" esccommand
+    regsub -all {([^\\]);;} $esccommand "\\1;\u002;" command
+    regsub {^;} $command "\u002;" esccommand
+    regsub -all {[\\];} $esccommand ";" command
+    regsub -all {\u002;} $command "\u002" esccommand
+    set sep "\u002"
     set commands [split $esccommand $sep]
     set num_commands [llength $commands]
     # the pager can not be turned off on the PIX, so we have to look
     # for the "More" prompt.  the extreme is equally obnoxious in pre-12.3 XOS,
     # with a global switch in the config.
     for {set i 0} {$i < $num_commands} { incr i} {
-	if { [lindex $commands $i] == "\u002" } {
-	    send -- "\r"
-	} else {
-	    send -- "[subst -nocommands [lindex $commands $i]]\r"
-	}
+	send -h -- "[subst -nocommands [lindex $commands $i]]\r"
 	expect {
 	    -re "\b+"				{ exp_continue }
 	    -re "^\[^\n\r *]*$reprompt"		{ send_user -- "$expect_out(buffer)"

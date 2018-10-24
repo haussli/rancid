@@ -64,11 +64,12 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype } {
 	    }
 
 	    # handle escaped ;s in commands, and ;; and ^;
-	    regsub -all {([^\\]);;} $command "\\1;\u002;" esccommand
-	    regsub {^;} $esccommand "\u002;" command
-	    set sep "\\1\u001"
-	    regsub -all {([^\\])\;} $command "$sep" esccommand
-	    set sep "\u001"
+	    regsub -all {([^\\]);} $command "\\1\u002;" esccommand
+	    regsub -all {([^\\]);;} $esccommand "\\1;\u002;" command
+	    regsub {^;} $command "\u002;" esccommand
+	    regsub -all {[\\];} $esccommand ";" command
+	    regsub -all {\u002;} $command "\u002" esccommand
+	    set sep "\u002"
 	    set commands [split $esccommand $sep]
 	    set num_commands [llength $commands]
 	    set rshfail 0
@@ -347,12 +348,12 @@ proc run_commands { prompt command } {
     log_user 0
 
     # handle escaped ;s in commands, and ;; and ^;
-    regsub -all {([^\\]);;} $command "\\1;\u002;" esccommand
-    regsub {^;} $esccommand "\u002;" command
-    set sep "\\1\u001"
-    regsub -all {([^\\])\;} $command "$sep" esccommand
-    set sep "\u001"
-    set commands [split $esccommand $sep]
+    regsub -all {([^\\]);} $command "\\1\u002;" esccommand
+    regsub -all {([^\\]);;} $esccommand "\\1;\u002;" command
+    regsub {^;} $command "\u002;" esccommand
+    regsub -all {[\\];} $esccommand ";" command
+    set sep "\u002;"
+    set commands [split $command $sep]
     set num_commands [llength $commands]
     # the pager can not be turned off on the PIX, so we have to look
     # for the "More" prompt.  the extreme is equally obnoxious, with a

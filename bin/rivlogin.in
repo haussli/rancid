@@ -476,11 +476,12 @@ proc run_commands { prompt cmdstring } {
     global do_interact sendstring
 
     # handle escaped ;s in commands, and ;; and ^;
-    regsub -all {([^\\]);;} $command "\\1;\u002;" esccommand
-    regsub {^;} $esccommand "\u002;" command
-    set sep "\\1\u001"
-    regsub -all {([^\\])\;} $command "$sep" esccommand
-    set sep "\u001"
+    regsub -all {([^\\]);} $command "\\1\u002;" esccommand
+    regsub -all {([^\\]);;} $esccommand "\\1;\u002;" command
+    regsub {^;} $command "\u002;" esccommand
+    regsub -all {[\\];} $esccommand ";" command
+    regsub -all {\u002;} $command "\u002" esccommand
+    set sep "\u002"
     set commands [split $esccommand $sep]
     set num_commands [llength $cmdstring]
 

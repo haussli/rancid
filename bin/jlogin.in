@@ -209,7 +209,7 @@ proc run_commands { prompt command } {
     set commands [split $esccommand $sep]
     set num_commands [llength $commands]
     for {set i 0} {$i < $num_commands} { incr i} {
-	send -h -- "[subst -nocommands [lindex $commands $i]]\r"
+	send -- "[subst -nocommands [lindex $commands $i]]\r"
 	expect {
 	    -re "^\[^\n\r *]*$prompt $"	{}
 	    -re "^\[^\n\r]*$prompt."	{ exp_continue }

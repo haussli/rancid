@@ -1,4 +1,8 @@
 3.99.99
+	*login: backout send-human change in previous commit, where it wasnt
+	before.  W/O an appropriate adjustment of the send-human variables,
+	it was killing performance.
+
 	*login: address bug in escaping empty commands of -[cx]
 
 	sros.pm: use file type debug command only for total memory and card type

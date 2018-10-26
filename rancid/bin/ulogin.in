@@ -288,7 +288,7 @@ proc run_commands { prompt command } {
     # if the pager can not be turned off, we have to look for the "More"
     # prompt.
     for {set i 0} {$i < $num_commands} { incr i} {
-	send -h -- "[subst -nocommands [lindex $commands $i]]\r"
+	send -- "[subst -nocommands [lindex $commands $i]]\r"
 	expect {
 	    -re "^\[^\n\r *]*$reprompt"	{ catch {send_user -- "$expect_out(buffer)"} }
 	    -re "^\[^\n\r]*$reprompt "	{ catch {send_user -- "$expect_out(buffer)"} }

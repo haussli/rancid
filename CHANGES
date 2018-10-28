@@ -1,4 +1,7 @@
 3.99.99
+	clogin: ArubaOS >~8.3 has a '*' which must be escaped in prompt
+	matching -PJ Goodwin
+
 	*login: backout send-human change in previous commit, where it wasnt
 	before.  W/O an appropriate adjustment of the send-human variables,
 	it was killing performance.

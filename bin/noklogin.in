@@ -73,12 +73,12 @@ proc login { router user userpswd passwd cmethod cyphertype identfile } {
 	    }
 
 	    # handle escaped ;s in commands, and ;; and ^;
-	    regsub -all {([^\\]);} $command "\\1\u002;" esccommand
-	    regsub -all {([^\\]);;} $esccommand "\\1;\u002;" command
-	    regsub {^;} $command "\u002;" esccommand
+	    regsub -all {([^\\]);} $command "\\1\u0002;" esccommand
+	    regsub -all {([^\\]);;} $esccommand "\\1;\u0002;" command
+	    regsub {^;} $command "\u0002;" esccommand
 	    regsub -all {[\\];} $esccommand ";" command
-	    regsub -all {\u002;} $command "\u002" esccommand
-	    set sep "\u002"
+	    regsub -all {\u0002;} $command "\u0002" esccommand
+	    set sep "\u0002"
 	    set commands [split $esccommand $sep]
 	    set num_commands [llength $commands]
 	    set rshfail 0
@@ -310,12 +310,12 @@ proc run_commands { prompt command } {
     log_user 0
 
     # handle escaped ;s in commands, and ;; and ^;
-    regsub -all {([^\\]);} $command "\\1\u002;" esccommand
-    regsub -all {([^\\]);;} $esccommand "\\1;\u002;" command
-    regsub {^;} $command "\u002;" esccommand
+    regsub -all {([^\\]);} $command "\\1\u0002;" esccommand
+    regsub -all {([^\\]);;} $esccommand "\\1;\u0002;" command
+    regsub {^;} $command "\u0002;" esccommand
     regsub -all {[\\];} $esccommand ";" command
-    regsub -all {\u002;} $command "\u002" esccommand
-    set sep "\u002"
+    regsub -all {\u0002;} $command "\u0002" esccommand
+    set sep "\u0002"
     set commands [split $esccommand $sep]
     set num_commands [llength $commands]
     for {set i 0} {$i < $num_commands} { incr i} {

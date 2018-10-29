@@ -1,4 +1,8 @@
 3.99.99
+	*login: adjust the command separated used within; tcl <8.6 does not
+	recognize u002 and u0002 as the same value, which caused a regex
+	compilation failure
+
 	clogin: ArubaOS >~8.3 has a '*' which must be escaped in prompt
 	matching -PJ Goodwin
 

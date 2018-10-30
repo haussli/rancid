@@ -361,9 +361,13 @@ proc run_commands { prompt command } {
     set in_proc 1
 
     if { [string compare "extreme" "$platform"] } {
-	# match cisco config mode prompts too, such as router(config-if)#,
-	# but catalyst does not change in this fashion.
-	regsub -lineanchor -- {^(.{1,11}).*([#>])$} $prompt {\1} reprompt
+	# match cisco config mode prompts too, such as router(config-if)#
+	# and truncatedr(config-if)#.
+	# catalyst does not change in this fashion, but does have its
+	# abnormal format, router> (enable).
+	# first, drop the "> (enable) " from the catos prompt.
+	regsub -lineanchor -- {> *\\\(enable\\\) *} $prompt {} reprompt
+	regsub -lineanchor -- {^(.{1,11}).*([#>])$} $reprompt {\1} reprompt
 	regsub -all -- {[\\]$} $reprompt {} reprompt
 	append reprompt {([^#>\r\n]+)?[#>](\\([^)\\r\\n]+\\))?}
     } else {

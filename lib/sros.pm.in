@@ -119,6 +119,8 @@ sub BootLog {
 	    next if ($memoryseen++);
 	    ProcessHistory("COMMENTS","keysort","A1",
 			   "#Total memory: $1\n");
+	    ProcessHistory("COMMENTS","keysort","B1",
+			   "#Chassis type: $2\n");
 	    ProcessHistory("COMMENTS","keysort","B2",
 			   "#Card type: $3\n");
 	}

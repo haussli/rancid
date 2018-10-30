@@ -1,4 +1,6 @@
 3.99.99
+	sros.pm: restore chassis type from bootlog.txt
+
 	clogin: fix problem with catos prompt
 
 	sros.pm: take chassis s/n from bootlog.txt

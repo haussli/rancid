@@ -122,6 +122,9 @@ sub BootLog {
 	    ProcessHistory("COMMENTS","keysort","B2",
 			   "#Card type: $3\n");
 	}
+	/^chassis serial number is \'(.*)\'/i &&
+	    ProcessHistory("COMMENTS","keysort","B1",
+			   "#Chassis serial number: $1\n") && next;
     }
 }
 # This routine parses "show bof"

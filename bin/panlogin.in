@@ -455,12 +455,22 @@ foreach router [lrange $argv $i end] {
 				}
     }
 
+    # PAN-OS in interactive mode will send a newline and then redraw the
+    # whole prompt-and-command if you send a space.
+    if { $do_command || $do_script } {
+	set cmd "set cli scripting-mode on\r"
+	send $cmd
+	# ensure we eat the partial commands redrawn while entering the command
+	expect -re "$cmd.*$prompt"	{}
+	send "set cli pager off\r"
+	expect -re $prompt	{}
+    }
+
     if { $do_command } {
 	if {[run_commands $prompt $command]} {
 	    continue
 	}
     } elseif { $do_script } {
-	expect -re $prompt	{}
 	source $sfile
 	close
     } else {

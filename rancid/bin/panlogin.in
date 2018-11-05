@@ -460,8 +460,6 @@ foreach router [lrange $argv $i end] {
 	    continue
 	}
     } elseif { $do_script } {
-#	send "set cli scripting-mode on\r"
-#	send "set cli pager off\r"
 	expect -re $prompt	{}
 	source $sfile
 	close

@@ -607,8 +607,6 @@ paloalto;script;rancid -t paloalto
 paloalto;login;panlogin
 paloalto;module;panos
 paloalto;inloop;panos::inloop
-paloalto;command;rancid::RunCommand;set cli scripting-mode on
-paloalto;command;rancid::RunCommand;set cli pager off
 paloalto;command;panos::ShowInfo;show system info
 paloalto;command;panos::ShowConfig;show config running
 #

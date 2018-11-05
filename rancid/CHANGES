@@ -1,4 +1,8 @@
 3.99.99
+	panlogin: move scripting mode and pager disabling from command list to
+	panlogin to work-around complete-on-space {mis-}feature added around
+	8.1.4 - Erik Muller
+
 	sros.pm: restore chassis type from bootlog.txt
 
 	clogin: fix problem with catos prompt

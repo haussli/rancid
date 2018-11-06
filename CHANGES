@@ -1,4 +1,7 @@
 3.99.99
+	hlogin: send \r rather than <sp> for "Press any key to continue" to
+	work-around apparant bug - Benoit Dolez
+
 	panlogin: move scripting mode and pager disabling from command list to
 	panlogin to work-around complete-on-space {mis-}feature added around
 	8.1.4 - Erik Muller

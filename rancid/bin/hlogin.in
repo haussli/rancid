@@ -111,7 +111,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
     # if telnet fails with connection refused, try ssh
     expect {
 	"Press any key to continue" {
-	    send " "
+	    send "\r"
 	    exp_continue
 	}
 	"Enter switch number to connect to or <CR>:" {

@@ -119,6 +119,22 @@ sub ShowInfo {
     return(0);
 }
 
+# This routine parses "show chassis inventory"
+sub ShowInventory {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    my($slot);
+
+    print STDERR "    In ShowInventory:: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+
+	ProcessHistory("INV","","","#$_");
+    }
+    ProcessHistory("INV","","","#\n");
+    return(0);
+}
 
 # This routine parses "show config running"
 sub ShowConfig {

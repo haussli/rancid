@@ -1,4 +1,6 @@
 3.99.99
+	panos: add show chassis inventory - Erik Muller
+
 	nxos.pm: filter bcm_mem_lock_trace.log since ~7.0.3 - Erik Muller
 
 	hlogin: send \r rather than <sp> for "Press any key to continue" to

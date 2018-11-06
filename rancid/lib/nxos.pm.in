@@ -414,7 +414,7 @@ sub ShowEnvPower {
 # Total Power Input (actual draw)                             161.00 W
 # Total Power Allocated (budget)                                N/A
 # Total Power Available for additional modules                  N/A  
-# 
+#
 # nexus#
 	if (/(.* +)(\d+ W +\d+ W)( +\d+ W.+)/) {
 	    $_ = sprintf("%s%-". length($2)."s%s\n", $1, "", $3);
@@ -493,6 +493,9 @@ sub DirSlotN {
 
 	# Drop vtp_debug.log and vtp_debug_old.log CDETS bug CSCuy87611
 	/\s+vtp_debug(_old)?\.log$/ && next;
+
+	# Drop bcm_mem_locl_trace.log
+	/\s+bcm_mem_lock_trace\.log$/ && next;
 
 	next if (/BufferMonitor-1HourData/);
 

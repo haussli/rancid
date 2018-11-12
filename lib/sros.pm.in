@@ -41,7 +41,6 @@ sub init {
     ProcessHistory("COMMENTS","keysort","C0","#\n");	# show information
     ProcessHistory("COMMENTS","keysort","D0","#\n");    # show redundancy
     ProcessHistory("COMMENTS","keysort","E0","#\n");	# show chassis
-    ProcessHistory("COMMENTS","keysort","F0","#\n");	# show bootlog
 
     0;
 }
@@ -217,10 +216,13 @@ sub ShowChassis {
 
 	/^\s+type\s+:\s+(.*)/i &&
 	    ProcessHistory("COMMENTS","keysort","B1", "#Chassis type: $1\n") &&
+	    ProcessHistory("COMMENTS","keysort","E1","# $_") &&
 	    next;
 	/^\s+serial number\s+:\s+(.*)/i &&
 	    ProcessHistory("COMMENTS","keysort","B1",
-			   "#Chassis serial number: $1\n") && next;
+			   "#Chassis serial number: $1\n") &&
+	    ProcessHistory("COMMENTS","keysort","E1","# $_") &&
+	    next;
 	ProcessHistory("COMMENTS","keysort","E1","# $_");
     }
 }

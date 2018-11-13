@@ -1,4 +1,6 @@
 3.99.99
+	sros.pm: remove duplication of chassis type - Greg Hankins
+
 	sros.pm: restore chassis type line - Greg Hankins
 
 	panos: add show chassis inventory - Erik Muller

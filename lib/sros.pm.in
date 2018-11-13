@@ -215,7 +215,6 @@ sub ShowChassis {
 	/[-=]+$/i && next;
 
 	/^\s+type\s+:\s+(.*)/i &&
-	    ProcessHistory("COMMENTS","keysort","B1", "#Chassis type: $1\n") &&
 	    ProcessHistory("COMMENTS","keysort","E1","# $_") &&
 	    next;
 	/^\s+serial number\s+:\s+(.*)/i &&

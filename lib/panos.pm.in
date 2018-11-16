@@ -129,6 +129,7 @@ sub ShowInventory {
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
+	return(1) if (/^Invalid syntax/);
 
 	ProcessHistory("INV","","","#$_");
     }

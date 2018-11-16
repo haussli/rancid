@@ -1,9 +1,11 @@
 3.99.99
+	panos.pm: ignore show chassis inventory on invalid syntax
+
 	sros.pm: remove duplication of chassis type - Greg Hankins
 
 	sros.pm: restore chassis type line - Greg Hankins
 
-	panos: add show chassis inventory - Erik Muller
+	panos.pm: add show chassis inventory - Erik Muller
 
 	nxos.pm: filter bcm_mem_lock_trace.log since ~7.0.3 - Erik Muller
 

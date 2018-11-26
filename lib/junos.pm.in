@@ -20,6 +20,8 @@ $Exporter::Verbose=1;
 use rancid @VERSION@;
 
 our $ShowChassisSCB;			# Only run ShowChassisSCB() once
+our $ShowChassisFirmware;		# Only run ShowChassisFirmware() once
+
 
 @ISA = qw(Exporter rancid main);
 #our @EXPORT = qw($VERSION)
@@ -34,6 +36,7 @@ sub init {
     # add content lines and separators
     ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n#\n");
 
+    $junos::ShowChassisFirmware = 0;
     0;
 }
 
@@ -185,10 +188,11 @@ sub ShowChassisFirmware {
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
-	return 1 if (/^aborted!/i);
+	return(1) if (/^aborted!/i);
 	next if (/^system (shutdown message from|going down )/i);
 	next if (/^\{(master|backup)(:\d+)?\}/);
 
+	return(0) if ($junos::ShowChassisFirmware);
 	/error: the chassis(-control)? subsystem is not r/ && return(-1);
 	/Couldn\'t initiate connection/ && return(-1);
 	/Unrecognized command/ && return(1);
@@ -198,6 +202,7 @@ sub ShowChassisFirmware {
 
 	ProcessHistory("","","","# $_");
     }
+    $ShowChassisFirmware = 1;
     return(0);
 }
 

@@ -509,6 +509,7 @@ juniper;module;junos
 juniper;inloop;junos::inloop
 juniper;command;junos::ShowChassisClocks;show chassis clocks
 juniper;command;junos::ShowChassisEnvironment;show chassis environment
+juniper;command;junos::ShowChassisFirmware;show chassis firmware local
 juniper;command;junos::ShowChassisFirmware;show chassis firmware
 juniper;command;junos::ShowChassisFpcDetail;show chassis fpc detail
 juniper;command;junos::ShowChassisHardware;show chassis hardware detail

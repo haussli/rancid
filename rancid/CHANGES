@@ -1,4 +1,7 @@
 3.99.99
+	junos.pm: handle show chassis firmware bug for 11.x on EX - Wouter de
+	Jong
+
 	panos.pm: ignore show chassis inventory on invalid syntax
 
 	sros.pm: remove duplication of chassis type - Greg Hankins

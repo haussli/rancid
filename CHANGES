@@ -1,4 +1,6 @@
 3.99.99
+	a10login: handle logout prompt variation for older ACOS - Wouter de Jong
+
 	junos.pm: handle show chassis firmware bug for 11.x on EX - Wouter de
 	Jong
 

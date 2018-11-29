@@ -124,7 +124,7 @@ sub ShowVersion {
 	return(-1) if (/\% Permission denied/);
 	return(-1) if (/command authorization failed/i);
 
-	if (/^Cisco Nexus Operating System/) { $type = "NXOS";}
+	if (/^Cisco (Nexus|Storage Area Networking) Operating System/) { $type = "NXOS";}
 	if (/^Software$/) {
 	    while (<$INPUT>) {
 		tr/\015//d;

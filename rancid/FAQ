@@ -288,9 +288,11 @@ A. Our usual diagnostic procedure for this is:
      Should produce a cisco_router.new file (cooked to a golden rancid-style
      colour) in the current directory.  If it does not, try again with the
      -d option, so that the cisco_router.new file will not be removed if
-     an error is detected.  The -l option is also useful for debugging.  Note:
+     an error is detected.  The -l option is also useful for logging.  Note:
      if you have NOPIPE set in your environment, a cisco_router.raw file will
-     be produced that is the raw output of the dialogue with the device.
+     be produced that is the raw output of the dialogue with the device, and
+     with the -d option, the .raw file will not be deleted at the end.  That
+     is helpful to see all the output.
 
    If all of these work, make sure that the device's entry in the group's
    router.db file is correct and check the group's last log file for errors.

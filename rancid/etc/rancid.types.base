@@ -401,7 +401,8 @@ bigip13;command;rancid::RunCommand;modify cli preference pager disabled display-
 bigip13;command;bigip::ShowVersion;show sys version
 bigip13;command;bigip::ShowHardware;show sys hardware
 bigip13;command;bigip::ShowLicense;show sys license 
-bigip13;command;bigip::ShowRouteStatic;show /net route static
+bigip13;command;bigip::RunCommandTMSH;cd /
+bigip13;command;bigip::ShowRouteStatic;show /net recursive route static
 bigip13;command;bigip::WriteTerm;list all-properties recursive
 #
 # Force 10 and Dell Force10.

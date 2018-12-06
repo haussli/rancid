@@ -1,4 +1,7 @@
 3.99.99
+	wlogin: fix prompt match in run_commands() which was failing for longer
+	hostnames/prompts - Erik Muller
+
 	bigip: add "cd /" command for v13 to collect all routes - Wouter de Jong
 
 	nxos.pm: recognize older SAN nexus devices - Wouter de Jong

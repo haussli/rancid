@@ -294,7 +294,7 @@ proc run_commands { prompt command } {
 
     # match cisco config mode prompts too, such as router(config-if)#,
     # but catalyst does not change in this fashion.
-    regsub -all {^(.{1,11}).*([#>])$} $prompt {\1} reprompt
+    regsub -all {^(.*)([#>])$} $prompt {\1} reprompt
     append reprompt {([^#>\r\n]+)?[#>]}
 
     # this is the only way i see to get rid of more prompts in o/p..grrrrr

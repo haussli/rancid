@@ -229,7 +229,8 @@ cisco-nx;command;nxos::ShowFex;show fex
 cisco-nx;command;nxos::WriteTerm;show running-config
 #
 # Cisco small business devices.  These are peculiar; most likely this will not
-# work with all of them.
+# work with all of them, but is also reported to work with other Marvell OEMs,
+# including PowerConnect 5448
 cisco-sb;script;rancid -t cisco-sb
 cisco-sb;login;csblogin
 cisco-sb;module;iossb

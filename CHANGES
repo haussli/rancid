@@ -1,4 +1,9 @@
 3.99.99
+	dell.pm: powerconnect N[234]000 do not reliably echo the <CR> after
+	exit - Wayne Eisenberg
+
+	clogin: new variation of username prompt - Wayne Eisenberg
+
 	wlogin: fix prompt match in run_commands() which was failing for longer
 	hostnames/prompts - Erik Muller
 

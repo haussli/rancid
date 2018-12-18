@@ -347,12 +347,12 @@ set exitval 0
 set prompt_match ""
 set enable 0
 # if we have dont have a tty, we need some additional terminal settings
-if [catch {stty -echo} reason] {
+if [catch {open /dev/tty w} ttyid] {
     # no tty, ie: cron
-    set spawnopts "-nottycopy"
+    set spawnopts "-nottycopy"  
     set stty_init "cols 132"
 } else {
-    catch {stty echo} reason
+    catch {close ttyid} reason
 }
 foreach router [lrange $argv $i end] {
     set router [string tolower $router]

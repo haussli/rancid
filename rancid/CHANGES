@@ -1,4 +1,6 @@
 3.99.99
+	anlogin: make the pty allocation the same as in jlogin
+
 	dell.pm: powerconnect N[234]000 do not reliably echo the <CR> after
 	exit - Wayne Eisenberg
 

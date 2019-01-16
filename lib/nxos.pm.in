@@ -494,7 +494,7 @@ sub DirSlotN {
 	# Drop vtp_debug.log and vtp_debug_old.log CDETS bug CSCuy87611
 	/\s+vtp_debug(_old)?\.log$/ && next;
 
-	# Drop bcm_mem_locl_trace.log
+	# Drop bcm_mem_lock_trace.log
 	/\s+bcm_mem_lock_trace\.log$/ && next;
 
 	next if (/BufferMonitor-1HourData/);

@@ -59,7 +59,7 @@ $(pkglib_in:%.in=%): Makefile $(top_builddir)/config.status
 acos.pm: acos.pm.in
 aeos.pm: aeos.pm.in
 arbor.pm: arbor.pm.in
-arcos.pm: acos.pm.in
+arcos.pm: arcos.pm.in
 bigip.pm: bigip.pm.in
 ciscowlc.pm: ciscowlc.pm.in
 dell.pm: dell.pm.in

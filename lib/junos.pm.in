@@ -376,6 +376,33 @@ sub ShowSystemAutoinstall {
     return(0);
 }
 
+# This routine parses "show system configuration database usage"
+sub ShowSystemConfDB {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowSystemConfDB: $_" if ($debug);
+
+    s/^[a-z]+@//;
+    ProcessHistory("","","","# $_");
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^system (shutdown message from|going down )/i);
+	next if (/^\{(master|backup)(:\d+)?\}/);
+
+	/Unrecognized command/ && return(0);
+	/command is not valid/ && return(0);
+	/^\s+\^/ && return(0);
+	/syntax error/ && return(0);
+
+	# trim fractional part of the sizes to reduce churn
+	s/\.\d+ ([GKM]B)/ $1/;
+
+	ProcessHistory("","","","# $_");
+    }
+    return(0);
+}
+
+
 sub ShowSystemCoreDumps {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowSystemCoreDumps: $_" if ($debug);

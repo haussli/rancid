@@ -534,11 +534,32 @@ foreach router [lrange $argv $i end] {
     if { $do_command || $do_script } {
 	# disable the pager
 	send "environment no more\r"
-	expect -re $prompt	{}
+	expect {
+	  -re "MINOR: CLI Command not allowed"	{
+				  send_error "Error: environment no more command is not allowed\n"
+				  incr exitval
+				  continue
+				}
+	  -re $prompt	{}
+	}
 	send "//environment no more\r"
-	expect -re $prompt	{}
+	expect {
+	  -re "MINOR: CLI Command not allowed"	{
+				  send_error "Error: //environment no more command is not allowed\n"
+				  incr exitval
+				  continue
+				}
+	  -re $prompt	{}
+	}
 	send "environment more false\r"
-	expect -re $prompt	{}
+	expect {
+	  -re "MINOR: CLI Command not allowed"	{
+				  send_error "Error: environment more false command is not allowed\n"
+				  incr exitval
+				  continue
+				}
+	  -re $prompt	{}
+	}
 	# XXX term length only works on the console?
 	# send "environment terminal length 512\r"
 	# expect -re $prompt	{}

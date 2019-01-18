@@ -1,4 +1,6 @@
 3.99.99
+	noklogin: exit if pager disable command is not permitted
+
 	xilogin: handle pager disable for arcos
 
 	junos.pm: add ShowSystemConfDB()

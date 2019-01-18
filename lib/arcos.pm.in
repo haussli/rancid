@@ -45,7 +45,7 @@ sub inloop {
 
 TOP: while(<$INPUT>) {
 	tr/\015//d;
-	if (/[>#]\s?exit$/) {
+	if (/[#]\s?exit$/) {
 	    $clean_run = 1;
 	    last;
 	}
@@ -55,7 +55,7 @@ TOP: while(<$INPUT>) {
 	    $clean_run = 0;
 	    last;
 	}
-	while (/[>#]\s*($cmds_regexp)\s*$/) {
+	while (/[#]\s*($cmds_regexp)\s*$/) {
 	    $cmd = $1;
 	    if (!defined($prompt)) {
 		$prompt = ($_ =~ /^([^#>]+[#>])/)[0];
@@ -91,12 +91,29 @@ sub ShowVersion {
 
     while (<$INPUT>) {
 	tr/\015//d;
-	if (/^$prompt/) { $found_version = 1; last};
 	next if (/^(\s*|\s*$cmd\s*)$/);
+	last if (/^$prompt/);
 	next if (/^\s+\^$/);
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(invalid (input|command) detected|type help or )/i);
-	return(0) if ($found_version);		# Only do this routine once
+	return(-1) if (/command authorization failed/i);
+
+	ProcessHistory("","","","$_");
+    }
+    return(0);
+}
+# This routine parses "show features"
+sub ShowFeatures {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowVersion: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	last if (/^$prompt/);
+	next if (/^\s+\^$/);
+	return(1) if (/Line has invalid autocommand /);
+	return(1) if (/(invalid (input|command) detected|type help or )/i);
 	return(-1) if (/command authorization failed/i);
 
 	ProcessHistory("","","","$_");
@@ -104,10 +121,30 @@ sub ShowVersion {
     return(0);
 }
 
-# This routine processes a "write term"
+# This routine parses "show hardware"
+sub ShowHardware {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowVersion: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	last if (/^$prompt/);
+	next if (/^\s+\^$/);
+	return(1) if (/Line has invalid autocommand /);
+	return(1) if (/(invalid (input|command) detected|type help or )/i);
+	return(-1) if (/command authorization failed/i);
+
+	ProcessHistory("","","","$_");
+    }
+    return(0);
+}
+
+# This routine processes a "show running-config"
 sub WriteTerm {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In WriteTerm: $_" if ($debug);
+    my($comment, $linecnt);
 
     while (<$INPUT>) {
 TOP:

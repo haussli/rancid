@@ -52,10 +52,14 @@ arbor;command;arbor::ShowConfig;config show
 #
 # Arrcus
 arcos;script;rancid -t arcos
-arcos;login;clogin
+arcos;login;xilogin
 arcos;module;arcos
 arcos;inloop;arcos::inloop
-#XXX arcos;command;arcos::ShowVersion;show version
+arcos:command;rancid::RunCommand;timestamp disable 
+arcos;command;arcos::ShowVersion;show version
+arcos;command;arcos::ShowFeatures;show features
+arcos;command;arcos::ShowHardware;show hardware
+arcos;command;arcos::WriteTerm;show running-config
 #
 arista;script;rancid -t arista
 arista;login;clogin

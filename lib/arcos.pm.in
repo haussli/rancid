@@ -31,9 +31,6 @@ sub init {
     # add content lines and separators
     ProcessHistory("","","","!RANCID-CONTENT-TYPE: $devtype\n!\n");
     ProcessHistory("COMMENTS","keysort","B0","!\n");
-    ProcessHistory("COMMENTS","keysort","D0","!\n");
-    ProcessHistory("COMMENTS","keysort","F0","!\n");
-    ProcessHistory("COMMENTS","keysort","G0","!\n");
 
     0;
 }
@@ -45,10 +42,6 @@ sub inloop {
 
 TOP: while(<$INPUT>) {
 	tr/\015//d;
-	if (/[#]\s?exit$/) {
-	    $clean_run = 1;
-	    last;
-	}
 	if (/^Error:/) {
 	    print STDOUT ("$host clogin error: $_");
 	    print STDERR ("$host clogin error: $_") if ($debug);
@@ -81,6 +74,10 @@ TOP: while(<$INPUT>) {
 		last TOP;
 	    }
 	}
+	if (/[#]\s?quit$/) {
+	    $clean_run = 1;
+	    last;
+	}
     }
 }
 
@@ -98,7 +95,16 @@ sub ShowVersion {
 	return(1) if (/(invalid (input|command) detected|type help or )/i);
 	return(-1) if (/command authorization failed/i);
 
-	ProcessHistory("","","","$_");
+	/version product-name "([^\"]*)"/ &&
+	    ProcessHistory("COMMENTS","keysort","A1",
+			   "!Chassis type: $1\n");
+	/version serial-num (\S+)/ &&
+	    ProcessHistory("COMMENTS","keysort","D9",
+			   "!Serial Number: $1\n");
+	/version total-memory "([^\"]*)"/ &&
+	    ProcessHistory("COMMENTS","keysort","B1", "!Memory: $1\n");
+
+	ProcessHistory("COMMENTS","keysort","VERSION","$_");
     }
     return(0);
 }
@@ -169,6 +175,7 @@ TOP:
 	}
 	/Non-Volatile memory is in use/ && return(-1); # NvRAM is locked
 	/% Configuration buffer full, / && return(-1); # buffer is in use
+	$linecnt++;
 
 	# skip the crap
 	if (/^(##+|(building|current) configuration)/i) {
@@ -196,11 +203,11 @@ TOP:
 
 	# catch anything that wasnt matched above.
 	ProcessHistory("","","","$_");
-	# end of config.  the ": " game is for the PIX
-	if (/^(: +)?end$/) {
-	    $found_end = 1;
-	    return(0);
-	}
+    }
+    # arcos lacks a definitive "end of config" marker.  if we have seen at
+    # least 5 lines of input, we can be reasonably sure that we have the config.
+    if ($linecnt > 5) {
+	$found_end = 1;
     }
 
     return(0);

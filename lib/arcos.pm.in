@@ -31,6 +31,7 @@ sub init {
     # add content lines and separators
     ProcessHistory("","","","!RANCID-CONTENT-TYPE: $devtype\n!\n");
     ProcessHistory("COMMENTS","keysort","B0","!\n");
+    ProcessHistory("COMMENTS","keysort","C0","!\n");
 
     0;
 }
@@ -104,8 +105,9 @@ sub ShowVersion {
 	/version total-memory "([^\"]*)"/ &&
 	    ProcessHistory("COMMENTS","keysort","B1", "!Memory: $1\n");
 
-	ProcessHistory("COMMENTS","keysort","VERSION","$_");
+	ProcessHistory("COMMENTS","keysort","VERSION","! $_");
     }
+    ProcessHistory("COMMENTS","keysort","VERSION","!\n");
     return(0);
 }
 # This routine parses "show features"
@@ -122,8 +124,9 @@ sub ShowFeatures {
 	return(1) if (/(invalid (input|command) detected|type help or )/i);
 	return(-1) if (/command authorization failed/i);
 
-	ProcessHistory("","","","$_");
+	ProcessHistory("","","","! $_");
     }
+    ProcessHistory("","","","!\n");
     return(0);
 }
 
@@ -141,8 +144,9 @@ sub ShowHardware {
 	return(1) if (/(invalid (input|command) detected|type help or )/i);
 	return(-1) if (/command authorization failed/i);
 
-	ProcessHistory("","","","$_");
+	ProcessHistory("","","","! $_");
     }
+    ProcessHistory("","","","!\n");
     return(0);
 }
 

@@ -201,6 +201,14 @@ TOP:
 	}
 	$comment = 0;
 
+	# XXX prune snmp communities
+	#if (/^(snmp-server .*community) ([08] )?(\S+)/) {
+	#    if ($filter_commstr) {
+	#	    ProcessHistory("SNMPSERVERCOMM","keysort","$_", "!$1 <removed>$'") && next;
+	#	} else {
+	#	    ProcessHistory("SNMPSERVERCOMM","keysort","$_","$_") && next;
+	#    }
+	#}   
 	# prune tacacs/radius server keys
 	if (/^(\s+(tacacs|radius) secret-key\s)(\S+)/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>$'"); next;

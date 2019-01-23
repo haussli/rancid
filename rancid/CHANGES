@@ -1,4 +1,6 @@
 3.99.99
+	ios.pm: add show module switch for 6500 vss data - Per-Olof Olsson
+
 	arcos.pm: add tacacs key filter
 
 	arcos.pm: fix prompt handling - WIP

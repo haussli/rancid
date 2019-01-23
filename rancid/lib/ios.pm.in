@@ -44,6 +44,8 @@ our $H0;
 our $I0;
 our $DO_SHOW_VLAN;
 
+our $vss_show_module;			 # Use "show module switch" on 6k VSS systems
+
 @ISA = qw(Exporter rancid main);
 #XXX @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands);
 
@@ -75,6 +77,7 @@ sub init {
     $I0 = 0;
     $DO_SHOW_VLAN = 0;
 
+    $vss_show_module = 0;		# Use "show module switch" on 6k VSS systems
     # add content lines and separators
     ProcessHistory("","","","!RANCID-CONTENT-TYPE: $devtype\n!\n");
     ProcessHistory("COMMENTS","keysort","B0","!\n");
@@ -1836,11 +1839,21 @@ sub ShowModule {
 
     my(@lines);
     my($slot, $pa);
+    my($switch, $switch_n);
 
+    if ($vss_show_module == 1) {
+	while (<$INPUT>) {
+	    last if (/^$prompt/);
+	}
+	return(0);
+    }
     while (<$INPUT>) {
 	tr/\015//d;
-	return if (/^\s*\^$/);
-	last if (/online diag status/i);
+	next if (/^\s*\^$/);
+	if (/online diag status/i) {
+	    $vss_show_module = 1;
+	    next;
+	}
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(-1) if (/command authorization failed/i);
@@ -1850,17 +1863,25 @@ sub ShowModule {
 	    s/^$1\s{$len}//;
 	}
 
+	# match  Switch Number:     2   Role:  Virtual Switch Active/Standby
+	if (/^ *Switch Number: *(\d) .*Virtual Switch\s+(\S+)/) {
+	    $switch_n = $1;
+	    $switch = "Sw$1 ";
+	    ProcessHistory("Module","","","!Virtual Switch $1 is $2\n");
+	    next;
+	}
+
 	# match slot/card info line
 	if (/^ *(\d+)\s+(\d+)\s+(.*)\s+(\S+)\s+(\S+)\s*$/) {
-	    $lines[$1 * 1000] .= "!Slot $1: type $3, $2 ports\n!Slot $1: part $4, serial $5\n";
-	    $lines[$1 * 1000] =~ s/\s+,/,/g;
+	    $lines[$switch_n * 10000 + $1 * 1000] .= "!Slot ${switch}$1: type $3, $2 ports\n!Slot ${switch}$1: part $4, serial $5\n";
+	    $lines[$switch_n * 10000 + $1 * 1000] =~ s/\s+,/,/g;
 	    next;
 	}
 	# now match the Revs in the second paragraph of o/p and stick it in
 	# the array with the previous bits...grumble.
 	if (/^ *(\d+)\s+\S+\s+to\s+\S+\s+(\S+)\s+(\S*)\s+(\S+)(\s+\S+)?\s*$/) {
-	    $lines[$1 * 1000] .= "!Slot $1: hvers $2, firmware $3, sw $4\n";
-	    $lines[$1 * 1000] =~ s/\s+,/,/g;
+	    $lines[$switch_n * 10000 + $1 * 1000] .= "!Slot ${switch}$1: hvers $2, firmware $3, sw $4\n";
+	    $lines[$switch_n * 10000 + $1 * 1000] =~ s/\s+,/,/g;
 	    next;
 	}
 	# grab the sub-modules, if any
@@ -1868,12 +1889,15 @@ sub ShowModule {
 	    my($idx);
 	    $pa = 0 if ($1 != $slot);
 	    $slot = $1;
-	    $idx = $1 * 1000 + $1 * 10 + $pa;
-	    $lines[$idx] .= "!Slot $1/$pa: type $2\n";
-	    $lines[$idx] .= "!Slot $slot/$pa: part $3, serial $4\n";
-	    $lines[$idx] .= "!Slot $slot/$pa: hvers $5\n";
+	    $idx = $switch_n * 10000 + $1 * 1000 + $1 * 10 + $pa;
+	    $lines[$idx] .= "!Slot ${switch}$1/$pa: type $2\n";
+	    $lines[$idx] .= "!Slot ${switch}$slot/$pa: part $3, serial $4\n";
+	    $lines[$idx] .= "!Slot ${switch}$slot/$pa: hvers $5\n";
 	    $pa++;
 	}
+    }
+    if ( $switch_n != 0 ) {
+	ProcessHistory("Module","","","!\n");
     }
     foreach $slot (@lines) {
 	next if ($slot =~ /^\s*$/);

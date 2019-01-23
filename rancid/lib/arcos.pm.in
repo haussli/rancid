@@ -144,6 +144,10 @@ sub ShowHardware {
 	return(1) if (/(invalid (input|command) detected|type help or )/i);
 	return(-1) if (/command authorization failed/i);
 
+	# XXX for now, drop the per-unit information.  Appears to be mostly
+	# useless.
+	last if (/^UNIT/);
+
 	ProcessHistory("","","","! $_");
     }
     ProcessHistory("","","","!\n");

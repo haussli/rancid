@@ -215,7 +215,7 @@ TOP:
 	#}   
 	# prune tacacs/radius server keys
 	if (/^(\s+(tacacs|radius) secret-key\s)(\S+)/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 <removed>$'"); next;
+	    ProcessHistory("","","","!$1<removed>$'"); next;
 	}
 
 	# catch anything that wasnt matched above.

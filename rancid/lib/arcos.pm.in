@@ -205,6 +205,11 @@ TOP:
 	}
 	$comment = 0;
 
+	# prune bgp passwords, possibly others
+	if (/^(\s+auth-password\s+)(\S+)/ && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1<removed>$'"); next;
+	}
+
 	# XXX prune snmp communities
 	#if (/^(snmp-server .*community) ([08] )?(\S+)/) {
 	#    if ($filter_commstr) {

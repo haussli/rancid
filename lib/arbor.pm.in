@@ -52,7 +52,7 @@ TOP: while(<$INPUT>) {
 	if (/^Error:/) {
 	    print STDOUT ("$host anlogin error: $_");
 	    print STDERR ("$host anlogin error: $_") if ($debug);
-	    $clean_run=0;
+	    $clean_run = 0;
 	    last;
 	}
 	while (/[#>]\s*($cmds_regexp)\s*$/) {

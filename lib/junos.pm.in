@@ -377,6 +377,9 @@ sub ShowSystemAutoinstall {
 }
 
 # This routine parses "show system configuration database usage"
+# XXX this does not work with older JunOS because the unrecognized command
+#     is mangled by the cli parser and then does not match what was sent!
+#     so, this is a stand-alone function for now.
 sub ShowSystemConfDB {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowSystemConfDB: $_" if ($debug);
@@ -385,7 +388,7 @@ sub ShowSystemConfDB {
     ProcessHistory("","","","# $_");
     while (<$INPUT>) {
 	tr/\015//d;
-	last if (/^$prompt/);
+	($found_end = 1, last) if (/^$prompt/);
 	next if (/^system (shutdown message from|going down )/i);
 	next if (/^\{(master|backup)(:\d+)?\}/);
 

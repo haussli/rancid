@@ -1,5 +1,5 @@
 Name:           rancid
-Version:        3.99.99
+Version:        3.9
 Release:        1%{?dist}
 Summary:        Really Awesome New Cisco confIg Differ
 

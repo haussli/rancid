@@ -306,17 +306,17 @@ LINE:		while (<$INPUT>) {
 		$type = "1900";
 	    } elsif ($proc =~ /2811/) {
 		$type = "2800";
-            } elsif ( $proc =~ /^ME-3400/) {
+            } elsif ($proc =~ /^ME-3400/) {
                 $type = "ME3400";
-            } elsif ( $proc =~ /^ME-C37/) {
+            } elsif ($proc =~ /^ME-C37/) {
                 $type = "ME3700";
-            } elsif ( $proc =~ /^ME-C65/) {
+            } elsif ($proc =~ /^ME-C65/) {
                 $type = "ME6500";
 	    } elsif ($proc =~ /C3750/) {
 		$type = "3750";
 	    } elsif ($proc =~ /^(AS)?25[12][12]/) {
 		$type = "2500";
-	    } elsif ($proc =~ /261[01]/ || $proc =~ /262[01]/ ) {
+	    } elsif ($proc =~ /261[01]/ || $proc =~ /262[01]/) {
 		$type = "2600";
 	    } elsif ($proc =~ /WS-C29/) {
 		$type = "2900XL";
@@ -328,23 +328,23 @@ LINE:		while (<$INPUT>) {
 		$type = "3600";
 	    } elsif ($proc =~ /^37/) {
 		$type = "3700";
-            } elsif ( $proc =~ /WS-C375/) {
+            } elsif ($proc =~ /WS-C375/) {
                 $type = "3750";
 	    } elsif ($proc =~ /^38/) {
 		$type = "3800";
 	    } elsif ($proc =~ /WS-C45/) {
 		$type = "4500";
-	    } elsif ( $proc =~ /^AS5300/) {
+	    } elsif ($proc =~ /^AS5300/) {
 		$type = "AS5300";
-	    } elsif ( $proc =~ /^AS5350/) {
+	    } elsif ($proc =~ /^AS5350/) {
 		$type = "AS5350";
-	    } elsif ( $proc =~ /^AS5400/) {
+	    } elsif ($proc =~ /^AS5400/) {
 		$type = "AS5400";
 	    } elsif ($proc =~ /6000/) {
 		$type = "6000";
 	    } elsif ($proc eq "WK-C65") {
 		$type = "6500";
-            } elsif ( $proc =~ /WS-C6509/) {
+            } elsif ($proc =~ /WS-C6509/) {
                 $type = "6500";
 	    } elsif ($proc eq "RP") {
 		$type = "7000";
@@ -352,7 +352,7 @@ LINE:		while (<$INPUT>) {
 		$type = "7000";
 	    } elsif ($proc =~ /720[246]/) {
 		$type = "7200";
-	    } elsif ( $proc =~ /^73/) {
+	    } elsif ($proc =~ /^73/) {
 		$type = "7300";
 	    } elsif ($proc eq "RSP7000") {
 		$type = "7500";
@@ -368,7 +368,7 @@ LINE:		while (<$INPUT>) {
 		$type = "12000";
 	    } elsif ($proc =~ /1240[48]\/(GRP|PRP)/ || $proc =~ /1241[06]\/(GRP|PRP)/) {
 		$type = "12400";
-	    } elsif ($proc =~ /AIR-L?AP1[12][1234][[1234]/ ) {
+	    } elsif ($proc =~ /AIR-L?AP1[12][1234][[1234]/) {
 		$type="Aironet";
 	    } else {
 		$type = $proc;
@@ -1896,7 +1896,7 @@ sub ShowModule {
 	    $pa++;
 	}
     }
-    if ( $switch_n != 0 ) {
+    if ($switch_n != 0) {
 	ProcessHistory("Module","","","!\n");
     }
     foreach $slot (@lines) {
@@ -2570,7 +2570,7 @@ TOP:
     # The ContentEngine lacks a definitive "end of config" marker.  If we
     # know that it is a CE, SAN, or NXOS and we have seen at least 5 lines
     # of write term output, we can be reasonably sure that we have the config.
-    if (($type eq "CE" || $type eq "SAN" || $type eq "NXOS" ) && $linecnt > 5) {
+    if (($type eq "CE" || $type eq "SAN" || $type eq "NXOS") && $linecnt > 5) {
 	$found_end = 1;
 	return(0);
     }

@@ -59,14 +59,13 @@ bin/
 	erancid.in	Version of rancid.in for ADC EZ-T3 muxes.
 	f10rancid.in	Version of rancid.in for Force10 routers.
 	f5rancid.in	Version of rancid.in for F5 BigIPs.
-	fnrancid.in	Version of rancid.in for Fortinet Firewalls.
 	hrancid.in	Version of rancid.in for HP Procurve switches.
 	htrancid.in	Version of rancid.in for Hitatchi routers.
 	jerancid.in	Version of rancid.in for Juniper E-series routers.
 	mrancid.in	Version of rancid.in for MRT daemons.
 	mtrancid.in	Version of rancid.in for Microtik routers.
 	nrancid.in	Version of rancid.in for Netscreen firewalls.
-	nsrancid.in	Version of rancid.in for Netscalars.
+	nsrancid.in	Version of rancid.in for Netscalers.
 	prancid.in	Version of rancid.in for Procket routers.
 	rivancid.in	Version of rancid.in for Cabletron, Riverstone and
 			Enterasys routers.
@@ -87,6 +86,7 @@ bin/
 			another expect script.  It handles Cisco, Extreme,
 			Force10, Juniper E-series, Procket, Redback, Zebra/MRT.
 	complogin.in	Version of clogin.in for Compass Networks routers.
+	csblogin.in	Version of clogin.in for Cisco Small Business switches.
 	dllogin.in	Version of clogin.in for D-Link devices.
 	elogin.in	Version of clogin.in for ADC EZ-T3 muxes.
 	flogin.in	Version of clogin.in for Foundry switches.  If foundry
@@ -100,7 +100,7 @@ bin/
 	nlogin.in	Version of clogin.in for Netscreen firewalls.
 	noklogin.in	Version of clogin.in for Nokia (Alcatel-Lucent)
 			7705 SAR, 7210 SAS, 7750 SR and 7950 XRS routers.
-	nslogin.in	Version of clogin.in for Netscalars.
+	nslogin.in	Version of clogin.in for Netscalers.
 	panlogin.in	Version of clogin.in for Palo Alto Networks devices.
 	plogin.in	Poly-login version of clogin.in; it uses router.db
 			and router.types.* configuration files to determine the
@@ -118,8 +118,10 @@ lib/
 	dell.pm.in	rancid library for some Dell D-Link models.
 	eos.pm.in	rancid library for Compass EOS.
 	exos.in		rancid library for Extreme switches.
+	fortigate.pm.in	rancid library for Fortinet Firewalls.
 	foundry.pm.in	rancid library for Foundry (Brocade) switches.
 	ios.pm.in	rancid library for Cisco IOS and IOS-XE.
+	iossb.pm.in	rancid library for Cisco Small Business switches.
 	iosxr.pm.in	rancid library for Cisco IOS-XR.
 	junos.pm.in	rancid library for Juniper JunOS.
 	mrv.pm.in	rancid library for MRV MCS.

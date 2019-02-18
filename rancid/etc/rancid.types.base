@@ -59,6 +59,11 @@ arcos:command;rancid::RunCommand;timestamp disable
 arcos;command;arcos::ShowVersion;show version
 arcos;command;arcos::ShowFeatures;show features
 arcos;command;arcos::ShowHardware;show hardware
+# perhaps replace/augment show hardware with show component <thing>
+#XXX arcos;command;arcos::ShowHardware;show component host*
+#XXX arcos;command;arcos::ShowHardware;show component fan*
+#XXX arcos;command;arcos::ShowHardware;show component psu*
+#XXX arcos;command;arcos::ShowHardware;show component sfp*
 arcos;command;arcos::WriteTerm;show running-config
 #
 arista;script;rancid -t arista
@@ -425,7 +430,7 @@ fortigate;inloop;fortigate::inloop
 fortigate;command;fortigate::GetSystem;get system status
 fortigate;command;fortigate::GetConf;show
 #
-fortigate-full;script;rancid -t fortigate
+fortigate-full;script;rancid -t fortigate-full
 fortigate-full;login;fnlogin
 fortigate-full;timeout;90
 fortigate-full;module;fortigate

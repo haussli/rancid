@@ -1,3 +1,6 @@
+3.9.99
+	various documentation updates/corrections - Nick Nauwelaerts
+
 3.9
 	ios.pm: add show module switch for 6500 vss data - Per-Olof Olsson
 
@@ -1649,7 +1652,7 @@
 
 	rancid: summarize bytes free for IOS-XE like XR
 
-	nsrancid/nslogin: updates for netscalar version 8 - Marco Schirrmeister
+	nsrancid/nslogin: updates for netscaler version 8 - Marco Schirrmeister
 
 	f10rancid: updated support for all devices running FTOS: E-Series,
 	C-Series and S-Series - Greg Hankins

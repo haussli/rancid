@@ -1,4 +1,6 @@
 3.9.99
+	ios.pm: filter some log files on ASA 9.8 / FTD2100s - Erik Muller
+
 	various documentation updates/corrections - Nick Nauwelaerts
 
 3.9

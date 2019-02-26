@@ -37,7 +37,7 @@ sub import {
 sub init {
 
     # add content lines and separators
-    ProcessHistory("","","","!RANCID-CONTENT-TYPE: $devtype\n!\n");
+    ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n#\n");
 
     0;
 }
@@ -147,6 +147,13 @@ sub ShowConfig {
 	if (/^}\s*$|\[edit\]/) {
 	    $found_end = 1;
 	    return(1);
+	}
+
+	if (/^(\s*snmp-community-string )[^ ;]+(\s?[;{])$/ && $filter_commstr) {
+	    $_ = "#$1<removed>$2\n";
+	}
+	if (/^(\s*key )[^ ;]+(\s?[;{])$/ && $filter_pwds >= 1) {
+	    $_ = "#$1<removed>$2\n";
 	}
 
 	ProcessHistory("","","","$_");

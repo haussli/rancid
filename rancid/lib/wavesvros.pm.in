@@ -221,7 +221,7 @@ sub WriteTerm {
 #	    ProcessHistory("","","","#$1<removed>$'");
 #	    next;
 #	}
-	if (/(user create user \S+ access-level \S+ secret) / &&
+	if (/(user (create|set) user \S+ access-level \S+ secret )/ &&
 	    $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1<removed>\n");
 	    next;

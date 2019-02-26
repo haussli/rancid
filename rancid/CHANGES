@@ -1,6 +1,6 @@
 3.9.99
-	panos.pm: filter SNMP community strings & correct comment character -
-	Charles R Anderson
+	panos.pm: filter SNMP community strings & protocol encryption keys &
+	correct comment character - Charles R Anderson
 
 	rancid: escape "s in rancid.types command definitions - Charles R
 	Anderson

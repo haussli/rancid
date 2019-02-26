@@ -152,6 +152,7 @@ sub ShowConfig {
 	if (/^(\s*snmp-community-string )[^ ;]+(\s?[;{])$/ && $filter_commstr) {
 	    $_ = "#$1<removed>$2\n";
 	}
+	# filter protocol encryption keys
 	if (/^(\s*key )[^ ;]+(\s?[;{])$/ && $filter_pwds >= 1) {
 	    $_ = "#$1<removed>$2\n";
 	}

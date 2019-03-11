@@ -421,7 +421,7 @@ force10;script;f10rancid
 force10;login;clogin
 #
 # Fortinet Fortigate firewall
-# Normal or FULL configuration
+# Normal or FULL (with defaults) configuration
 fortigate;script;rancid -t fortigate
 fortigate;login;fnlogin
 fortigate;timeout;90

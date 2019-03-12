@@ -1,4 +1,6 @@
 3.9.99
+	junos.pm: filter SRX cluster RE/LC names in prompts - Charles R Anderson
+
 	junos.pm: filter negative chassis temps - Charles R Anderson
 
 	wavesvros.pm: filter alternate form of user password - Charles R

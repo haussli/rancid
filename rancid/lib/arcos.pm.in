@@ -145,7 +145,7 @@ sub ShowHardware {
 	return(-1) if (/command authorization failed/i);
 
 	# skip allocated, free, watermarks & their timestamps
-	next if (/(estimated-free|objects-allocated|high-watermark)/);
+	next if (/(estimated-free|objects-allocated|high-watermark|raw-(free|used))/);
 	# skip feature tables
 	if (/\s*feature$/) {
 	    while (<$INPUT>) {

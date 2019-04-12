@@ -58,7 +58,7 @@ arcos;inloop;arcos::inloop
 arcos:command;rancid::RunCommand;timestamp disable 
 arcos;command;arcos::ShowVersion;show version
 arcos;command;arcos::ShowFeatures;show features
-arcos;command;arcos::ShowHardware;show hardware
+arcos;command;arcos::ShowHardware;show hardware | notab
 # perhaps replace/augment show hardware with show component <thing>
 #XXX arcos;command;arcos::ShowHardware;show component host*
 #XXX arcos;command;arcos::ShowHardware;show component fan*

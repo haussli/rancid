@@ -144,6 +144,18 @@ sub ShowHardware {
 	return(1) if (/(invalid (input|command) detected|type help or )/i);
 	return(-1) if (/command authorization failed/i);
 
+	# skip allocated, free, watermarks & their timestamps
+	next if (/(estimated-free|objects-allocated|high-watermark)/);
+	# skip feature tables
+	if (/\s*feature$/) {
+	    while (<$INPUT>) {
+		tr/\015//d;
+		next if (/^(\s*|\s*$cmd\s*)$/);
+		last if (/^$prompt/);
+		last if (/^\s*$/);
+	    }
+	}
+
 	# XXX for now, drop the per-unit information.  Appears to be mostly
 	# useless.
 	last if (/^UNIT/);

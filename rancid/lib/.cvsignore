@@ -24,6 +24,7 @@ mrv.pm
 nxos.pm
 panos.pm
 rancid.pm
+rancid.py
 rbt.pm
 sros.pm
 vrp.pm

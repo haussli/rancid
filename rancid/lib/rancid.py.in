@@ -1,0 +1,12 @@
+# rancid.py
+##
+## $Id$
+##
+## @PACKAGE@ @VERSION@
+@copyright@
+#
+#  RANCID - Really Awesome New Cisco confIg Differ
+#
+#  rancid.py - base/basic rancid procedures
+#
+

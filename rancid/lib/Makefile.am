@@ -39,6 +39,8 @@ auto_edit = sed \
 	-e 's,@EXPECT_PATH\@,$(EXPECT_PATH),g' \
 	-e 's,@PERLV\@,$(PERLV),g' \
 	-e 's,@PERLV_PATH\@,$(PERLV_PATH),g' \
+	-e 's,@PYTHON3\@,$(PYTHON3),g' \
+	-e 's,@PYTHON3_PATH\@,$(PYTHON3_PATH),g' \
 	-e 's,@LG_PING_CMD\@,$(LG_PING_CMD),g' \
 	-e 's,@ADMINMAILPLUS\@,$(ADMINMAILPLUS),g' \
 	-e 's,@MAILPLUS\@,$(MAILPLUS),g' \

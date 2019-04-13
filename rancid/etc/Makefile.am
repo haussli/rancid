@@ -63,6 +63,8 @@ auto_edit = sed \
 	-e 's,@sysconfdir\@,$(sysconfdir),g' \
 	-e 's,@EXPECT_PATH\@,$(EXPECT_PATH),g' \
 	-e 's,@PERLV_PATH\@,$(PERLV_PATH),g' \
+	-e 's,@PYTHON3\@,$(PYTHON3),g' \
+	-e 's,@PYTHON3_PATH\@,$(PYTHON3_PATH),g' \
 	-e 's,@ENV_PATH\@,$(ENV_PATH),g' \
 	-e 's,@RCSSYS\@,$(RCSSYS),g' \
 	-e 's,@PACKAGE\@,$(PACKAGE),g' \

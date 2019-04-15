@@ -457,8 +457,8 @@ sub sortbyipaddr {
     &ipaddrval($a) cmp &ipaddrval($b);
 }
 
-# This routine parses a single command that returns no required info.  The
-# output is discarded.
+# This routine parses a single command that returns no required info; the
+# input is discarded.
 sub RunCommand {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In RunCommand: $_" if ($debug);

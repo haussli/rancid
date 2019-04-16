@@ -1,4 +1,6 @@
 3.9.99
+	python >= 3.5 is now required
+
 	Deprecate rancid.conf:NOPIPE; default is now enabled
 
 	prancid: deprecated

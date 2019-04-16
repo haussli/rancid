@@ -113,6 +113,7 @@ bin/
 lib/
         acos.pm.in      rancid library for A10 Networks appliances.
 	arbor.pm.in	rancid library for Arbor Networks appliances.
+	arcos.pm.in	rancid library for Arrcus Networks ArcOS.
 	ciscowlc.pm.in	rancid library for some Cisco Wireless Lan Controllers.
 	dell.pm.in	rancid library for some Dell D-Link models.
 	eos.pm.in	rancid library for Compass EOS.

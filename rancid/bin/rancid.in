@@ -78,12 +78,8 @@ if ($file) {
     my $cstr = $commandstr;
     $cstr =~ s/\"/\\\"/g;
     print(STDERR "executing $lscript -t $timeo -c\"$cstr\" $host\n") if ($debug || $log);
-    if (defined($ENV{NOPIPE}) && $ENV{NOPIPE} =~ /^YES/i) {
-	system "$lscript -t $timeo -c \"$cstr\" $host </dev/null > $host.raw 2>&1" || die "clogin failed for $host: $!\n";
-	open(INPUT, "< $host.raw") || die "clogin failed for $host: $!\n";
-    } else {
-	open(INPUT,"$lscript -t $timeo -c \"$cstr\" $host </dev/null |") || die "clogin failed for $host: $!\n";
-    }
+    system "$lscript -t $timeo -c \"$cstr\" $host </dev/null > $host.raw 2>&1" || die "clogin failed for $host: $!\n";
+    open(INPUT, "< $host.raw") || die "clogin failed for $host: $!\n";
 }
 
 # loop over the input using the provided input/main loop
@@ -99,9 +95,7 @@ ProcessHistory("","","","");
 close(INPUT);
 close(OUTPUT);
 
-if (defined($ENV{NOPIPE}) && $ENV{NOPIPE} =~ /^YES/i) {
-    unlink("$host.raw") if (! $debug);
-}
+unlink("$host.raw") if (! $debug);
 
 # check for completeness
 if (scalar(%commands) || !$clean_run || !$found_end) {

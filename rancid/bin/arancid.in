@@ -267,12 +267,8 @@ if ($file) {
     open(INPUT,"<$host") || die "open failed for $host: $!\n";
 } else {
     print(STDERR "executing alogin -t $timeo -c\"$commandstr\" $host\n") if ($debug || $log);
-    if (defined($ENV{NOPIPE}) && $ENV{NOPIPE} =~ /^YES/i) {
-	system "alogin -t $timeo -c \"$commandstr\" $host </dev/null > $host.raw 2>&1" || die "alogin failed for $host: $!\n";
-	open(INPUT, "< $host.raw") || die "alogin failed for $host: $!\n";
-    } else {
-	open(INPUT,"alogin -t $timeo -c \"$commandstr\" $host </dev/null |") || die "alogin failed for $host: $!\n";
-    }
+    system "alogin -t $timeo -c \"$commandstr\" $host </dev/null > $host.raw 2>&1" || die "alogin failed for $host: $!\n";
+    open(INPUT, "< $host.raw") || die "alogin failed for $host: $!\n";
 }
 
 # determine ACL sorting mode
@@ -338,9 +334,7 @@ ProcessHistory("","","","");
 close(INPUT);
 close(OUTPUT);
 
-if (defined($ENV{NOPIPE}) && $ENV{NOPIPE} =~ /^YES/i) {
-    unlink("$host.raw") if (! $debug);
-}
+unlink("$host.raw") if (! $debug);
 
 # check for completeness
 if (scalar(%commands) || !$clean_run || !$found_end) {

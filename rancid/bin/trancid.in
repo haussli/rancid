@@ -257,12 +257,8 @@ if ($file) {
     open(INPUT,"<$host") || die "open failed for $host: $!\n";
 } else {
     print(STDERR "executing tlogin -t $timeo -c\"$commandstr\" $host\n") if ($debug || $log);
-    if (defined($ENV{NOPIPE}) && $ENV{NOPIPE} =~ /^YES/i) {
-	system "tlogin -t $timeo -c \"$commandstr\" $host </dev/null > $host.raw 2>&1" || die "tlogin failed for $host: $!\n";
-	open(INPUT, "< $host.raw") || die "tlogin failed for $host: $!\n";
-    } else {
-	open(INPUT,"tlogin -t $timeo -c \"$commandstr\" $host </dev/null |") || die "tlogin failed for $host: $!\n";
-    }
+    system "tlogin -t $timeo -c \"$commandstr\" $host </dev/null > $host.raw 2>&1" || die "tlogin failed for $host: $!\n";
+    open(INPUT, "< $host.raw") || die "tlogin failed for $host: $!\n";
 }
 
 # determine oscillating data filtering mode
@@ -325,9 +321,7 @@ ProcessHistory("","","","");
 close(INPUT);
 close(OUTPUT);
 
-if (defined($ENV{NOPIPE}) && $ENV{NOPIPE} =~ /^YES/i) {
-    unlink("$host.raw") if (! $debug);
-}
+unlink("$host.raw") if (! $debug);
 
 # check for completeness
 if (scalar(%commands) || !$clean_run || !$found_end) {

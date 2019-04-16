@@ -314,12 +314,8 @@ if ($file) {
     open(INPUT,"<$host") || die "open failed for $host: $!\n";
 } else {
     print(STDERR "executing mtlogin -t $timeo -c\"$commandstr\" $host\n") if ($debug || $log);
-    if (defined($ENV{NOPIPE})) {
-	system "mtlogin -t $timeo -c \"$commandstr\" $host </dev/null > $host.raw 2>&1" || die "mtlogin failed for $host: $!\n";
-	open(INPUT, "< $host.raw") || die "mtlogin failed for $host: $!\n";
-    } else {
-	open(INPUT,"mtlogin -t $timeo -c \"$commandstr\" $host </dev/null |") || die "mtlogin failed for $host: $!\n";
-    }
+    system "mtlogin -t $timeo -c \"$commandstr\" $host </dev/null > $host.raw 2>&1" || die "mtlogin failed for $host: $!\n";
+    open(INPUT, "< $host.raw") || die "mtlogin failed for $host: $!\n";
 }
 
 # determine oscillating data filtering mode
@@ -381,9 +377,7 @@ ProcessHistory("","","","");
 close(INPUT);
 close(OUTPUT);
 
-if (defined($ENV{NOPIPE})) {
-    unlink("$host.raw") if (! $debug);
-}
+unlink("$host.raw") if (! $debug);
 
 # check for completeness
 if (scalar(%commands) || !$clean_run || !$found_end) {

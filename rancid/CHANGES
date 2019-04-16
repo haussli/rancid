@@ -1,4 +1,6 @@
 3.9.99
+	Deprecate rancid.conf:NOPIPE; default is now enabled
+
 	prancid: deprecated
 
 	arcos.pm rancid.types.base: change show hardware handling to eliminate

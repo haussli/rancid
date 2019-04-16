@@ -463,12 +463,8 @@ if ($file) {
     open(INPUT,"<$host") || die "open failed for $host: $!\n";
 } else {
     print(STDERR "executing hlogin -t $timeo -c\"$commandstr\" $host\n") if ($debug || $log);
-    if (defined($ENV{NOPIPE}) && $ENV{NOPIPE} =~ /^YES/i) {
-	system "hlogin -t $timeo -c \"$commandstr\" $host </dev/null > $host.raw 2>&1" || die "hlogin failed for $host: $!\n";
-	open(INPUT, "< $host.raw") || die "hlogin failed for $host: $!\n";
-    } else {
-	open(INPUT,"hlogin -t $timeo -c \"$commandstr\" $host </dev/null |") || die "hlogin failed for $host: $!\n";
-    }
+    system "hlogin -t $timeo -c \"$commandstr\" $host </dev/null > $host.raw 2>&1" || die "hlogin failed for $host: $!\n";
+    open(INPUT, "< $host.raw") || die "hlogin failed for $host: $!\n";
 }
 
 # determine ACL sorting mode
@@ -547,9 +543,7 @@ ProcessHistory("","","","");
 close(INPUT);
 close(OUTPUT);
 
-if (defined($ENV{NOPIPE}) && $ENV{NOPIPE} =~ /^YES/i) {
-    unlink("$host.raw") if (! $debug);
-}
+unlink("$host.raw") if (! $debug);
 
 # check for completeness
 if (scalar(%commands) || !$clean_run) {

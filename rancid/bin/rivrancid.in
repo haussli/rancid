@@ -297,12 +297,8 @@ if ($file) {
     open(INPUT,"<$host") || die "open failed for $host: $!\n";
 } else {
     print(STDERR "executing rivlogin -t $timeo -c\"$commandstr\" $host\n") if ($debug || $log);
-    if (defined($ENV{NOPIPE}) && $ENV{NOPIPE} =~ /^YES/i) {
-	system "rivlogin -t $timeo -c \"$commandstr\" $host </dev/null > $host.raw 2>&1" || die "rivlogin failed for $host: $!\n";
-	open(INPUT, "< $host.raw") || die "rivlogin failed for $host: $!\n";
-    } else {
-	open(INPUT,"rivlogin -t $timeo -c \"$commandstr\" $host </dev/null |") || die "rivlogin failed for $host: $!\n";
-    }
+    system "rivlogin -t $timeo -c \"$commandstr\" $host </dev/null > $host.raw 2>&1" || die "rivlogin failed for $host: $!\n";
+    open(INPUT, "< $host.raw") || die "rivlogin failed for $host: $!\n";
 }
 
 # determine ACL sorting mode
@@ -380,9 +376,7 @@ ProcessHistory("","","","");
 close(INPUT);
 close(OUTPUT);
 
-if (defined($ENV{NOPIPE}) && $ENV{NOPIPE} =~ /^YES/i) {
-    unlink("$host.raw") if (! $debug);
-}
+unlink("$host.raw") if (! $debug);
 
 # check for completeness
 if (scalar(%commands) || !$clean_run) {

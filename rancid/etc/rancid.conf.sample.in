@@ -72,10 +72,6 @@ RCSSYS=@RCSSYS@; export RCSSYS
 # if ACLSORT is NO, access-lists will NOT be sorted.
 #ACLSORT=YES; export ACLSORT
 #
-# if NOPIPE is set, temp files will be used instead of a cmd pipe during
-# collection from the router(s).
-#NOPIPE=YES; export NOPIPE
-#
 # FILTER_PWDS determines which passwords are filtered from configs by the
 # value set (NO | YES | ALL).  see rancid.conf(5).
 #FILTER_PWDS=YES; export FILTER_PWDS

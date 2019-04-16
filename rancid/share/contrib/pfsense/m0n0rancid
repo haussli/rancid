@@ -235,15 +235,8 @@ if ($file) {
 } else {
     print(STDERR "exec m0n0login  -t $timeo -c \"$jnx_commands\" $host\n") if ($debug);
     print(STDOUT "exec m0n0login  -t $timeo -c \"$jnx_commands\" $host\n") if ($debug);
-
-    if (defined($ENV{NOPIPE})) {
-	system "m0n0login  -t $timeo -c \"$jnx_commands\" $host  </dev/null > $host.raw" || die "m0n0login failed for $host: $!\n";
-	open(INPUT, "< $host.raw") || die "m0n0login failed for $host: $!\n";
-    } else {
-	#open(INPUT,"m0n0login root\@$host \"$jnx_commands\" </dev/null |") || die "m0n0login failed for $host: $!\n";
-	open(INPUT,"m0n0login -t $timeo -c \"$jnx_commands\" $host </dev/null |") || die "m0n0login failed for $host: $!\n";
-    }
-
+    system "m0n0login  -t $timeo -c \"$jnx_commands\" $host  </dev/null > $host.raw" || die "m0n0login failed for $host: $!\n";
+    open(INPUT, "< $host.raw") || die "m0n0login failed for $host: $!\n";
 }
 
 TOP: while(<INPUT>) {
@@ -284,8 +277,6 @@ TOP: while(<INPUT>) {
 close(INPUT);
 close(OUTPUT);
 
-if (defined($ENV{NOPIPE})) {
-    unlink("$host.raw") if (! $debug);
-}
+unlink("$host.raw") if (! $debug);
 
 # check for completeness

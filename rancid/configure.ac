@@ -321,12 +321,12 @@ if test $PYTHON3_PATH = no; then
     else
 	$PYTHON3_PATH -c << EOF
 import sys
-if not sys.version_info[0] == 3:
+if not sys.version_info[0] == 3 or not sys.version_info[1] < 5:
  sys.exit(1)
 
 EOF
 	if test $? -ne 0 ; then
-	   AC_MSG_ERROR([can't locate a suitable python3.])
+	   AC_MSG_ERROR([can't locate a suitable python3; must >=3.5.])
 	   exit 1
 	fi
     fi

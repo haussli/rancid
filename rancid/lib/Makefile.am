@@ -33,10 +33,12 @@ CLEANFILES+= $(my_pkglib_DATA)
 # This is a bit of a PITA, but is the method recommended by the autoconf
 # documentation.
 auto_edit = sed \
+	-e 's,@bindir\@,$(bindir),g' \
 	-e 's,@prefix\@,$(prefix),g' \
 	-e 's,@localstatedir\@,$(localstatedir),g' \
 	-e 's,@sysconfdir\@,$(sysconfdir),g' \
 	-e 's,@EXPECT_PATH\@,$(EXPECT_PATH),g' \
+	-e 's,@ENV_PATH\@,$(ENV_PATH),g' \
 	-e 's,@PERLV\@,$(PERLV),g' \
 	-e 's,@PERLV_PATH\@,$(PERLV_PATH),g' \
 	-e 's,@PYTHON3\@,$(PYTHON3),g' \
@@ -45,6 +47,8 @@ auto_edit = sed \
 	-e 's,@ADMINMAILPLUS\@,$(ADMINMAILPLUS),g' \
 	-e 's,@MAILPLUS\@,$(MAILPLUS),g' \
 	-e 's,@PACKAGE\@,$(PACKAGE),g' \
+	-e 's,@RCSSYS\@,$(RCSSYS),g' \
+	-e 's,@SENDMAIL\@,$(SENDMAIL),g' \
 	-e 's,@SVN_FSTYPE\@,$(SVN_FSTYPE),g' \
 	-e 's,@VERSION\@,$(VERSION),g' \
 	-e 's,@COPYYEARS\@,$(COPYYEARS),g' \

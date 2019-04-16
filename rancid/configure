@@ -5491,12 +5491,12 @@ fi
     else
 	$PYTHON3_PATH -c << EOF
 import sys
-if not sys.version_info0 == 3:
+if not sys.version_info0 == 3 or not sys.version_info1 < 5:
  sys.exit(1)
 
 EOF
 	if test $? -ne 0 ; then
-	   as_fn_error $? "can't locate a suitable python3." "$LINENO" 5
+	   as_fn_error $? "can't locate a suitable python3; must >=3.5." "$LINENO" 5
 	   exit 1
 	fi
     fi

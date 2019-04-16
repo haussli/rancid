@@ -2,7 +2,7 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid.conf" "5" "19 December 2016"
+.TH "rancid.conf" "5" "15 April 2019"
 .SH NAME
 rancid.conf \- rancid environment configuration file
 .SH DESCRIPTION
@@ -122,6 +122,10 @@ diffs may be filtered (e.g.: Alteon passwords).
 See the
 .B FILTER_OSC
 variable.
+.\"
+.TP
+.B LC_COLLATE
+See locale(1).
 .\"
 .TP
 .B LIST_OF_GROUPS
@@ -281,6 +285,12 @@ or
 for Subversion.
 .sp
 Default: cvs
+.\"
+.TP
+.B SENDMAIL
+The filename or FQPN of the sendmail executable (or script) that will accept
+the -t option, such that it will read recipients and other headers from
+stdin.
 .\"
 .TP
 .B TERM

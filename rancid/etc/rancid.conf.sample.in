@@ -38,7 +38,7 @@ fi
 test "x$DOCKER" = "x" && test "$uid" -eq 0 && echo "Do not run $0 as root!" && exit 1
 #
 # Set to the name of the sendmail executable (or script) that will accept the
-# -t option to take its rcpt and other headers from std-in and $MAILOPTS (see
+# -t option to take its rcpt and other headers from stdin and $MAILOPTS (see
 # below).
 SENDMAIL="@SENDMAIL@"
 #

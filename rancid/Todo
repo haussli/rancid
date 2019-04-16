@@ -124,15 +124,6 @@
 	- show access-list
 	- show ip community-list
 	- show ip route-map
-- prancid - lots of GC'ing to be done
-- prancid - sort logging file by filename.  e.g.:
-	logging file messages facility kernel level debugging
-	logging file log facility any level debugging
-	logging file log archive files 10 size 10m
-	logging file messages archive files 10 size 10m
-  then, sort by facility,  e.g.:
-	logging file messages facility kernel level debugging
-	logging file messages facility authorization level debugging
 - should we add CVS ID header to saved configs?  configurable option? - idea
   from andrew fort
 - cat 2900 extra info

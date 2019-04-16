@@ -102,9 +102,9 @@ CONFIG_CLEAN_FILES = login_top a10login agmrancid alogin arancid \
 	clogin csblogin cssrancid dllogin elogin erancid f5rancid \
 	f10rancid flogin fnlogin fxlogin hlogin htlogin htrancid \
 	jlogin jerancid mrancid mrvlogin mtrancid mtlogin nlogin \
-	nrancid noklogin nslogin nsrancid panlogin prancid rblogin \
-	rivlogin rivrancid rrancid rtftpcopy tlogin trancid xilogin \
-	xirancid xlogin ulogin wlogin zrancid
+	nrancid noklogin nslogin nsrancid panlogin rblogin rivlogin \
+	rivrancid rrancid rtftpcopy tlogin trancid xilogin xirancid \
+	xlogin ulogin wlogin zrancid
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -214,13 +214,12 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/a10login.in \
 	$(srcdir)/mtrancid.in $(srcdir)/nlogin.in \
 	$(srcdir)/noklogin.in $(srcdir)/nrancid.in \
 	$(srcdir)/nslogin.in $(srcdir)/nsrancid.in \
-	$(srcdir)/panlogin.in $(srcdir)/prancid.in \
-	$(srcdir)/rblogin.in $(srcdir)/rivlogin.in \
-	$(srcdir)/rivrancid.in $(srcdir)/rrancid.in \
-	$(srcdir)/rtftpcopy.in $(srcdir)/tlogin.in \
-	$(srcdir)/trancid.in $(srcdir)/ulogin.in $(srcdir)/wlogin.in \
-	$(srcdir)/xilogin.in $(srcdir)/xirancid.in $(srcdir)/xlogin.in \
-	$(srcdir)/zrancid.in $(top_srcdir)/depcomp \
+	$(srcdir)/panlogin.in $(srcdir)/rblogin.in \
+	$(srcdir)/rivlogin.in $(srcdir)/rivrancid.in \
+	$(srcdir)/rrancid.in $(srcdir)/rtftpcopy.in \
+	$(srcdir)/tlogin.in $(srcdir)/trancid.in $(srcdir)/ulogin.in \
+	$(srcdir)/wlogin.in $(srcdir)/xilogin.in $(srcdir)/xirancid.in \
+	$(srcdir)/xlogin.in $(srcdir)/zrancid.in $(top_srcdir)/depcomp \
 	$(top_srcdir)/mkinstalldirs
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
@@ -519,8 +518,6 @@ nslogin: $(top_builddir)/config.status $(srcdir)/nslogin.in
 nsrancid: $(top_builddir)/config.status $(srcdir)/nsrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 panlogin: $(top_builddir)/config.status $(srcdir)/panlogin.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-prancid: $(top_builddir)/config.status $(srcdir)/prancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 rblogin: $(top_builddir)/config.status $(srcdir)/rblogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

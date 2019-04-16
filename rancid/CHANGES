@@ -1,4 +1,6 @@
 3.9.99
+	prancid: deprecated
+
 	arcos.pm rancid.types.base: change show hardware handling to eliminate
 	fluctuation in formatting and output
 

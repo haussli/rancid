@@ -624,9 +624,6 @@ paloalto;command;panos::ShowInfo;show system info
 paloalto;command;panos::ShowInventory;show chassis inventory
 paloalto;command;panos::ShowConfig;show config running
 #
-procket;script;prancid
-procket;login;clogin
-#
 redback;script;rrancid
 redback;login;clogin
 #

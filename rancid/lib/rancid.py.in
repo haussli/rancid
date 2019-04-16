@@ -1,3 +1,11 @@
+"""
+RANCiD Python library
+
+This is the counterpart to the Perl rancid.pm library with a Pythonic
+approach.  Therefore, it is not exactly equivalent, but close.
+
+XXX This is a WiP and may change significantly.
+"""
 # rancid.py
 ##
 ## $Id$
@@ -9,4 +17,260 @@
 #
 #  rancid.py - base/basic rancid procedures
 #
+import re, os, subprocess, sys
+
+PACKAGE=str("@PACKAGE@")
+VERSION=str("@VERSION@")
+
+class RancidConf():
+    """ RANCiD configuration file class.  Contains accessors for configuration
+        variables and methods to load configuration files.  See rancid.conf(5).
+    """
+    def __init__(self, filename = None):
+        self.debug = 0
+        self.filename = filename
+        # XXX move these default values to autoconf so they are common.
+        # XXX should None be ""?
+        self.ACLFILTERSEQ = "NO"
+        self.ACLSORT = "YES"
+        self.BASEDIR = "@localstatedir@"
+        self.CVSROOT = self.BASEDIR + "/CVS"
+        self.DIFFSCRIPT = None
+        self.FILTER_OSC = "YES"
+        self.FILTER_PWDS = "NO"
+        self.LIST_OF_GROUPS = None
+        self.LC_COLLATE = "POSIX"
+        self.LOCKTIME = 4
+        self.LOGDIR = self.BASEDIR + "/logs"
+        self.MAILDOMAIN = None
+        self.MAILHEADERS = "Precedence: bulk\nAuto-submitted: auto-generated\nX-Auto-Response-Suppress: All"
+        self.MAILOPTS = None
+        self.MAILSPLIT = 0
+        self.MAX_ROUNDS = 4
+        self.NOCOMMSTR = "NO"
+        self.OLDTIME = 4
+        self.PAR_COUNT = 5
+        self.PATH = "@bindir@:@ENV_PATH@"
+        self.RCSSYS = "@RCSSYS@"
+        self.SENDMAIL = "@SENDMAIL@"
+        self.TERM = "network"
+        self.TMPDIR = "/tmp"
+        if not filename == None:
+            self.filename = filename
+            self.load(filename)
+        else:
+            self.filename = "@sysconfdir@/rancid.conf"
+
+    @property
+    def debug(self):
+        return self.__debug
+    @debug.setter
+    def debug(self, val):
+        self.__debug = val
+        if val:
+            # unbuffered stdout
+            sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)
+    @property
+    def filename(self):
+        return self.__filename
+    @filename.setter
+    def filename(self, val):
+        self.__filename = val
+
+    @property
+    def ACLFILTERSEQ(self):
+        return self.__ACLFILTERSEQ
+    @ACLFILTERSEQ.setter
+    def ACLFILTERSEQ(self, val):
+        if val.upper() == "NO":
+            self.__ACLFILTERSEQ = 0
+        else:
+            self.__ACLFILTERSEQ = 1
+
+    @property
+    def ACLSORT(self):
+        return self.__ACLSORT
+    @ACLSORT.setter
+    def ACLSORT(self, val):
+        if val.upper() == "NO":
+            self.__ACLSORT = None
+        else:
+            self.__ACLSORT = "XXX ipsort function"
+
+    @property
+    def FILTER_OSC(self):
+        return self.__FILTER_OSC
+    @FILTER_OSC.setter
+    def FILTER_OSC(self, val):
+        if val.upper() == "NO":
+            self.__FILTER_OSC = 0
+        elif val.upper() == "ALL":
+            self.__FILTER_OSC = 2
+        else:
+            self.__FILTER_OSC = 1
+
+    @property
+    def FILTER_PWDS(self):
+        return self.__FILTER_PWDS
+    @FILTER_PWDS.setter
+    def FILTER_PWDS(self, val):
+        if val.upper() == "NO":
+            self.__FILTER_PWDS = 0
+        elif val.upper() == "ALL":
+            self.__FILTER_PWDS = 2
+        else:
+            self.__FILTER_PWDS = 1
+
+    @property
+    def NOCOMMSTR(self):
+        return self.__NOCOMMSTR
+    @NOCOMMSTR.setter
+    def NOCOMMSTR(self, val):
+        if val.upper() == "YES":
+            self.__NOCOMMSTR = 1
+        else:
+            self.__NOCOMMSTR = 0
+
+    def load(self, filename = None):
+        """Load the default RANCiD configuration file if filename is omitted,
+           else the given FQPN.  This may be called multiple times, such as
+           to load RANCiD group-specific configuration files.
+           XXX This needs improvement.
+        """
+        if filename == None:
+            filename = self.filename
+
+        # XXX This is a wacky way to parse the config, but it is an easy hack
+        cp = subprocess.run(args = ". " + filename + ";set",
+                              stdout = subprocess.PIPE,
+                              stderr = subprocess.PIPE,
+                              shell = True, encoding = "utf-8");
+        try:
+            #out, err = sh.communicate(None, timeout = 15) # seconds
+            cp.check_returncode()
+            for line in cp.stdout.split(sep = '\n'):
+                try:
+                    var, val = line.split(sep = '=', maxsplit = 1)
+                except ValueError:
+                    continue
+                    # XXX umask is not seen unless directly reading the conffile
+                    #try:
+                    #    var, val = line.split(sep = '0', maxsplit = 1)
+                    #    if var == "umask":
+                    #        os.umask(val)
+                    #        pprint("umask ==== " + os.umask())
+                    #except ValueError:
+                    #    continue;
+                if var == "ACLFILTERSEQ":
+                    self.ACLFILTERSEQ = val
+                elif var == "ACLSORT":
+                    self.ACLSORT = val
+                elif var == "BASEDIR":
+                    self.BASEDIR = val
+                elif var == "CVSROOT":
+                    self.CVSROOT = val
+                elif var == "DIFFSCRIPT":
+                    self.DIFFSCRIPT = val
+                elif var == "FILTER_OSC":
+                    self.FILTER_OSC = val
+                elif var == "FILTER_PWDS":
+                    self.FILTER_PWDS = val
+                elif var == "LIST_OF_GROUPS":
+                    self.LIST_OF_GROUPS = val
+                elif var == "LC_COLLATE":
+                    self.LC_COLLATE = val
+                elif var == "LOCKTIME":
+                    self.LOCKTIME = val
+                elif var == "LOGDIR":
+                    self.LOGDIR = val
+                elif var == "MAILDOMAIN":
+                    self.MAILDOMAIN = val
+                elif var == "MAILHEADERS":
+                    self.MAILHEADERS = val
+                elif var == "MAILOPTS":
+                    self.MAILOPTS = val
+                elif var == "MAILSPLIT":
+                    self.MAILSPLIT = val
+                elif var == "MAX_ROUNDS":
+                    self.MAX_ROUNDS = val
+                elif var == "NOCOMMSTR":
+                    self.NOCOMMSTR = val
+                elif var == "OLDTIME":
+                    self.OLDTIME = val
+                elif var == "PAR_COUNT":
+                    self.PAR_COUNT = val
+                elif var == "PATH":
+                    self.PATH = val
+                elif var == "RCSSYS":
+                    self.RCSSYS = val
+                elif var == "SENDMAIL":
+                    self.SENDMAIL = val
+                elif var == "TERM":
+                    self.TERM = val
+                elif var == "TMPDIR":
+                    self.TMPDIR = val
+                # XXX handle other vars?   else:
+        except TimeoutExpired:
+            sh.kill()
+            eprint("Timeout reading {}", filename)
+            raise TimeoutExpired("reading " + filename)
+        except CalledProcessError as estr:
+            sh.kill()
+            eprint("Failed reading {}: {} {}", filename, estr, err)
+            raise CalledProcessError(estr + "reading " + filename)
+
+class RancidTypesConf():
+    """ RANCiD device types configuration class.
+    """
+    def __init__(self, devicetype=None):
+        # XXX
+        self.type = devicetype
+        if not devicetype == None:
+            self.type = devicetype
+            self.load(devicetype)
+
+    def loadtype(self, devicetype):
+        # XXX
+        raise NotImplementedError
+
+class RouterDb():
+    """ RANCiD device database class.
+    """
+    def __init__(self):
+        # XXX
+        raise NotImplementedError
+
+class ProcessHistory():
+    """ RANCiD input history
+    """
+    def __init__(self):
+        # XXX
+        raise NotImplementedError
+
+def eprint(fmt, *args):
+    """ Print msg to stderr with formatting
+    """
+    print(fmt.format(*args), file = sys.stderr)
+
+def rancidinit():
+    """ Initialize common RANCiD parameters and handle command-line arguments.
+    """
+    # XXX
+    pass
+
+def RunCommand(INPUT, OUTPUT, rancidconf, prompt, cmd):
+    """This is a RANCiD filter function that parses a single device command
+       that returns no required info; the input is discarded.
+    """
+    if rancidconf.debug:
+        eprint("    In RunCommand: {}", cmd)
+
+    promptre = re.compile("^" + prompt)
+    crre = re.compile("\r")
+
+    for line in INPUT:
+        line = crre.sub("", line, count=0)
+        if promptre.match(line):
+            break
+    return 0
 

@@ -1,3 +1,5 @@
+- add user-specific post-filter option per-device-type to filter output before
+  diff (thus affecting mail and commit).
 - allow -r to be specified multiple times for rancid-run/control_rancid
 - add description of the data path/process of a rancid script
 - add configure option to force the location of perl

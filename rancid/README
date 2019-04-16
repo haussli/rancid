@@ -75,7 +75,7 @@ bin/
 	xirancid.in	Version of rancid.in for Xirrus arrays.
 	zrancid.in	Version of rancid.in for Zebra routers.
 
-        a10login.in     Version of clogin.in for A10 load balancers.
+	a10login.in	Version of clogin.in for A10 load balancers.
 	alogin.in	Version of clogin.in for Alteon switches.
 	anlogin.in	Version of clogin.in for Arbor Networks appliances.
 	avologin.in	Version of clogin.in for Avocent appliances.
@@ -111,7 +111,7 @@ bin/
 	xlogin.in	Version of clogin.in for Extreme devices.
 	xilogin.in	Version of clogin.in for Xirrus arrays.
 lib/
-        acos.pm.in      rancid library for A10 Networks appliances.
+	acos.pm.in	rancid library for A10 Networks appliances.
 	arbor.pm.in	rancid library for Arbor Networks appliances.
 	arcos.pm.in	rancid library for Arrcus Networks ArcOS.
 	ciscowlc.pm.in	rancid library for some Cisco Wireless Lan Controllers.

@@ -31,6 +31,7 @@ class RancidConf():
         self.filename = filename
         # XXX move these default values to autoconf so they are common.
         # XXX should None be ""?
+        # XXX some of these should be pushed to the environ when set.
         self.ACLFILTERSEQ = "NO"
         self.ACLSORT = "YES"
         self.BASEDIR = "@localstatedir@"

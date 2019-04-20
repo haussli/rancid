@@ -1,4 +1,7 @@
 3.9.99
+	remove manpages, etc of rancid scripts converted to modules - Roland
+	Rosenfel
+
 	python >= 3.5 is now required
 
 	Deprecate rancid.conf:NOPIPE; default is now enabled
@@ -564,7 +567,7 @@
 
 	ios.pm: evaluation license periods are displayed differently
 
-	lg: Add show interface optics 
+	lg: Add show interface optics
 
 	iosxr.pm: More useless FPD messages
 

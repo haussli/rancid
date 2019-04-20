@@ -2,20 +2,20 @@
 .\" $Id$
 .\"
 .hys 50
-.TH "rancid" "3" "23 May 2016"
+.TH "rancid" "3" "15 April 2019"
 .SH NAME
-rancid \- rancid perl module
+rancid \- rancid Perl and Python modules
 .SH INTRODUCTION
 The
 .B rancid
 library provides functions for handling rancid.types configuration files,
 loading modules, and the basic global variables, variables from parsing
 rancid.types files, and output handling functions that are common to all
-rancid device modules, all of which are "exported" (in perl terms) for use
+rancid device modules, all of which are exported (in Perl terms) for use
 by those that import the module.
 Specifically, the library is used by
 .BR rancid (1),
-but it could be used by any perl program for site-specific handling or
+but it could be used by any Perl program for site-specific handling or
 additional automata.
 .PP Input handling functions:
 .TP
@@ -83,6 +83,13 @@ ProcessHistory("TAG","ipsort","192.168.1.0","!D0\\n");
 A sort routine that will sort based upon IPv4/v6 addresses.
 .PP
 Please see the library code for exported variables.
+.PP
+Please see the
+.BR pydoc (1)
+for documentation on the
+.B rancid
+Python module.
+It is equivalent to the Perl module, but in a Pythonic manner.
 .PP
 .\"
 .SH "SEE ALSO"

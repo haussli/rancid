@@ -510,7 +510,8 @@ hitachi;script;htrancid
 hitachi;login;htlogin
 #
 # HP Procurve switch such as the 2524, 4108 or J9086A (aka. 2610) procurve 
-# switches, J9091A, and J8698A.  
+# switches, J9091A, and J8698A.
+# Aruba 2530-48G & 5400R series.
 hp;script;hrancid -t hp
 hp;login;hlogin
 #

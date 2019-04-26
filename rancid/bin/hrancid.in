@@ -205,6 +205,9 @@ sub ShowTechTransceivers {
 	}
 	# KB.16.05.0003 5406R firmware bug
 	next if (/^\s*show time\s*$/i);
+	# Aruba with third-party transceivers
+	last if (/^(\* third-party transceiver)?show time/);
+
 	next if (/^\s*\S{3} \S{3}\s+\d+\s+\d+:\d+:\d+\s+\d+\s*$/);
 
 	ProcessHistory("COMMENTS","keysort","G0",";$_");

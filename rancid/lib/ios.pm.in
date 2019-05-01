@@ -564,6 +564,24 @@ sub ShowLicense {
 	    next;
 	}
 
+	# drop license counts
+	next if (/license usage:/i);
+	if (/(.*)count status/i) {
+	    my($hdr) = $1;
+	    my($len) = length($hdr);
+
+	    $hdr =~ s/\s*$//;
+	    ProcessHistory("COMMENTS", "keysort", "LICENSE", "! $hdr\n");
+	    while (<$INPUT>) {
+		tr/\015//d;
+		return(0) if (/^$prompt/);
+
+		s/^(.{1,$len}).*/$1/;
+		ProcessHistory("COMMENTS", "keysort", "LICENSE", "! $_");
+	    }
+	    next;
+	}
+
 	ProcessHistory("COMMENTS","keysort","LICENSE","! $_");
     }
     ProcessHistory("COMMENTS","keysort","LICENSE","!\n");

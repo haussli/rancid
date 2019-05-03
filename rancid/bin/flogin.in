@@ -267,6 +267,13 @@ proc run_commands { prompt command } {
     send "terminal length 0\r"
     expect -re "$prompt" {}
 
+    # match foundry config mode prompts too, such as ssh@router(config-if)#
+    # or ssh@truncatedr(config-if)#.  NOTE that, at least, as of v6.0.0
+    # (2016?), Foundry NetIron does not truncate, but this shouldnt hurt.
+    regsub -lineanchor -- {^(.{1,11}).*([#>])$} $prompt {\1} reprompt
+    regsub -all -- {[\\]$} $reprompt {} reprompt
+    append reprompt {([^#>\r\n]+)?[#>]([\\r\\n]+)?}
+
     # handle escaped ;s in commands, and ;; and ^;
     regsub -all {([^\\]);} $command "\\1\u0002;" esccommand
     regsub -all {([^\\]);;} $esccommand "\\1;\u0002;" command
@@ -280,8 +287,8 @@ proc run_commands { prompt command } {
 	send -h -- "[subst -nocommands [lindex $commands $i]]\r"
 	expect {
 	    -re " *\b+"			{ exp_continue }
-	    -re "^\[^\n\r]*$prompt."	{ exp_continue }
-	    -re "^\[^\n\r *]*$prompt"	{}
+	    -re "^\[^\n\r]*$reprompt."	{ exp_continue }
+	    -re "^\[^\n\r *]*$reprompt"	{}
 	    -re "\[\n\r]"		{ exp_continue }
 	    -- "---More---"		{ # EdgeIron cant disable pager
 					  send " "

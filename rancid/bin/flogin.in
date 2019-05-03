@@ -269,7 +269,7 @@ proc run_commands { prompt command } {
 
     # match foundry config mode prompts too, such as ssh@router(config-if)#
     # or ssh@truncatedr(config-if)#.  NOTE that, at least, as of v6.0.0
-    # (2016?), Foundry NetIron does not truncate, but this shouldnt hurt.
+    # (2018?), Foundry NetIron does not truncate, but this shouldnt hurt.
     regsub -lineanchor -- {^(.{1,11}).*([#>])$} $prompt {\1} reprompt
     regsub -all -- {[\\]$} $reprompt {} reprompt
     append reprompt {([^#>\r\n]+)?[#>]([\\r\\n]+)?}

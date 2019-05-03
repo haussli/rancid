@@ -1,4 +1,6 @@
 3.9.99
+	flogin: handle config-mode prompts in run_command()
+
 	ios.om: drop count status from show license summary
 
 	hrancid: filter rogue diagnostic output from 3rd-party transceivers in

@@ -1,4 +1,6 @@
 3.9.99
+	ios.pm: add showPlatform() filter for show hw-programmable all
+
 	flogin: handle config-mode prompts in run_command()
 
 	ios.om: drop count status from show license summary

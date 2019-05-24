@@ -184,6 +184,7 @@ cisco;command;ios::ShowModule;show module;c6500 ios
 cisco;command;ios::ShowSpeVersion;show spe version
 cisco;command;ios::ShowC7200;show c7200
 cisco;command;ios::ShowCellular;show cellular 0 profile;Cellular modem
+cisco;command;ios::ShowHWProgrammable;show hw-programmable all
 cisco;command;ios::ShowInventory;show inventory raw
 cisco;command;ios::ShowInventory;show inventory;ASA/PIX
 cisco;command;ios::ShowVTP;show vtp status

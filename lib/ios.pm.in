@@ -827,6 +827,51 @@ sub ShowEnv {
     return(0);
 }
 
+# This routine parses "show hw-programmable all"
+sub ShowHWProgrammable {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowPlatform: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+	return(0) if (/% incomplete command/i); # every platform is different
+	return(1) if (/(invalid (input|command) detected|type help or )/i);
+	return(-1) if (/command authorization failed/i);
+	# return(1) if ($type !~ /^12[40]/);
+	# the pager can not be disabled per-session on the PIX
+	if (/^(<-+ More -+>)/) {
+	    my($len) = length($1);
+	    s/^$1\s{$len}//;
+	}
+	/^$/ && next;
+
+	# XXX parsing for show platform, which has CPLD info on some platforms
+	#     but is inconsistent across platforms.
+	#if (/^(.*) insert time.*$/i) {
+	#    my($len) = length($1);
+	#    ProcessHistory("PLATFORM","","", "! $1\n");
+	#
+	#    while (<$INPUT>) {
+	#	tr/\015//d;
+	#	return(0) if (/^$prompt/);
+	#
+	#	s/^(.{1,$len}).*/$1/;
+	#	ProcessHistory("PLATFORM","","", "! $_");
+	#	last if (/^$/);
+	#    }
+	#    next;
+	#}
+
+	ProcessHistory("HWP","","", "! $_");
+    }
+    ProcessHistory("HWP","","", "!\n");
+
+    return(0);
+}
+
 # This routine parses "show rsp chassis-info" for the rsp
 # This will create arrays for hw info.
 sub ShowRSP {

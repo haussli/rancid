@@ -10,7 +10,7 @@
 
         add pre-cmd *   term monitor
         add pre-cmd-ios *       term monitor
-
+    -i option
 - it would be useful to log commands that are permission denied rather than
   just failing.  it was mentioned on cisco-isp list.
 - login script should catch output to stdout/user, so that if the rancid script

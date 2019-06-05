@@ -330,7 +330,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 
 # Enable
 proc do_enable { enauser enapasswd } {
-    global do_saveconfig in_proc
+    global in_proc
     global prompt u_prompt e_prompt enacmd
     set in_proc 1
 

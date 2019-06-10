@@ -112,7 +112,7 @@ for {set i 0} {$i < $argc} {incr i} {
 	# interactive
 	} -i* {
 	    set do_interact 1
-	# VTY Password
+	# user Password
 	} -p* {
 	    if {! [regexp .\[pP\](.+) $arg ignore userpasswd]} {
 		incr i

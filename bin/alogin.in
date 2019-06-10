@@ -94,24 +94,27 @@ proc login { router user userpswd passwd prompt cmethod cyphertype } {
 	  sleep 0.3
 	  catch {expect eof}
 	  send_user "\nError: Connection Refused\n";
-	  cath {wait};
+	  catch {wait};
 	  return 1
 	}
 	eof {
 	  send_user "\nError: Couldn't login\n";
-	  cath {wait};
+	  catch {wait};
 	  return 1
-	} "Unknown host\r\n" {
-	  expect eof
+	}
+	"Unknown host\r\n" {
+	  catch {expect eof}
 	  send_user "\nError: Unknown host\n";
 	  catch {wait};
 	  return 1
-	} "Host is unreachable" {
+	}
+	"Host is unreachable" {
 	  expect eof
 	  send_user "\nError: Host Unreachable!\n";
 	  catch {wait};
 	  return 1
-	} "No address associated with name" {
+	}
+	"No address associated with name" {
 	  expect eof
 	  send_user "\nError: Unknown host\n";
 	  catch {wait};

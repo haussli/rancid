@@ -1,6 +1,5 @@
 #! @EXPECT_PATH@ --
 ##
-## $Id$
 ## patched to accomplish fortinet from nlogin
 ## by: Daniel G. Epstein <dan at rootlike.com>
 ## adapted by: Diego Ercolani <diego.ercolani at ssis.sm>
@@ -549,13 +548,21 @@ foreach router [lrange $argv $i end] {
 
     # Figure out passwords
     if { $do_passwd || $do_enapasswd } {
-      set pswd [find password $router]
-      if { [llength $pswd] == 0 } {
-        send_user "\nError: no password for $router in $password_file.\n"
-        continue
-      }
-     set passwd [join [lindex $pswd 0] ""]
-     set enapasswd [join [lindex $pswd 1]  ""]
+	set pswd [find password $router]
+	if { [llength $pswd] == 0 } {
+	    send_user -- "\nError: no password for $router in $password_file.\n"
+	    continue
+	}
+	if { $do_password } {
+	    set passwd [join [lindex $pswd 0] ""]
+	} else {
+	    set passwd $userpasswd
+	}
+	if { $do_enapasswd } {
+	    set enapasswd [join [lindex $pswd 1] ""]
+	} else {
+	    set enapasswd $enapasswd
+	}
     } else {
 	set passwd $userpasswd
 	set enapasswd $enapasswd

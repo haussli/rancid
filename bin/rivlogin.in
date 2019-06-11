@@ -1,7 +1,5 @@
 #! @EXPECT_PATH@ --
 ##
-## $Id$
-##
 ## @PACKAGE@ @VERSION@
 @copyright@
 #
@@ -879,16 +877,23 @@ foreach router [lrange $argv $idx end] {
     if { $do_passwd || $do_enapasswd } {
 	set pswd [find password $router]
 	if { [llength $pswd] == 0 } {
-	    puts "ERROR: - no password for $router in $password_file.\n"
+	    send_user -- "\nError: no password for $router in $password_file.\n"
 	    exit 1
 	}
 	if { $do_enapasswd && [llength $pswd] < 2 } {
-	    puts "ERROR: no enable password found for $router in $password_file."
+	    send_user -- "\nError: no enable password for $router in $password_file."
 	    exit 1
 	}
-
-	set passwd [join [lindex $pswd 0] ""]
-	set enapasswd [join [lindex $pswd 1] ""]
+	if { $do_password } {
+	    set passwd [join [lindex $pswd 0] ""]
+	} else {
+	    set passwd $userpasswd
+	}
+	if { $do_enapasswd } {
+	    set enapasswd [join [lindex $pswd 1] ""]
+	} else {
+	    set enapasswd $enapasswd
+	}
     } else {
 	set passwd $userpasswd
 	set enapasswd $enapasswd

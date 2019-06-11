@@ -1,7 +1,5 @@
 #! @EXPECT_PATH@ --
 ##
-## $Id$
-##
 ## @PACKAGE@ @VERSION@
 @copyright@
 #
@@ -270,17 +268,17 @@ foreach router [lrange $argv $i end] {
 
     # Figure out loginname's password (if different from the vty password)
     if {[info exists userpasswd]} {
-      # command line passwd
-      set passwd $userpasswd
+	# command line passwd
+	set passwd $userpasswd
     } else {
-      set passwd [join [lindex [find userpassword $router] 0] ""]
-      if { "$passwd" == "" } {
-        set passwd [join [lindex [find password $router] 0] ""]
-        if { "$passwd" == "" } {
-	  send_user "\nError: no password for $router in $password_file.\n"
-	  continue
-        }
-      }
+	set passwd [join [lindex [find userpassword $router] 0] ""]
+	if { "$passwd" == "" } {
+            set passwd [join [lindex [find password $router] 0] ""]
+            if { "$passwd" == "" } {
+		send_user -- "\nError: no password for $router in $password_file.\n"
+		continue
+            }
+	}
     }
 
     # Figure out identity file to use

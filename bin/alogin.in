@@ -286,12 +286,12 @@ foreach router [lrange $argv $i end] {
 
     # Figure out passwords
     if { $do_passwd } {
-      set pswd [find password $router]
-      if { [llength $pswd] == 0 } {
-	send_user "\nError - no password for $router in $password_file.\n"
-	continue
-      }
-      set passwd [join [lindex $pswd 0] ""]
+	set pswd [find password $router]
+	if { [llength $pswd] == 0 } {
+	    send_user -- "\nError: no password for $router in $password_file.\n"
+	    continue
+	}
+	set passwd [join [lindex $pswd 0] ""]
     }
 
     # Figure out username

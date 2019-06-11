@@ -884,7 +884,7 @@ foreach router [lrange $argv $idx end] {
 	    send_user -- "\nError: no enable password for $router in $password_file."
 	    exit 1
 	}
-	if { $do_password } {
+	if { $do_passwd } {
 	    set passwd [join [lindex $pswd 0] ""]
 	} else {
 	    set passwd $userpasswd

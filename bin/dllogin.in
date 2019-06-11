@@ -283,7 +283,7 @@ foreach router [lrange $argv $i end] {
 	    send_user -- "\nError: no password for $router in $password_file.\n"
 	    continue
 	}
-	if { $do_password } {
+	if { $do_passwd } {
 	    set passwd [join [lindex $pswd 0] ""]
 	} else {
 	    set passwd $userpasswd

@@ -458,6 +458,14 @@ proc run_commands { prompt command } {
 						  }
 						  exp_continue
 						}
+	"The config is changed.Do you want to save it? (Y/N)"	{ # Aerohive
+						  if {$do_saveconfig} {
+						    catch {send "y\r"}
+						  } else {
+						    catch {send "n\r"}
+						  }
+						  exp_continue
+						}
 	"Would you like to save them now"	{ # Force10
 						  if {$do_saveconfig} {
 						    catch {send "y\r"}
@@ -710,6 +718,9 @@ foreach router [lrange $argv $i end] {
 		send "terminal width 132\r"
 	    }
 	    expect -re $prompt		{}
+    } elsif { [string compare "hiveos" "$platform"] } {
+        # aerohive needs "console page 0"
+        send "console page 0\r"
 	} else {
 	    send "disable clipaging\r"
 	    expect -re $prompt		{}

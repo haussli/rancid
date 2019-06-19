@@ -521,7 +521,6 @@ login_top=$srcdir/bin/login_top
 
 AC_CONFIG_FILES(bin/a10login, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/agmrancid, [chmod a+x $ac_file])
-AC_CONFIG_FILES(bin/ahlogin, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/alogin bin/arancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/anlogin, [chmod a+x $ac_file])
 dnl AC_CONFIG_FILES(bin/atrancid, [chmod a+x $ac_file])

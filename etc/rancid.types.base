@@ -512,7 +512,7 @@ hitachi;login;htlogin
 #
 # aerohive hiveos
 hiveos;script;rancid -t hiveos
-hiveos;login;ahlogin
+hiveos;login;clogin
 hiveos;module;hiveos
 hiveos;inloop;hiveos::inloop
 hiveos;command;hiveos::ShowVersion;show version

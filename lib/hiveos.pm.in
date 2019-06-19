@@ -69,8 +69,8 @@ TOP: while(<$INPUT>) {
 	    last;
 	}
 	if (/^Error:/) {
-	    print STDOUT ("$host ahlogin error: $_");
-	    print STDERR ("$host ahlogin error: $_") if ($debug);
+	    print STDOUT ("$host clogin error: $_");
+	    print STDERR ("$host clogin error: $_") if ($debug);
 	    $clean_run = 0;
 	    last;
 	}

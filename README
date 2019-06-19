@@ -75,7 +75,6 @@ bin/
 	zrancid.in	Version of rancid.in for Zebra routers.
 
 	a10login.in	Version of clogin.in for A10 load balancers.
-	ahlogin.in	Version of clogin.in for aerohive hiveos access points.
 	alogin.in	Version of clogin.in for Alteon switches.
 	anlogin.in	Version of clogin.in for Arbor Networks appliances.
 	avologin.in	Version of clogin.in for Avocent appliances.

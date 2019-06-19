@@ -1,5 +1,5 @@
 3.9.99
-	ahlogin, hiveos.pm: add support for aerohive hiveos access points
+	hiveos.pm: add support for aerohive hiveos access points
 
 	rivlogin: remove some debug output
 

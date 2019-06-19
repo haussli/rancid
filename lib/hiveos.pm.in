@@ -19,12 +19,19 @@ package hiveos;
 #   model ap121, hiveos version 6.5r8b
 #   model ap121, hiveos version 6.5r9
 #   model ap121, hiveos version 6.5r10
+#   model ap121, hiveos version 6.5r12
+#   model ap130, hiveos version 8.2r4
+#   model ap130, hiveos version 8.4r4
 #   model ap230, hiveos version 6.5r10
+#   model ap230, hiveos version 6.5r12
 #   model ap250, hiveos version 8.0r1a
 #   model ap250, hiveos version 8.2r4
+#   model ap250, hiveos version 8.2r6
 #   model ap250, hiveos version 8.3r2
 #   model ap250, hiveos version 8.3r5
 #   model ap250, hiveos version 8.4r4
+#   model ap250, hiveos version 8.4r7
+#   model ap250, hiveos version 8.4r11
 #
 # hiveos cli references can be found here
 # https://docs.aerohive.com/330000/docs/help/english/ng/Content/reference/docs/cli-reference-guides.htm

@@ -1,6 +1,9 @@
 # Mac OS X Finder cache files
 .DS_Store
 
+# jetbrains intellij idea
+.idea
+
 # Vim/Emacs metadata and backup files
 .*.swp
 *~

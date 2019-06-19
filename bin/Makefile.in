@@ -97,7 +97,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES = login_top a10login agmrancid alogin arancid \
+CONFIG_CLEAN_FILES = login_top a10login agmrancid ahlogin alogin arancid \
 	anlogin avologin avorancid blogin brancid brlogin cat5rancid \
 	clogin csblogin cssrancid dllogin elogin erancid f5rancid \
 	f10rancid flogin fnlogin fxlogin hlogin htlogin htrancid \
@@ -198,7 +198,7 @@ am__define_uniq_tagged_files = \
 ETAGS = etags
 CTAGS = ctags
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/a10login.in \
-	$(srcdir)/agmrancid.in $(srcdir)/alogin.in \
+	$(srcdir)/agmrancid.in $(srcdir)/ahlogin.in $(srcdir)/alogin.in \
 	$(srcdir)/anlogin.in $(srcdir)/arancid.in \
 	$(srcdir)/avologin.in $(srcdir)/avorancid.in \
 	$(srcdir)/blogin.in $(srcdir)/brancid.in $(srcdir)/brlogin.in \
@@ -352,7 +352,7 @@ top_srcdir = @top_srcdir@
 
 #AUTOMAKE_OPTIONS=foreign no-dependencies
 AUTOMAKE_OPTIONS = foreign
-bin_SCRIPTS = a10login alogin agmrancid anlogin arancid avologin \
+bin_SCRIPTS = a10login alogin agmrancid ahlogin anlogin arancid avologin \
 	avorancid blogin brancid brlogin cat5rancid clogin \
 	control_rancid csblogin cssrancid dllogin elogin erancid \
 	f5rancid f10rancid flogin fnlogin fxlogin hlogin hrancid \
@@ -448,6 +448,8 @@ login_top: $(top_builddir)/config.status $(srcdir)/login_top.in
 a10login: $(top_builddir)/config.status $(srcdir)/a10login.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 agmrancid: $(top_builddir)/config.status $(srcdir)/agmrancid.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+ahlogin: $(top_builddir)/config.status $(srcdir)/ahlogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 alogin: $(top_builddir)/config.status $(srcdir)/alogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

@@ -6230,6 +6230,8 @@ ac_config_files="$ac_config_files bin/a10login"
 
 ac_config_files="$ac_config_files bin/agmrancid"
 
+ac_config_files="$ac_config_files bin/ahlogin"
+
 ac_config_files="$ac_config_files bin/alogin bin/arancid"
 
 ac_config_files="$ac_config_files bin/anlogin"
@@ -7053,6 +7055,7 @@ do
     "bin/login_top") CONFIG_FILES="$CONFIG_FILES bin/login_top" ;;
     "bin/a10login") CONFIG_FILES="$CONFIG_FILES bin/a10login" ;;
     "bin/agmrancid") CONFIG_FILES="$CONFIG_FILES bin/agmrancid" ;;
+    "bin/ahlogin") CONFIG_FILES="$CONFIG_FILES bin/ahlogin" ;;
     "bin/alogin") CONFIG_FILES="$CONFIG_FILES bin/alogin" ;;
     "bin/arancid") CONFIG_FILES="$CONFIG_FILES bin/arancid" ;;
     "bin/anlogin") CONFIG_FILES="$CONFIG_FILES bin/anlogin" ;;
@@ -7832,6 +7835,7 @@ See \`config.log' for more details" "$LINENO" 5; }
  ;;
     "bin/a10login":F) chmod a+x $ac_file ;;
     "bin/agmrancid":F) chmod a+x $ac_file ;;
+    "bin/ahlogin":F) chmod a+x $ac_file ;;
     "bin/alogin":F) chmod a+x $ac_file ;;
     "bin/arancid":F) chmod a+x $ac_file ;;
     "bin/anlogin":F) chmod a+x $ac_file ;;

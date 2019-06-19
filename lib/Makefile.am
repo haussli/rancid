@@ -10,7 +10,7 @@ my_pkglibdir = $(pkglibdir)
 my_pkglib_DATA = rancid.pm rancid.py acos.pm aeos.pm arbor.pm arcos.pm \
 		 bigip.pm ciscowlc.pm \
 		 dell.pm edgemax.pm edgerouter.pm exos.pm \
-		 fortigate.pm foundry.pm fss2.pm fxos.pm \
+		 fortigate.pm foundry.pm fss2.pm fxos.pm hiveos.pm \
 		 ios.pm iossb.pm iosshtech.pm iosxr.pm junos.pm mrv.pm nxos.pm \
 		 panos.pm rbt.pm sros.pm vrp.pm wavesvros.pm
 pkglib_in = $(my_pkglib_DATA:%=%.in)
@@ -76,6 +76,7 @@ fortigate.pm: fortigate.pm.in
 foundry.pm: foundry.pm.in
 fss2.pm: fss2.pm.in
 fxos.pm: fxos.pm.in
+hiveos.pm: hiveos.pm.in
 ios.pm: ios.pm.in
 iossb.pm: iossb.pm.in
 iosshtech.pm: iosshtech.pm.in

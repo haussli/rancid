@@ -12,7 +12,7 @@
 AUTOMAKE_OPTIONS=foreign
 
 bin_PROGRAMS = hpuifilter par
-bin_SCRIPTS = a10login alogin agmrancid anlogin arancid \
+bin_SCRIPTS = a10login alogin agmrancid ahlogin anlogin arancid \
 	avologin avorancid blogin brancid brlogin cat5rancid clogin \
 	control_rancid csblogin cssrancid \
 	dllogin elogin erancid f5rancid f10rancid \

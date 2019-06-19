@@ -75,6 +75,7 @@ bin/
 	zrancid.in	Version of rancid.in for Zebra routers.
 
 	a10login.in	Version of clogin.in for A10 load balancers.
+	ahlogin.in	Version of clogin.in for aerohive hiveos access points.
 	alogin.in	Version of clogin.in for Alteon switches.
 	anlogin.in	Version of clogin.in for Arbor Networks appliances.
 	avologin.in	Version of clogin.in for Avocent appliances.
@@ -119,6 +120,7 @@ lib/
 	exos.in		rancid library for Extreme switches.
 	fortigate.pm.in	rancid library for Fortinet Firewalls.
 	foundry.pm.in	rancid library for Foundry (Brocade) switches.
+	hiveos.pm.in	rancid library for aerohive hiveos access points.
 	ios.pm.in	rancid library for Cisco IOS and IOS-XE.
 	iossb.pm.in	rancid library for Cisco Small Business switches.
 	iosxr.pm.in	rancid library for Cisco IOS-XR.

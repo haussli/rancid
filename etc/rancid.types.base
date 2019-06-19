@@ -510,7 +510,21 @@ fxos;command;fxos::WriteTerm;show configuration
 hitachi;script;htrancid
 hitachi;login;htlogin
 #
-# HP Procurve switch such as the 2524, 4108 or J9086A (aka. 2610) procurve 
+# aerohive hiveos
+hiveos;script;rancid -t hiveos
+hiveos;login;ahlogin
+hiveos;module;hiveos
+hiveos;inloop;hiveos::inloop
+hiveos;command;hiveos::ShowVersion;show version
+hiveos;command;hiveos::ShowVersion;show hw-info
+hiveos;command;hiveos::ShowBoot;show boot-param
+hiveos;command;hiveos::ShowLicense;show license
+hiveos;command;hiveos::ShowCapWap;show capwap client
+hiveos;command;hiveos::ShowIDManager;show idm
+hiveos;command;hiveos::WriteTerm;show running-config password
+hiveos;command;hiveos::WriteTerm;show running-config users password
+#
+# HP Procurve switch such as the 2524, 4108 or J9086A (aka. 2610) procurve
 # switches, J9091A, and J8698A.
 # Aruba 2530-48G & 5400R series.
 hp;script;hrancid -t hp

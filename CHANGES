@@ -1,4 +1,6 @@
 3.9.99
+    ahlogin, hiveos.pm: add support for aerohive hiveos access points
+
 	rivlogin: remove some debug output
 
 	*login: fix password decision when -e or -p are used, and make error msg

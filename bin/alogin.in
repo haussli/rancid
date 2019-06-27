@@ -1,7 +1,5 @@
 #! @EXPECT_PATH@ --
 ##
-## $Id$
-##
 ## @PACKAGE@ @VERSION@
 @copyright@
 #
@@ -92,21 +90,35 @@ proc login { router user userpswd passwd prompt cmethod cyphertype } {
 
     expect {
 	"Connection refused" {
-	    catch {close}; catch {wait};
-	    sleep 0.3
-		expect eof
-		send_user "\nError: Connection Refused\n"; wait; return 1
+	  catch {close}; catch {wait};
+	  sleep 0.3
+	  catch {expect eof}
+	  send_user "\nError: Connection Refused\n";
+	  catch {wait};
+	  return 1
 	}
-	eof { send_user "\nError: Couldn't login\n"; wait; return 1
-	} "Unknown host\r\n" {
-	    expect eof
-	    send_user "\nError: Unknown host\n"; wait; return 1
-	} "Host is unreachable" {
-	    expect eof
-	    send_user "\nError: Host Unreachable!\n"; wait; return 1
-	} "No address associated with name" {
-	    expect eof
-	    send_user "\nError: Unknown host\n"; wait; return 1
+	eof {
+	  send_user "\nError: Couldn't login\n";
+	  catch {wait};
+	  return 1
+	}
+	"Unknown host\r\n" {
+	  catch {expect eof}
+	  send_user "\nError: Unknown host\n";
+	  catch {wait};
+	  return 1
+	}
+	"Host is unreachable" {
+	  expect eof
+	  send_user "\nError: Host Unreachable!\n";
+	  catch {wait};
+	  return 1
+	}
+	"No address associated with name" {
+	  expect eof
+	  send_user "\nError: Unknown host\n";
+	  catch {wait};
+	  return 1
 	}
 	-re "(Host key not found |The authenticity of host .* be established)" {
 	    expect {
@@ -274,12 +286,12 @@ foreach router [lrange $argv $i end] {
 
     # Figure out passwords
     if { $do_passwd } {
-      set pswd [find password $router]
-      if { [llength $pswd] == 0 } {
-	send_user "\nError - no password for $router in $password_file.\n"
-	continue
-      }
-      set passwd [join [lindex $pswd 0] ""]
+	set pswd [find password $router]
+	if { [llength $pswd] == 0 } {
+	    send_user -- "\nError: no password for $router in $password_file.\n"
+	    continue
+	}
+	set passwd [join [lindex $pswd 0] ""]
     }
 
     # Figure out username

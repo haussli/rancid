@@ -1,7 +1,5 @@
 #! @EXPECT_PATH@ --
 ##
-## $Id: clogin.in 3286 2016-02-17 12:26:54Z heas $
-##
 ## @PACKAGE@ @VERSION@
 @copyright@
 #
@@ -536,17 +534,25 @@ foreach router [lrange $argv $i end] {
 
     # Figure out passwords
     if { $do_passwd || $do_enapasswd } {
-      set pswd [find password $router]
-      if { [llength $pswd] == 0 } {
-	send_user -- "\nError: no password for $router in $password_file.\n"
-	continue
-      }
-      if { $enable && $do_enapasswd && $autoenable == 0 && [llength $pswd] < 2 } {
-	send_user -- "\nError: no enable password for $router in $password_file.\n"
-	continue
-      }
-      set passwd [join [lindex $pswd 0] ""]
-      set enapasswd [join [lindex $pswd 1] ""]
+	set pswd [find password $router]
+	if { [llength $pswd] == 0 } {
+	    send_user -- "\nError: no password for $router in $password_file.\n"
+	    continue
+	}
+	if { $enable && $do_enapasswd && $autoenable == 0 && [llength $pswd] < 2 } {
+	    send_user -- "\nError: no enable password for $router in $password_file.\n"
+	    continue
+	}
+	if { $do_passwd } {
+	    set passwd [join [lindex $pswd 0] ""]
+	} else {
+	    set passwd $userpasswd
+	}
+	if { $do_enapasswd } {
+	    set enapasswd [join [lindex $pswd 1] ""]
+	} else {
+	    set enapasswd $enapasswd
+	}
     } else {
 	set passwd $userpasswd
 	set enapasswd $enapasswd

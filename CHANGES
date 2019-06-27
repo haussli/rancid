@@ -1,4 +1,9 @@
 3.9.99
+	rivlogin: remove some debug output
+
+	*login: fix password decision when -e or -p are used, and make error msg
+	common - report from Pan Affa
+
 	ios.pm: add showPlatform() filter for show hw-programmable all
 
 	flogin: handle config-mode prompts in run_command()

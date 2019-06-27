@@ -1,7 +1,5 @@
 #! @EXPECT_PATH@ --
 ##
-## $Id$
-##
 ## @PACKAGE@ @VERSION@
 @copyright@
 #
@@ -228,14 +226,6 @@ proc login { router user userpswd passwd enapasswd } {
     global verbose
     global config verbose my_prompt
 
-    if { $verbose == 1 } {
-	puts "DEBUG: login router = $router"
-	puts "DEBUG: login username = $user"
-	puts "DEBUG: login userpasswd = $userpswd"
-	puts "DEBUG: login passwd = $passwd"
-	puts "DEBUG: login enapasswd = $enapasswd"
-    }
-
     eval spawn -noecho [split "$telnetcmd $router"]
     set telnet_id $spawn_id
 
@@ -391,10 +381,6 @@ proc do_enable { enauser enapasswd userpswd } {
     set enable_prompt $enable_prompt\#
     set uses_username 0;
 
-    if { $verbose == 1 } {
-	puts "DEBUG: do_enable: my_prompt = $my_prompt ena_prompt = $enable_prompt"
-    }
-
     send "enable\r"
 
     expect {
@@ -435,10 +421,6 @@ proc do_configure { } {
     global my_prompt
     set config_prompt [ string trimright $my_prompt "\#" ]
     set config_prompt $config_prompt\(config\)\#
-
-    if { $verbose == 1 } {
-	puts "DEBUG: do_config: my_prompt = $my_prompt cfg_prompt = $config_prompt"
-    }
 
     send "configure\r"
     expect {
@@ -515,17 +497,10 @@ proc run_single_command { prompt cmdstring } {
     set need_ays 0
     set delay 0
 
-    if {$verbose == 1} {
-	puts "DEBUG: run_commands: prompt=$prompt \"$cmdstring\" "
-    }
-
     # ays == "are you sure" - must send back yes
     if { [string compare $cmdstring "save startup" ]  == 0 } {
 	set need_ays 1
 	set delay 1
-	if {$verbose == 1} {
-	    puts "DEBUG: save startup cmd seen, set need_ays = 1"
-	}
     }
 
     # TODO: add case for copy command to startup, also prompts for ok
@@ -562,19 +537,12 @@ proc run_single_command { prompt cmdstring } {
 	}
 	"want to overwrite " {
 	    send "yes\r"
-	    if {$verbose == 1} {
-		puts "DEBUG: got overwrite question, set need_ays to 0"
-	    }
 	    set need_ays 0
 	}
 	"%CONFIG-E-DUPLICATE,*" { }
 	"$prompt" {
 	    if { $seen_prompt == 0 } {
 		set seen_prompt 1
-	    }
-
-	    if {$verbose == 1} {
-		puts "DEBUG: saw double prompt, exiting expect loop\n"
 	    }
 
 	    if { $need_ays == 1 } {
@@ -665,10 +633,6 @@ proc process_script_file { filename } {
 	    continue
 	}
 
-	if { $verbose == 1 } {
-	    puts "DEBUG: line:$line_cnt cmd = $cmd\n"
-	}
-
 	# skip comments in script files
 	if { [regexp "^\#" $cmd] != 1  } {
 
@@ -741,12 +705,6 @@ proc strip_log { filename router } {
 #
 # main section
 #
-if { $verbose == 1 } {
-    puts "\n\nrscmd: Version 1.1 started on [exec date]"
-    puts "[exec uname -a]"
-    puts "Expect Version: [exp_version]\n"
-}
-
 # send input like in a fast and consistent human style
 set send_human {.1 .3 1 .05 2}
 
@@ -823,9 +781,6 @@ for {set idx 0} {$idx < $argc} {incr idx} {
 	    if {! [ regexp .\[fF\](.+) $arg ignore password_file]} {
 		incr idx
 		set output_file [ lindex $argv $idx ]
-		if { $verbose == 1 } {
-		    puts "DEBUG: output file: $output_file"
-		}
 	    }
 	# Timeout
 	} -t* {
@@ -863,12 +818,6 @@ foreach router [lrange $argv $idx end] {
 	set timeout $timeoutdflt
     }
 
-    # Figure out passwords
-    if {$verbose == 1} {
-	puts "DEBUG: do_passwd = $do_passwd\n"
-	puts "DEBUG: do_enablepasswd = $do_enapasswd\n"
-    }
-
     # look for noenable option in .cloginrc
     if { [find noenable $router] == "1" } {
 	set enable 0
@@ -876,19 +825,27 @@ foreach router [lrange $argv $idx end] {
 	set enable $avenable
     }
 
+    # Figure out passwords
     if { $do_passwd || $do_enapasswd } {
 	set pswd [find password $router]
 	if { [llength $pswd] == 0 } {
-	    puts "ERROR: - no password for $router in $password_file.\n"
+	    send_user -- "\nError: no password for $router in $password_file.\n"
 	    exit 1
 	}
 	if { $do_enapasswd && [llength $pswd] < 2 } {
-	    puts "ERROR: no enable password found for $router in $password_file."
+	    send_user -- "\nError: no enable password for $router in $password_file."
 	    exit 1
 	}
-
-	set passwd [join [lindex $pswd 0] ""]
-	set enapasswd [join [lindex $pswd 1] ""]
+	if { $do_passwd } {
+	    set passwd [join [lindex $pswd 0] ""]
+	} else {
+	    set passwd $userpasswd
+	}
+	if { $do_enapasswd } {
+	    set enapasswd [join [lindex $pswd 1] ""]
+	} else {
+	    set enapasswd $enapasswd
+	}
     } else {
 	set passwd $userpasswd
 	set enapasswd $enapasswd
@@ -930,10 +887,6 @@ foreach router [lrange $argv $idx end] {
 	exit 1
     }
 
-    if {$verbose == 1 } {
-	puts "DEBUG: login completed ok\n"
-    }
-
     if { $enable == 1 } {
 	if { [do_enable $enauser $enapasswd $userpswd] == 1} {
 	    incr exitval
@@ -972,12 +925,6 @@ foreach router [lrange $argv $idx end] {
 	    exit 1
 	}
 
-#	if { [process_script_file $sfile] == 1}{
-#	    puts "DEBUG: logfile $output_file closed on error\n"
-#	    logout $my_prompt
-#	    exit 1
-#	}
-
 	source_script_file $sfile
 
 	logout $my_prompt
@@ -990,10 +937,6 @@ foreach router [lrange $argv $idx end] {
 	}
 	interact
 	log_file
-    }
-
-    if { $verbose == 1 } {
-	puts "DEBUG: exiting normally.\n"
     }
 
     if { $logging == 1} {

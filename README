@@ -235,6 +235,8 @@ Quick Installation Guide (an example):
    for examples and a good starting point.  Also take a look at the cloginrc
    manual page, 'man -M <basedir>/man cloginrc'.
 
+   See the cloginrc(5) manpage.
+
 6) Modify /etc/aliases
    Rancid sends the diffs and other administrative emails to rancid-<GROUP>
    and problems to rancid-admin-<GROUP>, where <GROUP> is the "GROUP" of
@@ -259,7 +261,10 @@ Quick Installation Guide (an example):
    option is not used, the value of --enable-mail-plus is assumed.  That is,
    the addresses will be "rancid+", if it is specified.
 
-   There are also several mail-related options in rancid.conf.
+   There are several mail-related options in rancid.conf.
+
+   See the rancid.conf manpage.  Also see the manual for your MTA to
+   determine the format of and procedure for adding aliases.
 
 7) Run rancid-cvs.
    This creates all of the necessary directories and config files for

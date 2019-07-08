@@ -1,4 +1,6 @@
 3.9.99
+	arcos.pm: drop trailing spaces
+
 	jlogin: handle change in Fujitsu FSS2 telnet prompt
 
 	rivlogin: remove some debug output

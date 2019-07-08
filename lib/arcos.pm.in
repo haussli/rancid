@@ -96,6 +96,9 @@ sub ShowVersion {
 	return(1) if (/(invalid (input|command) detected|type help or )/i);
 	return(-1) if (/command authorization failed/i);
 
+	# drop trailing spaces
+	s/  *$//;
+
 	/version product-name "([^\"]*)"/ &&
 	    ProcessHistory("COMMENTS","keysort","A1",
 			   "!Chassis type: $1\n");

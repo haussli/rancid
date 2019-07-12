@@ -1,4 +1,6 @@
 3.9.99
+	GC "procket" from manpages & README
+
 	arcos.pm: drop trailing spaces
 
 	jlogin: handle change in Fujitsu FSS2 telnet prompt

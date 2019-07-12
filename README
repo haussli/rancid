@@ -82,7 +82,7 @@ bin/
 	clogin.in	Expect script that logs into routers and either presents
 			an interactive shell, runs a set of commands, or runs
 			another expect script.  It handles Cisco, Extreme,
-			Force10, Juniper E-series, Procket, Redback, Zebra/MRT.
+			Force10, Juniper E-series, Redback, Zebra/MRT.
 	complogin.in	Version of clogin.in for Compass Networks routers.
 	csblogin.in	Version of clogin.in for Cisco Small Business switches.
 	dllogin.in	Version of clogin.in for D-Link devices.

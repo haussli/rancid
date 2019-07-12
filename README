@@ -111,6 +111,7 @@ bin/
 	xilogin.in	Version of clogin.in for Xirrus arrays.
 lib/
 	acos.pm.in	rancid library for A10 Networks appliances.
+	aeos.pm.in	rancid library for Arista Networks EOS.
 	arbor.pm.in	rancid library for Arbor Networks appliances.
 	arcos.pm.in	rancid library for Arrcus Networks ArcOS.
 	ciscowlc.pm.in	rancid library for some Cisco Wireless Lan Controllers.

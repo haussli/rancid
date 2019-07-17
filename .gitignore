@@ -31,9 +31,7 @@ configure.lineno
 
 # files generated from template input
 Makefile
-autom4te.cache
 config.*
-configure.lineno
 
 a10login
 agmrancid

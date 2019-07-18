@@ -1,4 +1,6 @@
 3.9.99
+	iosxr.pm: DirSlotN(): drop the file number from all files.
+
 	Missing Arista documentation - github.com/inphobia
 
 	GC "procket" from manpages & README

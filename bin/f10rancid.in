@@ -442,6 +442,8 @@ sub WriteTerm {
 	return(-1) if (/command authorization failed/i);
 	# skip crap
  	/^Current Configuration/ && next;
+	/^! (version|last configuration|startup-config last)/i && next;
+
 
 	# Dog gone Cool matches to process the rest of the config
 	/^tftp-server flash /   && next; # kill any tftp remains

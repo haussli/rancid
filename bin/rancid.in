@@ -1,7 +1,5 @@
 #! @PERLV_PATH@
 ##
-## $Id$
-##
 ## @PACKAGE@ @VERSION@
 @copyright@
 #
@@ -69,7 +67,7 @@ if (length($#modules)) {
     }
 }
 
-# open the input, a pre-collected file or start a login for a login stream or
+# open the input; a pre-collected file or start a login for a login stream or
 # temporary file
 if ($file) {
     print(STDERR "opening file $host\n") if ($debug || $log);

@@ -1,4 +1,7 @@
 3.9.99
+	f10rancid: drop version/last config/startup-config comments from config
+	- Florin Vlad Olariu
+
 	fss2.pm: drop cpu stats and process stats from FSS >=2.5.1
 
 	iosxr.pm: DirSlotN(): drop the file number from all files.

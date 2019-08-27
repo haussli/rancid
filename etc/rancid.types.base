@@ -417,7 +417,7 @@ bigip13;command;bigip::RunCommandTMSH;cd /
 bigip13;command;bigip::ShowRouteStatic;show /net recursive route static
 bigip13;command;bigip::WriteTerm;list all-properties recursive
 #
-# Force 10 and Dell Force10.
+# Force 10 and Dell Force10 (aka Dell OS9).
 force10;script;f10rancid
 force10;login;clogin
 #

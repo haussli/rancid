@@ -1,5 +1,5 @@
 3.9.99
-	hlogin: add variable of user prompt from Dell PowerConnect M8024-k as
+	hlogin: add variation of user prompt from Dell PowerConnect M8024-k as
 	type 'smc'.
 
 	iosxr.pm: match diskN, where N may be >1 in XR 6.x on 9k with a usbdrive

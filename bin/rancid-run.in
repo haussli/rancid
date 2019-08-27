@@ -167,7 +167,7 @@ do
 		exit 1
 	    fi
 	    @PERLV@ -e "\$t = (stat(\"$LOCKFILE\"))[9]; print \"OLD\\n\" if (time() - \$t >= $LOCKTIME*60*60);" > $GRPOLDFILE
-	    if [ -s $TMPDIR/.$GROUP.old ]
+	    if [ -s $GRPOLDFILE ]
 	    then
 		(
 		  echo "To: @ADMINMAILPLUS@${GROUP}${MAILDOMAIN}"

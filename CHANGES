@@ -1,4 +1,6 @@
 3.9.99
+	iosxr.pm: match diskN, where N may be >1 in XR 6.x on 9k with a usbdrive
+
 	arcos.pm: fail on cli to application error
 
 	rancid-run: wrong variable used in OLDTIME comparison - Adrian Hardy

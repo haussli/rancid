@@ -1,7 +1,5 @@
 package iosxr;
 ##
-## $Id$
-##
 ## @PACKAGE@ @VERSION@
 @copyright@
 #
@@ -555,7 +553,7 @@ sub DirSlotN {
 	}
 	# filter frequently changing files from IOX bootflash, hardiska,
 	# and nvram
-	if ($dev =~ /(bootflash|disk[012]|harddisk|nvram)/) {
+	if ($dev =~ /(bootflash|disk[0-9]|harddisk|nvram)/) {
 	    if (/\s(\.python-history|aaa|\.bash_history)\s*$/ ||
 	        /\s(ce_switch.log\S*|cisco_support|errmsg_cont)\s*$/ ||
 	        /\s(genstr_cont|temp_cont|temp_cont|temp_static_data)\s*$/ ||

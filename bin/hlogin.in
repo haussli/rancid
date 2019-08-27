@@ -457,7 +457,7 @@ foreach router [lrange $argv $i end] {
     # Figure out prompts
     set u_prompt [find userprompt $router]
     if { "$u_prompt" == "" } {
-	set u_prompt "(\[Uu]sername|\[Ll]ogin|\[Uu]ser \[Nn]ame|Login Name):"
+	set u_prompt "(\[Uu]sername|\[Ll]ogin|\[Uu]ser \[Nn]ame|^\[Uu]ser|Login Name):"
     } else {
 	set u_prompt [join [lindex $u_prompt 0] ""]
     }

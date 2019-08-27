@@ -29,7 +29,7 @@
 
 	flogin: handle config-mode prompts in run_command()
 
-	ios.om: drop count status from show license summary
+	ios.pm: drop count status from show license summary
 
 	hrancid: filter rogue diagnostic output from 3rd-party transceivers in
 	Aruba - Huber Florian Tobias

@@ -124,6 +124,7 @@ sub ShowFeatures {
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(invalid (input|command) detected|type help or )/i);
 	return(-1) if (/command authorization failed/i);
+	return(-1) if (/error: application communication failure/i);
 
 	ProcessHistory("","","","! $_");
     }
@@ -144,6 +145,7 @@ sub ShowHardware {
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(invalid (input|command) detected|type help or )/i);
 	return(-1) if (/command authorization failed/i);
+	return(-1) if (/error: application communication failure/i);
 
 	# skip allocated, free, watermarks & their timestamps
 	next if (/(estimated-free|objects-allocated|high-watermark|raw-(free|used))/);
@@ -186,6 +188,7 @@ TOP:
 	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
 	return(0) if ($found_end);		# Only do this routine once
 	return(-1) if (/command authorization failed/i);
+	return(-1) if (/error: application communication failure/i);
 	return(-1) if (/% ?configuration buffer full/i);
 
 	/^! no configuration change since last restart/i && next;

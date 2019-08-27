@@ -1,4 +1,6 @@
 3.9.99
+	arcos.pm: fail on cli to application error
+
 	rancid-run: wrong variable used in OLDTIME comparison - Adrian Hardy
 
 	f10rancid: drop version/last config/startup-config comments from config

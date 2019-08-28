@@ -494,7 +494,7 @@ OUT:ProcessHistory("COMMENTS","keysort","LICENSE","!\n");
     return(0);
 }
 
-# This routine parses "showCellular"
+# This routine parses "show cellular 0 profile"
 sub ShowCellular {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowCellular: $_" if ($debug);
@@ -517,7 +517,7 @@ sub ShowCellular {
     return(0);
 }
 
-# This routine parses "showDetail"
+# This routine parses "show switch detail"
 sub ShowDetail {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowDetail: $_" if ($debug);

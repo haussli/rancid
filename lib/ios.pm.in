@@ -1091,7 +1091,7 @@ sub ShowFlash {
 		 /^(\s*\d+)(\s+[-rwx]+\s+\d+\s+\w+ \d+\s+\d+ \d+:\d+:\d+\s+)(\S+)/ ||
 		 /^(\s*\d+)(\s+\d+\s+\w+ \d+\s+\d+ \d+:\d+:\d+ .\d+:\d+\s+)(\S+)/ ||
 		 /^(\s*\d+)(\s+\d+\s+\w+ \d+\s+\d+ \d+:\d+:\d+\s+)(\S+)/) {
-	    ProcessHistory("FLASH","keysort","$2","!Flash: $1$2$3\n") && next;
+	    ProcessHistory("FLASH","keysort","$3","!Flash: $1$2$3\n") && next;
         }
 
 	if (/(\d+) bytes (available|total) \((\d+) bytes (free|used)(\/\s+% free)?\)/) {
@@ -1239,9 +1239,11 @@ sub DirSlotN {
 	    #     3  -rw-             1011                    <no date>  ifIndex-table
 	    #    9  -rw-         660  Jan 15 2011 20:43:54 vlan.dat
 	    #   16  -rw-             5437  Jan 16 2016 02:22:32 +00:00  licenses
+	    #  114    -rwx  92           13:22:08 Aug 15 2019  .boot_string (ASA)
 	    if (/(\s*\d+\s+)(\S+\s+\d+\s+\w+ \d+\s+\d+ \d+:\d+:\d+ .\d+:\d+)/ ||
 	        /(\s*\d+\s+)(\S+\s+\d+\s+\w+ \d+\s+\d+ \d+:\d+:\d+)/ ||
-	        /(\s*\d+\s+)(\S+\s+\d+\s+<no date>\s+\S+)/) {
+	        /(\s*\d+\s+)(\S+\s+\d+\s+<no date>\s+\S+)/ ||
+	        /(\s*\d+\s+)(\S+\s+\d+\s+\d+:\d+:\d+ \w+ \d+\s+\d+\s+\S+)/) {
 		#my($fn, $a, $rem) = ($1, $2, $');
 		#my($fnl) = length($fn);
 		#my($fmt) = "%-". $fnl ."s%s%s\n";

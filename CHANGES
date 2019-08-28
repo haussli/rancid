@@ -1,4 +1,7 @@
 3.9.99
+	ios.pm: DirFlash(): fix sort field & DirSlotN(): match ASA's unique
+	date format
+
 	hlogin: add variation of user prompt from Dell PowerConnect M8024-k as
 	type 'smc'.
 

@@ -1,4 +1,6 @@
 3.9.99
+	ios.pm: filter ASA-specific unknown command format
+
 	ios.pm: DirFlash(): fix sort field & DirSlotN(): match ASA's unique
 	date format
 

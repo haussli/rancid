@@ -1,7 +1,5 @@
 package dell;
 ##
-## $Id$
-##
 ## fnrancid patched to dlrancid to accomplish D-Link support
 ## adapted by: Gavin McCullagh <gmccullagh at gmail.com>
 ##             Griffith College Dublin

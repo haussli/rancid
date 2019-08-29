@@ -1,7 +1,5 @@
 package bigip;
 ##
-## $Id$
-##
 ## @PACKAGE@ @VERSION@
 @copyright@
 #

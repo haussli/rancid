@@ -1,7 +1,5 @@
 package junos;
 ##
-## $Id$
-##
 ## @PACKAGE@ @VERSION@
 @copyright@
 # 

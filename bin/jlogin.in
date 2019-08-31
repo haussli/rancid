@@ -159,6 +159,18 @@ proc login { router user passwd cmethod cyphertype identfile} {
 						  send -- "$user\r"
 						  exp_continue
 	    					}
+	    -nocase -re "last login:"		{
+						  exp_continue
+	    					}
+	    -nocase -re "failed login:"		{
+						  exp_continue
+	    					}
+	    -re "\[\r\n\u0001]\[A-Za-z0-9.-]+ login:"	{
+						  # Fujitsu t100 
+						  # ^<hostname> login:
+						  send -- "$user\r"
+						  exp_continue
+	    					}
 	    "\[Pp]assword:"			{
 						  sleep 1; send -- "$passwd\r"
 						  exp_continue

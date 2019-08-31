@@ -82,7 +82,7 @@ bin/
 	clogin.in	Expect script that logs into routers and either presents
 			an interactive shell, runs a set of commands, or runs
 			another expect script.  It handles Cisco, Extreme,
-			Force10, Juniper E-series, Procket, Redback, Zebra/MRT.
+			Force10, Juniper E-series, Redback, Zebra/MRT.
 	complogin.in	Version of clogin.in for Compass Networks routers.
 	csblogin.in	Version of clogin.in for Cisco Small Business switches.
 	dllogin.in	Version of clogin.in for D-Link devices.
@@ -111,6 +111,7 @@ bin/
 	xilogin.in	Version of clogin.in for Xirrus arrays.
 lib/
 	acos.pm.in	rancid library for A10 Networks appliances.
+	aeos.pm.in	rancid library for Arista Networks EOS.
 	arbor.pm.in	rancid library for Arbor Networks appliances.
 	arcos.pm.in	rancid library for Arrcus Networks ArcOS.
 	ciscowlc.pm.in	rancid library for some Cisco Wireless Lan Controllers.
@@ -236,6 +237,8 @@ Quick Installation Guide (an example):
    for examples and a good starting point.  Also take a look at the cloginrc
    manual page, 'man -M <basedir>/man cloginrc'.
 
+   See the cloginrc(5) manpage.
+
 6) Modify /etc/aliases
    Rancid sends the diffs and other administrative emails to rancid-<GROUP>
    and problems to rancid-admin-<GROUP>, where <GROUP> is the "GROUP" of
@@ -260,7 +263,10 @@ Quick Installation Guide (an example):
    option is not used, the value of --enable-mail-plus is assumed.  That is,
    the addresses will be "rancid+", if it is specified.
 
-   There are also several mail-related options in rancid.conf.
+   There are several mail-related options in rancid.conf.
+
+   See the rancid.conf manpage.  Also see the manual for your MTA to
+   determine the format of and procedure for adding aliases.
 
 7) Run rancid-cvs.
    This creates all of the necessary directories and config files for

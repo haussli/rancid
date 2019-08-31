@@ -1,7 +1,5 @@
 package iosxr;
 ##
-## $Id$
-##
 ## @PACKAGE@ @VERSION@
 @copyright@
 #
@@ -555,7 +553,7 @@ sub DirSlotN {
 	}
 	# filter frequently changing files from IOX bootflash, hardiska,
 	# and nvram
-	if ($dev =~ /(bootflash|disk0|harddisk|nvram)/) {
+	if ($dev =~ /(bootflash|disk[0-9]|harddisk|nvram)/) {
 	    if (/\s(\.python-history|aaa|\.bash_history)\s*$/ ||
 	        /\s(ce_switch.log\S*|cisco_support|errmsg_cont)\s*$/ ||
 	        /\s(genstr_cont|temp_cont|temp_cont|temp_static_data)\s*$/ ||
@@ -564,50 +562,47 @@ sub DirSlotN {
 		# 57          -rw-  23100       <no date>              volt_cont
 		# 614788      drwx  4096        Fri Aug 20 12:06:25 2010  temp_cont
 		# to
-		# 57          -rw-              <no date>              volt_cont
-		# 614788      drwx                                        temp_cont
-		if (/(\s*\d+\s+\S+\s+)(\d+)(\s+)(<no date>)(\s+)/) {
+		# -rw-              <no date>              volt_cont
+		# drwx                                        temp_cont
+		if (/\s*\d+\s+(\S+\s+)(\d+)(\s+)(<no date>)(\s+)/) {
 		    my($a, $sz, $c, $dt, $d, $rem) = ($1, $2, $3, $4, $5, $');
 		    my($szl) = length($sz);
 		    my($fmt) = "%s%-". $szl ."s%s%s%s%s";
-		    $_ = sprintf($fmt, $a, "", $c, $dt, $d, $rem);
+		    $_ = sprintf($fmt, $c, $dt, $d, $rem);
 		    ProcessHistory("FLASH","keysort",$rem,"!Flash: $dev: $_");
 		    next;
-		} elsif (/(\s*\d+)(\s+\S+\s+\d+\s+)(\d+\s+\w+\s+\d+\s+\d+:\d+)/) {
+		} elsif (/\s*\d+\s+(\S+\s+\d+\s+)(\d+\s+\w+\s+\d+\s+\d+:\d+)/) {
 		    # XR >= 6.3; dir disk0:, but harddisk: is diff format.  wtf
 		    # drop fileno size, & date.
 		    # " 8002 drwxr-xr-x 2 4096 Jan 17 15:27 np"
-		    my($fn, $perm, $dt, $rem) = ($1, $2, $3, $');
-		    my($fnl, $dtl) = (length($fn), length($dt));
-		    my($fmt) = "%-". $fnl ."s%s%-". $dtl ."s%s";
-		    $_ = sprintf($fmt, "", $perm, "", $rem);
+		    my($perm, $dt, $rem) = ($1, $2, $');
+		    my($dtl) = length($dt);
+		    my($fmt) = "%s%-". $dtl ."s%s";
+		    $_ = sprintf($fmt, $perm, "", $rem);
 		    ProcessHistory("FLASH","keysort",$rem,"!Flash: $dev: $_");
 		    next;
-		} elsif (/(\s*)(\d+)(\s+\S+\s+)(\d+)(\s+)(\w+ \w+\s+\d+ \d+:\d+:\d+ \d+)/) {
-		    my($a, $fn, $b, $sz, $c, $dt, $rem) = ($1, $2, $3, $4, $5,
-							   $6, $');
-		    my($fnl, $szl, $dtl) = (length($fn), length($sz),
-					    length($dt));
-		    my($fmt) = "%s%-". $fnl ."s%s%-". $szl ."s%s%-". $dtl ."s%s";
-		    $_ = sprintf($fmt, $a, "", $b, "", $c, "", $rem);
+		} elsif (/\s*\d+\s+(\S+\s+)(\d+)(\s+)(\w+ \w+\s+\d+ \d+:\d+:\d+ \d+)/) {
+		    my($b, $sz, $c, $dt, $rem) = ($1, $2, $3, $4, $');
+		    my($szl, $dtl) = (length($sz), length($dt));
+		    my($fmt) = "%s%-". $szl ."s%s%-". $dtl ."s%s";
+		    $_ = sprintf($fmt, $b, "", $c, "", $rem);
 		    ProcessHistory("FLASH","keysort",$rem,"!Flash: $dev: $_");
 		    next;
 		}
 	    } else {
-		if (/(\s*\d+\s+\S+\s+)(\d+)(\s+)(<no date>)(\s+)/) {
-		    my($a, $sz, $c, $dt, $d, $rem) = ($1, $2, $3, $4, $5, $');
-		    ProcessHistory("FLASH","keysort",$rem,"!Flash: $dev: $_");
+		if (/\s*\d+\s+(\S+\s+)(\d+)(\s+)(<no date>\s+)/) {
+		    my($sz, $c, $dt, $d, $rem) = ($1, $2, $3, $4, $');
+		    ProcessHistory("FLASH","keysort",$rem,"!Flash: $dev: $sz$c$dt$d$rem");
 		    next;
-		} elsif (/(\s*\d+)(\s+\S+\s+\d+\s+)(\d+\s+\w+\s+\d+\s+\d+:\d+)/) {
+		} elsif (/\s*\d+\s+(\S+\s+\d+\s+)(\d+\s+\w+\s+\d+\s+\d+:\d+)/) {
 		    # XR >= 6.3; dir disk0:, but harddisk: is diff format.  wtf
-		    my($fn, $perm, $dt, $rem) = ($1, $2, $3, $');
-		    ProcessHistory("FLASH","keysort",$rem,"!Flash: $dev: $_");
+		    my($perm, $dt, $rem) = ($1, $2, $');
+		    ProcessHistory("FLASH","keysort",$rem,"!Flash: $dev: $perm$dt$rem");
 		    next;
-		} elsif (/(\s*)(\d+)(\s+\S+\s+)(\d+)(\s+)(\w+ \w+\s+\d+ \d+:\d+:\d+ \d+)/) {
+		} elsif (/\s*\d+\s+(\S+\s+)(\d+)(\s+)(\w+ \w+\s+\d+ \d+:\d+:\d+ \d+)/) {
 		    # XR < 6.3 & etc.
-		    my($a, $fn, $b, $sz, $c, $dt, $rem) = ($1, $2, $3, $4, $5,
-							   $6, $');
-		    ProcessHistory("FLASH","keysort",$rem,"!Flash: $dev: $_");
+		    my($b, $sz, $c, $dt, $rem) = ($1, $2, $3, $4, $');
+		    ProcessHistory("FLASH","keysort",$rem,"!Flash: $dev: $b$sz$c$dt$rem");
 		    next;
 		}
 	    }

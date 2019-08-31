@@ -150,8 +150,21 @@ sub ShowSystem {
 	/system softwareVersion\s+(.*)/ &&
 	    ProcessHistory("COMMENTS","keysort","B1","#Image: $1\n") && next;
 
+	# drop cpu stats and process stats
+	if (/^(index\s*user type\s*|\s*cpu\s*cpu\s*$)/i) {
+	    while (<$INPUT>) {
+		tr/\015//d;
+		goto OUT if (/^$prompt/);	# should not occur
+		goto OUT if /\[ok\]\[/i;
+
+                last if (/^\s*$/);
+	    }
+	    next;
+	}
+ 
 	ProcessHistory("","","","# $_");
     }
+OUT:
     return(0);
 }
 

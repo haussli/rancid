@@ -1,6 +1,35 @@
 3.9.99
 	hiveos.pm: add support for aerohive hiveos access points
 
+	ios.pm: filter ASA-specific unknown command format
+
+	ios.pm: DirFlash(): fix sort field & DirSlotN(): match ASA's unique
+	date format
+
+	hlogin: add variation of user prompt from Dell PowerConnect M8024-k as
+	type 'smc'.
+
+	iosxr.pm: match diskN, where N may be >1 in XR 6.x on 9k with a usbdrive
+
+	arcos.pm: fail on cli to application error
+
+	rancid-run: wrong variable used in OLDTIME comparison - Adrian Hardy
+
+	f10rancid: drop version/last config/startup-config comments from config
+	- Florin Vlad Olariu
+
+	fss2.pm: drop cpu stats and process stats from FSS >=2.5.1
+
+	iosxr.pm: DirSlotN(): drop the file number from all files.
+
+	Missing Arista documentation - github.com/inphobia
+
+	GC "procket" from manpages & README
+
+	arcos.pm: drop trailing spaces
+
+	jlogin: handle change in Fujitsu FSS2 telnet prompt
+
 	rivlogin: remove some debug output
 
 	*login: fix password decision when -e or -p are used, and make error msg
@@ -10,7 +39,7 @@
 
 	flogin: handle config-mode prompts in run_command()
 
-	ios.om: drop count status from show license summary
+	ios.pm: drop count status from show license summary
 
 	hrancid: filter rogue diagnostic output from 3rd-party transceivers in
 	Aruba - Huber Florian Tobias

@@ -417,7 +417,7 @@ bigip13;command;bigip::RunCommandTMSH;cd /
 bigip13;command;bigip::ShowRouteStatic;show /net recursive route static
 bigip13;command;bigip::WriteTerm;list all-properties recursive
 #
-# Force 10 and Dell Force10.
+# Force 10 and Dell Force10 (aka Dell OS9).
 force10;script;f10rancid
 force10;login;clogin
 #
@@ -657,8 +657,9 @@ riverbed;command;rbt::WriteTerm;show configuration
 riverstone;script;rivrancid
 riverstone;login;rivlogin
 #
-# SMC and Dell PowerConnect N2048, 35xx (3524, 3524P, 3548, 3548P), N4032F,
-# N4064, M6348, 64xx (6428), 7048, M8024(-k), and R1-2401.
+# SMC and Dell PowerConnect N2048, 34xx (config is incomplete), 35xx (3524,
+# 3524P, 3548, 3548P), N4032F, N4064, 62xxx, M6348, 64xx (6428), 7048,
+# M8024(-k), and R1-2401.
 smc;script;srancid
 smc;login;hlogin
 #

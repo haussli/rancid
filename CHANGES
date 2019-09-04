@@ -1,5 +1,5 @@
 3.9.99
-	dnos9.pm: replaces f10rancid; modularization
+	dnos9.pm: replaces f10rancid; modularization.  force10 is now an alias.
 
 	rancid.types.base: add alias direction - see manpage
 

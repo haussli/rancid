@@ -1,4 +1,6 @@
 3.9.99
+	exos.pm, rancid.types.base: collect show policy detail
+
 	dnos9.pm: replaces f10rancid; modularization.  force10 is now an alias.
 
 	rancid.types.base: add alias direction - see manpage

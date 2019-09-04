@@ -396,6 +396,7 @@ extreme;command;exos::ShowMemory;show memory
 extreme;command;exos::ShowDiag;show diag
 extreme;command;exos::ShowSwitch;show switch
 extreme;command;exos::ShowSlot;show slot
+extreme;command;exos::ShowPolicy;show policy detail
 extreme;command;exos::WriteTerm;show configuration detail
 extreme;command;exos::WriteTerm;show configuration
 #

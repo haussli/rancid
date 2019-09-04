@@ -1,7 +1,5 @@
 package exos;
 ##
-## $Id$
-##
 ## @PACKAGE@ @VERSION@
 @copyright@
 #
@@ -157,6 +155,21 @@ sub ShowDiag {
 	/(mac address)\s+:\s+(.*)$/i &&
 	    ProcessHistory("COMMENTS","keysort","B0","#$1: $2\n") &&
 	    next;
+    }
+    return(0);
+}
+
+# This routine parses "show policy detail"
+sub ShowPolicy {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowPolicy: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+
+	ProcessHistory("POLICY","","","# $_");
     }
     return(0);
 }

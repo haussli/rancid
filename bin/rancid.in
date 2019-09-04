@@ -45,6 +45,11 @@ if (! defined($lscript)) {
     die "login script not defined for device type $rancid::devtype\n";
 }
 
+# check that inloop, the input/main loop, is defined
+if (!defined($inloop) || length($inloop) < 1) {
+    die "inloop is not configured for device type $devtype";
+}
+
 # open the temporary file for the digested output
 open(OUTPUT,">$host.new") || die "Can't open $host.new for writing: $!\n";
 select(OUTPUT);
@@ -81,9 +86,6 @@ if ($file) {
 }
 
 # loop over the input using the provided input/main loop
-if (!defined($inloop) || length($inloop) < 1) {
-    die "inloop is not configured for device type $devtype";
-}
 eval($inloop ."(*INPUT, *OUTPUT);") && die "${inloop} failed: $@\n";
 
 print STDOUT "Done $lscript: $_\n" if ($log);

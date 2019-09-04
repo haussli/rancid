@@ -1,14 +1,12 @@
 """
 RANCiD Python library
 
-This is the counterpart to the Perl rancid.pm library with a Pythonic
-approach.  Therefore, it is not exactly equivalent, but close.
+This is the mate to the Perl rancid.pm library with a Pythonic approach.
+Therefore, it is not exactly equivalent, but close.
 
 XXX This is a WiP and may change significantly.
 """
 # rancid.py
-##
-## $Id$
 ##
 ## @PACKAGE@ @VERSION@
 @copyright@

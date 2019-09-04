@@ -309,30 +309,30 @@ if test $EXPECT_PATH = no; then
 fi
 AC_SUBST(EXPECT_PATH)
 
-dnl locate python 3
-AC_PROG_INSTALL
-AC_PATH_PROG(PYTHON3_PATH,python3,no)
-if test $PYTHON3_PATH = no; then
-    unset ac_cv_path_PYTHON3_PATH
-    AC_PATH_PROG(PYTHON3_PATH,python,no)
-    if test $PYTHON3_PATH = no; then
-        AC_MSG_ERROR([can't locate a suitable python3.])
-	exit 1
-    else
-	$PYTHON3_PATH -c << EOF
-import sys
-if not sys.version_info[0] == 3 or not sys.version_info[1] < 5:
- sys.exit(1)
-
-EOF
-	if test $? -ne 0 ; then
-	   AC_MSG_ERROR([can't locate a suitable python3; must >=3.5.])
-	   exit 1
-	fi
-    fi
-fi
+dnl dnl locate python 3
+dnl AC_PROG_INSTALL
+dnl AC_PATH_PROG(PYTHON3_PATH,python3,no)
+dnl if test $PYTHON3_PATH = no; then
+dnl     unset ac_cv_path_PYTHON3_PATH
+dnl     AC_PATH_PROG(PYTHON3_PATH,python,no)
+dnl     if test $PYTHON3_PATH = no; then
+dnl         AC_MSG_ERROR([can't locate a suitable python3.])
+dnl 	exit 1
+dnl     else
+dnl 	$PYTHON3_PATH -c << EOF
+dnl import sys
+dnl if not sys.version_info[0] == 3 or not sys.version_info[1] < 5:
+dnl  sys.exit(1)
+dnl 
+dnl EOF
+dnl 	if test $? -ne 0 ; then
+dnl 	   AC_MSG_ERROR([can't locate a suitable python3; must >=3.5.])
+dnl 	   exit 1
+dnl 	fi
+dnl     fi
+dnl fi
 AC_SUBST(PYTHON3_PATH)
-PYTHON3=`basename $PYTHON3_PATH`
+dnl PYTHON3=`basename $PYTHON3_PATH`
 AC_SUBST(PYTHON3)
 
 # look for lockfile utility

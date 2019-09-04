@@ -4,7 +4,7 @@
 AUTOMAKE_OPTIONS=foreign no-dependencies
 
 my_pkglibdir = $(pkglibdir)
-my_pkglib_DATA = rancid.pm rancid.py acos.pm aeos.pm arbor.pm arcos.pm \
+my_pkglib_DATA = rancid.pm acos.pm aeos.pm arbor.pm arcos.pm \
 		 bigip.pm ciscowlc.pm \
 		 dell.pm dnos9.pm edgemax.pm edgerouter.pm exos.pm \
 		 fortigate.pm foundry.pm fss2.pm fxos.pm \

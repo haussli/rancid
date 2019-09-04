@@ -1,4 +1,6 @@
 3.9.99
+	rancid.types.base: add alias direction - see manpage
+
 	rancid.pm: ensure device type is lowercase
 
 	ios.pm: filter ASA-specific unknown command format

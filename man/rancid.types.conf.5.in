@@ -70,7 +70,7 @@ Each <device_type> may have the following directives defined.
 The login and script directives are required, unless it is an alias.
 .TP
 .B alias
-Defines an alias for another <device_type>, it does NOT augment the type.
+Defines an alias for another <device_type>, it does NOT augment it.
 The <device_type> target may be defined in either device type configuration
 file.
 .TP

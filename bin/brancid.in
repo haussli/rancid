@@ -1,6 +1,5 @@
 #! @PERLV_PATH@
 ##
-## $Id$
 ## hacked version of Hank's rancid - this one tries to deal with Bay's.
 ##
 ## @PACKAGE@ @VERSION@

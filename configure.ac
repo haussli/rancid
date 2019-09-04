@@ -13,7 +13,7 @@ AC_INIT(m4_esyscmd(configure.vers package_name),
 	[rancid@shrubbery.net])
 AC_CONFIG_SRCDIR(CHANGES)
 AM_INIT_AUTOMAKE
-COPYYEARS="1997-2018"
+COPYYEARS="1997-2019"
 AC_SUBST(COPYYEARS)
 
 

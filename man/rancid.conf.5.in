@@ -1,6 +1,4 @@
 .\"
-.\" $Id$
-.\"
 .hys 50
 .TH "rancid.conf" "5" "15 April 2019"
 .SH NAME

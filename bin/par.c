@@ -1,7 +1,5 @@
 /*
- * $Id: par.c 4910 2014-01-16 20:12:45Z heas $
- *
- * Copyright (c) 1997-2018 by Henry Kilmer and John Heasley
+ * Copyright (c) 1997-2019 by Henry Kilmer and John Heasley
  * All rights reserved.
  *
  * This code is derived from software contributed to and maintained by

@@ -76,7 +76,7 @@ sub rancidinit {
 
     $log = $main::opt_l;
     $debug = $main::opt_d;
-    $devtype = $main::opt_t;
+    $devtype = lc($main::opt_t);
     $file = $main::opt_f;
     $host = defined($ARGV[0]) ? $ARGV[0] : "";
     $clean_run = 0;

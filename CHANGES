@@ -1,4 +1,6 @@
 3.9.99
+	rancid.pm: ensure device type is lowercase
+
 	ios.pm: filter ASA-specific unknown command format
 
 	ios.pm: DirFlash(): fix sort field & DirSlotN(): match ASA's unique

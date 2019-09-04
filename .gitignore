@@ -50,7 +50,6 @@ cssrancid
 dllogin
 elogin
 erancid
-f10rancid
 f5rancid
 flogin
 fnlogin
@@ -116,6 +115,7 @@ arcos.pm
 bigip.pm
 ciscowlc.pm
 dell.pm
+dnos9.pm
 edgemax.pm
 edgerouter.pm
 exos.pm

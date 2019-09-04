@@ -56,7 +56,6 @@ bin/
 	cat5rancid.in	Version of rancid.in for Cisco Catalyst switches.
 	cssrancid.in	Version of rancid.in for Cisco CSS switches.
 	erancid.in	Version of rancid.in for ADC EZ-T3 muxes.
-	f10rancid.in	Version of rancid.in for Force10 routers.
 	f5rancid.in	Version of rancid.in for F5 BigIPs.
 	hrancid.in	Version of rancid.in for HP Procurve switches.
 	htrancid.in	Version of rancid.in for Hitatchi routers.
@@ -116,6 +115,7 @@ lib/
 	arcos.pm.in	rancid library for Arrcus Networks ArcOS.
 	ciscowlc.pm.in	rancid library for some Cisco Wireless Lan Controllers.
 	dell.pm.in	rancid library for some Dell D-Link models.
+	dnos9.in	rancid library for Dell NOS9 (aka Force10) appliances.
 	eos.pm.in	rancid library for Compass EOS.
 	exos.in		rancid library for Extreme switches.
 	fortigate.pm.in	rancid library for Fortinet Firewalls.

@@ -1,4 +1,6 @@
 3.9.99
+	dnos9.pm: replaces f10rancid; modularization
+
 	rancid.types.base: add alias direction - see manpage
 
 	rancid.pm: ensure device type is lowercase

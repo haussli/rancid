@@ -6252,8 +6252,6 @@ ac_config_files="$ac_config_files bin/elogin bin/erancid"
 
 ac_config_files="$ac_config_files bin/f5rancid"
 
-ac_config_files="$ac_config_files bin/f10rancid"
-
 ac_config_files="$ac_config_files bin/flogin"
 
 ac_config_files="$ac_config_files bin/fnlogin"
@@ -7069,7 +7067,6 @@ do
     "bin/elogin") CONFIG_FILES="$CONFIG_FILES bin/elogin" ;;
     "bin/erancid") CONFIG_FILES="$CONFIG_FILES bin/erancid" ;;
     "bin/f5rancid") CONFIG_FILES="$CONFIG_FILES bin/f5rancid" ;;
-    "bin/f10rancid") CONFIG_FILES="$CONFIG_FILES bin/f10rancid" ;;
     "bin/flogin") CONFIG_FILES="$CONFIG_FILES bin/flogin" ;;
     "bin/fnlogin") CONFIG_FILES="$CONFIG_FILES bin/fnlogin" ;;
     "bin/fxlogin") CONFIG_FILES="$CONFIG_FILES bin/fxlogin" ;;
@@ -7848,7 +7845,6 @@ See \`config.log' for more details" "$LINENO" 5; }
     "bin/elogin":F) chmod a+x $ac_file ;;
     "bin/erancid":F) chmod a+x $ac_file ;;
     "bin/f5rancid":F) chmod a+x $ac_file ;;
-    "bin/f10rancid":F) chmod a+x $ac_file ;;
     "bin/flogin":F) chmod a+x $ac_file ;;
     "bin/fnlogin":F) chmod a+x $ac_file ;;
     "bin/fxlogin":F) chmod a+x $ac_file ;;

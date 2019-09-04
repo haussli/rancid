@@ -328,6 +328,21 @@ dell;inloop;dell::inloop
 dell;command;dell::GetSystem;show switch
 dell;command;dell::GetConf;show config current_config
 #
+# Dell NOS9 (aka Force 10 and Dell Force10)
+dnos9;script;rancid -t dnos9
+dnos9;login;clogin
+dnos9;module;dnos9
+dnos9;inloop;dnos9::inloop
+dnos9;command;dnos9::ShowVersion;show version
+dnos9;command;dnos9::ShowBoot;show bootvar
+dnos9;command;dnos9::DirSlotN;dir flash:
+dnos9;command;dnos9::DirSlotN;dir slot0:
+dnos9;command;dnos9::ShowChassis;show chassis
+dnos9;command;dnos9::ShowChassis;show system
+dnos9;command;dnos9::ShowInventory;show inventory
+dnos9;command;dnos9::ShowVLAN;show vlan
+dnos9;command;dnos9::WriteTerm;show running
+#
 # UBNT EdgeMAX
 edgemax;script;rancid -t edgemax
 edgemax;login;clogin
@@ -417,9 +432,8 @@ bigip13;command;bigip::RunCommandTMSH;cd /
 bigip13;command;bigip::ShowRouteStatic;show /net recursive route static
 bigip13;command;bigip::WriteTerm;list all-properties recursive
 #
-# Force 10 and Dell Force10 (aka Dell OS9).
-force10;script;f10rancid
-force10;login;clogin
+# Force 10 and Dell Force10 (aka Dell NOS9).
+force10;alias;dnos9
 #
 # Fortinet Fortigate firewall
 # Normal or FULL (with defaults) configuration

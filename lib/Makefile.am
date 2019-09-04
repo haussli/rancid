@@ -1,15 +1,12 @@
 ## Process this file with automake to produce Makefile.in
 ## A Makefile.in is supplied, in case you do not have automake.
 
-## $Id: Makefile.am 2481 2012-05-24 17:39:33Z heas $
-##
-
 AUTOMAKE_OPTIONS=foreign no-dependencies
 
 my_pkglibdir = $(pkglibdir)
 my_pkglib_DATA = rancid.pm rancid.py acos.pm aeos.pm arbor.pm arcos.pm \
 		 bigip.pm ciscowlc.pm \
-		 dell.pm edgemax.pm edgerouter.pm exos.pm \
+		 dell.pm dnos9.pm edgemax.pm edgerouter.pm exos.pm \
 		 fortigate.pm foundry.pm fss2.pm fxos.pm \
 		 ios.pm iossb.pm iosshtech.pm iosxr.pm junos.pm mrv.pm nxos.pm \
 		 panos.pm rbt.pm sros.pm vrp.pm wavesvros.pm
@@ -69,6 +66,7 @@ arcos.pm: arcos.pm.in
 bigip.pm: bigip.pm.in
 ciscowlc.pm: ciscowlc.pm.in
 dell.pm: dell.pm.in
+dnos9.pm: dnos9.pm.in
 edgemax.pm: edgemax.pm.in
 edgerouter.pm: edgerouter.pm.in
 exos.pm: exos.pm.in

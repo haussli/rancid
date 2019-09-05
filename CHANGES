@@ -1,5 +1,9 @@
 3.9.99
-	exos.pm, rancid.types.base: collect show policy detail
+	ios.pm: collect show dot1x; if dot1x auth is enabled and
+	rancid.conf:FILTER_OSC = ALL, filter show vlan, which otherwise change
+	frequently
+
+	exos.pm: rancid.types.base: collect show policy detail
 
 	dnos9.pm: replaces f10rancid; modularization.  force10 is now an alias.
 

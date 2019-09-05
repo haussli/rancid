@@ -188,6 +188,7 @@ cisco;command;ios::ShowHWProgrammable;show hw-programmable all
 cisco;command;ios::ShowInventory;show inventory raw
 cisco;command;ios::ShowInventory;show inventory;ASA/PIX
 cisco;command;ios::ShowVTP;show vtp status
+cisco;command;ios::ShowDot1x;show dot1x
 cisco;command;ios::ShowVLAN;show vlan
 cisco;command;ios::ShowVLAN;show vlan-switch
 cisco;command;ios::ShowDetail;show switch detail

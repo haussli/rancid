@@ -2081,6 +2081,40 @@ sub ShowCapture {
     return(0);
 }
 
+# This routine parses "show dot1x"
+sub ShowDot1x {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowVTP: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /^\s*\^\s*$/;
+	return(1) if (/Line has invalid autocommand /);
+	next if (/^\s+\^\s*$/);
+	return(1) if (/(invalid (input|command) detected|type help or )/i);
+	return(-1) if (/command authorization failed/i);
+	next if (/^Configuration last modified by/);
+	# the pager can not be disabled per-session on the PIX
+	if (/^(<-+ More -+>)/) {
+	    my($len) = length($1);
+	    s/^$1\s{$len}//;
+	}
+
+	# if dot1x is enabled, do not collect show vlan output
+	if (/^sysauthcontrol\s+(?:=\s+)?(\S+)/i) {
+	    if ($1 !~ /disabled/ && $filter_osc > 1) {
+		$DO_SHOW_VLAN = 1;
+	    }
+	}
+	ProcessHistory("COMMENTS","keysort","I0","!DOT1x: $_");
+    }
+    ProcessHistory("COMMENTS","keysort","I0","!\n");
+    return(0);
+}
+
+
 # This routine parses "show vtp status"
 sub ShowVTP {
     my($INPUT, $OUTPUT, $cmd) = @_;

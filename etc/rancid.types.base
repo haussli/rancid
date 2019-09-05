@@ -662,8 +662,17 @@ riverstone;login;rivlogin
 # SMC and Dell PowerConnect N2048, 34xx (config is incomplete), 35xx (3524,
 # 3524P, 3548, 3548P), N4032F, N4064, 62xxx, M6348, 64xx (6428), 7048,
 # M8024(-k), and R1-2401.
-smc;script;srancid
+smc;script;rancid -t smc
 smc;login;hlogin
+smc;timeout;90
+smc;module;smc
+smc;inloop;smc::inloop
+smc;command;rancid::RunCommand;terminal datadump
+smc;command;smc::ShowSys;show system
+smc;command;smc::ShowVer;show version
+smc;command;smc::Dir;dir
+smc;command;smc::ShowVlan;show vlan
+smc;command;smc::WriteTerm;show running-config
 #
 # Nokia (Alcatel-Lucent) SR OS Classic CLI (TiMOS)
 # 7210 SAS, 7250 IXR, 7450 ESS, 7705 SAR, 7750 SR, 7950 XRS, CMG and VSR routers

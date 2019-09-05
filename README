@@ -68,7 +68,6 @@ bin/
 			Enterasys routers.
 	rrancid.in	Version of rancid.in for Redback routers.
 	rtftpcopy.in	Copy configs from tftpboot within rancid.
-	srancid.in	Version of rancid.in for SMC switches.
 	trancid.in	Version of rancid.in for Netopia routers.
 	xirancid.in	Version of rancid.in for Xirrus arrays.
 	zrancid.in	Version of rancid.in for Zebra routers.
@@ -129,6 +128,7 @@ lib/
 	panos.pm.in	rancid library for Palo Alto Networks devices.
 	rancid.pm.in	rancid global functions.
 	rbt.pm.in	rancid library for Riverbed Steelhead.
+	smc.in		rancid library for SMC switches.
 man/		man pages
 share/		Readmes, samples, utilities, contribs, etc
 include/	Include files and rancid's version.h

@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "rancid" "1" "3 June 2019"
+.TH "rancid" "1" "5 September 2019"
 .SH NAME
 rancid \- Cisco configuration filter
 .SH SYNOPSIS
@@ -66,9 +66,6 @@ Cisco content services switches
 .B erancid
 ADC-kentrox EZ-T3 mux
 .TP
-.B f10rancid
-Force10
-.TP
 .B f5rancid
 F5 BigIPs
 .TP
@@ -76,9 +73,10 @@ F5 BigIPs
 The generic rancid script; supporting Allied Telesis AW+ devices,
 Arbor Networks Appliances, Arista EOS, Ciena Waverserver, Cisco IOS,
 Cisco IOS-XR, Cisco NX-OS, Cisco WLC, (some) Dell switches,
-Extreme switches, Fortinet firewalls, Foundry (aka some Brocade)
-devices, Juniper JUNOS, Nokia (Alcatel-Lucent) SR OS, and UBNT
-Edgemax and EdgeRouter.
+Extreme switches, Fortinet firewalls, Force10 (aka Dell NOS9),
+Foundry (aka some Brocade) devices, Juniper JUNOS,
+Nokia (Alcatel-Lucent) SR OS, and UBNT Edgemax and EdgeRouter,
+and SMC (some Dell switches).
 It uses the device O/S modules for parsing routines as determined by the
 .BR rancid.types.conf (5)
 file(s).
@@ -112,9 +110,6 @@ Riverstone
 .TP
 .B rrancid
 Redback
-.TP
-.B srancid
-SMC switch (some Dell OEMs)
 .TP
 .B trancid
 Netopia sDSL/T1 routers

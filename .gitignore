@@ -86,7 +86,6 @@ rivlogin
 rivrancid
 rrancid
 rtftpcopy
-srancid
 tlogin
 tntlogin
 tntrancid
@@ -134,6 +133,7 @@ panos.pm
 rancid.pm
 rancid.py
 rbt.pm
+smc.pm
 sros.pm
 vrp.pm
 wavesvros.pm

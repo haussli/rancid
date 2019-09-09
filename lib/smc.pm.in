@@ -191,7 +191,7 @@ sub ShowSys {
 	    }
 	}
 
-	# filter power rates and tmestamps from 7024 power supply info
+	# filter power rates and timestamps from 7024 power supply info
 	# Power Supplies:
 	#  
 	# Unit  Description    Status     Average     Current          Since

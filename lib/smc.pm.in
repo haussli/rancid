@@ -85,7 +85,7 @@ TOP: while(<$INPUT>) {
 		last TOP;
 	    }
 	}
-	if (/[>#]\s?logout(\s*connection.*closed.*)?$/) {
+	if (/[>#]\s?logout(\s*connection.*closed.*)?$/i) {
 	    $clean_run = 1;
 	    last;
 	}

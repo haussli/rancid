@@ -1,4 +1,6 @@
 3.9.99
+	smc.pm: inloop() must set clean_run
+
 	smc.pm: replaces srancid; modularization.
 
 	ios.pm: collect show dot1x; if dot1x auth is enabled and

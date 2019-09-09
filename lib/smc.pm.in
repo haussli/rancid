@@ -69,13 +69,25 @@ TOP: while(<$INPUT>) {
 	    print STDERR ("HIT COMMAND:$_") if ($debug);
 	    if (!defined($commands{$cmd})) {
 		print STDERR "$host: found unexpected command - \"$cmd\"\n";
+		$clean_run = 0;
+		last TOP;
+	    }
+	    if (! defined(&{$commands{$cmd}})) {
+		printf(STDERR "$host: undefined function - \"%s\"\n",
+		       $commands{$cmd});
+		$clean_run = 0;
 		last TOP;
 	    }
 	    my($rval) = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
 	    delete($commands{$cmd});
 	    if ($rval == -1) {
+		$clean_run = 0;
 		last TOP;
 	    }
+	}
+	if (/[>#]\s?logout(\s*connection.*closed.*)?$/) {
+	    $clean_run = 1;
+	    last;
 	}
     }
 }

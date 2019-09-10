@@ -142,7 +142,7 @@ sub ShowSys {
     ProcessHistory("COMMENTS","keysort","C1","!\n! $_");
 
     while (<$INPUT>) {
-	s/^\s+\015//g;
+TOP:	s/^\s+\015//g;
 	tr/\015//d;
 	next if /^\s*$/;
 	last if(/$prompt/);
@@ -152,16 +152,26 @@ sub ShowSys {
 	# Remove Uptime
 	/ up time/i && next;
 
-	# filter temperature sensor info for Dell 6428 stacks, Powerconnect 7048
-	# /Temperature Sensors:/
-	if (/Temperature \(Celsius\)/) {
+	# filter temperature sensor info form Dell N1148T-ON; yet another
+	# format - a losing battle.
+	if (/^(system thermal conditions|Temperature Sensors):/i) {
+	    while (<$INPUT>) {
+		s/^\s+\015//g;
+		tr/\015//d;
+		goto ENDSHOWSYS if (/$prompt/);
+		# next section header
+		goto TOP if (/^(\w\s*)+:/);
+	    }
+	} elsif (/Temperature \(Celsius\)/) {
+	    # filter temperature sensor info for Dell 6428 stacks, Powerconnect
+	    # 7048 /Temperature Sensors:/
 	    ProcessHistory("COMMENTS","keysort","C1","! $_");
 	    ProcessHistory("COMMENTS","keysort","C1","! Unit\tStatus\n");
 	    ProcessHistory("COMMENTS","keysort","C1","! ----\t------\n");
 	    while (<$INPUT>) {
 		s/^\s+\015//g;
 		tr/\015//d;
-		goto ENDSHOWSYS if(/$prompt/);
+		goto ENDSHOWSYS if (/$prompt/);
 		/(\d+)\s+\d+\s+(.*)$/ &&
 		ProcessHistory("COMMENTS","keysort","C1","! $1\t$2\n");
 		/^\s*$/ && last;
@@ -184,7 +194,7 @@ sub ShowSys {
 		/\(celsius\)/i && next;
 		s/^\s+\015//g;
 		tr/\015//d;
-		goto ENDSHOWSYS if(/$prompt/);
+		goto ENDSHOWSYS if (/$prompt/);
 		/(\d+)\s+(\w+)\s+\d+\s+(.*)$/ &&
 		ProcessHistory("COMMENTS","keysort","C1","! $1\t$2\t\t$3\n");
 		/^\s*$/ && last;

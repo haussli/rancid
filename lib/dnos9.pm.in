@@ -5,7 +5,7 @@ package dnos9;
 #
 #  RANCID - Really Awesome New Cisco confIg Differ
 #
-#  dnos9.pm - Force10 / Dell NOS9 Foundry rancid procedures
+#  dnos9.pm - Force10 / Dell NOS9 rancid procedures
 
 use 5.010;
 use strict 'vars';

@@ -115,6 +115,7 @@ bigip.pm
 ciscowlc.pm
 dell.pm
 dnos9.pm
+dnos10.pm
 edgemax.pm
 edgerouter.pm
 exos.pm

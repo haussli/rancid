@@ -1,4 +1,6 @@
 3.9.99
+	dnos10.om: start Dell NOS10 module - Bjørn Skobba
+
 	smc.pm: filter Dell N1148T-ON and Powerconnect 7048 temperature info
 
 	smc.pm: inloop() must set clean_run

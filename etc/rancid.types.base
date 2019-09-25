@@ -344,6 +344,17 @@ dnos9;command;dnos9::ShowInventory;show inventory
 dnos9;command;dnos9::ShowVLAN;show vlan
 dnos9;command;dnos9::WriteTerm;show running
 #
+# Dell NOS10 (*NOT* Force 10)
+dnos10;script;rancid -t dnos10
+dnos10;login;hlogin
+dnos10;module;dnos10
+dnos10;inloop;dnos10::inloop
+dnos10;command;rancid::RunCommand;terminal length 0
+dnos10;command;dnos10::ShowSys;show system
+dnos10;command;dnos10::ShowVer;show version
+dnos10;command;dnos10::ShowVlan;show vlan
+dnos10;command;dnos10::WriteTerm;show running-config
+#
 # UBNT EdgeMAX
 edgemax;script;rancid -t edgemax
 edgemax;login;clogin

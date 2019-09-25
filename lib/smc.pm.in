@@ -152,8 +152,8 @@ TOP:	s/^\s+\015//g;
 	# Remove Uptime
 	/ up time/i && next;
 
-	# filter temperature sensor info form Dell N1148T-ON; yet another
-	# format - a losing battle.
+	# filter temperature sensor info form Dell N1148T-ON and Powerconnect
+	# 7048 /Temperature Sensors:/; yet another format - a losing battle.
 	if (/^(system thermal conditions|Temperature Sensors):/i) {
 	    while (<$INPUT>) {
 		s/^\s+\015//g;
@@ -163,8 +163,7 @@ TOP:	s/^\s+\015//g;
 		goto TOP if (/^(\w\s*)+:/);
 	    }
 	} elsif (/Temperature \(Celsius\)/) {
-	    # filter temperature sensor info for Dell 6428 stacks, Powerconnect
-	    # 7048 /Temperature Sensors:/
+	    # filter temperature sensor info for Dell 6428 stacks
 	    ProcessHistory("COMMENTS","keysort","C1","! $_");
 	    ProcessHistory("COMMENTS","keysort","C1","! Unit\tStatus\n");
 	    ProcessHistory("COMMENTS","keysort","C1","! ----\t------\n");

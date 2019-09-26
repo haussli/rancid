@@ -98,7 +98,7 @@ order they appear.
 .TP
 .B script
 Defines the rancid script used for the <device_type>, which does not need to
-be an FQPN, but then must be found in the path.
+be an FQPN, but then must be found in the process' path.
 .TP
 .B timeout
 Defines the rancid login script timeout in seconds.

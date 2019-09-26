@@ -50,8 +50,8 @@ TOP: while(<$INPUT>) {
 	    last;
 	}
 	if (/^Error:/) {
-	    print STDOUT ("$host clogin error: $_");
-	    print STDERR ("$host clogin error: $_") if ($debug);
+	    print STDOUT ("$host hlogin error: $_");
+	    print STDERR ("$host hlogin error: $_") if ($debug);
 	    $clean_run=0;
 	    last;
 	}

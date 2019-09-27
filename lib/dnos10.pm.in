@@ -85,8 +85,8 @@ sub ShowVer {
 
     while (<$INPUT>) {
 	tr/\015//d;
-	next if /^\s*$/;
-	last if(/$prompt/);
+	next if (/^\s*$/);
+	last if (/$prompt/);
 	# pager remnants like: ^H^H^H    ^H^H^H content
 	s/[\b]+\s*[\b]*//g;
 
@@ -107,8 +107,8 @@ sub ShowSys {
     while (<$INPUT>) {
 	s/^\s+\015//g;
 	tr/\015//d;
-	next if /^\s*$/;
-	last if(/$prompt/);
+	next if (/^\s*$/);
+	last if (/$prompt/);
 	# pager remnants like: ^H^H^H    ^H^H^H content
 	s/[\b]+\s*[\b]*//g;
 
@@ -170,8 +170,8 @@ sub ShowVlan {
     while (<$INPUT>) {
 	s/^\s+\015//g;
 	tr/\015//d;
-	next if /^\s*$/;
-	last if(/$prompt/);
+	next if (/^\s*$/);
+	last if (/$prompt/);
 	# pager remnants like: ^H^H^H    ^H^H^H content
 	s/[\b]+\s*[\b]*//g;
 
@@ -190,8 +190,8 @@ sub WriteTerm {
 
     while (<$INPUT>) {
 	tr/\015//d;
-	next if /^\s*$/;
-	last if(/$prompt/);
+	next if (/^\s*$/);
+	last if (/$prompt/);
 	# pager remnants like: ^H^H^H    ^H^H^H content
 	s/[\b]+\s*[\b]*//g;
 

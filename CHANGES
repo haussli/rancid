@@ -1,4 +1,7 @@
 3.9.99
+	rancid, rancid.pm: handle non-modulized rancid scripts in the rancid
+	script by exec()ing the real script
+
 	dnos10.om: start Dell NOS10 module - Bjørn Skobba
 
 	smc.pm: filter Dell N1148T-ON and Powerconnect 7048 temperature info

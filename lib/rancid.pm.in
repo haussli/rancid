@@ -12,6 +12,7 @@ use 5.010;
 use strict 'vars';
 use warnings;
 use 2.006 Socket qw(AF_INET AF_INET6 inet_pton);
+use File::Spec;
 require(Exporter);
 our @ISA = qw(Exporter);
 
@@ -53,6 +54,7 @@ our @EXPORT = qw($VERSION $devtype $script $lscript @modules $inloop
 		ProcessHistory bytes2human diskszsummary human2bytes
 		ipsort ipaddrval
 		keynsort keysort numerically numsort sortbyipaddr valsort
+		which
 		RunCommand);
 
 BEGIN {
@@ -270,7 +272,21 @@ sub loadtype {
     }
 
     if ($main::opt_C) {
-	my($cmd);
+	my($cmd, @script);
+
+	# if the first word of $script is not us (this script), exec the given
+	# script.
+	@script = split(/\s+/, $script);
+	if (which($script[0]) ne which($ARGV[0])) {
+	    # -[hV] are not handled; they will have already been handled sooner.
+	    push(@script, "-d") if $debug;
+	    push(@script, "-l") if $log;
+	    push(@script, "-C") if $main::opt_C;
+	    push(@script, "-f") if $rancid::file;
+	    push(@script, $host);
+	    exec(join(" ", @script));
+	}
+
 	if (!defined($lscript)) {
 	    printf(STDERR "$devtype: login script not defined\n");
 	    exit(1);
@@ -479,6 +495,25 @@ sub ipaddrval {
 # sortbyipaddr(IPaddr, IPaddr) compares two IPv4/v6 addresses like strcmp().
 sub sortbyipaddr {
     &ipaddrval($a) cmp &ipaddrval($b);
+}
+
+# if $prog is non-FQPN, look for it in PATH and return the ABS-FQPN, else
+# just return the ABS-FQPN.
+sub which {
+    my($prog) = @_;
+    my($path);
+
+    # ABS or relative PATH (begins with /, ./, or ../)
+    if ($prog =~ /^(\/|\.\/|\.\.\/)/) {
+	return(File::Spec->rel2abs($prog));
+    }
+    for $path (split(/:/, $ENV{"PATH"})) {
+	$path = join('/', ($path, $prog));
+	if (-f $path) {
+	    return(File::Spec->rel2abs($path));
+	}
+    }
+    return($prog);
 }
 
 # This routine parses a single command that returns no required info; the

@@ -44,6 +44,17 @@ if (loadtype($devtype)) {
 if (! defined($lscript)) {
     die "login script not defined for device type $rancid::devtype\n";
 }
+# if the first word of $script is not us (this script), exec the given
+# script.
+my(@script) = split(/\s+/, $script);
+if (which($script[0]) ne which($0)) {
+    # -[hCV] are not handled; they will have already been handled sooner.
+    push(@script, "-d") if $opt_d;
+    push(@script, "-l") if $opt_l;
+    push(@script, "-f") if $opt_f;
+    push(@script, $host);
+    exec(join(" ", @script));
+}
 
 # check that inloop, the input/main loop, is defined
 if (!defined($inloop) || length($inloop) < 1) {

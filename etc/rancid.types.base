@@ -354,7 +354,7 @@ dnos10;command;rancid::RunCommand;terminal length 0
 dnos10;command;dnos10::ShowSys;show system
 dnos10;command;dnos10::ShowVer;show version
 dnos10;command;dnos10::ShowVlan;show vlan
-dnos10;command;dnos10::WriteTerm;show running-config
+dnos10;command;dnos10::WriteTerm;show running-configuration
 #
 # UBNT EdgeMAX
 edgemax;script;rancid -t edgemax

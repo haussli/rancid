@@ -12,7 +12,7 @@ configuration file.
 .PP
 The
 .B rancid.types.base
-configuration file follows the same format but defines the base types
+configuration file follows the same format, but defines the base types
 described in
 .IR router.db(5).
 .PP

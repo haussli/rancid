@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "rancid" "1" "5 September 2019"
+.TH "rancid" "1" "25 September 2019"
 .SH NAME
 rancid \- Cisco configuration filter
 .SH SYNOPSIS
@@ -119,6 +119,17 @@ Xirrus arrays
 .TP
 .B zrancid
 Zebra routing software
+.PP
+If
+.B rancid
+is run for a device type whose script, as defined in
+.B rancid.types.base
+or
+.B rancid.types.conf,
+is not
+.B rancid,
+then that script will be
+.BR exec(2) 'd.
 .PP
 The command-line options are as follows:
 .TP

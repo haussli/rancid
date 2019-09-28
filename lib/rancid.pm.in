@@ -284,7 +284,9 @@ sub loadtype {
 	    push(@script, "-C") if $main::opt_C;
 	    push(@script, "-f") if $rancid::file;
 	    push(@script, $host);
-	    exec(join(" ", @script));
+	    exec(join(" ", @script)) ||
+		printf(STDERR "exec($script[0]) failed: $!\n");
+	    exit(-1);
 	}
 
 	if (!defined($lscript)) {

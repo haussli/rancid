@@ -144,6 +144,7 @@ sub ShowConfig {
 	tr/\015//d;
 	if (/^}\s*$|\[edit\]/) {
 	    $found_end = 1;
+	    ProcessHistory("","","","$_");
 	    return(1);
 	}
 

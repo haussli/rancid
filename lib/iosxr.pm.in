@@ -747,7 +747,7 @@ sub ShowDebug {
     return(0);
 }
 
-# This routine parses "admin show install summary"
+# This routine parses "admin show install active"
 sub ShowInstallSummary {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowInstallSummary: $_" if ($debug);

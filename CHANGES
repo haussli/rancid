@@ -1,4 +1,8 @@
 3.9.99
+	rancid.types.base: cisco eXR does not have admin show install summary;
+	use admin show install active instead, which appears to be the same at
+	least as far back as 5.3.4.
+
 	rancid, rancid.pm: handle non-modulized rancid scripts in the rancid
 	script by exec()ing the real script
 

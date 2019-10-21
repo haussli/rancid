@@ -169,6 +169,15 @@ sub ShowCardDetail {
 	next if (/^(\s+Temperature\s+:)\s+\d+C/);
 	next if (/^(Config file|BOF) last (saved|modified)\s+:/ && ($filter_osc >= 2));
 
+	# power data
+	if (/hardware resources .power-zone/i) {
+	    while (<$INPUT>) {
+		tr/\015//d;
+		last TOP if (/^$prompt/);
+		last if (/(^\s*$|^=+)/);
+	    }
+	}
+
 	/[-=]+$/i && next;
 
 	ProcessHistory("COMMENTS","keysort","E6","# $_");
@@ -230,7 +239,7 @@ sub ShowChassisEnv {
     print STDERR "    In ShowChassisEnv: $_" if ($debug);
     ProcessHistory("COMMENTS","keysort","E2","#\n# $_");
 
-    while (<$INPUT>) {
+TOP: while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -240,10 +249,17 @@ sub ShowChassisEnv {
 	# context lines
 	/^\[]$/i && next;
 
+	# power data
+	if (/hardware resources .power-zone/i) {
+	    while (<$INPUT>) {
+		tr/\015//d;
+		last TOP if (/^$prompt/);
+		last if (/(^\s*$|^=+)/);
+	    }
+	}
+
 	/speed/i && next;
-	/volts/i && next;
-	/watts/i && next;
-	/amps/i && next;
+
 	/[-=]+$/i && next;
 	ProcessHistory("COMMENTS","keysort","E2","# $_");
     }

@@ -1,4 +1,6 @@
 3.10.99
+	iosxr.pm: filter .sspdc file sz/ts
+
 	iosxr.pm: filter volt_hist file sz/ts
 
 	sros.pm: improve power data filters

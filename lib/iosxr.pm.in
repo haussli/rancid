@@ -557,7 +557,7 @@ sub DirSlotN {
 	    if (/\s(\.python-history|aaa|\.bash_history)\s*$/ ||
 	        /\s(ce_switch.log\S*|cisco_support|errmsg_cont)\s*$/ ||
 	        /\s(genstr_cont|temp_cont|temp_cont|temp_static_data)\s*$/ ||
-	        /\s(uptime_cont|volt_cont)\s*$/) {
+	        /\s(uptime_cont|volt_cont|volt_hist)\s*$/) {
 		# change
 		# 57          -rw-  23100       <no date>              volt_cont
 		# 614788      drwx  4096        Fri Aug 20 12:06:25 2010  temp_cont

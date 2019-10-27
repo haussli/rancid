@@ -1,4 +1,6 @@
 3.10.99
+	ios.pm: dot1x state match must be case-insensitive - Bart Bylemans
+
 	iosxr.pm: filter .sspdc file sz/ts
 
 	iosxr.pm: filter volt_hist file sz/ts

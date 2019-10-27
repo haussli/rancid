@@ -2104,7 +2104,7 @@ sub ShowDot1x {
 
 	# if dot1x is enabled, do not collect show vlan output
 	if (/^sysauthcontrol\s+(?:=\s+)?(\S+)/i) {
-	    if ($1 !~ /disabled/ && $filter_osc > 1) {
+	    if ($1 !~ /disabled/i && $filter_osc > 1) {
 		$DO_SHOW_VLAN = 1;
 	    }
 	}

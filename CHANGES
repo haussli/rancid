@@ -1,4 +1,6 @@
 3.10.99
+	ios.pm: processor type may be multiple words eg: AS920 - Emille Blanc
+
 	ios.pm: dot1x state match must be case-insensitive - Bart Bylemans
 
 	iosxr.pm: filter .sspdc file sz/ts

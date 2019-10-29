@@ -250,7 +250,7 @@ sub ShowVersion {
 	/^System image file is "([^\"]*)"$/ &&
 	    ProcessHistory("COMMENTS","keysort","F5","!Image: $1\n") && next;
 	# 2800 at least don't have a processor line
-	if ((/(\S+(?:\sseries)?)\s+(?:\((\S+)\)\s+processor|\(revision[^)]+\)).*\s+with (\S+k) bytes/i) ||
+	if ((/(\S+(?:\sseries)?)\s+(?:\(([^)]+)\)\s+processor|\(revision[^)]+\)).*\s+with (\S+k) bytes/i) ||
 	    (/isco\s+(\S+)\s+\(.+\)\s+with (\S+[kK]) bytes/)) {
 	    $proc = $1;
 	    my($cpu) = $2;
@@ -338,6 +338,8 @@ LINE:		while (<$INPUT>) {
 		$type = "AS5350";
 	    } elsif ($proc =~ /^AS5400/) {
 		$type = "AS5400";
+	    } elsif ($proc =~ /^ASR920/) {
+		$type = "ASR920";
 	    } elsif ($proc =~ /6000/) {
 		$type = "6000";
 	    } elsif ($proc eq "WK-C65") {

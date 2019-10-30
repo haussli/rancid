@@ -277,7 +277,7 @@ sub loadtype {
 	# if the first word of $script is not us (this script), exec the given
 	# script.
 	@script = split(/\s+/, $script);
-	if (which($script[0]) ne which($ARGV[0])) {
+	if (which($script[0]) ne which($0)) {
 	    # -[hV] are not handled; they will have already been handled sooner.
 	    push(@script, "-d") if $debug;
 	    push(@script, "-l") if $log;

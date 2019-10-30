@@ -1,4 +1,6 @@
 3.10.99
+	rancid.pm: fix handling of script name when handling -C
+
 	ios.pm: processor type may be multiple words eg: AS920 - Emille Blanc
 
 	ios.pm: dot1x state match must be case-insensitive - Bart Bylemans

@@ -1,4 +1,6 @@
 3.10.99
+	ios.pm: remove file numbers from flash
+
 	rancid.pm: fix handling of script name when handling -C
 
 	ios.pm: processor type may be multiple words eg: AS920 - Emille Blanc

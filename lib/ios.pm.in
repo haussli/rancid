@@ -1091,7 +1091,9 @@ sub ShowFlash {
 		 /^(\s*\d+)(\s+[-rwx]+\s+\d+\s+\w+ \d+\s+\d+ \d+:\d+:\d+\s+)(\S+)/ ||
 		 /^(\s*\d+)(\s+\d+\s+\w+ \d+\s+\d+ \d+:\d+:\d+ .\d+:\d+\s+)(\S+)/ ||
 		 /^(\s*\d+)(\s+\d+\s+\w+ \d+\s+\d+ \d+:\d+:\d+\s+)(\S+)/) {
-	    ProcessHistory("FLASH","keysort","$3","!Flash: $1$2$3\n") && next;
+		my($fmt) = "%-". length($1) ."s%s%s\n";
+		$_ = sprintf($fmt, "", $2, $3);
+	    ProcessHistory("FLASH","keysort","$3","!Flash: $_") && next;
         }
 
 	if (/(\d+) bytes (available|total) \((\d+) bytes (free|used)(\/\s+% free)?\)/) {

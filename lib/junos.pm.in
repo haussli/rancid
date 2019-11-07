@@ -198,7 +198,8 @@ sub ShowChassisFirmware {
 	/^\s+\^/ && return(1);
 	/syntax error/ && return(1);
 
-	ProcessHistory("","","","# $_");
+	s/\s*$//;
+	ProcessHistory("","","","# $_\n");
     }
     $ShowChassisFirmware = 1;
     return(0);

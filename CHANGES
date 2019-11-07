@@ -1,4 +1,6 @@
 3.10.99
+	junos.pm: ShowChassisFirmware(): drop trail WS
+
 	ios.pm: remove file numbers from flash
 
 	rancid.pm: fix handling of script name when handling -C

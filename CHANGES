@@ -1,4 +1,8 @@
 3.10.99
+	blogin: normalize part of login() to clogin
+
+	*login: handle openssh fingerprint prompt for new keys - Emille Blanc
+
 	junos.pm: ShowChassisFirmware(): drop trail WS
 
 	ios.pm: remove file numbers from flash

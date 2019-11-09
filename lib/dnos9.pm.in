@@ -94,8 +94,10 @@ sub ShowVersion {
 	next if(/^(\s*|\s*$cmd\s*)$/);
 	return(-1) if (/command authorization failed/i);
 
-	/ Type: / && chop && chop &&
-	    ProcessHistory("COMMENTS","keysort","A1", "!$_\n");
+	s/\s*$/\n/;
+
+	/ Type: / &&
+	    ProcessHistory("COMMENTS","keysort","A1", "!$_");
 
 	/^.* Version.*$/ &&
 	    ProcessHistory("COMMENTS","keysort","F1", "!Image: $_") && next;

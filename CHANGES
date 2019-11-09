@@ -1,4 +1,6 @@
 3.10.99
+	dnos9|force10: ShowVersion(): drop trailing WS - Howard Jones
+
 	blogin: normalize part of login() to clogin
 
 	*login: handle openssh fingerprint prompt for new keys - Emille Blanc

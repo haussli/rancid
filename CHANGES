@@ -1,4 +1,7 @@
 3.10.99
+	ios.pm: ShowFlash(): file permissions field in catch-all branch must
+	also match directories
+
 	ios.pm: ShowFlash(): filter ASA fluctuating files in LOCAL-CA-SERVER/ -
 	Emille Blanc
 

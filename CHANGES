@@ -1,4 +1,6 @@
 3.10.99
+	panos.pm: ShowConfig(): missing last line of config - ermuller
+
 	ios.pm: ShowFlash(): file permissions field in catch-all branch must
 	also match directories
 

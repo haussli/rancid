@@ -346,6 +346,7 @@ dnos9;command;dnos9::WriteTerm;show running
 #
 # Dell NOS10 device (*NOT* Force 10)
 # Dell EMC S5200-ON
+# Dell S3048-ON
 dnos10;script;rancid -t dnos10
 dnos10;login;hlogin
 dnos10;module;dnos10

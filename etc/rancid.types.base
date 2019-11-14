@@ -468,7 +468,7 @@ fortigate-full;inloop;fortigate::inloop
 fortigate-full;command;fortigate::GetSystem;get system status
 fortigate-full;command;fortigate::GetConf;show full-configuration
 #
-# Foundry and HP procurve OEMs of Foundry (Brocade ICX-6450s, HP9304M).
+# Foundry and HP procurve OEMs of Foundry.
 # Reportedly functional on:
 # J4899[BC] 2650,
 # J4899C 2650,
@@ -488,6 +488,9 @@ fortigate-full;command;fortigate::GetConf;show full-configuration
 # J9779A 2530-24-PoEP,
 # J9780A 2530-8-PoEP
 # 29[12]0
+# Brocade HP9304M
+#         ICX-6450s
+# Ruckus ICX 7250
 foundry;script;rancid -t foundry
 foundry;login;flogin
 foundry;module;foundry

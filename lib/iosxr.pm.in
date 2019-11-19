@@ -571,7 +571,8 @@ sub DirSlotN {
 		    $_ = sprintf($fmt, $c, $dt, $d, $rem);
 		    ProcessHistory("FLASH","keysort",$rem,"!Flash: $dev: $_");
 		    next;
-		} elsif (/\s*\d+\s+(\S+\s+\d+\s+)(\d+\s+\w+\s+\d+\s+\d+:\d+)/) {
+		} elsif (/\s*\d+\s+(\S+\s+\d+\s+)(\d+\s+\w+\s+\d+\s+\d+:\d+)/ ||
+		         /\s*\d+\s+(\S+\s+\d+\s+)(\d+\s+\w+\s+\d+\s+\d{4})/) {
 		    # XR >= 6.3; dir disk0:, but harddisk: is diff format.  wtf
 		    # drop fileno size, & date.
 		    # " 8002 drwxr-xr-x 2 4096 Jan 17 15:27 np"
@@ -594,7 +595,8 @@ sub DirSlotN {
 		    my($sz, $c, $dt, $d, $rem) = ($1, $2, $3, $4, $');
 		    ProcessHistory("FLASH","keysort",$rem,"!Flash: $dev: $sz$c$dt$d$rem");
 		    next;
-		} elsif (/\s*\d+\s+(\S+\s+\d+\s+)(\d+\s+\w+\s+\d+\s+\d+:\d+)/) {
+		} elsif (/\s*\d+\s+(\S+\s+\d+\s+)(\d+\s+\w+\s+\d+\s+\d+:\d+)/ ||
+		         /\s*\d+\s+(\S+\s+\d+\s+)(\d+\s+\w+\s+\d+\s+\d{4})/) {
 		    # XR >= 6.3; dir disk0:, but harddisk: is diff format.  wtf
 		    my($perm, $dt, $rem) = ($1, $2, $');
 		    ProcessHistory("FLASH","keysort",$rem,"!Flash: $dev: $perm$dt$rem");

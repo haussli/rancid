@@ -1,4 +1,6 @@
 3.10.99
+	dnos10: add command show inventory
+
 	iosxr.pm: match old files where the 4-digit year replaces the timestamp
 
 	add device type junos-evo for JunOS EVO

@@ -1,4 +1,6 @@
 3.10.99
+	add device type junos-evo for JunOS EVO
+
 	panos.pm: ShowConfig(): missing last line of config - ermuller
 
 	ios.pm: ShowFlash(): file permissions field in catch-all branch must

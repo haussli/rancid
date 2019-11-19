@@ -575,6 +575,33 @@ juniper;command;junos::ShowVersion;show version detail
 juniper;command;junos::ShowVersion;show version invoke-on other-routing-engine
 juniper;command;junos::ShowConfiguration;show configuration
 #
+junos-evo;script;rancid -t junos-evo
+junos-evo;login;jlogin
+junos-evo;timeout;120
+junos-evo;module;junos
+junos-evo;inloop;junos::inloop
+junos-evo;command;junos::ShowChassisClocks;show chassis clocks
+junos-evo;command;junos::ShowChassisEnvironment;show chassis environment
+junos-evo;command;junos::ShowChassisFirmware;show chassis firmware local
+junos-evo;command;junos::ShowChassisFirmware;show chassis firmware
+junos-evo;command;junos::ShowChassisFpcDetail;show chassis fpc detail
+junos-evo;command;junos::ShowChassisHardware;show chassis hardware detail
+junos-evo;command;junos::ShowChassisHardware;show chassis hardware models
+junos-evo;command;junos::ShowChassisRoutingEngine;show chassis routing-engine
+junos-evo;command;junos::ShowChassisSCB;show chassis scb
+junos-evo;command;junos::ShowChassisSCB;show chassis sfm detail
+junos-evo;command;junos::ShowChassisSCB;show chassis ssb
+junos-evo;command;junos::ShowChassisSCB;show chassis feb detail
+junos-evo;command;junos::ShowChassisSCB;show chassis feb
+junos-evo;command;junos::ShowChassisSCB;show chassis cfeb
+junos-evo;command;junos::ShowChassisAlarms;show chassis alarms
+junos-evo;command;junos::ShowSystemLicense;show system license
+# XXX this command does not work properly
+#junos-evo;command;junos::ShowSystemBootMessages;show system boot-messages
+junos-evo;command;junos::ShowSystemCoreDumps;show system core-dumps
+junos-evo;command;junos::ShowVersion;show version node all
+junos-evo;command;junos::ShowConfiguration;show configuration
+#
 # juniper-srx type is for SRX with ThreatSTOP; it displays the configuration
 # by section, omitting policy-options, which changes frequently.
 juniper-srx;script;rancid -t juniper-srx

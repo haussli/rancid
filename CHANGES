@@ -1,4 +1,6 @@
 3.10.99
+	junos.pm: EVO RE DRAM fluctuates; replace with "installed" value
+
 	dnos10: add command show inventory
 
 	iosxr.pm: match old files where the 4-digit year replaces the timestamp

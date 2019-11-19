@@ -285,6 +285,8 @@ sub ShowChassisRoutingEngine {
 	/ Slot / && ProcessHistory("","","","# $_") && next;
 	/ Current state/ && ProcessHistory("","","","# $_") && next;
 	/ Election priority/ && ProcessHistory("","","","# $_") && next;
+	s/ (DRAM\s+)\d+ \w+ \((\d+ \w+) installed\)\s*/ $1$2\n/
+		&& ProcessHistory("","","","# $_") && next;
 	/ DRAM/ && ProcessHistory("","","","# $_") && next;
 	/ Model/ && ProcessHistory("","","","# $_") && next;
 	/ Serial ID/ && ProcessHistory("","","","# $_") && next;

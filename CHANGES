@@ -1,4 +1,7 @@
 3.10.99
+	junos.pm: ShowChassisClocks() must recognize some backend daemon
+	communication errors
+
 	junos.pm: EVO RE DRAM fluctuates; replace with "installed" value
 
 	dnos10: add command show inventory

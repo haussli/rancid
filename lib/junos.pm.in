@@ -110,6 +110,8 @@ sub ShowChassisClocks {
 	next if (/^\{(master|backup|linecard|primary|secondary)(:(node)?\d+)?\}/);
 
 	/error: the chassis(-control)? subsystem is not r/ && return(-1);
+	/error: abnormal communication termination with / && return(-1);
+	/error: invalid xml tag / && return(-1);
 	/Couldn\'t initiate connection/ && return(-1);
 	/Unrecognized command/ && return(1);
 	/command is not valid/ && return(1);

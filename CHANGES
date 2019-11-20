@@ -1,4 +1,6 @@
 3.10.99
+	foundry.pm: wrap secure MAC address if FILTER_OSC > YES
+
 	junos.pm: ShowChassisClocks() must recognize some backend daemon
 	communication errors
 

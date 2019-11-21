@@ -160,7 +160,7 @@ sub ShowEnvironment {
 
 	next if (/^fan speed level:/i);
 
-	# trim PS info from:
+	# trim stats from PS info:
 	# Unit     Power supply   Description        Type          State           Consumed(W)   Voltage(V)  Current(mA)
 	# ----     ------------   ----------------   ----------    -------------- ------------ ------------ ------------
 	# 1        1              PS-1               Fixed         Powering                N/A          N/A          N/A

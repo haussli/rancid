@@ -581,7 +581,8 @@ junos-evo;login;jlogin
 junos-evo;timeout;120
 junos-evo;module;junos
 junos-evo;inloop;junos::inloop
-junos-evo;command;junos::ShowChassisClocks;show chassis clocks
+# XXX broken in 19.1R2.1-EVO on some platforms
+#junos-evo;command;junos::ShowChassisClocks;show chassis clocks
 junos-evo;command;junos::ShowChassisEnvironment;show chassis environment
 junos-evo;command;junos::ShowChassisFirmware;show chassis firmware local
 junos-evo;command;junos::ShowChassisFirmware;show chassis firmware

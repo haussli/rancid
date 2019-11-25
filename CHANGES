@@ -1,5 +1,8 @@
 3.10.99
-	edgemax.pm: filter fan spped/duty from o/s 1.9
+	junos.pm: show chassis clocks is broken in 19.1R2.1-EVO on some
+	platforms.  remove the command for now.
+
+	edgemax.pm: filter fan speed/duty from o/s 1.9
 
 	foundry.pm: wrap secure MAC address if FILTER_OSC > YES
 

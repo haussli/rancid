@@ -816,6 +816,13 @@ sub ShowInventory {
 	    ProcessHistory("INVENTORY","","", sprintf("!%-30s %s\n", $1, $2));
 	    next;
 	}
+	if (/^ ?(name: .+)\s+(descr: .+)/i) {
+	    my($name) = $1;
+	    my($descr) = $2;
+	    $descr =~ s/\s+$//;
+	    ProcessHistory("INVENTORY","","", sprintf("!%-30s %s\n", $name, $descr));
+	    next;
+	}
 	# split PID/VID/SN line
 	if (/^PID: (\S*)\s*, VID: (\S*)\s*, SN: (\S*)\s*$/) {
 	    my($pid,$vid,$sn) = ($1, $2, $3);

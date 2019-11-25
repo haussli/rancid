@@ -1,4 +1,8 @@
 3.10.99
+	rancid.types.base: rename juniper -> junos.  Add alias for juniper
+
+	iosxr.pm: ShowInventory(): remove trailing WS found in eXR description
+
 	iosxr.pm: ShowInstallSummary(): add "Image:" prefix for consistency
 	with ShowInstallActive()
 

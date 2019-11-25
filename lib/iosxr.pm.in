@@ -779,7 +779,7 @@ sub ShowInstallSummary {
 	next if (/^\S+ connected from 127.0.0.1 using console /);
 	next if (/# terminal length 0$/);
 
-	ProcessHistory("COMMENTS", "keysort", "C15", "! $_");
+	ProcessHistory("COMMENTS", "keysort", "C15", "!Image: $_");
     }
     ProcessHistory("COMMENTS", "keysort", "C10", "!\n");
     ProcessHistory("COMMENTS", "keysort", "C19", "!\n");

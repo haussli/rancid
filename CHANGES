@@ -1,4 +1,6 @@
 3.10.99
+	rancid-fe: recognize rancid.types.conf aliases
+
 	junos.pm: show chassis clocks is broken in 19.1R2.1-EVO on some
 	platforms.  remove the command for now.
 

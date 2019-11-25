@@ -549,32 +549,33 @@ hitachi;login;htlogin
 hp;script;hrancid -t hp
 hp;login;hlogin
 #
-juniper;script;rancid -t juniper
-juniper;login;jlogin
-juniper;timeout;120
-juniper;module;junos
-juniper;inloop;junos::inloop
-juniper;command;junos::ShowChassisClocks;show chassis clocks
-juniper;command;junos::ShowChassisEnvironment;show chassis environment
-juniper;command;junos::ShowChassisFirmware;show chassis firmware local
-juniper;command;junos::ShowChassisFirmware;show chassis firmware
-juniper;command;junos::ShowChassisFpcDetail;show chassis fpc detail
-juniper;command;junos::ShowChassisHardware;show chassis hardware detail
-juniper;command;junos::ShowChassisHardware;show chassis hardware models
-juniper;command;junos::ShowChassisRoutingEngine;show chassis routing-engine
-juniper;command;junos::ShowChassisSCB;show chassis scb
-juniper;command;junos::ShowChassisSCB;show chassis sfm detail
-juniper;command;junos::ShowChassisSCB;show chassis ssb
-juniper;command;junos::ShowChassisSCB;show chassis feb detail
-juniper;command;junos::ShowChassisSCB;show chassis feb
-juniper;command;junos::ShowChassisSCB;show chassis cfeb
-juniper;command;junos::ShowChassisAlarms;show chassis alarms
-juniper;command;junos::ShowSystemLicense;show system license
-juniper;command;junos::ShowSystemBootMessages;show system boot-messages
-juniper;command;junos::ShowSystemCoreDumps;show system core-dumps
-juniper;command;junos::ShowVersion;show version detail
-juniper;command;junos::ShowVersion;show version invoke-on other-routing-engine
-juniper;command;junos::ShowConfiguration;show configuration
+juniper;alias;junos
+junos;script;rancid -t junos
+junos;login;jlogin
+junos;timeout;120
+junos;module;junos
+junos;inloop;junos::inloop
+junos;command;junos::ShowChassisClocks;show chassis clocks
+junos;command;junos::ShowChassisEnvironment;show chassis environment
+junos;command;junos::ShowChassisFirmware;show chassis firmware local
+junos;command;junos::ShowChassisFirmware;show chassis firmware
+junos;command;junos::ShowChassisFpcDetail;show chassis fpc detail
+junos;command;junos::ShowChassisHardware;show chassis hardware detail
+junos;command;junos::ShowChassisHardware;show chassis hardware models
+junos;command;junos::ShowChassisRoutingEngine;show chassis routing-engine
+junos;command;junos::ShowChassisSCB;show chassis scb
+junos;command;junos::ShowChassisSCB;show chassis sfm detail
+junos;command;junos::ShowChassisSCB;show chassis ssb
+junos;command;junos::ShowChassisSCB;show chassis feb detail
+junos;command;junos::ShowChassisSCB;show chassis feb
+junos;command;junos::ShowChassisSCB;show chassis cfeb
+junos;command;junos::ShowChassisAlarms;show chassis alarms
+junos;command;junos::ShowSystemLicense;show system license
+junos;command;junos::ShowSystemBootMessages;show system boot-messages
+junos;command;junos::ShowSystemCoreDumps;show system core-dumps
+junos;command;junos::ShowVersion;show version detail
+junos;command;junos::ShowVersion;show version invoke-on other-routing-engine
+junos;command;junos::ShowConfiguration;show configuration
 #
 junos-evo;script;rancid -t junos-evo
 junos-evo;login;jlogin

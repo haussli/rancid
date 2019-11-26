@@ -1,4 +1,7 @@
 3.10.99
+	iosxr.pm: ShowInventory(): change commands for exr to make the output
+	the same.  Add ShowDiag() for exr equivalent of admin show diag
+
 	rancid.types.base: rename juniper -> junos.  Add alias for juniper
 
 	iosxr.pm: ShowInventory(): remove trailing WS found in eXR description

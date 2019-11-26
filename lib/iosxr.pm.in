@@ -289,10 +289,9 @@ sub ShowVersion {
 }
 
 # This routine parses "admin show diag".
-# This will create arrays for hw info.
 sub AdminShowDiag {
     my($INPUT, $OUTPUT, $cmd) = @_;
-    print STDERR "    In ShowDiag: $_" if ($debug);
+    print STDERR "    In AdminShowDiag: $_" if ($debug);
 
     while (<$INPUT>) {
 	tr/\015//d;
@@ -362,6 +361,40 @@ sub AdminShowRunning {
     ProcessHistory("ASR","","","!\n");
     return(0);
 }
+
+# This routine parses "show diag".
+sub ShowDiag {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowDiag: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	# filter the bloody cmd-line timestamp
+	next if (/^\w{3} \w{3,4} {1,3}\d{1,2} {1,2}\d{1,2}:\d+:\d+\.\d+ \S+$/);
+	return(1) if (/Line has invalid autocommand /);
+	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	next if (/^(\e\[.\d+h)?sysadmin-vm:[^#]+# /i);			# NCS
+	return(1) if (/^(-+\^|syntax error: unknown argument)$/i);	# NCS
+	return(-1) if (/command authorization failed/i);
+
+	# skip blank lines
+	/^$/ && next;
+	# NCS junk
+	next if (/^\S+ connected from 127.0.0.1 using console /);
+	next if (/# terminal length 0$/);
+
+	s/^NODE //;
+	# wtf are these?
+	next if (/(New Deviation|UDI_VID|Board State)/);
+
+	ProcessHistory("SLOT","","","!$_");
+    }
+    ProcessHistory("SLOT","","","!\n");
+    return(0);
+}
+
 
 # This routine parses "admin show hw-module fpd location all".
 sub ShowHWfpd {
@@ -816,15 +849,16 @@ sub ShowInventory {
 	    ProcessHistory("INVENTORY","","", sprintf("!%-30s %s\n", $1, $2));
 	    next;
 	}
-	if (/^ ?(name: .+)\s+(descr: .+)/i) {
-	    my($name) = $1;
-	    my($descr) = $2;
-	    $descr =~ s/\s+$//;
-	    ProcessHistory("INVENTORY","","", sprintf("!%-30s %s\n", $name, $descr));
-	    next;
-	}
+
+	# XR flavor:
+	# NAME: "module 0/RSP0/CPU0", DESCR: "ASR9K Route Switch Processor with 880G/slot Fabric and 32GB"
+	# PID: A9K-RSP880-SE, VID: V01, SN: FOC1911VC2S
+	#
+	# eXR flavor:
+	# NAME: "0/RSP0-Motherboard", DESCR: "Motherboard Module"
+	# PID: N/A               , VID: N/A , SN: N/A
 	# split PID/VID/SN line
-	if (/^PID: (\S*)\s*, VID: (\S*)\s*, SN: (\S*)\s*$/) {
+	if (/^ ?PID: (\S*)\s*, VID: (\S*)\s*,\s* SN: (\S*)\s*$/) {
 	    my($pid,$vid,$sn) = ($1, $2, $3);
 	    my($entries) = "";
 	    # filter <empty>, "0x" and "N/A" lines

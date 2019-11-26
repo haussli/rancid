@@ -1,4 +1,7 @@
 3.10.99
+	rancid.types.base: add ios-exr for IOS-EXR with alias cisco-exr and add
+	ios, ios-sb, ios-nx, ios-xr for the other cisco ios versions.
+
 	iosxr.pm: ShowInventory(): change commands for exr to make the output
 	the same.  Add ShowDiag() for exr equivalent of admin show diag
 

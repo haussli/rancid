@@ -122,6 +122,7 @@ cat5;script;cat5rancid
 cat5;login;clogin
 #
 # Cisco IOS device & Allied Telesis AW+
+ios;alias;cisco
 cisco;script;rancid -t cisco
 cisco;login;clogin
 cisco;module;ios
@@ -201,6 +202,7 @@ cisco;command;ios::WriteTerm;show running-config view full;workaround for role-b
 cisco;command;ios::WriteTerm;show running-config
 cisco;command;ios::WriteTerm;write term
 #
+ios-nx;alias;cisco-nx
 cisco-nx;script;rancid -t cisco-nx
 cisco-nx;login;clogin
 cisco-nx;module;nxos
@@ -243,6 +245,7 @@ cisco-nx;command;nxos::WriteTerm;show running-config
 # Cisco small business devices.  These are peculiar; most likely this will not
 # work with all of them, but is also reported to work with other Marvell OEMs,
 # including PowerConnect 5448
+ios-sb;alias;cisco-sb
 cisco-sb;script;rancid -t cisco-sb
 cisco-sb;login;csblogin
 cisco-sb;module;iossb
@@ -251,6 +254,7 @@ cisco-sb;command;iossb::ShowVersion;show version
 cisco-sb;command;iossb::ShowSystem;show system
 cisco-sb;command;iossb::WriteTerm;show running-config
 #
+ios-xr;alias;cisco-xr
 cisco-xr;script;rancid -t cisco-xr
 cisco-xr;login;clogin
 cisco-xr;module;iosxr
@@ -289,6 +293,47 @@ cisco-xr;command;iosxr::ShowDebug;show debug
 cisco-xr;command;iosxr::ShowRPL;show rpl maximum
 cisco-xr;command;iosxr::AdminShowRunning;admin show running
 cisco-xr;command;iosxr::WriteTerm;show running-config
+#
+# IOS-eXR and ios-exr-lite (ie: ios-xr >= 6.0)
+cisco-exr;alias;ios-exr
+ios-exr;script;rancid -t ios-exr
+ios-exr;login;clogin
+ios-exr;module;iosxr
+ios-exr;inloop;iosxr::inloop
+ios-exr;command;rancid::RunCommand;terminal no-timestamp;Disable timestamps XR 3.6
+ios-exr;command;rancid::RunCommand;terminal exec prompt no-timestamp;Disable timestamps XR 3.8
+ios-exr;command;iosxr::ShowVersion;admin show version
+ios-exr;command;iosxr::ShowInstallSummary;admin show install active
+ios-exr;command;iosxr::ShowLicense;admin show license udi;XR image
+ios-exr;command;iosxr::ShowLicense;admin show license;XR image
+ios-exr;command;iosxr::ShowBootVar;admin show variables boot;XR image
+ios-exr;command;iosxr::ShowHWfpd;admin show hw-module fpd location all;XR LC images
+ios-exr;command;iosxr::ShowRedundancy;show redundancy secondary
+ios-exr;command;iosxr::ShowInstallActive;show install active
+ios-exr;command;iosxr::ShowEnv;admin show env all
+ios-exr;command;iosxr::DirSlotN;dir /all nvram:
+ios-exr;command;iosxr::DirSlotN;dir /all bootflash:
+ios-exr;command;iosxr::DirSlotN;dir /all compactflash:
+ios-exr;command;iosxr::DirSlotN;dir /all compactflasha:
+ios-exr;command;iosxr::DirSlotN;dir /all slot0:
+ios-exr;command;iosxr::DirSlotN;dir /all disk0:
+ios-exr;command;iosxr::DirSlotN;dir /all disk0a:
+ios-exr;command;iosxr::DirSlotN;dir /all slot1:
+ios-exr;command;iosxr::DirSlotN;dir /all disk1:
+ios-exr;command;iosxr::DirSlotN;dir /all disk1a:
+ios-exr;command;iosxr::DirSlotN;dir /all slot2:
+ios-exr;command;iosxr::DirSlotN;dir /all disk2:
+ios-exr;command;iosxr::DirSlotN;dir /all harddisk:
+ios-exr;command;iosxr::DirSlotN;dir /all harddiska:
+ios-exr;command;iosxr::DirSlotN;dir /all harddiskb:
+ios-exr;command;iosxr::ShowContAll;show controllers
+ios-exr;command;iosxr::ShowDiag;show diag
+ios-exr;command;iosxr::ShowInventory;show inventory raw
+ios-exr;command;iosxr::ShowVLAN;show vlan
+ios-exr;command;iosxr::ShowDebug;show debug
+ios-exr;command;iosxr::ShowRPL;show rpl maximum
+ios-exr;command;iosxr::AdminShowRunning;admin show running
+ios-exr;command;iosxr::WriteTerm;show running-config
 #
 cisco-wlc4;script;rancid -t cisco-wlc4
 cisco-wlc4;login;wlogin

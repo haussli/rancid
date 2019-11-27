@@ -1,4 +1,6 @@
 3.10.99
+	iosxr.pm: ShowVersion(): parse eXR flavor
+
 	rancid.types.base: more eXR command clean-up
 
 	iosxr.pm: ShowLicense(): import filters from ios.pm for for eXR >=6.4;

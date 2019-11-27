@@ -243,10 +243,19 @@ sub ShowVersion {
 			       "!CPU:$slave $cpu$_$slaveslot\n");
 	    }
 	    next;
+	} elsif (/^cisco (\S+(?:\sseries)?)\s+(?:\(([^)]*)\)\s+processor)/i) {
+	    $proc = $1;
+	    my($cpu) = $2;
+	    my($device) = "router";
+
+	    print STDERR "TYPE = $type\n" if ($debug);
+	    ProcessHistory("COMMENTS","keysort","A1",
+		"!Chassis type:$proc - a $proc $device\n");
+	    if (defined($cpu) && length($cpu)) {
+		ProcessHistory("COMMENTS","keysort","A3",
+			       "!CPU:$cpu\n");
+	    }
 	}
-	/^(\d+[kK]) bytes of multibus/ &&
-	    ProcessHistory("COMMENTS","keysort","B2",
-		"!Memory: multibus $1\n") && next;
 	/^(\d+[kK]) bytes of (non-volatile|NVRAM)/ &&
 	    ProcessHistory("COMMENTS","keysort","B3",
 		"!Memory: nvram $1\n") && next;

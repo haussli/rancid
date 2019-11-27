@@ -301,7 +301,7 @@ ios-exr;login;clogin
 ios-exr;module;iosxr
 ios-exr;inloop;iosxr::inloop
 ios-exr;command;rancid::RunCommand;terminal exec prompt no-timestamp;Disable timestamps
-ios-exr;command;iosxr::ShowVersion;admin show version
+ios-exr;command;iosxr::ShowVersion;show version
 ios-exr;command;iosxr::ShowInstallSummary;admin show install active
 ios-exr;command;iosxr::ShowLicense;show license all
 # ios-exr;command;iosxr::ShowBootVar;show variables boot;XXX this command is broken

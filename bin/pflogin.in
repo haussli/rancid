@@ -12,8 +12,6 @@
 
 # Sometimes routers take awhile to answer (the default is 10 sec)
 set timeoutdflt 120
-# Some CLIs having problems if we write too fast (Extreme, PIX, Cat)
-set send_human {.2 .1 .4 .2 1}
 
 @login_top@
 

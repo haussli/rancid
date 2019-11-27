@@ -102,9 +102,9 @@ CONFIG_CLEAN_FILES = login_top a10login agmrancid alogin arancid \
 	clogin csblogin cssrancid dllogin elogin erancid f5rancid \
 	flogin fnlogin fxlogin hlogin htlogin htrancid jlogin jerancid \
 	mrancid mrvlogin mtrancid mtlogin nlogin nrancid noklogin \
-	nslogin nsrancid panlogin pflogin rblogin rivlogin rivrancid \
-	rrancid rtftpcopy tlogin trancid xilogin xirancid xlogin \
-	ulogin wlogin zrancid
+	nslogin nsrancid panlogin pflogin pfrancid rblogin rivlogin \
+	rivrancid rrancid rtftpcopy tlogin trancid xilogin xirancid \
+	xlogin ulogin wlogin zrancid
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -214,12 +214,12 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/a10login.in \
 	$(srcdir)/noklogin.in $(srcdir)/nrancid.in \
 	$(srcdir)/nslogin.in $(srcdir)/nsrancid.in \
 	$(srcdir)/panlogin.in $(srcdir)/pflogin.in \
-	$(srcdir)/rblogin.in $(srcdir)/rivlogin.in \
-	$(srcdir)/rivrancid.in $(srcdir)/rrancid.in \
-	$(srcdir)/rtftpcopy.in $(srcdir)/tlogin.in \
-	$(srcdir)/trancid.in $(srcdir)/ulogin.in $(srcdir)/wlogin.in \
-	$(srcdir)/xilogin.in $(srcdir)/xirancid.in $(srcdir)/xlogin.in \
-	$(srcdir)/zrancid.in $(top_srcdir)/depcomp \
+	$(srcdir)/pfrancid.in $(srcdir)/rblogin.in \
+	$(srcdir)/rivlogin.in $(srcdir)/rivrancid.in \
+	$(srcdir)/rrancid.in $(srcdir)/rtftpcopy.in \
+	$(srcdir)/tlogin.in $(srcdir)/trancid.in $(srcdir)/ulogin.in \
+	$(srcdir)/wlogin.in $(srcdir)/xilogin.in $(srcdir)/xirancid.in \
+	$(srcdir)/xlogin.in $(srcdir)/zrancid.in $(top_srcdir)/depcomp \
 	$(top_srcdir)/mkinstalldirs
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
@@ -359,9 +359,9 @@ bin_SCRIPTS = a10login alogin agmrancid anlogin arancid avologin \
 	f5rancid flogin fnlogin fxlogin hlogin hrancid htlogin \
 	htrancid jerancid jlogin mrancid mrvlogin mtlogin mtrancid \
 	nlogin noklogin nrancid nslogin nsrancid panlogin pflogin \
-	plogin rancid rblogin rivlogin rivrancid rrancid rtftpcopy \
-	tlogin trancid ulogin wlogin xilogin xirancid xlogin zrancid \
-	lg.cgi lgform.cgi rancid-cvs rancid-fe rancid-run
+	pfrancid plogin rancid rblogin rivlogin rivrancid rrancid \
+	rtftpcopy tlogin trancid ulogin wlogin xilogin xirancid xlogin \
+	zrancid lg.cgi lgform.cgi rancid-cvs rancid-fe rancid-run
 # XXX hack for the rancid to get pkglibdir, see corresponding XXX below
 bin_in = control_rancid.in hrancid.in plogin.in rancid.in
 EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in \
@@ -517,6 +517,8 @@ nsrancid: $(top_builddir)/config.status $(srcdir)/nsrancid.in
 panlogin: $(top_builddir)/config.status $(srcdir)/panlogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 pflogin: $(top_builddir)/config.status $(srcdir)/pflogin.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+pfrancid: $(top_builddir)/config.status $(srcdir)/pfrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 rblogin: $(top_builddir)/config.status $(srcdir)/rblogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

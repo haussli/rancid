@@ -6188,6 +6188,8 @@ ac_config_files="$ac_config_files bin/panlogin"
 
 ac_config_files="$ac_config_files bin/pflogin"
 
+ac_config_files="$ac_config_files bin/pfrancid"
+
 ac_config_files="$ac_config_files bin/rblogin"
 
 ac_config_files="$ac_config_files bin/rivlogin bin/rivrancid"
@@ -6998,6 +7000,7 @@ do
     "bin/nsrancid") CONFIG_FILES="$CONFIG_FILES bin/nsrancid" ;;
     "bin/panlogin") CONFIG_FILES="$CONFIG_FILES bin/panlogin" ;;
     "bin/pflogin") CONFIG_FILES="$CONFIG_FILES bin/pflogin" ;;
+    "bin/pfrancid") CONFIG_FILES="$CONFIG_FILES bin/pfrancid" ;;
     "bin/rblogin") CONFIG_FILES="$CONFIG_FILES bin/rblogin" ;;
     "bin/rivlogin") CONFIG_FILES="$CONFIG_FILES bin/rivlogin" ;;
     "bin/rivrancid") CONFIG_FILES="$CONFIG_FILES bin/rivrancid" ;;
@@ -7777,6 +7780,7 @@ See \`config.log' for more details" "$LINENO" 5; }
     "bin/nsrancid":F) chmod a+x $ac_file ;;
     "bin/panlogin":F) chmod a+x $ac_file ;;
     "bin/pflogin":F) chmod a+x $ac_file ;;
+    "bin/pfrancid":F) chmod a+x $ac_file ;;
     "bin/rblogin":F) chmod a+x $ac_file ;;
     "bin/rivlogin":F) chmod a+x $ac_file ;;
     "bin/rivrancid":F) chmod a+x $ac_file ;;

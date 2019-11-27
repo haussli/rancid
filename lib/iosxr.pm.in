@@ -919,6 +919,32 @@ sub ShowLicense {
 	next if (/^\S+ connected from 127.0.0.1 using console /);
 	next if (/# terminal length 0$/);
 
+	# filter the BS from license broker
+	next if (/(renewal attempt|communication attempt):/i);
+	next if (/next registration attempt:/i);		# timestamp
+	next if (/(period used:|requested time:)/i);		# show lic feature
+	if (/(^\s*(evaluation )?period (left|remaining):\s*)\d+/i) {
+	    ProcessHistory("COMMENTS","keysort","LICENSE","! $1<limited>\n");
+	    next;
+	}
+
+	# drop license counts
+	next if (/license usage:/i);
+	if (/(.*)count status/i) {
+	    my($hdr) = $1;
+	    my($len) = length($hdr);
+
+	    $hdr =~ s/\s*$//;
+	    ProcessHistory("COMMENTS", "keysort", "C20", "! $hdr\n");
+	    while (<$INPUT>) {
+		tr/\015//d;
+		return(0) if (/^$prompt/);
+
+		s/^(.{1,$len}).*/$1/;
+		ProcessHistory("COMMENTS", "keysort", "C20", "! $_");
+	    }
+	    next;
+	}
 	ProcessHistory("COMMENTS", "keysort", "C20", "! $_");
     }
     ProcessHistory("COMMENTS", "keysort", "C20", "!\n");

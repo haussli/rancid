@@ -1,4 +1,8 @@
 3.10.99
+	iosxr.pm: ShowLicense(): import filters from ios.pm for for eXR >=6.4;
+	guessing here that the filters will be the same since the format is the
+	same, but I have nothing to test against.
+
 	iosxr.pm: ShowRedundancy(): fix for XR >=5.4.3 & eXR >=6.4
 
 	iosxr.pm: ShowHWfpd(): remove trailing WS found in eXR

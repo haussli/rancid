@@ -1,4 +1,6 @@
 3.10.99
+	iosxr.pm: ShowHWfpd(): remove trailing WS found in eXR
+
 	rancid.types.base: add ios-exr for IOS-EXR with alias cisco-exr and add
 	ios, ios-sb, ios-nx, ios-xr for the other cisco ios versions.
 

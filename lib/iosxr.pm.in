@@ -396,7 +396,8 @@ sub ShowDiag {
 }
 
 
-# This routine parses "admin show hw-module fpd location all".
+# This routine parses "admin show hw-module fpd location all" and
+# "show hw-module fpd" (eXR/eXR-lite).
 sub ShowHWfpd {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowRunning: $_" if ($debug);
@@ -420,6 +421,9 @@ sub ShowHWfpd {
 	next if (/# terminal length 0$/);
 
 	/^notes:/i && last;
+
+	# remove trailing WS
+	s/\s+$/\n/;
 
 	ProcessHistory("FPD","","","!$_");
     }

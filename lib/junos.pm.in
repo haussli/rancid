@@ -110,6 +110,8 @@ sub ShowChassisClocks {
 	next if (/^\{(master|backup|linecard|primary|secondary)(:(node)?\d+)?\}/);
 
 	/error: the chassis(-control)? subsystem is not r/ && return(-1);
+	/error: abnormal communication termination with / && return(-1);
+	/error: invalid xml tag / && return(-1);
 	/Couldn\'t initiate connection/ && return(-1);
 	/Unrecognized command/ && return(1);
 	/command is not valid/ && return(1);
@@ -285,6 +287,8 @@ sub ShowChassisRoutingEngine {
 	/ Slot / && ProcessHistory("","","","# $_") && next;
 	/ Current state/ && ProcessHistory("","","","# $_") && next;
 	/ Election priority/ && ProcessHistory("","","","# $_") && next;
+	s/ (DRAM\s+)\d+ \w+ \((\d+ \w+) installed\)\s*/ $1$2\n/
+		&& ProcessHistory("","","","# $_") && next;
 	/ DRAM/ && ProcessHistory("","","","# $_") && next;
 	/ Model/ && ProcessHistory("","","","# $_") && next;
 	/ Serial ID/ && ProcessHistory("","","","# $_") && next;

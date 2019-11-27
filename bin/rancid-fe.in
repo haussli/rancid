@@ -60,7 +60,7 @@ if (! length($devtype)) {
 }
 
 # XXX use rancid::loadtype() to parse these files.
-foreach $file ("@sysconfdir@/rancid.types.base",
+REPEAT: foreach $file ("@sysconfdir@/rancid.types.base",
 	       "@sysconfdir@/rancid.types.conf") {
     open(INPUT, "< $file") || die "Could not open $file: $!";
     while (<INPUT>) {
@@ -72,6 +72,11 @@ foreach $file ("@sysconfdir@/rancid.types.base",
 	    $script = $value;
 	    close(INPUT);
 	    goto FOUND;
+	}
+	if ($type eq $devtype && $directive eq "alias") {
+	    $devtype = $value;
+	    close(INPUT);
+	    goto REPEAT;
 	}
     }
     close(INPUT);

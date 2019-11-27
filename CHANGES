@@ -1,4 +1,59 @@
 3.10.99
+	iosxr.pm: ShowVersion(): parse eXR flavor
+
+	rancid.types.base: more eXR command clean-up
+
+	iosxr.pm: ShowLicense(): import filters from ios.pm for for eXR >=6.4;
+	guessing here that the filters will be the same since the format is the
+	same, but I have nothing to test against.
+
+	iosxr.pm: ShowRedundancy(): fix for XR >=5.4.3 & eXR >=6.4
+
+	iosxr.pm: ShowHWfpd(): remove trailing WS found in eXR
+
+	rancid.types.base: add ios-exr for IOS-EXR with alias cisco-exr and add
+	ios, ios-sb, ios-nx, ios-xr for the other cisco ios versions.
+
+	iosxr.pm: ShowInventory(): change commands for exr to make the output
+	the same.  Add ShowDiag() for exr equivalent of admin show diag
+
+	rancid.types.base: rename juniper -> junos.  Add alias for juniper
+
+	iosxr.pm: ShowInventory(): remove trailing WS found in eXR description
+
+	iosxr.pm: ShowInstallSummary(): add "Image:" prefix for consistency
+	with ShowInstallActive()
+
+	rancid-fe: recognize rancid.types.conf aliases
+
+	junos.pm: show chassis clocks is broken in 19.1R2.1-EVO on some
+	platforms.  remove the command for now.
+
+	edgemax.pm: filter fan speed/duty from o/s 1.9
+
+	foundry.pm: wrap secure MAC address if FILTER_OSC > YES
+
+	junos.pm: ShowChassisClocks() must recognize some backend daemon
+	communication errors
+
+	junos.pm: EVO RE DRAM fluctuates; replace with "installed" value
+
+	dnos10: add command show inventory
+
+	iosxr.pm: match old files where the 4-digit year replaces the timestamp
+
+	add device type junos-evo for JunOS EVO
+
+	panos.pm: ShowConfig(): missing last line of config - ermuller
+
+	ios.pm: ShowFlash(): file permissions field in catch-all branch must
+	also match directories
+
+	ios.pm: ShowFlash(): filter ASA fluctuating files in LOCAL-CA-SERVER/ -
+	Emille Blanc
+
+	dnos9.pm|force10: ShowVersion(): drop trailing WS - Howard Jones
+
 	blogin: normalize part of login() to clogin
 
 	*login: handle openssh fingerprint prompt for new keys - Emille Blanc

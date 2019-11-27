@@ -170,6 +170,25 @@ REDO:	last if (/$prompt/);
     return(0);
 }
 
+# This routine parses "show inventory"
+sub ShowInventory {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowInventory: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if /(Invalid input|Type help or )/;
+	return(-1) if (/command authorization failed/i);
+
+	/-----------------------------/ && next;
+	ProcessHistory("COMMENTS","keysort","INVENTORY","!Inventory: $_");
+    }
+    ProcessHistory("COMMENTS","keysort","INVENTORY","!\n");
+    return(0);
+}
+
 sub ShowVlan {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowVlan: $_" if ($debug);

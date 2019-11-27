@@ -140,7 +140,7 @@ sub ShowEnvironment {
     my($INPUT, $OUTPUT) = @_;
     print STDERR "    In ShowEnvironment: $_" if ($debug);
 
-    while (<$INPUT>) {
+TOP:while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^\s+\^$/);
@@ -160,7 +160,37 @@ sub ShowEnvironment {
 
 	next if (/^fan speed level:/i);
 
-	# trim PS info from:
+	# trim speed/duty from fan info:
+	# Fans:
+	# Unit Fan Description    Type      Speed         Duty level    State
+	# ---- --- -------------- --------- ------------- ------------- --------------
+	# 1    1   Fan-1          Fixed     0             50%           Operational
+	# 1    2   Fan-2          Fixed     0             50%           Operational
+	# OR
+	# Fans:
+	# Unit Fan Description    Type      Speed         Duty
+	# ---- --- -------------- --------- ------------- -------------
+	# 1    1   FAN-1          Fixed     7448
+	/fan duty level:/i && next;
+	if (/^unit\s+fan\s+description\s+type\s+speed\s+duty\s+/i) {
+	    ProcessHistory("ENV","","","!$_");
+	    while (<$INPUT>) {
+		tr/\015//d;
+		last if (/^\s*$/);
+		last TOP if (/^$prompt/);
+
+		s/\s*$/\n/;
+		if (/^(\d+\s+\d+\s+\S+\s+\S+\s+)(\d+\s+\d+%)/) {
+		    my($sdl) = length($2);
+		    my($rem) = $';
+		    $_ = sprintf("%s%".length($2)."s%s", $1, " ", $rem);
+		}
+		ProcessHistory("ENV","","","!$_");
+	    }
+	    next;
+	}
+
+	# trim stats from PS info:
 	# Unit     Power supply   Description        Type          State           Consumed(W)   Voltage(V)  Current(mA)
 	# ----     ------------   ----------------   ----------    -------------- ------------ ------------ ------------
 	# 1        1              PS-1               Fixed         Powering                N/A          N/A          N/A

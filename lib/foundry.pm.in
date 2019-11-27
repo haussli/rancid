@@ -261,9 +261,11 @@ sub WriteTerm {
 	# filter out any RCS/CVS tags to avoid confusing local CVS storage
 	s/\$(Revision|Id):/ $1:/;
 	# sort secure-mac-addresses.  Note: There is no way to determine which
-	# have been added dynamically vs statically.  Thus, sort them?
-	/secure-mac-address (\S+)/ &&
-	    ProcessHistory("SECMAC","keysort","$1","$_") && next;
+	# have been added dynamically vs statically.  Filter if FILTER_OSC > YES
+	if ($filter_osc > 1) {
+	    /secure-mac-address (\S+)/ &&
+		ProcessHistory("SECMAC","keysort","$1","$_") && next;
+	}
 	# OR filter them? XXX
 	#next if (/secure-mac-address/);
 

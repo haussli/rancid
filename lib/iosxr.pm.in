@@ -416,6 +416,7 @@ sub ShowHWfpd {
 
 	# skip blank lines
 	/^$/ && next;
+
 	# NCS junk
 	next if (/^\S+ connected from 127.0.0.1 using console /);
 	next if (/# terminal length 0$/);
@@ -431,13 +432,13 @@ sub ShowHWfpd {
     return(0);
 }
 
-# This routine parses "admin show redundancy"
+# This routine parses "show redundancy"
 sub ShowRedundancy {
     my($INPUT, $OUTPUT, $cmd) = @_;
     my($slave, $slaveslot);
     print STDERR "    In ShowRedundancy: $_" if ($debug);
 
-    while (<$INPUT>) {
+TOP: while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
@@ -448,19 +449,17 @@ sub ShowRedundancy {
 	next if (/^(\e\[.\d+h)?sysadmin-vm:[^#]+# /i);			# NCS
 	return(1) if (/^(-+\^|syntax error: unknown argument)$/i);	# NCS
 
-	if (/^Version information for secondary in slot (\d+):/) {
-	    $slave = " Slave:";
-	    $slaveslot = ", slot $1";
-	    next;
+	# filter reload/boot info
+	if (/^reload and boot info/i) {
+	    while (<$INPUT>) {
+		tr/\015//d;
+		last TOP if (/^$prompt/);
+		last if (/^\s*$/);
+	    }
 	}
-
-	/^IOS .* Software \(([A-Za-z0-9_-]*)\), .*Version\s+(.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","F1",
-		"!Image:$slave Software: $1, $2\n") && next;
-	/^Compiled (.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","F3",
-		"!Image:$slave Compiled: $1\n") && next;
+	ProcessHistory("COMMENTS","keysort","F3", "!$_");
     }
+    ProcessHistory("COMMENTS","keysort","F3", "!\n");
     return(0);
 }
 

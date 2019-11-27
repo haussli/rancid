@@ -1,4 +1,6 @@
 3.10.99
+	iosxr.pm: ShowRedundancy(): fix for XR >=5.4.3 & eXR >=6.4
+
 	iosxr.pm: ShowHWfpd(): remove trailing WS found in eXR
 
 	rancid.types.base: add ios-exr for IOS-EXR with alias cisco-exr and add

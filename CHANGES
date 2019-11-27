@@ -1,4 +1,6 @@
 3.10.99
+	rancid.types.base: more eXR command clean-up
+
 	iosxr.pm: ShowLicense(): import filters from ios.pm for for eXR >=6.4;
 	guessing here that the filters will be the same since the format is the
 	same, but I have nothing to test against.

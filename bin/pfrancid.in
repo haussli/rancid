@@ -137,20 +137,31 @@ sub sortbyipaddr {
 ### Start of real work
 ###
 
-#this is the default handler
+sub command_handler {
+    while(<INPUT>) {
+        tr/\015//d;
+        last if (/^$prompt/);
+        print OUTPUT "# $_";
+    }
+
+    return(0);
+}
+
 sub default_handler {
 
 
 	while(<INPUT>) {
 		tr/\015//d;
 		last if (/^$prompt/);
+		$_ =~ s/(<bcrypt-hash>)[^<]+(<\/bcrypt-hash>)/$1removed$2/ if $_ =~ m/^\s*<bcrypt-hash>/;
 		$_ =~ s/(<password>)[^<]+(<\/password>)/$1removed$2/ if $_ =~ m/^\s*<password>/;
 		# not proper xml parser, but works for this use case
-		(m/^\s*<revision>/) && ($in_revision=1);
-		if ($in_revision) {
-			$_ =~ s/(<time>)[^<]+(<\/time>)/$1\060000000001$2/ if $_ =~ m/^\s*<time>/;
-			(m/^\s*<\/revision>/) && ($in_revision=0);
-		}
+# XXX I'm not quite sure whether I want to remove this timestamp
+#		(m/^\s*<revision>/) && ($in_revision=1);
+#		if ($in_revision) {
+#			$_ =~ s/(<time>)[^<]+(<\/time>)/$1\060000000001$2/ if $_ =~ m/^\s*<time>/;
+#			(m/^\s*<\/revision>/) && ($in_revision=0);
+#		}
 		(m/^\s*<snortglobal>/) && ($in_snortglobal=1);
 		if ($in_snortglobal) {
 			$_ =~ s/(<last_rule_upd_time>)[^<]+(<\/last_rule_upd_time>)/$1\060000000001$2/ if $_ =~ m/^\s*<last_rule_upd_time>/;
@@ -162,7 +173,6 @@ sub default_handler {
     return(0);
 }
 
-
 ###
 ### End of real work
 ###
@@ -172,9 +182,12 @@ sub DoNothing {print STDOUT;}
 
 # Main
 @commandtable = (
-	{'/sbin/sysctl kern.ostype kern.hostname kern.version hw.model hw.ncpu hw.realmem'	=> 'default_handler'},
-	{'uname -a'					=> 'default_handler'},
+	{'/sbin/sysctl kern.ostype kern.hostname kern.version hw.model hw.ncpu hw.realmem'	=> 'command_handler'},
 	{'cat /cf/conf/config.xml'			=> 'default_handler'},
+# This 'exit' command saves around 4 seconds wall-clock time.
+#   Without it I get "Error: TIMEOUT reached" on STDERR,
+#   with it I get "Error: EOF received" in the raw output.
+	{'exit'						=> 'command_handler'},
 );
 # Use an array to preserve the order of the commands and a hash for mapping
 # commands to the subroutine and track commands that have been completed.
@@ -214,7 +227,7 @@ if ($file) {
 
 }
 
-print OUTPUT "!RANCID-CONTENT-TYPE: pfsense\n!\n";
+print OUTPUT "#RANCID-CONTENT-TYPE: pfsense\n#\n";
 
 TOP: while(<INPUT>) {
    tr/\015//d;
@@ -225,13 +238,18 @@ TOP: while(<INPUT>) {
         print STDERR ("SKIP SET COMMAND: $_") if ($debug);
         next;
     }
+    if ($cmd =~ /^exit/) {
+        print STDERR ("EXIT COMMAND: $_") if ($debug);
+        $clean_run=1;
+        last;
+    }
     if (!defined($prompt)) {
         $prompt = ($_ =~ /^([^#]+#)/)[0];
         $prompt =~ s/([][}{)(\\])/\\$1/g;
         print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
     }
     print STDERR ("HIT COMMAND: $_") if ($debug);
-    print OUTPUT "\n$prompt".$cmd."\n";
+    print OUTPUT "#\n# $prompt".$cmd."\n";
     if (! defined($commands{$cmd})) {
         print STDERR "$host: found unexpected command - \"$cmd\"\n";
         $clean_run = 0;

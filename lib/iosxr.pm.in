@@ -250,7 +250,7 @@ sub ShowVersion {
 
 	    print STDERR "TYPE = $type\n" if ($debug);
 	    ProcessHistory("COMMENTS","keysort","A1",
-		"!Chassis type:$proc - a $proc $device\n");
+		"!Chassis type: $proc - a $proc $device\n");
 	    if (defined($cpu) && length($cpu)) {
 		ProcessHistory("COMMENTS","keysort","A3",
 			       "!CPU:$cpu\n");
@@ -501,6 +501,38 @@ sub ShowInstallActive {
 		 /result in rma of the hardware/i);	# useless FPD messages
 
 	ProcessHistory("COMMENTS","keysort","F5","!Image: $_") && next;
+    }
+    return(0);
+}
+
+# This routine parses "show memory summary"
+sub ShowMemorySum {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowMemorySum: $_" if ($debug);
+
+    # RP/0/RSP0/CPU0:r00.lab#show memory summary
+    #
+    # node:      node0_RSP0_CPU0
+    # ------------------------------------------------------------------
+    # 
+    #  Physical Memory: 27426M total (22146M available)
+    #  Application Memory : 27426M (21819M available)
+    #  Image: 4M (bootram: 0M)
+    #  Reserved: 0M, IOMem: 0M, flashfsys: 0M
+    #  Total shared window: 140M
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	# filter the bloody cmd-line timestamp
+	next if (/^\w{3} \w{3,4} {1,3}\d{1,2} {1,2}\d{1,2}:\d+:\d+\.\d+ \S+$/);
+	return(1) if (/Line has invalid autocommand /);
+	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(-1) if (/command authorization failed/i);
+
+	/physical memory:\s+(\d+[GMKB])\s+total/i &&
+	    ProcessHistory("COMMENTS","keysort","B1",
+			   "!Memory: main $1\n") && next;
     }
     return(0);
 }

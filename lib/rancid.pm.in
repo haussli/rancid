@@ -36,6 +36,7 @@ our $host;				# hostname from cmdline
 our $clean_run;				# successful run
 our $found_end;				# found end of the config
 our $timeo;				# login script timeout in seconds
+our $timeodef;				# login script timeout in seconds dflt
 our $prompt;				# device prompt regex
 
 
@@ -48,14 +49,13 @@ our @EXPORT = qw($VERSION $devtype $script $lscript @modules $inloop
 		%commands @commands $commandcnt
 		$commandstr $cmds_regexp
 		$filter_commstr $filter_osc $filter_pwds $aclsort $aclfilterseq
-		$log $debug $file $host $clean_run $found_end $timeo $prompt
-		rancidinit loadtype
-		
-		ProcessHistory bytes2human diskszsummary human2bytes
-		ipsort ipaddrval
-		keynsort keysort numerically numsort sortbyipaddr valsort
-		which
-		RunCommand);
+		$log $debug $file $host $clean_run $found_end $timeo $timeodef
+		$prompt
+
+		bytes2human diskszsummary human2bytes
+		ipsort ipaddrval loadtype
+		keynsort keysort numerically numsort ProcessHistory rancidinit
+		RunCommand sortbyipaddr valsort which);
 
 BEGIN {
     $VERSION = '@VERSION@';
@@ -83,7 +83,8 @@ sub rancidinit {
     $host = defined($ARGV[0]) ? $ARGV[0] : "";
     $clean_run = 0;
     $found_end = 0;
-    $timeo = 90;			# login script timeout in seconds
+    $timeodef = 90;			# login script timeout in seconds
+    $timeo = $timeodef;			# login script timeout in seconds
 
     $aclsort = "ipsort";		# ACL sorting mode
 
@@ -199,7 +200,7 @@ sub loadtype {
 		}
 		close(INPUT);
 		undef($script); undef($lscript); undef(@modules);
-		undef($inloop); undef(@commandtable); undef($timeo);
+		undef($inloop); undef(@commandtable); $timeo = $timeodef;
 		return(loadtype($value));
 		last;
 	    } elsif ($directive eq "script") {

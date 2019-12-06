@@ -48,12 +48,16 @@ if (! defined($lscript)) {
 # script.
 my(@script) = split(/\s+/, $script);
 if (which($script[0]) ne which($0)) {
-    # -[hCV] are not handled; they will have already been handled sooner.
+    # -[hCV] are not handled; they will have already been handled earlier.
     push(@script, "-d") if $opt_d;
     push(@script, "-l") if $opt_l;
     push(@script, "-f") if $opt_f;
     push(@script, $host);
-    exec(join(" ", @script));
+    if ($debug) {
+	print(STDERR "device script ($script[0]) does not appear to be me ($0)".
+		     ": exec(".  join(" ", @script) .")\n");
+    }
+    exec(join(" ", @script)) || die "exec($script[0]) failed: $!\n";
 }
 
 # check that inloop, the input/main loop, is defined

@@ -1307,11 +1307,11 @@ sub ShowContAll {
 	    ProcessHistory("INT","","","!Interface: $1\n") && next;
 	/(Media Type is \S+),/ &&
 	    ProcessHistory("INT","","","!\t$1\n");
-	    if (/(M\dT[^ :]*:) show controller:$/) {
-		my($ctlr) = $1;
-		$_ = <$INPUT>; tr/\015//d; s/ subunit \d,//;
-		ProcessHistory("INT","","","!Interface: $ctlr $_");
-	    }
+	if (/(M\dT[^ :]*:) show controller:$/) {
+	    my($ctlr) = $1;
+	    $_ = <$INPUT>; tr/\015//d; s/ subunit \d,//;
+	    ProcessHistory("INT","","","!Interface: $ctlr $_");
+	}
 	if (/^(\S+) : show controller:$/) {
 	    my($ctlr) = $1;
 	    $_ = <$INPUT>; tr/\015//d; s/ subunit \d,//;

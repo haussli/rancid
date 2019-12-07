@@ -1,4 +1,6 @@
 3.10.99
+	rancid.types.base, iosxr.pm: collect show memory summary
+
 	iosxr.pm: ShowVersion(): parse eXR flavor
 
 	rancid.types.base: more eXR command clean-up

@@ -178,7 +178,7 @@ sub loadtype {
 		       $devtype, $file, $line) if ($debug);
 	    }
 	    if ($directive eq "alias") {
-		# an alias maps a name to another, like a DNS CNAME, it does
+		# an alias maps a name to another, like a DNS CNAME; it does
 		# NOT augment
 		printf(STDERR
 		       "loadtype: found device type %s aliased to %s\n",
@@ -202,7 +202,6 @@ sub loadtype {
 		undef($script); undef($lscript); undef(@modules);
 		undef($inloop); undef(@commandtable); $timeo = $timeodef;
 		return(loadtype($value));
-		last;
 	    } elsif ($directive eq "script") {
 		$script = $value;
 	    } elsif ($directive eq "login") {

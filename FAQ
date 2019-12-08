@@ -88,11 +88,12 @@ Q. After restoring a configuration from RANCID on a pfSense firewall I
 A. Pfrancid replaces the password hash in the configuration with the
    string "removed". To restore the password hash you would have to go
    to the console and select "8) Shell" or "12.) PHP shell".
-   Within the CLI you can do the same with:
+
+   Within the CLI you can set any password with:
 
        pfSsh.php playback changepassword
 
-   Within PHP shell you can set any password with:
+   Within PHP shell you do it with:
 
        playback changepassword
 

@@ -82,6 +82,27 @@ A. This is the tty/pty handling of either your O/S or ZebOS.  Supposedly,
 	COLUMNS=160; LINES=48; export COLUMNS LINES
 
 
+Q. After restoring a configuration from RANCID on a pfSense firewall I
+   can no longer login using the web interface. What can I do?
+
+A. Pfrancid replaces the password hash in the configuration with the
+   string "removed". To restore the password hash you would have to go
+   to the console and select "8) Shell" or "12.) PHP shell".
+   Within the CLI you can do the same with:
+
+       pfSsh.php playback changepassword
+
+   Within PHP shell you can set any password with:
+
+       playback changepassword
+
+   If you don't get easily access to the console, you can prepare
+   PubkeyAuthentication for SSH beforehand by storing authorized
+   SSH keys within pfSense. The public keys will be stored unchanged
+   by RANCID so you can login with SSH and set the passwords
+   as written above.
+
+
 2) CVS and filesystem permissions
 
    WARNING: Be careful when mucking around with the repository!

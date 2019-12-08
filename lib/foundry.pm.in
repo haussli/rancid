@@ -262,12 +262,12 @@ sub WriteTerm {
 	s/\$(Revision|Id):/ $1:/;
 	# sort secure-mac-addresses.  Note: There is no way to determine which
 	# have been added dynamically vs statically.  Filter if FILTER_OSC > YES
-	if ($filter_osc > 1) {
-	    /secure-mac-address (\S+)/ &&
-		ProcessHistory("SECMAC","keysort","$1","$_") && next;
+	if (/secure-mac-address (\S+)/) {
+	    if ($filter_osc < 2) {
+		ProcessHistory("SECMAC","keysort","$1","$_");
+	    }
+ 	    next;
 	}
-	# OR filter them? XXX
-	#next if (/secure-mac-address/);
 
 	# order access-lists
 	/^access-list\s+(\d+)\s+(perm|deny)\s+(\d\S+)(\/\d+)\s*$/ &&

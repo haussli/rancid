@@ -1,4 +1,7 @@
 3.10.99
+	junos.pm: ShowSystemLicense() must recognize some backend daemon
+	communication errors
+
 	rancid.types.base, iosxr.pm: collect show memory summary
 
 	iosxr.pm: ShowVersion(): parse eXR flavor

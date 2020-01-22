@@ -444,6 +444,8 @@ sub ShowSystemLicense {
 	last if (/^$prompt/);
 	next if (/^system (shutdown message from|going down )/i);
 	next if (/^\{(master|backup|linecard|primary|secondary)(:(node)?\d+)?\}/);
+	return -1 if (/error: select: protocol failure /i);
+	return -1 if (/error: abnormal communication /i);
 
 	# licenses used changes constantly.  distill it to a percentage.
 	# example input:

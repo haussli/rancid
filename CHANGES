@@ -1,4 +1,6 @@
 3.10.99
+	arcos.pm: ShowHardware(): drop indexer counts 
+
 	rancid.pm: loadtype(): check if script is defined before processing -C
 
 	ios.pm: filter lines from 'term exec prompt time' on IOS - Joe Clarke

@@ -159,6 +159,10 @@ sub ShowHardware {
 	    }
 	}
 
+	# drop indexer counts
+	next if (/^\s+used\s+\d+/);
+	next if (/^\s+hold-count\s+\d+/);
+
 	# XXX for now, drop the per-unit information.  Appears to be mostly
 	# useless.
 	last if (/^UNIT/);

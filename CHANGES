@@ -1,4 +1,6 @@
 3.10.99
+	rancid.pm: loadtype(): check if script is defined before processing -C
+
 	ios.pm: filter lines from 'term exec prompt time' on IOS - Joe Clarke
 
 	junos.pm: ShowSystemLicense() must recognize some backend daemon

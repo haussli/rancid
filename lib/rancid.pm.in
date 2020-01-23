@@ -274,6 +274,11 @@ sub loadtype {
     if ($main::opt_C) {
 	my($cmd, @script);
 
+	if (!defined($script) || length($script) < 1) {
+	    printf(STDERR "$devtype: login script not defined\n");
+	    exit(1);
+	}
+
 	# if the first word of $script is not us (this script), exec the given
 	# script.
 	@script = split(/\s+/, $script);

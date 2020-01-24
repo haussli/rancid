@@ -1,3 +1,7 @@
+packetshaper branch
+	import symantech packetshaper branch from Pan Affa.  modified for
+	login code sharing and rancid module format
+
 3.10.99
 	arcos.pm: ShowHardware(): drop indexer counts 
 

@@ -1,0 +1,183 @@
+package ios;
+##
+## @PACKAGE@ @VERSION@
+@copyright@
+#
+#  RANCID - Really Awesome New Cisco confIg Differ
+#
+#  ps.pm - Symantec/Blue Coat Packetshaper rancid procedures
+
+use 5.010;
+use strict 'vars';
+use warnings;
+no warnings 'uninitialized';
+require(Exporter);
+our @ISA = qw(Exporter);
+
+use rancid @VERSION@;
+
+$timeo = 90;				# pslogin timeout in seconds
+
+@ISA = qw(Exporter rancid main);
+#XXX @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands);
+
+# load-time initialization
+sub import {
+    0;
+}
+
+# post-open(collection file) initialization
+sub init {
+    # add content lines and separators
+    ProcessHistory("","","","!RANCID-CONTENT-TYPE: $devtype\n!\n");
+
+    0;
+}
+
+# main loop of input of device output
+sub inloop {
+    my($INPUT, $OUTPUT) = @_;
+    my($cmd, $rval);
+
+TOP: while(<$INPUT>) {
+	tr/\015//d;
+	if (/^Error:/) {
+	    print STDOUT ("$host pslogin error: $_");
+	    print STDERR ("$host pslogin error: $_") if ($debug);
+	    last;
+	}
+	while (/\s*($cmds_regexp)\s*$/) {
+	    $cmd = $1;
+	    if (!defined($prompt)) {
+		$prompt = ($_ =~ /^([^#>]+[#>])/)[0];
+		$prompt =~ s/([][}{)(+\\])/\\$1/g;
+		print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
+	    }
+	    print STDERR ("HIT COMMAND:$_") if ($debug);
+	    if (!defined($commands{$cmd})) {
+		print STDERR "$host: found unexpected command - \"$cmd\"\n";
+		last TOP;
+	    }
+	    $rval = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
+	    delete($commands{$cmd});
+	    if ($rval == -1) {
+		last TOP;
+	    }
+	}
+    }
+}
+
+# This routine parses "get system"
+sub GetSystem {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In GetSystem: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	next if /^\s*$/;
+	last if(/$prompt/);
+	# throw away the pager prompts
+	s/^--- more ---[ \b]*//g;
+
+	/^Serial Number: (\S+), Control Number: [0-9a-f]+$/ &&
+		ProcessHistory("SYSTEM","","", "!SN: $1\n") && next;
+	/^Product Name: (\S+)$/ &&
+		ProcessHistory("SYSTEM","","", "!Product: $1\n") && next;
+	/^Hardware Version: (\S+), / &&
+		ProcessHistory("SYSTEM","","", "!HW: $1\n") && next;
+	/^Software Version: (\S+), Type: (\S+)$/ &&
+		ProcessHistory("SYSTEM","","", "!Netscreen Type: $2\n!Software Version: $1\n") && next;
+	/^Image: (\S+), / &&
+		ProcessHistory("SYSTEM","","", "!Image: $1\n") && next;
+	/^Feature: (\S+)$/ &&
+		ProcessHistory("SYSTEM","","", "!Feature: $1\n") && next;
+	/^File Name: (\S+), Checksum: (\S+)$/ &&
+		ProcessHistory("SYSTEM","","", "!File Name: $1, Checksum: $2\n")
+		&& next;
+	/^, Total Memory: (\S+)$/ &&
+		ProcessHistory("SYSTEM","","", "!Memory: $1\n") && next;
+    }
+    ProcessHistory("SYSTEM","","","!\n");
+    return(0);
+}
+
+sub GetFile {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In GetFile: $_" if ($debug);
+
+    while (<$INPUT>) {
+	last if(/$prompt/);
+    }
+    ProcessHistory("FILE","","","!\n");
+    return(0);
+}
+
+sub BackupConfig {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In BackupConfig: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	next if /^\s*$/;
+	last if(/$prompt/);
+    }
+    return(0);
+}
+
+sub ShowConfig {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowConfig: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	next if /^\s*$/;
+	next if /^Total Config.+$/i;
+	last if(/$prompt/);
+	# throw away the pager prompts
+	s/^--- more ---[ \b]*//g;
+
+ 	if (/^set admin name "(\S+)"$/ && $filter_pwds >= 1) {
+	    ProcessHistory("ADMIN","","","!set admin name <removed>\n");
+	    next;
+	}
+ 	if (/^set admin password (\S+)$/ && $filter_pwds >= 1) {
+	    ProcessHistory("ADMIN","","","!set admin password <removed>\n");
+	    next;
+	}
+ 	if (/^set admin user (\S+) password (\S+) privilege (\S+)$/ &&
+							$filter_pwds >= 1) {
+	    ProcessHistory("ADMIN","","",
+		"!set admin user $1 password <removed> privilege $3\n");
+	    next;
+	}
+	if (/^set auth-server (\S+) radius secret / && $filter_pwds >= 1 ) {
+	    ProcessHistory("ADMIN","","",
+			   "!set auth-server $1 radius secret <removed>\n");
+	    next;
+	}
+	if (/^set ike gateway (.*) username (\S+)(.*) password (\S+)(.*)$/ &&
+							$filter_pwds >= 1) {
+	    ProcessHistory("ADMIN","","",
+		"!set ike gateway $1 username <removed>$3 password <removed>$5\n");
+	    next;
+	}
+	if (/^set ike gateway (.*) preshare "(\S+)"(.*)$/ &&
+							$filter_pwds >= 1) {
+	    ProcessHistory("ADMIN","","",
+		"!set ike gateway $1 preshare <removed>$3\n");
+	    next;
+	}
+	if (/^set auth-server (.*) secret "(\S+)"(.*)$/ &&
+							$filter_pwds >= 1) {
+	    ProcessHistory("ADMIN","","",
+		"!set auth-server $1 secret <removed>$3\n");
+	    next;
+	}
+	if (/^# Saved on (Sun|Mon|Tue|Wed|Thu|Fri|Sat) .*/) {
+	    next;
+	}
+	ProcessHistory("","","","$_");
+    }
+    $found_end=1;
+    return(1);
+}

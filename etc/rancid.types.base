@@ -730,6 +730,13 @@ paloalto;command;panos::ShowInfo;show system info
 paloalto;command;panos::ShowInventory;show chassis inventory
 paloalto;command;panos::ShowConfig;show config running
 #
+packetshaper;script;rancid -t packetshaper
+packetshaper;login;pslogin
+packetshaper;module;ps
+packetshaper;inloop;ps::inloop
+packetshaper;command;ps::BackupConfig;setup capture complete ps-config
+packetshaper;command;ps::ShowConfig;cat cmd/ps-config.cmd
+#
 redback;script;rrancid
 redback;login;clogin
 #

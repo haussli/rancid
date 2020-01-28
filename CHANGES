@@ -1,4 +1,7 @@
 3.10.99
+	ios.pm: some IOS, possibly newer releases, report command authorization
+	failures in a different format - Majed
+
 	arcos.pm: ShowHardware(): drop indexer counts 
 
 	rancid.pm: loadtype(): check if script is defined before processing -C

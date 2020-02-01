@@ -1,3 +1,7 @@
+3.12.99
+	misc: Add some documentation for a10login, brlogin, fxlogin, rblogin -
+	Roland Rosenfeld
+
 3.12
 	sros.pm: summarize flash free space
 

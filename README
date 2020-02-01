@@ -77,6 +77,7 @@ bin/
 	anlogin.in	Version of clogin.in for Arbor Networks appliances.
 	avologin.in	Version of clogin.in for Avocent appliances.
 	blogin.in	Version of clogin.in for baynet/Nortel routers.
+	brlogin.in	Version of clogin.in for Brocade switches.
 	clogin.in	Expect script that logs into routers and either presents
 			an interactive shell, runs a set of commands, or runs
 			another expect script.  It handles Cisco, Extreme,
@@ -87,6 +88,7 @@ bin/
 	elogin.in	Version of clogin.in for ADC EZ-T3 muxes.
 	flogin.in	Version of clogin.in for Foundry switches.  If foundry
 			cleaned-up their bloody UI, clogin should do the job.
+	fxlogin.in	Version of clogin.in for Cisco Firepower FX-OS.
 	fnlogin.in	Version of clogin.in for Fortinet Firewalls.
 	hlogin.in	Version of clogin.in for HP procurve switches.
 	htlogin.in	Version of clogin.in for Hitatchi routers.

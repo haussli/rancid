@@ -133,7 +133,7 @@ man/		man pages
 share/		Readmes, samples, utilities, contribs, etc
 include/	Include files and rancid's version.h
 
-Also see rancid_intro(1), rancid(1), and clogin(1).
+Also see rancid_intro(7), rancid(1), and clogin(1).
 
 The following (non-exhaustive list) are included as part of the installation
 and configuration tools:

@@ -106,7 +106,7 @@ rm -rf $RPM_BUILD_ROOT
 %files lg
 %defattr(-,root,root,0755)
 %config(noreplace) /etc/lg.conf
-%{_mandir}/man1/lg_intro*
+%{_mandir}/man7/lg_intro*
 %{_mandir}/man5/lg.conf*
 /var/www/cgi-bin/*
 %doc README.lg

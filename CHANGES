@@ -1,4 +1,6 @@
 3.11.99
+	junos.pm: ShowSystemLicense(): missing variable initialization
+
 	exos.pm: ShowVersion(): improve parsing of h/w - James Andrewartha
 
 	ios.pm: do not use perl /n regex modifier; it didnt appear until 5.22 and is causing

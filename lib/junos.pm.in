@@ -459,6 +459,7 @@ sub ShowSystemLicense {
 	    my($pcnt, $usage, $usagel);
 	    if ($avail < 1) {
 		$pcnt = ">100";
+		$usage = ">0";
 	    } else {
 		if ($filter_osc >= 2) {
 		    $usage = "--";

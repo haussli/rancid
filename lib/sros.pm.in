@@ -165,6 +165,14 @@ sub ShowCardDetail {
 	# context lines
 	/^\[]$/i && next;
 
+	# humanize free space
+	if (/^(\s+free space\s+:\s+)([0-9,]+\s+.*)/i) {
+	    my($preamble) = $1;
+	    my($space) = bytes2human(human2bytes($2));
+
+	    ProcessHistory("COMMENTS","keysort","E6","# $preamble$space\n");
+	}
+
 	# temp varies in "show card detail"
 	next if (/^(\s+Temperature\s+:)\s+\d+C/);
 	next if (/^(Config file|BOF) last (saved|modified)\s+:/ && ($filter_osc >= 2));

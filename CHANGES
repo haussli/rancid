@@ -1,4 +1,6 @@
 3.11.99
+	sros.pm: summarize flash free space
+
 	junos.pm: ShowSystemLicense(): missing variable initialization
 
 	exos.pm: ShowVersion(): improve parsing of h/w - James Andrewartha

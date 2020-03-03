@@ -171,6 +171,7 @@ sub ShowCardDetail {
 	    my($space) = bytes2human(human2bytes($2));
 
 	    ProcessHistory("COMMENTS","keysort","E6","# $preamble$space\n");
+	    next;
 	}
 
 	# temp varies in "show card detail"

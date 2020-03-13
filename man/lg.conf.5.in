@@ -167,7 +167,7 @@ installed, in that order.
 .El
 .SH "SEE ALSO"
 .BR cloginrc (5),
-.BR lg_intro (1),
+.BR lg_intro (7),
 .BR router.db (5)
 .\"
 .SH HISTORY

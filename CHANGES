@@ -1,5 +1,6 @@
 3.12.99
-	man: Move rancid_intro(1) and lg_intro(1) to man section 7
+	man: Move rancid_intro(1) and lg_intro(1) to man section 7 - - Roland
+	Rosenfeld
 
 	misc: Add some documentation for a10login, brlogin, fxlogin, rblogin -
 	Roland Rosenfeld

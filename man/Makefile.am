@@ -11,7 +11,7 @@ AUTOMAKE_OPTIONS=foreign no-dependencies
 @SET_MAKE@
 
 man_gen_MANS = cloginrc.5 lg.conf.5 rancid.3 rancid.conf.5 \
-		rancid.types.conf.5 lg_intro.1
+		rancid.types.conf.5 lg_intro.7
 man_nogen_MANS = a10login.1 agmrancid.1 alogin.1 anlogin.1 \
 		arancid.1 avologin.1 avorancid.1 blogin.1 brancid.1 brlogin.1 \
 		cat5rancid.1 clogin.1 control_rancid.1 csblogin.1 cssrancid.1 \
@@ -23,7 +23,7 @@ man_nogen_MANS = a10login.1 agmrancid.1 alogin.1 anlogin.1 \
 		nrancid.1 nslogin.1 nsrancid.1 \
 		panlogin.1 par.1 plogin.1 \
 		rancid-cvs.1 rancid-run.1 rancid.1 \
-		rancid.types.base.5 rancid_intro.1 \
+		rancid.types.base.5 rancid_intro.7 \
 		rblogin.1 rivlogin.1 rivrancid.1 \
 		router.db.5 rrancid.1 tlogin.1 ulogin.1 wlogin.1 \
 		xilogin.1 xlogin.1 xirancid.1 trancid.1 \
@@ -33,9 +33,9 @@ man_MANS = $(man_nogen_MANS) $(man_gen_MANS)
 
 EXTRA_DIST = $(man_nogen_MANS) $(man_gen_MANS:%=%.in)
 
-htmls_MANS = clogin.1 cloginrc.5 control_rancid.1 lg.conf.5 lg_intro.1 \
+htmls_MANS = clogin.1 cloginrc.5 control_rancid.1 lg.conf.5 lg_intro.7 \
 	par.1 rancid-cvs.1 rancid-run.1 rancid.1 rancid.3 \
-	rancid.conf.5 rancid.types.conf.5 rancid_intro.1 router.db.5
+	rancid.conf.5 rancid.types.conf.5 rancid_intro.7 router.db.5
 htmls_gen_MANS= $(htmls_MANS:%=%.html)
 
 CLEANFILES = $(man_gen_MANS) $(htmls_gen_MANS)
@@ -72,10 +72,10 @@ lg.conf.5: Makefile $(srcdir)/lg.conf.5.in
 	$(auto_edit) $(srcdir)/lg.conf.5.in >lg.conf.5.tmp; \
 	mv lg.conf.5.tmp lg.conf.5
 
-lg_intro.1: Makefile $(srcdir)/lg_intro.1.in
-	rm -f lg_intro.1 lg_intro.1.tmp; \
-	$(auto_edit) $(srcdir)/lg_intro.1.in >lg_intro.1.tmp; \
-	mv lg_intro.1.tmp lg_intro.1
+lg_intro.7: Makefile $(srcdir)/lg_intro.7.in
+	rm -f lg_intro.7 lg_intro.7.tmp; \
+	$(auto_edit) $(srcdir)/lg_intro.7.in >lg_intro.7.tmp; \
+	mv lg_intro.7.tmp lg_intro.7
 
 rancid.conf.5: Makefile $(srcdir)/rancid.conf.5.in
 	rm -f rancid.conf.5 rancid.conf.5.tmp; \

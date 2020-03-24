@@ -102,9 +102,9 @@ RCSSYS=@RCSSYS@; export RCSSYS
 #PAR_COUNT=5; export PAR_COUNT
 #
 # list of rancid groups
-#LIST_OF_GROUPS="sl joebobisp"
+#LIST_OF_GROUPS="sl joebobisp"; export LIST_OF_GROUPS
 # more groups...
-#LIST_OF_GROUPS="$LIST_OF_GROUPS noc billybobisp"
+#LIST_OF_GROUPS="$LIST_OF_GROUPS noc billybobisp"; export LIST_OF_GROUPS
 #
 # Define an alternate filter for the output of the RCS diff.  The filter
 # should read from stdin and write to stdout.  The default is defined in

@@ -247,11 +247,15 @@ sub ShowEnv {
 	    $_ = $in_sync;
 	}
 
-	# skip the temperature goop
+	# skip/remove temperatures
 	if (/processor\s+processor/) {
 	     <INPUT>; <INPUT>; <INPUT>;
 	     next;
 	}
+	if (/^[\d\/]+\s+[-\w\/\s]+\s+\d+.*/) {
+	    s/(^[\d\/]+\s+[-\w\/\s]+\s+)(\d+)(.*)/$1 -removed- $3/;
+	}
+
 	/^\d+\s+\d+\s+\S+/ && next;
 
 	# strip nvs usage

@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "rancid.types.conf" "5" "4 September 2019"
+.TH "rancid.types.conf" "5" "24 March 2020"
 .SH NAME
 rancid.types.conf \- rancid device type configuration file
 .SH DESCRIPTION
@@ -102,7 +102,7 @@ be an FQPN, but then must be found in the process' path.
 .TP
 .B timeout
 Defines the rancid login script timeout in seconds.
-In general, the defaut 90 seconds, but some modules themselves alter this.
+In general, the default 90 seconds, but some modules themselves alter this.
 .\"
 .PP
 .SH FILES

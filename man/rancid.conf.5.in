@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "rancid.conf" "5" "15 April 2019"
+.TH "rancid.conf" "5" "24 March 2020"
 .SH NAME
 rancid.conf \- rancid environment configuration file
 .SH DESCRIPTION
@@ -11,7 +11,7 @@ and
 .BR rancid-cvs (1),
 including shell PATH, list of rancid groups, etc.
 It is read by several scripts at run-time and others inherit the
-configration from a parent process which has read it.
+configuration from a parent process which has read it.
 .PP
 The syntax of
 .B rancid.conf
@@ -37,7 +37,7 @@ Default: YES
 .B ACLSORT
 Permits disabling of access-list sorting, which could alter statement order
 that had been cleverly crafted by the administrator for optimal performance,
-thus making recovery and comparsion more difficult.
+thus making recovery and comparison more difficult.
 .sp
 Default: YES
 .\"

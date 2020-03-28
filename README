@@ -114,6 +114,7 @@ lib/
 	aeos.pm.in	rancid library for Arista Networks EOS.
 	arbor.pm.in	rancid library for Arbor Networks appliances.
 	arcos.pm.in	rancid library for Arrcus Networks ArcOS.
+	brcdfos.pm.in	rancid library for Brocade Fiber OS.
 	ciscowlc.pm.in	rancid library for some Cisco Wireless Lan Controllers.
 	dell.pm.in	rancid library for some Dell D-Link models.
 	dnos9.in	rancid library for Dell NOS9 (aka Force10) appliances.

@@ -88,21 +88,25 @@ avocent;login;avologin
 baynet;script;brancid
 baynet;login;blogin
 #
-# Brocade
-#XXX brocade;script;rancid -t brocade
-brocade;login;brlogin
-#XXX brocade;module; XXX
-#XXX brocade;inloop; XXX
-#XXX brocade;command;XXX::ChassisShow;chassisShow
-#XXX brocade;command;XXX::FirmwareShow;firmwareShow
-#XXX brocade;command;XXX::FirmwareShow;version
-#XXX brocade;command;XXX::FirmwareShow;zoneshow
-#XXX brocade;command;XXX::FirmwareShow;portcfgshow
-#XXX brocade;command;XXX::Fosconfig;fosConfig --show
-#XXX brocade;command;XXX::IpAddrShow;ipAddrShow
-#XXX brocade;command;XXX::LicenseShow;licenseShow
-#XXX brocade;command;XXX::DomainsShow;domainsShow
-#XXX brocade;command;XXX::ConfigShow;configShow
+# Brocade (BRCD) Fiber OS
+brcdfos;script;rancid -t brcdfos
+brcdfos;login;brlogin
+brcdfos;module;brcdfos
+brcdfos;inloop;brcdfos::inloop
+brcdfos;command;brcdfos::ChassisShow;chassisShow
+brcdfos;command;brcdfos::FirmwareShow;firmwareShow
+brcdfos;command;brcdfos::FirmwareShow;version
+brcdfos;command;brcdfos::FirmwareShow;zoneshow
+brcdfos;command;brcdfos::FirmwareShow;portcfgshow
+brcdfos;command;brcdfos::Fosconfig;fosConfig --show
+brcdfos;command;brcdfos::IpAddrShow;ipAddrShow
+brcdfos;command;brcdfos::LicenseShow;licenseShow
+brcdfos;command;brcdfos::DomainsShow;domainsShow
+# XXX configupload -force -all -l config.txt
+# or
+# XXX configShow -l config.txt
+# or both?
+brcdfos;command;brcdfos::ConfigShow;configShow
 #
 # Ciena Waveserver
 ciena-ws;script;rancid -t ciena-ws

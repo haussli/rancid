@@ -5,7 +5,7 @@ AUTOMAKE_OPTIONS=foreign no-dependencies
 
 my_pkglibdir = $(pkglibdir)
 my_pkglib_DATA = rancid.pm acos.pm aeos.pm arbor.pm arcos.pm \
-		 bigip.pm ciscowlc.pm \
+		 bigip.pm brcdfos.pm ciscowlc.pm \
 		 dell.pm dnos9.pm dnos10.pm edgemax.pm edgerouter.pm exos.pm \
 		 fortigate.pm foundry.pm fss2.pm fxos.pm \
 		 ios.pm iossb.pm iosshtech.pm iosxr.pm junos.pm mrv.pm nxos.pm \
@@ -64,6 +64,7 @@ aeos.pm: aeos.pm.in
 arbor.pm: arbor.pm.in
 arcos.pm: arcos.pm.in
 bigip.pm: bigip.pm.in
+brcdfos.pm: brcdfos.pm.in
 ciscowlc.pm: ciscowlc.pm.in
 dell.pm: dell.pm.in
 dnos9.pm: dnos9.pm.in

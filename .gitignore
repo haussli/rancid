@@ -112,6 +112,7 @@ adtran.pm
 arbor.pm
 arcos.pm
 bigip.pm
+brcdfos.pm
 ciscowlc.pm
 dell.pm
 dnos9.pm

@@ -1,4 +1,7 @@
 3.12.99
+	brcdfos.pm: Brocade Fiber OS support - merge/import of modules from
+	Elliot and Howard
+
 	jerancid: remove more temperatures - Christian Rohmann via debian package
 
 	man: Move rancid_intro(1) and lg_intro(1) to man section 7 - - Roland

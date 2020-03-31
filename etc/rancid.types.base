@@ -47,7 +47,10 @@ arbor;login;anlogin
 arbor;module;arbor
 arbor;inloop;arbor::inloop
 arbor;command;arbor::ShowVersion;system version
+#arbor;command;arbor::SystemFlash;system file show
 arbor;command;arbor::ShowHardware;system hardware
+#arbor;command;arbor::SystemShow;system show
+#arbor;command;arbor::SystemFlash;system disk show
 arbor;command;arbor::ShowConfig;config show
 #
 # Arrcus

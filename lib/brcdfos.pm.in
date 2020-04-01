@@ -251,10 +251,10 @@ sub FirmwareShow {
 }
 
 # This routine parses "fosConfig".
-sub FosConfig {
+sub Fosconfig {
     my($INPUT, $OUTPUT, $cmd) = @_;
     my($linecnt) = 0;
-    print STDERR "    In FosConfig: $_" if ($debug);
+    print STDERR "    In Fosconfig: $_" if ($debug);
 
     while (<$INPUT>) {
 	tr/\015//d;

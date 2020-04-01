@@ -1,4 +1,6 @@
 3.12.99
+	arbor.pm: add commands system file show, system show, system disk show
+
 	jerancid: remove more temperatures - Christian Rohmann via debian package
 
 	man: Move rancid_intro(1) and lg_intro(1) to man section 7 - - Roland

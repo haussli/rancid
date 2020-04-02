@@ -182,7 +182,7 @@ sub ShowFlash {
 	# Filesystem status:
 	#   Filesystem  Size/Used         Inodes/Used
 	#    boot        476M/164M (37%)   126K/70 (1%)
-	s/\s+inodes\/.*//;
+	s/\s+inodes\/used.*//i;
 	s/(\s+\w+\s+)([\d.]+.\/)\S+\s+(\S+).*/$1$2$3/;
 
 	ProcessHistory("Version","","","# $_");

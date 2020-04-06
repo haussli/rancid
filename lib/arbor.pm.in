@@ -185,6 +185,14 @@ sub ShowFlash {
 	s/\/used\s+inodes\/used.*//i;
 	s/(\s+\w+\s+)([\d.]+.)\/\S+\s+(\S+).*/$1$2/;
 
+	# filter RAID resync messages
+	# RAID status:
+	#    boot        OK
+	#    data        OK
+	#    system      OK / RESYNC queued
+	#    swap        OK
+	s/(\s+\w+\s+\w+)\s+\/\s+resync queued/$1/i;
+
 	ProcessHistory("Version","","","# $_");
     }
     ProcessHistory("Version","","","#\n");

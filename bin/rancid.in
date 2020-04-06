@@ -57,6 +57,9 @@ if (which($script[0]) ne which($0)) {
 	print(STDERR "device script ($script[0]) does not appear to be me ($0)".
 		     ": exec(".  join(" ", @script) .")\n");
     }
+    # there is no way to prevent an error msg from exec such that the die error
+    # is the only one displayed, without also leaving the child without a
+    # working STDERR.
     exec(join(" ", @script)) || die "exec($script[0]) failed: $!\n";
 }
 

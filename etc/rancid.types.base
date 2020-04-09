@@ -257,6 +257,7 @@ cisco-sb;command;iossb::ShowVersion;show version
 cisco-sb;command;iossb::ShowSystem;show system
 cisco-sb;command;iossb::WriteTerm;show running-config
 #
+# IOS-XR or IOS-cXR (Classic XR)
 ios-xr;alias;cisco-xr
 cisco-xr;script;rancid -t cisco-xr
 cisco-xr;login;clogin
@@ -297,8 +298,8 @@ cisco-xr;command;iosxr::ShowRPL;show rpl maximum
 cisco-xr;command;iosxr::AdminShowRunning;admin show running
 cisco-xr;command;iosxr::WriteTerm;show running-config
 #
-# IOS-eXR (enhanced XR).  IOS-eXR (>= 6.0) and ios-exr-lite (>=7.0); not all
-# versions >= 6.0 are eXR(-lite)!
+# IOS-eXR (enhanced XR, aka 64bit).  IOS-eXR (>= 6.0) and ios-exr-lite (>=7.0);
+# not all versions >= 6.0 are eXR(-lite), some are cXR!
 cisco-exr;alias;ios-exr
 ios-exr;script;rancid -t ios-exr
 ios-exr;login;clogin

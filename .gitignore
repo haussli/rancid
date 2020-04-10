@@ -10,6 +10,8 @@
 # Dev/test tools, linters, etc.
 .eslintrc
 
+/uiop
+
 # make / compiler / autoconf droppings
 *.o
 *.la

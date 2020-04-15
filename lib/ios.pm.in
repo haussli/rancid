@@ -1051,7 +1051,7 @@ sub ShowFlash {
 	/\s+(private-multiple-fs|multiple-fs|LISP-MapCache-IPv\S+|nv_hdr)$/ &&
 	    next;
 
-	if (/(dhcp_[^. ]*\.txt|vlan\.dat|sflog|snooping)/ ||
+	if (/(dhcp_[^. ]*\.txt|license_evlog|vlan\.dat|sflog|snooping)/ ||
 		 /(LOCAL-CA-SERVER(?:[^\s]*))\s*$/ ||
 		 /(smart-log\/agentlog|syslog)\s*$/ ||
 		 /(log\/(?:ssp_tz\/)?[^. ]+\.log(?:\.[0-9]+\.gz)?)\s*$/) {

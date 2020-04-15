@@ -1,4 +1,7 @@
 3.12.99
+	ios.pm: filter flash dir license_evlog, receives debug logs on XE
+	>=17.2 - Reuben Farrelly
+
 	arbor.pm: add commands system file show, system show, system disk show
 
 	jerancid: remove more temperatures - Christian Rohmann via debian package

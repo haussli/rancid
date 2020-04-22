@@ -1,10 +1,14 @@
 3.12.99
+	mtrancid: filter dynamic configuration, such as fluctuating pppoe
+	user-specific config
+
 	ios.pm: filter flash dir license_evlog, receives debug logs on XE
 	>=17.2 - Reuben Farrelly
 
 	arbor.pm: add commands system file show, system show, system disk show
 
-	jerancid: remove more temperatures - Christian Rohmann via debian package
+	jerancid: remove more temperatures - Christian Rohmann via debian
+	package
 
 	man: Move rancid_intro(1) and lg_intro(1) to man section 7 - - Roland
 	Rosenfeld

@@ -70,7 +70,6 @@ login_top
 mrancid
 mrvlogin
 mtlogin
-mtrancid
 nlogin
 noklogin
 nrancid
@@ -136,6 +135,7 @@ nxos.pm
 panos.pm
 rancid.pm
 rancid.py
+routeros.pm
 rbt.pm
 smc.pm
 sros.pm

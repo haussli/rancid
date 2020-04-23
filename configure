@@ -6164,7 +6164,7 @@ ac_config_files="$ac_config_files bin/jlogin bin/jerancid"
 
 ac_config_files="$ac_config_files bin/mrancid bin/mrvlogin"
 
-ac_config_files="$ac_config_files bin/mtrancid bin/mtlogin"
+ac_config_files="$ac_config_files bin/mtlogin"
 
 ac_config_files="$ac_config_files bin/nlogin bin/nrancid"
 
@@ -6972,7 +6972,6 @@ do
     "bin/jerancid") CONFIG_FILES="$CONFIG_FILES bin/jerancid" ;;
     "bin/mrancid") CONFIG_FILES="$CONFIG_FILES bin/mrancid" ;;
     "bin/mrvlogin") CONFIG_FILES="$CONFIG_FILES bin/mrvlogin" ;;
-    "bin/mtrancid") CONFIG_FILES="$CONFIG_FILES bin/mtrancid" ;;
     "bin/mtlogin") CONFIG_FILES="$CONFIG_FILES bin/mtlogin" ;;
     "bin/nlogin") CONFIG_FILES="$CONFIG_FILES bin/nlogin" ;;
     "bin/nrancid") CONFIG_FILES="$CONFIG_FILES bin/nrancid" ;;
@@ -7748,7 +7747,6 @@ See \`config.log' for more details" "$LINENO" 5; }
     "bin/jerancid":F) chmod a+x $ac_file ;;
     "bin/mrancid":F) chmod a+x $ac_file ;;
     "bin/mrvlogin":F) chmod a+x $ac_file ;;
-    "bin/mtrancid":F) chmod a+x $ac_file ;;
     "bin/mtlogin":F) chmod a+x $ac_file ;;
     "bin/nlogin":F) chmod a+x $ac_file ;;
     "bin/nrancid":F) chmod a+x $ac_file ;;

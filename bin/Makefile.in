@@ -101,9 +101,9 @@ CONFIG_CLEAN_FILES = login_top a10login agmrancid alogin arancid \
 	anlogin avologin blogin brancid brlogin cat5rancid clogin \
 	csblogin cssrancid dllogin elogin erancid f5rancid flogin \
 	fnlogin fxlogin hlogin htlogin htrancid jlogin jerancid \
-	mrancid mrvlogin mtrancid mtlogin nlogin nrancid noklogin \
-	nslogin nsrancid panlogin rblogin rivlogin rivrancid rrancid \
-	rtftpcopy tlogin trancid xilogin xirancid xlogin ulogin wlogin
+	mrancid mrvlogin mtlogin nlogin nrancid noklogin nslogin \
+	nsrancid panlogin rblogin rivlogin rivrancid rrancid rtftpcopy \
+	tlogin trancid xilogin xirancid xlogin ulogin wlogin
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -208,8 +208,7 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/a10login.in \
 	$(srcdir)/hlogin.in $(srcdir)/htlogin.in $(srcdir)/htrancid.in \
 	$(srcdir)/jerancid.in $(srcdir)/jlogin.in \
 	$(srcdir)/login_top.in $(srcdir)/mrancid.in \
-	$(srcdir)/mrvlogin.in $(srcdir)/mtlogin.in \
-	$(srcdir)/mtrancid.in $(srcdir)/nlogin.in \
+	$(srcdir)/mrvlogin.in $(srcdir)/mtlogin.in $(srcdir)/nlogin.in \
 	$(srcdir)/noklogin.in $(srcdir)/nrancid.in \
 	$(srcdir)/nslogin.in $(srcdir)/nsrancid.in \
 	$(srcdir)/panlogin.in $(srcdir)/rblogin.in \
@@ -354,11 +353,11 @@ bin_SCRIPTS = a10login alogin agmrancid anlogin arancid avologin \
 	blogin brancid brlogin cat5rancid clogin control_rancid \
 	csblogin cssrancid dllogin elogin erancid f5rancid flogin \
 	fnlogin fxlogin hlogin hrancid htlogin htrancid jerancid \
-	jlogin mrancid mrvlogin mtlogin mtrancid nlogin noklogin \
-	nrancid nslogin nsrancid panlogin plogin rancid rblogin \
-	rivlogin rivrancid rrancid rtftpcopy tlogin trancid ulogin \
-	wlogin xilogin xirancid xlogin lg.cgi lgform.cgi rancid-cvs \
-	rancid-fe rancid-run
+	jlogin mrancid mrvlogin mtlogin nlogin noklogin nrancid \
+	nslogin nsrancid panlogin plogin rancid rblogin rivlogin \
+	rivrancid rrancid rtftpcopy tlogin trancid ulogin wlogin \
+	xilogin xirancid xlogin lg.cgi lgform.cgi rancid-cvs rancid-fe \
+	rancid-run
 # XXX hack for the rancid to get pkglibdir, see corresponding XXX below
 bin_in = control_rancid.in hrancid.in plogin.in rancid.in
 EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in \
@@ -494,8 +493,6 @@ jerancid: $(top_builddir)/config.status $(srcdir)/jerancid.in
 mrancid: $(top_builddir)/config.status $(srcdir)/mrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 mrvlogin: $(top_builddir)/config.status $(srcdir)/mrvlogin.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-mtrancid: $(top_builddir)/config.status $(srcdir)/mtrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 mtlogin: $(top_builddir)/config.status $(srcdir)/mtlogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

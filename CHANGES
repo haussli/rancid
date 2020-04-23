@@ -1,4 +1,6 @@
 3.12.99
+	mtrancid, mikrotik.pm: convert mikrotik to module
+
 	control_rancid: omit .old when looking for rogue files
 
 	a10login: regex lacking regex option - Tim Warnock

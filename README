@@ -60,7 +60,6 @@ bin/
 	htrancid.in	Version of rancid.in for Hitatchi routers.
 	jerancid.in	Version of rancid.in for Juniper E-series routers.
 	mrancid.in	Version of rancid.in for MRT daemons.
-	mtrancid.in	Version of rancid.in for Microtik routers.
 	nrancid.in	Version of rancid.in for Netscreen firewalls.
 	nsrancid.in	Version of rancid.in for Netscalers.
 	rivancid.in	Version of rancid.in for Cabletron, Riverstone and
@@ -125,6 +124,7 @@ lib/
 	iossb.pm.in	rancid library for Cisco Small Business switches.
 	iosxr.pm.in	rancid library for Cisco IOS-XR.
 	junos.pm.in	rancid library for Juniper JunOS.
+	routeros.pm.in	rancid library for Mikrotik RouterOS routers.
 	mrv.pm.in	rancid library for MRV MCS.
 	nxos.pm.in	rancid library for Cisco NX-OS.
 	panos.pm.in	rancid library for Palo Alto Networks devices.

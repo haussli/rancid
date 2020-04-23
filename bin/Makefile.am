@@ -15,7 +15,7 @@ bin_SCRIPTS = a10login alogin agmrancid anlogin arancid \
 	control_rancid csblogin cssrancid \
 	dllogin elogin erancid f5rancid \
 	flogin fnlogin fxlogin hlogin hrancid htlogin \
-	htrancid jerancid jlogin mrancid mrvlogin mtlogin mtrancid \
+	htrancid jerancid jlogin mrancid mrvlogin mtlogin \
 	nlogin noklogin nrancid nslogin nsrancid panlogin plogin \
 	rancid rblogin rivlogin \
 	rivrancid rrancid rtftpcopy tlogin trancid ulogin wlogin \

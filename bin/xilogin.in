@@ -567,11 +567,11 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 				  send "K\r"
 				  exp_continue
 				}
-	-re "Last login:\[^\r\n]*\[\r\n]+"	{
+	-nocase -re "(Welcome to ARCOS CLI|Linux arcos \[^\r\n]*)\[\r\n]+" {
+				  set platform "arcos"
 				  exp_continue
 				}
-	-re "Welcome to ARCOS CLI\[\r\n]+" {
-				  set platform "arcos"
+	-re "Last login:\[^\r\n]*\[\r\n]+"	{
 				  exp_continue
 				}
 	-re "@\[^\r\n]+ $p_prompt"	{
@@ -605,6 +605,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 				  send_user "\nError: Invalid login: $router\n";
 				  catch {close}; catch {wait}; return 1
 				}
+	-re "\[^\r\n]*\[\r\n]+"	{ exp_continue; }
      }
     }
 

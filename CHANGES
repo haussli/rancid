@@ -1,4 +1,6 @@
 3.12.99
+	xilogin: arcos login banner match can fail if a motd-banner is set
+
 	mtrancid: filter dynamic configuration, such as fluctuating pppoe
 	user-specific config
 

@@ -78,7 +78,6 @@ sub rancidinit {
 
     $log = $main::opt_l;
     $debug = $main::opt_d;
-    $devtype = lc($main::opt_t);
     $file = $main::opt_f;
     $host = defined($ARGV[0]) ? $ARGV[0] : "";
     $clean_run = 0;
@@ -135,6 +134,7 @@ sub rancidinit {
 	print(STDERR "Too few arguments: -t option is required\n");
 	exit(1);
     }
+    $devtype = lc($main::opt_t);
 
     # make OUTPUT unbuffered if debugging
     if ($debug) { $| = 1; }

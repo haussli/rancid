@@ -700,8 +700,15 @@ juniper-srx;command;junos::ShowConfiguration;show configuration switch-options
 juniper-srx;command;junos::ShowConfiguration;show configuration system
 juniper-srx;command;junos::ShowConfiguration;show configuration vlans
 #
-mikrotik;script;mtrancid
-mikrotik;login;mtlogin
+mikrotik;alias;routeros
+routeros;script;rancid -t routeros
+routeros;login;mtlogin
+routeros;module;routeros
+routeros;inloop;routeros::inloop
+routeros;command;routeros::SystemPackagePrintDetail;system package print detail without-paging
+routeros;command;routeros::SystemRouterboardPrint;system routerboard print
+routeros;command;routeros::SystemLicensePrint;system license print
+routeros;command;routeros::Export;export
 #
 mrtd;script;mrancid
 mrtd;login;clogin

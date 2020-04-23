@@ -19,7 +19,7 @@ man_nogen_MANS = a10login.1 agmrancid.1 alogin.1 anlogin.1 \
 		elogin.1 erancid.1 f5rancid.1 flogin.1 fnlogin.1 fxlogin.1 \
 		hlogin.1 hrancid.1 htlogin.1 \
 		htrancid.1 jerancid.1 jlogin.1 mrancid.1 \
-		mrvlogin.1 mtlogin.1 mtrancid.1 nlogin.1 noklogin.1 \
+		mrvlogin.1 mtlogin.1 nlogin.1 noklogin.1 \
 		nrancid.1 nslogin.1 nsrancid.1 \
 		panlogin.1 par.1 plogin.1 \
 		rancid-cvs.1 rancid-run.1 rancid.1 \

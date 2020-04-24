@@ -365,7 +365,7 @@ proc run_commands { prompt command } {
 	-re "(.+)>"				{ # the Cisco CE and Jnx ERX
 						  # return to non-enabled mode
 						  # on exit in enabled mode.
-						  send "logout\r"
+						  send -h "logout\r"
 						  exp_continue;
 						}
 	-re "Would you like to save them .+"	{

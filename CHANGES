@@ -1,4 +1,6 @@
 3.12.99
+	wlogin: send_human the logout command
+
 	rancid.types.base: note AAA role needed for WLC - Charles Allen
 
 	rancid.pm: check that opt_t is defined before use

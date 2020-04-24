@@ -337,6 +337,10 @@ ios-exr;command;iosxr::ShowRPL;show rpl maximum
 ios-exr;command;iosxr::AdminShowRunning;admin show running
 ios-exr;command;iosxr::WriteTerm;show running-config
 #
+# Cisco Wireless Lan Controller (WLC)
+# The WLC login/user that RANCiD uses on the WLC must NOT use the MONITOR role,
+# lacks sufficient privileges to run all of the commands.
+# In addition to these commands, wlogin uses "config paging disable".
 cisco-wlc4;script;rancid -t cisco-wlc4
 cisco-wlc4;login;wlogin
 cisco-wlc4;module;ciscowlc

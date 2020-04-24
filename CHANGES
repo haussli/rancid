@@ -1,4 +1,6 @@
 3.12.99
+	rancid.types.base: note AAA role needed for WLC - Charles Allen
+
 	rancid.pm: check that opt_t is defined before use
 
 	xilogin: arcos login banner match can fail if a motd-banner is set

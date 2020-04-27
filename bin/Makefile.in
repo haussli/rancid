@@ -103,8 +103,7 @@ CONFIG_CLEAN_FILES = login_top a10login agmrancid alogin arancid \
 	flogin fnlogin fxlogin hlogin htlogin htrancid jlogin jerancid \
 	mrancid mrvlogin mtrancid mtlogin nlogin nrancid noklogin \
 	nslogin nsrancid panlogin rblogin rivlogin rivrancid rrancid \
-	rtftpcopy tlogin trancid xilogin xirancid xlogin ulogin wlogin \
-	zrancid
+	rtftpcopy tlogin trancid xilogin xirancid xlogin ulogin wlogin
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -218,7 +217,7 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/a10login.in \
 	$(srcdir)/rrancid.in $(srcdir)/rtftpcopy.in \
 	$(srcdir)/tlogin.in $(srcdir)/trancid.in $(srcdir)/ulogin.in \
 	$(srcdir)/wlogin.in $(srcdir)/xilogin.in $(srcdir)/xirancid.in \
-	$(srcdir)/xlogin.in $(srcdir)/zrancid.in $(top_srcdir)/depcomp \
+	$(srcdir)/xlogin.in $(top_srcdir)/depcomp \
 	$(top_srcdir)/mkinstalldirs
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
@@ -358,7 +357,7 @@ bin_SCRIPTS = a10login alogin agmrancid anlogin arancid avologin \
 	htrancid jerancid jlogin mrancid mrvlogin mtlogin mtrancid \
 	nlogin noklogin nrancid nslogin nsrancid panlogin plogin \
 	rancid rblogin rivlogin rivrancid rrancid rtftpcopy tlogin \
-	trancid ulogin wlogin xilogin xirancid xlogin zrancid lg.cgi \
+	trancid ulogin wlogin xilogin xirancid xlogin lg.cgi \
 	lgform.cgi rancid-cvs rancid-fe rancid-run
 # XXX hack for the rancid to get pkglibdir, see corresponding XXX below
 bin_in = control_rancid.in hrancid.in plogin.in rancid.in
@@ -537,8 +536,6 @@ xlogin: $(top_builddir)/config.status $(srcdir)/xlogin.in
 ulogin: $(top_builddir)/config.status $(srcdir)/ulogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 wlogin: $(top_builddir)/config.status $(srcdir)/wlogin.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-zrancid: $(top_builddir)/config.status $(srcdir)/zrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)

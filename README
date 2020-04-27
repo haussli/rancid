@@ -70,7 +70,6 @@ bin/
 	rtftpcopy.in	Copy configs from tftpboot within rancid.
 	trancid.in	Version of rancid.in for Netopia routers.
 	xirancid.in	Version of rancid.in for Xirrus arrays.
-	zrancid.in	Version of rancid.in for Zebra routers.
 
 	a10login.in	Version of clogin.in for A10 load balancers.
 	alogin.in	Version of clogin.in for Alteon switches.
@@ -121,6 +120,7 @@ lib/
 	exos.in		rancid library for Extreme switches.
 	fortigate.pm.in	rancid library for Fortinet Firewalls.
 	foundry.pm.in	rancid library for Foundry (Brocade) switches.
+	frr.in		rancid library for FRR (and Quagga or Zebra) routers.
 	ios.pm.in	rancid library for Cisco IOS and IOS-XE.
 	iossb.pm.in	rancid library for Cisco Small Business switches.
 	iosxr.pm.in	rancid library for Cisco IOS-XR.

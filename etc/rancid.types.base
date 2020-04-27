@@ -827,5 +827,10 @@ vrp;command;vrp::WriteTerm;display current-configuration
 xirrus;script;xirancid
 xirrus;login;xilogin
 #
-zebra;script;zrancid
-zebra;login;clogin
+zebra;alias;frr
+frr;script;rancid -t frr
+frr;login;clogin
+frr;module;frr
+frr;inloop;frr::inloop
+frr;command;frr::ShowVersion;show version
+frr;command;frr::WriteTerm;write term

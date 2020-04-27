@@ -98,7 +98,6 @@ xilogin
 xirancid
 xlogin
 xrrancid
-zrancid
 
 lg.conf.sample
 rancid.conf.sample
@@ -123,6 +122,7 @@ edgerouter.pm
 exos.pm
 fortigate.pm
 foundry.pm
+frr.pm
 fss2.pm
 fxos.pm
 ios.pm

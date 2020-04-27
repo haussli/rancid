@@ -555,7 +555,6 @@ AC_CONFIG_FILES(bin/xilogin bin/xirancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/xlogin, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/ulogin, [chmod a+x $ac_file])
 AC_CONFIG_FILES(bin/wlogin, [chmod a+x $ac_file])
-AC_CONFIG_FILES(bin/zrancid, [chmod a+x $ac_file])
 AC_CONFIG_FILES(share/rtrfilter, [chmod a+x $ac_file])
 
 AC_OUTPUT()

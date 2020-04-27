@@ -7,7 +7,7 @@ my_pkglibdir = $(pkglibdir)
 my_pkglib_DATA = rancid.pm acos.pm aeos.pm arbor.pm arcos.pm \
 		 bigip.pm ciscowlc.pm \
 		 dell.pm dnos9.pm dnos10.pm edgemax.pm edgerouter.pm exos.pm \
-		 fortigate.pm foundry.pm fss2.pm fxos.pm \
+		 fortigate.pm foundry.pm frr.pm fss2.pm fxos.pm \
 		 ios.pm iossb.pm iosshtech.pm iosxr.pm junos.pm mrv.pm nxos.pm \
 		 panos.pm rbt.pm smc.pm sros.pm vrp.pm wavesvros.pm 
 pkglib_in = $(my_pkglib_DATA:%=%.in)
@@ -73,6 +73,7 @@ edgerouter.pm: edgerouter.pm.in
 exos.pm: exos.pm.in
 fortigate.pm: fortigate.pm.in
 foundry.pm: foundry.pm.in
+frr.pm: frr.pm.in
 fss2.pm: fss2.pm.in
 fxos.pm: fxos.pm.in
 ios.pm: ios.pm.in

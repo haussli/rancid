@@ -1,5 +1,5 @@
 3.12.99
-	mtrancid, mikrotik.pm: convert mikrotik to module
+	mtrancid, routeros.pm: convert mikrotik to module
 
 	xilogin: arcos login banner match can fail if a motd-banner is set
 

@@ -120,13 +120,6 @@ sub WriteTerm {
 	# block above
 	/^! Last Changed:/ && next;
 
-	# Dog gone Cool matches to process the rest of the config
-#	/^tftp-server flash /   && next; # kill any tftp remains
-#	/^ntp clock-period /    && next; # kill ntp clock-period
-#	/^ length /		&& next; # kill length on serial lines
-#	/^ width /		&& next; # kill width on serial lines
-#	/^ clockrate /		&& next; # kill clockrate on serial interfaces
-
 	if (/^((enable )?password( \d)?) / && $filter_pwds >= 1) {
 	    ProcessHistory("ENABLE","","","!$1 <removed>\n");
 	    next;

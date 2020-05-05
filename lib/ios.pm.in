@@ -564,6 +564,7 @@ sub ShowLicense {
 	return(0) if (/% incomplete command/i);                 # show lic on old XE box
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(invalid (input|command) detected|type help or )/i);
+	return(-1) if (/(?:%|command)? authorization failed/i);
 	return(-1) if (/unable to retrieve license info/i);
 
 	# filter the BS from license broker

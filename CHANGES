@@ -37,8 +37,8 @@
 
 	exos.pm: ShowVersion(): improve parsing of h/w - James Andrewartha
 
-	ios.pm: do not use perl /n regex modifier; it didnt appear until 5.22 and is causing
-	heartburn
+	ios.pm: do not use perl /n regex modifier; it didnt appear until 5.22
+	and is causing heartburn
 
 3.11
 	ios.pm: some IOS, possibly newer releases, report command authorization

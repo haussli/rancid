@@ -44,8 +44,8 @@ set do_enapasswd 1
 set do_saveconfig 0
 # cloginrc debugging knob
 set do_cloginrcdbg 0
-# Sometimes routers take awhile to answer (the default is 10 sec)
-set timeoutdflt 45
+# These things are slooooow to answer (the default is 10 sec)
+set timeoutdflt 90
 # intialize cloginrc parsing stacks
 set int_file {}
 set int_lineno {}

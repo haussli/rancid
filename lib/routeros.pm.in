@@ -185,7 +185,7 @@ sub Export {
 	    # skip dynamic configuration, like
 	    # set <pppoe-joker> disabled=yes display-time=5s
 	    # set <pppoe-smoker > disabled=yes display-time=5s
-	    ($buffer = "", next) if (/set <\S+\s?> /);
+	    ($buffer = "", next) if (/set "?<\S+\s?>"? /);
 
 	    ProcessHistory("","","","$buffer");
 	    $buffer = "";

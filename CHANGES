@@ -1,4 +1,6 @@
 3.12.99
+	avologin: normalize to clogin
+
 	avologin: make default timeout longer, these are slow
 
 	ios.pm: show license could return an author failure - Majed Zouhairy

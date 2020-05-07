@@ -1,4 +1,6 @@
 3.12.99
+	avologin: run_commands(): prompt match s.b. [#$], not [#>]
+
 	avologin: normalize to clogin
 
 	avologin: make default timeout longer, these are slow

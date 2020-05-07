@@ -504,7 +504,7 @@ for router in `cut -d\; -f1 ../routers.up` ; do
 	if [ ! -f $router ] ; then
 	    touch $router
 	fi
-	git status $router | grep '^?' > /dev/null 2>&1
+	git status --porcelain $router | grep '^?' > /dev/null 2>&1
 	if [ $? -eq 0 ] ; then
 	    git add $router
 	    git commit -m 'new router' $router

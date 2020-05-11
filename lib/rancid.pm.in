@@ -168,6 +168,7 @@ sub loadtype {
 	    chomp;
 	    next if (/^\s*$/ || /^\s*#/);
 	    my($type, $directive, $value, $value2) = split('\;');
+# XXX check number of fields
 	    $type =~ tr/[A-Z]/[a-z]/;
 	    $directive =~ tr/[A-Z]/[a-z]/;
 

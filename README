@@ -51,7 +51,6 @@ bin/
 			defined in etc/rancid.types.* and processes the output.
 	agmrancid.in	Version of rancid.in for Cisco Anomaly Guard Module (AGM)
 	arancid.in	Version of rancid.in for Alteon switches.
-	avorancid.in	Version of rancid.in for Avocent appliances.
 	brancid.in	Version of rancid.in for baynet/nortel routers.
 	cat5rancid.in	Version of rancid.in for Cisco Catalyst switches.
 	cssrancid.in	Version of rancid.in for Cisco CSS switches.
@@ -131,6 +130,10 @@ lib/
 	rancid.pm.in	rancid global functions.
 	rbt.pm.in	rancid library for Riverbed Steelhead.
 	smc.in		rancid library for SMC switches.
+	vertivacs.pm.in	rancid library for Veritiv (aka Avocent (aka Cyclades))
+			appliances.
+	vrp.pm.in	rancid library for Hauwei VRP routers.
+	wavesvros.pm.in	rancid library for Ciena Waveserver devices.
 man/		man pages
 share/		Readmes, samples, utilities, contribs, etc
 include/	Include files and rancid's version.h

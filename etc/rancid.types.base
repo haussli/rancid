@@ -84,10 +84,6 @@ arista;command;aeos::DiffConfig;diff startup-config running-config
 #arista;command;aeos::WriteRibd;show tech ribd running
 arista;command;aeos::WriteTerm;show running-config
 #
-#
-avocent;script;avorancid
-avocent;login;avologin
-#
 baynet;script;brancid
 baynet;login;blogin
 #
@@ -809,6 +805,28 @@ sros-md;command;sros::ShowCardDetail;show card detail
 sros-md;command;sros::ShowDebug;//show debug
 sros-md;command;sros::ShowBOF;//show bof
 sros-md;command;sros::WriteTermMD;admin show configuration
+#
+# Vertiv ACS (Advanced Console Server) (formerly Avocent (formerly Cyclades))
+# XXX avocent;alias;vertivacs
+avocent;alias;vertivacs
+vertivacs;script;rancid -t vertivacs
+vertivacs;login;avologin
+vertivacs;module;vertivacs
+vertivacs;inloop;vertivacs::inloop
+vertivacs;command;vertivacs::CatFile;config show version
+#vertivacs;command;vertivacs::CatFile;free;show memory info
+vertivacs;command;vertivacs::CatFile;cat /proc/version
+vertivacs;command;vertivacs::CatFile;cat /etc/hostname
+vertivacs;command;vertivacs::CatFile;cat /etc/domainname.conf
+vertivacs;command;vertivacs::CatFile;cat /etc/resolv.conf
+vertivacs;command;vertivacs::CatFile;cat /etc/syslog-ng/syslog-ng.conf
+vertivacs;command;vertivacs::CatFile;cat /etc/portslave/pslave.conf
+vertivacs;command;vertivacs::CatFile;cat /etc/passwd
+vertivacs;command;vertivacs::CatFile;cat /etc/snmp/snmpd.conf
+vertivacs;command;vertivacs::CatFile;cat /etc/network/ifcfg_eth0
+vertivacs;command;vertivacs::CatFile;cat /etc/network/st_routes
+vertivacs;command;vertivacs::CatFile;cat /etc/security.opts
+vertivacs;command;vertivacs::CatFile;cat /etc/pmdgrp.conf
 #
 # Hauwei VRP (S5720)
 vrp;script;rancid -t vrp

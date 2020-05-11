@@ -23,7 +23,7 @@ set send_human {.2 .1 .4 .2 1}
 # Log into the router.
 # returns: 0 on success, 1 on failure
 proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile } {
-    global spawn_id in_proc do_command do_script
+    global spawn_id in_proc do_command do_script passphrase
     global prompt u_prompt p_prompt e_prompt sshcmd telnetcmd
     set in_proc 1
     set uprompt_seen 0

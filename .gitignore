@@ -139,6 +139,7 @@ rbt.pm
 smc.pm
 sros.pm
 vrp.pm
+vertivacs.pm
 wavesvros.pm
 
 cloginrc.5

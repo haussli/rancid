@@ -1,4 +1,6 @@
 3.12.99
+	avorancid, vertiv.pm: convert avocent to module
+
 	avologin: run_commands(): prompt match s.b. [#$], not [#>]
 
 	avologin: normalize to clogin

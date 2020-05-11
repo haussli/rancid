@@ -6132,7 +6132,7 @@ ac_config_files="$ac_config_files bin/alogin bin/arancid"
 
 ac_config_files="$ac_config_files bin/anlogin"
 
-ac_config_files="$ac_config_files bin/avologin bin/avorancid"
+ac_config_files="$ac_config_files bin/avologin"
 
 ac_config_files="$ac_config_files bin/blogin bin/brancid"
 
@@ -6951,7 +6951,6 @@ do
     "bin/arancid") CONFIG_FILES="$CONFIG_FILES bin/arancid" ;;
     "bin/anlogin") CONFIG_FILES="$CONFIG_FILES bin/anlogin" ;;
     "bin/avologin") CONFIG_FILES="$CONFIG_FILES bin/avologin" ;;
-    "bin/avorancid") CONFIG_FILES="$CONFIG_FILES bin/avorancid" ;;
     "bin/blogin") CONFIG_FILES="$CONFIG_FILES bin/blogin" ;;
     "bin/brancid") CONFIG_FILES="$CONFIG_FILES bin/brancid" ;;
     "bin/brlogin") CONFIG_FILES="$CONFIG_FILES bin/brlogin" ;;
@@ -7728,7 +7727,6 @@ See \`config.log' for more details" "$LINENO" 5; }
     "bin/arancid":F) chmod a+x $ac_file ;;
     "bin/anlogin":F) chmod a+x $ac_file ;;
     "bin/avologin":F) chmod a+x $ac_file ;;
-    "bin/avorancid":F) chmod a+x $ac_file ;;
     "bin/blogin":F) chmod a+x $ac_file ;;
     "bin/brancid":F) chmod a+x $ac_file ;;
     "bin/brlogin":F) chmod a+x $ac_file ;;

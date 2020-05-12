@@ -1,4 +1,7 @@
 3.12.99
+	rancid.pm: return an error when a rancid.type.conf line has too few
+	fields
+
 	avorancid, vertiv.pm: convert avocent to module
 
 	avologin: run_commands(): prompt match s.b. [#$], not [#>]

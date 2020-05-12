@@ -167,8 +167,15 @@ sub loadtype {
 	    $line++;
 	    chomp;
 	    next if (/^\s*$/ || /^\s*#/);
-	    my($type, $directive, $value, $value2) = split('\;');
-# XXX check number of fields
+	    my(@line) = split('\;');
+	    # check number of fields
+	    if (($#line + 1) < 3) {
+		printf(STDERR
+		       "loadtype: insufficient number of fields $#line at %s:%d\n",
+		       $file, $line);
+		return(-1);
+	    }
+	    my($type, $directive, $value) = @line;
 	    $type =~ tr/[A-Z]/[a-z]/;
 	    $directive =~ tr/[A-Z]/[a-z]/;
 
@@ -212,7 +219,13 @@ sub loadtype {
 	    } elsif ($directive eq "inloop") {
 		$inloop = $value;
 	    } elsif ($directive eq "command") {
-		push(@commandtable, {$value2, $value});
+		if (($#line + 1) < 4) {
+		    printf(STDERR
+			"loadtype: insufficient number of fields at %s:%d\n",
+			$file, $line);
+		    return(-1);
+		}
+		push(@commandtable, {$line[3], $value});
 	    } elsif ($directive eq "timeout") {
 		$timeo = $value;
 	    } else {

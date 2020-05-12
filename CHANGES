@@ -1,4 +1,7 @@
 3.12.99
+	avocent.pm: fix prompt match, so filters will match the exit command,
+	which only occasionally has a leading space,
+
 	avocent.pm: # seems to be the ACS comment character, not !.  Collect
 	total memory from /proc/meminfo.  Comment output from some cat commands.
 

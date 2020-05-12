@@ -813,9 +813,9 @@ vertivacs;script;rancid -t vertivacs
 vertivacs;login;avologin
 vertivacs;module;vertivacs
 vertivacs;inloop;vertivacs::inloop
-vertivacs;command;vertivacs::CatFile;config show version
-#vertivacs;command;vertivacs::CatFile;free;show memory info
-vertivacs;command;vertivacs::CatFile;cat /proc/version
+vertivacs;command;vertivacs::CatFileComment;config show version
+vertivacs;command;vertivacs::Meminfo;cat /proc/meminfo
+vertivacs;command;vertivacs::CatFileComment;cat /proc/version
 vertivacs;command;vertivacs::CatFile;cat /etc/hostname
 vertivacs;command;vertivacs::CatFile;cat /etc/domainname.conf
 vertivacs;command;vertivacs::CatFile;cat /etc/resolv.conf

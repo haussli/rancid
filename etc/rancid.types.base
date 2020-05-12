@@ -806,27 +806,25 @@ sros-md;command;sros::ShowDebug;//show debug
 sros-md;command;sros::ShowBOF;//show bof
 sros-md;command;sros::WriteTermMD;admin show configuration
 #
-# Vertiv ACS (Advanced Console Server) (formerly Avocent (formerly Cyclades))
-# XXX avocent;alias;vertivacs
-avocent;alias;vertivacs
-vertivacs;script;rancid -t vertivacs
-vertivacs;login;avologin
-vertivacs;module;vertivacs
-vertivacs;inloop;vertivacs::inloop
-vertivacs;command;vertivacs::CatFileComment;config show version
-vertivacs;command;vertivacs::Meminfo;cat /proc/meminfo
-vertivacs;command;vertivacs::CatFileComment;cat /proc/version
-vertivacs;command;vertivacs::CatFile;cat /etc/hostname
-vertivacs;command;vertivacs::CatFile;cat /etc/domainname.conf
-vertivacs;command;vertivacs::CatFile;cat /etc/resolv.conf
-vertivacs;command;vertivacs::CatFile;cat /etc/syslog-ng/syslog-ng.conf
-vertivacs;command;vertivacs::CatFile;cat /etc/portslave/pslave.conf
-vertivacs;command;vertivacs::CatFile;cat /etc/passwd
-vertivacs;command;vertivacs::CatFile;cat /etc/snmp/snmpd.conf
-vertivacs;command;vertivacs::CatFile;cat /etc/network/ifcfg_eth0
-vertivacs;command;vertivacs::CatFile;cat /etc/network/st_routes
-vertivacs;command;vertivacs::CatFile;cat /etc/security.opts
-vertivacs;command;vertivacs::CatFile;cat /etc/pmdgrp.conf
+# Avocent ACS (Advanced Console Server) (formerly Cyclades)
+avocent;script;rancid -t avocent
+avocent;login;avologin
+avocent;module;avocent
+avocent;inloop;avocent::inloop
+avocent;command;avocent::CatFileComment;config show version
+avocent;command;avocent::Meminfo;cat /proc/meminfo
+avocent;command;avocent::CatFileComment;cat /proc/version
+avocent;command;avocent::CatFile;cat /etc/hostname
+avocent;command;avocent::CatFile;cat /etc/domainname.conf
+avocent;command;avocent::CatFile;cat /etc/resolv.conf
+avocent;command;avocent::CatFile;cat /etc/syslog-ng/syslog-ng.conf
+avocent;command;avocent::CatFile;cat /etc/portslave/pslave.conf
+avocent;command;avocent::CatFile;cat /etc/passwd
+avocent;command;avocent::CatFile;cat /etc/snmp/snmpd.conf
+avocent;command;avocent::CatFile;cat /etc/network/ifcfg_eth0
+avocent;command;avocent::CatFile;cat /etc/network/st_routes
+avocent;command;avocent::CatFile;cat /etc/security.opts
+avocent;command;avocent::CatFile;cat /etc/pmdgrp.conf
 #
 # Hauwei VRP (S5720)
 vrp;script;rancid -t vrp

@@ -1,11 +1,11 @@
 3.12.99
-	vertiv.pm: # seems to be the ACS comment character, not !.  Collect
+	avocent.pm: # seems to be the ACS comment character, not !.  Collect
 	total memory from /proc/meminfo.  Comment output from some cat commands.
 
 	rancid.pm: return an error when a rancid.type.conf line has too few
 	fields
 
-	avorancid, vertiv.pm: convert avocent to module
+	avorancid, avocent.pm: convert avocent to module
 
 	avologin: run_commands(): prompt match s.b. [#$], not [#>]
 

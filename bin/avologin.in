@@ -3,7 +3,7 @@
 ## @PACKAGE@ @VERSION@
 @copyright@
 #
-# avologin - Vertiv ACS login (formerly Avocent (formerly Cyclades))
+# avologin - Avocent ACS login (formerly Cyclades)
 #
 # Most options are intuitive for logging into a Avocent/Cyclades term server.
 # The default is to enable (thus -noenable).  Some folks have

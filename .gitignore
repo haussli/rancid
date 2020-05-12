@@ -112,6 +112,7 @@ aeos.pm
 adtran.pm
 arbor.pm
 arcos.pm
+avocent.pm
 bigip.pm
 ciscowlc.pm
 dell.pm
@@ -139,7 +140,6 @@ rbt.pm
 smc.pm
 sros.pm
 vrp.pm
-vertivacs.pm
 wavesvros.pm
 
 cloginrc.5

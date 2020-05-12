@@ -1,12 +1,12 @@
-package vertivacs;
+package avocent;
 ##
 ## @PACKAGE@ @VERSION@
 @copyright@
 # 
 #  RANCID - Really Awesome New Cisco confIg Differ
 #
-#  vertivacs.pm - Vertiv ACS rancid procedures
-#  (formerly Avocent (formerly Cyclades))
+#  avocent.pm - Avocent ACS rancid procedures
+#  (formerly Cyclades)
 
 use 5.010;
 use strict 'vars';

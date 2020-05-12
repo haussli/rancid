@@ -112,6 +112,7 @@ lib/
 	aeos.pm.in	rancid library for Arista Networks EOS.
 	arbor.pm.in	rancid library for Arbor Networks appliances.
 	arcos.pm.in	rancid library for Arrcus Networks ArcOS.
+	avocent.pm.in	rancid library for Avocent (aka Cyclades).
 	ciscowlc.pm.in	rancid library for some Cisco Wireless Lan Controllers.
 	dell.pm.in	rancid library for some Dell D-Link models.
 	dnos9.in	rancid library for Dell NOS9 (aka Force10) appliances.
@@ -130,7 +131,6 @@ lib/
 	rancid.pm.in	rancid global functions.
 	rbt.pm.in	rancid library for Riverbed Steelhead.
 	smc.in		rancid library for SMC switches.
-	vertivacs.pm.in	rancid library for Veritiv (aka Avocent (aka Cyclades))
 			appliances.
 	vrp.pm.in	rancid library for Hauwei VRP routers.
 	wavesvros.pm.in	rancid library for Ciena Waveserver devices.

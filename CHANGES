@@ -1,4 +1,7 @@
 3.12.99
+	control_rancid: add --porcelain to git status for expected output -
+	github.com/jude
+
 	avocent.pm: fix prompt match, so filters will match the exit command,
 	which only occasionally has a leading space,
 

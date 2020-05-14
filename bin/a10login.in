@@ -317,7 +317,7 @@ proc run_commands { prompt command } {
 						  send -h "exit\r"
 						  exp_continue;
 						}
-	"Are you sure .*to quit"		{
+	-re "Are you sure .*to quit"		{
 						  catch {send "y\r"}
 						  exp_continue
 						}

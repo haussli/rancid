@@ -1,4 +1,6 @@
 3.12.99
+	control_rancid: omit .old when looking for rogue files
+
 	a10login: regex lacking regex option - Tim Warnock
 
 	control_rancid: add --porcelain to git status for expected output -

@@ -88,7 +88,7 @@ sub CatFile {
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
-	eext if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(-1) if (/: Permission denied/);
 
 	ProcessHistory("COMMENTS","","","$_");

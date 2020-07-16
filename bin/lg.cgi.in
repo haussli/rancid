@@ -69,8 +69,8 @@ my($pingcmd) = "@LG_PING_CMD@";
 my($query, $max_time_diff, $cache_dir, $cloginrc, @results);
 my($type, $router_param, $remote_user, $arg, $router, $mfg);
 
-my($LG_CACHE_DIR, $LG_CLOGINRC, $LG_IMAGE, $LG_LOG, $LG_ROUTERDB, $LG_AS_REG);
-my($LG_BGP_RT, $LG_CACHE_TIME, $LG_SINGLE, $LG_STRIP);
+my($LG_CACHE_DIR, $LG_CLOGINRC, $LG_IMAGE, $LG_INFO, $LG_LOG, $LG_ROUTERDB);
+my($LG_AS_REG, $LG_BGP_RT, $LG_CACHE_TIME, $LG_SINGLE, $LG_STRIP);
 
 if (!defined($ENV{HOME})) { $ENV{HOME} = "."; }
 
@@ -115,6 +115,7 @@ sub readconf
 {
     my($conffile, $cmds);
     local(*CONF);
+
     if (defined($ENV{LG_CONF})) {
 	$conffile = $ENV{LG_CONF};
     } elsif (-e "lg.conf") {

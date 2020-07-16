@@ -65,6 +65,11 @@ my($BASEDIR) = "@prefix@";
 my($SYSCONFDIR) = "@sysconfdir@";
 my($LOCALSTATEDIR) = "@localstatedir@";
 
+my($cache_dir);
+
+my($LG_CACHE_DIR, $LG_CLOGINRC, $LG_IMAGE, $LG_INFO, $LG_LOG, $LG_ROUTERDB);
+my($LG_AS_REG, $LG_BGP_RT, $LG_CACHE_TIME, $LG_SINGLE, $LG_STRIP);
+
 # note: the following functions are duplicated between lgform.cgi and lg.cgi
 # to avoid the need for module inclusion headaches from within a httpd context.
 # it is just easier to be self-contained.
@@ -106,6 +111,7 @@ sub readconf
 {
     my($conffile, $cmds);
     local(*CONF);
+
     if (defined($ENV{LG_CONF})) {
 	$conffile = $ENV{LG_CONF};
     } elsif (-e "lg.conf") {
@@ -208,6 +214,16 @@ sub readrouters
 # Main()
 # read the configuration file if it exists.
 readconf();
+
+# The script will now cache the results as simple files in the $cache_dir,
+# named after the type of query (queries must, of course, be one word with
+# no spaces).  Modify $LG_CACHE_TIME to set the lifetime for cache entries.
+# for most web servers, cache_dir must be writable by uid nobody
+if (defined($LG_CACHE_DIR)) {
+    $cache_dir = $LG_CACHE_DIR;
+} else { 
+    $cache_dir = "./tmp";
+}
 
 $query = new CGI;
 

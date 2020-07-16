@@ -230,7 +230,7 @@ print <<HEAD ;
 HEAD
 
 # start table, etc here
-print $query->startform( -action => 'lg.cgi', -method => 'POST');
+print $query->start_form( -action => 'lg.cgi', -method => 'POST');
 print <<DOTABLE ;
 <center>
 <table border cellspacing=0 width=575 align=center>
@@ -278,7 +278,7 @@ TABLEEND
 
 print $query->submit(-name => 'submit', -value =>'Submit');
 print $query->reset;
-print $query->endform;
+print $query->end_form;
 
 print <<TAIL ;
 </center>

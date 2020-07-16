@@ -1,4 +1,7 @@
 3.12.99
+	lgform.cgi: ibcgi-pm-perl removed start/endform version 4.04 - Troy
+	Boudreau
+
 	mtrancid, routeros.pm: convert mikrotik to module
 
 	control_rancid: omit .old when looking for rogue files

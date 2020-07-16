@@ -1,4 +1,6 @@
 3.12.99
+	ios.pm: ASAv fails to read licensing debug info sometimes
+
 	lgform.cgi: ibcgi-pm-perl removed start/endform version 4.04 - Troy
 	Boudreau
 

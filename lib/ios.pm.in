@@ -1460,6 +1460,8 @@ sub ShowDebug {
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(invalid (input|command) detected|type help or )/i);
 	return(-1) if (/(?:%|command)? authorization failed/i);
+	# ASAv produce this error occasionally
+	return(-1) if (/unable to retrieve licensing debug info/i);
 	# the pager can not be disabled per-session on the PIX
 	if (/^(<-+ More -+>)/) {
 	    my($len) = length($1);

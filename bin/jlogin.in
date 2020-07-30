@@ -205,11 +205,6 @@ proc run_commands { prompt command } {
     global do_interact in_proc
     set in_proc 1
 
-    send "set cli complete-on-space off\r"
-    expect -re $prompt	{}
-    send "set cli screen-length 0\r"
-    expect -re $prompt	{}
-
     # handle escaped ;s in commands, and ;; and ^;
     regsub -all {([^\\]);} $command "\\1\u0002;" esccommand
     regsub -all {([^\\]);;} $esccommand "\\1;\u0002;" command
@@ -336,18 +331,20 @@ foreach router [lrange $argv $i end] {
 	continue
     }
 
-    if { $do_command } {
-	if {[run_commands $prompt $command]} {
-	    incr exitval
-	    continue
-	}
-    } elseif { $do_script } {
+    if { $do_command || $do_script } {
 	send "set cli complete-on-space off\r"
 	expect -re $prompt	{}
 	send "set cli screen-length 0\r"
 	expect -re $prompt	{}
 	send "set cli screen-width 0\r"
 	expect -re $prompt	{}
+    }
+    if { $do_command } {
+	if {[run_commands $prompt $command]} {
+	    incr exitval
+	    continue
+	}
+    } elseif { $do_script } {
 	source $sfile
 	catch {close};
     } else {

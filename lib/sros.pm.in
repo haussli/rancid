@@ -501,8 +501,6 @@ sub WriteTermMD {
 	next if (/^\s+\^$/);
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
-	# context lines
-	/^\[]$/i && next;
 
 	/# (timos-|all rights reserved|built on)/i && next;
 	/# Generated /i && next;
@@ -535,7 +533,7 @@ sub WriteTermMD {
 	}
 
 	# end of config.
-	if (/^# finished \S{3} \S{3} /i) {
+	if (/^(# finished \S{3} \S{3} |\[\]\s*$)/i) {
 	    $found_end = 1;
 	    return(0);
 	}

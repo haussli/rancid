@@ -493,6 +493,7 @@ sub WriteTermMD {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In WriteTermMD: $_" if ($debug);
     ProcessHistory("","","","#\n# $_");
+    my($linecnt) = 0;
 
     while (<$INPUT>) {
 	tr/\015//d;
@@ -507,6 +508,8 @@ sub WriteTermMD {
 
 	/^#-+$/i && next;
 	s/echo \"(.*)\"/# $1/i;
+
+	$linecnt++;
 
 	# password/community filtering
 	if (/^(\s+community) "[^"]*" /) {
@@ -533,7 +536,7 @@ sub WriteTermMD {
 	}
 
 	# end of config.
-	if (/^(# finished \S{3} \S{3} |\[\]\s*$)/i) {
+	if ((/^(# finished \S{3} \S{3} |\[\]\s*$)/i) && $linecnt > 5) {
 	    $found_end = 1;
 	    return(0);
 	}

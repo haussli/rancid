@@ -111,26 +111,6 @@ sub ShowVersion {
     ProcessHistory("COMMENTS","keysort","VERSION","!\n");
     return(0);
 }
-# This routine parses "show features"
-sub ShowFeatures {
-    my($INPUT, $OUTPUT, $cmd) = @_;
-    print STDERR "    In ShowVersion: $_" if ($debug);
-
-    while (<$INPUT>) {
-	tr/\015//d;
-	next if (/^(\s*|\s*$cmd\s*)$/);
-	last if (/^$prompt/);
-	next if (/^\s+\^$/);
-	return(1) if (/Line has invalid autocommand /);
-	return(1) if (/(invalid (input|command) detected|type help or )/i);
-	return(-1) if (/command authorization failed/i);
-	return(-1) if (/error: application communication failure/i);
-
-	ProcessHistory("","","","! $_");
-    }
-    ProcessHistory("","","","!\n");
-    return(0);
-}
 
 # This routine parses "show hardware"
 sub ShowHardware {

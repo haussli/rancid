@@ -502,7 +502,7 @@ sub ShowInstallActive {
 
 	ProcessHistory("COMMENTS","keysort","F5","!Image: $_") && next;
     }
-    ProcessHistory("COMMENTS","keysort","F5","!\n") && next;
+    ProcessHistory("COMMENTS","keysort","F5","!\n");
     return(0);
 }
 

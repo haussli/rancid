@@ -555,9 +555,8 @@ sub ShowModule {
 		if (/^(\d+\s+\S+\s+\S+)\s+.*$/) {
 		    $_ = sprintf("%s\n", $1);
 		}
-		ProcessHistory("COMMENTS","","","!Env: $_");
+		ProcessHistory("COMMENTS","","","!Mod: $_");
 	    }
-	    next;
 	}
 	ProcessHistory("COMMENTS","","","!Mod: $_");
     }

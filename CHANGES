@@ -1,4 +1,6 @@
 3.12.99
+	smc.pm: filter module uptime on PowerConnect 5524
+
 	nxos.pm: filter fluctuating WWNs
 
 	arcos.pm: show features command no longer exposed in ~4.x

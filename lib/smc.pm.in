@@ -149,9 +149,6 @@ TOP:	s/^\s+\015//g;
 	# pager remnants like: ^H^H^H    ^H^H^H content
 	s/[\b]+\s*[\b]*//g;
 
-	# Remove Uptime
-	/ up time/i && next;
-
 	# filter temperature sensor info form Dell N1148T-ON and Powerconnect
 	# 7048 /Temperature Sensors:/; yet another format - a losing battle.
 	if (/^(system thermal conditions|Temperature Sensors):/i) {
@@ -198,7 +195,22 @@ TOP:	s/^\s+\015//g;
 		ProcessHistory("COMMENTS","keysort","C1","! $1\t$2\t\t$3\n");
 		/^\s*$/ && last;
 	    }
+	} elsif (/unit\s+up\s+time/i) {
+	    # filter module uptime on PowerConnect 5524
+	    # Unit     Up time
+	    # ---- ---------------
+	    #  1     84,01:53:23
+	    #  2     84,01:53:45
+	    while (<$INPUT>) {
+		s/^\s+\015//g;
+		tr/\015//d;
+		goto ENDSHOWSYS if (/$prompt/);
+		/^\s*$/ && last;
+	    }
 	}
+
+	# Remove Uptime
+	/ up time/i && next;
 
 	# filter power rates and timestamps from 7024 power supply info
 	# Power Supplies:

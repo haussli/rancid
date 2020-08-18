@@ -401,6 +401,7 @@ dnos10;command;rancid::RunCommand;terminal length 0
 dnos10;command;dnos10::ShowSys;show system
 dnos10;command;dnos10::ShowVer;show version
 dnos10;command;dnos10::ShowInventory;show inventory
+dnos10;command;dnos10::ShowInventoryMedia;show inventory media
 dnos10;command;dnos10::ShowVlan;show vlan
 dnos10;command;dnos10::WriteTerm;show running-configuration
 #

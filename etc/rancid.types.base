@@ -303,6 +303,32 @@ cisco-xr;command;iosxr::ShowRPL;show rpl maximum
 cisco-xr;command;iosxr::AdminShowRunning;admin show running
 cisco-xr;command;iosxr::WriteTerm;show running-config
 #
+# Variant cisco-xr/ios-xr commands for IOS-XR 7.x on NCS.  Presumably, this
+# and ios-exr will eventually merge.
+cisco-xr7;alias;ios-xr7
+ios-xr7;script;rancid -t ios-xr7
+ios-xr7;login;clogin
+ios-xr7;module;iosxr
+ios-xr7;inloop;iosxr::inloop
+ios-xr7;command;rancid::RunCommand;terminal exec prompt no-timestamp
+ios-xr7;command;iosxr::ShowVersion;show version
+ios-xr7;command;iosxr::ShowMemorySum;show memory summary
+ios-xr7;command;iosxr::ShowInstallActive;show install active
+ios-xr7;command;iosxr::ShowLicense;show license udi
+ios-xr7;command;iosxr::ShowLicense;show license summary
+ios-xr7;command;iosxr::ShowHWfpd;show hw-module fpd
+ios-xr7;command;iosxr::ShowRedundancy;show redundancy
+ios-xr7;command;iosxr::ShowEnv;show env all
+ios-xr7;command;iosxr::DirSlotN;dir /all config:
+ios-xr7;command;iosxr::DirSlotN;dir /all disk0:
+ios-xr7;command;iosxr::DirSlotN;dir /all harddisk:
+ios-xr7;command;iosxr::ShowContAll;show controllers description
+ios-xr7;command;iosxr::AdminShowDiag;show diag
+ios-xr7;command;iosxr::ShowInventory;show inventory raw
+ios-xr7;command;iosxr::ShowDebug;show debug
+ios-xr7;command;iosxr::ShowRPL;show rpl maximum
+ios-xr7;command;iosxr::WriteTerm;show running-config
+#
 # IOS-eXR (enhanced XR, aka 64bit).  IOS-eXR (>= 6.0) and ios-exr-lite (>=7.0);
 # not all versions >= 6.0 are eXR(-lite), some are cXR!
 cisco-exr;alias;ios-exr

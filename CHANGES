@@ -1,4 +1,7 @@
 3.12.99
+	rancid.types.base: add type ios-xr7 for Cisco XR >=7.0 on *some*
+	devices, such as NCS - Bill Owens
+
 	rancid.types.base: add axis type for axis.com switch - Troy Beisigl
 
 	smc.pm: filter module uptime on PowerConnect 5524

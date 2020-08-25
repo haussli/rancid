@@ -1,4 +1,6 @@
 3.12.99
+	rancid.types.base: add axis type for axis.com switch - Troy Beisigl
+
 	smc.pm: filter module uptime on PowerConnect 5524
 
 	nxos.pm: filter fluctuating WWNs

@@ -83,6 +83,16 @@ arista;command;aeos::DiffConfig;diff startup-config running-config
 #arista;command;aeos::WriteRibd;show tech ribd running
 arista;command;aeos::WriteTerm;show running-config
 #
+# AXIS T8504R switch
+# This reportedly resembles Cisco IOS sufficiently that this works.
+axis;script;rancid -t axis
+axis;login;clogin
+axis;module;ios
+axis;inloop;ios::inloop
+axis;command;ios::ShowVersion;show version 
+axis;command;ios::ShowVLAN;show vlan
+axis;command;ios::WriteTerm;show running-config
+#
 baynet;script;brancid
 baynet;login;blogin
 #

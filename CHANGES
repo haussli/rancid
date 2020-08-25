@@ -1,4 +1,6 @@
 3.12.99
+	junos.pm: recognize error connecting to dead slave RE
+
 	rancid.types.base: add type ios-xr7 for Cisco XR >=7.0 on *some*
 	devices, such as NCS - Bill Owens
 

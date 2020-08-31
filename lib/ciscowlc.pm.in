@@ -181,4 +181,141 @@ sub ShowUdi {
     return(0);
 }
 
+# This routine parses "show ap summary"
+sub ShowApSummary {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowApSummary $_" if ($debug);
+    ProcessHistory("","","","\n!WLC Show Ap Summary Start\n!\n");
+
+    my @aplist = ();
+
+    while (<$INPUT>) {
+        tr/\015//d;
+
+        # Table of APs: columns are separated by 2 or more spaces. Print only the
+        # first 8 columns. Depending on the controller version, column 9 may contain
+        # the number of associated clients to that AP, which changes all the time.
+        # This is why we ignore columns 9 and following.
+        # Dont print line, but add it to an array so we can sort the list of APs later.
+        if (/^(.*?(?=  +)(?:  +.*?){7})/) {
+            push (@aplist, $1);
+            next;
+        }
+
+        # loop control
+        last if (/^$prompt/);
+        next if (/^(\s*|\s*$cmd\s*)$/);
+
+        # print everything that is not the table
+        ProcessHistory("","","","! $_");
+    }
+
+    # print table headers (2 lines), then the sorted table
+    my $header1 = shift @aplist;
+    ProcessHistory("","","","! $header1\n");
+    my $header2 = shift @aplist;
+    ProcessHistory("","","","! $header2\n");
+    foreach (sort @aplist) {
+        ProcessHistory("","","","! $_\n");
+    }
+
+    ProcessHistory("","","","!\n!WLC Show Ap Summary End\n");
+    return(0);
+}
+
+# This routine parses "show advanced 802.11b summary"
+sub ShowAdvancedSummary {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowAdvancedSummary $_" if ($debug);
+    ProcessHistory("","","","\n!WLC Show Advanced 802.11b Summary Start\n!\n");
+
+    while (<$INPUT>) {
+        tr/\015//d;
+
+        # loop control
+        last if (/^$prompt/);
+        next if (/^(\s*|\s*$cmd\s*)$/);
+        next if (/\* global assignment|Member RRM Information/);
+
+        # Table of APs: columns are separated by 1 or more spaces. Print only the
+        # first 2 columns.
+        # Treat the first lines differnt (table header).
+        # Sort the rest of the lines alphabetically (table content).
+        if (/^(((AP Name|MAC Address) +){2})/) {
+            ProcessHistory("","","","! $1\n");
+            next;
+        }
+        if (/^(.*?(?= +)(?: +.*?){2})/) {
+            ProcessHistory("APs","valsort","$1","! $1\n");
+            next;
+        }
+
+        # print everything that wasn't matched before
+        ProcessHistory("","","","!!! $_");
+    }
+
+    ProcessHistory("","","","!\n!WLC Show Advanced 802.11b Summary End\n");
+    return(0);
+}
+
+# This routine parses "show ap inventory all"
+sub ShowApInventory {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowApInventory $_" if ($debug);
+    ProcessHistory("","","","\n!WLC Show Ap Inventory Start\n!\n");
+
+    my @temp = ();
+    while (<$INPUT>) {
+        tr/\015//d;
+
+        # loop control
+        last if (/^$prompt/);
+        next if (/^(\s*|\s*$cmd\s*)$/);
+        next if (/^NAME:.*DESCR:/);
+
+        push (@temp, $_);
+    }
+
+    # combine 2 lines into one, store into new array @aplist
+    my @aplist = ();
+    my $i=0;
+    my $line = "";
+    foreach (@temp) {
+      my $s = $_;
+      if ($i++ % 2 == 0) {
+        $s =~ s/\n/\t/;
+        $s =~ s/Inventory for //;
+        $line = $line.$s;
+      } else {
+        $line = $line.$s;
+        push (@aplist,$line);
+        $line = "";
+      }
+    }
+
+    foreach (sort @aplist) {
+      ProcessHistory("","","","! $_");
+    }
+
+    ProcessHistory("","","","!\n!WLC Show Ap Inventory End\n");
+    return(0);
+}
+
+# This routine parses all "show" commands without modifying the output
+sub Show {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In Show $_" if ($debug);
+    ProcessHistory("","","","\n!WLC \"$cmd\" Start\n!\n");
+
+    while (<$INPUT>) {
+        tr/\015//d;
+
+        last if (/^$prompt/);
+        next if (/^(\s*|\s*$cmd\s*)$/);
+        ProcessHistory("","","","! $_");
+    }
+    ProcessHistory("","","","!\n!WLC \"$cmd\" End\n");
+    return(0);
+}
+
 1;

@@ -1229,7 +1229,8 @@ sub DirSlotN {
 	#       -rw-                                   vlan.dat
 	#       -rw-                                           vlan.dat
 	if (/(dhcp_[^. ]*\.txt|vlan\.dat|sflog|snooping|syslog)\s*$/ ||
-	    /(tracelogs|throughput_monitor_params|underlying-config)\s*$/) {
+	    /(tracelogs|throughput_monitor_params|underlying-config)\s*$/ ||
+	    /(\s+\.\w+|core|lost\+found)\s*$/ ) {
 	    if (/(\s*\d+\s+)(\S+\s+)(\d+)(\s+)(\w+ \d+\s+\d+ \d+:\d+:\d+ .\d+:\d+)/) {
 		my($fn, $a, $sz, $c, $dt, $rem) = ($1, $2, $3, $4, $5, $');
 		my($fnl, $szl, $dtl) = (length($fn), length($sz), length($dt));

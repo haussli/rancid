@@ -5,7 +5,7 @@ package dnos10;
 #
 #  RANCID - Really Awesome New Cisco confIg Differ
 #
-#  dnos9.pm - Dell NOS10 rancid procedures - from Bjørn Skobba
+#  dnos10.pm - Dell NOS10 rancid procedures - from Bjørn Skobba
 
 use 5.010;
 use strict 'vars';

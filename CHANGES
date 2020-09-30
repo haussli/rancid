@@ -1,4 +1,7 @@
 3.12.99
+	dnos10.pm: filter fan speed for other fans on same tray -
+	github.com/spike77453
+
 	junos.pm: recognize error connecting to dead slave RE
 
 	rancid.types.base: add type ios-xr7 for Cisco XR >=7.0 on *some*

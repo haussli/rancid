@@ -144,18 +144,23 @@ REDO:	last if (/$prompt/);
 	    ProcessHistory("COMMENTS","keysort","C1","! $_");
 	    # FanTray  Status      AirFlow   Fan  Speed(rpm)  Status
 	    # ----------------------------------------------------------------
-	    # 1        up          REVERSE   1    11160       up         
+	    # 1        up          REVERSE   1    8520        up
+	    #                                2    7680        up
 	    while (<$INPUT>) {
 		s/^\s+\015//g;
 		tr/\015//d;
 		last if (/$prompt/);
 		last if (/^-- /);		# next section
-		/^\s*$/ && next;
 		if (/^(\d+\s+\w+\s+\w+\s+\d+\s+)(\d+)(\s+\w+)\s*$/) {
 		    my($sl) = length($2);
                     my($fmt) = "%s%-". $sl ."s%s\n";
                     $_ = sprintf($fmt, $1, "", $3);
+		} elsif (/^(\s+\d+\s+)(\d+)(\s+\w+)\s*$/) {
+		    my($sl) = length($2);
+		    my($fmt) = "%s%-". $sl ."s%s\n";
+		    $_ = sprintf($fmt, $1, "", $3);
 		}
+		/^\s*$/ && next;
 		ProcessHistory("COMMENTS","keysort","C1","! $_");
 	    }
 	    goto REDO;

@@ -1,4 +1,6 @@
 3.12.99
+	dnos10.pm: add command show inventory media - github.com/spike77453
+
 	dnos10.pm: filter fan speed for other fans on same tray -
 	github.com/spike77453
 

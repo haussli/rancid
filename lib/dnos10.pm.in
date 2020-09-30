@@ -194,6 +194,26 @@ sub ShowInventory {
     return(0);
 }
 
+# This routine parses "show inventory media"
+sub ShowInventoryMedia {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowInventoryMedia: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^(\s*System Inventory Media\s*)$/);
+	return(1) if /(Invalid input|Type help or )/;
+	return(-1) if (/command authorization failed/i);
+
+	/-----------------------------/ && next;
+	ProcessHistory("COMMENTS","keysort","INVENTORYMEDIA","!Inventory: $_");
+    }
+    ProcessHistory("COMMENTS","keysort","INVENTORYMEDIA","!\n");
+    return(0);
+}
+
 sub ShowVlan {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowVlan: $_" if ($debug);

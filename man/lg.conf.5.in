@@ -14,7 +14,6 @@ resources.
 .\"
 .SH VARIABLES
 The following variables are used (alphabetically):
-.Bl -tag -width flag
 .\"
 .TP
 .B LG_AS_REG
@@ -135,10 +134,8 @@ note that it must include $BASEDIR/bin (see above).
 .TP
 Queries		...................................
 .\"
-.El
 .\"
 .SH ENVIRONMENT
-.Bl -tag -width LG_CONF -compact
 .TP
 .B LG_CONF
 Location of
@@ -146,7 +143,6 @@ Location of
 file.  See the
 .IR FILES
 section for more information.
-.El
 .\"
 .SH ERRORS
 .B lg.conf
@@ -155,7 +151,6 @@ is interpreted directly by
 so its syntax follows that of perl.  Syntax errors may produce quite unexpected
 results.
 .SH FILES
-.Bl -tag -width @sysconfdir@/rancid.conf -compact
 .TP
 .B @sysconfdir@/lg.conf
 Configuration file described here.
@@ -164,7 +159,6 @@ Configuration file described here.
 is located by the value of the environment variable LG_CONF, in the CWD
 (current working directory), or the sysconfdir defined when rancid was
 installed, in that order.
-.El
 .SH "SEE ALSO"
 .BR cloginrc (5),
 .BR lg_intro (7),

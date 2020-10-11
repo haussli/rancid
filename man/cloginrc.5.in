@@ -322,7 +322,6 @@ file that is shared among a group of folks.
 If <file> is not a full pathname, $HOME/ will be prepended.
 .sp
 Example: include {.cloginrc.group}
-.El
 .SH FILES
 .br
 .nf

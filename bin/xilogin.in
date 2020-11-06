@@ -567,7 +567,7 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 				  send "K\r"
 				  exp_continue
 				}
-	-nocase -re "(Welcome to ARCOS CLI|Linux arcos \[^\r\n]*)\[\r\n]+" {
+	-nocase -re "(welcome to\[^\r\n]+arcos cli|linux arcos \[^\r\n]*)\[\r\n]+" {
 				  set platform "arcos"
 				  exp_continue
 				}

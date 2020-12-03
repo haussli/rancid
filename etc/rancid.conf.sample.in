@@ -106,6 +106,11 @@ RCSSYS=@RCSSYS@; export RCSSYS
 # more groups...
 #LIST_OF_GROUPS="$LIST_OF_GROUPS noc billybobisp"; export LIST_OF_GROUPS
 #
+# Define a command to execute after catching the configs and before committing
+# them to the RCS. This is aimed to allow changes on the configs, for example to
+# erase some parts of them and so avoid unecessary commits.
+#PRECOMMIT_HOOK="sed 's/foo/bar/g' -i configs/*"; export PRECOMMIT_HOOK
+#
 # Define an alternate filter for the output of the RCS diff.  The filter
 # should read from stdin and write to stdout.  The default is defined in
 # control_rancid and just improves readability.

@@ -1,4 +1,6 @@
 3.99
+	ios.pm: catch authorization failure for show switch detail
+
 	xilogin: adjust to altered arcos banner 
 
 3.13

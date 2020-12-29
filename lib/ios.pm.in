@@ -535,6 +535,7 @@ sub ShowDetail {
 	next if (/^\s+\^$/);
 	next if (/^Load for five/);
 	next if (/^Time source is/);
+	return(-1) if (/(?:%|command)? authorization failed/i);
 
 	next if (/^Load for five/);
 	next if (/^Time source is/);

@@ -87,6 +87,7 @@ sub ShowConfig {
     ProcessHistory("","","","\n!--WLC Begin Config Data--!\n");
 
     while (<$INPUT>) {
+        tr/\001//d;
         tr/\015//d;
         tr/\020//d;
 	last if (/^$prompt/);
@@ -94,7 +95,8 @@ sub ShowConfig {
 	next if (/^\s*rogue ap classify/);
 	next if (/^\s*rogue (adhoc|client) (alert|unknown)/i);
 	next if (/^\s*interface nat-address management set -?[0-9]{4,}\./);
-
+	next if (/\x{7f}/);
+	
 	$linecnt++;
 
 	# These can not be imported, so comment them

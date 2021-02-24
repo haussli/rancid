@@ -1,4 +1,6 @@
-3.99
+3.99.99
+	iosxr.pm: inloop() check for exit after the command loop, like junos
+
 	ios.pm: catch authorization failure for show switch detail
 
 	xilogin: adjust to altered arcos banner 

@@ -718,6 +718,17 @@ proc run_commands { prompt command } {
     set in_proc 0
 }
 
+# Arrcus paging
+proc arcos_paging { } {
+    global prompt
+
+    send "screen-length 0\r"
+    expect -re $prompt          {}
+    send "screen-width 132\r"
+    expect -re $prompt          {}
+    return
+}
+
 #
 # For each router... (this is main loop)
 #
@@ -845,23 +856,27 @@ foreach router [lrange $argv $i end] {
     }
     if { $do_command || $do_script } {
 	if { "$platform" == "arcos" } {
-	    # Arrcus paging
-	    send "screen-length 0\r"
-	    expect -re $prompt          {}
-	    send "screen-width 132\r"
-	    expect -re $prompt          {}
+	    arcos_paging
 	} else {
 	    # Hauwei paging
 	    send "screen-length 0 temporary\r"
-	    expect -re $prompt          {}
+	    expect {
+		-re "syntax error:"	{ set platform "arcos"
+					  arcos_paging
+					  exp_continue
+					}
+		-re $prompt		{}
+	    }
+	    if { "$platform" != "arcos" } {
 	    # Disable paging
 	    send "more off\r"
-	    expect -re $prompt          {}
+	    expect -re $prompt		{}
 	    # Disable command auto-completion on Xirus
 	    send "auto-complete off \r"
 	    expect {
 		-re $prompt	{}
 		-re "\[\n\r]+"	{ exp_continue }
+	    }
 	    }
 	}
     }

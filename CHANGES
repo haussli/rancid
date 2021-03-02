@@ -1,4 +1,6 @@
 3.99.99
+	sros.pm: filter SROS 21.2.R1 path change
+
 	xilogin: setting system motd over-writes the default, not augment
 
 	iosxr.pm: inloop() check for exit after the command loop, like junos

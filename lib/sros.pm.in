@@ -141,7 +141,7 @@ sub ShowBOF {
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
 	# context lines
-	/^\[]$/i && next;
+	/^\[[^]]*]$/i && next;
 	/^INFO: CLI #\d+: Switching to the .* engine/ && next;
 	/show bof/i && next;
 
@@ -163,7 +163,7 @@ sub ShowCardDetail {
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
 	# context lines
-	/^\[]$/i && next;
+	/^\[[^]]*]$/i && next;
 
 	# humanize free space
 	if (/^(\s+free space\s+:\s+)([0-9,]+\s+.*)/i) {
@@ -206,7 +206,7 @@ sub ShowCardState {
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
 	# context lines
-	/^\[]$/i && next;
+	/^\[[^]]*]$/i && next;
 
 	/[-=]+$/i && next;
 	ProcessHistory("COMMENTS","keysort","E5","# $_");
@@ -226,7 +226,7 @@ sub ShowChassis {
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
 	# context lines
-	/^\[]$/i && next;
+	/^\[[^]]*]$/i && next;
 	/^$/i && next; # extra blank lines tr doesn't remove
 
 	/[-=]+$/i && next;
@@ -256,7 +256,7 @@ TOP: while (<$INPUT>) {
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
 	# context lines
-	/^\[]$/i && next;
+	/^\[[^]]*]$/i && next;
 
 	# power data
 	if (/hardware resources .power-zone/i) {
@@ -289,7 +289,7 @@ sub ShowChassisPS {
 	return(0) if (/minor: .* unknown element/i);    # cmd for 7750 SR only
 	return(-1) if (/minor: cli command not allowed for this user/i);
 	# context lines
-	/^\[]$/i && next;
+	/^\[[^]]*]$/i && next;
 
 	/[-=]+$/i && next;
 	ProcessHistory("COMMENTS","keysort","E3","# $_");
@@ -311,7 +311,7 @@ sub ShowChassisPM {
 	return(0) if (/minor: .* unknown element/i);    # cmd for 7950 XRS only
 	return(-1) if (/minor: cli command not allowed for this user/i);
         # context lines
-        /^\[]$/i && next;
+	/^\[[^]]*]$/i && next;
 
 	/volts/i && next;
 	/watts/i && next;
@@ -334,7 +334,7 @@ sub ShowDebug {
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
 	# context lines
-	/^\[]$/i && next;
+	/^\[[^]]*]$/i && next;
 	/^INFO: CLI #\d+: Switching to the .* engine/ && next;
 	/show debug/i && next;
 
@@ -357,7 +357,7 @@ sub ShowRedundancy {
 	return(0) if (/minor: .* synchronization is only supported/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
 	# context lines
-	/^\[]$/i && next;
+	/^\[[^]]*]$/i && next;
 
 	/[-=]+$/i && next;
 	/standby up time/i && next;
@@ -384,7 +384,7 @@ sub ShowSystemInfo {
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
 	# context lines
-	/^\[]$/i && next;
+	/^\[[^]]*]$/i && next;
 
 	/[-=]+$/i && next;
 	/system up time/i && next;
@@ -422,6 +422,8 @@ sub WriteTermIndex {
 	next if (/^\s+\^$/);
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
+	# context lines
+	#/^\[[^]]*]$/i && next;
 
 	/# (timos-|all rights reserved|built on)/i && next;
 	/# Generated /i && next;
@@ -446,6 +448,8 @@ sub WriteTerm {
 	next if (/^\s+\^$/);
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
+	# context lines
+	#/^\[[^]]*]$/i && next;
 
 	/# (timos-|all rights reserved|built on)/i && next;
 	/# Generated /i && next;
@@ -502,6 +506,8 @@ sub WriteTermMD {
 	next if (/^\s+\^$/);
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
+	# context lines
+	#/^\[[^]]*]$/i && next;
 
 	/# (timos-|all rights reserved|built on)/i && next;
 	/# Generated /i && next;

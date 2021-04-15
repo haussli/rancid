@@ -1,4 +1,6 @@
 3.99.99
+	wavesvros.pm: adjust PS W filter for new variant in 1.6
+
 	sros.pm: filter SROS 21.2.R1 path change
 
 	xilogin: setting system motd over-writes the default, not augment

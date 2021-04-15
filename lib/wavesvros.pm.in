@@ -146,7 +146,7 @@ sub ShowChassis {
 		tr/\015//d;
 		goto EndShowChassis if (/^$prompt/);
 		$PSW = 1 if (/power \(w\)/i);
-		if ($PSW && /^((?:\|[^|]+){7,})\|\s+(?:[0-9.]+ \|)/) {
+		if ($PSW && /^((?:\|[^|]+){6,7})\|\s+(?:[0-9.]+ \|)/) {
 		    ProcessHistory("","","","! $1|\n");
 		} else {
 		    ProcessHistory("","","","! $_");

@@ -1,5 +1,5 @@
 3.99.99
-	wavesvros.pm: adjust PS W filter for new variant in 1.6
+	wavesvros.pm: adjust PS W filter for new variant in 1.6 - 1.6.4
 
 	sros.pm: filter SROS 21.2.R1 path change
 
@@ -8,6 +8,10 @@
 	iosxr.pm: inloop() check for exit after the command loop, like junos
 
 	ios.pm: catch authorization failure for show switch detail
+
+	Add postscript rancid.types.conf directive.
+
+	python >= 3.5 is now required
 
 	xilogin: adjust to altered arcos banner 
 

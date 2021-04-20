@@ -321,8 +321,9 @@ sub WriteTerm {
 	}
 
 	# prune tacacs/radius server keys
-	if (/^(tacacs-server|radius-server) key \w+/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","!$1 <removed>$'"); next;
+	if (/^((?:tacacs|radius)-server host) (\d+\.\d+\.\d+\.\d+) key 9 (\S+)/
+	    && $filter_pwds >= 1) {
+	    ProcessHistory("","","","!$1 $2 <removed>$'"); next;
 	}
 
 	ProcessHistory("","","","$_");

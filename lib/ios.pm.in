@@ -562,7 +562,8 @@ sub ShowLicense {
 	next if (/^Time source is/);
 	return(0) if (/% no licensable udi in the system/i);	# show udi on old box
 	return(0) if (/% license not supported on this device/i);# show lic on old box
-	return(0) if (/% incomplete command/i);                 # show lic on old XE box
+	return(0) if (/% Ambiguous command/i);			# show lic featire on CSR1000v
+	return(0) if (/% incomplete command/i);			# show lic on old XE box
 	return(1) if (/Line has invalid autocommand /);
 	return(1) if (/(invalid (input|command) detected|type help or )/i);
 	return(-1) if (/(?:%|command)? authorization failed/i);

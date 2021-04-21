@@ -1,4 +1,6 @@
 3.99.99
+	ios.pm: show license feature on CSR1000v returns Ambiguous command
+
 	dnos10.pm: fix tacacs/radius-server filter - Arron Williamson
 
 	hlogin: change default prompt to avoid matching Linux kernel version

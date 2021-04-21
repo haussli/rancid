@@ -16,10 +16,6 @@
 
 	ios.pm: catch authorization failure for show switch detail
 
-	Add postscript rancid.types.conf directive.
-
-	python >= 3.5 is now required
-
 	xilogin: adjust to altered arcos banner 
 
 3.13

@@ -1,4 +1,6 @@
 3.99.99
+	iosxr.pm: fail on "drbg intiantiate failed" - XR 7.1.3.13
+
 	ios.pm: show license feature on CSR1000v returns Ambiguous command
 
 	dnos10.pm: fix tacacs/radius-server filter - Arron Williamson

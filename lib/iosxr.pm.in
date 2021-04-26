@@ -1077,6 +1077,7 @@ REPEAT:	tr/\015//d;
 	return(0) if ($found_end);		# Only do this routine once
 	return(-1) if (/command authorization failed/i);
 	return(-1) if (/% ?configuration buffer full/i);
+	return(-1) if (/^ *drbg_instantiate failed/i);			# xr7.1
 	/^! no configuration change since last restart/i && next;
 	# skip emtpy lines at the beginning
 	if (!$linecnt && /^\s*$/) {

@@ -27,7 +27,6 @@ The following variables are used (listed alphabetically):
 .\"
 .TP
 .B ACLFILTERSEQ
-.Bl -tag -width flag
 Disables filtering of prefix-list/access-list sequence numbers.
 This option implies ACLSORT=NO for lists with sequence numbers.
 .sp
@@ -312,14 +311,12 @@ is interpreted directly by
 so its syntax follows that of the bourne shell.  Errors
 may produce quite unexpected results.
 .SH FILES
-.Bl -tag -width @sysconfdir@/rancid.conf -compact
 .TP
 .B @sysconfdir@/rancid.conf
 Configuration file described here.
 .TP
 .B <group>/rancid.conf
 Group-specific configuration file described here.
-.El
 .\"
 .SH "SEE ALSO"
 .BR control_rancid (1),

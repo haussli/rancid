@@ -444,7 +444,7 @@ sub ShowSystemLicense {
 	last if (/^$prompt/);
 	next if (/^system (shutdown message from|going down )/i);
 	next if (/^\{(master|backup|linecard|primary|secondary)(:(node)?\d+)?\}/);
-	next if (/ (days|hours|minutes)$/);
+	next if (/ (days|day|hours|hour|minutes|minute)$/);
 	return -1 if (/error: select: protocol failure /i);
 	return -1 if (/error: abnormal communication /i);
 

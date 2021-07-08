@@ -50,6 +50,7 @@ class RancidConf():
         self.OLDTIME = 4
         self.PAR_COUNT = 5
         self.PATH = "@bindir@:@ENV_PATH@"
+        self.PRECOMMIT_HOOK = None
         self.RCSSYS = "@RCSSYS@"
         self.SENDMAIL = "@SENDMAIL@"
         self.TERM = "network"
@@ -200,6 +201,8 @@ class RancidConf():
                     self.PAR_COUNT = val
                 elif var == "PATH":
                     self.PATH = val
+                elif var == "PRECOMMIT_HOOK":
+                    self.PRECOMMIT_HOOK = val
                 elif var == "RCSSYS":
                     self.RCSSYS = val
                 elif var == "SENDMAIL":

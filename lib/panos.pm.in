@@ -101,17 +101,18 @@ TOP: while(<$INPUT>) {
 # This routine parses "show system info"
 sub ShowInfo {
     my($INPUT, $OUTPUT, $cmd) = @_;
-    my($slot);
 
     print STDERR "    In ShowInfo:: $_" if ($debug);
 
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
+	chomp;
+	s/\s+$//; # remove tailing whitespaces
 	next if (/^(time:|uptime:)/);
 	next if (/^(app|av|global-protect-datafile|threat|wf-private|wildfire|url-filtering)-(version|release-date):/);
 
-	ProcessHistory("INFO","","","#$_");
+	ProcessHistory("INFO","","","#$_\n");
     }
     ProcessHistory("INFO","","","#\n");
     return(0);
@@ -120,16 +121,18 @@ sub ShowInfo {
 # This routine parses "show chassis inventory"
 sub ShowInventory {
     my($INPUT, $OUTPUT, $cmd) = @_;
-    my($slot);
 
     print STDERR "    In ShowInventory:: $_" if ($debug);
 
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
+	chomp;
+	s/\s+$//; # remove tailing whitespaces
+
 	return(1) if (/^Invalid syntax/);
 
-	ProcessHistory("INV","","","#$_");
+	ProcessHistory("INV","","","#$_\n");
     }
     ProcessHistory("INV","","","#\n");
     return(0);

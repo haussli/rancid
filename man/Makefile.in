@@ -697,7 +697,7 @@ htmls: $(htmls_gen_MANS)
 
 $(htmls_gen_MANS): $(htmls_MANS)
 	m=`echo $@ | sed -e 's/\.[^.]*$$//'`; \
-	nroff -Thtml -c -mandoc $$m | man2html > $@
+	nroff -Thtml -c -mandoc $$m | man2html -nodepage > $@
 
 cloginrc.5: Makefile $(srcdir)/cloginrc.5.in
 	rm -f cloginrc.5 cloginrc.5.tmp; \

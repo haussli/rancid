@@ -43,7 +43,7 @@ htmls: $(htmls_gen_MANS)
 
 $(htmls_gen_MANS): $(htmls_MANS)
 	m=`echo $@ | sed -e 's/\.[^.]*$$//'`; \
-	nroff -Thtml -c -mandoc $$m | man2html > $@
+	nroff -Thtml -c -mandoc $$m | man2html -nodepage > $@
 #	groff -mandoc -Thtml < $$m > $@
 
 # auto_edit does the autoconf variable substitution.  This allows the

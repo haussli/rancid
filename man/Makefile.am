@@ -43,7 +43,8 @@ htmls: $(htmls_gen_MANS)
 
 $(htmls_gen_MANS): $(htmls_MANS)
 	m=`echo $@ | sed -e 's/\.[^.]*$$//'`; \
-	groff -mandoc -Thtml < $$m > $@
+	nroff -Thtml -c -mandoc $$m | man2html > $@
+#	groff -mandoc -Thtml < $$m > $@
 
 # auto_edit does the autoconf variable substitution.  This allows the
 # substitution to have the full expansion of the variables, e.g.: $sysconfdir

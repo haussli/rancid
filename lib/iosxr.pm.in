@@ -1279,16 +1279,6 @@ REPEAT:	tr/\015//d;
 	}
 	# filter out any RCS/CVS tags to avoid confusing local CVS storage
 	s/\$(Revision|Id):/ $1:/;
-	# order access-lists
-	/^access-list\s+(\d\d?)\s+(\S+)\s+(\S+)/ &&
-	    ProcessHistory("ACL $1 $2","$aclsort","$3","$_") && next;
-	# order extended access-lists
-	/^access-list\s+(\d\d\d)\s+(\S+)\s+ip\s+host\s+(\S+)/ &&
-	    ProcessHistory("EACL $1 $2","$aclsort","$3","$_") && next;
-	/^access-list\s+(\d\d\d)\s+(\S+)\s+ip\s+(\d\S+)/ &&
-	    ProcessHistory("EACL $1 $2","$aclsort","$3","$_") && next;
-	/^access-list\s+(\d\d\d)\s+(\S+)\s+ip\s+any/ &&
-	    ProcessHistory("EACL $1 $2","$aclsort","0.0.0.0","$_") && next;
 	# sort ipv{4,6} access-lists
 	if ($aclfilterseq && /^ipv(4|6) access-list (\S+)\s*$/) {
 	    my($nlri, $key) = ($1, $2);

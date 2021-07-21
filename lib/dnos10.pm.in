@@ -133,8 +133,8 @@ REDO:	last if (/$prompt/);
 		/^\s*$/ && next;
 		if (/^(\d+\s+\w+\s+\w+\s+\w+\s+\d+\s+)(\d+)(\s+\w+)\s*$/) {
 		    my($sl) = length($2);
-                    my($fmt) = "%s%-". $sl ."s%s\n";
-                    $_ = sprintf($fmt, $1, "", $3);
+		    my($fmt) = "%s%-". $sl ."s%s\n";
+		    $_ = sprintf($fmt, $1, "", $3);
 		}
 		ProcessHistory("COMMENTS","keysort","C1","! $_");
 	    }
@@ -153,8 +153,8 @@ REDO:	last if (/$prompt/);
 		last if (/^-- /);		# next section
 		if (/^(\d+\s+\w+\s+\w+\s+\d+\s+)(\d+)(\s+\w+)\s*$/) {
 		    my($sl) = length($2);
-                    my($fmt) = "%s%-". $sl ."s%s\n";
-                    $_ = sprintf($fmt, $1, "", $3);
+		    my($fmt) = "%s%-". $sl ."s%s\n";
+		    $_ = sprintf($fmt, $1, "", $3);
 		} elsif (/^(\s+\d+\s+)(\d+)(\s+\w+)\s*$/) {
 		    my($sl) = length($2);
 		    my($fmt) = "%s%-". $sl ."s%s\n";
@@ -299,23 +299,23 @@ sub WriteTerm {
 	    next;
 	}
 
-        if (/^(username) (\S+)(\s.*)? password ((\d) \S+|\S+)/) {
+	if (/^(username) (\S+)(\s.*)? password ((\d) \S+|\S+)/) {
 	    if ($filter_pwds >= 2) {
 		ProcessHistory("","","","!$1 $2 password <removed>\n");
 	    } else {
 		ProcessHistory("","","","$_");
 	    }
-            next;
-        }
+	    next;
+	}
 
-        if (/^(system-user) (\S+)(\s.*)? password ((\d) \S+|\S+)/) {
+	if (/^(system-user) (\S+)(\s.*)? password ((\d) \S+|\S+)/) {
 	    if ($filter_pwds >= 2) {
 		ProcessHistory("","","","!$1 $2 password <removed>\n");
 	    } else {
 		ProcessHistory("","","","$_");
 	    }
-            next;
-        }
+	    next;
+	}
 
 	# order/prune snmp-server host statements
 	# we only prune lines of the form
@@ -338,15 +338,15 @@ sub WriteTerm {
 	    }
 	}
 
-        if (/^(snmp-server user) (\S+)(\s.*)?/) {
+	if (/^(snmp-server user) (\S+)(\s.*)?/) {
 	    if ($filter_commstr) {
-        	ProcessHistory("SNMPSERVERCOMM","keysort","$2",
+		ProcessHistory("SNMPSERVERCOMM","keysort","$2",
 			       "!$1 $2 <removed>\n");
 	    } else {
-        	ProcessHistory("SNMPSERVERCOMM","keysort","$2","!$_");
+		ProcessHistory("SNMPSERVERCOMM","keysort","$2","!$_");
 	    }
-            next;
-        }
+	    next;
+	}
 
 	# prune tacacs/radius server keys
 	if (/^((?:tacacs|radius)-server host) (\d+\.\d+\.\d+\.\d+) key 9 (\S+)/

@@ -1,4 +1,7 @@
 3.99.99
+	dnos10.pm: add username, system-user and snmp-server user filters -
+	Arron Williamson
+
 	iosxr.pm: afaik XR has never supported Classic-like access-lists;
 	dropping this code inheritted from ios.pm
 

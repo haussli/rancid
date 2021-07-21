@@ -299,6 +299,24 @@ sub WriteTerm {
 	    next;
 	}
 
+        if (/^(username) (\S+)(\s.*)? password ((\d) \S+|\S+)/) {
+	    if ($filter_pwds >= 2) {
+		ProcessHistory("","","","!$1 $2 password <removed>\n");
+	    } else {
+		ProcessHistory("","","","$_");
+	    }
+            next;
+        }
+
+        if (/^(system-user) (\S+)(\s.*)? password ((\d) \S+|\S+)/) {
+	    if ($filter_pwds >= 2) {
+		ProcessHistory("","","","!$1 $2 password <removed>\n");
+	    } else {
+		ProcessHistory("","","","$_");
+	    }
+            next;
+        }
+
 	# order/prune snmp-server host statements
 	# we only prune lines of the form
 	# snmp-server host a.b.c.d <community>
@@ -319,6 +337,16 @@ sub WriteTerm {
 		ProcessHistory("SNMPSERVERCOMM","keysort","$2","$_") && next;
 	    }
 	}
+
+        if (/^(snmp-server user) (\S+)(\s.*)?/) {
+	    if ($filter_commstr) {
+        	ProcessHistory("SNMPSERVERCOMM","keysort","$2",
+			       "!$1 $2 <removed>\n");
+	    } else {
+        	ProcessHistory("SNMPSERVERCOMM","keysort","$2","!$_");
+	    }
+            next;
+        }
 
 	# prune tacacs/radius server keys
 	if (/^((?:tacacs|radius)-server host) (\d+\.\d+\.\d+\.\d+) key 9 (\S+)/

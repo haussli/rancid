@@ -1,4 +1,6 @@
 3.99.99
+	Add rancid.conf:ACLFILTERREGEX knob for ACL filtering
+
 	iosxr.pm: afaik XR has never supported Classic-like access-lists;
 	dropping this code inheritted from ios.pm
 

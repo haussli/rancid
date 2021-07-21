@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "rancid.conf" "5" "24 March 2020"
+.TH "rancid.conf" "5" "20 July 2021"
 .SH NAME
 rancid.conf \- rancid environment configuration file
 .SH DESCRIPTION
@@ -24,6 +24,21 @@ effect their run-time behavior or to enable them to find their resources.
 .SH VARIABLES
 The following variables are used (listed alphabetically):
 .PP
+.\"
+.TP
+.B ACLFILTERREGEX
+.Bl -tag -width flag
+If non-empty, this is a semi-colon-separated (';') list of regexes.
+The contents of ACLs whose name match a regex in this list will be
+filtered.
+The purpose of this feature is to filter auto-generated lists,
+thereby reducing the churn within rancid.
+.sp
+This option implies ACLFILTERSEQ=YES.
+.sp
+Not all device types nor ACL types are supported by this feature.
+.sp
+Default: undefined
 .\"
 .TP
 .B ACLFILTERSEQ

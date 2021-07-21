@@ -1,5 +1,5 @@
 3.99.99
-	sros.ppm: show bootlog.txt is not a reliable source of information
+	sros.pm: show bootlog.txt is not a reliable source of information
 	as it can be lost when an RE failover occurs.  use other sources.
 
 	dnos10.pm: add username, system-user and snmp-server user filters -

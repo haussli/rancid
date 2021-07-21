@@ -681,6 +681,7 @@ junos-evo;command;junos::ShowChassisSCB;show chassis feb detail
 junos-evo;command;junos::ShowChassisSCB;show chassis feb
 junos-evo;command;junos::ShowChassisSCB;show chassis cfeb
 junos-evo;command;junos::ShowChassisAlarms;show chassis alarms
+# XXX this has a different format in EVO & might need oscillation fixes
 junos-evo;command;junos::ShowSystemLicense;show system license
 # XXX this command does not work properly
 #junos-evo;command;junos::ShowSystemBootMessages;show system boot-messages

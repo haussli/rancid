@@ -453,15 +453,18 @@ sub ShowSystemLicense {
 	#                                  Licenses     Licenses    Licenses    Expiry
 	#   Feature name                       used    installed      needed
 	#   dynamic-vpn                           1            2           0    permanent
-	if (/^(\s+(?:VMX|dynamic|mobile|scale|service|scale-subscriber|subscriber)-\S+)(\s+)(\d+)(\s+\d+)(.*$)/) {
-	    my($a, $sp, $used, $avail, $rem) = ($1, $2, $3, $4, $5);
+	#   mx5-to-mx10-upgrade                   1            0           1    30 days
+	#   mx10-to-mx40-upgrade                  1            0           1    20 hours
+	#   mx40-to-mx80-upgrade                  1            0           1    10 minutes
+	if (/^(\s+(?:VMX|dynamic|mobile|scale|service|scale-subscriber|subscriber)-\S+)(\s+)(\d+)(\s+\d+)(\s+\d+)(.*$)/) {
+	    my($a, $sp, $used, $avail, $need, $rem) = ($1, $2, $3, $4, $5, $6);
 	    my($spl, $usedl) = (length($sp), length($used));
 	    my($pcnt, $usage, $usagel);
 	    if ($avail < 1) {
 		$pcnt = ">100";
 		$usage = ">0";
 	    } else {
-		if ($filter_osc >= 2) {
+		if ($filter_osc >= 1) {
 		    $usage = "--";
 		} elsif ($avail < 100) {
 		    # if license count is small, percentage doesn't do much to
@@ -475,8 +478,17 @@ sub ShowSystemLicense {
 	    $usagel = length($usage) ;
 	    $spl = $spl + $usedl - $usagel;
 
-	    my($fmt) = "%s%-" . $spl . "s%s%s%s\n";
-	    $_ = sprintf($fmt, $a, "", $usage, $avail, $rem);
+	    if ($rem =~ /^(\s+)(.*)\s*$/) {
+		my($L) = $1;
+		my($T) = $2;
+		
+		if ($filter_osc >= 1 && $T !~ /permanent/i) {   
+		    $rem = "$L<limited>";
+		}
+	    }
+
+	    my($fmt) = "%s%-" . $spl . "s%s%s%s%s\n";
+	    $_ = sprintf($fmt, $a, "", $usage, $avail, $need, $rem);
 	}
 
 	/Unrecognized command/ && return(1);

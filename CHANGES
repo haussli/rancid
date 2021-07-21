@@ -1,4 +1,8 @@
 3.99.99
+	junos.pm: filter license expiration time similar to ios.pm & reduce
+	the FILTER_OSC threshold for licenses used to 1 - adaptation of
+	github.com/shigechika
+
 	sros.pm: show bootlog.txt is not a reliable source of information
 	as it can be lost when an RE failover occurs.  use other sources.
 

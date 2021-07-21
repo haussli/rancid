@@ -30,6 +30,7 @@ class RancidConf():
         # XXX move these default values to autoconf so they are common.
         # XXX should None be ""?
         # XXX some of these should be pushed to the environ when set.
+        self.ACLFILTERREGEX = ""	# XXX s.b. null?
         self.ACLFILTERSEQ = "NO"
         self.ACLSORT = "YES"
         self.BASEDIR = "@localstatedir@"
@@ -77,11 +78,21 @@ class RancidConf():
         self.__filename = val
 
     @property
+    def ACLFILTERREGEX(self):
+        return self.__ACLFILTERREGEX
+    @ACLFILTERREGEX.setter
+    def ACLFILTERREGEX(self, val):
+	# XXX check that the regexes compile?  compile them?
+        # XXX setting implies ACLFILTERSEQ
+        self.__ACLFILTERREGEX = val
+
+    @property
     def ACLFILTERSEQ(self):
         return self.__ACLFILTERSEQ
     @ACLFILTERSEQ.setter
     def ACLFILTERSEQ(self, val):
         if val.upper() == "NO":
+            # XXX can not be unset if ACLFILTERSEQ
             self.__ACLFILTERSEQ = 0
         else:
             self.__ACLFILTERSEQ = 1
@@ -160,7 +171,9 @@ class RancidConf():
                     #        pprint("umask ==== " + os.umask())
                     #except ValueError:
                     #    continue;
-                if var == "ACLFILTERSEQ":
+                if var == "ACLFILTERREGEX":
+                    self.ACLFILTERREGEX = val
+                elif var == "ACLFILTERSEQ":
                     self.ACLFILTERSEQ = val
                 elif var == "ACLSORT":
                     self.ACLSORT = val

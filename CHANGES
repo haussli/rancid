@@ -1,4 +1,6 @@
 3.99.99
+	Add rancid.conf:ACLFILTERREGEX knob for ACL filtering
+
 	ciscowlc.pm: filter garbage inserted by virtual controller 8.3.150.0;
 	random characters & lines - github.com/DarkNinja77
 

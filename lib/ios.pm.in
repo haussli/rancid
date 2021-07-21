@@ -2595,13 +2595,27 @@ TOP:
 		&& next;
 	}
 	# sort ipv{4,6} access-lists
-	if ($aclfilterseq && /^ipv(4|6) access-list (\S+)\s*$/) {
+	if ($aclfilterseq && /^(ipv(?:4|6)|ip) access-list (?:extended |standard )?(\S+)\s*$/) {
 	    my($nlri, $key) = ($1, $2);
-	    my($seq, $cmd);
+	    my($seq, $cmd, $regexfilter);
 	    ProcessHistory("ACL $nlri $key","","","$_");
+	    # filter ACL contents
+	    $regexfilter = 0;
+	    if (defined($aclfilterregex) && length($aclfilterregex)) {
+		my($i);
+		my(@regexes) = split('\;', $aclfilterregex);
+		for ($i = 0; $i < ($#regexes + 1); $i++) {
+		    if ($key =~ /$regexes[$i]/) {
+			$regexfilter = 1;
+			ProcessHistory("ACL $nlri $key !", "", "",
+				       "! <$key contents removed by ACLFILTERREGEX>\n");
+		    }
+		}
+	    }
 	    while (<$INPUT>) {
 		tr/\015//d;
 		last if (/^$prompt/ || /^\S/);
+		next if ($regexfilter);
 		# ipv4 access-list name
 		#  remark NTP
    		#  deny ipv4 host 224.0.1.1 any

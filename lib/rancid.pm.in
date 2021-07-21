@@ -28,6 +28,7 @@ our $filter_commstr;			# SNMP community string filtering
 our $filter_osc;			# oscillating data filtering mode
 our $filter_pwds;			# password filtering mode
 our $aclsort;				# ACL sorting mode
+our $aclfilterregex;			# ACL filter regex
 our $aclfilterseq;			# ACL sequence filtering mode
 our $log;				# log cmdline option
 our $debug;				# debug cmdline option
@@ -48,9 +49,9 @@ our @EXPORT = qw($VERSION $devtype $script $lscript @modules $inloop
 		@commandtable
 		%commands @commands $commandcnt
 		$commandstr $cmds_regexp
-		$filter_commstr $filter_osc $filter_pwds $aclsort $aclfilterseq
-		$log $debug $file $host $clean_run $found_end $timeo $timeodef
-		$prompt
+		$filter_commstr $filter_osc $filter_pwds $aclsort
+		$aclfilterregex $aclfilterseq $log $debug $file $host
+		$clean_run $found_end $timeo $timeodef $prompt
 
 		bytes2human diskszsummary human2bytes
 		ipsort ipaddrval loadtype
@@ -86,6 +87,7 @@ sub rancidinit {
     $timeo = $timeodef;			# login script timeout in seconds
 
     $aclsort = "ipsort";		# ACL sorting mode
+    $aclfilterregex = "";		# ACL filter regex
 
     # determine ACL sorting mode
     if (defined($ENV{"ACLSORT"}) && $ENV{"ACLSORT"} =~ /no/i) {
@@ -94,6 +96,11 @@ sub rancidinit {
     if (defined($ENV{"ACLFILTERSEQ"}) && $ENV{"ACLFILTERSEQ"} =~ /no/i) {
 	$aclfilterseq = "0";
     } else {
+	$aclfilterseq = "1";
+    }
+    if (defined($ENV{"ACLFILTERREGEX"})) {
+	$aclfilterregex = $ENV{"ACLFILTERREGEX"};
+	# ACLFILTERSEQ is implied
 	$aclfilterseq = "1";
     }
 

@@ -817,7 +817,6 @@ sros;login;noklogin
 sros;module;sros
 sros;inloop;sros::inloop
 sros;command;sros::ShowSystemInfo;show system information
-sros;command;sros::BootLog;file type bootlog.txt
 sros;command;sros::ShowRedundancy;show redundancy synchronization
 sros;command;sros::ShowChassis;show chassis
 sros;command;sros::ShowChassisEnv;show chassis environment

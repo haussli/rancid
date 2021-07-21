@@ -98,35 +98,6 @@ CMD:	if (/[#]\s?logout\s*$/) {
     }
 }
 
-# This routine parses "file type bootlog.txt"
-sub BootLog {
-    my($INPUT, $OUTPUT, $cmd) = @_;
-    print STDERR "    In BootLog: $_" if ($debug);
-
-    while (<$INPUT>) {
-	tr/\015//d;
-	last if (/^$prompt/);
-	next if (/^(\s*|\s*$cmd\s*)$/);
-	next if (/^\s+\^$/);
-	return(-1) if (/error: invalid parameter/i);
-	return(-1) if (/minor: cli command not allowed for this user/i);
-        # if file doesn't exist, return 0
-        return(0) if (/minor: cli could not access file/i);
-
-	if (/total memory:\s+(\S+)\s+chassis type:\s+(\S+)\s+card type:\s+(\S+)/i) {
-	    next if ($memoryseen++);
-	    ProcessHistory("COMMENTS","keysort","A1",
-			   "#Total memory: $1\n");
-	    ProcessHistory("COMMENTS","keysort","B1",
-			   "#Chassis type: $2\n");
-	    ProcessHistory("COMMENTS","keysort","B2",
-			   "#Card type: $3\n");
-	}
-	/^chassis serial number is \'(.*)\'/i &&
-	    ProcessHistory("COMMENTS","keysort","B1",
-			   "#Chassis serial number: $1\n") && next;
-    }
-}
 # This routine parses "show bof"
 sub ShowBOF {
     my($INPUT, $OUTPUT, $cmd) = @_;
@@ -152,6 +123,7 @@ sub ShowBOF {
 # This routine parses "show card detail"
 sub ShowCardDetail {
     my($INPUT, $OUTPUT, $cmd) = @_;
+    my($snseen, $mcseen) = (0, 0);
     print STDERR "    In ShowCardDetail: $_" if ($debug);
     ProcessHistory("COMMENTS","keysort","E6","#\n# $_");
 
@@ -176,7 +148,23 @@ sub ShowCardDetail {
 
 	# temp varies in "show card detail"
 	next if (/^(\s+Temperature\s+:)\s+\d+C/);
-	next if (/^(Config file|BOF) last (saved|modified)\s+:/ && ($filter_osc >= 2));
+	next if (/^(Config file|BOF) last (saved|modified)\s+:/ &&
+		($filter_osc >= 2));
+
+	# hardware data for the output head
+	# first serial number seen should be that of the chassis
+	if (!$snseen && /^\s+serial number\s+:\s+(\w+)/i) {
+	    ProcessHistory("COMMENTS","keysort","B1",
+			   "#Chassis serial number: $1\n");
+	    $snseen++;
+	}
+	# first memory capity seen should be hte overall total
+	if (!$mcseen && /^\s+memory capacity\s+:\s+(.*)/i) {
+	    my($hb) = bytes2human(human2bytes($1));
+	    ProcessHistory("COMMENTS","keysort","A1",
+			   "#Total memory: $hb\n");
+	    $mcseen++;
+	}
 
 	# power data
 	if (/hardware resources .power-zone/i) {
@@ -399,7 +387,7 @@ sub ShowSystemInfo {
 	if (/system type\s+:\s+(.*)/i) {
 	    $proc = $1;
 	    ProcessHistory("COMMENTS","keysort","B4",
-			   "#System type: $proc\n");
+			   "#Chassis type: $proc\n");
 	}
 	if (/system version\s+:\s+(.*)/i) {
 	    $proc = $1;

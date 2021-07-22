@@ -15,7 +15,8 @@ Specifically, the library is used by
 .BR rancid (1),
 but it could be used by any Perl program for site-specific handling or
 additional automata.
-.PP Input handling functions:
+.PP
+Input handling functions:
 .TP
 .B RunCommand(*INPUT, *OUTPUT, command)
 Parse a single command that returns no required info; the output is dropped.

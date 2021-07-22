@@ -837,7 +837,6 @@ sros-md;login;noklogin
 sros-md;module;sros
 sros-md;inloop;sros::inloop
 sros-md;command;sros::ShowSystemInfo;show system information
-sros-md;command;sros::BootLog;//file type bootlog.txt
 sros-md;command;sros::ShowRedundancy;show redundancy synchronization
 sros-md;command;sros::ShowChassis;show chassis
 sros-md;command;sros::ShowChassisEnv;show chassis environment

@@ -1,4 +1,6 @@
 3.99.99
+	panos.pm: trip trailing WS & GC unused code - github.com/DarkNinja77
+
 	rancidcontrib.pm: add library of contributed rancid filters, etc,
 	starting with JunosShowSystemReboot() - github.com/shigechika
 

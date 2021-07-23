@@ -1,4 +1,7 @@
 3.99.99
+	ciscowlc.pm: filter garbage inserted by virtual controller 8.3.150.0;
+	random characters & lines - github.com/DarkNinja77
+
 	panos.pm: trip trailing WS & GC unused code - github.com/DarkNinja77
 
 	rancidcontrib.pm: add library of contributed rancid filters, etc,

@@ -1,4 +1,7 @@
 3.99.99
+	rancidcontrib.pm: add library of contributed rancid filters, etc,
+	starting with JunosShowSystemReboot() - github.com/shigechika
+
 	junos.pm: filter license expiration time similar to ios.pm - adaptation
 	of github.com/shigechika
 

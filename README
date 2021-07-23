@@ -129,6 +129,7 @@ lib/
 	nxos.pm.in	rancid library for Cisco NX-OS.
 	panos.pm.in	rancid library for Palo Alto Networks devices.
 	rancid.pm.in	rancid global functions.
+	rancidcontrib.pm.in	rancid contributed functions.
 	rbt.pm.in	rancid library for Riverbed Steelhead.
 	smc.in		rancid library for SMC switches.
 			appliances.

@@ -1,0 +1,59 @@
+package rancidcontrib;
+##
+## @PACKAGE@ @VERSION@
+@copyright@
+#
+#  RANCID - Really Awesome New Cisco confIg Differ
+#
+#  rancid.pm - base/basic rancid procedures
+#
+
+use 5.010;
+use strict 'vars';
+use warnings;
+require(Exporter);
+our @ISA = qw(Exporter);
+
+use rancid @VERSION@;
+
+# load-time initialization
+sub import {
+    0;
+}
+
+# post-open(collection file) initialization
+sub init {
+    0;
+}
+
+# This routine parses "show system reboot"
+# Includes impending reboot for JunOS.
+# Add to the device type configuration (see rancid.types.conf(5)):
+#	<devtype>;module;rancidcontrib
+#	<devtype>;command;rancidcontrib::JunosShowSystemReboot;show system reboot
+# github.com/shigechika
+sub JunosShowSystemReboot {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowSystemReboot: $_" if ($debug);
+
+    s/^[a-z]+@//;
+    ProcessHistory("","","","# $_");
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^system (shutdown message from|going down )/i);
+	next if (/^\{(master|backup|linecard|primary|secondary)(:(node)?\d+)?\}/);
+
+	/Unrecognized command/ && return(1);
+	/command is not valid/ && return(1);
+	/^\s+\^/ && return(1);
+	/syntax error/ && return(1);
+	/^JUNOS / && <$INPUT> && next;
+	/No such file or directory$/ && next;
+
+	ProcessHistory("","","","# $_");
+    }
+    return(0);
+}
+
+1;

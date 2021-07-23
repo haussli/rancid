@@ -22,7 +22,7 @@ man_nogen_MANS = a10login.1 agmrancid.1 alogin.1 anlogin.1 \
 		mrvlogin.1 mtlogin.1 nlogin.1 noklogin.1 \
 		nrancid.1 nslogin.1 nsrancid.1 \
 		panlogin.1 par.1 plogin.1 \
-		rancid-cvs.1 rancid-run.1 rancid.1 \
+		rancid-cvs.1 rancid-run.1 rancid.1 rancidcontrib.3 \
 		rancid.types.base.5 rancid_intro.7 \
 		rblogin.1 rivlogin.1 rivrancid.1 \
 		router.db.5 rrancid.1 tlogin.1 ulogin.1 wlogin.1 \
@@ -33,7 +33,7 @@ man_MANS = $(man_nogen_MANS) $(man_gen_MANS)
 EXTRA_DIST = $(man_nogen_MANS) $(man_gen_MANS:%=%.in)
 
 htmls_MANS = clogin.1 cloginrc.5 control_rancid.1 lg.conf.5 lg_intro.7 \
-	par.1 rancid-cvs.1 rancid-run.1 rancid.1 rancid.3 \
+	par.1 rancid-cvs.1 rancid-run.1 rancid.1 rancid.3 rancidcontrib.3 \
 	rancid.conf.5 rancid.types.conf.5 rancid_intro.7 router.db.5
 htmls_gen_MANS= $(htmls_MANS:%=%.html)
 

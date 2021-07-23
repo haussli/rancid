@@ -273,7 +273,8 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign no-dependencies
 my_pkglibdir = $(pkglibdir)
-my_pkglib_DATA = rancid.pm acos.pm aeos.pm arbor.pm arcos.pm avocent.pm \
+my_pkglib_DATA = rancid.pm rancidcontrib.pm \
+		 acos.pm aeos.pm arbor.pm arcos.pm avocent.pm \
 		 bigip.pm ciscowlc.pm \
 		 dell.pm dnos9.pm dnos10.pm edgemax.pm edgerouter.pm exos.pm \
 		 fortigate.pm foundry.pm frr.pm fss2.pm fxos.pm \
@@ -562,6 +563,7 @@ iosshtech.pm: iosshtech.pm.in
 iosxr.pm: iosxr.pm.in
 junos.pm: junos.pm.in
 rancid.pm: rancid.pm.in
+rancidcontrib.pm: rancidcontrib.pm.in
 rancid.py: rancid.py.in
 mrv.pm: mrv.pm.in
 nxos.pm: nxos.pm.in

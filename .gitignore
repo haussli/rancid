@@ -134,6 +134,7 @@ mrv.pm
 nxos.pm
 panos.pm
 rancid.pm
+rancidcontrib.pm
 rancid.py
 routeros.pm
 rbt.pm

@@ -2325,7 +2325,7 @@ TOP:
 	    s/^$1\s{$len}//;
 	}
 	/^! no configuration change since last restart/i && next;
-	# skip emtpy lines at the beginning
+	# skip empty lines at the beginning
 	if (!$linecnt && /^\s*$/) {
 	    next;
 	}

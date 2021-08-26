@@ -2297,6 +2297,44 @@ sub ShowShun {
     return(0);
 }
 
+# This routine processes "show etherchannel summary"
+sub ShowECSummary {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+
+    my $channel_groups = 0;
+    my @table = ();
+
+    print STDERR "    In ShowECSummary $_" if ($debug);
+    while (<$INPUT>) {
+	tr/\015//d;
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+	return(1) if (/Line has invalid autocommand /);
+	return(1) if (/(invalid (input|command) detected|type help or )/i);
+	return(-1) if (/command authorization failed/i);
+
+	last if (/^$prompt/);
+
+	if (/^Group\s+Port-channel\s+Protocol\s+Ports$/ || /^[-+]+$/) {
+	  push @table, $_;
+	  next;
+	}
+	if (@table) {
+	  last if (/^$/);
+	  $channel_groups++ if (/^[0-9]+\s/);
+	  push @table, $_;
+	  next;
+	}
+    }
+    if ($channel_groups > 0) {
+      while (defined(my $line = shift @table)) {
+        ProcessHistory("EC","","","!EC: $line");
+      }
+      ProcessHistory("EC","","","!\n");
+    }
+    return(0);
+}
+
 # This routine processes a "write term"
 sub WriteTerm {
     my($INPUT, $OUTPUT, $cmd) = @_;

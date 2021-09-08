@@ -779,6 +779,17 @@ paloalto;command;panos::ShowInfo;show system info
 paloalto;command;panos::ShowInventory;show chassis inventory
 paloalto;command;panos::ShowConfig;show config running
 #
+# XML configuration version of paloalto.  See mail:
+# https://shrubbery.net/pipermail/rancid-discuss/2021-September/011073.html
+paloaltoxml;script;rancid -t paloaltoxml
+paloaltoxml;login;panlogin
+paloaltoxml;module;panos
+paloaltoxml;inloop;panos::inloop
+paloaltoxml;command;panos::ShowInfo;show system info
+paloaltoxml;command;panos::ShowInventory;show chassis inventory
+paloaltoxml;command;rancid::RunCommand;set cli op-command-xml-output on
+paloaltoxml;command;panos::ShowConfig;show config running
+#
 redback;script;rrancid
 redback;login;clogin
 #

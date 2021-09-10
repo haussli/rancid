@@ -631,6 +631,7 @@ hiveos;script;rancid -t hiveos
 hiveos;login;clogin
 hiveos;module;hiveos
 hiveos;inloop;hiveos::inloop
+hiveos;command;rancid::RunCommand;console page 0
 hiveos;command;hiveos::ShowVersion;show version
 hiveos;command;hiveos::ShowVersion;show hw-info
 hiveos;command;hiveos::ShowBoot;show boot-param

@@ -719,11 +719,6 @@ foreach router [lrange $argv $i end] {
 		send "terminal width 132\r"
 	    }
 	    expect -re $prompt		{}
-    } elseif { [string compare "hiveos" "$platform"] } {
-        # aerohive needs "console page 0"
-        # does not yet work, platform needs to be set in this script
-        # somehow. (also can't be passed with -E ?)
-        send "console page 0\r"
 	} else {
 	    send "disable clipaging\r"
 	    expect -re $prompt		{}

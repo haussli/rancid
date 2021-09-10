@@ -12,12 +12,13 @@ package hiveos;
 #
 # done by nick.nauwelaerts@aquafin.be
 #
-# tested on configs pushed by hivemanager-ng 12.8.2.2:
+# tested on configs pushed by extremecloud iq 21.1.20.27-IQVA:
 #   model ap121, hiveos version 6.5r8a
 #   model ap121, hiveos version 6.5r8b
 #   model ap121, hiveos version 6.5r9
 #   model ap121, hiveos version 6.5r10
 #   model ap121, hiveos version 6.5r12
+#   model ap121, hiveos version 6.5r13
 #   model ap122, hiveos version 8.2r4
 #   model ap130, hiveos version 8.2r4
 #   model ap130, hiveos version 8.4r4
@@ -31,6 +32,7 @@ package hiveos;
 #   model ap250, hiveos version 8.4r4
 #   model ap250, hiveos version 8.4r7
 #   model ap250, hiveos version 8.4r11
+#   model ap250, hiveos version 10.0r10b
 #
 # hiveos cli references can be found here
 # https://docs.aerohive.com/330000/docs/help/english/ng/Content/reference/docs/cli-reference-guides.htm

@@ -1,9 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 ## A Makefile.in is supplied, in case you do not have automake.
 
-## $Id$
-##
-## Copyright (c) 1997-2018 by Henry Kilmer and John Heasley
+## Copyright (c) 1997-2019 by Henry Kilmer and John Heasley
 ## All rights reserved.
 ##
 ## Please see the file COPYING for the text of the license.
@@ -13,30 +11,30 @@ AUTOMAKE_OPTIONS=foreign no-dependencies
 @SET_MAKE@
 
 man_gen_MANS = cloginrc.5 lg.conf.5 rancid.3 rancid.conf.5 \
-		rancid.types.conf.5 lg_intro.1
-man_nogen_MANS = agmrancid.1 ahlogin.1 alogin.1 anlogin.1 \
-		arancid.1 avologin.1 avorancid.1 blogin.1 brancid.1 \
+		rancid.types.conf.5 lg_intro.7
+man_nogen_MANS = a10login.1 agmrancid.1 alogin.1 anlogin.1 \
+		arancid.1 avologin.1 blogin.1 brancid.1 brlogin.1 \
 		cat5rancid.1 clogin.1 control_rancid.1 csblogin.1 cssrancid.1 \
 		dllogin.1 \
-		elogin.1 erancid.1 f5rancid.1 f10rancid.1 flogin.1 fnlogin.1 \
+		elogin.1 erancid.1 f5rancid.1 flogin.1 fnlogin.1 fxlogin.1 \
 		hlogin.1 hrancid.1 htlogin.1 \
 		htrancid.1 jerancid.1 jlogin.1 mrancid.1 \
-		mrvlogin.1 mtlogin.1 mtrancid.1 nlogin.1 noklogin.1 \
+		mrvlogin.1 mtlogin.1 nlogin.1 noklogin.1 \
 		nrancid.1 nslogin.1 nsrancid.1 \
 		panlogin.1 par.1 plogin.1 \
-		rancid-cvs.1 rancid-run.1 rancid.1 \
-		rancid.types.base.5 rancid_intro.1 rivlogin.1 rivrancid.1 \
-		router.db.5 rrancid.1 srancid.1 tlogin.1 ulogin.1 wlogin.1 \
-		xilogin.1 xlogin.1 xirancid.1 trancid.1 \
-		zrancid.1
+		rancid-cvs.1 rancid-run.1 rancid.1 rancidcontrib.3 \
+		rancid.types.base.5 rancid_intro.7 \
+		rblogin.1 rivlogin.1 rivrancid.1 \
+		router.db.5 rrancid.1 tlogin.1 ulogin.1 wlogin.1 \
+		xilogin.1 xlogin.1 xirancid.1 trancid.1
 
 man_MANS = $(man_nogen_MANS) $(man_gen_MANS)
 
 EXTRA_DIST = $(man_nogen_MANS) $(man_gen_MANS:%=%.in)
 
-htmls_MANS = clogin.1 cloginrc.5 control_rancid.1 lg.conf.5 lg_intro.1 \
-	par.1 rancid-cvs.1 rancid-run.1 rancid.1 rancid.3 \
-	rancid.conf.5 rancid.types.conf.5 rancid_intro.1 router.db.5
+htmls_MANS = clogin.1 cloginrc.5 control_rancid.1 lg.conf.5 lg_intro.7 \
+	par.1 rancid-cvs.1 rancid-run.1 rancid.1 rancid.3 rancidcontrib.3 \
+	rancid.conf.5 rancid.types.conf.5 rancid_intro.7 router.db.5
 htmls_gen_MANS= $(htmls_MANS:%=%.html)
 
 CLEANFILES = $(man_gen_MANS) $(htmls_gen_MANS)
@@ -45,7 +43,8 @@ htmls: $(htmls_gen_MANS)
 
 $(htmls_gen_MANS): $(htmls_MANS)
 	m=`echo $@ | sed -e 's/\.[^.]*$$//'`; \
-	groff -mandoc -Thtml < $$m > $@
+	nroff -Thtml -c -mandoc $$m | man2html -nodepage > $@
+#	groff -mandoc -Thtml < $$m > $@
 
 # auto_edit does the autoconf variable substitution.  This allows the
 # substitution to have the full expansion of the variables, e.g.: $sysconfdir
@@ -73,10 +72,10 @@ lg.conf.5: Makefile $(srcdir)/lg.conf.5.in
 	$(auto_edit) $(srcdir)/lg.conf.5.in >lg.conf.5.tmp; \
 	mv lg.conf.5.tmp lg.conf.5
 
-lg_intro.1: Makefile $(srcdir)/lg_intro.1.in
-	rm -f lg_intro.1 lg_intro.1.tmp; \
-	$(auto_edit) $(srcdir)/lg_intro.1.in >lg_intro.1.tmp; \
-	mv lg_intro.1.tmp lg_intro.1
+lg_intro.7: Makefile $(srcdir)/lg_intro.7.in
+	rm -f lg_intro.7 lg_intro.7.tmp; \
+	$(auto_edit) $(srcdir)/lg_intro.7.in >lg_intro.7.tmp; \
+	mv lg_intro.7.tmp lg_intro.7
 
 rancid.conf.5: Makefile $(srcdir)/rancid.conf.5.in
 	rm -f rancid.conf.5 rancid.conf.5.tmp; \

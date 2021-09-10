@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "router.db" "5" "12 July 2019"
+.TH "router.db" "5" "5 May 2020"
 .SH NAME
 router.db \- rancid group configuration file
 .SH DESCRIPTION
@@ -50,7 +50,7 @@ The type of device from the set:
 .TP
 .ID 15n
 .B agm
-A Cisco Anomoly Guard Module (aka Riverhead).
+A Cisco Anomaly Guard Module (aka Riverhead).
 Suspect that at some point the UI will become more cisco-like and it
 can be merged with the IOS rancid module.
 .TP
@@ -65,10 +65,6 @@ An Arrcus router.
 .ID 15n
 .B arista
 An Arista Networks device.
-.TP
-.ID 15n
-.B avocent
-An Avocent Cyclades console server.
 .TP
 .ID 15n
 .B baynet
@@ -188,9 +184,6 @@ type.
 .B juniper
 A Juniper router.
 .TP
-.B mikrotik
-A Mikrotik router.
-.TP
 .B mrtd
 A host running the (Merit) MRTd daemon.
 .TP
@@ -217,6 +210,10 @@ A Redback router, NAS, etc.
 .ID 15n
 .B riverstone
 A Riverstone NAS or Cabletron (starting with version ~9.0.3) router.
+.TP
+.ID 15n
+.B routeros
+A Mikrotik RouterOS router.
 .TP
 .ID 15n
 .B smc
@@ -260,7 +257,7 @@ report of routers in router.db that are not marked "up".
 .B [comments]
 Freeform string to describe the current state of the router.
 .PP
-A ``#'' at the begining of a line is a comment; the entire line is
+A ``#'' at the beginning of a line is a comment; the entire line is
 ignored.
 .PP
 If a device is deleted from the 

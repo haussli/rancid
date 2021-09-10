@@ -1,7 +1,5 @@
 #! @PERLV_PATH@
 ##
-## $Id$
-##
 ## @PACKAGE@ @VERSION@
 ## Copyright (c) @COPYYEARS@ by Henry Kilmer and John Heasley
 ## All rights reserved.

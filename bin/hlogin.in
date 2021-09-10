@@ -132,7 +132,8 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
 	}
 	-re "(Host key not found |The authenticity of host .* be established)" {
 	    expect {
-		-re "\\(yes\/no\\)\\?"	{ send "yes\r";
+		-re "\\(yes\/no\[^\\)]*\\)\\?" {
+					  send "yes\r";
 					  send_user "\nHost $router added to the list of known hosts.\n"
 					 }
 		-re "\[^\r\n]*\[\r\n]+"	{ exp_continue; }
@@ -379,7 +380,7 @@ foreach router [lrange $argv $i end] {
     # Default prompt.
     set prompt [join [find prompt $router] ""]
     if { [llength $prompt] == 0 } {
-        set prompt "(>|#) ?"
+        set prompt "\[^ ](>|#) ?"
     }
 
     # look for autoenable option in .cloginrc & cmd-line

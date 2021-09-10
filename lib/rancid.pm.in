@@ -12,6 +12,7 @@ use 5.010;
 use strict 'vars';
 use warnings;
 use 2.006 Socket qw(AF_INET AF_INET6 inet_pton);
+use File::Spec;
 require(Exporter);
 our @ISA = qw(Exporter);
 
@@ -27,6 +28,7 @@ our $filter_commstr;			# SNMP community string filtering
 our $filter_osc;			# oscillating data filtering mode
 our $filter_pwds;			# password filtering mode
 our $aclsort;				# ACL sorting mode
+our $aclfilterregex;			# ACL filter regex
 our $aclfilterseq;			# ACL sequence filtering mode
 our $log;				# log cmdline option
 our $debug;				# debug cmdline option
@@ -35,6 +37,7 @@ our $host;				# hostname from cmdline
 our $clean_run;				# successful run
 our $found_end;				# found end of the config
 our $timeo;				# login script timeout in seconds
+our $timeodef;				# login script timeout in seconds dflt
 our $prompt;				# device prompt regex
 
 
@@ -46,14 +49,14 @@ our @EXPORT = qw($VERSION $devtype $script $lscript @modules $inloop
 		@commandtable
 		%commands @commands $commandcnt
 		$commandstr $cmds_regexp
-		$filter_commstr $filter_osc $filter_pwds $aclsort $aclfilterseq
-		$log $debug $file $host $clean_run $found_end $timeo $prompt
-		rancidinit loadtype
-		
-		ProcessHistory bytes2human diskszsummary human2bytes
-		ipsort ipaddrval
-		keynsort keysort numerically numsort sortbyipaddr valsort
-		RunCommand);
+		$filter_commstr $filter_osc $filter_pwds $aclsort
+		$aclfilterregex $aclfilterseq $log $debug $file $host
+		$clean_run $found_end $timeo $timeodef $prompt
+
+		bytes2human diskszsummary human2bytes
+		ipsort ipaddrval loadtype
+		keynsort keysort numerically numsort ProcessHistory rancidinit
+		RunCommand sortbyipaddr valsort which);
 
 BEGIN {
     $VERSION = '@VERSION@';
@@ -76,14 +79,15 @@ sub rancidinit {
 
     $log = $main::opt_l;
     $debug = $main::opt_d;
-    $devtype = $main::opt_t;
     $file = $main::opt_f;
     $host = defined($ARGV[0]) ? $ARGV[0] : "";
     $clean_run = 0;
     $found_end = 0;
-    $timeo = 90;			# login script timeout in seconds
+    $timeodef = 90;			# login script timeout in seconds
+    $timeo = $timeodef;			# login script timeout in seconds
 
     $aclsort = "ipsort";		# ACL sorting mode
+    $aclfilterregex = "";		# ACL filter regex
 
     # determine ACL sorting mode
     if (defined($ENV{"ACLSORT"}) && $ENV{"ACLSORT"} =~ /no/i) {
@@ -92,6 +96,11 @@ sub rancidinit {
     if (defined($ENV{"ACLFILTERSEQ"}) && $ENV{"ACLFILTERSEQ"} =~ /no/i) {
 	$aclfilterseq = "0";
     } else {
+	$aclfilterseq = "1";
+    }
+    if (defined($ENV{"ACLFILTERREGEX"})) {
+	$aclfilterregex = $ENV{"ACLFILTERREGEX"};
+	# ACLFILTERSEQ is implied
 	$aclfilterseq = "1";
     }
 
@@ -132,6 +141,7 @@ sub rancidinit {
 	print(STDERR "Too few arguments: -t option is required\n");
 	exit(1);
     }
+    $devtype = lc($main::opt_t);
 
     # make OUTPUT unbuffered if debugging
     if ($debug) { $| = 1; }
@@ -164,17 +174,50 @@ sub loadtype {
 	    $line++;
 	    chomp;
 	    next if (/^\s*$/ || /^\s*#/);
-	    my($type, $directive, $value, $value2) = split('\;');
+	    my(@line) = split('\;');
+	    # check number of fields
+	    if (($#line + 1) < 3) {
+		printf(STDERR
+		       "loadtype: insufficient number of fields $#line at %s:%d\n",
+		       $file, $line);
+		return(-1);
+	    }
+	    my($type, $directive, $value) = @line;
 	    $type =~ tr/[A-Z]/[a-z]/;
 	    $directive =~ tr/[A-Z]/[a-z]/;
 
 	    next if ($type ne $devtype);
 	    if (!$matched) {
 		$matched++;
-		printf(STDERR "loadtype: found device type %s in %s\n",
-		       $devtype, $file) if ($debug);
+		printf(STDERR "loadtype: found device type %s at %s:%d\n",
+		       $devtype, $file, $line) if ($debug);
 	    }
-	    if ($directive eq "script") {
+	    if ($directive eq "alias") {
+		# an alias maps a name to another, like a DNS CNAME; it does
+		# NOT augment
+		printf(STDERR
+		       "loadtype: found device type %s aliased to %s\n",
+		       $devtype, $value) if ($debug);
+		if (length($value) < 1) {
+		    printf(STDERR
+			   "loadtype: type %s alias has no value at %s:%d\n",
+			   $devtype, $file, $line);
+		    close(INPUT);
+		    return(-1);
+		}
+		$value =~ tr/[A-Z]/[a-z]/;
+		if ($devtype eq $value) {
+		    printf(STDERR
+			   "loadtype: type %s aliased to itself at %s:%d\n",
+			   $devtype, $file, $line);
+		    close(INPUT);
+		    return(-1);
+		}
+		close(INPUT);
+		undef($script); undef($lscript); undef(@modules);
+		undef($inloop); undef(@commandtable); $timeo = $timeodef;
+		return(loadtype($value));
+	    } elsif ($directive eq "script") {
 		$script = $value;
 	    } elsif ($directive eq "login") {
 		$lscript = $value;
@@ -183,7 +226,13 @@ sub loadtype {
 	    } elsif ($directive eq "inloop") {
 		$inloop = $value;
 	    } elsif ($directive eq "command") {
-		push(@commandtable, {$value2, $value});
+		if (($#line + 1) < 4) {
+		    printf(STDERR
+			"loadtype: insufficient number of fields at %s:%d\n",
+			$file, $line);
+		    return(-1);
+		}
+		push(@commandtable, {$line[3], $value});
 	    } elsif ($directive eq "timeout") {
 		$timeo = $value;
 	    } else {
@@ -244,7 +293,28 @@ sub loadtype {
     }
 
     if ($main::opt_C) {
-	my($cmd);
+	my($cmd, @script);
+
+	if (!defined($script) || length($script) < 1) {
+	    printf(STDERR "$devtype: login script not defined\n");
+	    exit(1);
+	}
+
+	# if the first word of $script is not us (this script), exec the given
+	# script.
+	@script = split(/\s+/, $script);
+	if (which($script[0]) ne which($0)) {
+	    # -[hV] are not handled; they will have already been handled sooner.
+	    push(@script, "-d") if $debug;
+	    push(@script, "-l") if $log;
+	    push(@script, "-C") if $main::opt_C;
+	    push(@script, "-f") if $rancid::file;
+	    push(@script, $host);
+	    exec(join(" ", @script)) ||
+		printf(STDERR "exec($script[0]) failed: $!\n");
+	    exit(-1);
+	}
+
 	if (!defined($lscript)) {
 	    printf(STDERR "$devtype: login script not defined\n");
 	    exit(1);
@@ -453,6 +523,25 @@ sub ipaddrval {
 # sortbyipaddr(IPaddr, IPaddr) compares two IPv4/v6 addresses like strcmp().
 sub sortbyipaddr {
     &ipaddrval($a) cmp &ipaddrval($b);
+}
+
+# if $prog is non-FQPN, look for it in PATH and return the ABS-FQPN, else
+# just return the ABS-FQPN.
+sub which {
+    my($prog) = @_;
+    my($path);
+
+    # ABS or relative PATH (begins with /, ./, or ../)
+    if ($prog =~ /^(\/|\.\/|\.\.\/)/) {
+	return(File::Spec->rel2abs($prog));
+    }
+    for $path (split(/:/, $ENV{"PATH"})) {
+	$path = join('/', ($path, $prog));
+	if (-f $path) {
+	    return(File::Spec->rel2abs($path));
+	}
+    }
+    return($prog);
 }
 
 # This routine parses a single command that returns no required info; the

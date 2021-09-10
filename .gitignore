@@ -13,6 +13,8 @@
 # Dev/test tools, linters, etc.
 .eslintrc
 
+/uiop
+
 # make / compiler / autoconf droppings
 *.o
 *.la
@@ -51,7 +53,6 @@ cssrancid
 dllogin
 elogin
 erancid
-f10rancid
 f5rancid
 flogin
 fnlogin
@@ -70,7 +71,6 @@ login_top
 mrancid
 mrvlogin
 mtlogin
-mtrancid
 nlogin
 noklogin
 nrancid
@@ -88,7 +88,6 @@ rivlogin
 rivrancid
 rrancid
 rtftpcopy
-srancid
 tlogin
 tntlogin
 tntrancid
@@ -99,7 +98,6 @@ xilogin
 xirancid
 xlogin
 xrrancid
-zrancid
 
 lg.conf.sample
 rancid.conf.sample
@@ -114,16 +112,21 @@ aeos.pm
 adtran.pm
 arbor.pm
 arcos.pm
+avocent.pm
 bigip.pm
 ciscowlc.pm
 dell.pm
+dnos9.pm
+dnos10.pm
 edgemax.pm
 edgerouter.pm
 exos.pm
 fortigate.pm
 foundry.pm
+frr.pm
 fss2.pm
 fxos.pm
+hiveos.pm
 ios.pm
 iossb.pm
 iosshtech.pm
@@ -133,15 +136,18 @@ mrv.pm
 nxos.pm
 panos.pm
 rancid.pm
+rancidcontrib.pm
 rancid.py
+routeros.pm
 rbt.pm
+smc.pm
 sros.pm
 vrp.pm
 wavesvros.pm
 
 cloginrc.5
 lg.conf.5
-lg_intro.1
+lg_intro.7
 rancid.3
 rancid.conf.5
 rancid.types.conf.5

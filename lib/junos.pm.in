@@ -1,7 +1,5 @@
 package junos;
 ##
-## $Id$
-##
 ## @PACKAGE@ @VERSION@
 @copyright@
 # 
@@ -15,7 +13,7 @@ use strict 'vars';
 use warnings;
 require(Exporter);
 our @ISA = qw(Exporter);
-$Exporter::Verbose=1;
+#$Exporter::Verbose=1;
 
 use rancid @VERSION@;
 
@@ -112,6 +110,8 @@ sub ShowChassisClocks {
 	next if (/^\{(master|backup|linecard|primary|secondary)(:(node)?\d+)?\}/);
 
 	/error: the chassis(-control)? subsystem is not r/ && return(-1);
+	/error: abnormal communication termination with / && return(-1);
+	/error: invalid xml tag / && return(-1);
 	/Couldn\'t initiate connection/ && return(-1);
 	/Unrecognized command/ && return(1);
 	/command is not valid/ && return(1);
@@ -200,7 +200,8 @@ sub ShowChassisFirmware {
 	/^\s+\^/ && return(1);
 	/syntax error/ && return(1);
 
-	ProcessHistory("","","","# $_");
+	s/\s*$//;
+	ProcessHistory("","","","# $_\n");
     }
     $ShowChassisFirmware = 1;
     return(0);
@@ -286,6 +287,8 @@ sub ShowChassisRoutingEngine {
 	/ Slot / && ProcessHistory("","","","# $_") && next;
 	/ Current state/ && ProcessHistory("","","","# $_") && next;
 	/ Election priority/ && ProcessHistory("","","","# $_") && next;
+	s/ (DRAM\s+)\d+ \w+ \((\d+ \w+) installed\)\s*/ $1$2\n/
+		&& ProcessHistory("","","","# $_") && next;
 	/ DRAM/ && ProcessHistory("","","","# $_") && next;
 	/ Model/ && ProcessHistory("","","","# $_") && next;
 	/ Serial ID/ && ProcessHistory("","","","# $_") && next;
@@ -441,6 +444,8 @@ sub ShowSystemLicense {
 	last if (/^$prompt/);
 	next if (/^system (shutdown message from|going down )/i);
 	next if (/^\{(master|backup|linecard|primary|secondary)(:(node)?\d+)?\}/);
+	return -1 if (/error: select: protocol failure /i);
+	return -1 if (/error: abnormal communication /i);
 
 	# licenses used changes constantly.  distill it to a percentage.
 	# example input:
@@ -448,12 +453,16 @@ sub ShowSystemLicense {
 	#                                  Licenses     Licenses    Licenses    Expiry
 	#   Feature name                       used    installed      needed
 	#   dynamic-vpn                           1            2           0    permanent
-	if (/^(\s+(?:VMX|dynamic|mobile|scale|service|scale-subscriber|subscriber)-\S+)(\s+)(\d+)(\s+\d+)(.*$)/) {
-	    my($a, $sp, $used, $avail, $rem) = ($1, $2, $3, $4, $5);
+	#   mx5-to-mx10-upgrade                   1            0           1    30 days
+	#   mx10-to-mx40-upgrade                  1            0           1    20 hours
+	#   mx40-to-mx80-upgrade                  1            0           1    10 minutes
+	if (/^(\s+(?:VMX|dynamic|mobile|scale|service|scale-subscriber|subscriber)-\S+)(\s+)(\d+)(\s+\d+)(\s+\d+)(.*$)/) {
+	    my($a, $sp, $used, $avail, $need, $rem) = ($1, $2, $3, $4, $5, $6);
 	    my($spl, $usedl) = (length($sp), length($used));
 	    my($pcnt, $usage, $usagel);
 	    if ($avail < 1) {
 		$pcnt = ">100";
+		$usage = ">0";
 	    } else {
 		if ($filter_osc >= 2) {
 		    $usage = "--";
@@ -469,8 +478,17 @@ sub ShowSystemLicense {
 	    $usagel = length($usage) ;
 	    $spl = $spl + $usedl - $usagel;
 
-	    my($fmt) = "%s%-" . $spl . "s%s%s%s\n";
-	    $_ = sprintf($fmt, $a, "", $usage, $avail, $rem);
+	    if ($rem =~ /^(\s+)(.*)\s*$/) {
+		my($L) = $1;
+		my($T) = $2;
+		
+		if ($filter_osc >= 1 && $T !~ /permanent/i) {   
+		    $rem = "$L<limited>";
+		}
+	    }
+
+	    my($fmt) = "%s%-" . $spl . "s%s%s%s%s\n";
+	    $_ = sprintf($fmt, $a, "", $usage, $avail, $need, $rem);
 	}
 
 	/Unrecognized command/ && return(1);
@@ -549,7 +567,7 @@ sub ShowVersion {
 	next if (/^system (shutdown message from|going down )/i);
 	next if (/^\{(master|backup|linecard|primary|secondary)(:(node)?\d+)?\}/);
 	/error: abnormal communication termination with / && return(-1);
-	/error: could not connect to \S+ : no route to host/i && return(-1);
+	/error: could not connect to \S+ ?: no route to host/i && return(1);
 
 	/warning: .* subsystem not running - not needed by configuration/ && next;
 

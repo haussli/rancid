@@ -1,7 +1,5 @@
 #! /bin/sh
 ##
-## $Id$
-##
 ## @PACKAGE@ @VERSION@
 ## Copyright (c) @COPYYEARS@ by Henry Kilmer and John Heasley
 ## All rights reserved.
@@ -344,8 +342,6 @@ fi
 cd $DIR
 trap 'rm -fr routers.db routers.all.new routers.down.new routers.up.new \
 	routers.mail routers.added routers.deleted $TMP;' 1 2 15
-#sed -e '/^#/d' -e 's/^ *//' -e 's/ *$//' -e 's/ *; */;/g' router.db |
-#	tr '[A-Z]' '[a-z]' | sort -u > routers.db
 @PERLV@ -ne '{s/^\s*//; s/\s*$//; s/\s*;\s*/;/g; next if (/^(#|;|$)/);
     @F = split /\;/;
     $F[2] =~ s/\s*\$//;
@@ -506,7 +502,7 @@ for router in `cut -d\; -f1 ../routers.up` ; do
 	if [ ! -f $router ] ; then
 	    touch $router
 	fi
-	git status $router | grep '^?' > /dev/null 2>&1
+	git status --porcelain $router | grep '^?' > /dev/null 2>&1
 	if [ $? -eq 0 ] ; then
 	    git add $router
 	    git commit -m 'new router' $router
@@ -517,7 +513,7 @@ for router in `cut -d\; -f1 ../routers.up` ; do
 done
 echo
 # delete configs from RCS for routers not listed in routers.up.
-for router in `find . \( -name \*.new -prune -o -name CVS -prune -o -name .svn -prune -o -name .cvsignore -prune -o -name .gitignore -prune \) -o -type f -print | sed -e 's/^.\///'` ; do
+for router in `find . \( -name \*.new -prune -o -name CVS -prune -o -name .svn -prune -o -name .cvsignore -prune -o -name .gitignore -prune -o -name .old -prune \) -o -type f -print | sed -e 's/^.\///'` ; do
     grep -i "^$router\;" ../router.db > /dev/null 2>&1
     if [ $? -eq 1 ] ; then
 	rm -f $router

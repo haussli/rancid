@@ -1,0 +1,150 @@
+package avocent;
+##
+## @PACKAGE@ @VERSION@
+@copyright@
+# 
+#  RANCID - Really Awesome New Cisco confIg Differ
+#
+#  avocent.pm - Avocent ACS rancid procedures
+#  (formerly Cyclades)
+
+use 5.010;
+use strict 'vars';
+use warnings;
+require(Exporter);
+our @ISA = qw(Exporter);
+#$Exporter::Verbose=1;
+
+use rancid @VERSION@;
+
+our $ShowChassisSCB;			# Only run ShowChassisSCB() once
+our $ShowChassisFirmware;		# Only run ShowChassisFirmware() once
+
+
+@ISA = qw(Exporter rancid main);
+#our @EXPORT = qw($VERSION)
+
+# load-time initialization
+sub import {
+    0;
+}
+
+# post-open(collection file) initialization
+sub init {
+    # add content lines and separators
+    ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n#\n");
+
+    0;
+}
+
+# main loop of input of device output
+sub inloop {
+    my($INPUT, $OUTPUT) = @_;
+    my($cmd, $rval);
+
+TOP: while(<$INPUT>) {
+	tr/\015//d;
+	if (/^Error:/) {
+	    print STDOUT ("$host avologin error: $_");
+	    print STDERR ("$host avologin error: $_") if ($debug);
+	    $clean_run = 0;
+	    last;
+	}
+	while (/[#\$]\s*($cmds_regexp)\s*$/) {
+	    $cmd = $1;
+	    if (!defined($prompt)) {
+		$prompt = ($_ =~ /^([^#\$]+[#\$])/)[0];
+		$prompt =~ s/([][}{)(\\\$])/\\$1/g;
+		print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
+	    }
+	    print STDERR ("HIT COMMAND:$_") if ($debug);
+	    if (! defined($commands{$cmd})) {
+		print STDERR "$host: found unexpected command - \"$cmd\"\n";
+		$clean_run = 0;
+		last TOP;
+	    }
+	    $rval = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
+	    delete($commands{$cmd});
+	    if ($rval == -1) {
+		$clean_run = 0;
+		last TOP;
+	    }
+	}
+	if (/[#\$]\s*exit$/) {
+	    $clean_run = 1;
+	    last;
+	}
+    }
+}
+
+# This routine parses "cat"
+sub CatFile {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In CatFile: $_" if ($debug);
+    my($catfile) = $cmd;
+
+    $catfile =~ s/cat //;
+    ProcessHistory("COMMENTS","","","# $catfile:\n");
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(-1) if (/: Permission denied/);
+
+	ProcessHistory("COMMENTS","","","$_");
+    }
+    ProcessHistory("COMMENTS","","","#\n");
+    if ($catfile eq "/etc/security.opts") {
+	$found_end = 1; $clean_run = 1;
+    }
+    return(0);
+}
+
+# This routine parses "cat" w/ output commented
+sub CatFileComment {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In CatFile: $_" if ($debug);
+    my($catfile) = $cmd;
+
+    $catfile =~ s/cat //;
+    ProcessHistory("COMMENTS","","","# $catfile:\n");
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(-1) if (/: Permission denied/);
+
+	ProcessHistory("COMMENTS","","","# $_");
+    }
+    ProcessHistory("COMMENTS","","","#\n");
+    if ($catfile eq "/etc/security.opts") {
+	$found_end = 1; $clean_run = 1;
+    }
+    return(0);
+}
+
+# This routine parses "cat /proc/meminfo"
+sub Meminfo {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In Meminfo: $_" if ($debug);
+    my($catfile) = $cmd;
+
+    $catfile =~ s/cat //;
+    ProcessHistory("COMMENTS","","","# $catfile:\n");
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(-1) if (/: Permission denied/);
+
+	if (/memtotal:\s+(\d+.*)/i) {
+	    # MemTotal:       256944 kB
+	    my($size) = bytes2human(human2bytes($1));
+	    ProcessHistory("COMMENTS","","","# Memory: total $size\n");
+	}
+    }
+    ProcessHistory("COMMENTS","","","#\n");
+    return(0);
+}
+
+1;

@@ -1,7 +1,5 @@
 package ciscowlc;
 ##
-## $Id$
-##
 ## @PACKAGE@ @VERSION@
 @copyright@
 #
@@ -89,14 +87,16 @@ sub ShowConfig {
     ProcessHistory("","","","\n!--WLC Begin Config Data--!\n");
 
     while (<$INPUT>) {
-        tr/\015//d;
-        tr/\020//d;
+	tr/\001//d;				# filter garbage char
+	tr/\015//d;
+	tr/\020//d;
 	last if (/^$prompt/);
 
 	next if (/^\s*rogue ap classify/);
 	next if (/^\s*rogue (adhoc|client) (alert|unknown)/i);
 	next if (/^\s*interface nat-address management set -?[0-9]{4,}\./);
-
+	next if (/\x{7f}/);			# filter garbage line
+	
 	$linecnt++;
 
 	# These can not be imported, so comment them
@@ -108,7 +108,7 @@ sub ShowConfig {
 	    ProcessHistory("","","","!$_"); next;
 	}
 
-        # remove snmp community string data
+	# remove snmp community string data
 	if (/^(\s*snmp community create)/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}

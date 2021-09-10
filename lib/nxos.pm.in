@@ -1,7 +1,5 @@
 package nxos;
 ##
-## $Id$
-##
 ## @PACKAGE@ @VERSION@
 @copyright@
 #
@@ -546,8 +544,23 @@ sub ShowModule {
 	s/(.*) \*$/$1/;	# Drop a trailing '*'
 	/^\* this terminal session/ && next;
 	s/ +$//;	# Drop trailing ' '
+
+	# filter fluctuating WWNs
+	if (/\s+World-Wide-Name.*/i) {
+	    ProcessHistory("COMMENTS","","","!Mod: $_");
+	    while (<$INPUT>) {
+		tr/\015//d;
+		goto EndShowModule if (/^$prompt/);
+		last if (/^\s*$/);
+		if (/^(\d+\s+\S+\s+\S+)\s+.*$/) {
+		    $_ = sprintf("%s\n", $1);
+		}
+		ProcessHistory("COMMENTS","","","!Mod: $_");
+	    }
+	}
 	ProcessHistory("COMMENTS","","","!Mod: $_");
     }
+EndShowModule:
     ProcessHistory("COMMENTS","","","!\n");
 
     return(0);

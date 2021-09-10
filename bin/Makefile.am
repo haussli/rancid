@@ -1,9 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 ## A Makefile.in is supplied, in case you do not have automake.
 
-## $Id$
-##
-## Copyright (c) 1997-2018 by Henry Kilmer and John Heasley
+## Copyright (c) 1997-2019 by Henry Kilmer and John Heasley
 ## All rights reserved.
 ##
 ## Please see the file COPYING for the text of the license.
@@ -13,25 +11,24 @@ AUTOMAKE_OPTIONS=foreign
 
 bin_PROGRAMS = hpuifilter par
 bin_SCRIPTS = a10login alogin agmrancid anlogin arancid \
-	avologin avorancid blogin brancid brlogin cat5rancid clogin \
+	avologin blogin brancid brlogin cat5rancid clogin \
 	control_rancid csblogin cssrancid \
-	dllogin elogin erancid f5rancid f10rancid \
+	dllogin elogin erancid f5rancid \
 	flogin fnlogin fxlogin hlogin hrancid htlogin \
-	htrancid jerancid jlogin mrancid mrvlogin mtlogin mtrancid \
+	htrancid jerancid jlogin mrancid mrvlogin mtlogin \
 	nlogin noklogin nrancid nslogin nsrancid panlogin plogin \
 	rancid rblogin rivlogin \
-	rivrancid rrancid rtftpcopy srancid tlogin trancid ulogin wlogin \
-	xilogin xirancid xlogin zrancid
+	rivrancid rrancid rtftpcopy tlogin trancid ulogin wlogin \
+	xilogin xirancid xlogin
 # XXX hack for the rancid to get pkglibdir, see corresponding XXX below
-bin_in = control_rancid.in hrancid.in plogin.in rancid.in srancid.in
+bin_in = control_rancid.in hrancid.in plogin.in rancid.in
 
 bin_SCRIPTS += lg.cgi lgform.cgi rancid-cvs rancid-fe rancid-run
 EXTRA_DIST= lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in \
 	$(bin_in) login_top.in
 #dist_bin_SCRIPTS= $(bin_SCRIPTS:%=%.in)
 
-CLEANFILES= lg.cgi lgform.cgi plogin rancid rancid-cvs rancid-fe rancid-run \
-	srancid
+CLEANFILES= lg.cgi lgform.cgi plogin rancid rancid-cvs rancid-fe rancid-run
 #CLEANFILES= $(bin_SCRIPTS)
 
 hpuifilter_SOURCES = hpuifilter.c
@@ -96,7 +93,6 @@ hlogin: $(srcdir)/hlogin.in
 hrancid: $(srcdir)/hrancid.in
 plogin: $(srcdir)/plogin.in
 rancid: $(srcdir)/rancid.in
-srancid: $(srcdir)/srancid.in
 
 lg.cgi: Makefile $(srcdir)/lg.cgi.in
 	rm -f lg.cgi lg.cgi.tmp; \

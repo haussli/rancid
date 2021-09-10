@@ -1,8 +1,6 @@
 .\"
-.\" $Id$
-.\"
 .hys 50
-.TH "rancid.types.conf" "5" "18 July 2017"
+.TH "rancid.types.conf" "5" "24 March 2020"
 .SH NAME
 rancid.types.conf \- rancid device type configuration file
 .SH DESCRIPTION
@@ -14,7 +12,7 @@ configuration file.
 .PP
 The
 .B rancid.types.base
-configuration file follows the same format but defines the base types
+configuration file follows the same format, but defines the base types
 described in
 .IR router.db(5).
 .PP
@@ -33,6 +31,7 @@ One directive is listed per-line, where the syntax is one of:
 .PP
 .in +1i
 .nf
+<device_type>;alias;<alternate_device_type>
 <device_type>;command;<filter_function>;<device_command_string>
 <device_type>;inloop;<input_loop_function>
 <device_type>;login;<login_program>
@@ -56,6 +55,7 @@ juniper;login;/usr/local/bin/jlogin
 juniper;module;rancid::junos
 juniper;inloop;junos::inloop
 juniper;command;ShowVersion;show version
+srx;alias;juniper
 .fi
 .in -1i
 .PP
@@ -67,7 +67,12 @@ Its case is forced to lower case when reading the configuration files.
 .\"
 .PP
 Each <device_type> may have the following directives defined.
-The login and script directives are required.
+The login and script directives are required, unless it is an alias.
+.TP
+.B alias
+Defines an alias for another <device_type>, it does NOT augment it.
+The <device_type> target may be defined in either device type configuration
+file.
 .TP
 .B command
 Defines commands to run for the <device_type> and the function that will
@@ -93,11 +98,11 @@ order they appear.
 .TP
 .B script
 Defines the rancid script used for the <device_type>, which does not need to
-be an FQPN, but then must be found in the path.
+be an FQPN, but then must be found in the process' path.
 .TP
 .B timeout
 Defines the rancid login script timeout in seconds.
-In general, the defaut 90 seconds, but some modules themselves alter this.
+In general, the default 90 seconds, but some modules themselves alter this.
 .\"
 .PP
 .SH FILES

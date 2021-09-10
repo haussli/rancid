@@ -1,7 +1,5 @@
 package fss2;
 ##
-## $Id$
-##
 ## @PACKAGE@ @VERSION@
 @copyright@
 # 
@@ -15,7 +13,7 @@ use strict 'vars';
 use warnings;
 require(Exporter);
 our @ISA = qw(Exporter);
-$Exporter::Verbose=1;
+#$Exporter::Verbose=1;
 
 use rancid @VERSION@;
 

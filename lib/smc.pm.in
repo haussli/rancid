@@ -1,16 +1,12 @@
-#! @PERLV_PATH@
-##
-## $Id$
+package smc;
 ##
 ## @PACKAGE@ @VERSION@
 @copyright@
 #
-# Pretty huge hack to take care of Dell (aka. SMC) Switch configs; started by
-# d_pfleger@juniper.net
-#
 #  RANCID - Really Awesome New Cisco confIg Differ
 #
-# usage: srancid [-dltCV] [-f filename | hostname]
+#  smc.pm - SMC rancid procedures; and some Dell products.  started by
+#  d_pfleger@juniper.net
 #
 # Code tested and working fine on these models:
 #
@@ -26,44 +22,84 @@ use 5.010;
 use strict 'vars';
 use warnings;
 no warnings 'uninitialized';
-use Exporter;
-use Getopt::Std;
-our($opt_d, $opt_f, $opt_h, $opt_l, $opt_t, $opt_C, $opt_V);
-$opt_t = "smc";
-getopts('dflt:CV');
-BEGIN {
-    push(@INC, "@pkglibdir@");
+require(Exporter);
+our @ISA = qw(Exporter);
+
+use rancid @VERSION@;
+
+@ISA = qw(Exporter rancid main);
+#XXX @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands);
+
+# load-time initialization
+sub import {
+    0;
 }
-use rancid;
-our @ISA = qw(Exporter rancid);
 
-if ($opt_V) {
-    print "@PACKAGE@ @VERSION@\n";
-    exit(0);
+# post-open(collection file) initialization
+sub init {
+    # add content lines and separators
+    ProcessHistory("","","","!RANCID-CONTENT-TYPE: $devtype\n!\n");
+    ProcessHistory("COMMENTS","keysort","A0","!\n");
+    ProcessHistory("COMMENTS","keysort","B0","!\n");
+    ProcessHistory("COMMENTS","keysort","C0","!\n");
+    ProcessHistory("COMMENTS","keysort","D0","!\n");
+
+    0;
 }
-$log = $opt_l;
-$debug = $opt_d;
-$file = $opt_f;
-$host = $ARGV[0];
-$found_end = 0;
-$timeo = 90;				# hlogin timeout in seconds
 
-my(@commandtable, %commands, @commands);# command lists
-my($aclsort) = ("ipsort");		# ACL sorting mode
-my($filter_commstr);			# SNMP community string filtering
-my($filter_osc);			# oscillating data filtering mode
-my($filter_pwds);			# password filtering mode
+# main loop of input of device output
+sub inloop {
+    my($INPUT, $OUTPUT) = @_;
+    my($cmd, $rval);
 
-our $cmd;
-our @EXPORT = qw($cmd);
+TOP: while(<$INPUT>) {
+	tr/\015//d;
+	if (/^Error:/) {
+	    print STDOUT ("$host hlogin error: $_");
+	    print STDERR ("$host hlogin error: $_") if ($debug);
+	    last;
+	}
+	while (/#\s*($cmds_regexp)\s*$/) {
+	    $cmd = $1;
+	    if (!defined($prompt)) {
+		$prompt = ($_ =~ /^([^#]+#)/)[0];
+		$prompt =~ s/([][}{)(\\])/\\$1/g;
+		print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
+	    }
+	    print STDERR ("HIT COMMAND:$_") if ($debug);
+	    if (!defined($commands{$cmd})) {
+		print STDERR "$host: found unexpected command - \"$cmd\"\n";
+		$clean_run = 0;
+		last TOP;
+	    }
+	    if (! defined(&{$commands{$cmd}})) {
+		printf(STDERR "$host: undefined function - \"%s\"\n",
+		       $commands{$cmd});
+		$clean_run = 0;
+		last TOP;
+	    }
+	    my($rval) = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
+	    delete($commands{$cmd});
+	    if ($rval == -1) {
+		$clean_run = 0;
+		last TOP;
+	    }
+	}
+	if (/[>#]\s?logout(\s*connection.*closed.*)?$/i) {
+	    $clean_run = 1;
+	    last;
+	}
+    }
+}
 
 # This routine parses "dir"
 sub Dir {
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In Dir: $_" if ($debug);
     $_ =~ s/^[^#]*//;
     ProcessHistory("COMMENTS","keysort","D1","!\n! $_");
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	s/^\s+\015//g;
 	tr/\015//d;
 	next if /^\s*$/;
@@ -81,9 +117,10 @@ sub Dir {
 }
 
 sub ShowVer {
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowVer: $_" if ($debug);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	next if /^\s*$/;
 	last if(/$prompt/);
@@ -99,31 +136,38 @@ sub ShowVer {
 }
 
 sub ShowSys {
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowSys: $_" if ($debug);
     $_ =~ s/^[^#]*//;
     ProcessHistory("COMMENTS","keysort","C1","!\n! $_");
 
-    while (<INPUT>) {
-	s/^\s+\015//g;
+    while (<$INPUT>) {
+TOP:	s/^\s+\015//g;
 	tr/\015//d;
 	next if /^\s*$/;
 	last if(/$prompt/);
 	# pager remnants like: ^H^H^H    ^H^H^H content
 	s/[\b]+\s*[\b]*//g;
 
-	# Remove Uptime
-	/ up time/i && next;
-
-	# filter temperature sensor info for Dell 6428 stacks, Powerconnect 7048
-	# /Temperature Sensors:/
-	if (/Temperature \(Celsius\)/) {
+	# filter temperature sensor info form Dell N1148T-ON and Powerconnect
+	# 7048 /Temperature Sensors:/; yet another format - a losing battle.
+	if (/^(system thermal conditions|Temperature Sensors):/i) {
+	    while (<$INPUT>) {
+		s/^\s+\015//g;
+		tr/\015//d;
+		goto ENDSHOWSYS if (/$prompt/);
+		# next section header
+		goto TOP if (/^(\w\s*)+:/);
+	    }
+	} elsif (/Temperature \(Celsius\)/) {
+	    # filter temperature sensor info for Dell 6428 stacks
 	    ProcessHistory("COMMENTS","keysort","C1","! $_");
 	    ProcessHistory("COMMENTS","keysort","C1","! Unit\tStatus\n");
 	    ProcessHistory("COMMENTS","keysort","C1","! ----\t------\n");
-	    while (<INPUT>) {
+	    while (<$INPUT>) {
 		s/^\s+\015//g;
 		tr/\015//d;
-		goto ENDSHOWSYS if(/$prompt/);
+		goto ENDSHOWSYS if (/$prompt/);
 		/(\d+)\s+\d+\s+(.*)$/ &&
 		ProcessHistory("COMMENTS","keysort","C1","! $1\t$2\n");
 		/^\s*$/ && last;
@@ -142,18 +186,33 @@ sub ShowSys {
 			   "! Unit\tDescription\tStatus\n");
 	    ProcessHistory("COMMENTS","keysort","C1",
 			   "! ----\t-----------\t------\n");
-	    while (<INPUT>) {
+	    while (<$INPUT>) {
 		/\(celsius\)/i && next;
 		s/^\s+\015//g;
 		tr/\015//d;
-		goto ENDSHOWSYS if(/$prompt/);
+		goto ENDSHOWSYS if (/$prompt/);
 		/(\d+)\s+(\w+)\s+\d+\s+(.*)$/ &&
 		ProcessHistory("COMMENTS","keysort","C1","! $1\t$2\t\t$3\n");
 		/^\s*$/ && last;
 	    }
+	} elsif (/unit\s+up\s+time/i) {
+	    # filter module uptime on PowerConnect 5524
+	    # Unit     Up time
+	    # ---- ---------------
+	    #  1     84,01:53:23
+	    #  2     84,01:53:45
+	    while (<$INPUT>) {
+		s/^\s+\015//g;
+		tr/\015//d;
+		goto ENDSHOWSYS if (/$prompt/);
+		/^\s*$/ && last;
+	    }
 	}
 
-	# filter power rates and tmestamps from 7024 power supply info
+	# Remove Uptime
+	/ up time/i && next;
+
+	# filter power rates and timestamps from 7024 power supply info
 	# Power Supplies:
 	#  
 	# Unit  Description    Status     Average     Current          Since
@@ -168,7 +227,7 @@ sub ShowSys {
 		"! Unit\tDescription\tStatus\n");
 	    ProcessHistory("COMMENTS","keysort","C1",
 		"! ----\t-----------\t------\n");
-	    while (<INPUT>) {
+	    while (<$INPUT>) {
 		s/^\s+\015//g;
 		tr/\015//d;
 		goto ENDSHOWSYS if(/$prompt/);
@@ -195,11 +254,12 @@ ENDSHOWSYS:
 }
 
 sub ShowVlan {
+    my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowVlan: $_" if ($debug);
     $_ =~ s/^[^#]*//;
     ProcessHistory("COMMENTS","keysort","D1","!\n! $_");
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	s/^\s+\015//g;
 	tr/\015//d;
 	next if /^\s*$/;
@@ -216,10 +276,11 @@ sub ShowVlan {
 
 # This routine processes a "write term" (aka show running-configuration)
 sub WriteTerm {
+    my($INPUT, $OUTPUT, $cmd) = @_;
     my($comment) = (0);
     print STDERR "    In WriteTerm: $_" if ($debug);
 
-    while (<INPUT>) {
+    while (<$INPUT>) {
 	tr/\015//d;
 	next if /^\s*$/;
 	last if(/$prompt/);
@@ -309,145 +370,4 @@ sub WriteTerm {
     return(1);
 }
 
-# Main
-rancidinit();
-
-@commandtable = (
-	{'terminal datadump'		=> 'RunCommand'},	# dump all output of a show command without prompting
-	{'show system'			=> 'ShowSys'},
-	{'show version'			=> 'ShowVer'},
-	{'dir'				=> 'Dir'},
-	{'show vlan'			=> 'ShowVlan'},
-	{'show running-config'		=> 'WriteTerm'}
-);
-# Use an array to preserve the order of the commands and a hash for mapping
-# commands to the subroutine and track commands that have been completed.
-@commands = map(keys(%$_), @commandtable);
-%commands = map(%$_, @commandtable);
-$commandcnt = scalar(keys %commands);
-
-$commandstr=join(";",@commands);
-$cmds_regexp = join("|", map quotemeta($_), @commands);
-
-if (length($host) == 0) {
-    if ($file) {
-	print(STDERR "Too few arguments: file name required\n");
-	exit(1);
-    } else {
-	print(STDERR "Too few arguments: host name required\n");
-	exit(1);
-    }
-}
-if ($opt_C) {
-    print "hlogin -t $timeo -c\'$commandstr\' $host\n";
-    exit(0);
-}
-open(OUTPUT,">$host.new") || die "Can't open $host.new for writing: $!\n";
-select(OUTPUT);
-# make OUTPUT unbuffered if debugging
-if ($debug) { $| = 1; }
-
-if ($file) {
-    print(STDERR "opening file $host\n") if ($debug || $log);
-    open(INPUT,"<$host") || die "open failed for $host: $!\n";
-} else {
-    print(STDERR "executing hlogin -t $timeo -c\"$commandstr\" $host\n") if ($debug || $log);
-    system "hlogin -t $timeo -c \"$commandstr\" $host </dev/null > $host.raw 2>&1" || die "hlogin failed for $host: $!\n";
-    open(INPUT, "< $host.raw") || die "hlogin failed for $host: $!\n";
-}
-
-# determine ACL sorting mode
-if ($ENV{"ACLSORT"} =~ /no/i) {
-    $aclsort = "";
-}
-# determine community string filtering mode
-if (defined($ENV{"NOCOMMSTR"}) &&
-    ($ENV{"NOCOMMSTR"} =~ /yes/i || $ENV{"NOCOMMSTR"} =~ /^$/)) {
-    $filter_commstr = 1;
-} else {
-    $filter_commstr = 0;
-}
-# determine oscillating data filtering mode
-if (defined($ENV{"FILTER_OSC"}) && $ENV{"FILTER_OSC"} =~ /no/i) {
-    $filter_osc = 0;
-} else {
-    $filter_osc = 1;
-}
-# determine password filtering mode
-if ($ENV{"FILTER_PWDS"} =~ /no/i) {
-    $filter_pwds = 0;
-} elsif ($ENV{"FILTER_PWDS"} =~ /all/i) {
-    $filter_pwds = 2;
-} else {
-    $filter_pwds = 1;
-}
-
-ProcessHistory("","","","!RANCID-CONTENT-TYPE: smc\n!\n");
-ProcessHistory("COMMENTS","keysort","A0","!\n");
-ProcessHistory("COMMENTS","keysort","B0","!\n");
-ProcessHistory("COMMENTS","keysort","C0","!\n");
-ProcessHistory("COMMENTS","keysort","D0","!\n");
-TOP: while(<INPUT>) {
-    tr/\015//d;
-    if (/^Error:/) {
-	print STDOUT ("$host hlogin error: $_");
-	print STDERR ("$host hlogin error: $_") if ($debug);
-	last;
-    }
-    while (/#\s*($cmds_regexp)\s*$/) {
-	$cmd = $1;
-	if (!defined($prompt)) {
-	    $prompt = ($_ =~ /^([^#]+#)/)[0];
-	    $prompt =~ s/([][}{)(\\])/\\$1/g;
-	    print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
-	}
-	print STDERR ("HIT COMMAND:$_") if ($debug);
-	if (!defined($commands{$cmd})) {
-	    print STDERR "$host: found unexpected command - \"$cmd\"\n";
-	    last TOP;
-	}
-	my($rval) = &{$commands{$cmd}}(*INPUT, *OUTPUT, $cmd);
-	delete($commands{$cmd});
-	if ($rval == -1) {
-	    last TOP;
-	}
-    }
-}
-print STDOUT "Done $lscript: $_\n" if ($log);
-# Flush History
-ProcessHistory("","","","");
-# Cleanup
-close(INPUT);
-close(OUTPUT);
-
-unlink("$host.raw") if (! $debug);
-
-# check for completeness
-if (scalar(%commands) || !$found_end) {
-    if (scalar(keys %commands) eq $commandcnt) {
-	printf(STDERR "$host: missed cmd(s): all commands\n");
-    } elsif (scalar(%commands)) {
-	my($count, $i) = 0;
-	for ($i = 0; $i < $#commands; $i++) {
-	    if ($commands{$commands[$i]}) {
-		if (!$count) {
-		    printf(STDERR "$host: missed cmd(s): %s", $commands[$i]);
-		} else {
-		    printf(STDERR ", %s", $commands[$i]);
-		}
-		$count++;
-	    }
-	}
-	if ($count) {
-	    printf(STDERR "\n");
-	}
-    }
-    if (!$found_end) {
-	print(STDERR "$host: End of run not found\n");
-	if ($debug) {
-	    print(STDERR "$host: found_end is false\n") if (!$found_end);
-	}
-	system("/usr/bin/tail -1 $host.new");
-    }
-    unlink "$host.new" if (! $debug);
-}
+1;

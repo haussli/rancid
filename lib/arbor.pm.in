@@ -1,7 +1,5 @@
 package arbor;
 ##
-## $Id$
-##
 ## @PACKAGE@ @VERSION@
 @copyright@
 #
@@ -170,7 +168,39 @@ sub ShowConfig {
     return(0);
 }
 
-# This routine parses "system hardware"
+# This routine parses "system disk show"
+sub ShowFlash {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowFlash: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if (/invalid command/i);
+
+	# Filesystem status:
+	#   Filesystem  Size/Used         Inodes/Used
+	#    boot        476M/164M (37%)   126K/70 (1%)
+	s/\/used\s+inodes\/used.*//i;
+	s/(\s+\w+\s+)([\d.]+.)\/\S+\s+(\S+).*/$1$2/;
+
+	# filter RAID resync messages
+	# RAID status:
+	#    boot        OK
+	#    data        OK
+	#    system      OK / RESYNC queued
+	#    swap        OK
+	s/(\s+\w+\s+\w+)\s+\/\s+resync queued/$1/i;
+
+	ProcessHistory("Version","","","# $_");
+    }
+    ProcessHistory("Version","","","#\n");
+    return(0);
+}
+
+
+# This routine parses "system hardware" & "system show"
 sub ShowHardware {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowHardware: $_" if ($debug);
@@ -187,8 +217,8 @@ sub ShowHardware {
 	# some stupid timer error from this half-assed device
 	next if (/comsh: timer error, idle timeout will be unavailable/i);
 
-	next if (/^boot time: /i);
-	next if (/^load averages: /i);
+	next if (/^\s*boot time: /i);
+	next if (/^\s*load averages: /i);
 
 	ProcessHistory("Inventory","","","# $_");
     }
@@ -196,7 +226,8 @@ sub ShowHardware {
     return(0);
 }
 
-# This routine parses "show system version", "show system build-parameters"
+# This routine parses "system version", "system build-parameters",
+# "system file show"
 sub ShowVersion {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowVersion: $_" if ($debug);

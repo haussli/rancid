@@ -1,8 +1,6 @@
 .\"
-.\" $Id$
-.\"
 .hys 50
-.TH "rancid" "3" "15 April 2019"
+.TH "rancid" "3" "21 July 2021"
 .SH NAME
 rancid \- rancid Perl and Python modules
 .SH INTRODUCTION
@@ -17,7 +15,13 @@ Specifically, the library is used by
 .BR rancid (1),
 but it could be used by any Perl program for site-specific handling or
 additional automata.
-.PP Input handling functions:
+.PP
+Input handling functions:
+The
+.B rancidcontrib
+library contains functions for similar purposes, but are not part of the
+base rancid.
+Please see the text of the module itself for its documentation.
 .TP
 .B RunCommand(*INPUT, *OUTPUT, command)
 Parse a single command that returns no required info; the output is dropped.

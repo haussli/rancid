@@ -65,6 +65,14 @@ LOGDIR=$BASEDIR/logs; export LOGDIR
 # these requires manual conversions.
 RCSSYS=@RCSSYS@; export RCSSYS
 #
+# If ACLFILTERREGEX is non-empty, it is a semi-colon-separated (';') list of
+# regexes.  The contents of ACLs whose name matches a regex in this list will
+# be filtered.  The purpose of this feature is to filter auto-generated lists,
+# thereby reducing the churn within rancid.  This option implies
+# ACLFILTERSEQ=YES.
+# Not all device types nor ACL types are supported by this feature.
+#ACLFILTERREGEX='^Auto_;_bgp$'; export ACLFILTERREGEX
+#
 # if ACLFILTERSEQ is NO, prefix-list/access-list sequence numbers will NOT be
 # filtered.  this option implies ACLSORT=NO for lists with sequence numbers.
 #ACLFILTERSEQ=YES; export FILTERSEQ
@@ -102,9 +110,9 @@ RCSSYS=@RCSSYS@; export RCSSYS
 #PAR_COUNT=5; export PAR_COUNT
 #
 # list of rancid groups
-#LIST_OF_GROUPS="sl joebobisp"
+#LIST_OF_GROUPS="sl joebobisp"; export LIST_OF_GROUPS
 # more groups...
-#LIST_OF_GROUPS="$LIST_OF_GROUPS noc billybobisp"
+#LIST_OF_GROUPS="$LIST_OF_GROUPS noc billybobisp"; export LIST_OF_GROUPS
 #
 # Define an alternate filter for the output of the RCS diff.  The filter
 # should read from stdin and write to stdout.  The default is defined in

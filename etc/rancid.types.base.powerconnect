@@ -1,0 +1,18 @@
+diff --git a/etc/rancid.types.base b/etc/rancid.types.base
+index 33734a19..b3dc95bc 100644
+--- a/etc/rancid.types.base
++++ b/etc/rancid.types.base
+@@ -641,6 +641,13 @@ paloalto;command;panos::ShowInfo;show system info
+ paloalto;command;panos::ShowInventory;show chassis inventory
+ paloalto;command;panos::ShowConfig;show config running
+ #
++powerconnect;script;rancid -t powerconnect
++powerconnect;login;clogin
++powerconnect;module;powerconnect
++powerconnect;inloop;powerconnect::inloop
++powerconnect;command;powerconnect::GetSystem;show switch
++powerconnect;command;powerconnect::GetConf;show running-config
++#
+ redback;script;rrancid
+ redback;login;clogin
+ #

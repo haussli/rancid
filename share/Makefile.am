@@ -1,9 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 ## A Makefile.in is supplied, in case you do not have automake.
 
-## $Id$
-##
-## Copyright (c) 1997-2018 by Henry Kilmer and John Heasley
+## Copyright (c) 1997-2019 by Henry Kilmer and John Heasley
 ## All rights reserved.
 ##
 ## Please see the file COPYING for the text of the license.

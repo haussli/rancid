@@ -23,7 +23,6 @@
 - '% clogin clogin' w/ ssh default produces a tcl traceback
 - RSP440 show version info is missing, eg:
   !Chassis type: ASR9K Series - a ASR9K Series router
-- make *login and login.top.in cmdline options common among all scripts
 - sup2t show version info is missing
 - cpu info missing from sup-2t
    Index: configs/r01.londen01.uk.bb.gin.ntt.net
@@ -61,14 +60,6 @@
    + !ROM Bootstrap: Version 12.2(50r)SYS2, RELEASE SOFTWARE (fc1)
      !
 - rivlogin is a mess
-- why does hlogin fail when the host key is not yet known?  eg:
-  unix% ./hlogin procurve
-  procurve
-  spawn hpuifilter -- ssh -c 3des -x -l user procurve
-  Host key verification failed.
-
-  Error: Couldn't login
-  This happens on solaris only; linux and netbsd seem to be ok.
 - lg.conf(5) needs the query stuff documented.
 - could the cloginrc match function do a longest-match search instead of
   first match?
@@ -79,8 +70,6 @@
 - recent hp procurve s/w does not seem have show flash or show module
 - would like to have a "pre-login-sequence" cloginrc directive, see
   rancid-disuss message from mike ethridge 16/may
-- would like to have a "timeout" cloginrc directive
-- would like to have a ssh "passphrase" cloginrc directive
 - would like to have a "login_option" cloginrc directive to specify arbitrary
   command-line options
 - possibly a "debug" (exp_internal 1 ?) cloginrc directive?  *login -d flag
@@ -92,9 +81,6 @@
 - share/ tool to prune cvs versions, excluding those with tags, by (all but
   latest | keep N versions | keep N days/months/years)
 - extreme collection fails for tacacs-enabled boxen due to diffs in UI - blech!
-- xrancid should collect both of these:
-	show configuration
-	show configuration detail
 - FILTER_PWDS knob is not implemented in alteon, bay, ezt3 or redback due to
   lack of h/w to test against.  need help from the community.
 - should par's -c override an input files' : cmd?
@@ -114,8 +100,6 @@
 - merge clogin and jlogin (or *login !!) into one.  possible?
 - flogin needs to be fixed for the userpasswd bug seen in jlogin 1.17, but
   this is clouded by the UI mess.
-- rancid needs to treat the 3600s like the 7Ks and 12Ks...
-  Also, need to allow 12012s, and force 700s to not be treated like 7Ks.
 - LG should sort routers
 - LG {requested} command additions
 	- show controllers T3 (data)

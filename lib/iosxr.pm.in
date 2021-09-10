@@ -243,10 +243,19 @@ sub ShowVersion {
 			       "!CPU:$slave $cpu$_$slaveslot\n");
 	    }
 	    next;
+	} elsif (/^cisco (\S+(?:\sseries)?)\s+(?:\(([^)]*)\)\s+processor)/i) {
+	    $proc = $1;
+	    my($cpu) = $2;
+	    my($device) = "router";
+
+	    print STDERR "TYPE = $type\n" if ($debug);
+	    ProcessHistory("COMMENTS","keysort","A1",
+		"!Chassis type: $proc - a $proc $device\n");
+	    if (defined($cpu) && length($cpu)) {
+		ProcessHistory("COMMENTS","keysort","A3",
+			       "!CPU:$cpu\n");
+	    }
 	}
-	/^(\d+[kK]) bytes of multibus/ &&
-	    ProcessHistory("COMMENTS","keysort","B2",
-		"!Memory: multibus $1\n") && next;
 	/^(\d+[kK]) bytes of (non-volatile|NVRAM)/ &&
 	    ProcessHistory("COMMENTS","keysort","B3",
 		"!Memory: nvram $1\n") && next;
@@ -289,10 +298,9 @@ sub ShowVersion {
 }
 
 # This routine parses "admin show diag".
-# This will create arrays for hw info.
 sub AdminShowDiag {
     my($INPUT, $OUTPUT, $cmd) = @_;
-    print STDERR "    In ShowDiag: $_" if ($debug);
+    print STDERR "    In AdminShowDiag: $_" if ($debug);
 
     while (<$INPUT>) {
 	tr/\015//d;
@@ -363,10 +371,10 @@ sub AdminShowRunning {
     return(0);
 }
 
-# This routine parses "admin show hw-module fpd location all".
-sub ShowHWfpd {
+# This routine parses "show diag".
+sub ShowDiag {
     my($INPUT, $OUTPUT, $cmd) = @_;
-    print STDERR "    In ShowRunning: $_" if ($debug);
+    print STDERR "    In ShowDiag: $_" if ($debug);
 
     while (<$INPUT>) {
 	tr/\015//d;
@@ -386,19 +394,22 @@ sub ShowHWfpd {
 	next if (/^\S+ connected from 127.0.0.1 using console /);
 	next if (/# terminal length 0$/);
 
-	/^notes:/i && last;
+	s/^NODE //;
+	# wtf are these?
+	next if (/(New Deviation|UDI_VID|Board State)/);
 
-	ProcessHistory("FPD","","","!$_");
+	ProcessHistory("SLOT","","","!$_");
     }
-    ProcessHistory("FPD","","","!\n");
+    ProcessHistory("SLOT","","","!\n");
     return(0);
 }
 
-# This routine parses "admin show redundancy"
-sub ShowRedundancy {
+
+# This routine parses "admin show hw-module fpd location all" and
+# "show hw-module fpd" (eXR/eXR-lite).
+sub ShowHWfpd {
     my($INPUT, $OUTPUT, $cmd) = @_;
-    my($slave, $slaveslot);
-    print STDERR "    In ShowRedundancy: $_" if ($debug);
+    print STDERR "    In ShowRunning: $_" if ($debug);
 
     while (<$INPUT>) {
 	tr/\015//d;
@@ -410,20 +421,54 @@ sub ShowRedundancy {
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
 	next if (/^(\e\[.\d+h)?sysadmin-vm:[^#]+# /i);			# NCS
 	return(1) if (/^(-+\^|syntax error: unknown argument)$/i);	# NCS
+	return(-1) if (/command authorization failed/i);
 
-	if (/^Version information for secondary in slot (\d+):/) {
-	    $slave = " Slave:";
-	    $slaveslot = ", slot $1";
-	    next;
-	}
+	# skip blank lines
+	/^$/ && next;
 
-	/^IOS .* Software \(([A-Za-z0-9_-]*)\), .*Version\s+(.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","F1",
-		"!Image:$slave Software: $1, $2\n") && next;
-	/^Compiled (.*)$/ &&
-	    ProcessHistory("COMMENTS","keysort","F3",
-		"!Image:$slave Compiled: $1\n") && next;
+	# NCS junk
+	next if (/^\S+ connected from 127.0.0.1 using console /);
+	next if (/# terminal length 0$/);
+
+	/^notes:/i && last;
+
+	# remove trailing WS
+	s/\s+$/\n/;
+
+	ProcessHistory("FPD","","","!$_");
     }
+    ProcessHistory("FPD","","","!\n");
+    return(0);
+}
+
+# This routine parses "show redundancy"
+sub ShowRedundancy {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    my($slave, $slaveslot);
+    print STDERR "    In ShowRedundancy: $_" if ($debug);
+
+TOP: while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	# filter the bloody cmd-line timestamp
+	next if (/^\w{3} \w{3,4} {1,3}\d{1,2} {1,2}\d{1,2}:\d+:\d+\.\d+ \S+$/);
+	return(1) if (/Line has invalid autocommand /);
+	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	next if (/^(\e\[.\d+h)?sysadmin-vm:[^#]+# /i);			# NCS
+	return(1) if (/^(-+\^|syntax error: unknown argument)$/i);	# NCS
+
+	# filter reload/boot info
+	if (/^reload and boot info/i) {
+	    while (<$INPUT>) {
+		tr/\015//d;
+		last TOP if (/^$prompt/);
+		last if (/^\s*$/);
+	    }
+	}
+	ProcessHistory("COMMENTS","keysort","F3", "!$_");
+    }
+    ProcessHistory("COMMENTS","keysort","F3", "!\n");
     return(0);
 }
 
@@ -456,6 +501,39 @@ sub ShowInstallActive {
 		 /result in rma of the hardware/i);	# useless FPD messages
 
 	ProcessHistory("COMMENTS","keysort","F5","!Image: $_") && next;
+    }
+    ProcessHistory("COMMENTS","keysort","F5","!\n");
+    return(0);
+}
+
+# This routine parses "show memory summary"
+sub ShowMemorySum {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowMemorySum: $_" if ($debug);
+
+    # RP/0/RSP0/CPU0:r00.lab#show memory summary
+    #
+    # node:      node0_RSP0_CPU0
+    # ------------------------------------------------------------------
+    # 
+    #  Physical Memory: 27426M total (22146M available)
+    #  Application Memory : 27426M (21819M available)
+    #  Image: 4M (bootram: 0M)
+    #  Reserved: 0M, IOMem: 0M, flashfsys: 0M
+    #  Total shared window: 140M
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	# filter the bloody cmd-line timestamp
+	next if (/^\w{3} \w{3,4} {1,3}\d{1,2} {1,2}\d{1,2}:\d+:\d+\.\d+ \S+$/);
+	return(1) if (/Line has invalid autocommand /);
+	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
+	return(-1) if (/command authorization failed/i);
+
+	/physical memory:\s+(\d+[GMKB])\s+total/i &&
+	    ProcessHistory("COMMENTS","keysort","B1",
+			   "!Memory: main $1\n") && next;
     }
     return(0);
 }
@@ -495,6 +573,22 @@ sub ShowEnv {
 	    }
 	    next;
 	}
+	if (/power shelf \d+:/i) {
+	    my($sep) = 0;
+	    ProcessHistory("COMMENTS","keysort","E1","!Power: $_");
+	    while (<$INPUT>) {
+		tr/\015//d;
+		goto OUT if (/^$prompt/);
+		last if (/^altitude information/i);
+		last if (/^=+$/i && ($sep > 1));
+		$sep++ if (/^=+$/i);
+		if (/^(\s+\S+\s+\S+-(?:AC|DC)\s+)(\S+\s+\S+\s+\S+\s+\S+)(\s+.*)/) {
+		    $_ = sprintf("%s%-". length($2) ."s%s\n", $1, "", $3);
+		}
+		ProcessHistory("COMMENTS","keysort","E1","!Power: $_");
+	    }
+	    next;
+	}
 	/^Power Supply Information$/ && next;
 	/^\s*Power Module\s+Voltage\s+Current$/ && next;
 	/^\s*(Power [^:\n]+)$/ &&
@@ -507,7 +601,7 @@ sub ShowEnv {
 	    ProcessHistory("COMMENTS","keysort","E2","!Power: $1\n") && next;
     }
 OUT:
-    ProcessHistory("COMMENTS","","","!\n");
+    ProcessHistory("COMMENTS","keysort","E3","!\n");
     return(0);
 }
 
@@ -554,10 +648,10 @@ sub DirSlotN {
 	# filter frequently changing files from IOX bootflash, hardiska,
 	# and nvram
 	if ($dev =~ /(bootflash|disk[0-9]|harddisk|nvram)/) {
-	    if (/\s(\.python-history|aaa|\.bash_history)\s*$/ ||
+	    if (/\s(\.python-history|aaa|\.bash_history|.sppdc)\s*$/ ||
 	        /\s(ce_switch.log\S*|cisco_support|errmsg_cont)\s*$/ ||
 	        /\s(genstr_cont|temp_cont|temp_cont|temp_static_data)\s*$/ ||
-	        /\s(uptime_cont|volt_cont)\s*$/) {
+	        /\s(uptime_cont|volt_cont|volt_hist)\s*$/) {
 		# change
 		# 57          -rw-  23100       <no date>              volt_cont
 		# 614788      drwx  4096        Fri Aug 20 12:06:25 2010  temp_cont
@@ -571,7 +665,8 @@ sub DirSlotN {
 		    $_ = sprintf($fmt, $c, $dt, $d, $rem);
 		    ProcessHistory("FLASH","keysort",$rem,"!Flash: $dev: $_");
 		    next;
-		} elsif (/\s*\d+\s+(\S+\s+\d+\s+)(\d+\s+\w+\s+\d+\s+\d+:\d+)/) {
+		} elsif (/\s*\d+\s+(\S+\s+\d+\s+)(\d+\s+\w+\s+\d+\s+\d+:\d+)/ ||
+		         /\s*\d+\s+(\S+\s+\d+\s+)(\d+\s+\w+\s+\d+\s+\d{4})/) {
 		    # XR >= 6.3; dir disk0:, but harddisk: is diff format.  wtf
 		    # drop fileno size, & date.
 		    # " 8002 drwxr-xr-x 2 4096 Jan 17 15:27 np"
@@ -594,7 +689,8 @@ sub DirSlotN {
 		    my($sz, $c, $dt, $d, $rem) = ($1, $2, $3, $4, $');
 		    ProcessHistory("FLASH","keysort",$rem,"!Flash: $dev: $sz$c$dt$d$rem");
 		    next;
-		} elsif (/\s*\d+\s+(\S+\s+\d+\s+)(\d+\s+\w+\s+\d+\s+\d+:\d+)/) {
+		} elsif (/\s*\d+\s+(\S+\s+\d+\s+)(\d+\s+\w+\s+\d+\s+\d+:\d+)/ ||
+		         /\s*\d+\s+(\S+\s+\d+\s+)(\d+\s+\w+\s+\d+\s+\d{4})/) {
 		    # XR >= 6.3; dir disk0:, but harddisk: is diff format.  wtf
 		    my($perm, $dt, $rem) = ($1, $2, $');
 		    ProcessHistory("FLASH","keysort",$rem,"!Flash: $dev: $perm$dt$rem");
@@ -747,7 +843,7 @@ sub ShowDebug {
     return(0);
 }
 
-# This routine parses "admin show install summary"
+# This routine parses "admin show install active"
 sub ShowInstallSummary {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowInstallSummary: $_" if ($debug);
@@ -777,7 +873,7 @@ sub ShowInstallSummary {
 	next if (/^\S+ connected from 127.0.0.1 using console /);
 	next if (/# terminal length 0$/);
 
-	ProcessHistory("COMMENTS", "keysort", "C15", "! $_");
+	ProcessHistory("COMMENTS", "keysort", "C15", "!Image: $_");
     }
     ProcessHistory("COMMENTS", "keysort", "C10", "!\n");
     ProcessHistory("COMMENTS", "keysort", "C19", "!\n");
@@ -814,8 +910,16 @@ sub ShowInventory {
 	    ProcessHistory("INVENTORY","","", sprintf("!%-30s %s\n", $1, $2));
 	    next;
 	}
+
+	# XR flavor:
+	# NAME: "module 0/RSP0/CPU0", DESCR: "ASR9K Route Switch Processor with 880G/slot Fabric and 32GB"
+	# PID: A9K-RSP880-SE, VID: V01, SN: FOC1911VC2S
+	#
+	# eXR flavor:
+	# NAME: "0/RSP0-Motherboard", DESCR: "Motherboard Module"
+	# PID: N/A               , VID: N/A , SN: N/A
 	# split PID/VID/SN line
-	if (/^PID: (\S*)\s*, VID: (\S*)\s*, SN: (\S*)\s*$/) {
+	if (/^ ?PID: (\S*)\s*, VID: (\S*)\s*,\s* SN: (\S*)\s*$/) {
 	    my($pid,$vid,$sn) = ($1, $2, $3);
 	    my($entries) = "";
 	    # filter <empty>, "0x" and "N/A" lines
@@ -873,6 +977,32 @@ sub ShowLicense {
 	next if (/^\S+ connected from 127.0.0.1 using console /);
 	next if (/# terminal length 0$/);
 
+	# filter the BS from license broker
+	next if (/(renewal attempt|communication attempt):/i);
+	next if (/next registration attempt:/i);		# timestamp
+	next if (/(period used:|requested time:)/i);		# show lic feature
+	if (/(^\s*(evaluation )?period (left|remaining):\s*)\d+/i) {
+	    ProcessHistory("COMMENTS","keysort","LICENSE","! $1<limited>\n");
+	    next;
+	}
+
+	# drop license counts
+	next if (/license usage:/i);
+	if (/(.*)count status/i) {
+	    my($hdr) = $1;
+	    my($len) = length($hdr);
+
+	    $hdr =~ s/\s*$//;
+	    ProcessHistory("COMMENTS", "keysort", "C20", "! $hdr\n");
+	    while (<$INPUT>) {
+		tr/\015//d;
+		return(0) if (/^$prompt/);
+
+		s/^(.{1,$len}).*/$1/;
+		ProcessHistory("COMMENTS", "keysort", "C20", "! $_");
+	    }
+	    next;
+	}
 	ProcessHistory("COMMENTS", "keysort", "C20", "! $_");
     }
     ProcessHistory("COMMENTS", "keysort", "C20", "!\n");
@@ -947,6 +1077,7 @@ REPEAT:	tr/\015//d;
 	return(0) if ($found_end);		# Only do this routine once
 	return(-1) if (/command authorization failed/i);
 	return(-1) if (/% ?configuration buffer full/i);
+	return(-1) if (/^ *drbg_instantiate failed/i);			# xr7.1
 	/^! no configuration change since last restart/i && next;
 	# skip emtpy lines at the beginning
 	if (!$linecnt && /^\s*$/) {
@@ -1148,21 +1279,24 @@ REPEAT:	tr/\015//d;
 	}
 	# filter out any RCS/CVS tags to avoid confusing local CVS storage
 	s/\$(Revision|Id):/ $1:/;
-	# order access-lists
-	/^access-list\s+(\d\d?)\s+(\S+)\s+(\S+)/ &&
-	    ProcessHistory("ACL $1 $2","$aclsort","$3","$_") && next;
-	# order extended access-lists
-	/^access-list\s+(\d\d\d)\s+(\S+)\s+ip\s+host\s+(\S+)/ &&
-	    ProcessHistory("EACL $1 $2","$aclsort","$3","$_") && next;
-	/^access-list\s+(\d\d\d)\s+(\S+)\s+ip\s+(\d\S+)/ &&
-	    ProcessHistory("EACL $1 $2","$aclsort","$3","$_") && next;
-	/^access-list\s+(\d\d\d)\s+(\S+)\s+ip\s+any/ &&
-	    ProcessHistory("EACL $1 $2","$aclsort","0.0.0.0","$_") && next;
 	# sort ipv{4,6} access-lists
 	if ($aclfilterseq && /^ipv(4|6) access-list (\S+)\s*$/) {
 	    my($nlri, $key) = ($1, $2);
-	    my($seq, $cmd);
+	    my($seq, $cmd, $regexfilter);
 	    ProcessHistory("ACL $nlri $key","","","$_");
+	    # filter ACL contents
+	    $regexfilter = 0;
+	    if (defined($aclfilterregex) && length($aclfilterregex)) {
+		my($i);
+		my(@regexes) = split('\;', $aclfilterregex);
+		for ($i = 0; $i < ($#regexes + 1); $i++) {
+		    if ($key =~ /$regexes[$i]/) {
+			$regexfilter = 1;
+			ProcessHistory("ACL $nlri $key !", "", "",
+				       "! <$key contents removed by ACLFILTERREGEX>\n");
+		    }
+		}
+	    }
 	    while (<$INPUT>) {
 		tr/\015//d;
 		goto REPEAT if (/^$prompt/ || !/^(\s|\d|!)/);
@@ -1170,6 +1304,7 @@ REPEAT:	tr/\015//d;
 		    ProcessHistory("ACL $nlri $key !", "", "", "$_");
 		    next;
 		}
+		next if ($regexfilter);
 		# ipv4 access-list name
 		#  remark NTP
    		#  deny ipv4 host 224.0.1.1 any

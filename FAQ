@@ -564,6 +564,9 @@ Q. I wrote scripts for an unsupported device in rancid 2.x, but I am upgrading
 A. Yes.  The device type must be added to etc/rancid.types.conf such as:
 	DeviceTypeName;script;RancidScriptName
 	DeviceTypeName;login;LoginScriptName
+   eg:
+	alteon;script;arancid
+	alteon;login;alogin
    See rancid.types.conf(5).
 
 
@@ -576,7 +579,7 @@ A. You should first search the rancid-discuss mail list and the web for
    someone.
 
    If you must write one, it is helpful to have a basic understanding of
-   rancid's general process.  See rancid_intro(1) and this maillist thread
+   rancid's general process.  See rancid_intro(7) and this maillist thread
    thread:
    http://www.shrubbery.net/pipermail/rancid-discuss/2015-August/008630.html .
 

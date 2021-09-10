@@ -1,0 +1,196 @@
+package routeros;
+##
+## @PACKAGE@ @VERSION@
+@copyright@
+#
+#  RANCID - Really Awesome New Cisco confIg Differ
+#
+#  routeros.pm - Mikrotik RouterOS rancid procedures
+#
+# Original mtrancid was modified by Chris Boot for MikroTik.
+
+use 5.010;
+use strict 'vars';
+use warnings;
+no warnings 'uninitialized';
+require(Exporter);
+our @ISA = qw(Exporter);
+
+use rancid @VERSION@;
+
+@ISA = qw(Exporter rancid main);
+#XXX @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands);
+
+# load-time initialization
+sub import {
+    $timeo = 90;                       # mtlogin timeout in seconds
+
+    0;
+}
+
+# post-open(collection file) initialization
+sub init {
+    # add content lines and separators
+    ProcessHistory("","","","!RANCID-CONTENT-TYPE: $devtype\n!\n");
+    ProcessHistory("COMMENTS","keysort","B0","!\n");
+    ProcessHistory("COMMENTS","keysort","D0","!\n");
+    ProcessHistory("COMMENTS","keysort","F0","!\n");
+    ProcessHistory("COMMENTS","keysort","G0","!\n");
+
+    0;
+}
+
+# main loop of input of device output
+sub inloop {
+    my($INPUT, $OUTPUT) = @_;
+    my($cmd, $rval);
+
+TOP: while (<$INPUT>) {
+	tr/\015//d;
+	if (/[>#]\s*quit$/) {
+	    $clean_run=1;
+	    last;
+	}
+	if (/^Error:/) {
+	    print STDOUT ("$host mtlogin error: $_");
+	    print STDERR ("$host mtlogin error: $_") if ($debug);
+	    $clean_run = 0;
+	    last;
+	}
+	while (/\s*($cmds_regexp)\s*$/) {
+	    $cmd = $1;
+	    if (!defined($prompt)) {
+		$prompt = "\] > ";  # crude but effective
+		print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
+	    }
+	    print STDERR ("HIT COMMAND:$_") if ($debug);
+	    if (! defined($commands{$cmd})) {
+		print STDERR "$host: found unexpected command - \"$cmd\"\n";
+		$clean_run = 0;
+		last TOP;
+	    }
+	    $rval = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
+	    delete($commands{$cmd});
+	    if ($rval == -1) {
+		$clean_run = 0;
+		last TOP;
+	    }
+	}
+    }
+}
+
+# This routine parses "show version"
+sub SystemPackagePrintDetail {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In SystemPackagePrintDetail: $_" if ($debug);
+    my($buffer) = "";
+    my($name);
+    my(%packages) = ();
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/$prompt/);
+	next if (/^Flags:/);
+	return(1) if (/(bad command name )/);
+
+	s/^\s+//g;
+	s/^\d+\s+//g;
+	s/\s+$//g;
+
+	if (/^$/) {
+	    if ($buffer =~ /name="(.+)"/) {
+			$packages{$1} = $buffer;
+	    }
+	    $buffer = "";
+	} else {
+	    $buffer .= "$_ ";
+	}
+    }
+
+    if ($buffer =~ /name="(.+)"/) {
+	$packages{$1} = $buffer;
+    }
+
+    for $name (sort keys %packages) {
+	ProcessHistory("COMMENTS","keysort","A1","# " . $packages{$name} .
+		       "\n");
+    }
+
+    return(0);
+}
+
+sub SystemRouterboardPrint {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In SystemRouterboardPrint: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if (/(bad command name )/);
+	s/^\s+//g;
+
+	# license renewal timestamp
+	next if (/^next-renewal-at:/i);
+
+	ProcessHistory("COMMENTS","keysort","C1","# $_");
+    }
+
+    return(0);
+}
+
+sub SystemLicensePrint {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In SystemLicensePrint: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	return(1) if (/(bad command name )/);
+	s/^\s+//g;
+
+	ProcessHistory("COMMENTS","keysort","E1","# $_");
+    }
+
+    return(0);
+}
+
+sub Export {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In Export: $_" if ($debug);
+    my($buffer) = "";
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	if (/$prompt/) { $found_end=1; $clean_run=1; return 0};
+	next if(/^(\s*|\s*$cmd\s*)$/);
+	next if(/^#/);
+	return(1) if /(bad command name )/;
+	s/^\s+//g;
+
+	# RouterOS splits long lines with backslashes - this re-joins them
+	if (/\\\n$/) {
+	    s/\s*\\\n$//;
+	    $buffer .= $_;
+	    if (!/=$/ && !/="[^"]+$/ ) {
+		$buffer .= " ";
+	    }
+	} else {
+	    $buffer .= $_;
+
+	    # Fix quoted strings
+	    $buffer =~ s/(\S+)="(\S+)"/$1=$2/g;
+
+	    # skip dynamic configuration, like
+	    # set <pppoe-joker> disabled=yes display-time=5s
+	    # set <pppoe-smoker > disabled=yes display-time=5s
+	    ($buffer = "", next) if (/set "?<\S+\s?>"? /);
+
+	    ProcessHistory("","","","$buffer");
+	    $buffer = "";
+	}
+    }
+}
+
+1;

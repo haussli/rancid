@@ -1,10 +1,27 @@
+RANCiD 2.3 to >2.3
+Assuming that no other specifics in the sections below apply to your
+installation or environment, then upgrades should be straight-forward.
+	- review the CHANGES file for anything that may affect you,
+	- backup your current installation,
+	- optionally disable rancid's cron jobs and waiting for running
+	  collections to finish.
+	- follow the quick installation instructions in the README, using the
+	  same arguments to configure that were used for the previous version
+	  (if any), and installing the new directly over the previous.
+	- it may be necessary to merge new .conf files (rancd.conf, lg.conf,
+	  rancid.types.conf) with the existing files, which will not have been
+	  over-written.
+	- re-enable rancid's cron jobs
+
+
 RANCiD 3.2
 3.2 includes support for the git SCM.  It is based on the patch from Jeffrey C.
 Ollie.  However, unlike the patch, which places all of the rancid collections
 into one repository rooted at rancid.conf:$BASEDIR, we've chosen to use
 separate respositories as remote located in rancid.conf:$BASEDIR.  This allows
-the code to be same whether the master repository is local or remote and allows
-each to be in a different location and autonomous.  Also see rancid-cvs(1).
+the code to be the same whether the master repository is local or remote and
+allows each to be in a different location and autonomous.  Also see
+rancid-cvs(1).
 
 We do not want to instruct or help convert between SCMs; that is better left
 to those that provide the tools that do the conversion.  But, a few notes for
@@ -35,6 +52,7 @@ EOF
 	Now update the RCSSYS and CVSROOT variables in rancid.conf.
 Please do not ask us for help with these tools.  Also see
 https://github.com/svn-all-fast-export/svn2git.
+
 
 RANCiD 3.0
 3.0 requires minimum revisions of perl 5.10 and expect 5.43.

@@ -1,6 +1,6 @@
 .\"
 .hys 50
-.TH "clogin" "1" "12 July 2019"
+.TH "clogin" "1" "5 May 2020"
 .SH NAME
 clogin \- Cisco login script
 .SH SYNOPSIS
@@ -59,10 +59,12 @@ A10,
 Alteon,
 Avocent (Cyclades),
 Bay Networks (nortel),
+Brocade,
 Cisco Small Business devices,
 ADC-kentrox EZ-T3 mux,
 Fortinet firewalls,
 Foundry,
+Cisco Firepower,
 HP Procurve switches and Cisco AGMs,
 Hitachi routers,
 Juniper Networks,
@@ -71,6 +73,7 @@ Mikrotik routers,
 Netscreen firewalls,
 Nokia (Alcatel-Lucent),
 Netscaler,
+Riverbed Steelhead,
 Riverstone,
 Netopia,
 Cisco WLCs,
@@ -81,10 +84,12 @@ named
 .B alogin,
 .B avologin,
 .B blogin,
+.B brlogin,
 .B csblogin,
 .B elogin,
 .B flogin,
 .B fnlogin,
+.B fxlogin,
 .B hlogin,
 .B htlogin,
 .B jlogin,
@@ -93,6 +98,7 @@ named
 .B nlogin,
 .B noklogin,
 .B nslogin,
+.B rblogin,
 .B rivlogin,
 .B tlogin,
 .B wlogin,
@@ -308,12 +314,6 @@ such as "router> (enable)".  It uses this to determine, for example,
 whether the command to disable the pager is "set length 0" or "term length 0".
 .PP
 The HP Procurve switches that are Foundry OEMs use flogin, not hlogin.
-.PP
-The Extreme is supported by
-.B clogin,
-but it has no concept of an "enabled" privilege level.  You must
-set autoenable for these devices in your
-.IR .cloginrc .
 .PP
 The -S option is a recent addition, it may not be supported in all of the
 login scripts or for every target device.

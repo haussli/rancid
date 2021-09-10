@@ -26,7 +26,7 @@ our @ISA = qw(Exporter rancid);
 
 sub usage()
 {
-    print STDERR "rancid [-dhltCV] -t device_type [-f filename | hostname]\n";
+    print STDERR "rancid [-dhlCV] -t device_type [-f filename | hostname]\n";
     exit 64;
 }
 
@@ -43,6 +43,29 @@ if (loadtype($devtype)) {
 }
 if (! defined($lscript)) {
     die "login script not defined for device type $rancid::devtype\n";
+}
+# if the first word of $script is not us (this script), exec the given
+# script.
+my(@script) = split(/\s+/, $script);
+if (which($script[0]) ne which($0)) {
+    # -[hCV] are not handled; they will have already been handled earlier.
+    push(@script, "-d") if $opt_d;
+    push(@script, "-l") if $opt_l;
+    push(@script, "-f") if $opt_f;
+    push(@script, $host);
+    if ($debug) {
+	print(STDERR "device script ($script[0]) does not appear to be me ($0)".
+		     ": exec(".  join(" ", @script) .")\n");
+    }
+    # there is no way to prevent an error msg from exec such that the die error
+    # is the only one displayed, without also leaving the child without a
+    # working STDERR.
+    exec(join(" ", @script)) || die "exec($script[0]) failed: $!\n";
+}
+
+# check that inloop, the input/main loop, is defined
+if (!defined($inloop) || length($inloop) < 1) {
+    die "inloop is not configured for device type $devtype";
 }
 
 # open the temporary file for the digested output
@@ -81,9 +104,6 @@ if ($file) {
 }
 
 # loop over the input using the provided input/main loop
-if (!defined($inloop) || length($inloop) < 1) {
-    die "inloop is not configured for device type $devtype";
-}
 eval($inloop ."(*INPUT, *OUTPUT);") && die "${inloop} failed: $@\n";
 
 print STDOUT "Done $lscript: $_\n" if ($log);

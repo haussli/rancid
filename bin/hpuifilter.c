@@ -1,10 +1,5 @@
 /*
- * $Id$
- *
- * Copyright (c) 1997-2018 by Henry Kilmer and John Heasley
- * All rights reserved.
- *
- * Copyright (c) 1997-2018 by Henry Kilmer and John Heasley
+ * Copyright (c) 1997-2019 by Henry Kilmer and John Heasley
  * All rights reserved.
  *
  * This code is derived from software contributed to and maintained by

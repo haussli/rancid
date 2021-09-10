@@ -51,34 +51,30 @@ bin/
 			defined in etc/rancid.types.* and processes the output.
 	agmrancid.in	Version of rancid.in for Cisco Anomaly Guard Module (AGM)
 	arancid.in	Version of rancid.in for Alteon switches.
-	avorancid.in	Version of rancid.in for Avocent appliances.
 	brancid.in	Version of rancid.in for baynet/nortel routers.
 	cat5rancid.in	Version of rancid.in for Cisco Catalyst switches.
 	cssrancid.in	Version of rancid.in for Cisco CSS switches.
 	erancid.in	Version of rancid.in for ADC EZ-T3 muxes.
-	f10rancid.in	Version of rancid.in for Force10 routers.
 	f5rancid.in	Version of rancid.in for F5 BigIPs.
 	hrancid.in	Version of rancid.in for HP Procurve switches.
 	htrancid.in	Version of rancid.in for Hitatchi routers.
 	jerancid.in	Version of rancid.in for Juniper E-series routers.
 	mrancid.in	Version of rancid.in for MRT daemons.
-	mtrancid.in	Version of rancid.in for Microtik routers.
 	nrancid.in	Version of rancid.in for Netscreen firewalls.
 	nsrancid.in	Version of rancid.in for Netscalers.
 	rivancid.in	Version of rancid.in for Cabletron, Riverstone and
 			Enterasys routers.
 	rrancid.in	Version of rancid.in for Redback routers.
 	rtftpcopy.in	Copy configs from tftpboot within rancid.
-	srancid.in	Version of rancid.in for SMC switches.
 	trancid.in	Version of rancid.in for Netopia routers.
 	xirancid.in	Version of rancid.in for Xirrus arrays.
-	zrancid.in	Version of rancid.in for Zebra routers.
 
 	a10login.in	Version of clogin.in for A10 load balancers.
 	alogin.in	Version of clogin.in for Alteon switches.
 	anlogin.in	Version of clogin.in for Arbor Networks appliances.
 	avologin.in	Version of clogin.in for Avocent appliances.
 	blogin.in	Version of clogin.in for baynet/Nortel routers.
+	brlogin.in	Version of clogin.in for Brocade switches.
 	clogin.in	Expect script that logs into routers and either presents
 			an interactive shell, runs a set of commands, or runs
 			another expect script.  It handles Cisco, Extreme,
@@ -89,6 +85,7 @@ bin/
 	elogin.in	Version of clogin.in for ADC EZ-T3 muxes.
 	flogin.in	Version of clogin.in for Foundry switches.  If foundry
 			cleaned-up their bloody UI, clogin should do the job.
+	fxlogin.in	Version of clogin.in for Cisco Firepower FX-OS.
 	fnlogin.in	Version of clogin.in for Fortinet Firewalls.
 	hlogin.in	Version of clogin.in for HP procurve switches.
 	htlogin.in	Version of clogin.in for Hitatchi routers.
@@ -114,27 +111,36 @@ lib/
 	aeos.pm.in	rancid library for Arista Networks EOS.
 	arbor.pm.in	rancid library for Arbor Networks appliances.
 	arcos.pm.in	rancid library for Arrcus Networks ArcOS.
+	avocent.pm.in	rancid library for Avocent (aka Cyclades).
 	ciscowlc.pm.in	rancid library for some Cisco Wireless Lan Controllers.
 	dell.pm.in	rancid library for some Dell D-Link models.
+	dnos9.in	rancid library for Dell NOS9 (aka Force10) appliances.
 	eos.pm.in	rancid library for Compass EOS.
 	exos.in		rancid library for Extreme switches.
 	fortigate.pm.in	rancid library for Fortinet Firewalls.
 	foundry.pm.in	rancid library for Foundry (Brocade) switches.
+	frr.in		rancid library for FRR (and Quagga or Zebra) routers.
 	hiveos.pm.in	rancid library for aerohive hiveos access points.
 	ios.pm.in	rancid library for Cisco IOS and IOS-XE.
 	iossb.pm.in	rancid library for Cisco Small Business switches.
 	iosxr.pm.in	rancid library for Cisco IOS-XR.
 	junos.pm.in	rancid library for Juniper JunOS.
+	routeros.pm.in	rancid library for Mikrotik RouterOS routers.
 	mrv.pm.in	rancid library for MRV MCS.
 	nxos.pm.in	rancid library for Cisco NX-OS.
 	panos.pm.in	rancid library for Palo Alto Networks devices.
 	rancid.pm.in	rancid global functions.
+	rancidcontrib.pm.in	rancid contributed functions.
 	rbt.pm.in	rancid library for Riverbed Steelhead.
+	smc.in		rancid library for SMC switches.
+			appliances.
+	vrp.pm.in	rancid library for Hauwei VRP routers.
+	wavesvros.pm.in	rancid library for Ciena Waveserver devices.
 man/		man pages
 share/		Readmes, samples, utilities, contribs, etc
 include/	Include files and rancid's version.h
 
-Also see rancid_intro(1), rancid(1), and clogin(1).
+Also see rancid_intro(7), rancid(1), and clogin(1).
 
 The following (non-exhaustive list) are included as part of the installation
 and configuration tools:

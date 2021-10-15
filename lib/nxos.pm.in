@@ -175,7 +175,7 @@ EndSoftware:
 EndHardware:
 	if (/^\s+(bootflash):\s+(\d+) kB(.*)$/) {
 	    my($tmp) = int($2 / 1024);
-	    # CSCxxxxxx accessing bootflash from multiple VDCs might return 0
+	    # CSCvz71586 accessing bootflash from multiple VDCs might return 0
 	    if ($2 == 0) {
 		print STDERR "ERROR: bootflash: size 0\n";
 		return(-1);

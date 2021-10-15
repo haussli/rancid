@@ -1,4 +1,7 @@
 3.99.99
+	nxos.pm: CSCvz71586 accessing bootflash from multiple VDCs
+	simultaneously might return 0 size bootflash
+
 	rancid.types.base: add paloaltoxml device type to collect xml config
 
 	nslogin: netscalar 13.x may include a prefix to the prompt, eg: "super>"

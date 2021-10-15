@@ -173,7 +173,18 @@ EndSoftware:
 	    }
 	}
 EndHardware:
-	if (/^\s+(bootflash|slot0):\s+(\d+) kB(.*)$/) {
+	if (/^\s+(bootflash):\s+(\d+) kB(.*)$/) {
+	    my($tmp) = int($2 / 1024);
+	    # CSCxxxxxx accessing bootflash from multiple VDCs might return 0
+	    if ($2 == 0) {
+		print STDERR "ERROR: bootflash: size 0\n";
+		return(-1);
+	    }
+	    ProcessHistory("COMMENTS","keysort","B1",
+			   "!Memory: $1: $tmp MB$3\n");
+	    next;
+	}
+	if (/^\s+(slot0):\s+(\d+) kB(.*)$/) {
 	    my($tmp) = int($2 / 1024);
 	    ProcessHistory("COMMENTS","keysort","B1",
 			   "!Memory: $1: $tmp MB$3\n");

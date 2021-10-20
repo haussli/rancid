@@ -119,7 +119,7 @@
 #define	BUFSZ	(LINE_MAX * 2)
 #define	ESC	0x1b
 
-char		**environ,
+char		**evpp,					/* environment ptr   */
 		*progname;
 int		debug,
 		sigrx,
@@ -162,7 +162,7 @@ main(int argc, char **argv, char **ev)
     struct pollfd	pfds[3];
     struct termios	tios;
 
-    environ = ev;
+    evpp = ev;
 
     /* get just the basename() of our exec() name and strip a .* off the end */
     if ((progname = strrchr(argv[0], '/')) != NULL)
@@ -695,10 +695,10 @@ unsetenv(const char *name)
    char	**victim,
 	**end;
    int	len;
-   if (environ == NULL)
+   if (evpp == NULL)
 	return(0);
    len = strlen(name);
-   victim = environ;
+   victim = evpp;
    while (*victim != NULL) {
 	if (strncmp(name, *victim, len) == 0 && victim[0][len] == '=')
 	    break;

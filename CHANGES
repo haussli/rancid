@@ -1,4 +1,6 @@
 3.99.99
+	hpuifilter.c: change environ variable name to avoid system lib conflict
+
 	nxos.pm: CSCvz71586 accessing bootflash from multiple VDCs
 	simultaneously might return 0 size bootflash
 

@@ -1,4 +1,6 @@
 3.99.99
+	arcos.pm: show version also could have a communication failure
+
 	hpuifilter.c: change environ variable name to avoid system lib conflict
 
 	nxos.pm: CSCvz71586 accessing bootflash from multiple VDCs

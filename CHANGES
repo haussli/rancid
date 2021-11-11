@@ -1,4 +1,6 @@
 3.99.99
+	rancid.conf.sample: fix variable name - Per-Olof Olsson
+
 	nxos.pm: match prompt like "routername(nxos)#" on a UCS with a nexus
 	switch
 

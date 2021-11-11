@@ -76,6 +76,8 @@ TOP: while(<$INPUT>) {
 	    if (!defined($prompt)) {
 		$prompt = ($_ =~ /^([^#]+#)/)[0];
 		$prompt =~ s/([][}{)(\\])/\\$1/g;
+		# accept prompts like nexus on a ucs "routername(nexus)#"
+		$prompt =~ s/([#])$/(\\\([^)$1]+\\\))?\\$1/g;
 		print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
 	    }
 	    print STDERR ("HIT COMMAND:$_") if ($debug);

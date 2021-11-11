@@ -1,4 +1,7 @@
 3.99.99
+	nxos.pm: match prompt like "routername(nxos)#" on a UCS with a nexus
+	switch
+
 	arcos.pm: show version also could have a communication failure
 
 	hpuifilter.c: change environ variable name to avoid system lib conflict

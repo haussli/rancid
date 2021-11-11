@@ -1,4 +1,7 @@
 3.99.99
+	mtlogin: change login options to dumb mode to eliminate terminal escape
+	codes - github.com/mathiswolff
+
 	rancid.types.conf: add an example definition for cisco-ucs
 
 	rancid: print error if script is undefined - Per-Olof Olsson

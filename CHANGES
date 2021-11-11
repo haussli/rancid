@@ -1,4 +1,6 @@
 3.99.99
+	rancid: print error if script is undefined - Per-Olof Olsson
+
 	rancid.conf.sample: fix variable name - Per-Olof Olsson
 
 	nxos.pm: match prompt like "routername(nxos)#" on a UCS with a nexus

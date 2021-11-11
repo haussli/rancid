@@ -41,6 +41,9 @@ rancidinit();
 if (loadtype($devtype)) {
     die "Couldn't load device type spec for $rancid::devtype\n";
 }
+if (! defined($script)) {
+    die "script not defined for device type $rancid::devtype\n";
+}
 if (! defined($lscript)) {
     die "login script not defined for device type $rancid::devtype\n";
 }

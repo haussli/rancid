@@ -1,4 +1,6 @@
 3.99.99
+	rancid.types.conf: add an example definition for cisco-ucs
+
 	rancid: print error if script is undefined - Per-Olof Olsson
 
 	rancid.conf.sample: fix variable name - Per-Olof Olsson

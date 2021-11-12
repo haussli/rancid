@@ -740,6 +740,7 @@ juniper-srx;command;junos::ShowConfiguration;show configuration switch-options
 juniper-srx;command;junos::ShowConfiguration;show configuration system
 juniper-srx;command;junos::ShowConfiguration;show configuration vlans
 #
+# Mikrotik routerOS
 mikrotik;alias;routeros
 routeros;script;rancid -t routeros
 routeros;login;mtlogin

@@ -749,6 +749,7 @@ routeros;inloop;routeros::inloop
 routeros;command;routeros::SystemPackagePrintDetail;system package print detail without-paging
 routeros;command;routeros::SystemRouterboardPrint;system routerboard print
 routeros;command;routeros::SystemLicensePrint;system license print
+routeros;command;routeros::Export;export show-sensitive
 routeros;command;routeros::Export;export
 #
 mrtd;script;mrancid

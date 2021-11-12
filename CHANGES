@@ -1,4 +1,6 @@
 3.99.99
+	rancid.types.conf: add show system alarms for junipers
+
 	nxos.pm: filter logflahs: icamsql db new in nexos 10.2
 
 	sros.pm: filter new/changed timestamps in configs for 21.10.R1

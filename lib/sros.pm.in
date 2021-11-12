@@ -414,12 +414,12 @@ sub WriteTermIndex {
 	#/^\[[^]]*]$/i && next;
 
 	/# (timos-|all rights reserved|built on)/i && next;
-	/# Generated /i && next;
+	/# (Generated|Last modified|Last saved) /i && next;
 
 	/^#-+$/i && next;
 	s/echo \"(.*)\"/# $1/i;
 
-	next if (/^# finished \S{3} \S{3} /i);
+	next if (/^# finished /i);
 	ProcessHistory("","","","$_");
     }
 }
@@ -440,7 +440,7 @@ sub WriteTerm {
 	#/^\[[^]]*]$/i && next;
 
 	/# (timos-|all rights reserved|built on)/i && next;
-	/# Generated /i && next;
+	/# (Generated|Last modified|Last saved) /i && next;
 
 	/^#-+$/i && next;
 	s/echo \"(.*)\"/# $1/i;
@@ -470,7 +470,7 @@ sub WriteTerm {
 	}
 
 	# end of config.
-	if (/^# finished \S{3} \S{3} /i) {
+	if (/^# finished /i) {
 	    $found_end = 1;
 	    return(0);
 	}

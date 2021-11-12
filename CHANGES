@@ -1,4 +1,6 @@
 3.99.99
+	sros.pm: filter new/changed timestamps in configs for 21.10.R1
+
 	mtlogin: change login options to dumb mode to eliminate terminal escape
 	codes - github.com/mathiswolff
 

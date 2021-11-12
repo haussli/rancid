@@ -1,4 +1,7 @@
 3.99.99
+	routeros.pm: Export requires show-sensitive arg from routeros 7
+	(possibly >=6.49)
+
 	rancid.types.conf: add show system alarms for junipers
 
 	nxos.pm: filter logflahs: icamsql db new in nexos 10.2

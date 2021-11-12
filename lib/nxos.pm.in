@@ -510,7 +510,7 @@ sub DirSlotN {
 
 	next if (/BufferMonitor-1HourData/);
 
-	if (/( debug_logs| log)\/$/) {
+	if (/( debug_logs| log| icamsql[^.]*\.db.*)\/$/) {
 	    # change
 	    #         8192    Jan 08 14:05:05 2015  log/
 	    # to

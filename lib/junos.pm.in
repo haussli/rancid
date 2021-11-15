@@ -351,6 +351,14 @@ sub ShowChassisAlarms {
 	/^\s+\^/ && return(1);
 	/syntax error/ && return(1);
 
+	# filter timestamps, some oscillate
+	# 2021-11-15 06:10:09 NZDT Minor  IDP Signature usage requires a license
+	if (/^([0-9-]+ \d+:\d+:\d+ \w+) /) {
+	    my($len, $rem) = (length($1), $');
+	    my($fmt) = "%-". $len ."s %s\n";
+	    $_ = sprintf($fmt, "", $rem);
+	}
+
 	ProcessHistory("","","","# $_");
     }
     return(0);

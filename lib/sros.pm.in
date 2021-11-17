@@ -530,7 +530,7 @@ sub WriteTermMD {
 	}
 
 	# end of config.
-	if ((/^(# finished \S{3} \S{3} |\[\]\s*$)/i) && $linecnt > 5) {
+	if ((/^(# finished |\[\]\s*$)/i) && $linecnt > 5) {
 	    $found_end = 1;
 	    return(0);
 	}

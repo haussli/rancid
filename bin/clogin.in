@@ -392,6 +392,7 @@ proc run_commands { prompt command } {
 	send -- "[subst -nocommands [lindex $commands $i]]\r"
 	expect {
 	    -re "^\b+"				{ exp_continue }
+	    -re "^\x1b\\\[\[0-9]D\x1b\\\[K"	{ exp_continue }
 	    -re "^\[^\n\r *]*$reprompt"		{ send_user -- "$expect_out(buffer)"
 						}
 	    -re "^\[^\n\r]*$reprompt."		{ send_user -- "$expect_out(buffer)"
@@ -422,6 +423,11 @@ proc run_commands { prompt command } {
 						  exp_continue }
 	    -re "^<-+ More -+>\[^\n\r]*"	{
 						  send_user -- "$expect_out(buffer)"
+						  send " "
+						  exp_continue }
+            # IOS-XR in admin mode (the prompt can appear at the end of the line!)
+	    -indices -re "(.*)\x1b\\\[7m(--More--|\\(END\\))\x1b\\\[27m$" {
+						  send_user -- "$expect_out(1,string)"
 						  send " "
 						  exp_continue }
 	}

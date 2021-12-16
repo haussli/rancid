@@ -1,6 +1,6 @@
 #! @EXPECT_PATH@ --
 ##
-## rancid 2.3.8
+## @PACKAGE@ @VERSION@
 ## Copyright (c) 1997-2011 by Terrapin Communications, Inc.
 ## All rights reserved.
 ##
@@ -127,7 +127,7 @@ for {set i 0} {$i < $argc} {incr i} {
 	    set do_passwd 0
 	# Version string
 	} -V* {
-	    send_user "rancid 2.3.8\n"
+	    send_user "@PACKAGE@ @VERSION@\n";
 	    exit 0
 	# Environment variable to pass to -s scripts
 	} -E* {

@@ -40,8 +40,8 @@ sub inloop {
 TOP: while(<$INPUT>) {
 	tr/\015//d;
 	if (/^Error:/) {
-	    print STDOUT ("$host flogin error: $_");
-	    print STDERR ("$host flogin error: $_") if ($debug);
+	    print STDOUT ("$host $lscript error: $_");
+	    print STDERR ("$host $lscript error: $_") if ($debug);
 	    $clean_run = 0;
 	    last;
 	}

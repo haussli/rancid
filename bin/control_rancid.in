@@ -38,9 +38,9 @@
 ## when in relation to etc/rancid.types.conf.  The goal of this is to help
 ## suppress our support costs.  If it becomes a problem, this could become a
 ## condition of license.
-# 
+#
 #  The expect login scripts were based on Erik Sherk's gwtn, by permission.
-# 
+#
 #  The original looking glass software was written by Ed Kern, provided by
 #  permission and modified beyond recognition.
 #
@@ -216,16 +216,16 @@ fi
 
 # create a .cvsignore/.gitignore
 case $RCSSYS in
-git )
-    if [ ! -f .gitignore ] ; then
-	    touch .gitignore
-	    git add .gitignore
-    else
-	    git ls-files .gitignore --error-unmatch > /dev/null 2>&1
-	    if [ $? -ne 0 ] ; then
+    git )
+        if [ ! -f .gitignore ] ; then
+	        touch .gitignore
 	        git add .gitignore
-	    fi
-    fi
+        else
+	        git ls-files .gitignore --error-unmatch > /dev/null 2>&1
+	        if [ $? -ne 0 ] ; then
+	            git add .gitignore
+	        fi
+        fi
     rm -rf .gitignore
     cat > .gitignore <<EOF
 /routers.all
@@ -359,16 +359,16 @@ trap 'rm -fr routers.db routers.all.new routers.down.new routers.up.new \
     if (exists($A{$F[0]})) {
       printf STDERR "WARNING: %s appears in routers.db multiple times\n", $F[0];
       next;
-    } $A{$F[0]} = "$F[1];$F[2]";}
-    END { foreach $k (sort((keys(%A)))) {print "$k;$A{$k}\n";} }' router.db > routers.db
-cut -d\; -f1,2 routers.db > routers.all.new
+    } $A{$F[0]} = join(";",@F);}
+    END { foreach $k (sort((keys(%A)))) {print "$A{$k}\n";} }' router.db > routers.db
+cut -d\; -f1,2,5 routers.db > routers.all.new
 if [ ! -f routers.all ] ; then touch routers.all; fi
 @DIFF_CMD@ routers.all routers.all.new > /dev/null 2>&1; RALL=$?
 @PERLV@ -F\; -ane '{$F[2] =~ s/\s*\$//; ($F[0] =~ tr@A-Z@a-z@, print $_)
     if ($F[2] !~ /^up$/i);}' routers.db > routers.down.new
 if [ ! -f routers.down ] ; then touch routers.down; fi
 @DIFF_CMD@ routers.down routers.down.new > /dev/null 2>&1; RDOWN=$?
-@PERLV@ -F\; -ane '{$F[2] =~ s/\s*\$//; ($F[0] =~ tr@A-Z@a-z@, print "$F[0];$F[1]\n") 
+@PERLV@ -F\; -ane '{$F[2] =~ s/\s*\$//; ($F[0] =~ tr@A-Z@a-z@, print $_)
     if ($F[2] =~ /^up$/i);}' routers.db > routers.up.new
 if [ ! -f routers.up ] ; then touch routers.up; fi
 @DIFF_CMD@ routers.up routers.up.new > /dev/null 2>&1; RUP=$?
@@ -442,15 +442,17 @@ if [ $RALL -ne 0 -o $RDOWN -ne 0 -o $RUP -ne 0 ] ; then
     # Add new routers to the CVS structure.
     comm -13 $DIR/routers.up $DIR/routers.up.new | {
         ROUTER_ADDED=
-        while IFS=';' read -r router mfg stat comment; do
-            touch "$router"
-            case $RCSSYS in                                                                                         |  --------------------------------------------------------------------------------------------------------------------
-                  cvs )                                                                                               |  --------------------------------------------------------------------------------------------------------------------
-                      cvs add -ko $router                                                                             |  --------------------------------------------------------------------------------------------------------------------
-                      ;;                                                                                              |  --------------------------------------------------------------------------------------------------------------------
-                  svn | git )                                                                                         |  --------------------------------------------------------------------------------------------------------------------
-                      $RCSSYS add $router                                                                             |  --------------------------------------------------------------------------------------------------------------------
-                      ;;                                                                                              |  --------------------------------------------------------------------------------------------------------------------
+        while IFS=';' read -r router mfg stat comment dir; do
+            [ -z "$dir" ] && dir='.'
+            [ ! -d "$dir" ] && mkdir -p "$dir"
+            touch "$dir/$router"
+            case $RCSSYS in
+                  cvs )
+                     cvs add -ko "$dir/$router"
+                      ;;
+                  svn | git )
+                      $RCSSYS add "$dir/$router"
+                      ;;
             esac
             echo "Added $router"
             ROUTER_ADDED="$ROUTER_ADDED, $router"
@@ -485,30 +487,32 @@ trap 'rm -fr $TMP;' 1 2 15
 
 cd $DIR/configs
 # check for 'up' routers missing in RCS.  no idea how this happens to some folks
-cut -d\; -f1-4 ../routers.up | {
-    while IFS=';' read -r router mfg stat comment; do
+cut -d\; -f1-5 ../routers.up | {
+    while IFS=';' read -r router mfg stat comment dir; do
+        [ -z "$dir" ] && dir='.'
+        [ ! -d "$dir" ] && mkdir -p "$dir"
         case $RCSSYS in
             cvs )
-                cvs status $router | grep -i 'status: unknown' > /dev/null 2>&1
+                cvs status "$dir/$router" | grep -i 'status: unknown' > /dev/null 2>&1
                 if [ $? -eq 0 ] ; then
                     touch "$router"
-                    cvs add -ko $router
+                    cvs add -ko "$dir/$router"
                     echo "$RCSSYS added missing router $router"
                 fi
                 ;;
             svn )
-                [ ! -f "$router" ] && touch "$router"
-                svn status $router | grep '^?' > /dev/null 2>&1
+                [ ! -f "$dir/$router" ] && touch "$dir/$router"
+                svn status "dir/$router" | grep '^?' > /dev/null 2>&1
                 if [ $? -eq 0 ] ; then
-                    svn add $router
+                    svn add "$dir/$router"
                     echo "$RCSSYS added missing router $router"
                 fi
                 ;;
             git )
-                [ ! -f "$router" ] && touch "$router"
-                git status --porcelain $router | grep '^?' > /dev/null 2>&1
+                [ ! -f "$dir/$router" ] && touch "$dir/$router"
+                git status --porcelain "$dir/$router" | grep '^?' > /dev/null 2>&1
                 if [ $? -eq 0 ] ; then
-                    git add $router
+                    git add "$dir/$router"
                     echo "$RCSSYS added missing router $router"
                 fi
                 ;;
@@ -526,17 +530,17 @@ esac
 echo
 # delete configs from RCS for routers not listed in routers.up.
 ROUTER_DELETED=
-find . \( -name \*.new -prune -o -name CVS -prune -o -name .svn -prune -o -name .cvsignore -prune -o -name .gitignore -prune -o -name .old -prune \) -o -type f -print | sed -e 's/^.\///' | while IFS=";" read -r
+find . \( -name *.new -prune -o -name CVS -prune -o -name .svn -prune -o -name .gitignore -prune -o -name .git -prune \) -o -type f -print | @PERLV@ -ne 'print "$3;$2\n" if (/^.\/(([A-Za-z0-9\.\-_]+)\/|)([A-Za-z0-9\.\-_]+)$/)' | while IFS=";" read -r router dir
 do
     grep -i "^$router\;" ../router.db > /dev/null 2>&1
     if [ $? -eq 1 ] ; then
-        rm -f "$router"
+        rm -f "$dir/$router"
         case $RCSSYS in
             cvs | svn )
-                $RCSSYS delete $router
+                $RCSSYS delete "$dir/$router"
                 ;;
             git )
-                git rm $router
+                git rm "$dir/$router"
                 ;;
         esac
         ROUTER_DELETED="$ROUTER_DELETED, $router"
@@ -598,10 +602,10 @@ round=1
 while [ $round -le $pass ]
 do
     cat $devlistfile | {
-        while IFS=';' read -r router mfg stat comment;
+        while IFS=';' read -r router mfg stat comment dir;
         do
             if [ ! -s "$router.new" ]; then
-                echo "$router;$mfg" >> $DIR/routers.up.missed
+                echo "$router;$mfg;$stat;$dir" >> $DIR/routers.up.missed
                 rm -f $router.new
             fi
         done
@@ -622,8 +626,9 @@ echo
 # Make sure that no empty/truncated configs are accepted.  The remainder are
 # renamed from device_name.new -> device_name.
 cat $devlistfile | {
-    while IFS=';' read -r router mfg stat comment
+    while IFS=';' read -r router mfg stat comment dir
     do
+        [ -z "$dir" ] && dir='.'
         if [ ! -s "$router.new" ] ; then
             rm -f "$router.new"
         else
@@ -632,7 +637,7 @@ cat $devlistfile | {
             if [ ! $lines ] ; then
                 rm -f "$router.new"
             else
-                mv -f "$router.new" "$router"
+                mv -f "$router.new" "$dir/$router"
                 if [ $? -ne 0 ] ; then
                     echo "Error: could not rename $router.new to $router" >&2
                     rm -f "$router.new"
@@ -764,7 +769,7 @@ if [ -s $TMP.diff ] ; then
 		                echo "Commit message: $commitmsg"
 		                echo ""
 		            fi
-		            cat $file 
+		            cat $file
 		        ) | $SENDMAIL -t $MAILOPTS
 		        LASTIDS="$LASTIDS $MSGID"
 		        if [ $n -lt $nfiles ]; then
@@ -785,7 +790,7 @@ rm -f $DIR/routers.failed
 if [ "X$OLDTIME" = "X" ] ; then
     OLDTIME=24
 fi
-@PERLV@ -F\; -ane "{\$t = (stat(\$F[0]))[9]; print \`ls -ld \$F[0]\`
+@PERLV@ -F\; -ane "{chomp(@F);\$file = sprintf(\"\$F[4]%s\$F[0]\",length(\$F[4])?'/':'');\$t = (stat(\$file))[9]; print \`ls -ld \$file\`
     if (time() - \$t >= $OLDTIME*60*60);}" $devlistfile | sort -u > $DIR/routers.failed
 if [ -s $DIR/routers.failed ] ; then
     (

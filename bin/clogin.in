@@ -27,291 +27,298 @@ proc login { router user userpswd passwd enapasswd cmethod cyphertype identfile 
     global prompt prompt_match u_prompt p_prompt e_prompt sshcmd telnetcmd
     set in_proc 1
     set uprompt_seen 0
+    set password_sent 0
 
     # try each of the connection methods in $cmethod until one is successful
     set progs [llength $cmethod]
     foreach prog [lrange $cmethod 0 end] {
-	incr progs -1
-	if [string match "telnet*" $prog] {
-	    regexp {telnet(:([^[:space:]]+))*} $prog methcmd suffix port
-	    if {"$port" == ""} {
-		set retval [catch {eval spawn [split "$telnetcmd $router"]} reason]
+	    incr progs -1
+	    if [string match "telnet*" $prog] {
+	        regexp {telnet(:([^[:space:]]+))*} $prog methcmd suffix port
+            set cmd "$telnetcmd $router"
+            if {"$port" != ""} {
+                append cmd " $port"
+            }
+            set retval [catch {eval spawn [split "$cmd"]} reason]
+	        if { $retval } {
+	    	    send_user "\nError: telnet failed: $reason\n"
+	    	    return 1
+	        }
+	    } elseif [string match "ssh*" $prog] {
+	        # ssh to the router & try to login with or without an identfile.
+	        regexp {ssh(:([^[:space:]]+))*} $prog methcmd suffix port
+	        set cmd $sshcmd
+	        if {"$port" != ""} {
+	    	    append cmd " -p $port"
+	        }
+	        if {"$cyphertype" != ""} {
+	    	    append cmd " -c $cyphertype"
+	        }
+	        if {"$identfile" != ""} {
+	    	    append cmd " -i $identfile"
+	        }
+	        set retval [catch {eval spawn [split "$cmd -x -l $user $router" { }]} reason]
+	        if { $retval } {
+	    	    send_user "\nError: $cmd failed: $reason\n"
+	    	    return 1
+	        }
+            set uprompt_seen 1
+	    } elseif ![string compare $prog "rsh"] {
+	        if { ! $do_command } {
+	    	    if { [llength $cmethod] == 1 } {
+	    	        send_user "\nError: rsh is an invalid method for -x and "
+	    	        send_user "interactive logins\n"
+	    	    }
+	    	    if { $progs == 0 } {
+	    	        return 1
+	    	    }
+	    	    continue;
+	        }
+
+	        # handle escaped ;s in commands, and ;; and ^;
+	        regsub -all {([^\\]);} $command "\\1\u0002;" esccommand
+	        regsub -all {([^\\]);;} $esccommand "\\1;\u0002;" command
+	        regsub {^;} $command "\u0002;" esccommand
+	        regsub -all {[\\];} $esccommand ";" command
+	        regsub -all {\u0002;} $command "\u0002" esccommand
+	        set sep "\u0002;"
+	        set commands [split $esccommand $sep]
+	        set num_commands [llength $commands]
+	        set rshfail 0
+	        for {set i 0} {$i < $num_commands && !$rshfail} { incr i} {
+	    	    log_user 0
+	    	    set retval [catch {spawn rsh $user@$router [lindex $commands $i] } reason]
+	    	    if { $retval } {
+	    	        send_user "\nError: rsh failed: $reason\n"
+	    	        log_user 1; return 1
+	    	    }
+	    	    send_user "$router# [lindex $commands $i]\n"
+
+	    	    # rcmd does not get a pager and no prompts, so we just have to
+	    	    # look for failures & lines.
+	    	    expect {
+	    	        "Connection refused"	{ 
+                        catch {close}; catch {wait};
+	    	            send_user "\nError: Connection Refused ($prog): $router\n"
+	    	    	    set rshfail 1
+	    	        }
+	    	        -re "(Connection closed by|Connection to \[^\n\r]+ closed)" {
+	    	    	    catch {close}; catch {wait};
+	    	    	    send_user "\nError: Connection closed ($prog): $router\n"
+	    	    	    set rshfail 1
+	    	    	}
+	    	        "Host is unreachable"	{ 
+                        catch {close}; catch {wait};
+	    	    		send_user "\nError: Host Unreachable: $router\n"
+	    	    	    set rshfail 1
+	    	    	}
+	    	        "No address associated with" {
+	    	    	    catch {close}; catch {wait};
+	    	    		send_user "\nError: Unknown host $router\n"
+	    	    	    set rshfail 1
+	    	    	}
+	    	        -re "\b+"		{ exp_continue }
+	    	        -re "\[\n\r]+"	{ 
+                        send_user -- "$expect_out(buffer)"
+	    	    		exp_continue
+	    	    	}
+	    	        timeout		{ 
+                        catch {close}; catch {wait};
+	    	    	    send_user "\nError: TIMEOUT reached ($router)\n"
+	    	    		set rshfail 1
+	    	    	}
+	    	        eof			{ catch {close}; catch {wait}; }
+	    	    }
+	    	    log_user 1
+            }
+	        if { $rshfail } {
+	    	    if { !$progs } {
+	    	        return 1
+	    	    } else {
+	    	        continue
+	    	    }
+	        }
+	        # fake the end of the session for rancid.
+	        send_user "$router# exit\n"
+	        # return rsh "success"
+	        return -1
 	    } else {
-		set retval [catch {eval spawn [split "$telnetcmd $router $port"]} reason]
+	        send_user "\nError: unknown connection method: $prog\n"
+	        return 1
 	    }
-	    if { $retval } {
-		send_user "\nError: telnet failed: $reason\n"
-		return 1
-	    }
-	} elseif [string match "ssh*" $prog] {
-	    # ssh to the router & try to login with or without an identfile.
-	    regexp {ssh(:([^[:space:]]+))*} $prog methcmd suffix port
-	    set cmd $sshcmd
-	    if {"$port" != ""} {
-		set cmd "$cmd -p $port"
-	    }
-	    if {"$cyphertype" != ""} {
-		set cmd "$cmd -c $cyphertype"
-	    }
-	    if {"$identfile" != ""} {
-		set cmd "$cmd -i $identfile"
-	    }
-	    set retval [catch {eval spawn [split "$cmd -x -l $user $router" { }]} reason]
-	    if { $retval } {
-		send_user "\nError: $cmd failed: $reason\n"
-		return 1
-	    }
-	} elseif ![string compare $prog "rsh"] {
-	    if { ! $do_command } {
-		if { [llength $cmethod] == 1 } {
-		    send_user "\nError: rsh is an invalid method for -x and "
-		    send_user "interactive logins\n"
-		}
-		if { $progs == 0 } {
-		    return 1
-		}
-		continue;
+	    sleep 0.3
+
+	    # This helps cleanup each expect clause.
+	    expect_after {
+	        timeout {
+	    	    global in_proc
+	    	    send_user "\nError: TIMEOUT reached ($router)\n"
+	    	    catch {close}; catch {wait};
+	    	    if {$in_proc} {
+	    	        return 1
+	    	    } else {
+	    	        continue
+	    	    }
+	        } eof {
+	    	    global in_proc
+	    	    send_user "\nError: EOF received\n"
+	    	    catch {close}; catch {wait};
+	    	    if {$in_proc} {
+	    	        return 1
+	    	    } else {
+	    	        continue
+	    	    }
+	        }
 	    }
 
-	    # handle escaped ;s in commands, and ;; and ^;
-	    regsub -all {([^\\]);} $command "\\1\u0002;" esccommand
-	    regsub -all {([^\\]);;} $esccommand "\\1;\u0002;" command
-	    regsub {^;} $command "\u0002;" esccommand
-	    regsub -all {[\\];} $esccommand ";" command
-	    regsub -all {\u0002;} $command "\u0002" esccommand
-	    set sep "\u0002;"
-	    set commands [split $esccommand $sep]
-	    set num_commands [llength $commands]
-	    set rshfail 0
-	    for {set i 0} {$i < $num_commands && !$rshfail} { incr i} {
-		log_user 0
-		set retval [catch {spawn rsh $user@$router [lindex $commands $i] } reason]
-		if { $retval } {
-		    send_user "\nError: rsh failed: $reason\n"
-		    log_user 1; return 1
-		}
-		send_user "$router# [lindex $commands $i]\n"
-
-		# rcmd does not get a pager and no prompts, so we just have to
-		# look for failures & lines.
-		expect {
-		  "Connection refused"	{ catch {close}; catch {wait};
-					  send_user "\nError: Connection\
-						    Refused ($prog): $router\n"
-					  set rshfail 1
-					}
-		  -re "(Connection closed by|Connection to \[^\n\r]+ closed)" {
-					  catch {close}; catch {wait};
-					  send_user "\nError: Connection\
-						    closed ($prog): $router\n"
-					  set rshfail 1
-					}
-		  "Host is unreachable"	{ catch {close}; catch {wait};
-					  send_user "\nError: Host Unreachable:\
-						    $router\n"
-					  set rshfail 1
-					}
-		  "No address associated with" {
-					  catch {close}; catch {wait};
-					  send_user "\nError: Unknown host\
-						    $router\n"
-					  set rshfail 1
-					}
-		  -re "\b+"		{ exp_continue }
-		  -re "\[\n\r]+"	{ send_user -- "$expect_out(buffer)"
-					  exp_continue
-					}
-		  timeout		{ catch {close}; catch {wait};
-					  send_user "\nError: TIMEOUT reached\n"
-					  set rshfail 1
-					}
-		  eof			{ catch {close}; catch {wait}; }
-		}
-		log_user 1
-	    }
-	    if { $rshfail } {
-		if { !$progs } {
-		    return 1
-		} else {
-		    continue
-		}
-	    }
-	    # fake the end of the session for rancid.
-	    send_user "$router# exit\n"
-	    # return rsh "success"
-	    return -1
-	} else {
-	    send_user "\nError: unknown connection method: $prog\n"
-	    return 1
-	}
-	sleep 0.3
-
-	# This helps cleanup each expect clause.
-	expect_after {
-	    timeout {
-		global in_proc
-		send_user "\nError: TIMEOUT reached\n"
-		catch {close}; catch {wait};
-		if {$in_proc} {
-		    return 1
-		} else {
-		    continue
-		}
-	    } eof {
-		global in_proc
-		send_user "\nError: EOF received\n"
-		catch {close}; catch {wait};
-		if {$in_proc} {
-		    return 1
-		} else {
-		    continue
-		}
-	    }
-	}
-
-    # Here we get a little tricky.  There are several possibilities:
-    # the router can ask for a username and passwd and then
-    # talk to the TACACS server to authenticate you, or if the
-    # TACACS server is not working, then it will use the enable
-    # passwd.  Or, the router might not have TACACS turned on,
-    # then it will just send the passwd.
-    # if telnet fails with connection refused, try ssh
-    expect {
-	-re "^<-+ More -+>\[^\n\r]*" {
-	    # ASA will use the pager for long banners
-	    send " ";
-	    exp_continue
-	}
-	-re "(Connection refused|Secure connection \[^\n\r]+ refused)" {
-	    catch {close}; catch {wait};
-	    if !$progs {
-		send_user "\nError: Connection Refused ($prog): $router\n"
-		return 1
-	    }
-	}
-	-re "(Connection closed by|Connection to \[^\n\r]+ closed)" {
-	    catch {close}; catch {wait};
-	    if !$progs {
-		send_user "\nError: Connection closed ($prog): $router\n"
-		return 1
-	    }
-	}
-	eof { send_user "\nError: Couldn't login: $router\n"; wait; return 1 }
-	-nocase "unknown host\r" {
-	    send_user "\nError: Unknown host $router\n";
-	    catch {close}; catch {wait};
-	    return 1
-	}
-	"Host is unreachable" {
-	    send_user "\nError: Host Unreachable: $router\n";
-	    catch {close}; catch {wait};
-	    return 1
-	}
-	"No address associated with name" {
-	    send_user "\nError: Unknown host $router\n";
-	    catch {close}; catch {wait};
-	    return 1
-	}
-	-re "(Host key not found |The authenticity of host .* be established)" {
-	    expect {
-		-re "\\(yes\/no\[^\\)]*\\)\\?" {
-					  send "yes\r";
-					  send_user "\nHost $router added to the list of known hosts.\n"
-					 }
-		-re "\[^\r\n]*\[\r\n]+"	{ exp_continue; }
-	    }
-	    exp_continue
-	}
-	-re "HOST IDENTIFICATION HAS CHANGED" {
-	    send_user "\nError: The host key for $router has changed.  Update the SSH known_hosts file accordingly.\n"
-	    expect {
-		-re "\\(yes\/no\\)\\?"	{ send "no\r" }
-		-re " strict checking\.\[\r\n]+" { }
-		-re "\[^\r\n]*\[\r\n]+"	{ exp_continue; }
-	    }
-	    catch {close}; catch {wait};
-	    return 1
-	}
-	-re "Offending key for " {
-	    send_user "\nError: host key mismatch for $router.  Update the SSH known_hosts file accordingly.\n"
-	    expect {
-		-re "\\(yes\/no\\)\\?"	{ send "no\r" }
-		-re "\[^\r\n]*\[\r\n]+"	{ exp_continue; }
-	    }
-	    catch {close}; catch {wait};
-	    return 1
-	}
-	-nocase -re "^warning: remote host denied authentication agent forwarding." {
-	    exp_continue;
-	}
-	-re "(denied|Sorry)"	{
-				  send_user "\nError: Check your passwd for $router\n"
-				  catch {close}; catch {wait}; return 1
-				}
-	-nocase -re "last login:"	{
-				  exp_continue
-				}
-	-nocase -re "failed login:"	{
-				  exp_continue
-				}
-	"Login failed"		{
-				  send_user "\nError: Check your passwd for $router\n"
-				  catch {close}; catch {wait}; return 1
-				}
-	-re "% (Bad passwords|Authentication failed)"	{
-				  send_user "\nError: Check your passwd for $router\n"
-				  catch {close}; catch {wait}; return 1
-				}
-	"Press any key to continue" {
-				  # send_user "Pressing the ANY key\n"
-				  send "\r"
-				  exp_continue
-				}
-	-re "Enter Selection: " {
-				  # Catalyst 1900s have some lame menu.  Enter
-				  # K to reach a command-line.
-				  send "K\r"
-				  exp_continue
-				}
-	-re "Press the <tab> key \[^\r\n]+\[\r\n]+"	{
-				  exp_continue
-				}
-	-re "@\[^\r\n]+ $p_prompt"	{
-				  # ssh pwd prompt
-				  sleep 1
-				  send -- "$userpswd\r"
-				  exp_continue
-				}
-	-re "Enter passphrase.*: " {
-				  # sleep briefly to allow time for stty -echo
-				  sleep .3
-				  send -- "$passphrase\r"
-				  exp_continue
-				}
-	-re "$u_prompt"		{
-				  send -- "$user\r"
-				  set uprompt_seen 1
-				  exp_continue
-				}
-	-re "$p_prompt"		{
-				  sleep 1
-				  if {$uprompt_seen == 1} {
-					send -- "$userpswd\r"
-				  } else {
-					send -- "$passwd\r"
-				  }
-				  exp_continue
-				}
-	-re "$prompt"		{
-				  set prompt_match $expect_out(0,string);
-				  break;
-				}
-	"Login invalid"		{
-				  send_user "\nError: Invalid login: $router\n";
-				  catch {close}; catch {wait}; return 1
-				}
-	-re "\[^\r\n]*\[\r\n]+"	{ exp_continue; }
-     }
+        # Here we get a little tricky.  There are several possibilities:
+        # the router can ask for a username and passwd and then
+        # talk to the TACACS server to authenticate you, or if the
+        # TACACS server is not working, then it will use the enable
+        # passwd.  Or, the router might not have TACACS turned on,
+        # then it will just send the passwd.
+        # if telnet fails with connection refused, try ssh
+        expect {
+	        -re "^<-+ More -+>\[^\n\r]*" {
+	            # ASA will use the pager for long banners
+	            send " ";
+	            exp_continue
+	        }
+	        -re "(Connection refused|Secure connection \[^\n\r]+ refused)" {
+	            catch {close}; catch {wait};
+	            if !$progs {
+	        	send_user "\nError: Connection Refused ($prog): $router\n"
+	        	return 1
+	            }
+	        }
+	        -re "(Connection closed by|Connection to \[^\n\r]+ closed)" {
+	            catch {close}; catch {wait};
+	            if !$progs {
+	        	send_user "\nError: Connection closed ($prog): $router\n"
+	        	return 1
+	            }
+	        }
+	        eof { send_user "\nError: Couldn't login: $router\n"; wait; return 1 }
+	        -nocase "unknown host\r" {
+	            send_user "\nError: Unknown host $router\n";
+	            catch {close}; catch {wait};
+	            return 1
+	        }
+	        "Host is unreachable" {
+	            send_user "\nError: Host Unreachable: $router\n";
+	            catch {close}; catch {wait};
+	            return 1
+	        }
+	        "No address associated with name" {
+	            send_user "\nError: Unknown host $router\n";
+	            catch {close}; catch {wait};
+	            return 1
+	        }
+	        -re "(Host key not found |The authenticity of host .* be established)" {
+	            expect {
+	        	    -re "\\(yes\/no\[^\\)]*\\)\\?" {
+	        		    send "yes\r";
+	        			send_user "\nHost $router added to the list of known hosts.\n"
+	        		}
+	        	    -re "\[^\r\n]*\[\r\n]+"	{ exp_continue; }
+	            }
+	            exp_continue
+	        }
+	        -re "HOST IDENTIFICATION HAS CHANGED" {
+	            send_user "\nError: The host key for $router has changed.  Update the SSH known_hosts file accordingly.\n"
+	            expect {
+	                -re "\\(yes\/no\\)\\?"	{ send "no\r" }
+	        	    -re " strict checking\.\[\r\n]+" { }
+	        	    -re "\[^\r\n]*\[\r\n]+"	{ exp_continue; }
+	            }
+	            catch {close}; catch {wait};
+	            return 1
+	        }
+	        -re "Offending key for " {
+	            send_user "\nError: host key mismatch for $router.  Update the SSH known_hosts file accordingly.\n"
+	            expect {
+	        	    -re "\\(yes\/no\\)\\?"	{ send "no\r" }
+	        	    -re "\[^\r\n]*\[\r\n]+"	{ exp_continue; }
+	            }
+	            catch {close}; catch {wait};
+	            return 1
+	        }
+	        -nocase -re "^warning: remote host denied authentication agent forwarding." {
+	            exp_continue;
+	        }
+	        -re "(denied|Sorry)"	{
+	        	send_user "\nError: Check your passwd for $router\n"
+	        	catch {close}; catch {wait}; return 1
+	        }
+	        -nocase -re "last login:"	{
+	        	exp_continue
+	        }
+	        -nocase -re "failed login:"	{
+	        	exp_continue
+	        }
+	        "Login failed"		{
+	        	send_user "\nError: Check your passwd for $router\n"
+	        	catch {close}; catch {wait}; return 1
+	        }
+	        -re "% (Bad passwords|Authentication failed)"	{
+	        	send_user "\nError: Check your passwd for $router\n"
+	        	catch {close}; catch {wait}; return 1
+	        }
+	        "Press any key to continue" {
+	            # send_user "Pressing the ANY key\n"
+	            send "\r"
+	        	exp_continue
+	        }
+	        -re "Enter Selection: " {
+	            # Catalyst 1900s have some lame menu.  Enter
+	        	# K to reach a command-line.
+	        	send "K\r"
+	        	exp_continue
+	        }
+	        -re "Press the <tab> key \[^\r\n]+\[\r\n]+"	{
+	        	exp_continue
+	        }
+	        -re "@\[^\r\n]+ $p_prompt"	{
+	            # ssh pwd prompt
+	        	sleep 1
+	        	send -- "$userpswd\r"
+	        	exp_continue
+	        }
+	        -re "Enter passphrase.*: " {
+	        	# sleep briefly to allow time for stty -echo
+	        	sleep .3
+	        	send -- "$passphrase\r"
+	        	exp_continue
+	        }
+	        -re "$u_prompt"		{
+	        	send -- "$user\r"
+	        	set uprompt_seen 1
+	        	exp_continue
+	        }
+	        -re "$p_prompt"		{
+	    	    sleep 1
+                if {$password_sent == 1} {
+                    send_user "\nError: Invalid password: $router\n"
+                    catch {close}; catch {wait}; return 1
+                }
+	    		if {$uprompt_seen == 1} {
+	    		    send -- "$userpswd\r"
+	    		} else {
+	    		    send -- "$passwd\r"
+	    		}
+                set password_sent 1
+	    		exp_continue
+	    	}
+	        -re "$prompt"		{
+	    	    set prompt_match $expect_out(0,string);
+	    		break;
+	    	}
+	        "Login invalid"		{
+	    	    send_user "\nError: Invalid login: $router\n";
+	    		catch {close}; catch {wait}; return 1
+	    	}
+	        -re "\[^\r\n]*\[\r\n]+"	{ exp_continue; }
+        }
     }
 
     set in_proc 0
@@ -326,27 +333,27 @@ proc do_enable { enauser enapasswd } {
 
     send "$enacmd\r"
     expect {
-	-re "$u_prompt"	{ send -- "$enauser\r"; exp_continue}
-	-re "$e_prompt"	{ send -- "$enapasswd\r"; exp_continue}
-	"#"		{ set prompt "#" }
-	"(enable)"	{ set prompt "> \\(enable\\) " }
-	"% Invalid input" {
-			  send_user "\nError: Unrecognized command, check your enable command\n";
-			  return 1
-			}
-	-re "(denied|Sorry|Incorrect)"	{
-			  # % Access denied - from local auth and poss. others
-			  send_user "\nError: Check your Enable passwd\n";
-			  return 1
-			}
-	"% Error in authentication" {
-			  send_user "\nError: Check your Enable passwd\n"
-			  return 1
-			}
-	"% Bad passwords" {
-			  send_user "\nError: Check your Enable passwd\n"
-			  return 1
-			}
+	    -re "$u_prompt"	{ send -- "$enauser\r"; exp_continue}
+	    -re "$e_prompt"	{ send -- "$enapasswd\r"; exp_continue}
+	    "#"		{ set prompt "#" }
+	    "(enable)"	{ set prompt "> \\(enable\\) " }
+	    "% Invalid input" {
+	        send_user "\nError: Unrecognized command, check your enable command\n";
+	    	return 1
+	    }
+	    -re "(denied|Sorry|Incorrect)"	{
+	    	# % Access denied - from local auth and poss. others
+	    	send_user "\nError: Check your Enable passwd\n";
+	    	return 1
+	    }
+	    "% Error in authentication" {
+	    	send_user "\nError: Check your Enable passwd\n"
+	    	return 1
+	    }
+	    "% Bad passwords" {
+	    	send_user "\nError: Check your Enable passwd\n"
+	    	return 1
+	    }
     }
     # We set the prompt variable (above) so script files don't need
     # to know what it is.
@@ -354,23 +361,49 @@ proc do_enable { enauser enapasswd } {
     return 0
 }
 
+proc get_prompt { prompt } {
+    global platform
+    # we are logged in, now figure out the full prompt
+    set in_proc 1
+    send "\r"
+    regsub -all {^(\^*)(.*)} $prompt {\2} reprompt
+    expect {
+        -re "\[\r\n]+"        { exp_continue; }
+        -re "^(.+\[:.])1 ($reprompt)" { 
+            # stoopid extreme cmd-line numbers and prompt based on state of config changes,
+            # which may have an * at the beginning.
+            set junk $expect_out(1,string)
+            regsub -all "^\\\* " $expect_out(1,string) {} junk
+            regsub -all "\[\]\[\(\)]" $junk {\\&} junk;
+            set prompt ".? ?$junk\[0-9]+ $expect_out(2,string)";
+            set platform "extreme"
+        }
+        -re "^.+$reprompt"    {
+            set junk $expect_out(0,string);
+            regsub -all "\[\]\[\(\)+]" $junk {\\&} prompt;
+        }
+    }
+    set in_proc 0
+    return $prompt
+}
+
 # Run commands given on the command line.
 proc run_commands { prompt command } {
-    global do_interact do_saveconfig in_proc platform
+    global do_interact do_saveconfig in_proc platform timeoutdflt
     set in_proc 1
 
     if { [string compare "extreme" "$platform"] } {
-	# match cisco config mode prompts too, such as router(config-if)#
-	# and truncatedr(config-if)#.
-	# catalyst does not change in this fashion, but does have its
-	# abnormal format, router> (enable).
-	# first, drop the "> (enable) " from the catos prompt.
-	regsub -lineanchor -- {> *\\\(enable\\\) *} $prompt {} reprompt
-	regsub -lineanchor -- {^(.{1,11}).*([#>])$} $reprompt {\1} reprompt
-	regsub -all -- {[\\]$} $reprompt {} reprompt
-	append reprompt {([^#>\r\n]+)?[#>](\\([^)\\r\\n]+\\))?}
+	    # match cisco config mode prompts too, such as router(config-if)#
+	    # and truncatedr(config-if)#.
+	    # catalyst does not change in this fashion, but does have its
+	    # abnormal format, router> (enable).
+	    # first, drop the "> (enable) " from the catos prompt.
+	    regsub -lineanchor -- {> *\\\(enable\\\) *} $prompt {} reprompt
+	    regsub -lineanchor -- {^(\S{1,16}).*([#>])\s*$} $reprompt {\1} reprompt
+	    regsub -all -- {[\\]$} $reprompt {} reprompt
+	    append reprompt {([^#>\r\n]+)?[#>](\\([^)\\r\\n]+\\))?}
     } else {
-	set reprompt $prompt
+	    set reprompt $prompt
     }
 
     # this is the only way i see to get rid of more prompts in o/p..grrrrr
@@ -389,106 +422,148 @@ proc run_commands { prompt command } {
     # for the "More" prompt.  the extreme is equally obnoxious in pre-12.3 XOS,
     # with a global switch in the config.
     for {set i 0} {$i < $num_commands} { incr i} {
-	send -- "[subst -nocommands [lindex $commands $i]]\r"
-	expect {
-	    -re "^\b+"				{ exp_continue }
-	    -re "^\[^\n\r *]*$reprompt"		{ send_user -- "$expect_out(buffer)"
-						}
-	    -re "^\[^\n\r]*$reprompt."		{ send_user -- "$expect_out(buffer)"
-						  exp_continue
-						}
-	    -re "^--More--\[\r\n]+"		{ # specific match c1900 pager
-						  send " "
-						  exp_continue
-						}
-	    -re "\[^\r\n]*\[\n\r]+"		{ send_user -- "$expect_out(buffer)"
-						  exp_continue
-						}
-	    # respond to prompt from "file prompt noisy" config
-	    -nocase -re "^display filename \\\[\[^]]*]\\?" 	{
-						  send "\r"
-						  exp_continue
-						}
-	    -re "\[^\r\n]*Press <SPACE> to cont\[^\r\n]*"	{
-						  send " "
-						  # bloody ^[[2K after " "
-						  expect {
-							-re "^\[^\r\n]*\r" {}
-							}
-						  exp_continue
-						}
-	    -re "^ *--More--\[^\n\r]*"		{
-						  send " "
-						  exp_continue }
-	    -re "^<-+ More -+>\[^\n\r]*"	{
-						  send_user -- "$expect_out(buffer)"
-						  send " "
-						  exp_continue }
-	}
+        if { [lindex $commands $i] == "\u002" } {
+            send -- "\r"
+        } else {
+            set l_cmd [subst -nocommands [lindex $commands $i]]
+	        send -- "$l_cmd\r"
+            if { [regexp {^(hostname|changeto)} $l_cmd] } {
+                set prompt [ get_prompt "(>|#| \\(enable\\))"]
+                if { [string compare "extreme" "$platform"] } {
+                    regsub -lineanchor -- {^(\S*).*([#>])$} $prompt {\1} reprompt
+                    regsub -all -- {[\\]$} $reprompt {} reprompt
+                    append reprompt {([^#>\r\n]+)?[#>](\\([^)\\r\\n]+\\))?}
+                } else {
+                    set reprompt $prompt
+                }
+            } elseif ([regexp {^(archive|copy)} $l_cmd]) {
+                set timeout 7200
+                expect {
+                    # specific match for copy running startup
+                    -re {(Destination filename|Source filename|Address or name of remote host) \[[^\r\n]+\]\?} {
+                        send_user -- "$expect_out(buffer)"
+                        send -- "\r"
+                        exp_continue
+                    }
+                    -re "^\[^\n\r *]*$reprompt" {
+                        set timeout $timeoutdflt
+                        send_user -- "$expect_out(buffer)"
+                    }
+                    -re "\[^\r\n]*\[\n\r]+" {
+                        send_user -- "$expect_out(buffer)"
+                        exp_continue
+                    }
+                    -re "!" {
+                        send_user -- "$expect_out(buffer)"
+                        exp_continue
+                    }
+                }
+            } else {
+                
+	            expect {
+	                -re "^\b+"				{ exp_continue }
+	                -re "^\[^\n\r *]*$reprompt"		{ send_user -- "$expect_out(buffer)"
+		            				}
+	                -re "^\[^\n\r]*$reprompt."		{ 
+                        send_user -- "$expect_out(buffer)"
+		                exp_continue
+		            }
+	                -re "^--More--\[\r\n]+"		{ # specific match c1900 pager
+		                send " "
+		            	exp_continue
+		            }
+	                -re "\[^\r\n]*\[\n\r]+"		{ 
+                        send_user -- "$expect_out(buffer)"
+		            	exp_continue
+		            }
+	                # respond to prompt from "file prompt noisy" config
+	                -nocase -re "^display filename \\\[\[^]]*]\\?" 	{
+		            	send "\r"
+		            	exp_continue
+		            }
+	                -re "\[^\r\n]*Press <SPACE> to cont\[^\r\n]*"	{
+		            	send " "
+		            	# bloody ^[[2K after " "
+		            	expect -re "^\[^\r\n]*\r" {}
+		            	exp_continue
+		            }
+	                -re "^ *--More--\[^\n\r]*"		{
+		                send " "
+		            	exp_continue 
+                    }
+	                -re "^<-+ More -+>\[^\n\r]*"	{
+		            	send_user -- "$expect_out(buffer)"
+		            	send " "
+		            	exp_continue 
+                    }
+	            }
+            }
+        }
     }
     log_user 1
 
     if { $do_interact == 1 } {
-	interact
-	return 0
+	    interact
+	    return 0
     }
 
     if { [string compare "extreme" "$platform"] } {
-	send -h "exit\r"
+	    send -h "exit\r"
     } else {
-	send -h "quit\r"
+	    send -h "quit\r"
     }
     expect {
-	-re "^\[^\n\r *]*$reprompt"		{
-						  # the Cisco CE and Jnx ERX
-						  # return to non-enabled mode
-						  # on exit in enabled mode.
-						  send -h "exit\r"
-						  exp_continue;
-						}
-	-re "^\[^\n\r *]*Use .quit. to end"	{
-						  # the F5 >=11 uses quit
-						  send -h "quit\r"
-						  exp_continue;
-						}
-	"The system has unsaved changes"	{ # Force10 SFTOS
-						  if {$do_saveconfig} {
-						    catch {send "y\r"}
-						  } else {
-						    catch {send "n\r"}
-						  }
-						  exp_continue
-						}
-	"Would you like to save them now"	{ # Force10
-						  if {$do_saveconfig} {
-						    catch {send "y\r"}
-						  } else {
-						    catch {send "n\r"}
-						  }
-						  exp_continue
-						}
-	-re "(Profile|Configuration) changes have occurred.*"	{
-						  # Cisco CSS
-						  if {$do_saveconfig} {
-						    catch {send "y\r"}
-						  } else {
-						    catch {send "n\r"}
-						  }
-						  exp_continue
-						}
-	"Do you wish to save your configuration changes" {
-						  if {$do_saveconfig} {
-						    catch {send "y\r"}
-						  } else {
-						    catch {send "n\r"}
-						  }
-						  exp_continue
-						}
-	-re "\[\n\r]+"				{ exp_continue }
-	timeout					{ catch {close}; catch {wait};
-						  return 1
-						}
-	eof					{ return 0 }
+	    -re "^\[^\n\r *]*$reprompt"		{
+	        # the Cisco CE and Jnx ERX
+	        # return to non-enabled mode
+	        # on exit in enabled mode.
+	        send -h "exit\r"
+	        exp_continue;
+	    }
+	    -re "^\[^\n\r *]*Use .quit. to end"	{
+	    	# the F5 >=11 uses quit
+	    	send -h "quit\r"
+	    	exp_continue;
+	    }
+	    "The system has unsaved changes"	{ # Force10 SFTOS
+	    	if {$do_saveconfig} {
+	    	  catch {send "y\r"}
+	    	} else {
+	    	  catch {send "n\r"}
+	    	}
+	    	exp_continue
+	    }
+	    "Would you like to save them now"	{ # Force10
+	    	if {$do_saveconfig} {
+	    	  catch {send "y\r"}
+	    	} else {
+	    	  catch {send "n\r"}
+	    	}
+	    	exp_continue
+	    }
+	    -re "(Profile|Configuration) changes have occurred.*"	{
+	    	# Cisco CSS
+	    	if {$do_saveconfig} {
+	    	  catch {send "y\r"}
+	    	} else {
+	    	  catch {send "n\r"}
+	    	}
+	    	exp_continue
+	    }
+	    "Do you wish to save your configuration changes" {
+	    	if {$do_saveconfig} {
+	    	  catch {send "y\r"}
+	    	} else {
+	    	  catch {send "n\r"}
+	    	}
+	    	exp_continue
+	    }
+	    -re "\[\n\r]+"				{ exp_continue }
+	    timeout					{ 
+            catch {close}; catch {wait};
+	    	return 1
+	    }
+	    eof					{ return 0 }
     }
     set in_proc 0
 }
@@ -523,7 +598,7 @@ foreach router [lrange $argv $i end] {
     # Default prompt.
     set prompt [join [find prompt $router] ""]
     if { [llength $prompt] == 0 } {
-	set prompt "(>|#| \\(enable\\))"
+	    set prompt "(>|#| \\(enable\\))\\s*$"
     }
 
     # look for autoenable option in .cloginrc & cmd-line
@@ -645,7 +720,7 @@ foreach router [lrange $argv $i end] {
 
     # Figure out connection method
     set cmethod [find method $router]
-    if { "$cmethod" == "" } { set cmethod {{telnet} {ssh}} }
+    if { "$cmethod" == "" } { set cmethod {{ssh} {telnet}} }
 
     # Figure out the SSH executable name
     set sshcmd [join [lindex [find sshcmd $router] 0] ""]
@@ -678,23 +753,8 @@ foreach router [lrange $argv $i end] {
 	}
     }
     # we are logged in, now figure out the full prompt
-    send "\r"
-    regsub -all {^(\^*)(.*)} $prompt {\2} reprompt
-    expect {
-	-re "\[\r\n]+"		{ exp_continue; }
-	-re "^(.+\[:.])1 ($reprompt)" { # stoopid extreme cmd-line numbers and
-				  # prompt based on state of config changes,
-				  # which may have an * at the beginning.
-				  set junk $expect_out(1,string)
-				  regsub -all "^\\\* " $expect_out(1,string) {} junk
-				  regsub -all "\[\]\[\(\)]" $junk {\\&} junk;
-				  set prompt ".? ?$junk\[0-9]+ $expect_out(2,string)";
-				  set platform "extreme"
-				}
-	-re "^.+$reprompt"	{ set junk $expect_out(0,string);
-				  regsub -all "\[\]\[\(\)\*+]" $junk {\\&} prompt;
-				}
-    }
+    set prompt [get_prompt $prompt]
+    
     if { $do_command || $do_script } {
 	if { [string compare "extreme" "$platform"] } {
 	    # If the prompt is (enable), then we are on a cataylyst switch and

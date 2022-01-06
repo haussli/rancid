@@ -516,6 +516,8 @@ bigip;command;bigip::ShowLicense;tmsh show /sys license
 bigip;command;bigip::ShowZebOSconf;cat /config/ZebOS.conf
 bigip;command;bigip::ShowZebOSsockets;lsof -i :179
 bigip;command;bigip::ShowRouteStatic;tmsh show /net route static
+bigip;command;bigip::WriteTerm;tmsh save sys config file /tmp/rancid no-passphrase && cat /tmp/rancid && shred -u /tmp/rancid
+bigip;command;bigip::WriteTerm;tmsh save sys config file /tmp/rancid && cat /tmp/rancid && shred -u /tmp/rancid
 bigip;command;bigip::WriteTerm;tmsh -q list
 #
 # f5 big-ip v13

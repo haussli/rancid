@@ -22,6 +22,7 @@ our $found_version;
 our $found_env;
 our $found_diag;
 our $found_inventory;
+our $found_idprom;
 our $config_register;			# configuration register value
 
 our %hwbuf;				# defined in ShowContCbus
@@ -60,6 +61,7 @@ sub init {
     $found_env = 0;
     $found_diag = 0;
     $found_inventory = 0;
+    $found_idprom = 0;
     $config_register = undef;		# configuration register value
 
     $supbootdisk = 0;			# skip sup-bootflash if sup-bootdisk
@@ -2404,6 +2406,30 @@ sub ShowShun {
 	$shun_found = 1;
     }
     ProcessHistory("SHUN","","","!\n") if ($shun_found == 1);
+    return(0);
+}
+
+# This routine processes a "show ft group brief". Intended for Cisco ACE
+sub ShowFtGroup {
+    my ($INPUT, $OUTPUT, $cmd) = @_;
+    printf STDERR "    In ShowFtGroup: $_" if ($debug);
+    while (<$INPUT>) {
+        tr/\015//d;
+        last if (/^$prompt/);
+        return(1) if (/^(\s*$cmd\s*)$/);
+        return(1) if /^\s*\^\s*$/;
+        return(1) if (/Line has invalid autocommand /);
+        next if (/^\s+\^\s*$/);
+        return(1) if (/(invalid (input|command) detected|type help or )/i);
+        return(-1) if (/command authorization failed/i);
+        if (my ($state,$peer_state) = ($_ =~ /^FT Group ID: [0-9]*\s*My State:(\S*)\s*Peer State:(\S*)$/)) {
+            my $next_row = <$INPUT>;
+            $next_row =~ tr/\015//d;
+            my ($name,$sync_status) = ($next_row =~ /^\s*Context Name: (\S*)\s*Context Id: [0-9]*\s*Running Cfg Sync Status: (\S*)$/);
+            ProcessHistory("FTGROUP","","","!Context: $name [State: $state | Peer State: $peer_state | Sync Status: $sync_status\n");
+        }
+    }
+    ProcessHistory("FTGROUP","","","!\n");
     return(0);
 }
 

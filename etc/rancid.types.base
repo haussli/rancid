@@ -751,6 +751,16 @@ routeros;command;routeros::SystemRouterboardPrint;system routerboard print
 routeros;command;routeros::SystemLicensePrint;system license print
 routeros;command;routeros::Export;export
 #
+# Meinberg (NTP appliances) devices
+meinberg;script;rancid -t meinberg
+meinberg;login;llogin
+meinberg;module;meinberg
+meinberg;inloop;meinberg::inloop
+meinberg;command;meinberg::ShowDevice;cat /device_version
+meinberg;command;meinberg::ShowNTP;ntpq -p
+meinberg;command;meinberg::ShowNetwork;show network
+meinberg;command;meinberg::ShowConfiguration;cat /cfgdb/startup/lantime/etc/mbg/*.cfg
+#
 mrtd;script;mrancid
 mrtd;login;clogin
 #

@@ -1,4 +1,6 @@
 3.99.99
+	exos.pm: filter hivemanager password
+
 	junos.pm: filter timestamps from show <*> alarms
 
 	rancid.types.conf: add show system alarms for junipers

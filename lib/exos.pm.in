@@ -303,6 +303,11 @@ sub WriteTerm {
 	/# system name/i && next;
 	/# software version/i && next;
 
+	if (/((create|configure) account admin hivemanager) / && 
+	    ($filter_pwds >= 2 || $filter_osc >= 1)) {
+	    ProcessHistory("COMMENTS","keysort","H0","# $1 <key removed>\n");
+	    next;
+	}
 	if (/((create|configure) account \S+ \S+) / && $filter_pwds >= 2) {
 	    ProcessHistory("COMMENTS","keysort","H0","# $1 <key removed>\n");
 	    next;

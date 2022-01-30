@@ -61,6 +61,10 @@
 # add identity <router name glob> <path to ssh identity file>
 #	Default is your default ssh identity.
 #
+# add platform <router name glob> <platformhint>
+#       Supply a hint about the router platform, which the login script
+#       may use to modify its behaviour.
+#
 # include <file>
 #	include a secondary .cloginrc file
 #

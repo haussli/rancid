@@ -498,6 +498,16 @@ foreach router [lrange $argv $i end] {
     }
     send_user -- "$router (active platform: \"$platform\")\n"
 
+    # Figure out if we have a platform hint
+    if {[info exists plat]} {
+        # command line platform
+        set platform $plat
+    } else {
+        set plat [find platform $router]
+        if { "$plat" ne "" } { set platform $plat }
+    }
+    send_user -- "$router (active platform: \"$platform\")\n"
+
     # if [-mM], skip do not login
     if { $do_cloginrcdbg > 0 } { continue; }
 

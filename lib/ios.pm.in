@@ -2770,4 +2770,18 @@ TOP:
     return(0);
 }
 
+# This routine processes a generic command, commenting all of its output
+sub RunCommandComment {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In RunCommandComment: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	ProcessHistory("COMMENTS","keysort","_RCC","! $_");
+    }
+    ProcessHistory("COMMENTS","keysort","_RCC","!\n");
+    return(0);
+}
+
 1;

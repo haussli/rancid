@@ -760,6 +760,16 @@ routeros;command;routeros::SystemPackagePrintDetail;system package print detail 
 routeros;command;routeros::SystemRouterboardPrint;system routerboard print
 routeros;command;routeros::SystemLicensePrint;system license print
 routeros;command;routeros::Export;export
+# Mikrotik routerOS - terse (ie commands)
+mikrotik-terse;alias;routeros-terse
+routeros-terse;script;rancid -t routeros-terse
+routeros-terse;login;mtlogin
+routeros-terse;module;routeros
+routeros-terse;inloop;routeros::inloop
+routeros-terse;command;routeros::SystemPackagePrintDetail;system package print detail without-paging
+routeros-terse;command;routeros::SystemRouterboardPrint;system routerboard print
+routeros-terse;command;routeros::SystemLicensePrint;system license print
+routeros-terse;command;routeros::Export;export terse
 #
 mrtd;script;mrancid
 mrtd;login;clogin

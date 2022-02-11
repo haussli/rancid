@@ -98,6 +98,7 @@ sub GetSystem {
 
 	if ($filter_osc >= 2) {
 	    next if (/^\s*APP-DB: .*/);
+	    next if (/^\s*AV AI\/ML Model:: .*/);
 	    next if (/^\s*Botnet DB: .*/);
 	    next if (/^\s*Extended DB: .*/);
 	    next if (/^\s*industrial-db: .*/i);

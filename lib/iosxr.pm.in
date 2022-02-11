@@ -637,6 +637,9 @@ sub DirSlotN {
 	return(-1) if (/command authorization failed/i);
 	return(1) if (/(Open device \S+ failed|Error opening \S+:)/);
 
+	# CSCvu27946
+	next if (/drbg_instantiate failed/);
+
 	# Filter dhcp database
 	if (/dhcp_[^. ]*\.txt/) {
 	    next;
@@ -1019,6 +1022,10 @@ sub ShowRPL {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
+
+	# CSCvu27946
+	next if (/drbg_instantiate failed/);
+
 	# filter the bloody cmd-line timestamp
 	next if (/^\w{3} \w{3,4} {1,3}\d{1,2} {1,2}\d{1,2}:\d+:\d+\.\d+ \S+$/);
 	return(1) if /^\s*\^\s*$/;

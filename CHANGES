@@ -1,4 +1,6 @@
 3.99.99
+	arbor.pm: ShowHardware(): fail if command segfaults - 9.1.2
+
 	exos.pm: filter hivemanager password
 
 	junos.pm: filter timestamps from show <*> alarms

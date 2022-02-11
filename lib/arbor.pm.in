@@ -211,6 +211,9 @@ sub ShowHardware {
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if (/invalid command/i);
 
+	# observed intermittently on T4008 running 9.2.0.
+	return(-1) if (/segmentation fault/i);
+
 	# observed intermittently on T4008 running 8.2.0.
 	return(-1) if (/error getting board version/i);
 

@@ -770,6 +770,16 @@ routeros-terse;command;routeros::SystemPackagePrintDetail;system package print d
 routeros-terse;command;routeros::SystemRouterboardPrint;system routerboard print
 routeros-terse;command;routeros::SystemLicensePrint;system license print
 routeros-terse;command;routeros::Export;export terse
+# Mikrotik routerOS - verbose
+mikrotik-verbose;alias;routeros-verbose
+routeros-verbose;script;rancid -t routeros-verbose
+routeros-verbose;login;mtlogin
+routeros-verbose;module;routeros
+routeros-verbose;inloop;routeros::inloop
+routeros-verbose;command;routeros::SystemPackagePrintDetail;system package print detail without-paging
+routeros-verbose;command;routeros::SystemRouterboardPrint;system routerboard print
+routeros-verbose;command;routeros::SystemLicensePrint;system license print
+routeros-verbose;command;routeros::Export;export verbose
 #
 mrtd;script;mrancid
 mrtd;login;clogin

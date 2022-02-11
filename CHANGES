@@ -1,4 +1,7 @@
 3.99.99
+	rancid.types.base: add mikrotik-terse/routeros-verbose for verbose
+	config
+
 	rancid.types.base: add mikrotik-terse/routeros-terse for terse config
 
 	fortigate.pm: GetSystem(): filter AV AI/ML Model

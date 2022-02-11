@@ -1,4 +1,6 @@
 3.99.99
+	rancid.types.base: add cisco-ncs for ios-xe ncs devices
+
 	iosxr.pm: filter "drbg_instantiate failed" - 7.1.2 CSCvu27946
 
 	arbor.pm: ShowHardware(): fail if command segfaults - 9.1.2

@@ -210,6 +210,16 @@ cisco;command;ios::WriteTerm;show running-config view full;workaround for role-b
 cisco;command;ios::WriteTerm;show running-config
 cisco;command;ios::WriteTerm;write term
 #
+# cisoc NCS running ios-xe, eg: 4200
+cisco-ncs;script;rancid -t cisco-ncs
+cisco-ncs;login;clogin
+cisco-ncs;module;ios
+cisco-ncs;inloop;ios::inloop
+cisco-ncs;command;ios::ShowVersion;show version
+cisco-ncs;command;ios::ShowInventory;show inventory
+cisco-ncs;command;ios::RunCommandComment;show platform
+cisco-ncs;command;ios::WriteTerm;show running-config
+#
 ios-nx;alias;cisco-nx
 cisco-nx;script;rancid -t cisco-nx
 cisco-nx;login;clogin

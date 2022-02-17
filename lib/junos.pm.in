@@ -355,7 +355,7 @@ sub ShowChassisAlarms {
 	# 2021-11-15 06:10:09 NZDT Minor  IDP Signature usage requires a license
 	if (/^([0-9-]+ \d+:\d+:\d+ \w+) /) {
 	    my($len, $rem) = (length($1), $');
-	    my($fmt) = "%-". $len ."s %s\n";
+	    my($fmt) = "%-". $len ."s %s";
 	    $_ = sprintf($fmt, "", $rem);
 	}
 

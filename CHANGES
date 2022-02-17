@@ -1,4 +1,7 @@
 3.99.99
+	ios.pm: filter flash dir log; snmp etc logs on ASA; fun fact,
+	ASA 9.14 has yet another listing format.
+
 	rancid.types.base: add mikrotik-terse/routeros-verbose for verbose
 	config
 

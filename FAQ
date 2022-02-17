@@ -1,4 +1,4 @@
-Frequently Asked Questions about rancid - last updated 20180408.
+Frequently Asked Questions about rancid - last updated 20220217.
 
 This FAQ contains information that may not apply directly to versions of
 rancid prior to 3.0.  It also contains paths containing tags such as
@@ -555,6 +555,19 @@ A. The possibilities are endless...rancid is non-toxic when applied properly.
 	http://www.nanog.org/mtg-0210/abley.html
    or our NANOG presentation:
 	http://www.shrubbery.net/rancid/NANOG29/
+
+
+Q. What TCP/IP ports must pass the firewall for rancid to work?
+A. Depending upon configuration, rancid makes out-bound ssh, telnet, rsh,
+   and/or netconf connections to devices the operator configures it to
+   collect or as lookingglass targets.
+
+   It also sends email through whatever MTA is installed.  And, if the SCM
+   is remote, it might make connections in whatever manner configured in
+   the SCM.
+
+   In-bound, an http server might be configured to access the lookingglass
+   or a 3rd-party SCM browser.
 
 
 4) Extending RANCiD

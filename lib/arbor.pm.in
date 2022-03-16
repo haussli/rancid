@@ -217,6 +217,9 @@ sub ShowHardware {
 	# observed intermittently on T4008 running 8.2.0.
 	return(-1) if (/error getting board version/i);
 
+	# observed intermittently on T4008 running 9.4.0.
+	return(-1) if (/error decoding result/i);
+
 	# some stupid timer error from this half-assed device
 	next if (/comsh: timer error, idle timeout will be unavailable/i);
 

@@ -1,4 +1,6 @@
 3.99.99
+	arbor.pm: fail if system hardware command result is imparsible
+
 	ios.pm: filter flash dir log; snmp etc logs on ASA; fun fact,
 	ASA 9.14 has yet another listing format.
 

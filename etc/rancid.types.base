@@ -355,7 +355,7 @@ ios-exr;command;iosxr::ShowLicense;show license all
 ios-exr;command;iosxr::ShowHWfpd;show hw-module fpd;eXR LC images
 ios-exr;command;iosxr::ShowRedundancy;show redundancy
 ios-exr;command;iosxr::ShowInstallActive;show install active
-ios-exr;command;iosxr::ShowEnv;admin show env all
+ios-exr;command;iosxr::ShowEnv;admin show env power
 ios-exr;command;iosxr::DirSlotN;dir /all nvram:
 ios-exr;command;iosxr::DirSlotN;dir /all bootflash:
 ios-exr;command;iosxr::DirSlotN;dir /all compactflash:

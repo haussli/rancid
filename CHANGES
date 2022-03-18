@@ -1,4 +1,6 @@
 3.99.99
+	iosxr.pm: filter reversible ftp client password
+
 	iosxr.pm rancid.types.base: admin show env all is unreliable, instead
 	use admin show env power for ios-exr
 

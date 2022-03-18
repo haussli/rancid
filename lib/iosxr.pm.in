@@ -1192,7 +1192,7 @@ REPEAT:	tr/\015//d;
 	if (/^(ppp .* password) 7 .*/ && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
-	if (/^(ip ftp password) / && $filter_pwds >= 1) {
+	if (/^(ftp client password) / && $filter_pwds >= 1) {
 	    ProcessHistory("","","","!$1 <removed>\n"); next;
 	}
 	if (/^( ip ospf authentication-key) / && $filter_pwds >= 1) {

@@ -1,4 +1,6 @@
 3.99.99
+	sros.pm: filter reversible hash2 keys
+ 
 	iosxr.pm: filter reversible ftp client password
 
 	iosxr.pm rancid.types.base: admin show env all is unreliable, instead

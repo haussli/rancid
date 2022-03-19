@@ -528,6 +528,13 @@ sub WriteTermMD {
 		ProcessHistory("","","","$_") && next;
 	    }
 	}
+	if (/^(\s+authentication-key)\s+("\S+"\s+hash2)/) {
+	    if ($filter_pwds >= 1) {
+		ProcessHistory("","","","#$1 <removed>$'") && next;
+	    } else {
+		ProcessHistory("","","","$_") && next;
+	    }
+	}
 
 	# end of config.
 	if ((/^(# finished |\[\]\s*$)/i) && $linecnt > 5) {

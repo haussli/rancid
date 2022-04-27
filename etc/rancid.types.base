@@ -881,6 +881,7 @@ sros-md;script;rancid -t sros-md
 sros-md;login;noklogin
 sros-md;module;sros
 sros-md;inloop;sros::inloop
+sros-md;command;rancid::RunCommand;environment progress-indicator admin-state disable
 sros-md;command;sros::ShowSystemInfo;show system information
 sros-md;command;sros::ShowRedundancy;show redundancy synchronization
 sros-md;command;sros::ShowChassis;show chassis

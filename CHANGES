@@ -1,4 +1,6 @@
 3.99.99
+	iosxr.pm: filter nvgen_bkup.log file timestamp
+
 	sros.pm: disable the progress indicator during collection
 
 	sros.pm: filter reversible hash2 keys

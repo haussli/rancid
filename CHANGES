@@ -1,4 +1,7 @@
 3.99.99
+	junos.pm: filter oscillating FIB/RIB/LSP/BGP Peer Scale alarm values and
+	used and needed values from license list for same.
+
 	iosxr.pm: filter nvgen_bkup.log file timestamp
 
 	sros.pm: disable the progress indicator during collection

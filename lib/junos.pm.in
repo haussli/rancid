@@ -359,6 +359,15 @@ sub ShowChassisAlarms {
 	    $_ = sprintf($fmt, "", $rem);
 	}
 
+	# filter FIB/RIB/LSP/BGP Peer Scale value, oscillates
+	# 2021-11-15 06:10:09 NZDT Minor  1049871 FIB Scales(268) require a license
+	# 2021-11-15 06:10:09 NZDT Minor  1063110 RIB Scales(269) require a license
+	# 2021-11-15 06:10:09 NZDT Minor  563 LSP Scales(270) require a license
+	# 2021-11-15 06:10:09 NZDT Minor  385 BGP Peer scales(271) require a license
+	if (/^(\s+\w+\s+)(\d+)( (?:fib|rib|lsp|bgp peer) scale.+ require a license)/i) {
+	    $_ = sprintf("%s%s%s%s", $1, "<removed>", $3, $');
+	}
+
 	ProcessHistory("","","","# $_");
     }
     return(0);
@@ -454,6 +463,22 @@ sub ShowSystemLicense {
 	next if (/^\{(master|backup|linecard|primary|secondary)(:(node)?\d+)?\}/);
 	return -1 if (/error: select: protocol failure /i);
 	return -1 if (/error: abnormal communication /i);
+
+	# licenses used/needed changes constantly for routing licenses.  Remove
+	# them.  example input:
+	# License usage:
+	#                                  Licenses     Licenses    Licenses    Expiry
+	#   Feature name                       used    installed      needed
+        #   fib-scale                       1049871        64000      985871    permanent
+        #   rib-scale                       1063110        64000      999110    permanent
+        #   lsp-scale                           563            0         563    invalid
+        #   bgp-peer-scale                      385            0         385    invalid
+	if (/^(\s+(?:fib|rib|lsp|bgp-peer)-\S+\s+)(\d+)(\s+\d+)(\s+\d+)(.*$)/) {
+	    my($a, $used, $avail, $need, $rem) = ($1, $2, $3, $4, $5);
+	    my($usedl, $needl) = (length($used), length($need));
+	    my($fmt) = "%s%-" . $usedl . "s%s%-" . $needl . "s%s\n";
+	    $_ = sprintf($fmt, $a, "", $avail, "", $rem);
+	}
 
 	# licenses used changes constantly.  distill it to a percentage.
 	# example input:

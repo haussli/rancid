@@ -1,4 +1,6 @@
 3.99.99
+	ios.pm: filter frequently changing ssd file - Bart Bylemans
+
 	iosxr.pm: filter nvgen_bkup.log file timestamp
 
 	sros.pm: disable the progress indicator during collection

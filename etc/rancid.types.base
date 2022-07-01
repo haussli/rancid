@@ -865,6 +865,7 @@ sros;inloop;sros::inloop
 sros;command;sros::ShowSystemInfo;show system information
 sros;command;sros::ShowRedundancy;show redundancy synchronization
 sros;command;sros::ShowChassis;show chassis
+sros;command;sros::ShowMDA;show mda detail
 sros;command;sros::ShowChassisEnv;show chassis environment
 sros;command;sros::ShowChassisPS;show chassis power-supply
 sros;command;sros::ShowChassisPM;show chassis power-management
@@ -885,6 +886,7 @@ sros-md;command;rancid::RunCommand;environment progress-indicator admin-state di
 sros-md;command;sros::ShowSystemInfo;show system information
 sros-md;command;sros::ShowRedundancy;show redundancy synchronization
 sros-md;command;sros::ShowChassis;show chassis
+sros-md;command;sros::ShowMDA;show mda detail
 sros-md;command;sros::ShowChassisEnv;show chassis environment
 sros-md;command;sros::ShowChassisPS;show chassis power-supply
 sros-md;command;sros::ShowChassisPM;show chassis power-management

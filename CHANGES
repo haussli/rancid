@@ -1,4 +1,6 @@
 3.99.99
+	sros.pm: add show mda detail command
+
 	ios.pm: filter ssh file timestamp
 
 	junos.pm: filter oscillating FIB/RIB/LSP/BGP Peer Scale alarm values and

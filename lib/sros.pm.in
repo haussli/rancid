@@ -229,12 +229,13 @@ sub ShowChassis {
 	    next;
 	ProcessHistory("COMMENTS","keysort","E1","# $_");
     }
+    ProcessHistory("COMMENTS","keysort","E1","#\n");
 }
 # This routine parses "show chassis environment"
 sub ShowChassisEnv {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassisEnv: $_" if ($debug);
-    ProcessHistory("COMMENTS","keysort","E2","#\n# $_");
+    ProcessHistory("COMMENTS","keysort","E3","#\n# $_");
 
 TOP: while (<$INPUT>) {
 	tr/\015//d;
@@ -258,14 +259,14 @@ TOP: while (<$INPUT>) {
 	/speed/i && next;
 
 	/[-=]+$/i && next;
-	ProcessHistory("COMMENTS","keysort","E2","# $_");
+	ProcessHistory("COMMENTS","keysort","E3","# $_");
     }
 }
 # This routine parses "show chassis power-supply"
 sub ShowChassisPS {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassisPS: $_" if ($debug);
-    ProcessHistory("COMMENTS","keysort","E3","#\n# $_");
+    ProcessHistory("COMMENTS","keysort","E4","#\n# $_");
 
     while (<$INPUT>) {
 	tr/\015//d;
@@ -280,14 +281,14 @@ sub ShowChassisPS {
 	/^\[[^]]*]$/i && next;
 
 	/[-=]+$/i && next;
-	ProcessHistory("COMMENTS","keysort","E3","# $_");
+	ProcessHistory("COMMENTS","keysort","E4","# $_");
     }
 }
 # This routine parses "show chassis power-management"
 sub ShowChassisPM {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassisPM: $_" if ($debug);
-    ProcessHistory("COMMENTS","keysort","E4","#\n# $_");
+    ProcessHistory("COMMENTS","keysort","E5","#\n# $_");
 
     while (<$INPUT>) {
 	tr/\015//d;
@@ -305,7 +306,7 @@ sub ShowChassisPM {
 	/watts/i && next;
 	/amps/i && next;
 	/[-=]+$/i && next;
-	ProcessHistory("COMMENTS","keysort","E4","# $_");
+	ProcessHistory("COMMENTS","keysort","E5","# $_");
     }
 }
 # This routine parses "show debug"
@@ -327,6 +328,48 @@ sub ShowDebug {
 	/show debug/i && next;
 
 	ProcessHistory("","","","$_");
+    }
+}
+# This routine parses "show mda detail"
+sub ShowMDA {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowMDA: $_" if ($debug);
+    ProcessHistory("COMMENTS","keysort","E2","# $_");
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+	return(-1) if (/error: invalid parameter/i);
+	return(-1) if (/minor: cli command not allowed for this user/i);
+	# context lines
+	/^\[[^]]*]$/i && next;
+	/^$/i && next; # extra blank lines tr doesn't remove
+
+	/[-=]+$/i && next;
+	/Temperature/i && next;
+
+	# trim power info
+	# Hardware Resources (Power-Zone 1)
+	#     Voltage
+	#         Minimum                   :    54.88 Volts  (06/23/2022 15:53:39)
+	#         Current                   :    54.91 Volts 
+	#         Peak                      :    54.95 Volts  (04/28/2022 16:28:34)
+	#     Wattage
+	#         ....
+	#         Max Required              :  2400.00 Watts 
+	#     Amperage
+	#         ....
+	if (/hardware resources .power-zone/i) {
+	    while (<$INPUT>) {
+		tr/\015//d;
+		last TOP if (/^$prompt/);
+		last if (/(^\s*$|^=+)/);
+	    }
+	}
+
+	ProcessHistory("COMMENTS","keysort","E2","# $_");
     }
 }
 # This routine parses "show redundancy synchronization"

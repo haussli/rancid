@@ -1,4 +1,6 @@
 3.99.99
+	ios.pm: filter (private|startup)-config - Reuben Farrelly
+
 	sros.pm: add show mda detail command
 
 	ios.pm: filter ssh file timestamp

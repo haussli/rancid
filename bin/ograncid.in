@@ -1,4 +1,4 @@
-#! @PERL5_PATH@
+#! @PERLV_PATH@
 ##
 ## @PACKAGE@ @VERSION@
 @copyright@

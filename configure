@@ -6172,6 +6172,8 @@ ac_config_files="$ac_config_files bin/noklogin"
 
 ac_config_files="$ac_config_files bin/nslogin bin/nsrancid"
 
+ac_config_files="$ac_config_files bin/oglogin bin/ograncid"
+
 ac_config_files="$ac_config_files bin/panlogin"
 
 ac_config_files="$ac_config_files bin/rblogin"
@@ -6978,6 +6980,8 @@ do
     "bin/noklogin") CONFIG_FILES="$CONFIG_FILES bin/noklogin" ;;
     "bin/nslogin") CONFIG_FILES="$CONFIG_FILES bin/nslogin" ;;
     "bin/nsrancid") CONFIG_FILES="$CONFIG_FILES bin/nsrancid" ;;
+    "bin/oglogin") CONFIG_FILES="$CONFIG_FILES bin/oglogin" ;;
+    "bin/ograncid") CONFIG_FILES="$CONFIG_FILES bin/ograncid" ;;
     "bin/panlogin") CONFIG_FILES="$CONFIG_FILES bin/panlogin" ;;
     "bin/rblogin") CONFIG_FILES="$CONFIG_FILES bin/rblogin" ;;
     "bin/rivlogin") CONFIG_FILES="$CONFIG_FILES bin/rivlogin" ;;
@@ -7755,6 +7759,8 @@ See \`config.log' for more details" "$LINENO" 5; }
     "bin/noklogin":F) chmod a+x $ac_file ;;
     "bin/nslogin":F) chmod a+x $ac_file ;;
     "bin/nsrancid":F) chmod a+x $ac_file ;;
+    "bin/oglogin":F) chmod a+x $ac_file ;;
+    "bin/ograncid":F) chmod a+x $ac_file ;;
     "bin/panlogin":F) chmod a+x $ac_file ;;
     "bin/rblogin":F) chmod a+x $ac_file ;;
     "bin/rivlogin":F) chmod a+x $ac_file ;;

@@ -247,6 +247,7 @@ sub ShowLicense {
 	return(-1) if (/command authorization failed/i);
 
 	/^-+$/ && next;		# Skip lines of all dashes.
+	/Honor Start/ && next;  # Skip incrementing honor licenses.
 	s/ Grace .+$/ Grace/;	# Drop anything after Grace.
 	ProcessHistory("COMMENTS","","", "!LIC: $_");
     }

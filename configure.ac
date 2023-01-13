@@ -44,7 +44,7 @@ AC_C_INLINE
 AC_C_STRINGIZE
 
 # check includes/headers
-AC_HEADER_STDC
+AC_INCLUDES_DEFAULT
 AC_CHECK_HEADERS(ctype.h errno.h fcntl.h libutil.h limits.h pty.h malloc.h \
 		 memory.h siginfo.h stdarg.h stdint.h stdlib.h string.h \
 		 strings.h stropts.h sys/resource.h sys/time.h \

@@ -162,8 +162,8 @@ void		vers(void);
 int		xtermcmd(child *, char **);
 void		xtermlog(child *);
 
-RETSIGTYPE	handler(int);
-RETSIGTYPE	reapchild(int);
+void		handler(int);
+void		reapchild(int);
 
 int
 main(int argc, char **argv, char **envp)
@@ -1360,7 +1360,7 @@ xtermlog(child *c)
  * we are being killed.  kill and reap our sub-processes, except for
  * logging xterms.  if we get a second signal, we give up.
  */
-RETSIGTYPE
+void
 handler(int sig)
 {
     int		i;
@@ -1396,7 +1396,7 @@ handler(int sig)
     return;
 }
 
-RETSIGTYPE
+void
 reapchild(int sig)
 {
     int		i,

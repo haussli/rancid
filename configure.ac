@@ -96,7 +96,6 @@ fi
 dnl AC_FUNC_VPRINTF
 
 # type checks
-AC_TYPE_SIGNAL
 AC_TYPE_SIZE_T
 
 # Package-specific options/knobs

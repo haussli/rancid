@@ -129,12 +129,12 @@ pid_t		child;
 int		complete_esc(char *buf, int len);
 int		filter(char *, int);
 size_t		mystrcspn(const char *, const char *);
-RETSIGTYPE	reapchild(int);
+void		reapchild(int);
 #if !HAVE_OPENPTY
 int		openpty(int *, int *, char *, struct termios *,
 			struct winsize *);
 #endif
-RETSIGTYPE	sighdlr(int);
+void		sighdlr(int);
 #if !HAVE_UNSETENV
 int		unsetenv(const char *);
 #endif
@@ -658,7 +658,7 @@ mystrcspn(const char *s, const char *charset)
     return(len);
 }
 
-RETSIGTYPE
+void
 reapchild(int sig)
 {
     int         status;
@@ -679,7 +679,7 @@ reapchild(int sig)
     return;
 }
 
-RETSIGTYPE
+void
 sighdlr(int sig)
 {
     if (debug)

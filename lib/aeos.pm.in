@@ -260,6 +260,8 @@ sub ShowFlash {
         # persist changes constantly if you're running ntp, so
         # skip its updates.
         /\spersist$/ && next;
+	# frequent timestamp changes
+	/\sdebug$/ && next;
 
 	# Scheduled commands can cause free space to constantly
 	# change.  Even the trick of summarizing the free space

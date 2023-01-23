@@ -1,4 +1,6 @@
 3.99.99
+	aeos.pm: filter frequent timestamp changes of 'debug' directory
+
 	ios.pm: filter (private|startup)-config - Reuben Farrelly
 
 	sros.pm: add show mda detail command

@@ -120,6 +120,7 @@ sub ShowBOF {
 	ProcessHistory("BOF","","","# $_");
     }
 }
+
 # This routine parses "show card detail"
 sub ShowCardDetail {
     my($INPUT, $OUTPUT, $cmd) = @_;
@@ -180,6 +181,7 @@ sub ShowCardDetail {
 	ProcessHistory("COMMENTS","keysort","E6","# $_");
     }
 }
+
 # This routine parses "show card state"
 sub ShowCardState {
     my($INPUT, $OUTPUT, $cmd) = @_;
@@ -200,6 +202,7 @@ sub ShowCardState {
 	ProcessHistory("COMMENTS","keysort","E5","# $_");
     }
 }
+
 # This routine parses "show chassis"
 sub ShowChassis {
     my($INPUT, $OUTPUT, $cmd) = @_;
@@ -231,6 +234,7 @@ sub ShowChassis {
     }
     ProcessHistory("COMMENTS","keysort","E1","#\n");
 }
+
 # This routine parses "show chassis environment"
 sub ShowChassisEnv {
     my($INPUT, $OUTPUT, $cmd) = @_;
@@ -262,6 +266,7 @@ TOP: while (<$INPUT>) {
 	ProcessHistory("COMMENTS","keysort","E3","# $_");
     }
 }
+
 # This routine parses "show chassis power-supply"
 sub ShowChassisPS {
     my($INPUT, $OUTPUT, $cmd) = @_;
@@ -284,6 +289,7 @@ sub ShowChassisPS {
 	ProcessHistory("COMMENTS","keysort","E4","# $_");
     }
 }
+
 # This routine parses "show chassis power-management"
 sub ShowChassisPM {
     my($INPUT, $OUTPUT, $cmd) = @_;
@@ -309,6 +315,7 @@ sub ShowChassisPM {
 	ProcessHistory("COMMENTS","keysort","E5","# $_");
     }
 }
+
 # This routine parses "show debug"
 sub ShowDebug {
     my($INPUT, $OUTPUT, $cmd) = @_;
@@ -330,6 +337,7 @@ sub ShowDebug {
 	ProcessHistory("","","","$_");
     }
 }
+
 # This routine parses "show mda detail"
 sub ShowMDA {
     my($INPUT, $OUTPUT, $cmd) = @_;
@@ -372,6 +380,7 @@ sub ShowMDA {
 	ProcessHistory("COMMENTS","keysort","E2","# $_");
     }
 }
+
 # This routine parses "show redundancy synchronization"
 sub ShowRedundancy {
     my($INPUT, $OUTPUT, $cmd) = @_;
@@ -400,6 +409,7 @@ sub ShowRedundancy {
 	ProcessHistory("COMMENTS","keysort","D2","# $_");
     }
 }
+
 # This routine parses "show system information"
 sub ShowSystemInfo {
     my($INPUT, $OUTPUT, $cmd) = @_;
@@ -440,6 +450,7 @@ sub ShowSystemInfo {
 	ProcessHistory("COMMENTS","keysort","C1","# $_");
     }
 }
+
 # This routine parses "admin display-config index"
 sub WriteTermIndex {
     my($INPUT, $OUTPUT, $cmd) = @_;
@@ -466,6 +477,7 @@ sub WriteTermIndex {
 	ProcessHistory("","","","$_");
     }
 }
+
 # This routine parses "admin display-config"
 sub WriteTerm {
     my($INPUT, $OUTPUT, $cmd) = @_;

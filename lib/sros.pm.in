@@ -344,7 +344,7 @@ sub ShowMDA {
     print STDERR "    In ShowMDA: $_" if ($debug);
     ProcessHistory("COMMENTS","keysort","E2","# $_");
 
-    while (<$INPUT>) {
+TOP: while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
 	next if (/^(\s*$cmd\s*)$/);

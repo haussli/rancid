@@ -892,6 +892,7 @@ sros-md;command;sros::ShowChassisPS;show chassis power-supply
 sros-md;command;sros::ShowChassisPM;show chassis power-management
 sros-md;command;sros::ShowCardState;show card state
 sros-md;command;sros::ShowCardDetail;show card detail
+sros-md;command;sros::ShowPortDetail;show port detail
 sros-md;command;sros::ShowDebug;//show debug
 sros-md;command;sros::ShowBOF;//show bof
 sros-md;command;sros::WriteTermMD;admin show configuration

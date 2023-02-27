@@ -1,4 +1,6 @@
 3.99.99
+	sros.pm rancid.types.base: add show port detail
+
 	aeos.pm: filter frequent timestamp changes of 'debug' directory
 
 	ios.pm: filter (private|startup)-config - Reuben Farrelly

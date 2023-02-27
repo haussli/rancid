@@ -381,6 +381,42 @@ sub ShowMDA {
     }
 }
 
+# This routine parses "show port detail"
+sub ShowPortDetail {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    my($text);
+    print STDERR "    In ShowPortDetail: $_" if ($debug);
+    ProcessHistory("COMMENTS","keysort","E6","#\n# $_");
+
+TOP: while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^\s+\^$/);
+	return(-1) if (/error: invalid parameter/i);
+	return(-1) if (/minor: cli command not allowed for this user/i);
+	# context lines
+	/^\[[^]]*]$/i && next;
+
+	# accumulate interface name and description; only print if it has a xcvr
+	/^(Interface\s+:\s+\S+)/ && ($text = "# $1\n" . $text);
+	/^(Description\s+:\s+)/ && ($text = "# $_");
+	if (/^transceiver status\s*:\s*/i) {
+	    next TOP if (/not-equipped/);
+	    ProcessHistory("COMMENTS","keysort","E8","$text");
+	    while (<$INPUT>) {
+		tr/\015//d;
+		last TOP if (/^$prompt/);
+		last if (/(^\s*$|^[-=]+)/);
+		ProcessHistory("COMMENTS","keysort","E8","# $_");
+	    }
+	}
+
+	/[-=]+$/i && next;
+    }
+#XXX	ProcessHistory("COMMENTS","keysort","E6","# $_");
+}
+
 # This routine parses "show redundancy synchronization"
 sub ShowRedundancy {
     my($INPUT, $OUTPUT, $cmd) = @_;

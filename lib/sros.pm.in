@@ -414,7 +414,6 @@ TOP: while (<$INPUT>) {
 
 	/[-=]+$/i && next;
     }
-#XXX	ProcessHistory("COMMENTS","keysort","E6","# $_");
 }
 
 # This routine parses "show redundancy synchronization"

@@ -286,6 +286,7 @@ sub ShowChassisPS {
 	/^\[[^]]*]$/i && next;
 
 	/[-=]+$/i && next;
+	/input voltage/i && next;
 	ProcessHistory("COMMENTS","keysort","E4","# $_");
     }
 }

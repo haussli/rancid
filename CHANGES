@@ -1,5 +1,7 @@
 3.99.99
-	sros.pm rancid.types.base: add show port detail
+	sros.pm: skip voltage in show chassis power-supply
+
+	sros.pm: rancid.types.base: add show port detail
 
 	aeos.pm: filter frequent timestamp changes of 'debug' directory
 

@@ -813,7 +813,8 @@ paloalto;command;panos::ShowInfo;show system info
 paloalto;command;panos::ShowInventory;show chassis inventory
 paloalto;command;panos::ShowConfig;show config running
 #
-# XML configuration version of paloalto.  See mail:
+# XML configuration version of paloalto.
+# XML is possibly the only format that can be loaded   See mail:
 # https://shrubbery.net/pipermail/rancid-discuss/2021-September/011073.html
 paloaltoxml;script;rancid -t paloaltoxml
 paloaltoxml;login;panlogin

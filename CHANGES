@@ -1,4 +1,6 @@
 3.99.99
+	iosxr.pm: fail if show rpl maximum returns file descriptor error
+
 	sros.pm: skip voltage in show chassis power-supply
 
 	sros.pm: rancid.types.base: add show port detail

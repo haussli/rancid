@@ -1035,6 +1035,7 @@ sub ShowRPL {
 	return(1) if (/(Invalid (input|command) detected|Type help or )/i);
 	return(1) if (/^(-+\^|syntax error: unknown argument)$/i);	# NCS
 	return(1) if (/Ambiguous command/i);
+	return(-1) if (/backing_thread:accept_file: .*/i);
 	return(-1) if (/command authorization failed/i);
 
 	ProcessHistory("COMMENTS","keysort","RPLMAX","! $_");

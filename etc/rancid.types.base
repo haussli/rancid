@@ -262,7 +262,7 @@ cisco-nx;command;nxos::WriteTerm;show running-config
 #
 # Cisco small business devices.  These are peculiar; most likely this will not
 # work with all of them, but is also reported to work with other Marvell OEMs,
-# including PowerConnect 5448
+# including PowerConnect 5448, some Transition Networks switches
 ios-sb;alias;cisco-sb
 cisco-sb;script;rancid -t cisco-sb
 cisco-sb;login;csblogin

@@ -1,4 +1,6 @@
 3.99.99
+	rancid.types.base: note Transition Networks switches work as ios-sb
+
 	iosxr.pm: fail if show rpl maximum returns file descriptor error
 
 	sros.pm: skip voltage in show chassis power-supply

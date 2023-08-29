@@ -1,4 +1,7 @@
 3.99.99
+	fnlogin: the license accept prompt at login does not require a \r,
+	which desynchronizes the script from the prompts
+
 	fnlogin: process input line by line to improve prompt matching accuracy
 
 	rancid.types.base: note Transition Networks switches work as ios-sb

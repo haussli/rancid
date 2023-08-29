@@ -496,11 +496,11 @@ proc run_commands { prompt command } {
     for {set i 0} {$i < $num_commands} { incr i} {
 	send -- "[subst -nocommands [lindex $commands $i]]\r"
 	expect {
-            -re "$prompt"			{ }
+	    -re "\[\n\r]+"			{ exp_continue }
+            -re "^\[^\n\r *]*$prompt"		{ }
 	    -gl "--More--"			{ send -h " "
 						  exp_continue
 						}
-	    -re "\[\n\r]+"			{ exp_continue }
 	}
     }
 
@@ -511,11 +511,11 @@ proc run_commands { prompt command } {
 
     send -h "exit\r"
     expect {
-	-re "$prompt$"				{
+	-re "\[\n\r]+"				{ exp_continue }
+	-re "^\[^\n\r *]*$prompt$"		{
 						  send -h "exit\r"
 						  exp_continue
 						}
-	-re "\[\n\r]+"				{ exp_continue }
 	-gl "Configuration modified, save?"	{
 						  send -h "n\r"
 						  exp_continue

@@ -3,7 +3,7 @@
 ## @PACKAGE@ @VERSION@
 @copyright@
 #
-# clogin - Cisco login
+# fxlogin - Cisco FXos login
 #
 # Most options are intuitive for logging into a Cisco router.
 # The default is to enable (thus -noenable).  Some folks have

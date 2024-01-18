@@ -52,7 +52,7 @@
 require 5;
 
 my($script);
-my($router, $devtype) = split('\;', $ARGV[0]);
+my($router, $devtype, $stat, $comment, $dir) = split('\;', $ARGV[0]);
 $devtype =~ tr/[A-Z]/[a-z]/;
 if (! length($devtype)) {
     printf(STDERR "unknown router manufacturer for $router: $devtype\n");

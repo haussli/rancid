@@ -52,13 +52,15 @@
 ENVFILE="@sysconfdir@/rancid.conf"
 
 TMPDIR=${TMPDIR:=/tmp}; export TMPDIR
+LOG_OUT=""; export LOG_OUT
+LOG_BY_GRP=1; export LOG_BY_GRP
 
 # control_rancid argv
 CR_ARGV=""; export CR_ARGV
 
 # print a usage message to stderr
 pr_usage() {
-    echo "usage: $0 [-V] [-c commit_msg] [-f config_file] [-r device_name] [-m mail rcpt] [group [group ...]]" >&2;
+    echo "usage: $0 [-V] [-c commit_msg] [-d|-l log_file] [-f config_file] [-r device_name] [-m mail rcpt] [group [group ...]]" >&2;
 }
 
 # command-line options
@@ -66,6 +68,8 @@ pr_usage() {
 # -c <SCM commit msg>
 # -f <config file name>
 # -m <mailto address>
+# -d
+# -l <log_file_name>
 # -r <device name>
 if [ $# -ge 1 ] ; then
     while [ 1 ] ; do
@@ -74,6 +78,16 @@ if [ $# -ge 1 ] ; then
 	    echo "@PACKAGE@ @VERSION@"
 	    exit 0
 	    ;;
+    -d)
+        shift
+        LOG_OUT="2"
+        shift
+        ;;
+    -l)
+        shift
+        LOG_OUT="$1"
+        shift
+        ;;
 	-c)
 	    shift
 	    # next arg is the commit message
@@ -85,8 +99,8 @@ if [ $# -ge 1 ] ; then
 	    # next arg is the alternate config file name
 	    ENVFILE="$1"
 	    if [ -z $ENVFILE ]; then
-		pr_usage
-		exit 1
+		    pr_usage
+		    exit 1
 	    fi
 	    CR_ARGV="$CR_ARGV -f $1"; export CR_ARGV
 	    shift
@@ -124,6 +138,20 @@ fi
 
 . $ENVFILE
 
+# LOGDIR location
+LOGDIR=${LOGDIR:=$BASEDIR/logs}
+if [ ! -d "$LOGDIR" ]; then
+    mkdir -m $UMASK -p $LOGDIR || (echo "Could not create log directory: $LOGDIR"; exit 1)
+fi
+
+# LOG output
+if [ "x$LOG_OUT" != "x" ]; then
+    LOG_BY_GRP=0
+elif [ "x$LOG_OUT" == "x" -a "x$LOGFILE" != "x" ]; then
+    LOG_OUT="$LOGDIR/$LOGFILE"
+    LOG_BY_GRP=0
+fi
+
 # SENDMAIL location
 SENDMAIL=${SENDMAIL:=sendmail};
 
@@ -134,67 +162,68 @@ elif [ "$LIST_OF_GROUPS" = "" ] ; then
     exit 1
 fi
 
-# LOGDIR location
-LOGDIR=${LOGDIR:=$BASEDIR/logs};
-if [ ! -d $LOGDIR ] ; then
-    mkdir -p $LOGDIR || (echo "Could not create log directory: $LOGDIR" >&2;
-			 exit 1)
+# TEMPDIR location
+if [ ! -d $TMPDIR ]; then
+    mkdir -m $UMASK -p $TMPDIR || (echo "Could not create TMP directory: $TMPDIR"; exit 1)
 fi
 
 for GROUP in $LIST_OF_GROUPS
 do
+    if [ $LOG_BY_GRP -eq 1 ]; then
+        LOG_OUT="$LOGDIR/$GROUP.$(date +%Y%m%d.%H%M%S)"
+    fi
 
     LOCKFILE=$TMPDIR/.$GROUP.run.lock
 
     (
-	echo starting: `date`
-	echo
+	    echo starting: `date`
+	    echo
 
-	if [ -f $LOCKFILE ]
-	then
-	    echo hourly config diffs failed: $LOCKFILE exists
-	    ls -l $LOCKFILE
-
-	    # Send email if the lock file is old.
-	    if [ "X$LOCKTIME" = "X" ] ; then
-		LOCKTIME=4
-	    fi
-	    GRPOLDFILE=`mktemp -q $TMPDIR/.$GROUP.XXXXXX`
-	    if [ $? -ne 0 ] ; then
-		echo "Could not create temporary file for error email" >&2
-		exit 1
-	    fi
-	    @PERLV@ -e "\$t = (stat(\"$LOCKFILE\"))[9]; print \"OLD\\n\" if (time() - \$t >= $LOCKTIME*60*60);" > $GRPOLDFILE
-	    if [ -s $GRPOLDFILE ]
+	    if [ -f $LOCKFILE ]
 	    then
-		(
-		  echo "To: @ADMINMAILPLUS@${GROUP}${MAILDOMAIN}"
-		  echo "Subject: rancid hung - $GROUP"
-		  echo "Precedence: bulk"
-		  echo "Auto-submitted: auto-generated"
-		  echo "X-Auto-Response-Suppress: All"
-		  echo ""
+	        echo hourly config diffs failed: $LOCKFILE exists
+	        ls -l $LOCKFILE
 
-		  cat <<END
+	        # Send email if the lock file is old.
+	        if [ "X$LOCKTIME" = "X" ] ; then
+		        LOCKTIME=4
+	        fi
+	        GRPOLDFILE=`mktemp -q $TMPDIR/.$GROUP.XXXXXX`
+	        if [ $? -ne 0 ] ; then
+		        echo "Could not create temporary file for error email" >&2
+		        exit 1
+	        fi
+	        @PERLV@ -e "\$t = (stat(\"$LOCKFILE\"))[9]; print \"OLD\\n\" if (time() - \$t >= $LOCKTIME*60*60);" > $GRPOLDFILE
+	        if [ -s $GRPOLDFILE ]
+	        then
+		        (
+		            echo "To: @ADMINMAILPLUS@${GROUP}${MAILDOMAIN}"
+		            echo "Subject: rancid hung - $GROUP"
+		            echo "Precedence: bulk"
+		            echo "Auto-submitted: auto-generated"
+		            echo " X-Auto-Response-Suppress: All"
+		            echo ""
+
+		            cat <<EOF
 rancid $GROUP hung on `hostname`?  Old lockfile still exists:
-`ls -l $LOCKFILE`
-END
-		) | $SENDMAIL -t $MAILOPTS
-	    fi
-	    rm -f $GRPOLDFILE
+$(ls -l $LOCKFILE)
+EOF
+		        ) | $SENDMAIL -t $MAILOPTS
+	        fi
+	        rm -f $GRPOLDFILE
 	    exit 1
 	else
 	    trap 'rm -fr $LOCKFILE;exit 1' 1 2 3 6 10 15
 	    @PERLV@ -e 'use POSIX;sysopen(FH, $ARGV[1], O_RDWR|O_CREAT|O_EXCL, 0660) or exit 1;print FH "$ARGV[0]\n";' -- $$ $LOCKFILE
 	    if [ $? -eq 0 ] ; then
-		sh -c "control_rancid $CR_ARGV $GROUP"
-		trap ''  1 2 3 6 10 15
-		rm -f $LOCKFILE
+		    sh -c "control_rancid $CR_ARGV $GROUP"
+		    trap ''  1 2 3 6 10 15
+		    rm -f $LOCKFILE
 	    fi
-	    trap ''  1 2 3 6 10 15
+	    trap/ ''  1 2 3 6 10 15
 	fi
 
 	echo
-	echo ending: `date`
-    ) >$LOGDIR/$GROUP.`date +%Y%m%d.%H%M%S` 2>&1
+	echo ending: $(date`)
+    ) >&$LOG_OUT 2>&1
 done

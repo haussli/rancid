@@ -33,7 +33,7 @@ PATH=@bindir@:@ENV_PATH@; export PATH
 # you are doing, disable this check by commenting these lines.
 uid=`perl -e 'print "$>"'`
 if [ -e /proc/1/cgroup ] ; then
-    DOCKER=`cat /proc/1/cgroup | grep "cpu.*\/docker"`
+    DOCKER=`cat /proc/1/cgroup | grep "cpu.*/docker"`
 fi
 test "x$DOCKER" = "x" && test "$uid" -eq 0 && echo "Do not run $0 as root!" && exit 1
 #

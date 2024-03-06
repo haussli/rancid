@@ -74,7 +74,7 @@ arista;module;aeos
 arista;inloop;aeos::inloop
 arista;command;aeos::ShowVersion;show version
 arista;command;aeos::ShowBoot;show boot-config
-arista;command;aeos::ShowEnv;show env all
+arista;command;aeos::ShowEnv;show system environment all
 arista;command;aeos::ShowFlash;dir flash:
 arista;command;aeos::ShowInventory;show inventory
 arista;command;aeos::ShowBootExt;show boot-extensions

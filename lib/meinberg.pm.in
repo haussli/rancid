@@ -1,0 +1,187 @@
+package meinberg;
+##
+## $Id: meinberg.pm.in 3236 2016-05-18
+##
+## @PACKAGE@ @VERSION@
+#@copyright@
+# 
+#  The expect login scripts were based on Erik Sherk's gwtn, by permission.
+# 
+#  The original looking glass software was written by Ed Kern, provided by
+#  permission and modified beyond recognition.
+#
+#  RANCID - Really Awesome New Cisco confIg Differ
+#
+#  meinberg.pm - Meinberg rancid procedures
+
+use 5.010;
+use strict 'vars';
+use warnings;
+no warnings 'uninitialized';
+require(Exporter);
+our @ISA = qw(Exporter);
+
+use rancid @VERSION@;
+
+our $found_hardware;
+our $found_license;
+our $filter_error;
+our $filter_prompt;
+
+@ISA = qw(Exporter rancid main);
+#our @EXPORT = qw($VERSION)
+
+# load-time initialization
+sub import {
+    0;
+}
+
+# post-open(collection file) initialization
+sub init {
+    # add content lines and separators
+    ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n#\n");
+    $found_hardware = 0;
+    $found_license = 0;
+    $found_end = 0;
+    $filter_error = qr/(command not found|Invalid command)/i;
+    $filter_prompt = qr/[>\$%\]#]/;
+    0;
+}
+
+# main loop of input of device output
+sub inloop {
+    my($INPUT, $OUTPUT) = @_;
+    my($cmd, $rval);
+
+TOP: while (<$INPUT>) {
+        tr/\015//d;
+        if (/$filter_prompt\s*(exit|logout)$/) {
+            $clean_run = 1;
+            last;
+        }
+        if (/^Error:/) {
+            print STDOUT ("$host llogin error: $_");
+            print STDERR ("$host llogin error: $_") if ($debug);
+            $clean_run=0;
+            last;
+        }
+        while (/$filter_prompt\s*($cmds_regexp)\s*$/) {
+            $cmd = $1;
+            if (!defined($prompt)) {
+                #$prompt = ($_ =~ /^([^>\]]+[>\]])/)[0];
+                $prompt = ($_ =~ /^(.*$filter_prompt)[^\$%\]#]*/)[0];
+                $prompt =~ s/([][}{)(\\\$])/\\$1/g;
+                print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
+            }
+            print STDERR ("HIT COMMAND:$_") if ($debug);
+            if (! defined($commands{$cmd})) {
+                print STDERR "$host: found unexpected command - \"$cmd\"\n";
+                $clean_run = 0;
+                last TOP;
+            }
+            if (! defined(&{$commands{$cmd}})) {
+                printf (STDERR "$host: found unexpected function - \"%s\"\n",$commands{$cmd});
+                $clean_run = 0;
+                last TOP;
+            }
+            $rval = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
+            delete($commands{$cmd});
+            if ($rval == -1) {
+                $clean_run = 0;
+                last TOP;
+            }
+            print (STDERR "clean_run=$clean_run | found_end=$found_end\n") if ($debug);
+        }
+    }
+}
+
+sub ShowNTP {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowNTP: $_" if ($debug);
+    
+    while (<$INPUT>) {
+        tr/\015//d;
+        last if (/^$prompt/);
+        next if (/^(\s*|\s*$cmd\s*)$/);
+        return(1) if (/$filter_error/);
+
+        if (/^((-|\+|\*|\s)\S+\s*\S+\s*([0-9]|1[0-6])\s*.).*/) { ProcessHistory("COMMENTS","","","#$1\n"); }
+        elsif (/^(\s*remote\s*refid\s*st\s*t).*/) { ProcessHistory("COMMENTS","","","#$1\n"); }
+        else { ProcessHistory("COMMENTS","","","#$_"); }
+    }
+    
+    ProcessHistory("COMMENTS","","","#\n");
+    return(0);
+}
+
+sub ShowDevice {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowDevice: $_" if ($debug);
+
+    while (<$INPUT>) {
+        tr/\015//d;
+        last if (/^$prompt/);
+        next if (/^(\s*|\s*$cmd\s*)$/);
+        return(1) if (/$filter_error/);
+
+        ProcessHistory("COMMENTS","","","#$_");
+    }
+    
+    ProcessHistory("COMMENTS","","","#\n");
+    return(0);
+}
+
+sub ShowNetwork {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowNetwork: $_" if ($debug);
+
+    my $if;
+    while (<$INPUT>) {
+        tr/\015//d;
+        last if (/^$prompt/);
+        next if (/^(\s*|\s*$cmd\s*)$/);
+        return(1) if (/$filter_error/);
+        return(0) if ($found_hardware);
+        if (/^=== Physical Interface (.*) :\s*([A-Fa-f0-9:]+)/) {
+            $if = $1;
+            ProcessHistory("IF","","","# Interface $1:\n");
+            ProcessHistory("IF","","","#   MAC: $2\n");
+        }
+        ProcessHistory("IF","","","#   $1: $2\n") if (/^\s*(Speed|Duplex|Link detected):\s*(\S*)/);
+        ProcessHistory("IF","","","#   ADDR: (by $1) $3\n") if (/^\s$if:[0-9]+\s*(\S*)\s*ipv(4|6)\s*(\S+)/);
+    }
+
+    ProcessHistory("IF","","","#\n");
+    return(0);
+}
+
+sub ShowConfiguration {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowConfig: $_" if ($debug);
+
+    my $linecnt = 0;
+    while (<$INPUT>) {
+        tr/\015//d;
+        last if (/^$prompt/);
+        next if (/^(\s*|\s*$cmd\s*)$/);
+        return(1) if (/$filter_error/);
+        
+        $linecnt++;
+
+        if (/^(SECRET=).*/ && $filter_pwds >= 1) {
+            ProcessHistory("COMMENTS","","","#$1 <removed>\n");
+            next;
+        }
+        if (/^(SNMP COMMUNITY=).*/ && $filter_commstr) {
+            ProcessHistory("COMMENTS","","","#$1 <removed>\n");
+            next;
+        }
+        ProcessHistory("COMMENTS","","","$_");
+    }
+
+    $found_end = 1 if ($linecnt > 5);
+    return(0);
+}
+
+1;
+# ex: set tabstop=4 noexpandtab:

@@ -1,4 +1,6 @@
 3.99.99
+	junos.pm: retry collection on error: Resource deadlock avoided
+
 	fnlogin: the license accept prompt at login does not require a \r,
 	which desynchronizes the script from the prompts
 

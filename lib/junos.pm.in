@@ -601,6 +601,9 @@ sub ShowVersion {
 	next if (/^\{(master|backup|linecard|primary|secondary)(:(node)?\d+)?\}/);
 	/error: abnormal communication termination with / && return(-1);
 	/error: could not connect to \S+ ?: no route to host/i && return(1);
+	# this happens from time to time, esp. with PHONE-HOME, and resolves
+	# on the next run.  So, just retry.
+	/: Resource deadlock avoided/ && return(-1);
 
 	/warning: .* subsystem not running - not needed by configuration/ && next;
 

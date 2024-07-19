@@ -1,4 +1,6 @@
 3.99.99
+	arco.pm: filter uptime from show version
+
 	junos.pm: retry collection on error: Resource deadlock avoided
 
 	fnlogin: the license accept prompt at login does not require a \r,

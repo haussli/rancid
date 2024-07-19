@@ -98,6 +98,8 @@ sub ShowVersion {
 	# drop trailing spaces
 	s/  *$//;
 
+	/uptime:/i && next;
+
 	/version product-name "([^\"]*)"/ &&
 	    ProcessHistory("COMMENTS","keysort","A1",
 			   "!Chassis type: $1\n");

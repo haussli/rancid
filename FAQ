@@ -82,6 +82,15 @@ A. This is the tty/pty handling of either your O/S or ZebOS.  Supposedly,
 	COLUMNS=160; LINES=48; export COLUMNS LINES
 
 
+Q. Fortigate collections have characters randomly appearing and disappearing
+   that appear to be commands run by rancid.
+A. Some versions of the o/s have a problem idenitified by Denis Sert, where
+   "config system global > set post-login-banner enable" causes and unsolicited
+   extra prompt to be be output.  This causes the login script to become out
+   of sync with the cli.  Setting "set pre-login-banner enable" avoids this
+   problem.
+
+
 2) CVS and filesystem permissions
 
    WARNING: Be careful when mucking around with the repository!

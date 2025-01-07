@@ -431,7 +431,7 @@ proc run_commands { prompt command } {
     }
 
     if { [string compare "extreme" "$platform"] } {
-	send -h "exit\r"
+	send -h "\rexit\r"
     } else {
 	send -h "quit\r"
     }

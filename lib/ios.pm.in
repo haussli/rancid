@@ -22,6 +22,7 @@ our $found_version;
 our $found_env;
 our $found_diag;
 our $found_inventory;
+our $found_idprom;
 our $config_register;			# configuration register value
 
 our %hwbuf;				# defined in ShowContCbus
@@ -60,6 +61,7 @@ sub init {
     $found_env = 0;
     $found_diag = 0;
     $found_inventory = 0;
+    $found_idprom = 0;
     $config_register = undef;		# configuration register value
 
     $supbootdisk = 0;			# skip sup-bootflash if sup-bootdisk
@@ -93,6 +95,10 @@ sub inloop {
 
 TOP: while(<$INPUT>) {
 	tr/\015//d;
+        if (/[>#]\s?exit$/) {
+            $clean_run = 1;
+            last;
+        }
 	if (/^Error:/) {
 	    print STDOUT ("$host clogin error: $_");
 	    print STDERR ("$host clogin error: $_") if ($debug);
@@ -125,11 +131,67 @@ TOP: while(<$INPUT>) {
 		last TOP;
 	    }
 	}
-	if (/[>#]\s?exit$/) {
-	    $clean_run = 1;
+    }
+}
+
+# This routine parse the "show failover"
+sub ShowFailoverStatus {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowFailoverStatus: $_" if ($debug);
+
+    my $end = 0;
+
+    while (<$INPUT>) {
+        tr/\015//d;
+        last if (/^$prompt/);
+        next if (/^(\s*|\s*$cmd\s*)$/);
+        next if (/^\s*\^\s*$/);
+        return(1) if (/Line has invalid autocommand /);
+        return(1) if (/(invalid (input|command) detected|type help or )/i);
+        return(-1) if (/command authorization failed/i);
+        if ($end || /Active time:/) { next; }
+        elsif (/Stateful Failover Logical Update Statistics/) { $end = 1; next; }
+        else { ProcessHistory("FAILOVER","","","!$_"); }
+    }
+    ProcessHistory("FAILOVER","","","!\n");
+    return(0);
+}
+
+# This command parse the "show cdp entry" or "show cdp neighbores"
+sub ShowCdp {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowCdp: $_" if ($debug);
+    
+    my ($device_id,$device_ip,$type,$local_int,$rem_int) = ('','','','','');
+
+    while (<$INPUT>) {
+        tr/\015//d;
+        if (/^$prompt/) {
+            if (length($device_id) && length($local_int)) {
+                ProcessHistory("CDP","keysort","$device_id",sprintf("! CDP Neighbor: %s [%s]:Type=%s / Local interface=%s / Remote interface=%s\n",$device_id,$device_ip,$type,$local_int,$rem_int));
+            }
 	    last;
 	}
+        next if (/^(\s*|\s*$cmd\s*)$/);
+        next if (/^\s*\^\s*$/);
+        return(1) if (/Line has invalid autocommand /);
+        return(1) if (/(invalid (input|command) detected|type help or )/i);
+        return(-1) if (/command authorization failed/i);
+        
+        if (/-------------------------/ && length($device_id) && length($local_int)) {
+            ProcessHistory("CDP","keysort","$device_id",sprintf("! CDP Neighbor: %s [%s]:Type=%s / Local interface=%s / Remote interface=%s\n",$device_id,$device_ip,$type,$local_int,$rem_int));
+            ($device_id,$device_ip,$type,$local_int,$rem_int) = ('','','','',''); 
+        }
+        $device_id = $1 if (/Device ID: (.*)/);
+        $device_ip = $1 if (/Entry address\(es\):/ && <$INPUT> =~ /IP address: ([0-9A-F\.:]*)/);
+        $type = $1 if (/Platform: (.*),\s*Capabilities: .*/);
+        if (/Interface: (.*),\s*Port ID \(outgoing port\): (.*)/) {
+            $local_int = $1;
+            $rem_int = $2;
     }
+}
+    ProcessHistory("CDP","","","!\n");
+    return(0);
 }
 
 # This routine parses "show version"
@@ -164,6 +226,7 @@ sub ShowVersion {
 	if (/^Application and Content Networking .*Software/) { $type = "CE"; }
 	# treat the ACE like the Content Engines for matching endofconfig
 	if (/^Cisco Application Control Software/) { $type = "CE"; }
+    if (/^Cisco Application Deployment Engine/) { $type = "ADE"; }
 	if (/^Cisco Storage Area Networking Operating System/) { $type = "SAN";}
 	if (/^Cisco Nexus Operating System/) { $type = "NXOS";}
 	/^Application and Content Networking Software Release /i &&
@@ -211,15 +274,15 @@ sub ShowVersion {
 	/^Flash(\s+\S+)+ \@ 0x\S+,\s+(\S+)/ &&
 	    ProcessHistory("COMMENTS","keysort","B2", "!Memory: Flash $2\n") &&
 	    next;
-	# 3750 switch stacks
-	next if (/^Model revision number/ && $type eq "3750");
-	next if (/^Motherboard/ && $type eq "3750");
-	next if (/^Power supply/ && $type eq "3750");
-	/^Model number                    : (.*)$/ && $type eq "3750" &&
-	ProcessHistory("COMMENTS","keysort","C2", "!Model number:  $1\n") &&
+    # 3750/3650 switch stacks
+    next if (/^Model revision number/i && ($type eq "3750" || $type eq "3650"));
+    next if (/^Motherboard/i && ($type eq "3750" || $type eq "3650"));
+    next if (/^Power supply/i && ($type eq "3750" || $type eq "3650"));
+    /^Model number\s+: (.*)$/i && ($type eq "3750" || $type eq "3650") &&
+        ProcessHistory("COMMENTS","keysort","C1", "!Model number:  $1\n") &&
  	    next;
-	/^System serial number            : (.*)$/ && $type eq "3750" &&
-	ProcessHistory("COMMENTS","keysort","C2", "!Serial number: $1\n") &&
+    /^System serial number\s+: (.*)$/i && ($type eq "3750" || $type eq "3650") &&
+        ProcessHistory("COMMENTS","keysort","C1", "!Serial number: $1\n") &&
  	    next;
 	# CatOS 3500xl stuff
 	/^system serial number\s*:\s+(.*)$/i &&
@@ -328,6 +391,8 @@ LINE:		while (<$INPUT>) {
 		$type = "3600";
 	    } elsif ($proc =~ /^37/) {
 		$type = "3700";
+            } elsif ( $proc =~ /WS-C365/) {
+                $type = "3650";
             } elsif ($proc =~ /WS-C375/) {
                 $type = "3750";
 	    } elsif ($proc =~ /^38/) {
@@ -444,6 +509,33 @@ LINE:		while (<$INPUT>) {
     return(0);
 }
 
+sub ShowNP3AclCount {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+
+    print STDERR "    In ShowNP3AclCount: $_" if ($debug);
+    my ($acl_count,$acl_max,$nat_count,$nat_max);
+    
+    while (<$INPUT>) {
+        tr/\015//d;
+        last if (/^$prompt/);
+        next if (/^(\s*|\s*$cmd\s*)$/);
+        next if (/^\s+\^$/);
+        return(1) if (/Line has invalid autocommand /);
+        return(1) if (/(invalid (input|command|parameter) detected|type help or )/i);
+        return(1) if (/Incomplete command/);
+
+        $acl_count = $1 if (/CLS ACL Rule Count\s+:\s+(\d+)/);
+        $acl_max = $1 if (/CLS ACL Rule MAX\s+:\s+(\d+)/);
+        $nat_count = $1 if (/CLS Policy NAT Rule Count\s+:\s+(\d+)/);
+        $nat_max = $1 if (/CLS Policy NAT Rule MAX\s+:\s+(\d+)/);
+    }
+
+    ProcessHistory("COMMENTS","","",sprintf("! CLS ACL Rule: %.2f%% (%s/%s)\n",$acl_count/$acl_max*100,$acl_count,$acl_max));
+    ProcessHistory("COMMENTS","","",sprintf("! CLS NAT Rule: %.2f%% (%s/%s)\n",$nat_count/$nat_max*100,$nat_count,$nat_max));
+    ProcessHistory("COMMENTS","","","!\n");
+    return(0);
+}
+
 # This routine parses "show activation-key" on ASA
 sub ShowActivationKey {
     my($INPUT, $OUTPUT, $cmd) = @_;
@@ -500,7 +592,27 @@ OUT:ProcessHistory("COMMENTS","keysort","LICENSE","!\n");
     return(0);
 }
 
-# This routine parses "show cellular 0 profile"
+# This routine parses "show chassis"
+sub ShowChassis {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowChassis: $_" if ($debug);
+    
+    while (<$INPUT>) {
+        tr/\015//d;
+        last if (/^$prompt/);
+        next if (/^(\s*|\s*$cmd\s*)$/);
+        next if (/^\s+\^$/);
+        if (/^Configuration for CSS.*:/) { $type = "CE"; }
+        return(1) if (/Line has invalid autocommand /);
+        return(1) if (/(invalid (input|command) detected|type help or )/i);
+
+        ProcessHistory("COMMENTS","","","!CHASSIS: $_");
+    }
+    ProcessHistory("COMMENTS","","","!\n");
+    return(0);
+}
+
+# This routine parses "showCellular"
 sub ShowCellular {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowCellular: $_" if ($debug);
@@ -2301,6 +2413,30 @@ sub ShowShun {
 	$shun_found = 1;
     }
     ProcessHistory("SHUN","","","!\n") if ($shun_found == 1);
+    return(0);
+}
+
+# This routine processes a "show ft group brief". Intended for Cisco ACE
+sub ShowFtGroup {
+    my ($INPUT, $OUTPUT, $cmd) = @_;
+    printf STDERR "    In ShowFtGroup: $_" if ($debug);
+    while (<$INPUT>) {
+        tr/\015//d;
+        last if (/^$prompt/);
+        return(1) if (/^(\s*$cmd\s*)$/);
+        return(1) if /^\s*\^\s*$/;
+        return(1) if (/Line has invalid autocommand /);
+        next if (/^\s+\^\s*$/);
+        return(1) if (/(invalid (input|command) detected|type help or )/i);
+        return(-1) if (/command authorization failed/i);
+        if (my ($state,$peer_state) = ($_ =~ /^FT Group ID: [0-9]*\s*My State:(\S*)\s*Peer State:(\S*)$/)) {
+            my $next_row = <$INPUT>;
+            $next_row =~ tr/\015//d;
+            my ($name,$sync_status) = ($next_row =~ /^\s*Context Name: (\S*)\s*Context Id: [0-9]*\s*Running Cfg Sync Status: (\S*)$/);
+            ProcessHistory("FTGROUP","","","!Context: $name [State: $state | Peer State: $peer_state | Sync Status: $sync_status\n");
+        }
+    }
+    ProcessHistory("FTGROUP","","","!\n");
     return(0);
 }
 

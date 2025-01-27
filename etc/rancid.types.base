@@ -205,6 +205,7 @@ cisco;command;ios::ShowSDM;show sdm prefer
 cisco;command;ios::ShowMTU;show system mtu
 cisco;command;ios::ShowDebug;show debug
 cisco;command;ios::ShowShun;show shun;ASA/PIX
+cisco;command;ios::ShowCdp;show cdp entry *
 cisco;command;ios::WriteTerm;more system:running-config;ASA/PIX
 cisco;command;ios::WriteTerm;show running-config view full;workaround for role-based CLI
 cisco;command;ios::WriteTerm;show running-config
@@ -258,6 +259,7 @@ cisco-nx;command;nxos::ShowCores;show cores vdc-all
 cisco-nx;command;nxos::ShowProcLog;show processes log vdc-all
 cisco-nx;command;nxos::ShowFex;show module fex
 cisco-nx;command;nxos::ShowFex;show fex
+cisco-nx;command;nxos::ShowCdp;show cdp entry *
 cisco-nx;command;nxos::WriteTerm;show running-config
 #
 # Cisco small business devices.  These are peculiar; most likely this will not

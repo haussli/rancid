@@ -205,6 +205,7 @@ cisco;command;ios::ShowSDM;show sdm prefer
 cisco;command;ios::ShowMTU;show system mtu
 cisco;command;ios::ShowDebug;show debug
 cisco;command;ios::ShowShun;show shun;ASA/PIX
+cisco;command;ios::ShowECSummary;show etherchannel summary
 cisco;command;ios::WriteTerm;more system:running-config;ASA/PIX
 cisco;command;ios::WriteTerm;show running-config view full;workaround for role-based CLI
 cisco;command;ios::WriteTerm;show running-config

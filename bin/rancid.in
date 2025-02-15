@@ -78,18 +78,18 @@ if (length($#modules)) {
     my($module);
 
     foreach $module (@modules) {
-	(my $file = $module) =~ s/::/\//g;
-	my($err) = 0;
+	    (my $file = $module) =~ s/::/\//g;
+	    my($err) = 0;
 
-	# call module->init(); we expect 0 as success, as god intended it
-	eval "\$err = ". $module ."::init();";
-	if ($@) {
-	    printf(STDERR "loadtype: initializing $module failed: %s\n", $@);
-	    exit 1;
-	} elsif ($err) {
-	    printf(STDERR "loadtype: %s::init() returned failure\n", $module);
-	    exit 1;
-	}
+	    # call module->init(); we expect 0 as success, as god intended it
+	    eval "\$err = ". $module ."::init();";
+	    if ($@) {
+	        printf(STDERR "loadtype: initializing $module failed: %s\n", $@);
+	        exit 1;
+	    } elsif ($err) {
+	        printf(STDERR "loadtype: %s::init() returned failure\n", $module);
+	        exit 1;
+	    }
     }
 }
 

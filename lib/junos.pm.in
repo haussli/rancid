@@ -652,15 +652,15 @@ sub ShowConfiguration {
 		}
 	}
 	if (/(\s*authentication-key )[^ ;]+/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","#$1<removed>$'");
+	    ProcessHistory("","","","#$1<removed>$'\n");
 	    next;
 	}
 	if (/(\s*md5 \d+ key )[^ ;]+/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","#$1<removed>$'");
+	    ProcessHistory("","","","#$1<removed>$'\n");
 	    next;
 	}
 	if (/(\s*hello-authentication-key )[^ ;]+/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","#$1<removed>$'");
+	    ProcessHistory("","","","#$1<removed>$'\n");
 	    next;
 	}
 	# don't filter this one - there is no secret here.
@@ -669,11 +669,11 @@ sub ShowConfiguration {
 	    next;
 	}
 	if (/^(.*\s(secret|simple-password) )[^ ;]+/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","#$1<removed>$'");
+	    ProcessHistory("","","","#$1<removed>$'\n");
 	    next;
 	}
 	if (/(\s+encrypted-password )[^ ;]+/ && $filter_pwds >= 2) {
-	    ProcessHistory("","","","#$1<removed>$'");
+	    ProcessHistory("","","","#$1<removed>$'\n");
 	    next;
 	}
 	if (/(\s+ssh-(rsa|dsa) )\"/ && $filter_pwds >= 2) {
@@ -681,7 +681,7 @@ sub ShowConfiguration {
 	    next;
 	}
 	if (/^(\s+(pre-shared-|)key (ascii-text|hexadecimal) )[^ ;]+/ && $filter_pwds >= 1) {
-	    ProcessHistory("","","","#$1<removed>$'");
+	    ProcessHistory("","","","#$1<removed>$'\n");
 	    next;
 	}
 	ProcessHistory("","","","$_");

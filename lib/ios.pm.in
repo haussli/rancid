@@ -190,11 +190,11 @@ sub ShowVersion {
 	/^ROM: (IOS \S+ )?(System )?Bootstrap.*(Version.*)$/ &&
 	    ProcessHistory("COMMENTS","keysort","G1",
 		"!ROM Bootstrap: $3\n") && next;
-	if (/^Hardware:\s+(.*), (.* RAM), CPU (.*)$/) {
+	if (/^Hardware:\s+(.*), (.* RAM), CPU (.*?)( [0-9]* MHz)(.*)$/) {
 	    ProcessHistory("COMMENTS","keysort","A1",
 		"!Chassis type: $1 - a PIX\n");
 	    ProcessHistory("COMMENTS","keysort","A2",
-		"!CPU: $3\n");
+		"!CPU: $3$5\n");
 	    ProcessHistory("COMMENTS","keysort","B1", "!Memory: $2\n");
 	}
 	/^serial number:\s+(.*)$/i &&

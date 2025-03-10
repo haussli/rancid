@@ -151,6 +151,16 @@ See ssh's \-i option for details.
 Default: your default identity file.  see ssh(1).
 .\"
 .TP
+.B add platform <router name glob> <platformhint>
+May be used to supply a hint about the router platform, which the login script
+may use to modify its behaviour.
+For example, a type of router broadly covered by a particular login script
+may need to operate slightly differently for a particular variant of the router
+type.  (The login script may also be able to automatically determine a platform variant.)
+.sp
+Default: none.
+.\"
+.TP
 .B add method <router name glob> {ssh} [{...}]
 Defines, in order, the connection methods to use for a device from the
 set {ssh, telnet, rsh}.  Method ssh and telnet may have a suffix, indicating

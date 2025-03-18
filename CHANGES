@@ -1,4 +1,6 @@
 3.99.99
+	iosxr.pm: filter feature_list file sz/ts
+
 	arco.pm: filter uptime from show version
 
 	junos.pm: retry collection on error: Resource deadlock avoided

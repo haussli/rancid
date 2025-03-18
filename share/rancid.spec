@@ -72,7 +72,7 @@ cp cloginrc.sample $RPM_BUILD_ROOT/%{_localstatedir}/rancid/.cloginrc
 
 %pre
 if [ $1 -eq 1 ]; then
-   egrep -q '^rancid:' /etc/passwd || useradd -M -r -d %{_localstatedir}/rancid -c "RANCID User" rancid
+   grep -Eq '^rancid:' /etc/passwd || useradd -M -r -d %{_localstatedir}/rancid -c "RANCID User" rancid
 fi
 
 %postun

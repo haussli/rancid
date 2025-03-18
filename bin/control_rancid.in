@@ -615,7 +615,7 @@ do
     if [ ! -s $router.new ] ; then
 	rm -f $router.new
     else
-	notcomment=`egrep -v "^[-*\!\;#]|\/\*" $router.new | wc -l`
+	notcomment=`grep -Ev "^[-*\!\;#]|\/\*" $router.new | wc -l`
 	if [ $notcomment -gt 10 ]; then
 	    lines=1;
 	else

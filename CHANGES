@@ -1,4 +1,8 @@
 3.99.99
+	control_rancid, rancid.conf.sample getipacctg rancid.spec: 'egrep' is
+	producing a stderr warning about deprecation on linux (time well spent),
+	use 'grep -E' - Chuck Anderson
+
 	iosxr.pm: filter feature_list file sz/ts
 
 	arco.pm: filter uptime from show version

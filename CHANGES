@@ -1,4 +1,7 @@
 3.99.99
+	fortigate.pm: GetSystem(): filter Proxy-APP-DB & Proxy-IPS-ETDB - Chris
+	Wopat
+
 	control_rancid, rancid.conf.sample getipacctg rancid.spec: 'egrep' is
 	producing a stderr warning about deprecation on linux (time well spent),
 	use 'grep -E' - Chuck Anderson

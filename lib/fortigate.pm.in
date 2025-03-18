@@ -105,6 +105,8 @@ sub GetSystem {
 	    next if (/^\s*IPS-DB: .*/);
 	    next if (/^\s*IPS-ETDB: .*/);
 	    next if (/^\s*IPS Malicious URL Database: .*/);
+	    next if (/^\s*Proxy-APP-DB: .*/);
+	    next if (/^\s*Proxy-IPS-ETDB: .*/);
 	    next if (/^\s*Virus-DB: .*/);
 	}
 	next if (/^system time:/i);

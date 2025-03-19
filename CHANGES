@@ -100,6 +100,8 @@
 
 	nslogin: netscalar 13.x may include a prefix to the prompt, eg: "super>"
 
+	hiveos.pm: add support for aerohive hiveos access points
+
 	Add rancid.conf:ACLFILTERREGEX knob for ACL filtering
 
 	ciscowlc.pm: filter garbage inserted by virtual controller 8.3.150.0;

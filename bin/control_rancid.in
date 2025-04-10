@@ -38,9 +38,9 @@
 ## when in relation to etc/rancid.types.conf.  The goal of this is to help
 ## suppress our support costs.  If it becomes a problem, this could become a
 ## condition of license.
-# 
+#
 #  The expect login scripts were based on Erik Sherk's gwtn, by permission.
-# 
+#
 #  The original looking glass software was written by Ed Kern, provided by
 #  permission and modified beyond recognition.
 #
@@ -633,6 +633,11 @@ do
 	fi
     fi
 done
+
+# Custom adjustments on the configs
+if [ "X$PRECOMMIT_HOOK" != "X" ]; then
+  eval $PRECOMMIT_HOOK
+fi
 
 # This has been different for different machines...
 # Diff the directory and then checkin.

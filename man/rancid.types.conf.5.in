@@ -106,14 +106,12 @@ In general, the default 90 seconds, but some modules themselves alter this.
 .\"
 .PP
 .SH FILES
-.Bl -tag -width @sysconfdir@/rancid.types.conf -compact
 .TP
 .B @sysconfdir@/rancid.types.conf
 Configuration file described here.
 .TP
 .B @sysconfdir@/rancid.types.base
 Configuration file described here.
-.El
 .\"
 .SH "SEE ALSO"
 .BR control_rancid (1),

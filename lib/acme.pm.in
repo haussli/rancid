@@ -1,0 +1,128 @@
+package acme;
+##
+## @PACKAGE@ @VERSION@
+@copyright@
+#
+#  RANCID - Really Awesome New Cisco confIg Differ
+#
+#  acme.pm - Oracle ACME Session Border Controller (SBC)
+
+use 5.010;
+use strict 'vars';
+use warnings;
+require(Exporter);
+our @ISA = qw(Exporter);
+
+use rancid @VERSION@;
+
+our $proc;
+@ISA = qw(Exporter rancid main);
+
+# load-time initialization
+sub import {
+    0;
+}
+
+# post-open(collection file) initialization
+sub init {
+    $proc = "";
+    # add content lines and separators
+    ProcessHistory("","","","!RANCID-CONTENT-TYPE: $devtype\n!\n");
+
+    0;
+}
+
+# main loop of input of device output
+sub inloop {
+    my($INPUT, $OUTPUT) = @_;
+    my($cmd, $rval);
+
+TOP: while(<$INPUT>) {
+	print STDERR ("$host inloop line: $_") if ($debug);
+	tr/\015//d;
+	if (/[>#]\s?exit$/) {
+	    $clean_run = 1;
+	    print STDERR ("$host clean_run___last line: $_");
+	    last;
+	}
+	if (/^Error:/) {
+	    print STDOUT ("$host acmelogin error: $_");
+	    print STDERR ("$host acmelogin error: $_") if ($debug);
+	    $clean_run = 0;
+	    last;
+	}
+
+
+	while (/[>#]\s*($cmds_regexp)\s*$/) {
+	    $cmd = $1;
+	    print STDERR "COMMAND: $cmd\n" if ($debug);
+	    if (!defined($prompt)) {
+		$prompt = ($_ =~ /^([^#>]+[#>])/)[0];
+		$prompt =~ s/([][}{)(+\\])/\\$1/g;
+		print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
+	    }
+	    print STDERR ("HIT COMMAND:$_") if ($debug);
+	    if (! defined($commands{$cmd})) {
+		print STDERR "$host: found unexpected command - \"$cmd\"\n";
+		$clean_run = 0;
+		last TOP;
+	    }
+	    if (! defined(&{$commands{$cmd}})) {
+		printf(STDERR "$host: undefined function - \"%s\"\n",
+		$commands{$cmd});
+		$clean_run = 0;
+		last TOP;
+	    }
+	    $rval = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
+	    delete($commands{$cmd});
+	    print STDERR "$host rval: $rval\n" if ($debug);
+	    if ($rval == -1) {
+		$clean_run = 0;
+		last TOP;
+	    }
+	}
+    }
+}
+
+sub ShowVersion {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+
+    print STDERR "$host ShowVersion: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	next if /^\s*$/;
+	last if (/$prompt/);
+
+	ProcessHistory("VERSION","","","!VERSION: $_");
+    }
+    ProcessHistory("VERSION","","","!\n");
+    return(0);
+}
+
+# This routine processes a "write term"
+sub WriteTerm {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "$host In WriteTerm: $_" if ($debug);
+
+    while (<$INPUT>) {
+	print STDERR ("$host WriteTerm line: $_") if ($debug);
+
+TOP:
+	tr/\015//d;
+	return(0) if ($found_end);		# Only do this routine once
+	if (/[#>]\s*exit$/) {
+	    print STDERR "$host Found exit\n" if ($debug);
+	    $found_end = 1;
+	    $clean_run = 1;
+	    return(0);
+	}
+
+	ProcessHistory("","","","$_");
+
+    }
+    print STDERR "$host Exiting WriteTerm" if ($debug);
+    return(0);
+}
+
+1;

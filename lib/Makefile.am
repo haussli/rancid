@@ -5,7 +5,7 @@ AUTOMAKE_OPTIONS=foreign no-dependencies
 
 my_pkglibdir = $(pkglibdir)
 my_pkglib_DATA = rancid.pm rancidcontrib.pm \
-		 acos.pm aeos.pm arbor.pm arcos.pm avocent.pm \
+		 acme.pm acos.pm aeos.pm arbor.pm arcos.pm avocent.pm \
 		 bigip.pm ciscowlc.pm \
 		 dell.pm dnos9.pm dnos10.pm edgemax.pm edgerouter.pm exos.pm \
 		 fortigate.pm foundry.pm frr.pm fss2.pm fxos.pm \
@@ -60,6 +60,7 @@ $(pkglib_in:%.in=%): Makefile $(top_builddir)/config.status
 	mv $@.tmp $@
 # XXX there must be a better way to produce these dependencies, perhaps in
 #     configure.
+acme.pm: acme.pm.in
 acos.pm: acos.pm.in
 aeos.pm: aeos.pm.in
 arbor.pm: arbor.pm.in

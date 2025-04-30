@@ -1,4 +1,5 @@
 3.14.99
+	arbor.pm: retry the config collection if there is an API error
 
 3.14
 	fortigate.pm: GetSystem(): filter Proxy-APP-DB & Proxy-IPS-ETDB - Chris

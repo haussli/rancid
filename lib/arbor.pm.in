@@ -93,6 +93,7 @@ sub ShowConfig {
 	last if (/^$prompt/);
 	next if (/^(\s*|\s*$cmd\s*)$/);
 	return(1) if (/invalid command/i);
+	return(1) if (/Error \(API error\):/i);
 
 	# some stupid timer error from this half-assed device
 	next if (/comsh: timer error, idle timeout will be unavailable/i);

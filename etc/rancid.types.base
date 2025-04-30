@@ -42,6 +42,7 @@ agm;script;agmrancid
 alteon;script;arancid
 alteon;login;alogin
 #
+# AKA Arbos and Peakflow
 arbor;script;rancid -t arbor
 arbor;login;anlogin
 arbor;module;arbor

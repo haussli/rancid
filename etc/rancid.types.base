@@ -918,6 +918,15 @@ avocent;command;avocent::CatFile;cat /etc/network/st_routes
 avocent;command;avocent::CatFile;cat /etc/security.opts
 avocent;command;avocent::CatFile;cat /etc/pmdgrp.conf
 #
+# UCOPIA appliances
+ucopia;script;rancid -t ucopia
+ucopia;login;llogin
+ucopia;module;ucopia
+ucopia;inloop;ucopia::inloop
+ucopia;command;ucopia::ShowVersion;ucpversion summary
+ucopia;command;ucopia::ShowMaxUsers;ucp_tools max_users
+ucopia;command;ucopia::ShowConfig;ucpconfig -a get
+#
 # Hauwei VRP (S5720)
 vrp;script;rancid -t vrp
 vrp;login;xilogin

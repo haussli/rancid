@@ -3,7 +3,7 @@ set usage "Usage: $argv0 \[-dhiSV\] \[-m|M\] \[-autoenable\] \[-noenable\] \
 \[-c command\] \[-Evar=x\] \[-e enable-password\] \[-f cloginrc-file\] \
 \[-p user-password\] \[-r passphrase\] \[-s script-file\] \[-t timeout\] \
 \[-u username\] \[-v vty-password\] \[-w enable-username\] \[-x command-file\] \
-\[-y ssh_cypher_type\] router \[router...\]\n"
+\[-y ssh_cypher_type\] \[-P platform\] router \[router...\]\n"
 
 # Password file
 set password_file $env(HOME)/.cloginrc
@@ -114,7 +114,7 @@ for {set i 0} {$i < $argc} {incr i} {
 	    set do_interact 1
 	# user Password
 	} -p* {
-	    if {! [regexp .\[pP\](.+) $arg ignore userpasswd]} {
+	    if {! [regexp .\[p\](.+) $arg ignore userpasswd]} {
 		incr i
 		set userpasswd [lindex $argv $i]
 	    }
@@ -198,6 +198,12 @@ for {set i 0} {$i < $argc} {incr i} {
 		incr i
 		set cypher [lindex $argv $i]
 	    }
+	# Platform (device type refinement)
+	} -P* {
+	    if {! [regexp .\[P\](.+) $arg ignore platform]} {
+	    incr i
+	    set plat [lindex $argv $i]
+	}
 	# Do we enable?
 	} -noenable {
 	    set avenable 0

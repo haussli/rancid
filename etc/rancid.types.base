@@ -541,6 +541,23 @@ bigip13;command;bigip::RunCommandTMSH;cd /
 bigip13;command;bigip::ShowRouteStatic;show /net recursive route static
 bigip13;command;bigip::WriteTerm;list all-properties recursive
 #
+# Checkpoint firewall (61K, Gaia and SPLAT)
+checkpoint;script;rancid -t checkpoint
+checkpoint;login;llogin
+checkpoint;module;checkpoint
+checkpoint;inloop;checkpoint::inloop
+checkpoint;command;checkpoint::ShowVer;fw ver
+checkpoint;command;checkpoint::ShowVer;ver
+checkpoint;command;checkpoint::SystemInfo61K;asg_serial_info
+checkpoint;command;checkpoint::SystemInfo61K;asg_sgm_serial
+checkpoint;command;checkpoint::SystemInfo;clish -c 'show asset all'
+checkpoint;command;checkpoint::SystemInfo;system_info System Information
+checkpoint;command;checkpoint::SystemInfo;dmidecode
+checkpoint;command;checkpoint::ShowLic;cplic print
+checkpoint;command;checkpoint::ShowConfig;asg_config show
+checkpoint;command;checkpoint::ShowConfig;show configuration
+checkpoint;command;checkpoint::ShowConfig;clish -c 'show configuration'
+#
 # Force 10 and Dell Force10 (aka Dell NOS9).
 force10;alias;dnos9
 #

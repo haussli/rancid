@@ -1057,7 +1057,7 @@ sub ShowFlash {
 	if (/(dhcp_[^. ]*\.txt|license_evlog|\slog\s*$|vlan\.dat|sflog|snooping)/ ||
 		 /(LOCAL-CA-SERVER(?:[^\s]*))\s*$/ ||
 		 /(smart-log\/agentlog|syslog)\s*$/ ||
-		 /(log\/(?:ssp_tz\/)?[^. ]+\.log(?:\.[0-9]+\.gz)?)\s*$/) {
+		 /(log\/(?:ssp_tz\/)?[^. ]+\.log(?:\.[0-9]+(?:\.gz)?)?)\s*$/) {
 	    # filter frequently changing files (dhcp & vlan database, logs) from flash
 	    # change from:
 	    # 537549598  38354       Feb 19 2019 20:59:32  log/ssp_tz/ssp_tz.log.1.gz

@@ -104,8 +104,9 @@ CONFIG_CLEAN_FILES = login_top a10login agmrancid alogin arancid \
 	csblogin cssrancid dllogin elogin erancid f5rancid flogin \
 	fnlogin fxlogin hlogin htlogin htrancid jlogin jerancid \
 	mrancid mrvlogin mtlogin nlogin nrancid noklogin nslogin \
-	nsrancid panlogin rblogin rivlogin rivrancid rrancid rtftpcopy \
-	tlogin trancid xilogin xirancid xlogin ulogin wlogin
+	nsrancid oglogin ograncid panlogin rblogin rivlogin rivrancid \
+	rrancid rtftpcopy tlogin trancid xilogin xirancid xlogin \
+	ulogin wlogin
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -210,6 +211,7 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/a10login.in \
 	$(srcdir)/mrvlogin.in $(srcdir)/mtlogin.in $(srcdir)/nlogin.in \
 	$(srcdir)/noklogin.in $(srcdir)/nrancid.in \
 	$(srcdir)/nslogin.in $(srcdir)/nsrancid.in \
+	$(srcdir)/oglogin.in $(srcdir)/ograncid.in \
 	$(srcdir)/panlogin.in $(srcdir)/rblogin.in \
 	$(srcdir)/rivlogin.in $(srcdir)/rivrancid.in \
 	$(srcdir)/rrancid.in $(srcdir)/rtftpcopy.in \
@@ -358,10 +360,10 @@ bin_SCRIPTS = a10login alogin agmrancid anlogin arancid avologin \
 	csblogin cssrancid dllogin elogin erancid f5rancid flogin \
 	fnlogin fxlogin hlogin hrancid htlogin htrancid jerancid \
 	jlogin mrancid mrvlogin mtlogin nlogin noklogin nrancid \
-	nslogin nsrancid panlogin plogin rancid rblogin rivlogin \
-	rivrancid rrancid rtftpcopy tlogin trancid ulogin wlogin \
-	xilogin xirancid xlogin lg.cgi lgform.cgi rancid-cvs rancid-fe \
-	rancid-run
+	nslogin nsrancid oglogin ograncid panlogin plogin rancid \
+	rblogin rivlogin rivrancid rrancid rtftpcopy tlogin trancid \
+	ulogin wlogin xilogin xirancid xlogin lg.cgi lgform.cgi \
+	rancid-cvs rancid-fe rancid-run
 # XXX hack for the rancid to get pkglibdir, see corresponding XXX below
 bin_in = control_rancid.in hrancid.in plogin.in rancid.in
 EXTRA_DIST = lg.cgi.in lgform.cgi.in rancid-cvs.in rancid-fe.in rancid-run.in \
@@ -509,6 +511,10 @@ noklogin: $(top_builddir)/config.status $(srcdir)/noklogin.in
 nslogin: $(top_builddir)/config.status $(srcdir)/nslogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 nsrancid: $(top_builddir)/config.status $(srcdir)/nsrancid.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+oglogin: $(top_builddir)/config.status $(srcdir)/oglogin.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+ograncid: $(top_builddir)/config.status $(srcdir)/ograncid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 panlogin: $(top_builddir)/config.status $(srcdir)/panlogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

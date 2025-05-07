@@ -805,6 +805,9 @@ netscaler;login;nslogin
 netscreen;script;nrancid
 netscreen;login;nlogin
 #
+opengear;script;ograncid
+opengear;login;oglogin
+#
 paloalto;script;rancid -t paloalto
 paloalto;login;panlogin
 paloalto;module;panos

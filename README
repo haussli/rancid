@@ -120,6 +120,7 @@ lib/
 	fortigate.pm.in	rancid library for Fortinet Firewalls.
 	foundry.pm.in	rancid library for Foundry (Brocade) switches.
 	frr.in		rancid library for FRR (and Quagga or Zebra) routers.
+	hiveos.pm.in	rancid library for aerohive hiveos access points.
 	ios.pm.in	rancid library for Cisco IOS and IOS-XE.
 	iossb.pm.in	rancid library for Cisco Small Business switches.
 	iosxr.pm.in	rancid library for Cisco IOS-XR.

@@ -152,6 +152,12 @@ sub ShowCardDetail {
 	next if (/^(Config file|BOF) last (saved|modified)\s+:/ &&
 		($filter_osc >= 2));
 
+        # remove varies in "show card detail"
+        next if (/^\s+Size\s+:\s+[\d,]+ (MB|GB)/);
+        next if (/^\s+Free\ space\s+:\s+[\d,]+\ (MB|GB)/);
+        next if (/Free\ space\s+:\s+[\d,]+\ (MB|GB)/);
+	next if (/^\s+Percent\s+Used\s+:\s+\d+\s%/);
+
 	# hardware data for the output head
 	# first serial number seen should be that of the chassis
 	if (!$snseen && /^\s+serial number\s+:\s+(\w+)/i) {
@@ -350,6 +356,7 @@ TOP: while (<$INPUT>) {
 	last if (/^$prompt/);
 	next if (/^(\s*$cmd\s*)$/);
 	next if (/^\s+\^$/);
+ 	next if (/^[A-Za-z]{3} [A-Za-z]{3} \d{1,2} \d{2}:\d{2}:\d{2} [A-Z]+ \d{4}$/);
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
 	# context lines

@@ -156,6 +156,7 @@ sub ShowCardDetail {
         next if (/^\s+Size\s+:\s+[\d,]+ (MB|GB)/);
         next if (/^\s+Free\ space\s+:\s+[\d,]+\ (MB|GB)/);
         next if (/Free\ space\s+:\s+[\d,]+\ (MB|GB)/);
+	next if (/^\s+Percent\s+Used\s+:\s+\d+\s%/);
 
 	# hardware data for the output head
 	# first serial number seen should be that of the chassis

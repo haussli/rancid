@@ -1,4 +1,7 @@
 3.14.99
+	junos.pm: add firewall and port bandwidth license info and alarms
+	to filters
+
 	arbor.pm: retry the config collection if there is an API error
 
 3.14

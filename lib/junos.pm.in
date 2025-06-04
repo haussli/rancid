@@ -364,7 +364,9 @@ sub ShowChassisAlarms {
 	# 2021-11-15 06:10:09 NZDT Minor  1063110 RIB Scales(269) require a license
 	# 2021-11-15 06:10:09 NZDT Minor  563 LSP Scales(270) require a license
 	# 2021-11-15 06:10:09 NZDT Minor  385 BGP Peer scales(271) require a license
-	if (/^(\s+\w+\s+)(\d+)( (?:fib|rib|lsp|bgp peer) scale.+ require a license)/i) {
+	# 2021-11-15 06:10:09 NZDT Minor  10390 Port Bandwidth Usage (in gbps)s(279) require a license
+	if (/^(\s+\w+\s+)(\d+)( (?:fib|rib|lsp|bgp peer) scale.+ require a license)/i ||
+	   /^(\s+\w+\s+)(\d+)( (?:port bandwidth usage) .+ requires? a license)/i) {
 	    $_ = sprintf("%s%s%s%s", $1, "<removed>", $3, $');
 	}
 
@@ -473,7 +475,13 @@ sub ShowSystemLicense {
         #   rib-scale                       1063110        64000      999110    permanent
         #   lsp-scale                           563            0         563    invalid
         #   bgp-peer-scale                      385            0         385    invalid
-	if (/^(\s+(?:fib|rib|lsp|bgp-peer)-\S+\s+)(\d+)(\s+\d+)(\s+\d+)(.*$)/) {
+	#   Port Bandwidth Usage (in gbps)     9100            0        9100    invalid
+	#   Firewall Filters Scale License       95         1000           0    permanent
+	#   Firewall Terms Scale License         36         4000           0    permanent
+	if (/^(\s+(?:fib|rib|lsp|bgp-peer)-\S+\s+)(\d+)(\s+\d+)(\s+\d+)(.*$)/ ||
+	    /^(\s+(?:port bandwidth usage \(in gbps\))\s+)(\d+)(\s+\d+)(\s+\d+)(.*$)/i ||
+	    /^(\s+(?:firewall filters scale license)\s+)(\d+)(\s+\d+)(\s+\d+)(.*$)/i ||
+	    /^(\s+(?:firewall terms scale license)\s+)(\d+)(\s+\d+)(\s+\d+)(.*$)/i) {
 	    my($a, $used, $avail, $need, $rem) = ($1, $2, $3, $4, $5);
 	    my($usedl, $needl) = (length($used), length($need));
 	    my($fmt) = "%s%-" . $usedl . "s%s%-" . $needl . "s%s\n";

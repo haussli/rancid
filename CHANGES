@@ -1,4 +1,7 @@
 3.14.99
+	junos.pm: add l3vpn and more bandwidth license info and alarms
+	to filters
+
 	junos.pm: add firewall and port bandwidth license info and alarms
 	to filters
 

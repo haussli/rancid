@@ -333,7 +333,7 @@ sub ShowChassisSCB {
     return(0);
 }
 
-# This routine parses "show chassis alarms"
+# This routine parses "show chassis alarms" & "show system alarms"
 sub ShowChassisAlarms {
     my($INPUT, $OUTPUT, $cmd) = @_;
     print STDERR "    In ShowChassisAlarms: $_" if ($debug);
@@ -365,7 +365,12 @@ sub ShowChassisAlarms {
 	# 2021-11-15 06:10:09 NZDT Minor  563 LSP Scales(270) require a license
 	# 2021-11-15 06:10:09 NZDT Minor  385 BGP Peer scales(271) require a license
 	# 2021-11-15 06:10:09 NZDT Minor  10390 Port Bandwidth Usage (in gbps)s(279) require a license
+	# 2025-06-17 06:00:09 UTC  Minor  800 ADVANCE Bandwidth (in gbps)s(315) require a license
+	# 2025-06-17 06:00:09 UTC  Minor  1502 Advanced Bandwidth (in gbps) - MXs(315) require a license
+	# 2025-06-17 14:25:07 UTC  Minor  1 L3VPN instance capacity(261) requires a license
 	if (/^(\s+\w+\s+)(\d+)( (?:fib|rib|lsp|bgp peer) scale.+ require a license)/i ||
+	   /^(\s+\w+\s+)(\d+)( (?:l3 ?vpn instance) .+ requires? a license)/i ||
+	   /^(\s+\w+\s+)(\d+)( (?:advanced? bandwidth) .+ requires? a license)/i ||
 	   /^(\s+\w+\s+)(\d+)( (?:port bandwidth usage) .+ requires? a license)/i) {
 	    $_ = sprintf("%s%s%s%s", $1, "<removed>", $3, $');
 	}

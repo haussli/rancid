@@ -1,4 +1,7 @@
 3.14.99
+	junos.pm: fail collection on syslog garbage in output.  Probably an
+	ugly stack trace.
+
 	junos.pm: add l3vpn and more bandwidth license info and alarms
 	to filters
 

@@ -117,6 +117,7 @@ sub ShowChassisClocks {
 	/command is not valid/ && return(1);
 	/^\s+\^/ && return(1);
 	/syntax error/ && return(1);
+	/Message from syslogd@/ && return(-1);	# fail on trash from syslog
 
 	# filter decimal places of m160 measured clock MHz
 	if (/Measured frequency/) {
@@ -161,6 +162,7 @@ sub ShowChassisEnvironment {
 	/command is not valid/ && return(1);
 	/^\s+\^/ && return(1);
 	/syntax error/ && return(1);
+	/Message from syslogd@/ && return(-1);	# fail on trash from syslog
 
 	/ backplane temperature/ && next;
 	/(\s*Power supply.*), temperature/ &&
@@ -199,6 +201,7 @@ sub ShowChassisFirmware {
 	/command is not valid/ && return(1);
 	/^\s+\^/ && return(1);
 	/syntax error/ && return(1);
+	/Message from syslogd@/ && return(-1);	# fail on trash from syslog
 
 	s/\s*$//;
 	ProcessHistory("","","","# $_\n");
@@ -227,6 +230,7 @@ sub ShowChassisFpcDetail {
 	/command is not valid/ && return(1);
 	/^\s+\^/ && return(1);
 	/syntax error/ && return(1);
+	/Message from syslogd@/ && return(-1);	# fail on trash from syslog
 
 	/ Temperature/ && next;
 	/ Start time/ && next;
@@ -256,6 +260,7 @@ sub ShowChassisHardware {
 	/command is not valid/ && return(1);
 	/^\s+\^/ && return(1);
 	/syntax error/ && return(1);
+	/Message from syslogd@/ && return(-1);	# fail on trash from syslog
 
 	ProcessHistory("","","","# $_");
     }
@@ -282,6 +287,7 @@ sub ShowChassisRoutingEngine {
 	/command is not valid/ && return(1);
 	/^\s+\^/ && return(1);
 	/syntax error/ && return(1);
+	/Message from syslogd@/ && return(-1);	# fail on trash from syslog
 
 	/^Routing Engine status:/ && ProcessHistory("","","","# $_") && next;
 	/ Slot / && ProcessHistory("","","","# $_") && next;
@@ -319,6 +325,7 @@ sub ShowChassisSCB {
 	/command is not valid/ && return(1);
 	/^\s+\^/ && return(1);
 	/syntax error/ && return(1);
+	/Message from syslogd@/ && return(-1);	# fail on trash from syslog
 
 	/ Temperature/ && next;
 	/ temperature/ && next;
@@ -350,6 +357,7 @@ sub ShowChassisAlarms {
 	/command is not valid/ && return(1);
 	/^\s+\^/ && return(1);
 	/syntax error/ && return(1);
+	/Message from syslogd@/ && return(-1);	# fail on trash from syslog
 
 	# filter timestamps, some oscillate
 	# 2021-11-15 06:10:09 NZDT Minor  IDP Signature usage requires a license
@@ -397,6 +405,7 @@ sub ShowSystemAutoinstall {
 	/command is not valid/ && return(1);
 	/^\s+\^/ && return(1);
 	/syntax error/ && return(1);
+	/Message from syslogd@/ && return(-1);	# fail on trash from syslog
 
 	ProcessHistory("","","","# $_");
     }
@@ -423,6 +432,7 @@ sub ShowSystemConfDB {
 	/command is not valid/ && return(0);
 	/^\s+\^/ && return(0);
 	/syntax error/ && return(0);
+	/Message from syslogd@/ && return(-1);	# fail on trash from syslog
 
 	# trim fractional part of the sizes to reduce churn
 	s/\.\d+ ([GKM]B)/ $1/;
@@ -448,6 +458,8 @@ sub ShowSystemCoreDumps {
 	/command is not valid/ && return(1);
 	/^\s+\^/ && return(1);
 	/syntax error/ && return(1);
+	/Message from syslogd@/ && return(-1);	# fail on trash from syslog
+
 	/^JUNOS / && <$INPUT> && next;
 	/No such file or directory$/ && next;
 
@@ -470,6 +482,7 @@ sub ShowSystemLicense {
 	next if (/^\{(master|backup|linecard|primary|secondary)(:(node)?\d+)?\}/);
 	return -1 if (/error: select: protocol failure /i);
 	return -1 if (/error: abnormal communication /i);
+	/Message from syslogd@/ && return(-1);	# fail on trash from syslog
 
 	# licenses used/needed changes constantly for routing licenses.  Remove
 	# them.  example input:
@@ -564,6 +577,7 @@ sub ShowSystemLicenseKeys {
 	/command is not valid/ && return(1);
 	/^\s+\^/ && return(1);
 	/syntax error/ && return(1);
+	/Message from syslogd@/ && return(-1);	# fail on trash from syslog
 
 	ProcessHistory("","","","# $_");
     }
@@ -587,6 +601,7 @@ sub ShowSystemBootMessages {
 	/command is not valid/ && return(1);
 	/^\s+\^/ && return(1);
 	/syntax error/ && return(1);
+	/Message from syslogd@/ && return(-1);	# fail on trash from syslog
 
 	/^JUNOS / && <$INPUT> && next;
 	/^Timecounter "TSC" / && next;
@@ -614,6 +629,7 @@ sub ShowVersion {
 	next if (/^\{(master|backup|linecard|primary|secondary)(:(node)?\d+)?\}/);
 	/error: abnormal communication termination with / && return(-1);
 	/error: could not connect to \S+ ?: no route to host/i && return(1);
+	/Message from syslogd@/ && return(-1);	# fail on trash from syslog
 	# this happens from time to time, esp. with PHONE-HOME, and resolves
 	# on the next run.  So, just retry.
 	/: Resource deadlock avoided/ && return(-1);
@@ -647,6 +663,7 @@ sub ShowConfiguration {
 	    last;
 	}
 	next if (/^system (shutdown message from|going down )/i);
+	/Message from syslogd@/ && return(-1);	# fail on trash from syslog
 	next if (/^## last commit: /i);
 	next if (/^\{(master|backup|linecard|primary|secondary)(:(node)?\d+)?\}/);
 	$lines++;

@@ -135,6 +135,9 @@ sub ShowCardDetail {
 	next if (/^\s+\^$/);
 	return(-1) if (/error: invalid parameter/i);
 	return(-1) if (/minor: cli command not allowed for this user/i);
+	# remove "Free Space" and "Percent Used" lines
+	next if (/^\s*Free space\s+:\s+\d+\s*(KB|MB|GB)\s*\n?$/); 
+	next if (/^\s*Percent Used\s+:\s+\d+\s*%\s*\n?$/);
 	# context lines
 	/^\[[^]]*]$/i && next;
 

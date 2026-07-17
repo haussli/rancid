@@ -125,6 +125,7 @@ foundry.pm
 frr.pm
 fss2.pm
 fxos.pm
+hiveos.pm
 ios.pm
 iossb.pm
 iosshtech.pm

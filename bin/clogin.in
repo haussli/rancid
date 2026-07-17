@@ -459,6 +459,14 @@ proc run_commands { prompt command } {
 						  }
 						  exp_continue
 						}
+	"The config is changed.Do you want to save it? (Y/N)"	{ # Aerohive
+						  if {$do_saveconfig} {
+						    catch {send "y\r"}
+						  } else {
+						    catch {send "n\r"}
+						  }
+						  exp_continue
+						}
 	"Would you like to save them now"	{ # Force10
 						  if {$do_saveconfig} {
 						    catch {send "y\r"}

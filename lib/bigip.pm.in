@@ -19,6 +19,8 @@ use rancid @VERSION@;
 @ISA = qw(Exporter rancid main);
 #XXX @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands);
 
+our $found_hardware;
+
 # load-time initialization
 sub import {
     # force a terminal type so as not to confuse the POS
@@ -34,6 +36,8 @@ sub init {
     ProcessHistory("COMMENTS","keysort","A1","#\n");
     ProcessHistory("COMMENTS","keysort","B0","#\n");
     ProcessHistory("COMMENTS","keysort","C0","#\n");
+
+    $found_hardware = 0;
 
     0;
 }
@@ -144,6 +148,7 @@ sub ShowHardware {
         return(1) if /^\s*\^\s*$/;
         return(1) if /(Invalid input detected|Type help or )/;
         return(-1) if (/command authorization failed/i);
+        return(0) if ($found_hardware);
 
         s/\d+rpm//ig;
         s/^\|//;
@@ -157,6 +162,7 @@ sub ShowHardware {
 
         ProcessHistory("COMMENTS","keysort","B1","#$_") && next;
     }
+    $found_hardware = 1;
     return(0);
 }
 
@@ -252,9 +258,14 @@ sub WriteTerm {
     my($lines) = 0;
     print STDERR "    In WriteTerm: $_" if ($debug);
 
+    ProcessHistory("","","","#\n");
     while (<$INPUT>) {
         tr/\015//d;
         next if (/^\s*$/);
+        return(0) if ($found_end);  # Only do this routine once
+        next if (/^(\s*|\s*$cmd\s*)$/);
+        return(1) if (/^Data Input Error:/);
+        return(1) if /(Invalid input detected|Type help or )/;
 
         # Ignore monitor down state, save the config as up.
         s/state down$/state up/i;

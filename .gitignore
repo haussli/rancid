@@ -87,6 +87,7 @@ rivlogin
 rivrancid
 rrancid
 rtftpcopy
+shlogin
 tlogin
 tntlogin
 tntrancid
@@ -132,6 +133,7 @@ iosxr.pm
 junos.pm
 mrv.pm
 nxos.pm
+openwrt.pm
 panos.pm
 rancid.pm
 rancidcontrib.pm

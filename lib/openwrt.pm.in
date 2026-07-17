@@ -1,0 +1,149 @@
+package openwrt;
+##
+## @PACKAGE@ @VERSION@
+@copyright@
+# 
+#  RANCID - Really Awesome New Cisco confIg Differ
+#
+#  openwrt.pm - OpenWrt UCI rancid procedures
+#
+
+use 5.010;
+use strict 'vars';
+use warnings;
+require(Exporter);
+our @ISA = qw(Exporter);
+$Exporter::Verbose=1;
+
+use rancid @VERSION@;
+
+
+@ISA = qw(Exporter rancid main);
+#our @EXPORT = qw($VERSION)
+
+# load-time initialization
+sub import {
+    0;
+}
+
+# post-open(collection file) initialization
+sub init {
+    # add content lines and separators
+    ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n#\n");
+
+    0;
+}
+
+# main loop of input of device output
+sub inloop {
+    my($INPUT, $OUTPUT) = @_;
+    my($cmd, $rval);
+
+TOP: while (<$INPUT>) {
+	tr/\015//d;
+	if (/^Error:/) {
+	    print STDOUT ("$host shlogin error: $_");
+	    print STDERR ("$host shlogin error: $_") if ($debug);
+	    $clean_run = 0;
+	    last;
+	}
+	if (/System shutdown message/) {
+	    print STDOUT ("$host shutdown msg: $_");
+	    print STDERR ("$host shutdown msg: $_") if ($debug);
+	    $clean_run = 0;
+	    last;
+	}
+	while (/#\s*($cmds_regexp)\s*$/) {
+	    $cmd = $1;
+	    if (!defined($prompt)) {
+		# OpenWrt:~# cat /etc/banner
+		# root@OpenWrt-GL-MT6000:~# cat /etc/banner
+		print STDERR ("Line: $_") if ($debug);
+		print STDERR ("Cmd: $cmd\n") if ($debug);
+		$prompt = ($_ =~ /^([^#]+# )/)[0];
+		print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
+	    }
+	    print STDERR ("HIT COMMAND:$_") if ($debug);
+	    if (! defined($commands{$cmd})) {
+		print STDERR "$host: found unexpected command - \"$cmd\"\n";
+		$clean_run = 0;
+		last TOP;
+	    }
+	    if (! defined(&{$commands{$cmd}})) {
+		printf(STDERR "$host: undefined function - \"%s\"\n",  
+		       $commands{$cmd});
+		$clean_run = 0;
+		last TOP;
+	    }
+	    $rval = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
+	    delete($commands{$cmd});
+	    if ($rval == -1) {
+		$clean_run = 0;
+		last TOP;
+	    }
+	}
+	if (/#\s*exit/) {
+	    $clean_run = 1;
+	    last;
+	}
+    }
+}
+
+# This routine parses generic command output
+sub ShowCommand {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In UciShow: $_" if ($debug);
+
+    s/^[a-z]+@//;
+    ProcessHistory("","","","# $_");
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^system (shutdown message from|going down )/i);
+
+	/: not found$/ && return(-1);
+	/^Usage: / && return(-1);
+
+	ProcessHistory("","","","# $_");
+    }
+    return(0);
+}
+
+# This routine parses "uci export"
+sub UciExport {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    my($lines) = 0;
+    my($snmp) = 0;
+    print STDERR "    In UciExport: $_" if ($debug);
+
+    s/^[a-z]+@//;
+    ProcessHistory("","","","# $_");
+    while (<$INPUT>) {
+	tr/\015//d;
+	#next if (/^\s*$/);
+	# end of config - hopefully.  UCI does not have a reliable
+	# end-of-config tag, so we must rely on PROMPT.
+	if (/^$prompt/) {
+	    $found_end++;
+	    print STDERR "    found_end in UciExport: $_" if ($debug);
+	    last;
+	}
+
+	/: not found$/ && return(-1);
+	/^Usage: / && return(-1);
+	next if (/^system (shutdown message from|going down )/i);
+	$lines++;
+
+	ProcessHistory("","","","$_");
+    }
+
+    if ($lines < 3) {
+	printf(STDERR "ERROR: $host configuration appears truncated.\n");
+	$found_end = 0;
+	return(-1);
+    }
+
+    return(0);
+}
+
+1;

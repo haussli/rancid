@@ -718,6 +718,9 @@ if [ -s $TMP.diff ] ; then
 		echo "Commit message: $commitmsg"
 		echo ""
 	  fi
+	  if which diffstat >/dev/null ; then
+		diffstat $TMP.diff
+	  fi
 	  cat $TMP.diff
 	) | $SENDMAIL -t $MAILOPTS
     else

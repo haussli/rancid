@@ -1,0 +1,547 @@
+package lightspan;
+##
+## lightspan.pm - Nokia Lightspan RANCID module
+##
+## This module handles configuration backup for Nokia Lightspan multi-context devices
+## including main shelf, LT cards, and IHUB components.
+##
+## NOTE: Due to the nature of the lightspan and the differant contexts a method was
+## required to differantiate between the contexts when the same command was used.
+## Entries in types.conf MUST have the prefix `LT:`` or `IHUB:` for use in those contexts.
+
+use 5.010;
+use strict 'vars';
+use warnings;
+require Exporter;
+use rancid 3.13;
+
+our @ISA = qw(Exporter rancid main);
+$Exporter::Verbose = 1;
+
+# Global variables
+our @installed_LTs = ();        # List of discovered LT card numbers
+our $lt_discovery_done = 0;     # Flag indicating LT discovery completion
+our ($host, $clean_run, $debug, $prompt);
+our $login_failed = 0;
+
+sub init {
+    # add content lines and separators
+    $host ||= $ENV{DEVICE} || $ARGV[0] || '';
+
+    # Discover installed Lightspans before rancid runs
+    discover_LTs_prelogin($host);
+
+    # If login failed during discovery, abort before writing anything
+    if ($login_failed) {
+        print STDERR "$host: Login failed - aborting without writing output\n";
+        $clean_run = 0;
+        $found_end = 0;
+        return -1;  # Signal failure
+    }
+
+    # Build the command list based on discovery
+    build_lightspan_commands();
+
+    # Add header with hostname and content type
+    ProcessHistory("","","","#RANCID-CONTENT-TYPE: $devtype\n");
+    ProcessHistory("","","","#\n");
+    ProcessHistory("","","","# Device: $host\n");
+    ProcessHistory("","","","#\n");
+    0;
+}
+
+
+# discover_LTs_prelogin - Discover installed Line Termination cards
+# @param $h - hostname to query
+#
+# Performs a pre-login command to discover which LT cards are physically
+# installed in the chassis. This prevents attempting to connect to non-existent LTs.
+sub discover_LTs_prelogin {
+    my ($h) = @_;
+    my $cmd = 'show hardware-state component class slot-lt | select contains-child';
+    print STDERR "DEBUG: Prelogin LT Discovery for $h\n" if $debug;
+
+    # Execute discovery command via clogin
+    open (my $FH, "clogin -t 30 -c \"$cmd\" $h 2>&1 |")  # Note: 2>&1 to capture errors
+        or do {
+            print STDERR "DEBUG: LT prelogin failed for $h: $!\n" if $debug;
+            $login_failed = 1;
+            return;
+        };
+
+    # Parse output to find LT card references
+    while (<$FH>) {
+        tr/\015//d;
+
+        # Detect "Too many sessions" error
+        if (/Too many sessions/i) {
+            print STDERR "ERROR: Too many sessions on $h - cannot login\n";
+            $login_failed = 1;
+            close $FH;
+            return;
+        }
+
+        # Detect other login errors
+        if (/clogin error/i || /Connection.*closed by remote host/i) {
+            print STDERR "ERROR: Login failed to $h\n" if $debug;
+            $login_failed = 1;
+            close $FH;
+            return;
+        }
+
+        # Match pattern: "Slot-Lt-<number>" at start of line
+        if (/^Slot-Lt-(\d+)/i) {
+            my $lt = $1;
+            if (!grep { $_ == $lt } @installed_LTs) {
+                push @installed_LTs, $lt;
+                print STDERR "DEBUG: Found LT slot: $lt\n" if $debug;
+            }
+        }
+    }
+    close $FH;
+
+    # Set discovery flag if any LTs were found
+    $lt_discovery_done = 1 if @installed_LTs;
+    print STDERR "DEBUG: Prelogin for LT List = @installed_LTs\n" if $debug;
+}
+
+# build_lightspan_commands - Build dynamic command list
+# Command prefixes allow the config file to declare which context
+# each command should run in, and this function handles the routing.
+sub build_lightspan_commands {
+    my @base = @commands;
+    print STDERR "DEBUG: Base commands = @base\n" if $debug;
+
+    my @lt_cmds;    # Commands to run in LT context
+    my @main_cmds;  # Commands to run in main shelf context
+    my @ihub_cmds;  # Commands to run in IHUB context
+
+    # Parse command list and categorize by prefix
+    foreach my $cmd (@base) {
+        # LT prefixed commands (run on each LT card)
+        if ($cmd =~ /^LT:(.+)$/) {
+            my $stripped_cmd = $1;
+            push @lt_cmds, $stripped_cmd;
+            # Copy handler from prefixed to stripped version
+            if (defined($commands{$cmd})) {
+                $commands{$stripped_cmd} = $commands{$cmd};
+            }
+            next;
+        }
+        # IHUB prefixed commands (run on integrated hub)
+        if ($cmd =~ /^IHUB:(.+)$/) {
+            my $stripped_cmd = $1;
+            push @ihub_cmds, $stripped_cmd;
+            # Copy handler from prefixed to stripped version
+            if (defined($commands{$cmd})) {
+                $commands{$stripped_cmd} = $commands{$cmd};
+            }
+            next;
+        }
+        # Everything else runs on main shelf (already has correct handler)
+        push @main_cmds, $cmd;
+    }
+
+    print STDERR "DEBUG: LT CMDs = @lt_cmds\n" if $debug;
+    print STDERR "DEBUG: MAIN CMDs = @main_cmds\n" if $debug;
+
+    # Rebuild command list with context switching
+    @commands = ();
+
+    # Add main shelf commands first
+    push @commands, @main_cmds;
+
+    # For each discovered LT, add context switch and LT commands
+    if ($lt_discovery_done && @installed_LTs && @lt_cmds) {
+        foreach my $lt (@installed_LTs) {
+
+            # Forward CLI to this LT
+            my $forward_cmd = "forward cli to lt-$lt";
+            push @commands, $forward_cmd;
+            $commands{$forward_cmd} = \&ForwardCLI;
+
+            # Add LT-specific commands
+            foreach my $cmd (@lt_cmds) {
+                push @commands, $cmd;
+            }
+
+            # Exit back to main shelf
+            push @commands, "exit";
+            $commands{"exit"} = \&CmdExit;
+        }
+        # Mark exit as reusable since multiple LTs use it
+        $commands{"__REUSABLE__exit"} = 1;
+    }
+
+    # Add IHUB commands if any are defined
+    if (@ihub_cmds) {
+        print STDERR "DEBUG: ihub section present\n" if $debug;
+
+        # Forward CLI to IHUB
+        push @commands, "forward cli to ihub";
+        $commands{"forward cli to ihub"} = \&ForwardCLI;
+
+        # Add IHUB-specific commands
+        foreach my $cmd (@ihub_cmds) {
+            push @commands, $cmd;
+        }
+
+        # Logout from IHUB (different from exit)
+        push @commands, "logout";
+        $commands{"logout"} = \&CmdLogout;
+    }
+
+    # Build command regexp for pattern matching
+    $cmds_regexp = join(";", @commands);
+    $commandstr = join(";", @commands);
+
+    # Assign generic handler to all data-collecting commands
+    for my $cmd (@main_cmds, @lt_cmds, @ihub_cmds) {
+        if (!defined($commands{$cmd})) {
+            $commands{$cmd} = \&LightspanGenericShow;
+        }
+    }
+
+    # Mark LT and IHUB commands as reusable (can run multiple times)
+    # This prevents them from being deleted after first use
+    for my $cmd (@lt_cmds, @ihub_cmds) {
+        $commands{"__REUSABLE__$cmd"} = 1;
+    }
+
+    print STDERR "DEBUG: Final command list = @commands\n" if $debug;
+    return;
+}
+
+# RANCID hooks
+sub import {
+    return 0;
+}
+
+# Reads device output line by line, detects commands, and dispatches
+# to appropriate handlers. Handles the push-back mechanism for lines
+# that contain both prompt and next command.
+sub inloop {
+    my($INPUT, $OUTPUT) = @_;
+    my($cmd, $rval);
+
+    # Build regex pattern from command hash keys
+    # Strip prefixes (LT:, IHUB:, __REUSABLE__) and escape special chars
+    my @real_cmds = map {
+        my $c = $_;
+        $c =~ s/^(LT:|IHUB:|__REUSABLE__)//;
+        quotemeta($c);
+    } keys %commands;
+
+    $cmds_regexp = join("|", @real_cmds);
+
+TOP: while(1) {
+    # Check if a handler pushed back a line for processing
+    # This happens when a handler reads a line containing the next command
+    if (defined $main::lightspan_pushed_line) {
+        $_ = $main::lightspan_pushed_line;
+        undef $main::lightspan_pushed_line;
+        print STDERR "Processing pushed-back line from handler: $_\n" if ($debug);
+    } else {
+        # Read next line from input stream
+        $_ = <$INPUT>;
+        last unless defined $_;
+    }
+
+    tr/\015//d;
+
+    # Skip SSH connection noise and device banner
+    next if /spawn ssh/i;
+    next if /Warning: Permanently added/i;
+    next if /password:/i;
+    next if /connected from/i;
+    next if /Last login:/i;
+    next if /Welcome,/i;
+    next if /terminal (length|width)/i;
+    next if /syntax error/i;
+    next if /\[\?7h|^[-\s\^]+!?$/;
+    next if /^#.*Finished/i;
+    next if /^\[\]$/;
+    next if /^Exited from (lt-\d+|ihub)$/i;
+    next if /^\s*$/;
+
+    # Detect fatal errors
+    if (/^Error:/ || /clogin error/i || /Too many sessions/i) {
+        print STDOUT ("$host login/session error: $_");
+        print STDERR ("$host login/session error: $_") if ($debug);
+        $clean_run = 0;
+        $found_end = 0;
+        last;
+    }
+    # Detect session end
+    if (/Connection to .* closed/i) {
+        print STDERR "Connection closed, clean run\n" if ($debug);
+        $found_end = 1;
+        $clean_run = 1;
+        last;
+    }
+
+    # Pattern: <prompt><command>
+    # Extract prompt and command from same line (Lightspan echoes this way)
+    while (/([A-Za-z0-9._:@-]+[>#])\s*($cmds_regexp)\s*$/) {
+        $cmd = $2;
+
+        # Save prompt for handlers to use
+        if (!defined($prompt)) {
+            $prompt = ($_ =~ /^([^#>]+[#>])/)[0];
+            $prompt =~ s/([][}{)(+\\])/\\$1/g;  # Escape regex special chars
+            print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
+        }
+        print STDERR ("HIT COMMAND: $_") if ($debug);
+
+        # Check if command has a defined handler
+        if (!defined($commands{$cmd})) {
+            # Special case: final "exit" from clogin after all our commands
+            # This is sent by clogin to cleanly close the session
+            if ($cmd eq "exit") {
+                print STDERR "$host: final exit from clogin, reading to end\n" if ($debug);
+                while (<$INPUT>) {
+                    tr/\015//d;
+                    if (/Connection to .* closed/i) {
+                        print STDERR "Connection closed after final exit\n" if ($debug);
+                        $found_end = 1;
+                        $clean_run = 1;
+                        last TOP;
+                    }
+                }
+                last TOP;
+            }
+            print STDERR "$host: found unexpected command - \"$cmd\"\n";
+            $clean_run = 0;
+            last TOP;
+        }
+
+        # Verify handler function exists
+        if (!defined(&{$commands{$cmd}})) {
+            printf(STDERR "$host: undefined function - \"%s\"\n",
+                   $commands{$cmd});
+            $clean_run = 0;
+            last TOP;
+        }
+
+        # Execute command handler
+        $rval = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
+
+        # Delete command from hash unless marked as reusable
+        # Reusable commands (LT/IHUB) can be called multiple times
+        unless (exists $commands{"__REUSABLE__$cmd"}) {
+            delete($commands{$cmd});
+        }
+
+        # Check return value
+        if ($rval == -1) {
+            # -1 signals intentional end (from CmdLogout)
+            print STDERR "Handler returned -1, exiting loop\n" if ($debug);
+            last TOP;
+        }
+
+        last;  # Exit while loop after processing command
+    }
+}
+
+    # Clear remaining commands to suppress "missed command" warnings
+    # Required as cmds are reused accross contexts and therefore aren't deleted
+    %commands = ();
+}
+
+# Reads command output until it sees the next prompt or prompt+command.
+# Filters out noise and comment lines. Uses push-back mechanism when
+# it encounters the next command so inloop can process it.
+sub LightspanGenericShow {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In LightspanGenericShow: $cmd\n" if ($debug);
+
+    # Add formatted section header with separator lines
+    ProcessHistory("","","","!\n");
+    ProcessHistory("","","","! ========================================\n");
+    ProcessHistory("","","","! Command: $cmd\n");
+    ProcessHistory("","","","! ========================================\n");
+    ProcessHistory("","","","!\n");
+
+    while (<$INPUT>) {
+        tr/\015//d;
+
+        # Check if this line is a NEW prompt+command (next command starting)
+        if (/^[A-Za-z0-9._:@-]+[>#]\s+($cmds_regexp)\s*$/) {
+            print STDERR "    Found next command, pushing back and exiting handler: $_" if ($debug);
+            $main::lightspan_pushed_line = $_;
+            last;
+        }
+
+        # Check if this is just a prompt (end of output)
+        if (/^[A-Za-z0-9._:@-]+[>#]\s*$/) {
+            print STDERR "    Found prompt only, exiting handler\n" if ($debug);
+            last;
+        }
+
+        # Skip noise and comment lines
+        next if (/^\s*$/);
+        next if (/^#/);
+        next if (/connected from.*using ssh/i);
+        next if (/Welcome,/i);
+        next if (/^\[\]$/);
+        next if (/Connection to .* closed/i);
+        next if (/^Exited from/i);
+
+        # Skip command echo
+        next if (/^\s*\Q$cmd\E\s*$/);
+
+        # Skip volatile software download/revision state information
+        next if (/^\s+download (current-state|last-download-state)/);
+        next if (/^\s+revisions (revisions-updated|revision)\s*$/);
+
+        # Save line to output
+        ProcessHistory("","","","$_");
+    }
+
+    # Add trailing separator
+    ProcessHistory("","","","!\n");
+
+    return(0);
+}
+
+# Handler for running-config commands - filter passwords and secrets
+sub ShowRunningConfig {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowRunningConfig: $cmd\n" if ($debug);
+
+    # Add formatted section header with separator lines
+    ProcessHistory("","","","!\n");
+    ProcessHistory("","","","! ========================================\n");
+    ProcessHistory("","","","! Command: $cmd\n");
+    ProcessHistory("","","","! ========================================\n");
+    ProcessHistory("","","","!\n");
+
+    while (<$INPUT>) {
+        tr/\015//d;
+
+        # Check if this line is a NEW prompt+command (next command starting)
+        if (/^[A-Za-z0-9._:@-]+[>#]\s+($cmds_regexp)\s*$/) {
+            print STDERR "    Found next command, pushing back and exiting handler: $_" if ($debug);
+            $main::lightspan_pushed_line = $_;
+            last;
+        }
+
+        # Check if this is just a prompt (end of output)
+        if (/^[A-Za-z0-9._:@-]+[>#]\s*$/) {
+            print STDERR "    Found prompt only, exiting handler\n" if ($debug);
+            last;
+        }
+
+        # Skip noise and comment lines
+        next if (/^\s*$/);
+        next if (/^#/);
+        next if (/connected from.*using ssh/i);
+        next if (/Welcome,/i);
+        next if (/^\[\]$/);
+        next if (/Connection to .* closed/i);
+        next if (/^Exited from/i);
+
+        # Skip command echo
+        next if (/^\s*\Q$cmd\E\s*$/);
+
+        # Filter secrets and passwords if password filtering is enabled
+        if (/^(\s+udp shared-secret\s+)(\S+)/ && $filter_pwds >= 1) {
+	        ProcessHistory("","","","!$1<removed>$'"); next;
+	    }
+
+        # Save line to output
+        ProcessHistory("","","","$_");
+    }
+
+    # Add trailing separator
+    ProcessHistory("","","","!\n");
+
+    return(0);
+}
+
+# Handles "forward cli to <context>" commands that switch CLI context.
+# No output processing needed, just acknowledgment.
+sub ForwardCLI {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ForwardCLI: $cmd\n" if ($debug);
+
+    # Extract the context name from the command
+    if ($cmd =~ /forward cli to (lt-\d+|ihub)/i) {
+        my $context = uc($1);
+
+        # Read and consume the welcome message and new prompt
+        my $buffer = "";
+        while (<$INPUT>) {
+            tr/\015//d;
+            $buffer .= "$_\n";
+
+            # Match welcome + new prompt pattern
+            if ($buffer =~ /^Welcome, .*!\R([[:print:]]{1,64})#$/m) {
+                my $new_prompt = $1;
+                print STDERR "    Context switched, new prompt: $new_prompt\n" if ($debug);
+                last;
+            }
+
+            # Safety: break if we've read too much (shouldn't happen)
+            last if length($buffer) > 500;
+        }
+
+        ProcessHistory("","","","!\n");
+        ProcessHistory("","","","! ########################################\n");
+        ProcessHistory("","","","! ENTERING CONTEXT: $context\n");
+        ProcessHistory("","","","! ########################################\n");
+        ProcessHistory("","","","!\n");
+    }
+
+    return(0);
+}
+
+
+
+# Handles "exit" command which returns from LT context to main shelf.
+# Returns 0 to continue processing (more contexts may follow).
+sub CmdExit {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In CmdExit: $cmd\n" if ($debug);
+
+    # Announce exiting LT context
+    ProcessHistory("","","","!\n");
+    ProcessHistory("","","","! ########################################\n");
+    ProcessHistory("","","","! EXITING LT CONTEXT - RETURNING TO MAIN SHELF\n");
+    ProcessHistory("","","","! ########################################\n");
+    ProcessHistory("","","","!\n");
+
+    return(0);
+}
+
+# Handles "logout" command which exits IHUB context.
+# Reads remaining input until connection closes, then sets
+# success flags and returns -1 to signal end of processing.
+sub CmdLogout {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In CmdLogout: $cmd\n" if ($debug);
+
+    # Announce exiting IHUB context
+    ProcessHistory("","","","!\n");
+    ProcessHistory("","","","! ########################################\n");
+    ProcessHistory("","","","! EXITING IHUB CONTEXT\n");
+    ProcessHistory("","","","! ########################################\n");
+    ProcessHistory("","","","!\n");
+
+    # Read any remaining lines after logout
+    while (<$INPUT>) {
+        tr/\015//d;
+        print STDERR "    Post-logout line: $_" if ($debug);
+
+        if (/Connection to .* closed/i) {
+            print STDERR "    Found connection closed\n" if ($debug);
+            last;
+        }
+    }
+
+    $found_end = 1;
+    $clean_run = 1;
+    return(-1);
+}
+
+1;

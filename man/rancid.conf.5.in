@@ -275,6 +275,15 @@ Its value is set by configure.  Should it be necessary to modify PATH,
 note that it must include @bindir@.
 .\"
 .TP
+.B PRECOMMIT_HOOK
+Defines a command to execute after catching the configs and before committing
+them to the RCS. This is aimed to allow changes on the configs, for example to
+erase some parts of them and so avoid unecessary commits.
+.sp
+Example: PRECOMMIT_HOOK="sed '/^!Flash: nvram: .* total/d' -i configs/*";
+export PRECOMMIT_HOOK
+.\"
+.TP
 .B RCSSYS
 Sets which revision control system is in use.
 Valid values are

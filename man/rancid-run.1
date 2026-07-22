@@ -92,6 +92,9 @@ Run rancid for a single device,
 should be name, as it appears in a group's router.db.  The device must be
 marked "up".  If a group is not specified on the command-line, rancid will
 be run against any group in which the device_name appears.
+.B \-r
+may be specified multiple times to collect several devices; those found in
+the same group are collected and committed together in that group's run.
 .sp
 The 
 .B \-r

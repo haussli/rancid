@@ -102,8 +102,8 @@ if [ $# -ge 1 ] ; then
 	    ;;
 	-r)
 	    shift
-	    # next arg is the device name
-	    device="$1"
+	    # next arg is a device name; -r may be given multiple times
+	    device="${device:+$device }$1"
 	    shift
 	    ;;
 	--)
@@ -549,12 +549,15 @@ if [ ! -s routers.up ] ; then
     exit;
 fi
 
-# if a device (-r) was specified, see if that device is in this group
+# if device(s) (-r) were specified, see if those devices are in this group
 if [ "X$device" != "X" ] ; then
     trap 'rm -fr $TMP $DIR/routers.single;' 1 2 15
     devlistfile="$DIR/routers.single"
-    grep -i "^$device\;" routers.up > $devlistfile
-    if [ $? -eq 1 ] ; then
+    : > $devlistfile
+    for dev in $device ; do
+	grep -i "^$dev\;" routers.up >> $devlistfile
+    done
+    if [ ! -s $devlistfile ] ; then
 	exit;
     fi
 else

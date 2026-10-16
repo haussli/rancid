@@ -60,7 +60,7 @@ TOP: while (<$INPUT>) {
 	while (/\s*($cmds_regexp)\s*$/) {
 	    $cmd = $1;
 	    if (!defined($prompt)) {
-		$prompt = "\] > ";  # crude but effective
+		$prompt = qr/^\[[^\]\r\n]+\@[^\]\r\n]+\]\s*>\s*/;
 		print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
 	    }
 	    print STDERR ("HIT COMMAND:$_") if ($debug);

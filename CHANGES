@@ -1,4 +1,8 @@
 3.14.99
+	control_rancid, rancid-run: allow -r to be specified multiple times to
+	collect several devices in one run, committing per-group devices
+	together - Gary T. Giesen
+
 	iosxr.pm: filter oscillating license timestamps - thezoggy@github with
 	minor syntax adjustment
 

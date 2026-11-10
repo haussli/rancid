@@ -1,4 +1,4 @@
-Frequently Asked Questions about rancid - last updated 20220217.
+Frequently Asked Questions about rancid - last updated 20261110.
 
 This FAQ contains information that may not apply directly to versions of
 rancid prior to 3.0.  It also contains paths containing tags such as
@@ -709,7 +709,7 @@ A. No.  rancid-discuss@, etc. are not Mail Transport Agent (MTA) support
    your MTA and MUA offer for providing more logs, delivery receipts, etc.
 
 
-Q. I just want to store configrurations, I do not want to receive diffs.  How
+Q. I just want to store configurations, I do not want to receive diffs.  How
    can I accomplish this?
 A. Use procmail to filter them out of your inbox.
    OR, redirect the mail aliases in your MTA's aliases file or database to a
@@ -717,6 +717,15 @@ A. Use procmail to filter them out of your inbox.
    OR, redirect the mail aliases to /dev/null.
    OR, set DIFFSCRIPT in rancid.conf to something that eats it's input, such
    as "dd of=/dev/null bs=16k".
+   OR, set SENDMAIL in rancid.conf to a script that discards mail, such as
+
+   cat > /home/rancid/bin/discard << EOF
+   #!/bin/bash
+   cat > /dev/null
+   EOF
+
+   but note that this will dump ALL email, including collection failure
+   notices.
 
 
 7) I am still stuck

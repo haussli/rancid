@@ -1,0 +1,352 @@
+#! @EXPECT_PATH@ --
+##
+## @PACKAGE@ @VERSION@
+@copyright@
+#
+# shlogin - Generic *nix Bourne-style and C-Style Shell Login
+#
+
+# Sometimes routers take awhile to answer (the default is 10 sec)
+set timeoutdflt 120
+# Some CLIs having problems if we write too fast (Extreme, PIX, Cat)
+set send_human {.2 .1 .4 .2 1}
+
+@login_top@
+
+# Log into the router.
+# returns: 0 on success, 1 on failure
+proc login { router user passwd cmethod cyphertype identfile} {
+    global spawn_id in_proc do_command do_script passphrase prompt
+    global sshcmd telnetcmd
+    global spawnopts
+    set in_proc 1
+
+    # try each of the connection methods in $cmethod until one is successful
+    set progs [llength $cmethod]
+    foreach prog [lrange $cmethod 0 end] {
+	incr progs -1
+	if [string match "telnet*" $prog] {
+	    regexp {telnet(:([^[:space:]]+))*} $prog command suffix port
+	    if {"$port" == ""} {
+		set retval [ catch {eval spawn $spawnopts [split "$telnetcmd $router"]} reason ]
+	    } else {
+		set retval [ catch {eval spawn $spawnopts [split "$telnetcmd $router $port"]} reason ]
+	    }
+	    if { $retval } {
+		send_user "\nError: telnet failed: $reason\n"
+		return 1
+	    }
+	} elseif [string match "ssh*" $prog] {
+	    # ssh to the router & try to login with or without an identfile.
+	    # We use two calls to spawn since spawn does not seem to parse
+	    # spaces correctly.
+	    regexp {ssh(:([^[:space:]]+))*} $prog methcmd suffix port
+	    set cmd $sshcmd
+	    if {"$port" != ""} {
+		set cmd "$cmd -p $port"
+	    }
+	    if {"$cyphertype" != ""} {
+		set cmd "$cmd -c $cyphertype"
+	    }
+	    if {"$identfile" != ""} {
+		set cmd "$cmd -i $identfile"
+	    }
+	        set retval [ catch {eval spawn $spawnopts [split "$cmd -x -l $user $router" { }]} reason ]
+	    if { $retval } {
+		send_user "\nError: $sshcmd failed: $reason\n"
+		return 1
+	    }
+	} elseif ![string compare $prog "rsh"] {
+	    send_error "\nError: unsupported method: rsh\n"
+	    if { $progs == 0 } {
+		return 1
+	    }
+	    continue
+	} else {
+	    send_user "\nError: unknown connection method: $prog\n"
+	    return 1
+	}
+	sleep 0.3
+
+	# This helps cleanup each expect clause.
+	expect_after {
+	    timeout {
+		global in_proc
+		send_user "\nError: TIMEOUT reached\n"
+		catch {close}; catch {wait};
+		if {$in_proc} {
+	            return 1
+		} else {
+	            continue
+		}
+            } eof {
+		global in_proc
+		send_user "\nError: EOF received\n"
+		catch {close}; catch {wait};
+		if {$in_proc} {
+	            return 1
+		} else {
+	            continue
+		}
+            }
+	}
+
+	# Here we get a little tricky.  There are several possibilities:
+	# the router can ask for a username and passwd and then
+	# talk to the TACACS server to authenticate you, or if the
+	# TACACS server is not working, then it will use the enable
+	# passwd.  Or, the router might not have TACACS turned on,
+	# then it will just send the passwd.
+	expect {
+	    -re "(Connection refused|Secure connection \[^\n\r]+ refused|Connection closed by)" {
+		catch {close}; catch {wait};
+		if !$progs {
+		   send_user "\nError: Connection Refused ($prog)\n"; return 1
+		}
+	    }
+            eof { send_user "\nError: Couldn't login\n"; catch {wait}; return 1
+	    } -nocase "unknown host\r\n" {
+		catch {close}; catch {wait};
+		send_user "\nError: Unknown host\n"; catch {wait}; return 1
+	    } "Host is unreachable" {
+		catch {close}; catch {wait};
+		send_user "\nError: Host Unreachable!\n"; catch {wait}; return 1
+	    } "No address associated with name" {
+		catch {close}; catch {wait};
+		send_user "\nError: Unknown host\n"; catch {wait}; return 1
+	    }
+	    "Login incorrect" {
+			  send_user "\nError: Check your password for $router\n"
+			  catch {close}; catch {wait}; return 1
+			}
+	    -re "Enter passphrase.*: " {
+		# sleep briefly to allow time for stty -echo
+		sleep 1
+		send -- "$passphrase\r"
+		exp_continue }
+	    -re "(Host key not found |The authenticity of host .* be established)" {
+		expect {
+		-re "\\(yes\/no\[^\\)]*\\)\\?" {
+					  send "yes\r";
+						  send_user "\nHost $router added to the list of known hosts.\n"
+						}
+		    -re "\[^\r\n]*\[\r\n]+"	{ exp_continue; }
+		}
+		exp_continue
+	    }
+	    -re "HOST IDENTIFICATION HAS CHANGED" {
+		send_user "\nError: The host key for $router has changed.  Update the SSH known_hosts file accordingly.\n"
+		expect {
+		    -re "\\(yes\/no\\)\\?"	{ send "no\r" }
+		    -re " strict checking\.\[\r\n]+" { }
+		    -re "\[^\r\n]*\[\r\n]+"	{ exp_continue; }
+		}
+		catch {close}; catch {wait};
+		return 1
+	    }
+	    -re "Offending key for " {
+		send_user "\nError: host key mismatch for $router.  Update the SSH known_hosts file accordingly.\n"
+		expect {
+		    -re "\\(yes\/no\\)\\?"	{ send "no\r" }
+		    -re "\[^\r\n]*\[\r\n]+"	{ exp_continue; }
+		}
+		catch {close}; catch {wait};
+		return 1
+	    }
+	    -nocase -re "^warning: remote host denied authentication agent forwarding." {
+		exp_continue;
+	    }
+	    -re "(Username|\[\r\n]login):"	{
+						  send -- "$user\r"
+						  exp_continue
+	    					}
+	    -nocase -re "last login:"		{
+						  exp_continue
+	    					}
+	    -nocase -re "failed login:"		{
+						  exp_continue
+	    					}
+	    -re "\[\r\n\u0001]\[A-Za-z0-9.-]+ login:"	{
+						  # Fujitsu t100 
+						  # ^<hostname> login:
+						  send -- "$user\r"
+						  exp_continue
+	    					}
+	    "\[Pp]assword:"			{
+						  sleep 1; send -- "$passwd\r"
+						  exp_continue
+						}
+	    -re "$prompt"		{ break; }
+	    denied	{ send_user "\nError: Check your password for $router\n"
+	                  catch {close}; catch {wait}; return 1
+	                }
+	}
+    }
+
+    # we are logged in, now figure out the full prompt
+    send "\r"
+    #expect {
+    #	-re "(\r\n|\n)"		{ exp_continue; }
+    #	-re "^\[^ ]+$prompt"	{ set prompt $expect_out(0,string);
+    #				  regsub "#" $prompt "\[#$%>]" prompt;
+    #				}
+    #}
+
+    set in_proc 0
+    return 0
+}
+
+# Run commands given on the command line.
+proc run_commands { prompt command } {
+    global do_interact in_proc
+    set in_proc 1
+
+    # handle escaped ;s in commands, and ;; and ^;
+    regsub -all {([^\\]);} $command "\\1\u0002;" esccommand
+    regsub -all {([^\\]);;} $esccommand "\\1;\u0002;" command
+    regsub {^;} $command "\u0002;" esccommand
+    regsub -all {[\\];} $esccommand ";" command
+    regsub -all {\u0002;} $command "\u0002" esccommand
+    set sep "\u0002"
+    set commands [split $esccommand $sep]
+    set num_commands [llength $commands]
+    for {set i 0} {$i < $num_commands} { incr i} {
+	send -- "[subst -nocommands [lindex $commands $i]]\r"
+	expect {
+	    -re "^\[^\n\r *]*$prompt $"	{}
+	    -re "^\[^\n\r]*$prompt."	{ exp_continue }
+	    -re "(\r\n|\n)"		{ exp_continue }
+	}
+    }
+
+    if { $do_interact == 1 } {
+	interact
+	return 0
+    }
+
+    send "exit\r"
+    expect {
+	"\n"					{ exp_continue }
+	timeout					{ catch {close}; catch {wait};
+						  return 0
+						}
+	eof					{ return 0 }
+    }
+    set in_proc 0
+}
+
+#
+# For each router... (this is main loop)
+#
+source_password_file $password_file
+set in_proc 0
+set exitval 0
+# if we have dont have a tty, we need some additional terminal settings
+if [catch {open /dev/tty w} ttyid] {
+    # no tty, ie: cron
+    set spawnopts "-nottycopy"
+    set stty_init "cols 132"
+} else {
+    catch {close ttyid} reason
+}
+foreach router [lrange $argv $i end] {
+    set router [string tolower $router]
+    send_user "$router\n"
+
+    # device timeout
+    set timeout [find timeout $router]
+    if { [llength $timeout] == 0 } {
+	set timeout $timeoutdflt
+    }
+
+    set prompt ".+(#|$|%|>)"
+
+    # Figure out username
+    if {[info exists username]} {
+      # command line username
+      set loginname $username
+    } else {
+      set loginname [join [find user $router] ""]
+      if { "$loginname" == "" } { set loginname $default_user }
+    }
+
+    # Figure out loginname's password (if different from the vty password)
+    if {[info exists userpasswd]} {
+	# command line passwd
+	set passwd $userpasswd
+    } else {
+	set passwd [join [lindex [find userpassword $router] 0] ""]
+	if { "$passwd" == "" } {
+            set passwd [join [lindex [find password $router] 0] ""]
+            if { "$passwd" == "" } {
+		send_user -- "\nError: no password for $router in $password_file.\n"
+		continue
+            }
+	}
+    }
+
+    # Figure out identity file to use
+    set identfile [join [lindex [find identity $router] 0] ""]
+
+    # Figure out passphrase to use
+    if {[info exists avpassphrase]} {
+	set passphrase $avpassphrase
+    } else {
+	set passphrase [join [lindex [find passphrase $router] 0] ""]
+    }
+    if { ! [string length "$passphrase"]} {
+	set passphrase $passwd
+    }
+
+    # Figure out ssh cypher type
+    if {[info exists cypher]} {
+      # command line ssh cypher type
+      set cyphertype $cypher
+    } else {
+      set cyphertype [find cyphertype $router]
+    }
+
+    # Figure out connection method
+    set cmethod [find method $router]
+    if { "$cmethod" == "" } { set cmethod {{telnet} {ssh}} }
+
+    # Figure out the SSH executable name
+    set sshcmd [join [lindex [find sshcmd $router] 0] ""]
+    if { "$sshcmd" == "" } { set sshcmd {ssh} }
+
+    # Figure out the telnet executable name
+    set telnetcmd [join [lindex [find telnetcmd $router] 0] ""]
+    if { "$telnetcmd" == "" } { set telnetcmd "@TELNET_CMD@" }
+
+    # if [-mM], skip do not login
+    if { $do_cloginrcdbg > 0 } { continue; }
+
+    # Login to the router
+    if {[login $router $loginname $passwd $cmethod $cyphertype $identfile]} {
+	incr exitval
+	continue
+    }
+
+    if { $do_command || $do_script } {
+	send "\r"
+	expect -re $prompt	{}
+    }
+    if { $do_command } {
+	if {[run_commands $prompt $command]} {
+	    incr exitval
+	    continue
+	}
+    } elseif { $do_script } {
+	source $sfile
+	catch {close};
+    } else {
+	label $router
+	log_user 1
+	interact
+    }
+
+    # End of for each router
+    catch {wait};
+    sleep 0.3
+}
+exit $exitval

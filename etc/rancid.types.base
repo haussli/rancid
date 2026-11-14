@@ -943,3 +943,18 @@ frr;module;frr
 frr;inloop;frr::inloop
 frr;command;frr::ShowVersion;show version
 frr;command;frr::WriteTerm;write term
+#
+# OpenWrt UCI (Universal Configuration System)
+openwrt;script;rancid -t openwrt
+openwrt;login;shlogin
+openwrt;module;openwrt
+openwrt;inloop;openwrt::inloop
+openwrt;command;openwrt::ShowCommand;cat /etc/banner
+openwrt;command;openwrt::ShowCommand;cat /etc/os-release
+openwrt;command;openwrt::ShowCommand;cat /etc/board.json
+openwrt;command;openwrt::ShowCommand;uname -a
+openwrt;command;openwrt::ShowCommand;cat /proc/cpuinfo
+openwrt;command;openwrt::ShowCommand;fw_printenv
+openwrt;command;openwrt::ShowCommand;uci changes
+openwrt;command;openwrt::UciExport;uci export
+openwrt;command;openwrt::UciExport;uci show

@@ -105,7 +105,7 @@ CONFIG_CLEAN_FILES = login_top a10login agmrancid alogin arancid \
 	fnlogin fxlogin hlogin htlogin htrancid jlogin jerancid \
 	mrancid mrvlogin mtlogin nlogin nrancid noklogin nslogin \
 	nsrancid panlogin rblogin rivlogin rivrancid rrancid rtftpcopy \
-	tlogin trancid xilogin xirancid xlogin ulogin wlogin
+	shlogin tlogin trancid xilogin xirancid xlogin ulogin wlogin
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
@@ -213,6 +213,7 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/a10login.in \
 	$(srcdir)/panlogin.in $(srcdir)/rblogin.in \
 	$(srcdir)/rivlogin.in $(srcdir)/rivrancid.in \
 	$(srcdir)/rrancid.in $(srcdir)/rtftpcopy.in \
+	$(srcdir)/shlogin.in \
 	$(srcdir)/tlogin.in $(srcdir)/trancid.in $(srcdir)/ulogin.in \
 	$(srcdir)/wlogin.in $(srcdir)/xilogin.in $(srcdir)/xirancid.in \
 	$(srcdir)/xlogin.in $(top_srcdir)/depcomp \
@@ -359,7 +360,7 @@ bin_SCRIPTS = a10login alogin agmrancid anlogin arancid avologin \
 	fnlogin fxlogin hlogin hrancid htlogin htrancid jerancid \
 	jlogin mrancid mrvlogin mtlogin nlogin noklogin nrancid \
 	nslogin nsrancid panlogin plogin rancid rblogin rivlogin \
-	rivrancid rrancid rtftpcopy tlogin trancid ulogin wlogin \
+	rivrancid rrancid rtftpcopy shlogin tlogin trancid ulogin wlogin \
 	xilogin xirancid xlogin lg.cgi lgform.cgi rancid-cvs rancid-fe \
 	rancid-run
 # XXX hack for the rancid to get pkglibdir, see corresponding XXX below
@@ -521,6 +522,8 @@ rivrancid: $(top_builddir)/config.status $(srcdir)/rivrancid.in
 rrancid: $(top_builddir)/config.status $(srcdir)/rrancid.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 rtftpcopy: $(top_builddir)/config.status $(srcdir)/rtftpcopy.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+shlogin: $(top_builddir)/config.status $(srcdir)/shlogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 tlogin: $(top_builddir)/config.status $(srcdir)/tlogin.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@

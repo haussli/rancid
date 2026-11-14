@@ -7025,6 +7025,8 @@ ac_config_files="$ac_config_files bin/rrancid"
 
 ac_config_files="$ac_config_files bin/rtftpcopy"
 
+ac_config_files="$ac_config_files bin/shlogin"
+
 ac_config_files="$ac_config_files bin/tlogin"
 
 ac_config_files="$ac_config_files bin/trancid"
@@ -7837,6 +7839,7 @@ do
     "bin/rivrancid") CONFIG_FILES="$CONFIG_FILES bin/rivrancid" ;;
     "bin/rrancid") CONFIG_FILES="$CONFIG_FILES bin/rrancid" ;;
     "bin/rtftpcopy") CONFIG_FILES="$CONFIG_FILES bin/rtftpcopy" ;;
+    "bin/shlogin") CONFIG_FILES="$CONFIG_FILES bin/shlogin" ;;
     "bin/tlogin") CONFIG_FILES="$CONFIG_FILES bin/tlogin" ;;
     "bin/trancid") CONFIG_FILES="$CONFIG_FILES bin/trancid" ;;
     "bin/xilogin") CONFIG_FILES="$CONFIG_FILES bin/xilogin" ;;
@@ -8614,6 +8617,7 @@ See 'config.log' for more details" "$LINENO" 5; }
     "bin/rivrancid":F) chmod a+x $ac_file ;;
     "bin/rrancid":F) chmod a+x $ac_file ;;
     "bin/rtftpcopy":F) chmod a+x $ac_file ;;
+    "bin/shlogin":F) chmod a+x $ac_file ;;
     "bin/tlogin":F) chmod a+x $ac_file ;;
     "bin/trancid":F) chmod a+x $ac_file ;;
     "bin/xilogin":F) chmod a+x $ac_file ;;

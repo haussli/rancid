@@ -98,16 +98,27 @@ sub GetSystem {
 
 	if ($filter_osc >= 2) {
 	    next if (/^\s*APP-DB: .*/);
-	    next if (/^\s*AV AI\/ML Model:: .*/);
+		next if (/^\s*AIAP-DB: .*/);
+	    next if (/^\s*AV AI\/ML Model: .*/);
 	    next if (/^\s*Botnet DB: .*/);
 	    next if (/^\s*Extended DB: .*/);
+		next if (/^\s*FMWP-DB: .*/);
 	    next if (/^\s*industrial-db: .*/i);
 	    next if (/^\s*IPS-DB: .*/);
 	    next if (/^\s*IPS-ETDB: .*/);
+		next if (/^\s*IPS-MLDB: .*/);
 	    next if (/^\s*IPS Malicious URL Database: .*/);
 	    next if (/^\s*Proxy-APP-DB: .*/);
 	    next if (/^\s*Proxy-IPS-ETDB: .*/);
+		next if (/^\s*Proxy-IPS-DB: .*/);
+		next if (/^\s*Telemetry-DB: .*/);
+		next if (/^\s*Timezone DB Version: .*/);
+		next if (/^\s*Timezone DB IANA Version: .*/);
 	    next if (/^\s*Virus-DB: .*/);
+		next if (/^\s*IoT-Detect: .*/);
+		next if (/^\s*OT-Detect-DB: .*/);
+		next if (/^\s*OT-Patch-DB: .*/);
+		next if (/^\s*OT-Threat-DB: .*/);
 	}
 	next if (/^system time:/i);
 	next if (/^FortiClient application signature package:/);

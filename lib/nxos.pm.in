@@ -254,6 +254,42 @@ sub ShowLicense {
     return(0);
 }
 
+# This command parse the "show cdp entry" or "show cdp neighbores"
+sub ShowCdp {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowCdp: $_" if ($debug);
+
+    my ($device_id,$device_ip,$type,$local_int,$rem_int) = ('','','','','');
+
+    while (<$INPUT>) {
+        tr/\015//d;
+        if (/^$prompt/) {
+            if (length($device_id) && length($local_int)) {
+                ProcessHistory("CDP","keysort","$device_id",sprintf("! CDP Neighbor: %s [%s]:Type=%s / Local interface=%s / Remote interface=%s\n",$device_id,$device_ip,$type,$local_int,$rem_int));
+            }
+            last;
+        }
+        next if (/^(\s*|\s*$cmd\s*)$/);
+        next if (/^\s*\^\s*$/);
+        return(1) if (/Line has invalid autocommand /);
+        return(1) if (/(invalid (input|command) detected|type help or )/i);
+        return(-1) if (/command authorization failed/i);
+        if (/----------------------------------------/ && length($device_id) && length($local_int)) {
+            ProcessHistory("CDP","keysort","$device_id",sprintf("! CDP Neighbor: %s [%s]:Type=%s / Local interface=%s / Remote interface=%s\n",$device_id,$device_ip,$type,$local_int,$rem_int));
+            ($device_id,$device_ip,$type,$local_int,$rem_int) = ('','','','','');
+        }
+        $device_id = $1 if (/Device ID:(.*)/);
+        $device_ip = $1 if (/Interface address\(es\):/ && <$INPUT> =~ /IPv[46] Address: ([0-9A-F\.:]*)/);
+        $type = $1 if (/Platform: (.*),\s*Capabilities: .*/);
+        if (/Interface: (.*),\s*Port ID \(outgoing port\): (.*)/) {
+            $local_int = $1;
+            $rem_int = $2;
+        }
+    }
+    ProcessHistory("CDP","","","!\n");
+    return(0);
+}
+
 # This routine parses "show system redundancy status"
 sub ShowRedundancy {
     my($INPUT, $OUTPUT, $cmd) = @_;

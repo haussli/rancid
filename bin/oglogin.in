@@ -1,285 +1,19 @@
 #! @EXPECT_PATH@ --
 ##
-## rancid 2.3.8
-## Copyright (c) 1997-2011 by Terrapin Communications, Inc.
-## All rights reserved.
-##
-## This code is derived from software contributed to and maintained by
-## Terrapin Communications, Inc. by Henry Kilmer, John Heasley, Andrew Partan,
-## Pete Whiting, Austin Schutz, and Andrew Fort.
-##
-## Redistribution and use in source and binary forms, with or without
-## modification, are permitted provided that the following conditions
-## are met:
-## 1. Redistributions of source code must retain the above copyright
-##    notice, this list of conditions and the following disclaimer.
-## 2. Redistributions in binary form must reproduce the above copyright
-##    notice, this list of conditions and the following disclaimer in the
-##    documentation and/or other materials provided with the distribution.
-## 3. All advertising materials mentioning features or use of this software
-##    must display the following acknowledgement:
-##        This product includes software developed by Terrapin Communications,
-##        Inc. and its contributors for RANCID.
-## 4. Neither the name of Terrapin Communications, Inc. nor the names of its
-##    contributors may be used to endorse or promote products derived from
-##    this software without specific prior written permission.
-## 5. It is requested that non-binding fixes and modifications be contributed
-##    back to Terrapin Communications, Inc.
-##
-## THIS SOFTWARE IS PROVIDED BY Terrapin Communications, INC. AND CONTRIBUTORS
-## ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-## TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-## PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COMPANY OR CONTRIBUTORS
-## BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-## CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-## SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-## INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-## CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-## ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-## POSSIBILITY OF SUCH DAMAGE.
-# 
-#  The expect login scripts were based on Erik Sherk's gwtn, by permission.
+## @PACKAGE@ @VERSION@
+@copyright@
 # 
 # oglogin - Opengear login
 #
 # Modified by Toby Smith <toby.smith@opengear.com> for Opengear
 #
 
-# Usage line
-set usage "Usage: $argv0 \[-dSV\] \[-c command\] \
-\[-Evar=x\] \[-f cloginrc-file\] \[-p user-password\] \
-\[-r passphrase\] \[-s script-file\] \[-t timeout\] \[-u username\] \
-\[-v vty-password\] \[-x command-file\] \
-\[-y ssh_cypher_type\] router \[router...\]\n"
-
-# env(CLOGIN) may contain:
-#	x == do not set xterm banner or name
-
-# Password file
-set password_file $env(HOME)/.cloginrc
-# Default is to login to the router
-set do_command 0
-set do_script 0
-# The default is to look in the password file to find the passwords.  This
-# tracks if we receive them on the command line.
-set do_passwd 1
-# Save config, if prompted
-set do_saveconfig 0
 # Sometimes routers take awhile to answer (the default is 10 sec)
 set timeoutdflt 45
-#
-set send_human {.4 .4 .7 .3 5}
+# don't overrun the CLI - per char interval {avg inter-word var min max}
+set send_human {.2 .4 .4 .2 1}
 
-# Find the user in the ENV, or use the unix userid.
-if {[info exists env(CISCO_USER)]} {
-    set default_user $env(CISCO_USER)
-} elseif {[info exists env(USER)]} {
-    set default_user $env(USER)
-} elseif {[info exists env(LOGNAME)]} {
-    set default_user $env(LOGNAME)
-} else {
-    # This uses "id" which I think is portable.  At least it has existed
-    # (without options) on all machines/OSes I've been on recently -
-    # unlike whoami or id -nu.
-    if [catch {exec id} reason] {
-	send_error "\nError: could not exec id: $reason\n"
-	exit 1
-    }
-    regexp {\(([^)]*)} "$reason" junk default_user
-}
-if {[info exists env(CLOGINRC)]} {
-    set password_file $env(CLOGINRC)
-}
-
-# Process the command line
-for {set i 0} {$i < $argc} {incr i} {
-    set arg [lindex $argv $i]
-
-    switch  -glob -- $arg {
-	# Expect debug mode
-	-d* {
-	    exp_internal 1
-	# Username
-	} -u* {
-	    if {! [regexp .\[uU\](.+) $arg ignore user]} {
-		incr i
-		set username [lindex $argv $i]
-	    }
-	# VTY Password
-	} -p* {
-	    if {! [regexp .\[pP\](.+) $arg ignore userpasswd]} {
-		incr i
-		set userpasswd [lindex $argv $i]
-	    }
-	    set do_passwd 0
-	# ssh passphrase
-	} -r* {
-	    if {! [regexp .\[rR\](.+) $arg ignore passphrase]} {
-		incr i
-		set vapassphrase [lindex $argv $i]
-	    }
-	# VTY Password
-	} -v* {
-	    if {! [regexp .\[vV\](.+) $arg ignore passwd]} {
-		incr i
-		set passwd [lindex $argv $i]
-	    }
-	    set do_passwd 0
-	# Version string
-	} -V* {
-	    send_user "rancid 2.3.8\n"
-	    exit 0
-	# Environment variable to pass to -s scripts
-	} -E* {
-	    if {[regexp .\[E\](.+)=(.+) $arg ignore varname varvalue]} {
-		set E$varname $varvalue
-	    } else {
-		send_user "\nError: invalid format for -E in $arg\n"
-		exit 1
-	    }
-	# Command to run.
-	} -c* {
-	    if {! [regexp .\[cC\](.+) $arg ignore command]} {
-		incr i
-		set command [lindex $argv $i]
-	    }
-	    set do_command 1
-	# Expect script to run.
-	} -s* {
-	    if {! [regexp .\[sS\](.+) $arg ignore sfile]} {
-		incr i
-		set sfile [lindex $argv $i]
-	    }
-	    if { ! [file readable $sfile] } {
-		send_user "\nError: Can't read $sfile\n"
-		exit 1
-	    }
-	    set do_script 1
-	# save config on exit
-	} -S* {
-	    set do_saveconfig 1
-	# 'ssh -c' cypher type
-	} -y* {
-	    if {! [regexp .\[eE\](.+) $arg ignore cypher]} {
-		incr i
-		set cypher [lindex $argv $i]
-	    }
-	# alternate cloginrc file
-	} -f* {
-	    if {! [regexp .\[fF\](.+) $arg ignore password_file]} {
-		incr i
-		set password_file [lindex $argv $i]
-	    }
-	# Timeout
-	} -t* {
-	    if {! [regexp .\[tT\](.+) $arg ignore timeout]} {
-		incr i
-	        set timeoutdflt [lindex $argv $i]
-	    }
-	# Command file
-	} -x* {
-	    if {! [regexp .\[xX\](.+) $arg ignore cmd_file]} {
-		incr i
-		set cmd_file [lindex $argv $i]
-	    }
-	    if [catch {set cmd_fd [open $cmd_file r]} reason] {
-		send_user "\nError: $reason\n"
-		exit 1
-	    }
-	    set cmd_text [read $cmd_fd]
-	    close $cmd_fd
-	    set command [join [split $cmd_text \n] \;]
-	    set do_command 1
-	} -* {
-	    send_user "\nError: Unknown argument! $arg\n"
-	    send_user $usage
-	    exit 1
-	} default {
-	    break
-	}
-    }
-}
-# Process routers...no routers listed is an error.
-if { $i == $argc } {
-    send_user "\nError: $usage"
-}
-
-# Only be quiet if we are running a script (it can log its output
-# on its own)
-if { $do_script } {
-    log_user 0
-} else {
-    log_user 1
-}
-
-#
-# Done configuration/variable setting.  Now run with it...
-#
-
-# Sets Xterm title if interactive...if its an xterm and the user cares
-proc label { host } {
-    global env
-    # if CLOGIN has an 'x' in it, don't set the xterm name/banner
-    if [info exists env(CLOGIN)] {
-	if {[string first "x" $env(CLOGIN)] != -1} { return }
-    }
-    # take host from ENV(TERM)
-    if [info exists env(TERM)] {
-	if [regexp \^(xterm|vs) $env(TERM) ignore] {
-	    send_user "\033]1;[lindex [split $host "."] 0]\a"
-	    send_user "\033]2;$host\a"
-	}
-    }
-}
-
-# This is a helper function to make the password file easier to
-# maintain.  Using this the password file has the form:
-# add password sl*	pete cow
-# add password at*	steve
-# add password *	hanky-pie
-proc add {var args} { global int_$var ; lappend int_$var $args}
-proc include {args} {
-    global env
-    regsub -all "(^{|}$)" $args {} args
-    if { [regexp "^/" $args ignore] == 0 } {
-	set args $env(HOME)/$args
-    }
-    source_password_file $args
-}
-
-proc find {var router} {
-    upvar int_$var list
-    if { [info exists list] } {
-	foreach line $list {
-	    if { [string match [lindex $line 0] $router] } {
-		return [lrange $line 1 end]
-	    }
-	}
-    }
-    return {}
-}
-
-# Loads the password file.  Note that as this file is tcl, and that
-# it is sourced, the user better know what to put in there, as it
-# could install more than just password info...  I will assume however,
-# that a "bad guy" could just as easy put such code in the clogin
-# script, so I will leave .cloginrc as just an extention of that script
-proc source_password_file { password_file } {
-    global env
-    if { ! [file exists $password_file] } {
-	send_user "\nError: password file ($password_file) does not exist\n"
-	exit 1
-    }
-    file stat $password_file fileinfo
-    if { [expr ($fileinfo(mode) & 007)] != 0000 } {
-	send_user "\nError: $password_file must not be world readable/writable\n"
-	exit 1
-    }
-    if [catch {source $password_file} reason] {
-	send_user "\nError: $reason\n"
-	exit 1
-    }
-}
+@login_top@
 
 # Log into the router.
 # returns: 0 on success, 1 on failure, -1 if rsh was used successfully
@@ -383,9 +117,13 @@ proc login { router user userpswd passwd cmethod cyphertype identfile } {
 	    catch {close}; catch {wait};
 	    return 1
 	}
-	-re "(Host key not found |The authenticity of host .* be established).* \\(yes/no\\)\\?" {
-	    send "yes\r"
-	    send_user "\nHost $router added to the list of known hosts.\n"
+	-re "(Host key not found |The authenticity of host .* be established)" {
+            expect {
+                -re "\\(yes\/no\[^\\)]*\\)\\?" {
+   	            send "yes\r"
+	            send_user "\nHost $router added to the list of known hosts.\n"
+                }
+            }
 	    exp_continue
 	}
 	-re "HOST IDENTIFICATION HAS CHANGED.* \\(yes/no\\)\\?" {

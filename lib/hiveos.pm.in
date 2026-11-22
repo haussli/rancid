@@ -1,0 +1,363 @@
+package hiveos;
+##
+## @PACKAGE@ @VERSION@
+@copyright@
+#
+# RANCID - Really Awesome New Cisco confIg Differ
+#
+# hiveos.pm - aerohive hiveos rancid procedures
+#
+# based on iossb.pm.in revision 3472 &
+# nxos.pm.in version 3843
+#
+# done by nick.nauwelaerts@aquafin.be
+#
+# tested on configs pushed by extremecloud iq 21.1.20.27-IQVA:
+#   model ap121, hiveos version 6.5r8a
+#   model ap121, hiveos version 6.5r8b
+#   model ap121, hiveos version 6.5r9
+#   model ap121, hiveos version 6.5r10
+#   model ap121, hiveos version 6.5r12
+#   model ap121, hiveos version 6.5r13
+#   model ap122, hiveos version 8.2r4
+#   model ap130, hiveos version 8.2r4
+#   model ap130, hiveos version 8.4r4
+#   model ap230, hiveos version 6.5r10
+#   model ap230, hiveos version 6.5r12
+#   model ap250, hiveos version 8.0r1a
+#   model ap250, hiveos version 8.2r4
+#   model ap250, hiveos version 8.2r6
+#   model ap250, hiveos version 8.3r2
+#   model ap250, hiveos version 8.3r5
+#   model ap250, hiveos version 8.4r4
+#   model ap250, hiveos version 8.4r7
+#   model ap250, hiveos version 8.4r11
+#   model ap250, hiveos version 10.0r10b
+#
+# hiveos cli references can be found here
+# https://docs.aerohive.com/330000/docs/help/english/ng/Content/reference/docs/cli-reference-guides.htm
+
+
+use 5.010;
+use strict 'vars';
+use warnings;
+no warnings 'uninitialized';
+require(Exporter);
+our @ISA = qw(Exporter);
+
+use rancid @VERSION@;
+
+@ISA = qw(Exporter rancid main);
+#XXX @Exporter::EXPORT = qw($VERSION @commandtable %commands @commands);
+
+# load-time initialization
+sub import {
+    0;
+}
+
+# post-open(collection file) initialization
+sub init {
+
+    # add content lines and separators
+    ProcessHistory("","","","!RANCID-CONTENT-TYPE: $devtype\n!\n");
+
+    0;
+}
+
+# main loop of input of device output
+sub inloop {
+    my($INPUT, $OUTPUT) = @_;
+    my($cmd, $rval);
+
+TOP: while(<$INPUT>) {
+	tr/\015//d;
+	if (/[>#]\s?exit$/) {
+	    $clean_run = 1;
+	    print STDERR "exiting\n" if ($debug);
+	    last;
+	}
+	if (/^Error:/) {
+	    print STDOUT ("$host clogin error: $_");
+	    print STDERR ("$host clogin error: $_") if ($debug);
+	    $clean_run = 0;
+	    last;
+	}
+	while (/#\s*($cmds_regexp)\s*$/) {
+	    $cmd = $1;
+	    if (!defined($prompt)) {
+		$prompt = ($_ =~ /^([^#]+#)/)[0];
+		$prompt =~ s/([][}{)(\\])/\\$1/g;
+		print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
+	    }
+	    print STDERR ("HIT COMMAND:$_\n") if ($debug);
+	    if (!defined($commands{$cmd})) {
+		print STDERR "$host: found unexpected command - \"$cmd\"\n";
+		$clean_run = 0;
+		last TOP;
+	    }
+	    if (!defined(&{$commands{$cmd}})) {
+		printf(STDERR "$host: undefined function - \"%s\"\n",
+		       $commands{$cmd});
+		$clean_run = 0;
+		last TOP;
+	    }
+	    $rval = &{$commands{$cmd}}($INPUT, $OUTPUT, $cmd);
+	    delete($commands{$cmd});
+	    if ($rval == -1) {
+		$clean_run = 0;
+		last TOP;
+	    }
+	    if (/[>#]\s?exit$/) {
+		print STDERR ("$host: found exit\n") if ($debug);
+		$clean_run = 1;
+		last TOP;
+	    }
+	}
+    }
+}
+
+
+# This routine parses "show version" and "show hw-info"
+sub ShowVersion {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowVersion: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^(Copyright|Uptime|Aerohive (Networks|hardware))/);
+
+	/^\s+\^-- unknown keyword or invalid input\s+$/ && return(1);
+	/^\s+\^-- Ambiguous input\s+$/ && return(1);
+	/^ERROR: / && return(1);
+
+	ProcessHistory("COMMENTS","","","!ver: $_");
+    }
+    ProcessHistory("COMMENTS","","","!\n");
+    return 0;
+}
+
+# This routine parses "show boot-param"
+sub ShowBoot {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowBoot: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^boot parameters:/);
+
+	/^\s+\^-- unknown keyword or invalid input\s+$/ && return(1);
+	/^\s+\^-- Ambiguous input\s+$/ && return(1);
+	/^ERROR: / && return(1);
+
+	ProcessHistory("COMMENTS","","","!boot-param: $_");
+    }
+    ProcessHistory("COMMENTS","","","!\n");
+    return 0;
+}
+
+# This routine parses "show capwap client"
+sub ShowCapWap {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowCapWap: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	last if ($filter_osc >= 1);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+	next if (/^(max )?(retransmit|discovery) count:/i);
+	next if (/(tries|Keepalives|drop)/);
+
+	/^\s+\^-- unknown keyword or invalid input\s+$/ && return(1);
+	/^\s+\^-- Ambiguous input\s+$/ && return(1);
+	/^ERROR: / && return(1);
+
+	ProcessHistory("COMMENTS","","","!capwap: $_");
+    }
+    if ($filter_osc >= 1) {ProcessHistory("COMMENTS","","","!capwap: <removed>\n");}
+    ProcessHistory("COMMENTS","","","!\n");
+    return 0;
+}
+
+# This routine parses "show idm"
+sub ShowIDManager {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowIDManager: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	last if ($filter_osc >= 1);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+
+	/^\s+\^-- unknown keyword or invalid input\s+$/ && return(1);
+	/^\s+\^-- Ambiguous input\s+$/ && return(1);
+	/^ERROR: / && return(1);
+
+	ProcessHistory("COMMENTS","","","!id-manager: $_");
+    }
+    if ($filter_osc >= 1) {ProcessHistory("COMMENTS","","","!id-manager: <removed>\n");}
+    ProcessHistory("COMMENTS","","","!\n");
+    return 0;
+}
+
+# This routine parses "show license"
+sub ShowLicense {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowLicense: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+
+	/^\s+\^-- unknown keyword or invalid input\s+$/ && return(1);
+	/^\s+\^-- Ambiguous input\s+$/ && return(1);
+	/^ERROR: / && return(1);
+
+	ProcessHistory("COMMENTS","","","!license: $_");
+    }
+    ProcessHistory("COMMENTS","","","!\n");
+    return 0;
+}
+
+# This routine parses "show running-config password"
+# and "show running-config users password"
+sub WriteTerm {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    my $linecnt = 0;
+    print STDERR "    In WriteTerm: $_" if ($debug);
+
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^(\s*|\s*$cmd\s*)$/);
+
+	/^\s+\^-- unknown keyword or invalid input\s+$/ && return(1);
+	/^\s+\^-- Ambiguous input\s+$/ && return(1);
+	/^ERROR: / && return(1);
+
+	$linecnt++;
+
+	# XXX hiveos likes to add single spaces behind some config lines. this mostly happens
+	# when the command is not using all possible flags/options, but sometimes also on complete
+	# commands ("admin root-admin ..." for example). keep this in mind when using regular
+	# expressions and testing for EOL, checking for a trailing space with \s? at the end is
+	# advised. this is seems inherent to how hiveos deals with its config, since it is also
+	# present when saving the config via scp.
+	# on the plus side, is does make sure the arguments will always be in a fixed order.
+
+	# filter passwords
+
+	# hive <string> password <string>
+	if(/^(hive \S+ password )\S+\s?$/ && $filter_pwds >= 2) {
+		ProcessHistory("","","","!$1<removed>\n");
+		next;
+	}
+
+	# security-object <string> security aaa radius-server accounting {primary|backup1|backup2|backup3} \
+	#   <ip_addr|ipv6_addr|string_64> [ shared-secret <string> ] [ acct-port <number> ] [ via-vpn-tunnel ]
+	# security-object <string> security aaa radius-server {primary|backup1|backup2|backup3} \
+	#   <ip_addr|ipv6_addr|string_64> [ shared-secret <string> ] [ auth-port <number> ] [ acct-port <number> ] [ via-vpn-tunnel ]
+	if (/^(security-object \S+ security aaa radius-server (accounting )?(primary|backup(1|2|3)) \S+ shared-secret )\S+ (\S+.*)?$/ && $filter_pwds >= 2) {
+		ProcessHistory("","","","!$1<removed> $5\n");
+		next;
+	}
+
+	# admin root-admin <string> password <string>
+	# admin {read-write|read-only} <string> password <string>
+	if(/^(admin (root-admin|read-write|read-only) \S+ password )\S+\s?$/ && $filter_pwds >= 2) {
+		ProcessHistory("","","","!$1<removed>\n");
+		next;
+	}
+
+	# security-object <string> security protocol-suite wep-open <number> {hex-key|ascii-key} <string> [ default ]
+	# security-object <string> security protocol-suite wep-shared <number> {hex-key|ascii-key} <string> [ default ]
+	#
+
+
+	# security-object <string> security protocol-suite wpa-auto-psk {hex-key|ascii-key} <string> [ rekey-period <number> ] \
+	#    [ {non-strict|strict} ] [ gmk-rekey-period <number> ] [ ptk-timeout <number> ] \
+	#    [ ptk-retry <number> ] [ gtk-timeout <number> ] [ gtk-retry <number> ] [ ptk-rekey-period <number> ]
+	# security-object <string> security protocol-suite wpa2-aes-psk {hex-key|ascii-key} <string> [ rekey-period <number> ] \
+	#    [ {non-strict|strict} ] [ gmk-rekey-period <number> ] [ ptk-timeout <number> ] \
+	#    [ ptk-retry <number> ] [ gtk-timeout <number> ] [ gtk-retry <number> ] [ ptk-rekey-period <number> ]
+	# security-object <string> security protocol-suite wpa2-tkip-psk {hex-key|ascii-key} <string> [ rekey-period <number> ] \
+	#    [ {non-strict|strict} ] [ gmk-rekey-period <number> ] [ ptk-timeout <number> ] \
+	#    [ ptk-retry <number> ] [ gtk-timeout <number> ] [ gtk-retry <number> ] [ ptk-rekey-period <number> ]
+	if(/^(security-object \S+ security protocol-suite wpa(-auto|2-aes|2-tkip)-psk (hex|ascii)-key )\S+\s?(\S+.*)?$/ && $filter_pwds >= 1) {
+		ProcessHistory("","","","!$1<removed> $4\n");
+		next;
+	}
+
+	# capwap client dtls hm-defined-passphrase <string> key-id <number>
+	if(/^(capwap client dtls hm-defined-passphrase )\S+( key-id (\S+))\s?$/ && $filter_pwds >= 2) {
+		ProcessHistory("","","","!$1<removed>$2\n");
+		next;
+	}
+
+	# application reporting upload <url> time-window <number> [ admin <string> password <string> {basic|digest} ]
+	# basic is base64 so reversable, digest should be md5 hashed
+	if(/^(application reporting upload \S+ time-window \d+ admin \S+ password )\S+ (\S+)\s?$/ &&
+		(($filter_pwds >= 1 && $2 eq "basic") || $filter_pwds >= 2)) {
+		ProcessHistory("","","","!$1<removed> $2\n");
+		next;
+	}
+
+	# mobility-policy <string> inxp gre-tunnel from <ip_addr/netmask> password <string>
+	# mobility-policy <string> inxp gre-tunnel from ipv6 <ipv6_addr/mask> password <string>
+	# mobility-policy <string> inxp gre-tunnel to <ip_addr> <ip_addr> password <string>
+	# mobility-policy <string> inxp gre-tunnel to <ip_addr> password <string>
+	# mobility-policy <string> inxp gre-tunnel to ipv6 <ipv6_addr> <ipv6_addr> password <string>
+	# mobility-policy <string> inxp gre-tunnel to ipv6 <ipv6_addr> password <string>
+	if(/^(mobility-policy \S+ inxp gre-tunnel (to|from) (ipv6 )?\S+ (\S+ )?password )\S+\s?$/ && $filter_pwds >= 2) {
+		ProcessHistory("","","","!$1<removed>\n");
+		next;
+	}
+
+	# user <string> password <string>
+	# username can contain spaces but then it will be quoted:
+	# user "my username" password 2yB3FLs3tv20oybmIBrt7VzGePrDqEaUdKW0p
+	if(/^(user .*? password )\S+\s?$/ && $filter_pwds >= 1) {
+		ProcessHistory("","","","!$1<removed>\n");
+		next;
+	}
+
+	# prune snmp statements
+
+	# snmp trap-host {v1|v2c} <ip_addr|string_64> [ port <number> ] [ {via-vpn-tunnel} ] [ community <string> ]
+
+	# snmp trap-host {v3} <ip_addr|string_64> [ port <number> ] [ {via-vpn-tunnel} ] admin <string>
+	# snmp trap-host {v3} admin <string> auth {md5|sha} password <string> [ encryption {aes|aes128|des} password <string> ]
+
+	# snmp reader version {v1|v2c|any} community <string> [ <string> ]
+	if (/^(snmp reader version (any|v1|v2c) community )\S+ (\S+)?$/ && $filter_commstr) {
+		ProcessHistory("","","","!$1<removed> $3\n");
+		next;
+	}
+
+	# snmp reader version v3 admin <string> [ auth {md5|sha} password <string> ] [ encryption {aes|aes128|des} password <string> ]
+#	/^(snmp reader version v3 admin \S+)( auth (md5|sha) password \S+)?( encryption (aes|aes128|des) password \S+)?/
+
+
+	# catch anything that wasnt matched above.
+	ProcessHistory("","","","$_");
+
+	# end of config.
+	# XXX no definitive end of config marker.
+    }
+
+    # hiveos lacks a definitive "end of config" marker.  If we have seen at least
+    # 5 lines of write term output, we can be reasonably sure that we have the config.
+    if ($linecnt > 5) {
+        $found_end = 1;
+    }
+
+    return(0);
+}
+
+1;

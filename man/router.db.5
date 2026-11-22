@@ -48,85 +48,66 @@ Domain Name) works best, as in the example above.
 The type of device from the set:
 .RS 8n
 .TP
-.ID 15n
 .B agm
 A Cisco Anomaly Guard Module (aka Riverhead).
 Suspect that at some point the UI will become more cisco-like and it
 can be merged with the IOS rancid module.
 .TP
-.ID 15n
 .B alteon
 An Alteon WebOS switches.
 .TP
-.ID 15n
 .B arcos
 An Arrcus router.
 .TP
-.ID 15n
 .B arista
 An Arista Networks device.
 .TP
-.ID 15n
 .B baynet
 A Bay Networks router.
 .TP
-.ID 15n
 .B bigip
 A F5 device running BIG-IP >= v11.
 .TP
-.ID 15n
 .B cat5
 A Cisco catalyst series 5000 and 4000 switches (i.e.: running the catalyst OS,
 not IOS).
 .TP
-.ID 15n
 .B ciena-ws
 A Ciena Waveserver.
 .TP
-.ID 15n
 .B cisco
 A Cisco router, PIX, or switch such as the 3500XL or 6000 running IOS (or
 IOS-like) OS, but not IOS-XR, NX-OS or Cisco small business devices.
 .TP
-.ID 15n
 .B cisco-sb
 A Cisco small business devices.
 .TP
-.ID 15n
 .B cisco-nx
 A Cisco Nexus switch/router.
 .TP
-.ID 15n
 .B cisco-xr
 A Cisco device running IOS-XR.
 .TP
-.ID 15n
 .B cisco-wlc4
 A Cisco Wireless Controller versions up to 4.
 .TP
-.ID 15n
 .B cisco-wlc5
 A Cisco Wireless Controller versions 5 and above.
 .TP
-.ID 15n
 .B css
 A Cisco content services switch.
 .TP
-.ID 15n
 .B enterasys
 An enterasys NAS.  This is currently an alias for the
 .B riverstone
 device type.
 .TP
-.ID 15n
 .B erx
 A Juniper E-series edge router.
 .TP
-.ID 15n
 .B fss2
 A Fujitsu FSS2/1finity device.
 .TP
-.ID 15n
 .B dell
 A Dell switch.
 Known working models are DES-3010F, DES-3052P, DES-3526, and DES-3550.
@@ -134,41 +115,32 @@ Note that Dell OEMs some equipment and has purchased some companies, so a
 Dell product may not work with the dell rancid module but may work with
 smc or force10.
 .TP
-.ID 15n
 .B extreme
 An Extreme switch.
 .TP
-.ID 15n
 .B ezt3
 An ADC-Kentrox EZ-T3 mux.
 .TP
-.ID 15n
 .B f5
 A F5 BigIP switch.
 .TP
-.ID 15n
 .B force10
 A Force10 router.
 .TP
-.ID 15n
 .B fortigate
 A Fortinet firewall.
 .TP
-.ID 15n
 .B fortigate-full
 A Fortinet firewall with all defaults shown.
 .TP
-.ID 15n
 .B foundry
 A Foundry router, switch, or router-switch.  This includes HP
 Procurve switches that are OEMs of Foundry products, such as the
 HP9304M.
 .TP
-.ID 15n
 .B hitachi
 A Hitachi router.
 .TP
-.ID 15n
 .B hp
 A HP Procurve switch such as the 2524, 4108 or J9086A (aka. 2610) procurve
 switches, J9091A, and J8698A.
@@ -176,7 +148,6 @@ Also see the
 .B foundry
 type.
 .TP
-.ID 15n
 .B juniper
 A Juniper router.
 .TP
@@ -187,44 +158,34 @@ A host running the (Merit) MRTd daemon.
 A MRV optical device; including NC316, OptiSwitch 904, OptiSwitch 906G,
 OptiSwitch 912C, OptiSwitch 940.
 .TP
-.ID 15n
 .B netscaler
 A Netscaler load balancer.
 .TP
-.ID 15n
 .B netscreen
 A Netscreen firewall.
 .TP
-.ID 15n
 .B paloalto
 A Palo Alto Networks device.
 .TP
-.ID 15n
 .B redback
 A Redback router, NAS, etc.
 .TP
-.ID 15n
 .B riverstone
 A Riverstone NAS or Cabletron (starting with version ~9.0.3) router.
 .TP
-.ID 15n
 .B routeros
 A Mikrotik RouterOS router.
 .TP
-.ID 15n
 .B smc
 A SMC switch, which also account for some Dell OEMs.
 Including Dell PowerConnect 35xx (3524, 3524P, 3548, 3548P) and 7048.
 .TP
-.ID 15n
 .B sros
 A Nokia (Alcatel-Lucent) router, such as the 7750 SR.
 .TP
-.ID 15n
 .B xirrus
 A Xirrus array.
 .TP
-.ID 15n
 .B zebra
 Zebra routing software.
 .RE
@@ -274,7 +235,6 @@ Configuration file described here, where <group> is a device group name
 defined in the variable
 .I LIST_OF_GROUPS
 within \fI$BASEDIR/etc/rancid.conf\fR.
-.El
 .SH "SEE ALSO"
 .BR control_rancid (1),
 .BR rancid (1),

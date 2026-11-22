@@ -119,6 +119,10 @@ REDO:	last if (/$prompt/);
 
 	# Remove Uptime
 	/^Up Time/i && next;
+	# Remove Voltage, Current, and Power
+	/^Voltage/ && next;
+	/^Current/ && next;
+	/^Power/ && next;
 
 	if (/-- power supplies --/i) {
 	    ProcessHistory("COMMENTS","keysort","C1","! $_");

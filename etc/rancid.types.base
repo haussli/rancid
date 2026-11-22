@@ -19,6 +19,14 @@ a10;command;acos::ShowAflex;show aflex all-partitions
 a10;command;acos::ShowRunningConfig;show running-config all-partitions
 a10;command;acos::ShowRunningConfig;show partition-config all
 #
+# Oracle ACME session border controller
+acme;script;rancid -t acme
+acme;login;clogin
+acme;module;acme
+acme;inloop;acme::inloop
+acme;command;acme::ShowVersion;show version
+acme;command;acme::WriteTerm;show running-config
+#
 agm;script;agmrancid
 #
 # XXX This was the start of support for adtran, but it is incomplete.

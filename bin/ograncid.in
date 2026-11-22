@@ -1,6 +1,6 @@
-#! @PERL5_PATH@
+#! @PERLV_PATH@
 ##
-## rancid 2.3.8
+## @PACKAGE@ @VERSION@
 ## Copyright (C) 1997-2011 by Terrapin Communications, Inc.
 ## All rights reserved.
 ##
@@ -27,7 +27,7 @@
 use Getopt::Std;
 getopts('dflV');
 if ($opt_V) {
-    print "rancid 2.3.8\n";
+    print "@PACKAGE@ @VERSION@\n";
     exit(0);
 }
 $log = $opt_l;

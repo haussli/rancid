@@ -656,6 +656,27 @@ junos;command;junos::ShowChassisFirmware;show chassis firmware
 junos;command;junos::ShowChassisFpcDetail;show chassis fpc detail
 junos;command;junos::ShowChassisHardware;show chassis hardware detail
 junos;command;junos::ShowChassisHardware;show chassis hardware models
+# Optics information is collected from show chassis hardware and show chassis fpc detail
+# Additional optics details from show chassis pic commands
+# All FPC/PIC combinations are now handled gracefully by ShowChassisPicOptics
+# If hardware doesn't exist, errors are caught and treated as successful skips
+junos;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 0 pic-slot 0
+junos;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 0 pic-slot 1
+junos;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 0 pic-slot 2
+junos;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 0 pic-slot 3
+# FPC 1-3 commands (handled gracefully by ShowChassisPicOptics)
+junos;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 1 pic-slot 0
+junos;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 1 pic-slot 1
+junos;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 1 pic-slot 2
+junos;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 1 pic-slot 3
+junos;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 2 pic-slot 0
+junos;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 2 pic-slot 1
+junos;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 2 pic-slot 2
+junos;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 2 pic-slot 3
+junos;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 3 pic-slot 0
+junos;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 3 pic-slot 1
+junos;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 3 pic-slot 2
+junos;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 3 pic-slot 3
 junos;command;junos::ShowChassisRoutingEngine;show chassis routing-engine
 junos;command;junos::ShowChassisSCB;show chassis scb
 junos;command;junos::ShowChassisSCB;show chassis sfm detail
@@ -666,6 +687,7 @@ junos;command;junos::ShowChassisSCB;show chassis cfeb
 junos;command;junos::ShowChassisAlarms;show chassis alarms
 junos;command;junos::ShowChassisAlarms;show system alarms
 junos;command;junos::ShowSystemLicense;show system license
+junos;command;junos::ShowSystemFirmware;show system firmware
 junos;command;junos::ShowSystemBootMessages;show system boot-messages
 junos;command;junos::ShowSystemCoreDumps;show system core-dumps
 junos;command;junos::ShowVersion;show version detail
@@ -685,6 +707,27 @@ junos-evo;command;junos::ShowChassisFirmware;show chassis firmware
 junos-evo;command;junos::ShowChassisFpcDetail;show chassis fpc detail
 junos-evo;command;junos::ShowChassisHardware;show chassis hardware detail
 junos-evo;command;junos::ShowChassisHardware;show chassis hardware models
+# Optics information is collected from show chassis hardware and show chassis fpc detail
+# Additional optics details from show chassis pic commands
+# All FPC/PIC combinations are now handled gracefully by ShowChassisPicOptics
+# If hardware doesn't exist, errors are caught and treated as successful skips
+junos-evo;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 0 pic-slot 0
+junos-evo;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 0 pic-slot 1
+junos-evo;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 0 pic-slot 2
+junos-evo;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 0 pic-slot 3
+# FPC 1-3 commands (handled gracefully by ShowChassisPicOptics)
+junos-evo;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 1 pic-slot 0
+junos-evo;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 1 pic-slot 1
+junos-evo;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 1 pic-slot 2
+junos-evo;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 1 pic-slot 3
+junos-evo;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 2 pic-slot 0
+junos-evo;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 2 pic-slot 1
+junos-evo;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 2 pic-slot 2
+junos-evo;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 2 pic-slot 3
+junos-evo;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 3 pic-slot 0
+junos-evo;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 3 pic-slot 1
+junos-evo;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 3 pic-slot 2
+junos-evo;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 3 pic-slot 3
 junos-evo;command;junos::ShowChassisRoutingEngine;show chassis routing-engine
 junos-evo;command;junos::ShowChassisSCB;show chassis scb
 junos-evo;command;junos::ShowChassisSCB;show chassis sfm detail
@@ -696,6 +739,7 @@ junos-evo;command;junos::ShowChassisAlarms;show chassis alarms
 junos-evo;command;junos::ShowChassisAlarms;show system alarms
 # XXX this has a different format in EVO & might need oscillation fixes
 junos-evo;command;junos::ShowSystemLicense;show system license
+junos-evo;command;junos::ShowSystemFirmware;show system firmware
 # XXX this command does not work properly
 #junos-evo;command;junos::ShowSystemBootMessages;show system boot-messages
 junos-evo;command;junos::ShowSystemCoreDumps;show system core-dumps
@@ -714,6 +758,26 @@ juniper-srx;command;junos::ShowChassisFirmware;show chassis firmware
 juniper-srx;command;junos::ShowChassisFpcDetail;show chassis fpc detail
 juniper-srx;command;junos::ShowChassisHardware;show chassis hardware detail
 juniper-srx;command;junos::ShowChassisHardware;show chassis hardware models
+# Optics information is collected from show chassis hardware and show chassis fpc detail
+# Additional optics details from show chassis pic commands
+# FPC 0 commands (required - most devices have at least FPC 0)
+juniper-srx;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 0 pic-slot 0
+juniper-srx;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 0 pic-slot 1
+juniper-srx;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 0 pic-slot 2
+juniper-srx;command;junos::HandleCliRejectedFpcPic;show chassis pic fpc-slot 0 pic-slot 3
+# FPC 1-3 commands (will be handled gracefully if hardware doesn't exist)
+juniper-srx;command;junos::HandleCliRejectedFpcPic;show chassis pic fpc-slot 1 pic-slot 0
+juniper-srx;command;junos::HandleCliRejectedFpcPic;show chassis pic fpc-slot 1 pic-slot 1
+juniper-srx;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 1 pic-slot 2
+juniper-srx;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 1 pic-slot 3
+juniper-srx;command;junos::HandleCliRejectedFpcPic;show chassis pic fpc-slot 2 pic-slot 0
+juniper-srx;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 2 pic-slot 1
+juniper-srx;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 2 pic-slot 2
+juniper-srx;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 2 pic-slot 3
+juniper-srx;command;junos::HandleCliRejectedFpcPic;show chassis pic fpc-slot 3 pic-slot 0
+juniper-srx;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 3 pic-slot 1
+juniper-srx;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 3 pic-slot 2
+juniper-srx;command;junos::ShowChassisPicOptics;show chassis pic fpc-slot 3 pic-slot 3
 juniper-srx;command;junos::ShowChassisRoutingEngine;show chassis routing-engine
 juniper-srx;command;junos::ShowChassisSCB;show chassis scb
 juniper-srx;command;junos::ShowChassisSCB;show chassis sfm detail
@@ -725,6 +789,7 @@ juniper-srx;command;junos::ShowChassisAlarms;show chassis alarms
 juniper-srx;command;junos::ShowChassisAlarms;show system alarms
 juniper-srx;command;junos::ShowSystemLicense;show system license
 juniper-srx;command;junos::ShowSystemLicense;show system license keys
+juniper-srx;command;junos::ShowSystemFirmware;show system firmware
 juniper-srx;command;junos::ShowSystemBootMessages;show system boot-messages
 juniper-srx;command;junos::ShowSystemCoreDumps;show system core-dumps
 juniper-srx;command;junos::ShowVersion;show version detail

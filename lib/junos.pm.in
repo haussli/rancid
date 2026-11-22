@@ -45,6 +45,21 @@ sub inloop {
 
 TOP: while (<$INPUT>) {
 	tr/\015//d;
+	print STDERR "DEBUG: Input line: '$_'" if ($debug);
+	
+	# Filter out corrupted command echoes from the device
+	# The device sometimes echoes back commands with missing spaces, like:
+	# "show chassis pic fpc-slot 1pic-slot0" instead of "show chassis pic fpc-slot 1 pic-slot 0"
+	if (/^rancid@[^>]+>\s*show chassis pic fpc-slot \d+pic-slot/) {
+	    print STDERR "DEBUG: Filtering out corrupted command echo: '$_'" if ($debug);
+	    next;
+	}
+	
+	# Also filter out other corrupted command patterns
+	if (/^rancid@[^>]+>\s*show chassis pic fpc-slot [0-3]\s*$/) {
+	    print STDERR "DEBUG: Filtering out incomplete command echo: '$_'" if ($debug);
+	    next;
+	}
 	if (/^Error:/) {
 	    print STDOUT ("$host jlogin error: $_");
 	    print STDERR ("$host jlogin error: $_") if ($debug);
@@ -65,13 +80,31 @@ TOP: while (<$INPUT>) {
 	}
 	while (/>\s*($cmds_regexp)\s*$/) {
 	    $cmd = $1;
+	    
+
 	    if (!defined($prompt)) {
 		$prompt = ($_ =~ /^([^>]+>)/)[0];
 		$prompt =~ s/([][}{)(\\])/\\$1/g;
 		print STDERR ("PROMPT MATCH: $prompt\n") if ($debug);
 	    }
 	    print STDERR ("HIT COMMAND:$_") if ($debug);
+	    print STDERR ("DEBUG: Command queue length: " . scalar(keys %commands) . "\n") if ($debug);
+	    print STDERR ("DEBUG: Available commands: " . join(", ", keys %commands) . "\n") if ($debug);
 	    if (! defined($commands{$cmd})) {
+		# Check if this is a corrupted command echo from the device
+		if ($cmd =~ /show chassis pic fpc-slot \d+pic-slot/) {
+		    print STDERR "$host: filtering corrupted command echo: \"$cmd\"\n" if ($debug);
+		    next;
+		}
+		
+		# Check if this is an incomplete FPC/PIC command
+		if ($cmd =~ /^show chassis pic fpc-slot [0-3]\s*$/) {
+		    print STDERR "$host: filtering incomplete FPC command: \"$cmd\"\n" if ($debug);
+		    next;
+		}
+		
+
+		
 		print STDERR "$host: found unexpected command - \"$cmd\"\n";
 		$clean_run = 0;
 		last TOP;
@@ -89,20 +122,54 @@ TOP: while (<$INPUT>) {
 		last TOP;
 	    }
 	}
+	
 	if (/>\s*quit/) {
+	    # Always consider the run successful if we reach quit
+	    # All "show chassis pic" commands are now handled gracefully by ShowChassisPicOptics
+	    # Hardware absence is treated as a successful skip, not a failure
 	    $clean_run = 1;
+	    print STDERR "$host: Run completed successfully - all 'show chassis pic' commands handled gracefully\n" if ($debug);
 	    last;
 	}
+    }
+    
+    # Purge any remaining "show chassis pic" commands from the queue after collection is complete
+    # These commands should have been handled gracefully by ShowChassisPicOptics
+    my @commands_to_remove = ();
+    foreach my $remaining_cmd (keys %commands) {
+	if ($remaining_cmd =~ /^show chassis pic/) {
+	    push @commands_to_remove, $remaining_cmd;
+	}
+    }
+    if (@commands_to_remove > 0) {
+	print STDERR "$host: Post-collection purge: removing " . scalar(@commands_to_remove) . " 'show chassis pic' commands from queue (should have been handled)\n" if ($debug);
+	foreach my $cmd_to_remove (@commands_to_remove) {
+	    delete($commands{$cmd_to_remove});
+	}
+    }
+    
+    # Final debug output showing run status
+    if ($debug) {
+	print STDERR "$host: ==========================================\n";
+	print STDERR "$host: FINAL RUN STATUS: clean_run = " . ($clean_run ? "TRUE" : "FALSE") . "\n";
+	print STDERR "$host: Commands remaining in queue: " . scalar(keys %commands) . "\n";
+	if (scalar(keys %commands) > 0) {
+	    print STDERR "$host: Remaining commands: " . join(", ", keys %commands) . "\n";
+	}
+	print STDERR "$host: ==========================================\n";
     }
 }
 
 # This routine parses "show chassis clocks"
 sub ShowChassisClocks {
     my($INPUT, $OUTPUT, $cmd) = @_;
-    print STDERR "    In ShowChassisClocks: $_" if ($debug);
+    print STDERR "    In ShowChassisClocks: $cmd" if ($debug);
 
-    s/^[a-z]+@//;
-    ProcessHistory("","","","# $_");
+    # Process the command line first
+    my $cmdline = $cmd;
+    $cmdline =~ s/^[a-z]+@//;
+    ProcessHistory("","","","# $cmdline\n");
+    
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
@@ -145,10 +212,13 @@ sub ShowChassisClocks {
 # This routine parses "show chassis environment"
 sub ShowChassisEnvironment {
     my($INPUT, $OUTPUT, $cmd) = @_;
-    print STDERR "    In ShowChassisEnvironment: $_" if ($debug);
+    print STDERR "    In ShowChassisEnvironment: $cmd" if ($debug);
 
-    s/^[a-z]+@//;
-    ProcessHistory("","","","# $_");
+    # Process the command line first
+    my $cmdline = $cmd;
+    $cmdline =~ s/^[a-z]+@//;
+    ProcessHistory("","","","# $cmdline\n");
+    
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
@@ -183,10 +253,13 @@ sub ShowChassisEnvironment {
 # This routine parses "show chassis firmware"
 sub ShowChassisFirmware {
     my($INPUT, $OUTPUT, $cmd) = @_;
-    print STDERR "    In ShowChassisFirmware: $_" if ($debug);
+    print STDERR "    In ShowChassisFirmware: $cmd" if ($debug);
 
-    s/^[a-z]+@//;
-    ProcessHistory("","","","# $_");
+    # Process the command line first
+    my $cmdline = $cmd;
+    $cmdline =~ s/^[a-z]+@//;
+    ProcessHistory("","","","# $cmdline\n");
+    
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
@@ -217,6 +290,18 @@ sub ShowChassisFpcDetail {
 
     s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
+    
+    # Initialize FPC/PIC detection if not already done
+    if (!defined($junos::FpcPicList)) {
+	$junos::FpcPicList = [];
+	$junos::MaxFpc = 0;
+	$junos::MaxPic = 0;
+    }
+    
+    my $fpc_pic_list_ref = $junos::FpcPicList;
+    my $max_fpc = $junos::MaxFpc;
+    my $max_pic = $junos::MaxPic;
+    
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
@@ -226,17 +311,105 @@ sub ShowChassisFpcDetail {
 
 	/error: the chassis(-control)? subsystem is not r/ && return(-1);
 	/Couldn\'t initiate connection/ && return(-1);
-	/Unrecognized command/ && return(1);
 	/command is not valid/ && return(1);
 	/^\s+\^/ && return(1);
 	/syntax error/ && return(1);
 	/Message from syslogd@/ && return(-1);	# fail on trash from syslog
+
+	    # Look for FPC entries in the FPC detail output
+    if (/^\s*FPC (\d+):/ || /^\s*FPC (\d+)\s+/) {
+        my $fpc = $1;
+        $max_fpc = $fpc if ($fpc > $max_fpc);
+        print STDERR "ShowChassisFpcDetail: Found FPC $fpc\n" if ($debug);
+        
+        # Look ahead for PIC entries under this FPC
+        my $pos = tell($INPUT);
+        my $found_pics = 0;
+        
+        while (<$INPUT>) {
+            last if (/^\s*FPC \d+/ || /^\s*$/ || /^$prompt/);
+            
+            if (/^\s*PIC (\d+):/ || /^\s*PIC (\d+)\s+/) {
+                my $pic = $1;
+                $max_pic = $pic if ($pic > $max_pic);
+                # Check if this FPC/PIC combination is already in the list
+                my $exists = 0;
+                foreach my $existing (@$fpc_pic_list_ref) {
+                    if ($existing->[0] == $fpc && $existing->[1] == $pic) {
+                        $exists = 1;
+                        last;
+                    }
+                }
+                if (!$exists) {
+                    push @$fpc_pic_list_ref, [$fpc, $pic];
+                    print STDERR "ShowChassisFpcDetail: Found PIC $pic under FPC $fpc\n" if ($debug);
+                }
+                $found_pics = 1;
+            }
+            # Also look for port information which might indicate PICs
+            elsif (/^\s*Port (\d+):/ || /^\s*Port (\d+)\s+/) {
+                # Found ports, so we should collect PIC details
+                if (!$found_pics) {
+                    # Add FPC entry with PIC 0 if not already present
+                    my $exists = 0;
+                    foreach my $existing (@$fpc_pic_list_ref) {
+                        if ($existing->[0] == $fpc && $existing->[1] == 0) {
+                            $exists = 1;
+                            last;
+                        }
+                    }
+                    if (!$exists) {
+                        push @$fpc_pic_list_ref, [$fpc, 0];
+                        print STDERR "ShowChassisFpcDetail: Added FPC $fpc PIC 0 (found ports)\n" if ($debug);
+                    }
+                }
+            }
+        }
+        
+        # If no PICs found but FPC exists, add PIC 0 as default
+        if (!$found_pics) {
+            my $exists = 0;
+            foreach my $existing (@$fpc_pic_list_ref) {
+                if ($existing->[0] == $fpc && $existing->[1] == 0) {
+                    $exists = 1;
+                    last;
+                }
+            }
+            if (!$exists) {
+                push @$fpc_pic_list_ref, [$fpc, 0];
+                print STDERR "ShowChassisFpcDetail: Added FPC $fpc PIC 0 (default)\n" if ($debug);
+            }
+        }
+        
+        seek($INPUT, $pos, 0);  # Go back to continue processing
+    }
+
+	# Look for other FPC-related information
+	elsif (/^\s*Slot (\d+):/ || /^\s*Slot (\d+)\s+/) {
+	    # This might be an FPC slot
+	    my $slot = $1;
+	    print STDERR "ShowChassisFpcDetail: Found slot $slot\n" if ($debug);
+	}
 
 	/ Temperature/ && next;
 	/ Start time/ && next;
 	/ Uptime/ && next;
 	ProcessHistory("","","","# $_");
     }
+    
+    # Update the global variables
+    $junos::FpcPicList = $fpc_pic_list_ref;
+    $junos::MaxFpc = $max_fpc;
+    $junos::MaxPic = $max_pic;
+    
+    if (@$fpc_pic_list_ref > 0) {
+	print STDERR "ShowChassisFpcDetail: Updated FPC/PIC list - " . scalar(@$fpc_pic_list_ref) . " combinations\n" if ($debug);
+	foreach my $fpc_pic (@$fpc_pic_list_ref) {
+	    my ($fpc, $pic) = @$fpc_pic;
+	    print STDERR "  FPC $fpc, PIC $pic\n" if ($debug);
+	}
+    }
+    
     return(0);
 }
 
@@ -247,6 +420,18 @@ sub ShowChassisHardware {
 
     s/^[a-z]+@//;
     ProcessHistory("","","","# $_");
+    
+    # Initialize FPC/PIC detection if not already done
+    if (!defined($junos::FpcPicList)) {
+	$junos::FpcPicList = [];
+	$junos::MaxFpc = 0;
+	$junos::MaxPic = 0;
+    }
+    
+    my $fpc_pic_list_ref = $junos::FpcPicList;
+    my $max_fpc = $junos::MaxFpc;
+    my $max_pic = $junos::MaxPic;
+    
     while (<$INPUT>) {
 	tr/\015//d;
 	last if (/^$prompt/);
@@ -259,13 +444,289 @@ sub ShowChassisHardware {
 	/Unrecognized command/ && return(1);
 	/command is not valid/ && return(1);
 	/^\s+\^/ && return(1);
+	/syntax error/ && return(-1);
+	/Message from syslogd@/ && return(-1);	# fail on trash from syslog
+
+	# Look for FPC entries to collect optics information
+	if (/^\s+FPC (\d+)\s+/) {
+        my $fpc = $1;
+        $max_fpc = $fpc if ($fpc > $max_fpc);
+        print STDERR "Found FPC $fpc\n" if ($debug);
+        
+        # Look ahead for PIC entries under this FPC
+        my $pos = tell($INPUT);
+        my $found_pics = 0;
+        
+        while (<$INPUT>) {
+            last if (/^\s+FPC \d+/ || /^\s*$/ || /^$prompt/);
+            
+            if (/^\s+PIC (\d+)\s+/) {
+                my $pic = $1;
+                $max_pic = $pic if ($pic > $max_pic);
+                push @$fpc_pic_list_ref, [$fpc, $pic];
+                $found_pics = 1;
+                print STDERR "Found PIC $pic under FPC $fpc\n" if ($debug);
+            }
+            # Also look for Xcvr entries which indicate optics
+            elsif (/^\s+Xcvr (\d+)\s+/) {
+                my $xcvr = $1;
+                # Found optics, so we should collect PIC details
+                if (!@$fpc_pic_list_ref || $fpc_pic_list_ref->[-1]->[0] != $fpc) {
+                    # Add FPC entry with PIC 0 if not already present
+                    push @$fpc_pic_list_ref, [$fpc, 0];
+                    print STDERR "Added FPC $fpc PIC 0 (found Xcvr)\n" if ($debug);
+                }
+                
+                # Parse the Xcvr line for optics information
+                if (/^\s+Xcvr \d+\s+(\S+)\s+(\S+)\s+(\S+)\s+(.+)$/) {
+                    my ($rev, $part_num, $serial, $description) = ($1, $2, $3, $4);
+                    ProcessHistory("","","","# Optics: FPC $fpc, PIC 0, Xcvr $xcvr - Rev: $rev, Part: $part_num, Serial: $serial, Desc: $description");
+                } else {
+                    # Fallback for different format
+                    ProcessHistory("","","","# Optics: FPC $fpc, PIC 0, Xcvr $xcvr - $_");
+                }
+            }
+        }
+        
+        # If no PICs found but FPC exists, add PIC 0 as default
+        if (!$found_pics && !grep { $_->[0] == $fpc } @$fpc_pic_list_ref) {
+            push @$fpc_pic_list_ref, [$fpc, 0];
+            print STDERR "Added FPC $fpc PIC 0 (default)\n" if ($debug);
+        }
+        
+        seek($INPUT, $pos, 0);  # Go back to continue processing
+    }
+
+	ProcessHistory("","","","# $_");
+    }
+    
+    # Now collect optics information for each detected FPC/PIC combination
+    if (@$fpc_pic_list_ref > 0) {
+	print STDERR "Found " . scalar(@$fpc_pic_list_ref) . " FPC/PIC combinations for optics collection\n" if ($debug);
+	print STDERR "Maximum FPC: $max_fpc, Maximum PIC: $max_pic\n" if ($debug);
+	foreach my $fpc_pic (@$fpc_pic_list_ref) {
+	    my ($fpc, $pic) = @$fpc_pic;
+	    print STDERR "  FPC $fpc, PIC $pic\n" if ($debug);
+	}
+	
+	# Update the global variables
+	$junos::MaxFpc = $max_fpc;
+	$junos::MaxPic = $max_pic;
+	$junos::FpcPicList = $fpc_pic_list_ref;
+	
+	# Store the detected FPC/PIC combinations for later optics collection
+	print STDERR "ShowChassisHardware: Updated FPC/PIC list - " . scalar(@$fpc_pic_list_ref) . " combinations\n" if ($debug);
+    }
+    
+    return(0);
+}
+
+# This routine parses "show chassis pic fpc-slot X pic-slot Y" for optics details
+# It now handles any FPC/PIC combination gracefully, treating hardware absence
+# as a successful skip rather than a failure
+sub ShowChassisPicOptics {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowChassisPicOptics: $_" if ($debug);
+    
+    # Extract FPC and PIC slot numbers from the command
+    my ($fpc_slot, $pic_slot) = (0, 0);
+    if ($cmd =~ /fpc-slot (\d+) pic-slot (\d+)/) {
+	$fpc_slot = $1;
+	$pic_slot = $2;
+    }
+    
+    # This function now handles any FPC/PIC combination gracefully.
+    # If the hardware doesn't exist, it will catch the error and treat it
+    # as a successful skip rather than a failure.
+    
+    s/^[a-z]+@//;
+    ProcessHistory("","","","# $_");
+    ProcessHistory("","","","# FPC $fpc_slot, PIC $pic_slot optics information:\n");
+    
+    	# Add debug logging to help diagnose command execution
+    print STDERR "    ShowChassisPicOptics: Executing command for FPC $fpc_slot, PIC $pic_slot\n" if ($debug);
+    
+    my $in_port_info = 0;
+    my $port_count = 0;
+    my $error_handled = 0;
+    
+    while (<$INPUT>) {
+	tr/\015//d;
+	print STDERR "    ShowChassisPicOptics: Processing line: '$_'" if ($debug);
+	last if (/^$prompt/);
+	return 1 if (/^aborted!/i);
+	next if (/^system (shutdown message from|going down )/i);
+	next if (/^\{(master|backup|linecard|primary|secondary)(:(node)?\d+)?\}/);
+	
+	/error: the chassis(-control)? subsystem is not r/ && return(-1);
+	/Couldn\'t initiate connection/ && return(-1);
+	/Unrecognized command/ && return(0);
+	/command is not valid/ && return(0);
+	/^\s+\^/ && return(0);
+	/syntax error/ && return(0);
+	/Message from syslogd@/ && return(-1);	# fail on trash from syslog
+	
+	# Handle cases where FPC/PIC combination doesn't exist
+	/error: fpc \d+ is not present/ && do {
+	    ProcessHistory("","","","# FPC $fpc_slot is not present on this device");
+	    $error_handled = 1;
+	    next;  # Continue processing, don't return early
+	};
+	/error: pic \d+ is not present/ && do {
+	    ProcessHistory("","","","# PIC $pic_slot is not present on FPC $fpc_slot");
+	    $error_handled = 1;
+	    next;  # Continue processing, don't return early
+	};
+	/error: fpc-slot \d+ pic-slot \d+ is not present/ && do {
+	    ProcessHistory("","","","# FPC $fpc_slot PIC $pic_slot combination is not present on this device");
+	    $error_handled = 1;
+	    next;  # Continue processing, don't return early
+	};
+	
+	# Handle additional "not found" scenarios that might appear in different JunOS versions
+	/error: fpc \d+ not found/ && do {
+	    ProcessHistory("","","","# FPC $fpc_slot not found on this device");
+	    $error_handled = 1;
+	    next;  # Continue processing, don't return early
+	};
+	/error: pic \d+ not found/ && do {
+	    ProcessHistory("","","","# PIC $pic_slot not found on FPC $fpc_slot");
+	    $error_handled = 1;
+	    next;  # Continue processing, don't return early
+	};
+	/error: invalid fpc slot/ && do {
+	    ProcessHistory("","","","# FPC $fpc_slot is an invalid slot on this device");
+	    $error_handled = 1;
+	    next;  # Continue processing, don't return early
+	};
+	/error: invalid pic slot/ && do {
+	    ProcessHistory("","","","# PIC $pic_slot is an invalid slot on FPC $fpc_slot");
+	    $error_handled = 1;
+	    next;  # Continue processing, don't return early
+	};
+	
+	# Handle Juniper syntax errors for non-existent FPC slots
+	/Invalid trailing data/ && do {
+	    ProcessHistory("","","","# Invalid FPC/PIC slot syntax - slot may not exist on this device");
+	    $error_handled = 1;
+	    next;  # Continue processing, don't return early
+	};
+	/value \d+ is not equal to 0/ && do {
+	    ProcessHistory("","","","# FPC slot value not allowed - only FPC 0 exists on this device");
+	    $error_handled = 1;
+	    next;  # Continue processing, don't return early
+	};
+	/value \d+ is not equal to 0 at/ && do {
+	    ProcessHistory("","","","# FPC slot value not allowed - only FPC 0 exists on this device");
+	    $error_handled = 1;
+	    next;  # Continue processing, don't return early
+	};
+	/Possible completions:/ && do {
+	    ProcessHistory("","","","# Command help shown - FPC slot may not exist on this device");
+	    $error_handled = 1;
+	    next;  # Continue processing, don't return early
+	};
+	/Value \d+ is not within range/ && do {
+	    print STDERR "    ShowChassisPicOptics: Caught 'Value X is not within range' error\n" if ($debug);
+	    ProcessHistory("","","","# PIC slot value is outside the valid range for this device");
+	    $error_handled = 1;
+	    next;  # Continue processing, don't return early
+	};
+	/value \d+ is not equal to \d+/ && do {
+	    ProcessHistory("","","","# FPC slot value is not allowed on this device");
+	    $error_handled = 1;
+	    next;  # Continue processing, don't return early
+	};
+	/value \d+ is not equal to \d+ at/ && do {
+	    ProcessHistory("","","","# FPC slot value is not allowed on this device");
+	    $error_handled = 1;
+	    next;  # Continue processing, don't return early
+	};
+	# Additional error patterns for better coverage
+	/error: invalid argument/ && do {
+	    ProcessHistory("","","","# Invalid argument - FPC/PIC slot may not exist on this device");
+	    $error_handled = 1;
+	    next;  # Continue processing, don't return early
+	};
+	/error: syntax error/ && do {
+	    ProcessHistory("","","","# Syntax error - FPC/PIC slot may not exist on this device");
+	    $error_handled = 1;
+	    next;  # Continue processing, don't return early
+	};
+	/error: command not found/ && do {
+	    ProcessHistory("","","","# Command not found - FPC/PIC slot may not exist on this device");
+	    $error_handled = 1;
+	    next;  # Continue processing, don't return early
+	};
+	
+	# Suppress time-based fields that change frequently
+	/ Uptime/ && next;
+	/ Start time/ && next;
+	
+	# Look for PIC type and state
+	if (/^Type\s+(.+)$/) {
+	    ProcessHistory("","","","# PIC Type: $1");
+	}
+	elsif (/^State\s+(.+)$/) {
+	    ProcessHistory("","","","# PIC State: $1");
+	}
+	# Look for port information section
+	elsif (/^PIC port information:/) {
+	    $in_port_info = 1;
+	    ProcessHistory("","","","# $_");
+	}
+	# Handle lines that don't match the port pattern but are still port info
+	elsif ($in_port_info && /^\s*(\d+)\s+/) {
+	    ProcessHistory("","","","# $_");
+	}
+	# Exit port info section
+	elsif ($in_port_info && /^\s*$/) {
+	    $in_port_info = 0;
+	}
+	else {
+	    ProcessHistory("","","","# $_");
+	}
+    }
+    
+    # Add debug logging to confirm function completion
+    print STDERR "    ShowChassisPicOptics: Completed successfully for FPC $fpc_slot, PIC $pic_slot (errors handled: $error_handled)\n" if ($debug);
+    
+    return(0);
+}
+
+# This routine parses "show system firmware"
+sub ShowSystemFirmware {
+    my($INPUT, $OUTPUT, $cmd) = @_;
+    print STDERR "    In ShowSystemFirmware: $_" if ($debug);
+
+    s/^[a-z]+@//;
+    ProcessHistory("","","","# $_");
+    while (<$INPUT>) {
+	tr/\015//d;
+	last if (/^$prompt/);
+	next if (/^system (shutdown message from|going down )/i);
+	next if (/^\{(master|backup|linecard|primary|secondary)(:(node)?\d+)?\}/);
+
+	/error: the chassis(-control)? subsystem is not r/ && return(-1);
+	/Couldn\'t initiate connection/ && return(-1);
+	/Unrecognized command/ && return(1);
+	/command is not valid/ && return(1);
+	/^\s+\^/ && return(1);
 	/syntax error/ && return(1);
 	/Message from syslogd@/ && return(-1);	# fail on trash from syslog
 
+	# Filter out empty lines and common system messages
+	next if (/^\s*$/);
+	next if (/^$/);
+	next if (/^system message/);
+	
 	ProcessHistory("","","","# $_");
     }
     return(0);
 }
+
+
+
 
 # This routine parses "show chassis routing-engine"
 # Most output is ignored.

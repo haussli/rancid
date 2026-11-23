@@ -273,8 +273,9 @@ AC_CHECK_PROGS(TAR, gnutar gtar tar)
 
 AC_CHECK_PROGS(AUTOMAKE, automake)
 
-dnl locate perl 5 and expect.
 AC_PROG_INSTALL
+
+dnl locate perl 5 and expect.
 AC_PATH_PROG(PERLV_PATH,perl5,no)
 if test $PERLV_PATH = no; then
     unset ac_cv_path_PERLV_PATH

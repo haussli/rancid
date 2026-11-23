@@ -1,3 +1,7 @@
+- grpc collection notes:
+	gnoic -a leaf1 -u client1 -p client1 --skip-verify file stat --path /etc/opt/srlinux/config.json
+	gnoic -a leaf1 -u client1 -p client1 --skip-verify file get --file /etc/opt/srlinux/config.json --dst .
+
 - add user-specific post-filter option per-device-type to filter output before
   diff (thus affecting mail and commit).
 - allow -r to be specified multiple times for rancid-run/control_rancid
